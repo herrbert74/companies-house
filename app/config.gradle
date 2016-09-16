@@ -1,0 +1,10 @@
+apply plugin: 'com.android.application'
+
+android {
+	buildTypes {
+		debug {
+			buildConfigField 'String', 'COMPANIES_HOUSE_BASE_URL', '"https://api.companieshouse.gov.uk/"';
+			buildConfigField 'String', 'COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT', '"search/companies"';
+		}
+	}
+}

@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+	compileSdkVersion 24
+	buildToolsVersion "24.0.0"
+
+	defaultConfig {
+		applicationId "com.babestudios.companieshouse"
+		minSdkVersion 19
+		targetSdkVersion 24
+		versionCode 1
+		versionName "1.0"
+		vectorDrawables.useSupportLibrary = true
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	}
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+		debug{
+			testCoverageEnabled true
+		}
+	}
+	testOptions {
+		unitTests.returnDefaultValues = true
+	}
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+}
+
+configurations {
+	apt
+}
+
+apt {
+	arguments {
+		resourcePackageName "com.babestudios.companieshouse"
+	}
+}
+
+dependencies {
+	def thirtyinchVersion = '0.7.1'
+	def retrofitVersion = '2.0.0'
+	def daggerVersion = '2.0.2'
+
+	//support
+	compile 'com.android.support:appcompat-v7:24.2.1'
+
+	// MVP for activity and fragment
+	compile "net.grandcentrix.thirtyinch:thirtyinch:$thirtyinchVersion"
+
+	//Retrofit
+	compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+	compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+	compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+	//RxJava
+	compile 'io.reactivex:rxandroid:1.0.1'
+	compile 'io.reactivex:rxjava:1.0.14'
+
+	//Dagger
+	apt "com.google.dagger:dagger-compiler:$daggerVersion"
+	compile "com.google.dagger:dagger:$daggerVersion"
+	compile 'javax.inject:javax.inject:1'
+	compile 'javax.annotation:javax.annotation-api:1.2'
+	provided 'javax.annotation:jsr250-api:1.0'
+
+	//Test
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.mockito:mockito-core:1.10.19'
+	testCompile 'org.hamcrest:hamcrest-library:1.1'
+	androidTestCompile 'junit:junit:4.12'
+}
+
+apply from: 'config.gradle'
