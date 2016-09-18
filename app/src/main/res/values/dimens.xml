@@ -2,4 +2,29 @@
 	<!-- Default screen margins, per the Android Design guidelines. -->
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>
+	<dimen name="fab_margin">16dp</dimen>
+	<dimen name="landscape_center_offset">100dp</dimen>
+
+	<!-- General -->
+	<dimen name="widget_margin_small">3dp</dimen>
+	<dimen name="widget_margin">6dp</dimen>
+	<dimen name="widget_margin_double">12dp</dimen>
+
+	<!-- Buttons -->
+	<dimen name="button_width">200dp</dimen>
+	<dimen name="button_width_short">128dp</dimen>
+	<dimen name="button_width_fit_two">96dp</dimen>
+	<dimen name="button_height">42dp</dimen>
+	<dimen name="button_small_height">40dp</dimen>
+
+	<!-- New text sizes -->
+	<dimen name="text_display_2">45sp</dimen>
+	<dimen name="text_display_1">34sp</dimen>
+	<dimen name="text_headline">24sp</dimen>
+	<dimen name="text_subhead">18sp</dimen>
+	<dimen name="text_body_2">14sp</dimen>
+	<dimen name="text_body_1">14sp</dimen>
+	<dimen name="text_caption">12sp</dimen>
+	<!-- Guesser -->
+	<dimen name="guesserview_top_offset">28dp</dimen>
 </resources>

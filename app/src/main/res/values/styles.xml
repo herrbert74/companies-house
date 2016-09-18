@@ -8,4 +8,25 @@
 		<item name="colorAccent">@color/colorAccent</item>
 	</style>
 
+	<style name="AppTheme.NoActionBar">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+	</style>
+
+	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+	<style name="Text">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:paddingTop">@dimen/widget_margin_small</item>
+		<item name="android:paddingBottom">@dimen/widget_margin_small</item>
+		<item name="android:paddingLeft">@dimen/widget_margin_small</item>
+		<item name="android:paddingRight">@dimen/widget_margin_small</item>
+		<item name="android:textColor">@color/text_secondary</item>
+		<item name="android:textSize">@dimen/text_body_2</item>
+		<item name="android:gravity">left</item>
+	</style>
+
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.babestudios.companieshouse.network.SearchCompaniesService;
 import com.babestudios.companieshouse.network.converters.AdvancedGsonConverterFactory;
+import com.babestudios.companieshouse.network.converters.ToStringConverterFactory;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

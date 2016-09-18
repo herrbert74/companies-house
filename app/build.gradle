@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
 	compileSdkVersion 24
-	buildToolsVersion "24.0.0"
+	buildToolsVersion "24.0.2"
 
 	defaultConfig {
 		applicationId "com.babestudios.companieshouse"
@@ -21,7 +21,7 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		debug{
-			testCoverageEnabled true
+			//testCoverageEnabled true
 		}
 	}
 	testOptions {
@@ -44,21 +44,26 @@ apt {
 }
 
 dependencies {
-	def thirtyinchVersion = '0.7.1'
-	def retrofitVersion = '2.0.0'
+	def supportLibraryVersion = '24.2.1'
+	def thirtyInchVersion = '0.7.1'
+	def retrofitVersion = '2.1.0'
 	def daggerVersion = '2.0.2'
 
 	//support
-	compile 'com.android.support:appcompat-v7:24.2.1'
+	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+	compile "com.android.support:design:$supportLibraryVersion"
+	compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
 
 	// MVP for activity and fragment
-	compile "net.grandcentrix.thirtyinch:thirtyinch:$thirtyinchVersion"
+	compile "net.grandcentrix.thirtyinch:thirtyinch:$thirtyInchVersion"
 
 	//Retrofit
 	compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
 	compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
 	compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
+	compile 'com.jakewharton:butterknife:7.0.1'
+	
 	//RxJava
 	compile 'io.reactivex:rxandroid:1.0.1'
 	compile 'io.reactivex:rxjava:1.0.14'
