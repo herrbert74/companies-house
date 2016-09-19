@@ -61,6 +61,7 @@ dependencies {
 	compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
 	compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
 	compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+	testCompile "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
 
 	compile 'com.jakewharton:butterknife:7.0.1'
 	
