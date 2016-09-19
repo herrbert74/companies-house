@@ -1,7 +1,5 @@
 package com.babestudios.companieshouse;
 
-import android.util.Base64;
-
 import com.babestudios.companieshouse.network.SearchCompaniesService;
 import com.babestudios.companieshouse.network.converters.AdvancedGsonConverterFactory;
 
@@ -19,10 +17,10 @@ public class RetrofitTest {
 
 	private String authorization;
 
+
 	@Before
 	public void setUp() {
-		authorization =
-				"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
+		authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
 	}
 
 	@Test
@@ -40,7 +38,7 @@ public class RetrofitTest {
 		searchCompaniesService.searchCompanies(authorization, "GAMES", "100", "0")
 				.map(e -> e.items.get(0).title)
 				.subscribe(testSubscriber);
-		testSubscriber.assertValue("GAMES ALLIANCE LIMITED");
+		testSubscriber.assertValue("GAMES AGENCY LIMITED");
 		testSubscriber.assertNoErrors();
 
 	}

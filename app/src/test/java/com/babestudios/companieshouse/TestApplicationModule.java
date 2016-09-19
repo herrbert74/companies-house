@@ -42,7 +42,7 @@ public class TestApplicationModule {
 
 	@Provides
 	@Singleton
-	SearchCompaniesService provideEarningsDatesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
+	SearchCompaniesService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
 		return retroFit.create(SearchCompaniesService.class);
 	}
 }
