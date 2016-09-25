@@ -1,4 +1,4 @@
-package com.babestudios.companieshouse.search.pojos;
+package com.babestudios.companieshouse.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

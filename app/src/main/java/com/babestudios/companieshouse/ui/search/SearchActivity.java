@@ -1,4 +1,4 @@
-package com.babestudios.companieshouse.search;
+package com.babestudios.companieshouse.ui.search;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.babestudios.companieshouse.R;
-import com.babestudios.companieshouse.search.pojos.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.CompanySearchResult;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 
@@ -62,7 +62,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
-				getPresenter().searchLoadMore(page, totalItemsCount);
+				getPresenter().searchLoadMore(page);
 			}
 		});
 	}

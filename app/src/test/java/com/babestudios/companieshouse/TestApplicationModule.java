@@ -1,7 +1,7 @@
 package com.babestudios.companieshouse;
 
-import com.babestudios.companieshouse.network.SearchCompaniesService;
-import com.babestudios.companieshouse.network.converters.AdvancedGsonConverterFactory;
+import com.babestudios.companieshouse.data.network.CompaniesHouseService;
+import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -10,7 +10,6 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.mock.MockRetrofit;
 
 @Module
 public class TestApplicationModule {
@@ -25,9 +24,9 @@ public class TestApplicationModule {
 
 	@Provides
 	@Singleton
-	SearchCompaniesService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
-		return retroFit.create(SearchCompaniesService.class);
-	}*/
+	CompaniesHouseService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
+		return retroFit.create(CompaniesHouseService.class);
+	}
 
 	@Provides
 	@Singleton
@@ -42,7 +41,7 @@ public class TestApplicationModule {
 
 	@Provides
 	@Singleton
-	SearchCompaniesService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
-		return retroFit.create(SearchCompaniesService.class);
-	}
+	CompaniesHouseService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
+		return retroFit.create(CompaniesHouseService.class);
+	}*/
 }

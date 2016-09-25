@@ -1,10 +1,10 @@
-package com.babestudios.companieshouse;
+package com.babestudios.companieshouse.injection;
 
 import android.content.Context;
 
-import com.babestudios.companieshouse.network.SearchCompaniesService;
-import com.babestudios.companieshouse.network.converters.AdvancedGsonConverterFactory;
-import com.babestudios.companieshouse.network.converters.ToStringConverterFactory;
+import com.babestudios.companieshouse.BuildConfig;
+import com.babestudios.companieshouse.data.network.CompaniesHouseService;
+import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -15,11 +15,11 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 @Module
-class ApplicationModule {
+public class ApplicationModule {
 
 	private final Context context;
 
-	ApplicationModule(Context context) {
+	public ApplicationModule(Context context) {
 		this.context = context;
 	}
 
@@ -41,7 +41,7 @@ class ApplicationModule {
 
 	@Provides
 	@Singleton
-	SearchCompaniesService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
-		return retroFit.create(SearchCompaniesService.class);
+	CompaniesHouseService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
+		return retroFit.create(CompaniesHouseService.class);
 	}
 }

@@ -1,4 +1,4 @@
-package com.babestudios.companieshouse.network.converters;
+package com.babestudios.companieshouse.data.network.converters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

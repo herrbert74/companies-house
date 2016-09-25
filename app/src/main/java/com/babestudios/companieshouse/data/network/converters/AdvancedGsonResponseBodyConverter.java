@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.babestudios.companieshouse.network.converters;
+package com.babestudios.companieshouse.data.network.converters;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

@@ -3,6 +3,10 @@ package com.babestudios.companieshouse;
 import android.app.Application;
 import android.content.Context;
 
+import com.babestudios.companieshouse.injection.ApplicationComponent;
+import com.babestudios.companieshouse.injection.ApplicationModule;
+import com.babestudios.companieshouse.injection.DaggerApplicationComponent;
+
 public class CompaniesHouseApplication extends Application {
 
 	private static CompaniesHouseApplication instance;

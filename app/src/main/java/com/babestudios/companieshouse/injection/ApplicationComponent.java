@@ -1,8 +1,8 @@
-package com.babestudios.companieshouse;
+package com.babestudios.companieshouse.injection;
 
-import com.babestudios.companieshouse.network.SearchCompaniesService;
-import com.babestudios.companieshouse.search.SearchPresenter;
-import com.babestudios.companieshouse.search.SearchResultsAdapter;
+import com.babestudios.companieshouse.data.network.CompaniesHouseService;
+import com.babestudios.companieshouse.ui.search.SearchPresenter;
+import com.babestudios.companieshouse.ui.search.SearchResultsAdapter;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -19,6 +19,6 @@ public interface ApplicationComponent {
 	@Named("SearchCompaniesRetrofit")
 	Retrofit getSearchCompaniesRetrofit();
 
-	SearchCompaniesService getSearchCompaniesService();
+	CompaniesHouseService getSearchCompaniesService();
 
 }

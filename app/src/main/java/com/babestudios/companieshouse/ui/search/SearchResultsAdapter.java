@@ -1,4 +1,4 @@
-package com.babestudios.companieshouse.search;
+package com.babestudios.companieshouse.ui.search;
 
 
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
-import com.babestudios.companieshouse.search.pojos.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.CompanySearchResult;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.babestudios.companieshouse.network.converters;
+package com.babestudios.companieshouse.data.network.converters;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

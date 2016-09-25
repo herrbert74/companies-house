@@ -1,6 +1,7 @@
 package com.babestudios.companieshouse;
 
-import com.babestudios.companieshouse.network.SearchCompaniesService;
+import com.babestudios.companieshouse.data.network.CompaniesHouseService;
+import com.babestudios.companieshouse.injection.ApplicationComponent;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -16,5 +17,5 @@ public interface TestApplicationComponent extends ApplicationComponent {
 	@Named("SearchCompaniesRetrofit")
 	Retrofit getSearchCompaniesRetrofit();
 
-	SearchCompaniesService getSearchCompaniesService();
+	CompaniesHouseService getSearchCompaniesService();
 }

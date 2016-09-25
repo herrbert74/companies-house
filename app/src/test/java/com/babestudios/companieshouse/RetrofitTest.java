@@ -1,7 +1,7 @@
 package com.babestudios.companieshouse;
 
-import com.babestudios.companieshouse.network.SearchCompaniesService;
-import com.babestudios.companieshouse.network.converters.AdvancedGsonConverterFactory;
+import com.babestudios.companieshouse.data.network.CompaniesHouseService;
+import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class RetrofitTest {
 	}
 
 	@Test
-	public void testGetEarningsDates() throws Exception {
+	public void testSearchCompanies() throws Exception {
 		TestSubscriber<String> testSubscriber = new TestSubscriber<>();
 
 		Retrofit r = new Retrofit.Builder()//
@@ -33,9 +33,9 @@ public class RetrofitTest {
 				.addConverterFactory(AdvancedGsonConverterFactory.create())//
 				.build();
 
-		SearchCompaniesService searchCompaniesService =  r.create(SearchCompaniesService.class);
+		CompaniesHouseService companiesHouseService =  r.create(CompaniesHouseService.class);
 
-		searchCompaniesService.searchCompanies(authorization, "GAMES", "100", "0")
+		companiesHouseService.searchCompanies(authorization, "GAMES", "100", "0")
 				.map(e -> e.items.get(0).title)
 				.subscribe(testSubscriber);
 		testSubscriber.assertValue("GAMES AGENCY LIMITED");

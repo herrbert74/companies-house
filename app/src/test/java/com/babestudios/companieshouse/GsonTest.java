@@ -1,7 +1,7 @@
 package com.babestudios.companieshouse;
 
-import com.babestudios.companieshouse.network.converters.AdvancedGsonConverterFactory;
-import com.babestudios.companieshouse.search.pojos.CompanySearchResult;
+import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
+import com.babestudios.companieshouse.data.model.CompanySearchResult;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

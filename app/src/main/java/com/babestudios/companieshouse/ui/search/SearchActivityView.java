@@ -1,6 +1,6 @@
-package com.babestudios.companieshouse.search;
+package com.babestudios.companieshouse.ui.search;
 
-import com.babestudios.companieshouse.search.pojos.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.CompanySearchResult;
 
 import net.grandcentrix.thirtyinch.TiView;
 import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread;
