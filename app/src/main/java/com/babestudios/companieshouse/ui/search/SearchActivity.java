@@ -1,6 +1,7 @@
 package com.babestudios.companieshouse.ui.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
@@ -8,8 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -17,49 +18,70 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.babestudios.companieshouse.R;
-import com.babestudios.companieshouse.data.model.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
+import com.babestudios.companieshouse.ui.company.CompanyActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityView> implements SearchActivityView, SearchResultsAdapter.RecyclerViewClickListener {
+public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityView> implements SearchActivityView, SearchResultsAdapter.SearchResultsRecyclerViewClickListener, RecentSearchesResultsAdapter.RecentSearchesRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.recycler_view)
-	RecyclerView recyclerView;
+	@Bind(R.id.recent_searches_recycler_view)
+	RecyclerView recentSearchesRecyclerView;
+
+	@Bind(R.id.search_recycler_view)
+	RecyclerView searchRecyclerView;
 
 	private SearchResultsAdapter searchResultsAdapter;
+
+	private RecentSearchesResultsAdapter recentSearchesResultsAdapter;
+
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
+
+	MenuItem searchMenuItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 		ButterKnife.bind(this);
-		setSupportActionBar(toolbar);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
+		createRecentSearchesRecyclerView();
 		createSearchResultsRecyclerView();
 	}
 
-	private void createSearchResultsRecyclerView() {
-		recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+	private void createRecentSearchesRecyclerView() {
+		recentSearchesRecyclerView = (RecyclerView) findViewById(R.id.recent_searches_recycler_view);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-		recyclerView.setLayoutManager(linearLayoutManager);
-		recyclerView.addItemDecoration(
+		recentSearchesRecyclerView.setLayoutManager(linearLayoutManager);
+		recentSearchesRecyclerView.addItemDecoration(
+				new DividerItemDecoration(this));
+	}
+
+	private void createSearchResultsRecyclerView() {
+		searchRecyclerView = (RecyclerView) findViewById(R.id.search_recycler_view);
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+		searchRecyclerView.setLayoutManager(linearLayoutManager);
+		searchRecyclerView.addItemDecoration(
 				new DividerItemDecoration(this));
 
-		recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		searchRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
 				getPresenter().searchLoadMore(page);
@@ -68,16 +90,47 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	@Override
-	public void showCompanySearchResult(CompanySearchResult companySearchResult) {
+	public void showProgress() {
+		progressbar.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hideProgress() {
 		progressbar.setVisibility(View.GONE);
-		if(recyclerView.getAdapter() == null ) {
-			Log.d("test", "showCompanySearchResult: adapter null");
+	}
+
+	@Override
+	public void showRecentSearches(SearchHistoryItem[] searchHistoryItems) {
+		recentSearchesRecyclerView.setVisibility(View.VISIBLE);
+		searchRecyclerView.setVisibility(View.GONE);
+		if (recentSearchesRecyclerView.getAdapter() == null) {
+			recentSearchesResultsAdapter = new RecentSearchesResultsAdapter(SearchActivity.this, new ArrayList<>(Arrays.asList(searchHistoryItems)));
+			recentSearchesRecyclerView.setAdapter(recentSearchesResultsAdapter);
+		}
+	}
+
+	@Override
+	public void startCompanyActivity(String companyNumber) {
+		Intent startIntent = new Intent(this, CompanyActivity.class);
+		startIntent.putExtra("companyNumber", companyNumber);
+		startActivity(startIntent);
+	}
+
+	@Override
+	public void showCompanySearchResult(CompanySearchResult companySearchResult) {
+		recentSearchesRecyclerView.setVisibility(View.GONE);
+		searchRecyclerView.setVisibility(View.VISIBLE);
+		if (searchRecyclerView.getAdapter() == null) {
 			searchResultsAdapter = new SearchResultsAdapter(SearchActivity.this, companySearchResult);
-			recyclerView.setAdapter(searchResultsAdapter);
+			searchRecyclerView.setAdapter(searchResultsAdapter);
 		} else {
-			Log.d("test", "showCompanySearchResult: adapter not null");
 			searchResultsAdapter.addItems(companySearchResult);
 		}
+	}
+
+	@Override
+	public void clearSearchView() {
+		MenuItemCompat.collapseActionView(searchMenuItem);
 	}
 
 	@NonNull
@@ -91,18 +144,20 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		getMenuInflater().inflate(R.menu.search_menu, menu);
 
 		//Catch the click on the search button on the soft keyboard and send the query to the presenter
-		final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+		searchMenuItem = menu.findItem(R.id.action_search);
+		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
 		TextView searchText = (TextView) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
 		searchText.setOnEditorActionListener((textView, actionId, keyEvent) -> {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				recyclerView.setAdapter(null);
+				searchRecyclerView.setAdapter(null);
 				View view = this.getCurrentFocus();
 				if (view != null) {
-					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+					view.clearFocus();
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 				}
-				progressbar.setVisibility(View.VISIBLE);
-				getPresenter().search(searchView.getQuery());
+
+				getPresenter().search(searchView.getQuery().toString());
 				return true;
 			}
 			return false;
@@ -111,7 +166,13 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	@Override
-	public void searchResultItemClicked(View v, int position, String description) {
-
+	public void searchResultItemClicked(View v, int position, String companyName, String companyNumber) {
+		getPresenter().getCompany(companyName, companyNumber);
 	}
+
+	@Override
+	public void recentSearchesResultItemClicked(View v, int position, String companyName, String companyNumber) {
+		getPresenter().getCompany(companyName, companyNumber);
+	}
+
 }

@@ -1,4 +1,4 @@
-package com.babestudios.companieshouse.data.model;
+package com.babestudios.companieshouse.data.model.search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,6 @@ public class CompanySearchResult {
 	public Integer totalResults;
 
 	@SerializedName("items")
-	public List<CompanySearchResultItem> items = new ArrayList<CompanySearchResultItem>();
+	public List<CompanySearchResultItem> items = new ArrayList<>();
 
 }

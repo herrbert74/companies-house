@@ -1,11 +1,12 @@
-package com.babestudios.companieshouse.data.model;
+
+package com.babestudios.companieshouse.data.model.company;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Address {
+import javax.annotation.Generated;
 
-	@SerializedName("region")
-	public String region;
+@Generated("org.jsonschema2pojo")
+public class RegisteredOfficeAddress {
 
 	@SerializedName("postal_code")
 	public String postalCode;
@@ -13,10 +14,10 @@ public class Address {
 	@SerializedName("address_line_1")
 	public String addressLine1;
 
+	@SerializedName("address_line_2")
+	public String addressLine2;
+
 	@SerializedName("locality")
 	public String locality;
-
-	@SerializedName("premises")
-	public String premises;
 
 }

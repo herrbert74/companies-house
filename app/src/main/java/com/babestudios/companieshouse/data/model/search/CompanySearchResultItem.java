@@ -1,4 +1,4 @@
-package com.babestudios.companieshouse.data.model;
+package com.babestudios.companieshouse.data.model.search;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CompanySearchResultItem {
 
-	@SerializedName("links")
+	@SerializedName("companyLinks")
 	public Links links;
 
 	@SerializedName("description_identifier")

@@ -1,7 +1,7 @@
 package com.babestudios.companieshouse;
 
 import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
-import com.babestudios.companieshouse.data.model.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class GsonTest {
 				"    {\n" +
 				"      \"address_snippet\": \"Unit C Nepshaw Lane South, Gildersome, Morley, Leeds, England, LS27 7JQ\",\n" +
 				"      \"company_number\": \"09802398\",\n" +
-				"      \"links\": {\n" +
+				"      \"companyLinks\": {\n" +
 				"        \"self\": \"/company/09802398\"\n" +
 				"      },\n" +
 				"      \"date_of_creation\": \"2015-09-30\",\n" +

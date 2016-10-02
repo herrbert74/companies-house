@@ -6,34 +6,45 @@ import android.util.Log;
 import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
-import com.babestudios.companieshouse.data.model.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Observer;
-import rx.Subscription;
 
 public class SearchPresenter extends TiPresenter<SearchActivityView> implements Observer<CompanySearchResult> {
 
+	@Singleton
 	@Inject
 	DataManager dataManager;
-
-	private Subscription subscription;
-
 
 	private final String authorization =
 			"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
 
 	private String queryText;
 
+	private boolean isFirstStart = true;
+
+	@Override
+	protected void onCreate() {
+		super.onCreate();
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+
+	}
+
 	@Override
 	protected void onWakeUp() {
 		super.onWakeUp();
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
-		//getView().showText("This will be the favorites list later");
+		if(isFirstStart){
+			isFirstStart = false;
+			getView().showRecentSearches(dataManager.getRecentSearches());
+		} else {
+			getView().clearSearchView();
+		}
 	}
 
 	@Override
@@ -47,11 +58,13 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	@Override
 	public void onNext(CompanySearchResult companySearchResult) {
+		getView().hideProgress();
 		getView().showCompanySearchResult(companySearchResult);
 	}
 
-	public void search(CharSequence queryText) {
-		this.queryText = queryText.toString();
+	public void search(String queryText) {
+		this.queryText = queryText;
+		getView().showProgress();
 		dataManager.searchCompanies(authorization, queryText, "0")
 				.subscribe(this);
 	}
@@ -64,6 +77,10 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+	}
 
+	void getCompany(String companyName, String companyNumber) {
+		dataManager.putLatestSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()));
+		getView().startCompanyActivity(companyNumber);
 	}
 }

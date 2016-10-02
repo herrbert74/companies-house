@@ -8,6 +8,8 @@ android {
 
 			buildConfigField 'String', 'COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT', '"search/companies"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE', '"100"';
+
+			buildConfigField 'String', 'COMPANIES_HOUSE_GET_COMPANY_ENDPOINT', '"company/{companyNumber}"';
 		}
 	}
 }

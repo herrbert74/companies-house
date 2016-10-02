@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.injection;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.babestudios.companieshouse.BuildConfig;
@@ -17,16 +18,12 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 @Module
 public class ApplicationModule {
 
-	private final Context context;
+	protected final Application application;
 
-	public ApplicationModule(Context context) {
-		this.context = context;
+	public ApplicationModule(Application application) {
+		this.application = application;
 	}
 
-	@Provides
-	public Context context() {
-		return context;
-	}
 
 	@Provides
 	@Singleton
@@ -43,5 +40,16 @@ public class ApplicationModule {
 	@Singleton
 	CompaniesHouseService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
 		return retroFit.create(CompaniesHouseService.class);
+	}
+
+	@Provides
+	Application provideApplication() {
+		return application;
+	}
+
+	@Provides
+	@ApplicationContext
+	Context provideContext() {
+		return application;
 	}
 }

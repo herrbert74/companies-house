@@ -1,9 +1,9 @@
 package com.babestudios.companieshouse;
 
 import com.babestudios.companieshouse.data.DataManager;
-import com.babestudios.companieshouse.data.model.CompanySearchResult;
+import com.babestudios.companieshouse.data.local.PreferencesHelper;
+import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
-import com.babestudios.companieshouse.ui.search.SearchPresenter;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,6 +23,10 @@ import static org.mockito.Mockito.verify;
 public class DataManagerTest {
 	@Mock
 	CompaniesHouseService mockCompaniesHouseService;
+
+	@Mock
+	PreferencesHelper mockPreferencesHelper;
+
 	private DataManager dataManager;
 	private String authorization;
 
@@ -31,7 +35,7 @@ public class DataManagerTest {
 
 	@Before
 	public void setUp() {
-		dataManager = new DataManager(mockCompaniesHouseService);
+		dataManager = new DataManager(mockCompaniesHouseService, mockPreferencesHelper);
 		authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
 	}
 

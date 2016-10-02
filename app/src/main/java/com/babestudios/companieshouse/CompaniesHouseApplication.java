@@ -23,6 +23,7 @@ public class CompaniesHouseApplication extends Application {
 		mApplicationComponent = DaggerApplicationComponent.builder()
 				.applicationModule(new ApplicationModule(this))
 				.build();
+		mApplicationComponent.inject(this);
 	}
 
 	public static Context getContext() {

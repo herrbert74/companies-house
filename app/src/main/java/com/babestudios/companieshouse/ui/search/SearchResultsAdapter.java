@@ -3,28 +3,25 @@ package com.babestudios.companieshouse.ui.search;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
-import com.babestudios.companieshouse.data.model.CompanySearchResult;
+import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultsViewHolder> {
 
-	private RecyclerViewClickListener mItemListener;
+	private SearchResultsRecyclerViewClickListener mItemListener;
 
 	private CompanySearchResult companySearchResults = new CompanySearchResult();
 
 	SearchResultsAdapter(Context c, CompanySearchResult companySearchResults) {
-		((CompaniesHouseApplication) ((SearchActivity)c).getApplication()).getApplicationComponent().inject(this);
-		mItemListener = (RecyclerViewClickListener) c;
+		mItemListener = (SearchResultsRecyclerViewClickListener) c;
 		this.companySearchResults = companySearchResults;
 	}
 
@@ -73,17 +70,16 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 		@Override
 		public void onClick(View v) {
-			mItemListener.searchResultItemClicked(v, this.getLayoutPosition(), companySearchResults.items.get(getLayoutPosition()).description);
+			mItemListener.searchResultItemClicked(v, this.getLayoutPosition(), companySearchResults.items.get(getLayoutPosition()).title, companySearchResults.items.get(getLayoutPosition()).companyNumber);
 		}
 	}
 
-	interface RecyclerViewClickListener {
-		void searchResultItemClicked(View v, int position, String description);
+	interface SearchResultsRecyclerViewClickListener {
+		void searchResultItemClicked(View v, int position, String companyName, String companyNumber);
 	}
 
 	void addItems(CompanySearchResult companySearchResults) {
 		this.companySearchResults.items.addAll(companySearchResults.items);
 		notifyDataSetChanged();
-		Log.d("test", "Items size: " + getItemCount());
 	}
 }

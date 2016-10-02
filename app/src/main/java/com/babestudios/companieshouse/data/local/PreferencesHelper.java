@@ -1,13 +1,16 @@
 package com.babestudios.companieshouse.data.local;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
-import com.babestudios.companieshouse.data.model.SearchItem;
+import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.injection.ApplicationContext;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,19 +24,43 @@ public class PreferencesHelper {
 	private static final String PREF_LATEST_SEARCHES = "companies_house_latest_searches";
 
 	@Inject
-	public PreferencesHelper(@ApplicationContext Context context) {
+	PreferencesHelper(@ApplicationContext Context context) {
 		sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
 		gson = new GsonBuilder()
 				.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
 				.create();
 	}
 
-	public void putLatestSearch(SearchItem searchItem) {
-		SearchItem[] latestSearches = getLatestSearches();
+	public void putLatestSearch(SearchHistoryItem searchItem) {
+		SearchHistoryItem[] latestSearches = getLatestSearches();
+		ArrayList<SearchHistoryItem> latestSearchesList;
+		if (latestSearches != null) {
+			latestSearchesList = new ArrayList<>(Arrays.asList(latestSearches));
+			if (latestSearchesList.contains(searchItem)) {
+				latestSearchesList.remove(searchItem);
+			}
+		}else {
+			latestSearchesList = new ArrayList<>();
+		}
+		latestSearchesList.add(searchItem);
+		if (latestSearchesList.size() > 10) {
+			latestSearchesList.remove(0);
+		}
+		latestSearches = latestSearchesList.toArray(new SearchHistoryItem[latestSearchesList.size()]);
+		String latestSearchesString = gson.toJson(latestSearches);
+		Log.d("test", "putLatestSearch: " + latestSearchesString);
+		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, latestSearchesString).apply();
+
 	}
 
-	public SearchItem[] getLatestSearches() {
+	public SearchHistoryItem[] getLatestSearches() {
 		String latestSearches = sharedPreferences.getString(PREF_LATEST_SEARCHES, "");
-		return new Gson().fromJson(latestSearches, SearchItem[].class);
+		SearchHistoryItem[] searchItems = null;
+		try{
+			searchItems = gson.fromJson(latestSearches, SearchHistoryItem[].class);
+		}catch (Exception e){
+			Log.d("test", "getLatestSearches error: " + e.getLocalizedMessage());
+		}
+		return searchItems;
 	}
 }

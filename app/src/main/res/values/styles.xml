@@ -29,4 +29,8 @@
 		<item name="android:gravity">left</item>
 	</style>
 
+	<style name="Text.SubHeading">
+		<item name="android:textSize">@dimen/text_subhead</item>
+	</style>
+
 </resources>
