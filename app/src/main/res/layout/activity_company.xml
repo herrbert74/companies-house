@@ -33,31 +33,53 @@
 
 	<TextView
 		android:id="@+id/tv_incorporated"
-		style="@style/Text"/>
+		style="@style/Text"
+		android:layout_marginBottom="@dimen/view_margin_small"
+		android:layout_marginTop="@dimen/view_margin_small"
+		tools:text="Incorporated on 2016 August 3"/>
+
+	<include
+
+		layout="@layout/divider"/>
 
 	<TextView
-		style="@style/Text.SubHeading"
+		style="@style/Text.Title"
 		android:text="@string/company_number"/>
 
 	<TextView
 		android:id="@+id/tv_company_number"
-		style="@style/Text"/>
+		style="@style/Text"
+		android:layout_marginBottom="@dimen/view_margin_small"
+		tools:text="08762819"/>
+
+	<include
+		layout="@layout/divider"/>
 
 	<TextView
-		style="@style/Text.SubHeading"
+		style="@style/Text.Title"
 		android:text="@string/office_address"/>
 
 	<TextView
 		android:id="@+id/tv_address_line_1"
-		style="@style/Text"/>
+		style="@style/Text"
+		tools:text="3 Hendon Place"/>
+
 	<TextView
 		android:id="@+id/tv_address_line_2"
-		style="@style/Text"/>
+		style="@style/Text"
+		android:visibility="gone"/>
+
 	<TextView
 		android:id="@+id/tv_address_locality"
-		style="@style/Text"/>
+		style="@style/Text"
+		tools:text="Kingston"/>
+
 	<TextView
 		android:id="@+id/tv_address_postal_code"
-		style="@style/Text"/>
+		style="@style/Text"
+		android:layout_marginBottom="@dimen/view_margin_small"
+		tools:text="KT6 2LP"/>
 
+	<include
+		layout="@layout/divider"/>
 </LinearLayout>

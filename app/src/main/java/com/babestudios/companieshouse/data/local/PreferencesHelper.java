@@ -48,7 +48,6 @@ public class PreferencesHelper {
 		}
 		latestSearches = latestSearchesList.toArray(new SearchHistoryItem[latestSearchesList.size()]);
 		String latestSearchesString = gson.toJson(latestSearches);
-		Log.d("test", "putLatestSearch: " + latestSearchesString);
 		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, latestSearchesString).apply();
 
 	}

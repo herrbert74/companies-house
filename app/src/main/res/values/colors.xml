@@ -6,4 +6,6 @@
 
 	<color name="text_primary">#dd000000</color>
 	<color name="text_secondary">#99000000</color>
+
+	<color name="colorDivider">#16000000</color>
 </resources>

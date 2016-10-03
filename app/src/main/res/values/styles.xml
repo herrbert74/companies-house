@@ -20,17 +20,36 @@
 	<style name="Text">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:paddingTop">@dimen/widget_margin_small</item>
-		<item name="android:paddingBottom">@dimen/widget_margin_small</item>
-		<item name="android:paddingLeft">@dimen/widget_margin_small</item>
-		<item name="android:paddingRight">@dimen/widget_margin_small</item>
+		<item name="android:layout_marginTop">@dimen/text_margin</item>
+		<item name="android:layout_marginLeft">@dimen/view_margin</item>
+		<item name="android:layout_marginRight">@dimen/view_margin</item>
 		<item name="android:textColor">@color/text_secondary</item>
-		<item name="android:textSize">@dimen/text_body_2</item>
+		<item name="android:textSize">@dimen/text_body_1</item>
 		<item name="android:gravity">left</item>
 	</style>
 
-	<style name="Text.SubHeading">
-		<item name="android:textSize">@dimen/text_subhead</item>
+	<style name="Text.Headline">
+		<item name="android:textSize">@dimen/text_headline</item>
+		<item name="android:textStyle">bold</item>
 	</style>
+
+	<style name="Text.Title">
+		<item name="android:textSize">@dimen/text_title</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="Text.SubHeading">
+		<item name="android:textSize">@dimen/text_subheading</item>
+	</style>
+
+	<style name="Text.Bold">
+		<item name="android:textSize">@dimen/text_body_2</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="Text.Caption">
+		<item name="android:textSize">@dimen/text_caption</item>
+	</style>
+
 
 </resources>

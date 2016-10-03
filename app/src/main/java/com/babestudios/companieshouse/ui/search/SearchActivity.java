@@ -104,7 +104,13 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		recentSearchesRecyclerView.setVisibility(View.VISIBLE);
 		searchRecyclerView.setVisibility(View.GONE);
 		if (recentSearchesRecyclerView.getAdapter() == null) {
-			recentSearchesResultsAdapter = new RecentSearchesResultsAdapter(SearchActivity.this, new ArrayList<>(Arrays.asList(searchHistoryItems)));
+			ArrayList<SearchHistoryItem> searchHistoryItemsList;
+			if(searchHistoryItems != null) {
+				searchHistoryItemsList = new ArrayList<>(Arrays.asList(searchHistoryItems));
+			} else {
+				searchHistoryItemsList = new ArrayList<>();
+			}
+			recentSearchesResultsAdapter = new RecentSearchesResultsAdapter(SearchActivity.this, searchHistoryItemsList);
 			recentSearchesRecyclerView.setAdapter(recentSearchesResultsAdapter);
 		}
 	}

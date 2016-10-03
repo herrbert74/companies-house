@@ -80,12 +80,12 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		incorporatedTextView.setText(String.format(getResources().getString(R.string.incorporated_on), company.dateOfCreation));
 		companyNumberTextView.setText(company.companyNumber);
 		addressLine1TextView.setText(company.registeredOfficeAddress.addressLine1);
-		addressLine2TextView.setText(company.registeredOfficeAddress.addressLine2);
+		if(!company.registeredOfficeAddress.addressLine2.equals("")) {
+			addressLine2TextView.setVisibility(View.VISIBLE);
+			addressLine2TextView.setText(company.registeredOfficeAddress.addressLine2);
+		}
 		addressPostalCodeTextView.setText(company.registeredOfficeAddress.postalCode);
 		addressLocalityTextView.setText(company.registeredOfficeAddress.locality);
-
-
-		Log.d("test", "showCompany: " + company.companyName + " " + company.registeredOfficeAddress.addressLine1);
 	}
 
 	public String getCompanyNumber() {

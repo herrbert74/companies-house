@@ -1,4 +1,4 @@
-# COMPANIES HOUSE APPLICATION #
+# Companies House Application #
 
 Companies House does have an application, but it is outdated and doesn't contain all the features from their newer API.
 
@@ -13,6 +13,7 @@ Companies House does have an application, but it is outdated and doesn't contain
 * Recent searches
 * Company details page
 
-### Not implemented features ###
+### Not yet implemented features ###
 
 * Drill down from company details page to officers, filings, insolvency, charges and ownership data
+* Lot of tests are currently missing.

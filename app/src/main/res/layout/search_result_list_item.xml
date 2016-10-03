@@ -5,58 +5,44 @@
 			  android:layout_height="wrap_content"
 			  android:gravity="center"
 			  android:orientation="vertical"
-			  android:layout_marginStart="@dimen/activity_horizontal_margin"
-			  android:layout_marginEnd="@dimen/activity_horizontal_margin"
-			  android:paddingBottom="@dimen/widget_margin"
-			  android:paddingTop="@dimen/widget_margin">
+			  android:paddingBottom="@dimen/view_margin_small">
 
 	<TextView
 		android:id="@+id/lblCompanyName"
+		style="@style/Text.Bold"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_weight="1"
 		android:layout_gravity="start"
-		android:paddingBottom="@dimen/widget_margin"
-		android:paddingTop="@dimen/widget_margin"
-		android:textSize="15sp"
 		tools:text="ALPHABET ACCOUNTANTS LTD"/>
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:orientation="horizontal"
-		android:paddingBottom="6dp"
-		android:paddingTop="6dp">
+		android:orientation="horizontal">
 
 		<TextView
 			android:id="@+id/lblIncorporated"
+			style="@style/Text"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_gravity="start"
 			android:layout_weight="1"
-			android:textSize="14sp"
 			tools:text="07620277 - Incorporated on  3 May 2011"/>
 
 		<TextView
 			android:id="@+id/lblActiveStatus"
+			style="@style/Text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:textSize="14sp"
 			tools:text="active"/>
 	</LinearLayout>
 
 	<TextView
 		android:id="@+id/lblAddress"
+		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_weight="1"
 		android:layout_gravity="start"
-		android:paddingBottom="6dp"
-		android:paddingTop="6dp"
-		android:textSize="14sp"
 		tools:text="16  Anchor Street, Chelmsford, CM2 0JY"/>
-
 
 </LinearLayout>
