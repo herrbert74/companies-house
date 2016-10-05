@@ -31,7 +31,7 @@ public class PreferencesHelper {
 				.create();
 	}
 
-	public void putLatestSearch(SearchHistoryItem searchItem) {
+	public ArrayList<SearchHistoryItem> putLatestSearch(SearchHistoryItem searchItem) {
 		SearchHistoryItem[] latestSearches = getLatestSearches();
 		ArrayList<SearchHistoryItem> latestSearchesList;
 		if (latestSearches != null) {
@@ -49,7 +49,7 @@ public class PreferencesHelper {
 		latestSearches = latestSearchesList.toArray(new SearchHistoryItem[latestSearchesList.size()]);
 		String latestSearchesString = gson.toJson(latestSearches);
 		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, latestSearchesString).apply();
-
+		return latestSearchesList;
 	}
 
 	public SearchHistoryItem[] getLatestSearches() {

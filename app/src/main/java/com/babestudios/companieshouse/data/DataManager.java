@@ -9,6 +9,8 @@ import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -35,8 +37,8 @@ public class DataManager {
 
 	}
 
-	public void putLatestSearchItem(SearchHistoryItem searchHistoryItem){
-		preferencesHelper.putLatestSearch(searchHistoryItem);
+	public ArrayList<SearchHistoryItem> putLatestSearchItem(SearchHistoryItem searchHistoryItem){
+		return preferencesHelper.putLatestSearch(searchHistoryItem);
 	}
 
 	public SearchHistoryItem[] getRecentSearches(){

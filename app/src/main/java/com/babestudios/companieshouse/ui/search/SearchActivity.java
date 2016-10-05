@@ -139,6 +139,11 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		MenuItemCompat.collapseActionView(searchMenuItem);
 	}
 
+	@Override
+	public void refreshRecentSearchesAdapter(ArrayList<SearchHistoryItem> searchHistoryItems) {
+		recentSearchesResultsAdapter.refreshData(searchHistoryItems);
+	}
+
 	@NonNull
 	@Override
 	public SearchPresenter providePresenter() {

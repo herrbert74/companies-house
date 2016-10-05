@@ -4,4 +4,5 @@
 	<string name="company_number">Company number</string>
 	<string name="incorporated_on">Incorporated on %1$s</string>
 	<string name="office_address">Office address</string>
+	<string name="recent_searches">Recent Searches</string>
 </resources>

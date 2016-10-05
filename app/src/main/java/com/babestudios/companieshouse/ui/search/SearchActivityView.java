@@ -6,6 +6,8 @@ import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import net.grandcentrix.thirtyinch.TiView;
 import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread;
 
+import java.util.ArrayList;
+
 public interface SearchActivityView extends TiView {
 
 	@CallOnMainThread
@@ -25,4 +27,7 @@ public interface SearchActivityView extends TiView {
 
 	@CallOnMainThread
 	void clearSearchView();
+
+	@CallOnMainThread
+	void refreshRecentSearchesAdapter(ArrayList<SearchHistoryItem> searchHistoryItems);
 }
