@@ -31,8 +31,8 @@ public class PreferencesHelper {
 				.create();
 	}
 
-	public ArrayList<SearchHistoryItem> putLatestSearch(SearchHistoryItem searchItem) {
-		SearchHistoryItem[] latestSearches = getLatestSearches();
+	public ArrayList<SearchHistoryItem> addRecentSearch(SearchHistoryItem searchItem) {
+		SearchHistoryItem[] latestSearches = getRecentSearches();
 		ArrayList<SearchHistoryItem> latestSearchesList;
 		if (latestSearches != null) {
 			latestSearchesList = new ArrayList<>(Arrays.asList(latestSearches));
@@ -52,13 +52,17 @@ public class PreferencesHelper {
 		return latestSearchesList;
 	}
 
-	public SearchHistoryItem[] getLatestSearches() {
+	public void clearAllRecentSearches() {
+		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, "").apply();
+	}
+
+	public SearchHistoryItem[] getRecentSearches() {
 		String latestSearches = sharedPreferences.getString(PREF_LATEST_SEARCHES, "");
 		SearchHistoryItem[] searchItems = null;
 		try{
 			searchItems = gson.fromJson(latestSearches, SearchHistoryItem[].class);
 		}catch (Exception e){
-			Log.d("test", "getLatestSearches error: " + e.getLocalizedMessage());
+			Log.d("test", "getRecentSearches error: " + e.getLocalizedMessage());
 		}
 		return searchItems;
 	}

@@ -34,20 +34,23 @@ public class DataManager {
 		return companiesHouseService.searchCompanies(authorization, queryText.toString(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startPage)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());
-
 	}
 
-	public ArrayList<SearchHistoryItem> putLatestSearchItem(SearchHistoryItem searchHistoryItem){
-		return preferencesHelper.putLatestSearch(searchHistoryItem);
+	public ArrayList<SearchHistoryItem> addRecentSearchItem(SearchHistoryItem searchHistoryItem){
+		return preferencesHelper.addRecentSearch(searchHistoryItem);
 	}
 
 	public SearchHistoryItem[] getRecentSearches(){
-		return preferencesHelper.getLatestSearches();
+		return preferencesHelper.getRecentSearches();
 	}
 
 	public Observable<Company> getCompany(String authorization, String companyNumber) {
 		return companiesHouseService.getCompany(authorization, companyNumber)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	public void clearAllRecentSearches() {
+		preferencesHelper.clearAllRecentSearches();
 	}
 }

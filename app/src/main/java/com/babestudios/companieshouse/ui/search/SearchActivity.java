@@ -1,10 +1,13 @@
 package com.babestudios.companieshouse.ui.search;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -43,6 +46,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@Bind(R.id.search_recycler_view)
 	RecyclerView searchRecyclerView;
 
+	@Bind(R.id.fab)
+	FloatingActionButton fab;
+
 	private SearchResultsAdapter searchResultsAdapter;
 
 	private RecentSearchesResultsAdapter recentSearchesResultsAdapter;
@@ -64,6 +70,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		}
 		createRecentSearchesRecyclerView();
 		createSearchResultsRecyclerView();
+
+
+		fab.setOnClickListener(view -> getPresenter().onFabClicked());
 	}
 
 	private void createRecentSearchesRecyclerView() {
@@ -142,6 +151,29 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@Override
 	public void refreshRecentSearchesAdapter(ArrayList<SearchHistoryItem> searchHistoryItems) {
 		recentSearchesResultsAdapter.refreshData(searchHistoryItems);
+	}
+
+	@Override
+	public void changeFabImage(SearchPresenter.FabImage type) {
+		if(type == SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE) {
+			fab.setImageResource(R.drawable.delete_vector);
+		} else if(type == SearchPresenter.FabImage.FAB_IMAGE_SEARCH_CLOSE) {
+			fab.setImageResource(R.drawable.close_vector);
+		}
+	}
+
+	@Override
+	public void showDeleteRecentSearchesDialog() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.delete_recent_searches)
+				.setMessage(R.string.are_you_sure_you_want_to_delete_all_recent_searches)
+				.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+					getPresenter().clearAllRecentSearches();
+				})
+				.setNegativeButton(android.R.string.no, (dialog, which) -> {
+					// do nothing
+				})
+				.show();
 	}
 
 	@NonNull

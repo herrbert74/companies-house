@@ -11,12 +11,26 @@ import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observer;
 
 public class SearchPresenter extends TiPresenter<SearchActivityView> implements Observer<CompanySearchResult> {
+
+	enum FabImage {
+		FAB_IMAGE_RECENT_SEARCH_DELETE,
+		FAB_IMAGE_SEARCH_CLOSE
+	}
+
+	private enum ShowState {
+		RECENT_SEARCHES,
+		SEARCH
+	}
+
+	private ShowState showState = ShowState.RECENT_SEARCHES;
 
 	@Singleton
 	@Inject
@@ -41,10 +55,16 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		super.onWakeUp();
 		if(isFirstStart){
 			isFirstStart = false;
-			getView().showRecentSearches(dataManager.getRecentSearches());
+			showRecentSearches();
 		} else {
 			getView().clearSearchView();
 		}
+	}
+
+	private void showRecentSearches() {
+		getView().showRecentSearches(dataManager.getRecentSearches());
+		getView().changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
+		showState = ShowState.RECENT_SEARCHES;
 	}
 
 	@Override
@@ -58,11 +78,13 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	@Override
 	public void onNext(CompanySearchResult companySearchResult) {
+		showState = ShowState.SEARCH;
 		getView().hideProgress();
 		getView().showCompanySearchResult(companySearchResult);
+		getView().changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 	}
 
-	public void search(String queryText) {
+	void search(String queryText) {
 		this.queryText = queryText;
 		getView().showProgress();
 		dataManager.searchCompanies(authorization, queryText, "0")
@@ -81,6 +103,21 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	void getCompany(String companyName, String companyNumber) {
 		getView().startCompanyActivity(companyNumber);
-		getView().refreshRecentSearchesAdapter(dataManager.putLatestSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis())));
+		getView().refreshRecentSearchesAdapter(dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis())));
+	}
+
+	void onFabClicked() {
+		if(showState == ShowState.RECENT_SEARCHES) {
+			showState = ShowState.SEARCH;
+			getView().showDeleteRecentSearchesDialog();
+		} else if(showState == ShowState.SEARCH) {
+			getView().clearSearchView();
+			showRecentSearches();
+		}
+	}
+
+	void clearAllRecentSearches() {
+		dataManager.clearAllRecentSearches();
+		getView().refreshRecentSearchesAdapter(new ArrayList<>());
 	}
 }

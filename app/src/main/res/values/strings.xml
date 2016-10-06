@@ -5,4 +5,7 @@
 	<string name="incorporated_on">Incorporated on %1$s</string>
 	<string name="office_address">Office address</string>
 	<string name="recent_searches">Recent Searches</string>
+	<string name="title_activity_main">MainActivity</string>
+	<string name="delete_recent_searches">Delete recent searches</string>
+	<string name="are_you_sure_you_want_to_delete_all_recent_searches">Are you sure you want to delete all recent searches?</string>
 </resources>

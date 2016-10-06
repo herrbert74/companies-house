@@ -8,7 +8,7 @@ import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread;
 
 import java.util.ArrayList;
 
-public interface SearchActivityView extends TiView {
+interface SearchActivityView extends TiView {
 
 	@CallOnMainThread
 	void showProgress();
@@ -30,4 +30,10 @@ public interface SearchActivityView extends TiView {
 
 	@CallOnMainThread
 	void refreshRecentSearchesAdapter(ArrayList<SearchHistoryItem> searchHistoryItems);
+
+	@CallOnMainThread
+	void changeFabImage(SearchPresenter.FabImage type);
+
+	@CallOnMainThread
+	void showDeleteRecentSearchesDialog();
 }
