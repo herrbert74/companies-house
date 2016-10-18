@@ -22,6 +22,7 @@ public class PreferencesHelper {
 
 	private static final String PREF_FILE_NAME = "companies_house_pref_file";
 	private static final String PREF_LATEST_SEARCHES = "companies_house_latest_searches";
+	private static final String PREF_FAVOURITES = "companies_house_favourites";
 
 	@Inject
 	PreferencesHelper(@ApplicationContext Context context) {
@@ -65,5 +66,48 @@ public class PreferencesHelper {
 			Log.d("test", "getRecentSearches error: " + e.getLocalizedMessage());
 		}
 		return searchItems;
+	}
+
+	public void addFavourite(SearchHistoryItem searchHistoryItem) {
+		SearchHistoryItem[] favouritesArray = getFavourites();
+		ArrayList<SearchHistoryItem> favourites;
+		if (favouritesArray != null) {
+			favourites = new ArrayList<>(Arrays.asList(favouritesArray));
+		} else {
+			favourites = new ArrayList<>();
+		}
+		favourites.add(searchHistoryItem);
+		String favouritesString = gson.toJson(favourites.toArray(new SearchHistoryItem[favourites.size()]));
+		sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply();
+	}
+
+	public void clearAllFavourites() {
+		sharedPreferences.edit().putString(PREF_FAVOURITES, "").apply();
+	}
+
+	public SearchHistoryItem[] getFavourites() {
+		String favourites = sharedPreferences.getString(PREF_FAVOURITES, "");
+		SearchHistoryItem[] favouritesArray = null;
+		try{
+			favouritesArray = gson.fromJson(favourites, SearchHistoryItem[].class);
+		}catch (Exception e){
+			Log.d("test", "getFavourites error: " + e.getLocalizedMessage());
+		}
+		return favouritesArray;
+	}
+
+	public void removeFavourite(SearchHistoryItem favouriteToDelete) {
+		SearchHistoryItem[] favouritesArray = getFavourites();
+		ArrayList<SearchHistoryItem> favourites;
+		if (favouritesArray != null) {
+			favourites = new ArrayList<>(Arrays.asList(favouritesArray));
+		} else {
+			return;
+		}
+		if (favourites.contains(favouriteToDelete)) {
+			favourites.remove(favouriteToDelete);
+		}
+		String favouritesString = gson.toJson(favourites.toArray(new SearchHistoryItem[favourites.size()]));
+		sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply();
 	}
 }

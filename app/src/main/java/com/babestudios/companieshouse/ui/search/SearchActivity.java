@@ -1,7 +1,6 @@
 package com.babestudios.companieshouse.ui.search;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +23,7 @@ import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.ui.company.CompanyActivity;
+import com.babestudios.companieshouse.ui.favourites.FavouritesActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 
@@ -76,7 +76,6 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	private void createRecentSearchesRecyclerView() {
-		recentSearchesRecyclerView = (RecyclerView) findViewById(R.id.recent_searches_recycler_view);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 		recentSearchesRecyclerView.setLayoutManager(linearLayoutManager);
 		recentSearchesRecyclerView.addItemDecoration(
@@ -84,7 +83,6 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	private void createSearchResultsRecyclerView() {
-		searchRecyclerView = (RecyclerView) findViewById(R.id.search_recycler_view);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 		searchRecyclerView.setLayoutManager(linearLayoutManager);
 		searchRecyclerView.addItemDecoration(
@@ -114,7 +112,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		searchRecyclerView.setVisibility(View.GONE);
 		if (recentSearchesRecyclerView.getAdapter() == null) {
 			ArrayList<SearchHistoryItem> searchHistoryItemsList;
-			if(searchHistoryItems != null) {
+			if (searchHistoryItems != null) {
 				searchHistoryItemsList = new ArrayList<>(Arrays.asList(searchHistoryItems));
 			} else {
 				searchHistoryItemsList = new ArrayList<>();
@@ -155,9 +153,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	@Override
 	public void changeFabImage(SearchPresenter.FabImage type) {
-		if(type == SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE) {
+		if (type == SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE) {
 			fab.setImageResource(R.drawable.delete_vector);
-		} else if(type == SearchPresenter.FabImage.FAB_IMAGE_SEARCH_CLOSE) {
+		} else if (type == SearchPresenter.FabImage.FAB_IMAGE_SEARCH_CLOSE) {
 			fab.setImageResource(R.drawable.close_vector);
 		}
 	}
@@ -206,6 +204,18 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 			return false;
 		});
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_favourites:
+				Intent intent = new Intent(this, FavouritesActivity.class);
+				startActivity(intent);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override

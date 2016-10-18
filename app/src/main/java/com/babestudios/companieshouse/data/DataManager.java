@@ -53,4 +53,16 @@ public class DataManager {
 	public void clearAllRecentSearches() {
 		preferencesHelper.clearAllRecentSearches();
 	}
+
+	public void addFavourite(SearchHistoryItem searchHistoryItem) {
+		preferencesHelper.addFavourite(searchHistoryItem);
+	}
+
+	public SearchHistoryItem[] getFavourites(){
+		return preferencesHelper.getFavourites();
+	}
+
+	public void removeFavourite(SearchHistoryItem favouriteToRemove) {
+		preferencesHelper.removeFavourite(favouriteToRemove);
+	}
 }

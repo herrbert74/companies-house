@@ -2,6 +2,7 @@ package com.babestudios.companieshouse.ui.company;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,8 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	@Bind(R.id.tv_address_locality)
 	TextView addressLocalityTextView;
 
+	@Bind(R.id.fab)
+	FloatingActionButton fab;
 
 	String companyNumber;
 
@@ -57,6 +60,8 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
 		companyNumber = getIntent().getStringExtra("companyNumber");
+
+		fab.setOnClickListener(view -> getPresenter().onFabClicked());
 	}
 
 	@Override

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:app="http://schemas.android.com/apk/res-auto"
-			  xmlns:tools="http://schemas.android.com/tools"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:fitsSystemWindows="true"
-			  android:orientation="vertical"
-			  tools:context=".ui.company.CompanyActivity">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+												 xmlns:app="http://schemas.android.com/apk/res-auto"
+												 xmlns:tools="http://schemas.android.com/tools"
+												 android:layout_width="match_parent"
+												 android:layout_height="match_parent"
+												 android:fitsSystemWindows="true"
+												 tools:context=".ui.company.CompanyActivity">
 
 	<android.support.design.widget.AppBarLayout
+		android:id="@+id/appbar"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:theme="@style/AppTheme.AppBarOverlay">
@@ -22,64 +22,80 @@
 
 	</android.support.design.widget.AppBarLayout>
 
-	<ProgressBar
-		android:id="@+id/progressbar"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_gravity="center"
-		android:indeterminate="true"
-		android:indeterminateBehavior="cycle"
-		android:visibility="gone"/>
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/fab"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
+		android:layout_margin="@dimen/fab_margin"
+		app:srcCompat="@drawable/favorite_vector"/>
 
-	<TextView
-		android:id="@+id/tv_incorporated"
-		style="@style/Text"
-		android:layout_marginBottom="@dimen/view_margin_small"
-		android:layout_marginTop="@dimen/view_margin_small"
-		tools:text="Incorporated on 2016 August 3"/>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/appbar"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		android:orientation="vertical">
 
-	<include
+		<ProgressBar
+			android:id="@+id/progressbar"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:layout_gravity="center"
+			android:indeterminate="true"
+			android:indeterminateBehavior="cycle"
+			android:visibility="gone"/>
 
-		layout="@layout/divider"/>
+		<TextView
+			android:id="@+id/tv_incorporated"
+			style="@style/Text"
+			android:layout_marginBottom="@dimen/view_margin_small"
+			android:layout_marginTop="@dimen/view_margin_small"
+			tools:text="Incorporated on 2016 August 3"/>
 
-	<TextView
-		style="@style/Text.Title"
-		android:text="@string/company_number"/>
+		<include
+			layout="@layout/divider"/>
 
-	<TextView
-		android:id="@+id/tv_company_number"
-		style="@style/Text"
-		android:layout_marginBottom="@dimen/view_margin_small"
-		tools:text="08762819"/>
+		<TextView
+			style="@style/Text.Title"
+			android:text="@string/company_number"/>
 
-	<include
-		layout="@layout/divider"/>
+		<TextView
+			android:id="@+id/tv_company_number"
+			style="@style/Text"
+			android:layout_marginBottom="@dimen/view_margin_small"
+			tools:text="08762819"/>
 
-	<TextView
-		style="@style/Text.Title"
-		android:text="@string/office_address"/>
+		<include
+			layout="@layout/divider"/>
 
-	<TextView
-		android:id="@+id/tv_address_line_1"
-		style="@style/Text"
-		tools:text="3 Hendon Place"/>
+		<TextView
+			style="@style/Text.Title"
+			android:text="@string/office_address"/>
 
-	<TextView
-		android:id="@+id/tv_address_line_2"
-		style="@style/Text"
-		android:visibility="gone"/>
+		<TextView
+			android:id="@+id/tv_address_line_1"
+			style="@style/Text"
+			tools:text="3 Hendon Place"/>
 
-	<TextView
-		android:id="@+id/tv_address_locality"
-		style="@style/Text"
-		tools:text="Kingston"/>
+		<TextView
+			android:id="@+id/tv_address_line_2"
+			style="@style/Text"
+			android:visibility="gone"/>
 
-	<TextView
-		android:id="@+id/tv_address_postal_code"
-		style="@style/Text"
-		android:layout_marginBottom="@dimen/view_margin_small"
-		tools:text="KT6 2LP"/>
+		<TextView
+			android:id="@+id/tv_address_locality"
+			style="@style/Text"
+			tools:text="Kingston"/>
 
-	<include
-		layout="@layout/divider"/>
-</LinearLayout>
+		<TextView
+			android:id="@+id/tv_address_postal_code"
+			style="@style/Text"
+			android:layout_marginBottom="@dimen/view_margin_small"
+			tools:text="KT6 2LP"/>
+
+		<include
+			layout="@layout/divider"/>
+	</LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
