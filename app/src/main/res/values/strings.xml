@@ -10,4 +10,6 @@
 	<string name="delete_recent_searches">Delete recent searches</string>
 	<string name="are_you_sure_you_want_to_delete_all_recent_searches">Are you sure you want to delete all recent searches?</string>
 	<string name="button_undo">undo</string>
+	<string name="company_nature_of_business">Nature of business</string>
+	<string name="no_data">No data</string>
 </resources>

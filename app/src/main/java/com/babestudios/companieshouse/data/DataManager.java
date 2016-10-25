@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.data.local.PreferencesHelper;
+import com.babestudios.companieshouse.data.local.SicHelper;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -23,11 +24,16 @@ public class DataManager {
 
 	private CompaniesHouseService companiesHouseService;
 	private PreferencesHelper preferencesHelper;
+	private SicHelper sicHelper = new SicHelper();
 
 	@Inject
 	public DataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper) {
 		this.companiesHouseService = companiesHouseService;
 		this.preferencesHelper = preferencesHelper;
+	}
+
+	public String sicLookup(String code){
+		return sicHelper.lookup(code);
 	}
 
 	public Observable<CompanySearchResult> searchCompanies(String authorization, CharSequence queryText, String startPage) {

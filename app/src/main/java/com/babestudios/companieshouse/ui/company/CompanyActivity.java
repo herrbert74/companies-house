@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,6 +41,9 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	@Bind(R.id.tv_address_locality)
 	TextView addressLocalityTextView;
+
+	@Bind(R.id.tv_nature_of_business)
+	TextView natureOfBusinessTextView;
 
 	@Bind(R.id.fab)
 	FloatingActionButton fab;
@@ -85,7 +87,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		incorporatedTextView.setText(String.format(getResources().getString(R.string.incorporated_on), company.dateOfCreation));
 		companyNumberTextView.setText(company.companyNumber);
 		addressLine1TextView.setText(company.registeredOfficeAddress.addressLine1);
-		if(!company.registeredOfficeAddress.addressLine2.equals("")) {
+		if (company.registeredOfficeAddress.addressLine2 != null) {
 			addressLine2TextView.setVisibility(View.VISIBLE);
 			addressLine2TextView.setText(company.registeredOfficeAddress.addressLine2);
 		}
@@ -93,8 +95,18 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		addressLocalityTextView.setText(company.registeredOfficeAddress.locality);
 	}
 
+	@Override
+	public void showNatureOfBusiness(String sicCode, String natureOfBusiness) {
+		natureOfBusinessTextView.setText(sicCode + " - " + natureOfBusiness);
+	}
+
 	public String getCompanyNumber() {
 		return companyNumber;
+	}
+
+	@Override
+	public void showEmptyNatureOfBusiness() {
+		natureOfBusinessTextView.setText(getResources().getString(R.string.no_data));
 	}
 
 	@NonNull

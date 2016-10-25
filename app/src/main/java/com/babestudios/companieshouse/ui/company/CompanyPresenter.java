@@ -4,6 +4,7 @@ import android.util.Base64;
 
 import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
+import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -21,7 +22,7 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	@Inject
 	DataManager dataManager;
 
-	Company company;
+	private Company company;
 
 	private final String authorization =
 			"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
@@ -56,6 +57,11 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 					public void onNext(Company company) {
 						CompanyPresenter.this.company = company;
 						getView().showCompany(company);
+						if (company.sicCodes != null && company.sicCodes.size() > 0) {
+							getView().showNatureOfBusiness(company.sicCodes.get(0), dataManager.sicLookup(company.sicCodes.get(0)));
+						} else {
+							getView().showEmptyNatureOfBusiness();
+						}
 					}
 				});
 	}

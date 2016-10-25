@@ -96,6 +96,19 @@
 
 		<include
 			layout="@layout/divider"/>
+
+		<TextView
+			style="@style/Text.Title"
+			android:text="@string/company_nature_of_business"/>
+
+		<TextView
+			android:id="@+id/tv_nature_of_business"
+			style="@style/Text"
+			android:layout_marginBottom="@dimen/view_margin_small"
+			tools:text="Growing of rice"/>
+
+		<include
+			layout="@layout/divider"/>
 	</LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

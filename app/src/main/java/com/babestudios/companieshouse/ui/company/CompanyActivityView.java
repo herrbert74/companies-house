@@ -18,5 +18,10 @@ public interface CompanyActivityView extends TiView {
 	void showCompany(final Company company);
 
 	@CallOnMainThread
+	void showNatureOfBusiness(String sicCode, final String natureOfBusiness);
+
+	@CallOnMainThread
 	String getCompanyNumber();
+
+	void showEmptyNatureOfBusiness();
 }
