@@ -10,4 +10,11 @@ public class Accounts {
 	@SerializedName("last_accounts")
 	public LastAccounts lastAccounts;
 
+	@SerializedName("next_due")
+	public String nextDue;
+
+	public boolean overdue;
+
+	@SerializedName("next_made_up_to")
+	public String nextMadeUpTo;
 }

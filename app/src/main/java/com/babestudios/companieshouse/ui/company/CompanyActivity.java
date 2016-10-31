@@ -9,7 +9,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.babestudios.companieshouse.R;
+import com.babestudios.companieshouse.data.local.ApiLookupHelper;
 import com.babestudios.companieshouse.data.model.company.Company;
+import com.babestudios.companieshouse.utils.DateUtil;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -44,6 +46,12 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	@Bind(R.id.tv_nature_of_business)
 	TextView natureOfBusinessTextView;
+
+	@Bind(R.id.tv_accounts)
+	TextView accountTextView;
+
+	@Bind(R.id.tv_annual_returns)
+	TextView annualReturnsTextView;
 
 	@Bind(R.id.fab)
 	FloatingActionButton fab;
@@ -93,6 +101,19 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		}
 		addressPostalCodeTextView.setText(company.registeredOfficeAddress.postalCode);
 		addressLocalityTextView.setText(company.registeredOfficeAddress.locality);
+		String formattedDate;
+		if(company.accounts.lastAccounts.madeUpTo != null) {
+			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.accounts.lastAccounts.madeUpTo)));
+			accountTextView.setText(String.format(getResources().getString(R.string.company_accounts_formatted_text), company.accounts.lastAccounts.type, formattedDate));
+		} else {
+			accountTextView.setText(getResources().getString(R.string.company_accounts_not_found));
+		}
+		if(company.accounts.lastAccounts.madeUpTo != null) {
+			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.annualReturn.lastMadeUpTo)));
+			annualReturnsTextView.setText(String.format(getResources().getString(R.string.company_annual_returns_formatted_text), formattedDate));
+		}else {
+			annualReturnsTextView.setText(getResources().getString(R.string.company_annual_returns_not_found));
+		}
 	}
 
 	@Override

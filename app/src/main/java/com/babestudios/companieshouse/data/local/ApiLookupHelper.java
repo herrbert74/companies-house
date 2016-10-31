@@ -4,15 +4,41 @@ package com.babestudios.companieshouse.data.local;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SicHelper {
+public class ApiLookupHelper {
 
 	private Map<String, String> sicMap = new HashMap<>();
+	private Map<String, String> accountTypeMap = new HashMap<>();
 
-	public String lookup(String code) {
+	public String sicLookup(String code) {
 		return sicMap.get(code);
 	}
+	public String accountTypeLookup(String accountType) {
+		return accountTypeMap.get(accountType);
+	}
 
-	public SicHelper(){
+	public ApiLookupHelper() {
+		createSicMap();
+		createAccountTypeMap();
+	}
+
+	private void createAccountTypeMap() {
+		accountTypeMap.put("null", "Null");
+		accountTypeMap.put("full", "Full");
+		accountTypeMap.put("small", "Small");
+		accountTypeMap.put("medium", "Medium");
+		accountTypeMap.put("group", "Group");
+		accountTypeMap.put("dormant", "Dormant");
+		accountTypeMap.put("interim", "Interim");
+		accountTypeMap.put("initial", "Initial");
+		accountTypeMap.put("total-exemption-full", "Total Exemption Full");
+		accountTypeMap.put("total-exemption-small", "Total Exemption Small");
+		accountTypeMap.put("partial-exemption", "Partial Exemption");
+		accountTypeMap.put("audit-exemption-subsidiary", "Audit Exemption Subsidiary");
+		accountTypeMap.put("filing-exemption-subsidiary", "Filing Exemption Subsidiary");
+		accountTypeMap.put("micro-entity", "Micro Entity");
+	}
+
+	private void createSicMap() {
 		sicMap.put("01110", "Growing of cereals (except rice), leguminous crops and oil seeds");
 		sicMap.put("01120", "Growing of rice");
 		sicMap.put("01130", "Growing of vegetables and melons, roots and tubers");

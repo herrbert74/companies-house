@@ -109,6 +109,32 @@
 
 		<include
 			layout="@layout/divider"/>
+
+		<TextView
+			style="@style/Text.Title"
+			android:text="@string/company_accounts"/>
+
+		<TextView
+			android:id="@+id/tv_accounts"
+			style="@style/Text"
+			android:layout_marginBottom="@dimen/view_margin_small"
+			tools:text="Last DORMANT account made up to 29 February 2016"/>
+
+		<include
+			layout="@layout/divider"/>
+
+		<TextView
+			style="@style/Text.Title"
+			android:text="@string/company_annual_returns"/>
+
+		<TextView
+			android:id="@+id/tv_annual_returns"
+			style="@style/Text"
+			android:layout_marginBottom="@dimen/view_margin_small"
+			tools:text="Last made up to 13 February 2016"/>
+
+		<include
+			layout="@layout/divider"/>
 	</LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -56,6 +56,7 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 					@Override
 					public void onNext(Company company) {
 						CompanyPresenter.this.company = company;
+						company.accounts.lastAccounts.type = dataManager.accountTypeLookup(company.accounts.lastAccounts.type);
 						getView().showCompany(company);
 						if (company.sicCodes != null && company.sicCodes.size() > 0) {
 							getView().showNatureOfBusiness(company.sicCodes.get(0), dataManager.sicLookup(company.sicCodes.get(0)));
