@@ -1,10 +1,6 @@
 package com.babestudios.companieshouse.ui.company;
 
-import android.util.Base64;
-
-import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
-import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -20,12 +16,10 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 
 	@Singleton
 	@Inject
+	public
 	DataManager dataManager;
 
-	private Company company;
-
-	private final String authorization =
-			"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
+	public Company company;
 
 	@Override
 	protected void onCreate() {
@@ -41,7 +35,7 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	}
 
 	private void getCompany(String companyNumber) {
-		dataManager.getCompany(authorization, companyNumber)
+		dataManager.getCompany(companyNumber)
 				.subscribe(new Observer<Company>() {
 					@Override
 					public void onCompleted() {
@@ -72,7 +66,7 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 		super.onDestroy();
 	}
 
-	void onFabClicked() {
+	public void onFabClicked() {
 		dataManager.addFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
 	}
 }

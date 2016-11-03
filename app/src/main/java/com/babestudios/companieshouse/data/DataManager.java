@@ -1,6 +1,7 @@
 package com.babestudios.companieshouse.data;
 
 import android.os.AsyncTask;
+import android.util.Base64;
 
 import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.data.local.PreferencesHelper;
@@ -12,21 +13,19 @@ import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-@Singleton
 public class DataManager {
+
+	private final String authorization =
+			"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
 
 	private CompaniesHouseService companiesHouseService;
 	private PreferencesHelper preferencesHelper;
 	private ApiLookupHelper apiLookupHelper = new ApiLookupHelper();
 
-	@Inject
 	public DataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper) {
 		this.companiesHouseService = companiesHouseService;
 		this.preferencesHelper = preferencesHelper;
@@ -54,7 +53,7 @@ public class DataManager {
 		return preferencesHelper.getRecentSearches();
 	}
 
-	public Observable<Company> getCompany(String authorization, String companyNumber) {
+	public Observable<Company> getCompany(String companyNumber) {
 		return companiesHouseService.getCompany(authorization, companyNumber)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());

@@ -1,7 +1,16 @@
 package com.babestudios.companieshouse;
 
+import android.app.Application;
+import android.content.Context;
+
+import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
+import com.babestudios.companieshouse.injection.ApplicationContext;
+import com.babestudios.companieshouse.injection.ApplicationModule;
+
+import org.mockito.Mockito;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -11,27 +20,22 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
+import static org.mockito.Mockito.mock;
+
 @Module
-public class TestApplicationModule {
+public class TestApplicationModule extends ApplicationModule{
 
-	/*@Provides
-	@Singleton
-	@Named("SearchCompaniesRetrofit")
-	MockRetrofit provideSearchCompaniesRetrofit() {
-		return new MockRetrofit.Builder(new Retrofit.Builder().build())//
-				.build();
+	//private final Application application;
+
+	public TestApplicationModule(Application application) {
+		super(application);
+		//this.application = application;
 	}
 
 	@Provides
 	@Singleton
-	CompaniesHouseService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
-		return retroFit.create(CompaniesHouseService.class);
-	}
-
-	@Provides
-	@Singleton
-	@Named("SearchCompaniesRetrofit")
-	Retrofit provideSearchCompaniesRetrofit() {
+	@Named("CompaniesHouseRetrofit")
+	Retrofit provideCompaniesHouseRetrofit() {
 		return new Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
@@ -41,7 +45,24 @@ public class TestApplicationModule {
 
 	@Provides
 	@Singleton
-	CompaniesHouseService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
+	CompaniesHouseService provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") Retrofit retroFit) {
 		return retroFit.create(CompaniesHouseService.class);
-	}*/
+	}
+
+	@Provides
+	Application provideApplication() {
+		return application;
+	}
+
+	@Provides
+	@ApplicationContext
+	Context provideContext() {
+		return application;
+	}
+
+	@Provides
+	@Singleton
+	DataManager provideDataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper) {
+		return Mockito.mock(DataManager.class);
+	}
 }

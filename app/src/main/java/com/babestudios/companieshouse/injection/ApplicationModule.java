@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.babestudios.companieshouse.BuildConfig;
+import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
 
@@ -27,8 +29,8 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	@Named("SearchCompaniesRetrofit")
-	Retrofit provideSearchCompaniesRetrofit() {
+	@Named("CompaniesHouseRetrofit")
+	Retrofit provideCompaniesHouseRetrofit() {
 		return new Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
@@ -38,7 +40,7 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	CompaniesHouseService provideSearchCompaniesService(@Named("SearchCompaniesRetrofit") Retrofit retroFit) {
+	CompaniesHouseService provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") Retrofit retroFit) {
 		return retroFit.create(CompaniesHouseService.class);
 	}
 
@@ -51,5 +53,11 @@ public class ApplicationModule {
 	@ApplicationContext
 	Context provideContext() {
 		return application;
+	}
+
+	@Provides
+	@Singleton
+	DataManager provideDataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper) {
+		return new DataManager(companiesHouseService, preferencesHelper);
 	}
 }

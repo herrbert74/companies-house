@@ -5,17 +5,14 @@ import android.content.Context;
 
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
-import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.ui.company.CompanyPresenter;
 import com.babestudios.companieshouse.ui.favourites.FavouritesPresenter;
-import com.babestudios.companieshouse.ui.search.SearchPresenter;
 import com.babestudios.companieshouse.ui.search.RecentSearchesResultsAdapter;
+import com.babestudios.companieshouse.ui.search.SearchPresenter;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import retrofit2.Retrofit;
 
 @Singleton
 @Component(modules = {ApplicationModule.class})
@@ -27,10 +24,10 @@ public interface ApplicationComponent {
 
 	void inject(CompaniesHouseApplication companiesHouseApplication);
 
-	@Named("SearchCompaniesRetrofit")
-	Retrofit getSearchCompaniesRetrofit();
+	/*@Named("CompaniesHouseRetrofit")
+	Retrofit getCompaniesHouseRetrofit();
 
-	CompaniesHouseService getSearchCompaniesService();
+	CompaniesHouseService getCompaniesHouseService();*/
 
 	Application application();
 	@ApplicationContext Context context();

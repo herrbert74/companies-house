@@ -40,7 +40,7 @@ public class DataManagerTest {
 	}
 
 	@Test
-	public void searchCompanies_successful(){
+	public void test_searchCompanies_successful(){
 		CompanySearchResult companySearchResult = new CompanySearchResult();
 		doReturn(Observable.just(companySearchResult))
 				.when(mockCompaniesHouseService)
