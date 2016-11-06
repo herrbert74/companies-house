@@ -19,7 +19,7 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	public
 	DataManager dataManager;
 
-	public Company company;
+	Company company;
 
 	@Override
 	protected void onCreate() {
@@ -34,7 +34,7 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 		getCompany(getView().getCompanyNumber());
 	}
 
-	private void getCompany(String companyNumber) {
+	void getCompany(String companyNumber) {
 		dataManager.getCompany(companyNumber)
 				.subscribe(new Observer<Company>() {
 					@Override
@@ -66,7 +66,7 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 		super.onDestroy();
 	}
 
-	public void onFabClicked() {
+	void onFabClicked() {
 		dataManager.addFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
 	}
 }

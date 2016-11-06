@@ -1,6 +1,5 @@
 package com.babestudios.companieshouse.ui.search;
 
-import android.util.Base64;
 import android.util.Log;
 
 import com.babestudios.companieshouse.BuildConfig;
@@ -35,9 +34,6 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	@Singleton
 	@Inject
 	DataManager dataManager;
-
-	private final String authorization =
-			"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
 
 	private String queryText;
 
@@ -87,12 +83,12 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	void search(String queryText) {
 		this.queryText = queryText;
 		getView().showProgress();
-		dataManager.searchCompanies(authorization, queryText, "0")
+		dataManager.searchCompanies(queryText, "0")
 				.subscribe(this);
 	}
 
 	void searchLoadMore(int page) {
-		dataManager.searchCompanies(authorization, queryText, String.valueOf(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)))
+		dataManager.searchCompanies(queryText, String.valueOf(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)))
 				.subscribe(this);
 	}
 

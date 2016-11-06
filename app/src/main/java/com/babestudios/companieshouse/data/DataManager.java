@@ -39,7 +39,7 @@ public class DataManager {
 		return apiLookupHelper.accountTypeLookup(accountType);
 	}
 
-	public Observable<CompanySearchResult> searchCompanies(String authorization, CharSequence queryText, String startPage) {
+	public Observable<CompanySearchResult> searchCompanies(CharSequence queryText, String startPage) {
 		return companiesHouseService.searchCompanies(authorization, queryText.toString(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startPage)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());

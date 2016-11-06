@@ -28,7 +28,6 @@ public class DataManagerTest {
 	PreferencesHelper mockPreferencesHelper;
 
 	private DataManager dataManager;
-	private String authorization;
 
 	@Rule
 	public final RxSchedulersOverrideRule overrideSchedulersRule = new RxSchedulersOverrideRule();
@@ -36,7 +35,7 @@ public class DataManagerTest {
 	@Before
 	public void setUp() {
 		dataManager = new DataManager(mockCompaniesHouseService, mockPreferencesHelper);
-		authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
+		//authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
 	}
 
 	@Test
@@ -47,7 +46,7 @@ public class DataManagerTest {
 				.searchCompanies(anyString(), anyString(), anyString(), anyString());
 
 		TestSubscriber<CompanySearchResult> testSubscriber = new TestSubscriber<>();
-		dataManager.searchCompanies(authorization, "Games", "0").subscribe(testSubscriber);
+		dataManager.searchCompanies("Games", "0").subscribe(testSubscriber);
 		testSubscriber.assertValue(companySearchResult);
 		testSubscriber.assertCompleted();
 		testSubscriber.assertNoErrors();
