@@ -8,7 +8,6 @@ import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
 import com.babestudios.companieshouse.injection.ApplicationContext;
-import com.babestudios.companieshouse.injection.ApplicationModule;
 
 import org.mockito.Mockito;
 
@@ -20,16 +19,13 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
-import static org.mockito.Mockito.mock;
-
 @Module
-public class TestApplicationModule extends ApplicationModule{
+public class TestApplicationModule{
 
-	//private final Application application;
+	private Application application;
 
 	public TestApplicationModule(Application application) {
-		super(application);
-		//this.application = application;
+		this.application = application;
 	}
 
 	@Provides

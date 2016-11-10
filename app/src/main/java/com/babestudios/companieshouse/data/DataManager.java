@@ -10,25 +10,29 @@ import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
+import com.babestudios.companieshouse.utils.Base64Wrapper;
 
 import java.util.ArrayList;
+
+import javax.inject.Singleton;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+@Singleton
 public class DataManager {
 
-	private final String authorization =
-			"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
+	private final String authorization;
 
 	private CompaniesHouseService companiesHouseService;
 	private PreferencesHelper preferencesHelper;
 	private ApiLookupHelper apiLookupHelper = new ApiLookupHelper();
 
-	public DataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper) {
+	public DataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
 		this.companiesHouseService = companiesHouseService;
 		this.preferencesHelper = preferencesHelper;
+		authorization = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
 	}
 
 	public String sicLookup(String code){

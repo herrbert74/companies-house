@@ -6,6 +6,7 @@ import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.DaggerTestApplicationComponent;
 import com.babestudios.companieshouse.TestApplicationComponent;
 import com.babestudios.companieshouse.TestApplicationModule;
+import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.ui.company.CompanyPresenter;
@@ -17,7 +18,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 
@@ -36,32 +40,35 @@ public class SearchPresenterTest {
 	@InjectMocks
 	SearchPresenter searchPresenter;
 
-	@Mock
-	SearchActivity searchActivity;
+	//@Mock
+	//SearchActivity searchActivity;
 
 	SearchActivityView view;
 
+	@Inject
+	DataManager dataManager;
+
 	@Before
 	public void setUp() {
-
 		TestApplicationComponent component = DaggerTestApplicationComponent.builder()
 				.testApplicationModule(new TestApplicationModule(application)).build();
 		component.inject(searchPresenter);
-		final TiPresenterInstructor<SearchActivityView> instructor
-				= new TiPresenterInstructor<>(searchPresenter);
+		searchPresenter = new SearchPresenter(Mockito.mock(DataManager.class));
+		/*final TiPresenterInstructor<SearchActivityView> instructor
+				= new TiPresenterInstructor<>(searchPresenter);*/
+		searchPresenter.create();
 		view = mock(SearchActivityView.class);
 		/*CompaniesHouseApplication companiesHouseApplication = mock(CompaniesHouseApplication.class);
 		when(CompaniesHouseApplication.getInstance()).thenReturn(new CompaniesHouseApplication());
 		instructor.attachView(view);*/
 
+		searchPresenter.bindNewView(view);
 
 		when(searchPresenter.dataManager.searchCompanies(any(), any())).thenReturn(Observable.just(new CompanySearchResult()));
 		//searchPresenter.create();
 		//searchPresenter.bindNewView(searchActivity);
 	}
 
-	//TODO Currently these need static mocking.
-	/*
 	@Test
 	public void test_When_FabClicked_Then_View_ShowDeleteRecentSearchesDialogIsCalled() {
 		searchPresenter.onFabClicked();
@@ -74,7 +81,7 @@ public class SearchPresenterTest {
 		verify(view).startCompanyActivity(anyString());
 		verify(view).refreshRecentSearchesAdapter(any());
 	}
-	*/
+
 
 	@Test
 	public void test_When_Search_Then_DataManagerSearchCompaniesIsCalled() {

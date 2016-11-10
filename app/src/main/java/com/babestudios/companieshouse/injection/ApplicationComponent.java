@@ -1,13 +1,10 @@
 package com.babestudios.companieshouse.injection;
 
-import android.app.Application;
-import android.content.Context;
-
 import com.babestudios.companieshouse.CompaniesHouseApplication;
-import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.ui.company.CompanyPresenter;
 import com.babestudios.companieshouse.ui.favourites.FavouritesPresenter;
 import com.babestudios.companieshouse.ui.search.RecentSearchesResultsAdapter;
+import com.babestudios.companieshouse.ui.search.SearchActivity;
 import com.babestudios.companieshouse.ui.search.SearchPresenter;
 
 import javax.inject.Singleton;
@@ -24,13 +21,15 @@ public interface ApplicationComponent {
 
 	void inject(CompaniesHouseApplication companiesHouseApplication);
 
+	void inject(SearchActivity searchActivity);
+
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();
 
 	CompaniesHouseService getCompaniesHouseService();*/
 
-	Application application();
+	/*Application application();
 	@ApplicationContext Context context();
-	DataManager dataManager();
+	DataManager dataManager();*/
 
 }

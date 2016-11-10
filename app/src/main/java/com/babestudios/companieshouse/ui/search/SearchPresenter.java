@@ -31,18 +31,21 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	private ShowState showState = ShowState.RECENT_SEARCHES;
 
-	@Singleton
-	@Inject
 	DataManager dataManager;
 
 	private String queryText;
 
 	private boolean isFirstStart = true;
 
+	@Inject
+	public SearchPresenter(DataManager dataManager) {
+		this.dataManager = dataManager;
+	}
+
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 
 	}
 

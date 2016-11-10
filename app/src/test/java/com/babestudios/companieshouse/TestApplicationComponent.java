@@ -17,5 +17,4 @@ public interface TestApplicationComponent extends ApplicationComponent {
 	void inject(CompanyPresenter companyPresenter);
 	void inject(SearchPresenter searchPresenter);
 
-	DataManager dataManager();
 }

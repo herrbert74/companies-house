@@ -4,10 +4,12 @@ import android.app.Application;
 import android.content.Context;
 
 import com.babestudios.companieshouse.BuildConfig;
+import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
+import com.babestudios.companieshouse.utils.Base64Wrapper;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -22,7 +24,7 @@ public class ApplicationModule {
 
 	protected final Application application;
 
-	public ApplicationModule(Application application) {
+	public ApplicationModule(CompaniesHouseApplication application) {
 		this.application = application;
 	}
 
@@ -57,7 +59,12 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	DataManager provideDataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper) {
-		return new DataManager(companiesHouseService, preferencesHelper);
+	DataManager provideDataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
+		return new DataManager(companiesHouseService, preferencesHelper, base64Wrapper);
+	}
+
+	@Provides
+	Base64Wrapper provideBase64Wrapper() {
+		return new Base64Wrapper();
 	}
 }

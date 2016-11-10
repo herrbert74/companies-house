@@ -19,7 +19,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
+import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.ui.company.CompanyActivity;
@@ -31,6 +33,9 @@ import net.grandcentrix.thirtyinch.TiActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,10 +63,15 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	MenuItem searchMenuItem;
 
+	@Singleton
+	@Inject
+	DataManager dataManager;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		ButterKnife.bind(this);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
@@ -177,7 +187,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@NonNull
 	@Override
 	public SearchPresenter providePresenter() {
-		return new SearchPresenter();
+		return new SearchPresenter(dataManager);
 	}
 
 	@Override
