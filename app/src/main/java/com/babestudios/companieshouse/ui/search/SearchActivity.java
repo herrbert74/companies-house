@@ -71,7 +71,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+
 		ButterKnife.bind(this);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
@@ -187,6 +187,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@NonNull
 	@Override
 	public SearchPresenter providePresenter() {
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		return new SearchPresenter(dataManager);
 	}
 
