@@ -7,6 +7,7 @@ import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.local.ApiLookupHelper;
 import com.babestudios.companieshouse.data.model.company.Company;
+import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
@@ -43,9 +44,13 @@ public class DataManager {
 		return apiLookupHelper.accountTypeLookup(accountType);
 	}
 
-	public Observable<CompanySearchResult> searchCompanies(CharSequence queryText, String startPage) {
-		return companiesHouseService.searchCompanies(authorization, queryText.toString(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startPage)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+	public String filingHistoryLookup(String filingHistory){
+		return apiLookupHelper.filingHistoryDescriptionLookup(filingHistory);
+	}
+
+	public Observable<CompanySearchResult> searchCompanies(CharSequence queryText, String startItem) {
+		return companiesHouseService.searchCompanies(authorization, queryText.toString(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
@@ -59,6 +64,12 @@ public class DataManager {
 
 	public Observable<Company> getCompany(String companyNumber) {
 		return companiesHouseService.getCompany(authorization, companyNumber)
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	public Observable<FilingHistoryList> getFilingHistory(String companyNumber, String category, String startItem) {
+		return companiesHouseService.getFilingHistory(authorization, companyNumber, category, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());
 	}

@@ -9,23 +9,18 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.babestudios.companieshouse.R;
-import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.ui.company.CompanyActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
-import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -34,8 +29,6 @@ import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.R.attr.colorBackground;
 
 public class FavouritesActivity extends TiActivity<FavouritesPresenter, FavouritesActivityView> implements FavouritesActivityView, FavouritesAdapter.FavouritesRecyclerViewClickListener {
 

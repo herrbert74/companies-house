@@ -10,6 +10,8 @@ android {
 			buildConfigField 'String', 'COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE', '"100"';
 
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_COMPANY_ENDPOINT', '"company/{companyNumber}"';
+
+			buildConfigField 'String', 'COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT', '"company/{companyNumber}/filing-history"';
 		}
 	}
 }

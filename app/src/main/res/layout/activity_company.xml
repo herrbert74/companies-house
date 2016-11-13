@@ -30,111 +30,208 @@
 		android:layout_margin="@dimen/fab_margin"
 		app:srcCompat="@drawable/favorite_vector"/>
 
-	<LinearLayout
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_below="@id/appbar"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"
-		android:orientation="vertical">
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<ProgressBar
-			android:id="@+id/progressbar"
-			android:layout_width="100dp"
-			android:layout_height="100dp"
-			android:layout_gravity="center"
-			android:indeterminate="true"
-			android:indeterminateBehavior="cycle"
-			android:visibility="gone"/>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
 
-		<TextView
-			android:id="@+id/tv_incorporated"
-			style="@style/Text"
-			android:layout_marginBottom="@dimen/view_margin_small"
-			android:layout_marginTop="@dimen/view_margin_small"
-			tools:text="Incorporated on 2016 August 3"/>
+			<ProgressBar
+				android:id="@+id/progressbar"
+				android:layout_width="100dp"
+				android:layout_height="100dp"
+				android:layout_gravity="center"
+				android:indeterminate="true"
+				android:indeterminateBehavior="cycle"
+				android:visibility="gone"/>
 
-		<include
-			layout="@layout/divider"/>
+			<TextView
+				android:id="@+id/tv_incorporated"
+				style="@style/Text"
+				android:layout_marginBottom="@dimen/view_margin_small"
+				android:layout_marginTop="@dimen/view_margin_small"
+				tools:text="Incorporated on 2016 August 3"/>
 
-		<TextView
-			style="@style/Text.Title"
-			android:text="@string/company_number"/>
+			<include
+				layout="@layout/divider"/>
 
-		<TextView
-			android:id="@+id/tv_company_number"
-			style="@style/Text"
-			android:layout_marginBottom="@dimen/view_margin_small"
-			tools:text="08762819"/>
+			<TextView
+				style="@style/Text.Title"
+				android:text="@string/company_number"/>
 
-		<include
-			layout="@layout/divider"/>
+			<TextView
+				android:id="@+id/tv_company_number"
+				style="@style/Text"
+				android:layout_marginBottom="@dimen/view_margin_small"
+				tools:text="08762819"/>
 
-		<TextView
-			style="@style/Text.Title"
-			android:text="@string/office_address"/>
+			<include
+				layout="@layout/divider"/>
 
-		<TextView
-			android:id="@+id/tv_address_line_1"
-			style="@style/Text"
-			tools:text="3 Hendon Place"/>
+			<TextView
+				style="@style/Text.Title"
+				android:text="@string/office_address"/>
 
-		<TextView
-			android:id="@+id/tv_address_line_2"
-			style="@style/Text"
-			android:visibility="gone"/>
+			<TextView
+				android:id="@+id/tv_address_line_1"
+				style="@style/Text"
+				tools:text="3 Hendon Place"/>
 
-		<TextView
-			android:id="@+id/tv_address_locality"
-			style="@style/Text"
-			tools:text="Kingston"/>
+			<TextView
+				android:id="@+id/tv_address_line_2"
+				style="@style/Text"
+				android:visibility="gone"/>
 
-		<TextView
-			android:id="@+id/tv_address_postal_code"
-			style="@style/Text"
-			android:layout_marginBottom="@dimen/view_margin_small"
-			tools:text="KT6 2LP"/>
+			<TextView
+				android:id="@+id/tv_address_locality"
+				style="@style/Text"
+				tools:text="Kingston"/>
 
-		<include
-			layout="@layout/divider"/>
+			<TextView
+				android:id="@+id/tv_address_postal_code"
+				style="@style/Text"
+				android:layout_marginBottom="@dimen/view_margin_small"
+				tools:text="KT6 2LP"/>
 
-		<TextView
-			style="@style/Text.Title"
-			android:text="@string/company_nature_of_business"/>
+			<include
+				layout="@layout/divider"/>
 
-		<TextView
-			android:id="@+id/tv_nature_of_business"
-			style="@style/Text"
-			android:layout_marginBottom="@dimen/view_margin_small"
-			tools:text="Growing of rice"/>
+			<TextView
+				style="@style/Text.Title"
+				android:text="@string/company_nature_of_business"/>
 
-		<include
-			layout="@layout/divider"/>
+			<TextView
+				android:id="@+id/tv_nature_of_business"
+				style="@style/Text"
+				android:layout_marginBottom="@dimen/view_margin_small"
+				tools:text="Growing of rice"/>
 
-		<TextView
-			style="@style/Text.Title"
-			android:text="@string/company_accounts"/>
+			<include
+				layout="@layout/divider"/>
 
-		<TextView
-			android:id="@+id/tv_accounts"
-			style="@style/Text"
-			android:layout_marginBottom="@dimen/view_margin_small"
-			tools:text="Last DORMANT account made up to 29 February 2016"/>
+			<TextView
+				style="@style/Text.Title"
+				android:text="@string/company_accounts"/>
 
-		<include
-			layout="@layout/divider"/>
+			<TextView
+				android:id="@+id/tv_accounts"
+				style="@style/Text"
+				android:layout_marginBottom="@dimen/view_margin_small"
+				tools:text="Last DORMANT account made up to 29 February 2016"/>
 
-		<TextView
-			style="@style/Text.Title"
-			android:text="@string/company_annual_returns"/>
+			<include
+				layout="@layout/divider"/>
 
-		<TextView
-			android:id="@+id/tv_annual_returns"
-			style="@style/Text"
-			android:layout_marginBottom="@dimen/view_margin_small"
-			tools:text="Last made up to 13 February 2016"/>
+			<TextView
+				style="@style/Text.Title"
+				android:text="@string/company_annual_returns"/>
 
-		<include
-			layout="@layout/divider"/>
-	</LinearLayout>
+			<TextView
+				android:id="@+id/tv_annual_returns"
+				style="@style/Text"
+				android:layout_marginBottom="@dimen/view_margin_small"
+				tools:text="Last made up to 13 February 2016"/>
+
+			<include
+				layout="@layout/divider"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:clickable="true"
+				android:onClick="onFilingHistoryClicked">
+
+				<ImageView
+					android:layout_width="24dp"
+					android:layout_height="24dp"
+					android:layout_margin="@dimen/view_margin"
+					app:srcCompat="@drawable/company_filing_history_vector"/>
+
+				<TextView
+					style="@style/Text"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					android:text="Filing history"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					app:srcCompat="@drawable/company_insolvency_vector"/>
+
+				<TextView
+					style="@style/Text"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					android:text="Insolvency"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					app:srcCompat="@drawable/company_charges_vector"/>
+
+				<TextView
+					style="@style/Text"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					android:text="Charges"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					app:srcCompat="@drawable/company_officers_vector"/>
+
+				<TextView
+					style="@style/Text"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					android:text="Officers"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					app:srcCompat="@drawable/company_persons_with_control_vector"/>
+
+				<TextView
+					style="@style/Text"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/view_margin"
+					android:text="Persons with significant control"/>
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

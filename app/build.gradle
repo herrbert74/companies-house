@@ -48,6 +48,8 @@ dependencies {
 	def thirtyInchVersion = '0.7.1'
 	def retrofitVersion = '2.1.0'
 	def daggerVersion = '2.0.2'
+	def rxJavaVersion = '1.2.2'
+	def jUnitVersion = '4.12'
 
 	//support
 	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -68,7 +70,7 @@ dependencies {
 	
 	//RxJava
 	compile 'io.reactivex:rxandroid:1.0.1'
-	compile 'io.reactivex:rxjava:1.0.14'
+	compile "io.reactivex:rxjava:$rxJavaVersion"
 
 	//Dagger
 	apt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -78,11 +80,11 @@ dependencies {
 	provided 'javax.annotation:jsr250-api:1.0'
 
 	//Test
-	testCompile 'junit:junit:4.12'
+	testCompile "junit:junit:$jUnitVersion"
 	testCompile 'org.mockito:mockito-core:1.10.19'
 	testCompile 'org.hamcrest:hamcrest-library:1.1'
 	testApt "com.google.dagger:dagger-compiler:$daggerVersion"
-	androidTestCompile 'junit:junit:4.12'
+	androidTestCompile "junit:junit:$jUnitVersion"
 	androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}

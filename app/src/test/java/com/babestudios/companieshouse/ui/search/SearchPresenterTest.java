@@ -2,16 +2,11 @@ package com.babestudios.companieshouse.ui.search;
 
 import android.app.Application;
 
-import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.DaggerTestApplicationComponent;
 import com.babestudios.companieshouse.TestApplicationComponent;
 import com.babestudios.companieshouse.TestApplicationModule;
 import com.babestudios.companieshouse.data.DataManager;
-import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
-import com.babestudios.companieshouse.ui.company.CompanyPresenter;
-
-import net.grandcentrix.thirtyinch.test.TiPresenterInstructor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +36,7 @@ public class SearchPresenterTest {
 	SearchPresenter searchPresenter;
 
 	//@Mock
-	//SearchActivity searchActivity;
+	//FilingHistoryActivity searchActivity;
 
 	SearchActivityView view;
 

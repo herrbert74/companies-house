@@ -3,7 +3,6 @@ package com.babestudios.companieshouse.ui.search;
 import android.util.Log;
 
 import com.babestudios.companieshouse.BuildConfig;
-import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -13,7 +12,6 @@ import net.grandcentrix.thirtyinch.TiPresenter;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import rx.Observer;
 
@@ -79,6 +77,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	public void onNext(CompanySearchResult companySearchResult) {
 		showState = ShowState.SEARCH;
 		getView().hideProgress();
+		Log.d("test", "onNext: " + companySearchResult.items.size());
 		getView().showCompanySearchResult(companySearchResult);
 		getView().changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 	}

@@ -6,7 +6,6 @@ import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.utils.Base64Wrapper;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,11 +14,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import rx.Observable;
-import rx.Scheduler;
-import rx.android.plugins.RxAndroidPlugins;
-import rx.android.plugins.RxAndroidSchedulersHook;
 import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -27,6 +22,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataManagerTest {
+
 	@Mock
 	CompaniesHouseService mockCompaniesHouseService;
 
@@ -40,23 +36,28 @@ public class DataManagerTest {
 
 	@Rule
 	public final RxSchedulersOverrideRule overrideSchedulersRule = new RxSchedulersOverrideRule();
+	private CompanySearchResult companySearchResult;
 
 	@Before
 	public void setUp() {
 		dataManager = new DataManager(mockCompaniesHouseService, mockPreferencesHelper, base64Wrapper);
 		//authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
+		companySearchResult = new CompanySearchResult();
+		doReturn(Observable.just(companySearchResult))
+				.when(mockCompaniesHouseService)
+				.searchCompanies(anyString(), anyString(), anyString(), anyString());
 	}
 
 	@Test
 	public void test_searchCompanies_successful(){
-		CompanySearchResult companySearchResult = new CompanySearchResult();
-		doReturn(Observable.just(companySearchResult))
-				.when(mockCompaniesHouseService)
-				.searchCompanies(anyString(), anyString(), anyString(), anyString());
+
+
+		//RxJavaHooks.setOnGenericScheduledExecutorService(Schedulers.immediate());
 
 		TestSubscriber<CompanySearchResult> testSubscriber = new TestSubscriber<>();
 		dataManager.searchCompanies("Games", "0").subscribe(testSubscriber);
-		//testSubscriber.assertValue(companySearchResult);
+		testSubscriber.assertTerminalEvent();
+		testSubscriber.assertValue(companySearchResult);
 		testSubscriber.assertCompleted();
 		testSubscriber.assertNoErrors();
 

@@ -24,6 +24,7 @@
 		<activity
 			android:name=".ui.favourites.FavouritesActivity"
 			android:label="@string/favourites"/>
+		<activity android:name=".ui.filinghistory.FilingHistoryActivity"/>
 	</application>
 
 </manifest>

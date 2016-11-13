@@ -2,6 +2,7 @@ package com.babestudios.companieshouse.data.network;
 
 import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.data.model.company.Company;
+import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 
 import retrofit2.http.GET;
@@ -20,6 +21,14 @@ public interface CompaniesHouseService {
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_COMPANY_ENDPOINT)
 	Observable<Company> getCompany(@Header("Authorization") String authorization,
 								   @Path("companyNumber") String companyNumber);
+
+
+	@GET(BuildConfig.COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT)
+	Observable<FilingHistoryList> getFilingHistory(@Header("Authorization") String authorization,
+												   @Path("companyNumber") String companyNumber,
+												   @Query("category") String category,
+												   @Query("items_per_page") String itemsPerPage,
+												   @Query("start_index") String startIndex);
 }
 
 

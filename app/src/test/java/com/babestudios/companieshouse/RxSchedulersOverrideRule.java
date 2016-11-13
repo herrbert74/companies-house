@@ -23,6 +23,7 @@ import rx.schedulers.Schedulers;
 public class RxSchedulersOverrideRule implements TestRule {
 
     private final RxJavaSchedulersHook mRxJavaSchedulersHook = new RxJavaSchedulersHook() {
+
         @Override
         public Scheduler getIOScheduler() {
             return Schedulers.immediate();
@@ -39,6 +40,8 @@ public class RxSchedulersOverrideRule implements TestRule {
         public Scheduler getMainThreadScheduler() {
             return Schedulers.immediate();
         }
+
+
     };
 
     // Hack to get around RxJavaPlugins.reset() not being public
