@@ -28,7 +28,7 @@ public class ChargesItem {
 	@SerializedName("id")
 	public String id;
 	@SerializedName("insolvency_cases")
-	public List<InsolvencyCase> insolvencyCases = new ArrayList<InsolvencyCase>();
+	public List<InsolvencyCase> insolvencyCases = new ArrayList<>();
 	@SerializedName("links")
 	public ChargesItemLinks links;
 	@SerializedName("more_than_four_persons_entitled")
@@ -36,7 +36,7 @@ public class ChargesItem {
 	@SerializedName("particulars")
 	public Particulars particulars;
 	@SerializedName("persons_entitled")
-	public List<PersonsEntitled> personsEntitled = new ArrayList<PersonsEntitled>();
+	public List<PersonsEntitled> personsEntitled = new ArrayList<>();
 	@SerializedName("resolved_on")
 	public String resolvedOn;
 	@SerializedName("satisfied_on")
@@ -48,5 +48,5 @@ public class ChargesItem {
 	@SerializedName("status")
 	public String status;
 	@SerializedName("transactions")
-	public List<Transaction> transactions = new ArrayList<Transaction>();
+	public List<Transaction> transactions = new ArrayList<>();
 }

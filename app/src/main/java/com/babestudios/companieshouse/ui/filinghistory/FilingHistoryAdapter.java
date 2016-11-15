@@ -3,7 +3,6 @@ package com.babestudios.companieshouse.ui.filinghistory;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,7 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 	class FilingHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		@Bind(R.id.lblDate)
 		TextView lblDate;
-		@Bind(R.id.lblDescription)
+		@Bind(R.id.lblStatus)
 		TextView lblDescription;
 		@Bind(R.id.lblCategory)
 		TextView lblCategory;
@@ -85,7 +84,6 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 	void addItems(FilingHistoryList filingHistoryList) {
 		this.filingHistoryList.items.addAll(filingHistoryList.items);
-		Log.d("test", "addItems: " + filingHistoryList.items.size());
 		notifyDataSetChanged();
 	}
 }

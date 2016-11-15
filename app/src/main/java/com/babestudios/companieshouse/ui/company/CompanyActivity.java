@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.local.ApiLookupHelper;
 import com.babestudios.companieshouse.data.model.company.Company;
+import com.babestudios.companieshouse.ui.charges.ChargesActivity;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryActivity;
 import com.babestudios.companieshouse.utils.DateUtil;
 
@@ -141,6 +142,12 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	public void onFilingHistoryClicked(View view) {
 		Intent intent = new Intent(this, FilingHistoryActivity.class);
+		intent.putExtra("companyNumber", companyNumber);
+		startActivity(intent);
+	}
+
+	public void onChargesClicked(View view) {
+		Intent intent = new Intent(this, ChargesActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
 	}

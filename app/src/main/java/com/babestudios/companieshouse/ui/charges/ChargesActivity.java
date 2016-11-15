@@ -1,18 +1,18 @@
-package com.babestudios.companieshouse.ui.filinghistory;
+package com.babestudios.companieshouse.ui.charges;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
-import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
+import com.babestudios.companieshouse.data.model.charges.Charges;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 
@@ -24,15 +24,18 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, FilingHistoryActivityView> implements FilingHistoryActivityView, FilingHistoryAdapter.FilingHistoryRecyclerViewClickListener {
+public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivityView> implements ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.filing_history_recycler_view)
-	RecyclerView filingHistoryRecyclerView;
+	@Bind(R.id.charges_recycler_view)
+	RecyclerView chargesRecyclerView;
 
-	private FilingHistoryAdapter filingHistoryAdapter;
+	@Bind(R.id.lblNoCharges)
+	TextView lblNoCharges;
+
+	private ChargesAdapter chargesAdapter;
 
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
@@ -46,7 +49,7 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_filing_history);
+		setContentView(R.layout.activity_charges);
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
@@ -55,20 +58,20 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
 		companyNumber = getIntent().getStringExtra("companyNumber");
-		createFilingHistoryRecyclerView();
+		createChargesRecyclerView();
 
 
 	}
-	private void createFilingHistoryRecyclerView() {
+	private void createChargesRecyclerView() {
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-		filingHistoryRecyclerView.setLayoutManager(linearLayoutManager);
-		filingHistoryRecyclerView.addItemDecoration(
+		chargesRecyclerView.setLayoutManager(linearLayoutManager);
+		chargesRecyclerView.addItemDecoration(
 				new DividerItemDecoration(this));
 
-		filingHistoryRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		chargesRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
-				getPresenter().loadMoreFilingHistory(page);
+				getPresenter().loadMoreCharges(page);
 			}
 		});
 	}
@@ -85,24 +88,24 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 
 
 	@Override
-	public void showFilingHistory(FilingHistoryList filingHistoryList) {
-		if (filingHistoryRecyclerView.getAdapter() == null) {
-			filingHistoryAdapter = new FilingHistoryAdapter(FilingHistoryActivity.this, filingHistoryList, dataManager);
-			filingHistoryRecyclerView.setAdapter(filingHistoryAdapter);
+	public void showCharges(Charges charges) {
+		if (chargesRecyclerView.getAdapter() == null) {
+			chargesAdapter = new ChargesAdapter(ChargesActivity.this, charges, dataManager);
+			chargesRecyclerView.setAdapter(chargesAdapter);
 		} else {
-			filingHistoryAdapter.addItems(filingHistoryList);
+			chargesAdapter.addItems(charges);
 		}
 	}
 
 	@NonNull
 	@Override
-	public FilingHistoryPresenter providePresenter() {
+	public ChargesPresenter providePresenter() {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new FilingHistoryPresenter(dataManager);
+		return new ChargesPresenter(dataManager);
 	}
 
 	@Override
-	public void searchResultItemClicked(View v, int position, String companyName, String companyNumber) {
+	public void chargesItemClicked(View v, int position, String companyName, String companyNumber) {
 
 	}
 
@@ -112,7 +115,9 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	}
 
 	@Override
-	public String getFilingCategory() {
-		return null;
+	public void showNoCharges() {
+		lblNoCharges.setVisibility(View.VISIBLE);
+		chargesRecyclerView.setVisibility(View.GONE);
 	}
+
 }

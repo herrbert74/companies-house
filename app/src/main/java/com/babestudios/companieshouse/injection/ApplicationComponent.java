@@ -1,6 +1,7 @@
 package com.babestudios.companieshouse.injection;
 
 import com.babestudios.companieshouse.CompaniesHouseApplication;
+import com.babestudios.companieshouse.ui.charges.ChargesActivity;
 import com.babestudios.companieshouse.ui.company.CompanyPresenter;
 import com.babestudios.companieshouse.ui.favourites.FavouritesPresenter;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryActivity;
@@ -25,6 +26,8 @@ public interface ApplicationComponent {
 	void inject(SearchActivity searchActivity);
 
 	void inject(FilingHistoryActivity filingHistoryActivity);
+
+	void inject(ChargesActivity chargesActivity);
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

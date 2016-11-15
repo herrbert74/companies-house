@@ -6,8 +6,12 @@ import android.util.Base64;
 import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.local.ApiLookupHelper;
+import com.babestudios.companieshouse.data.model.charges.Charges;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
+import com.babestudios.companieshouse.data.model.insolvency.Insolvency;
+import com.babestudios.companieshouse.data.model.officers.Officers;
+import com.babestudios.companieshouse.data.model.persons.Persons;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
@@ -36,15 +40,15 @@ public class DataManager {
 		authorization = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
 	}
 
-	public String sicLookup(String code){
+	public String sicLookup(String code) {
 		return apiLookupHelper.sicLookup(code);
 	}
 
-	public String accountTypeLookup(String accountType){
+	public String accountTypeLookup(String accountType) {
 		return apiLookupHelper.accountTypeLookup(accountType);
 	}
 
-	public String filingHistoryLookup(String filingHistory){
+	public String filingHistoryLookup(String filingHistory) {
 		return apiLookupHelper.filingHistoryDescriptionLookup(filingHistory);
 	}
 
@@ -54,11 +58,11 @@ public class DataManager {
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
-	public ArrayList<SearchHistoryItem> addRecentSearchItem(SearchHistoryItem searchHistoryItem){
+	public ArrayList<SearchHistoryItem> addRecentSearchItem(SearchHistoryItem searchHistoryItem) {
 		return preferencesHelper.addRecentSearch(searchHistoryItem);
 	}
 
-	public SearchHistoryItem[] getRecentSearches(){
+	public SearchHistoryItem[] getRecentSearches() {
 		return preferencesHelper.getRecentSearches();
 	}
 
@@ -74,6 +78,30 @@ public class DataManager {
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
+	public Observable<Charges> getCharges(String companyNumber, String startItem) {
+		return companiesHouseService.getCharges(authorization, companyNumber, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	public Observable<Insolvency> getInsolvency(String companyNumber) {
+		return companiesHouseService.getInsolvency(authorization, companyNumber)
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	public Observable<Officers> getOfficers(String companyNumber, String startItem) {
+		return companiesHouseService.getOfficers(authorization, companyNumber, null, null, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	public Observable<Persons> getPersons(String companyNumber, String startItem) {
+		return companiesHouseService.getPersons(authorization, companyNumber, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
 	public void clearAllRecentSearches() {
 		preferencesHelper.clearAllRecentSearches();
 	}
@@ -82,7 +110,7 @@ public class DataManager {
 		preferencesHelper.addFavourite(searchHistoryItem);
 	}
 
-	public SearchHistoryItem[] getFavourites(){
+	public SearchHistoryItem[] getFavourites() {
 		return preferencesHelper.getFavourites();
 	}
 

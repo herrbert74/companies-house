@@ -18,4 +18,5 @@
 	<string name="company_annual_returns_formatted_text">Last made up to %1$s</string>
 	<string name="company_accounts_not_found">Accounts not found</string>
 	<string name="company_annual_returns_not_found">Annual returns not found</string>
+	<string name="no_charges">No Charges</string>
 </resources>
