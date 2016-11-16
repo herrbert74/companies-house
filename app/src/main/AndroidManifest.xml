@@ -26,6 +26,7 @@
 			android:label="@string/favourites"/>
 		<activity android:name=".ui.filinghistory.FilingHistoryActivity"/>
 		<activity android:name=".ui.charges.ChargesActivity"/>
+		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
 	</application>
 
 </manifest>

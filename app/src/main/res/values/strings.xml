@@ -19,4 +19,5 @@
 	<string name="company_accounts_not_found">Accounts not found</string>
 	<string name="company_annual_returns_not_found">Annual returns not found</string>
 	<string name="no_charges">No Charges</string>
+	<string name="no_insolvency">No insolvency</string>
 </resources>

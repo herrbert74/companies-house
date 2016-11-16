@@ -6,15 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.babestudios.companieshouse.R;
-import com.babestudios.companieshouse.data.local.ApiLookupHelper;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.ui.charges.ChargesActivity;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryActivity;
+import com.babestudios.companieshouse.ui.insolvency.InsolvencyActivity;
 import com.babestudios.companieshouse.utils.DateUtil;
 
 import net.grandcentrix.thirtyinch.TiActivity;
@@ -148,6 +147,12 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	public void onChargesClicked(View view) {
 		Intent intent = new Intent(this, ChargesActivity.class);
+		intent.putExtra("companyNumber", companyNumber);
+		startActivity(intent);
+	}
+
+	public void onInsolvencyClicked(View view) {
+		Intent intent = new Intent(this, InsolvencyActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
 	}

@@ -59,7 +59,7 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 	class FilingHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		@Bind(R.id.lblDate)
 		TextView lblDate;
-		@Bind(R.id.lblStatus)
+		@Bind(R.id.lblDescription)
 		TextView lblDescription;
 		@Bind(R.id.lblCategory)
 		TextView lblCategory;

@@ -36,7 +36,7 @@ public class SearchPresenterTest {
 	SearchPresenter searchPresenter;
 
 	//@Mock
-	//ChargesActivity searchActivity;
+	//InsolvencyActivity searchActivity;
 
 	SearchActivityView view;
 
