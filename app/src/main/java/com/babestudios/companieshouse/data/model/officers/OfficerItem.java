@@ -24,4 +24,6 @@ public class OfficerItem {
 	public String countryOfResidence;
 	@SerializedName("nationality")
 	public String nationality;
+	@SerializedName("resigned_on")
+	public String resignedOn;
 }

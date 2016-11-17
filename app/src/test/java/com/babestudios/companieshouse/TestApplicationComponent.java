@@ -1,6 +1,5 @@
 package com.babestudios.companieshouse;
 
-import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.injection.ApplicationComponent;
 import com.babestudios.companieshouse.ui.company.CompanyPresenter;
 import com.babestudios.companieshouse.ui.company.CompanyPresenterTest;

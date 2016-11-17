@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:gravity="center"
+			  android:orientation="vertical"
+			  android:paddingBottom="@dimen/view_margin_small">
+
+	<TextView
+		android:id="@+id/lblName"
+		style="@style/Text.Bold"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="start"
+		tools:text="DOE, Joe"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/lblAppointedOn"
+			style="@style/Text"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			tools:text="2016-10-16"/>
+
+		<TextView
+			android:id="@+id/lblRole"
+			style="@style/Text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			tools:text="Director"/>
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/lblResignedOn"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="start"
+		tools:text="2016-10-17"/>
+
+</LinearLayout>

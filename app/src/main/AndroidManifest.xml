@@ -27,6 +27,7 @@
 		<activity android:name=".ui.filinghistory.FilingHistoryActivity"/>
 		<activity android:name=".ui.charges.ChargesActivity"/>
 		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
+		<activity android:name=".ui.officers.OfficersActivity"/>
 	</application>
 
 </manifest>

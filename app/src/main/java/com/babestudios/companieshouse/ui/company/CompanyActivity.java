@@ -14,6 +14,7 @@ import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.ui.charges.ChargesActivity;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryActivity;
 import com.babestudios.companieshouse.ui.insolvency.InsolvencyActivity;
+import com.babestudios.companieshouse.ui.officers.OfficersActivity;
 import com.babestudios.companieshouse.utils.DateUtil;
 
 import net.grandcentrix.thirtyinch.TiActivity;
@@ -153,6 +154,12 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	public void onInsolvencyClicked(View view) {
 		Intent intent = new Intent(this, InsolvencyActivity.class);
+		intent.putExtra("companyNumber", companyNumber);
+		startActivity(intent);
+	}
+
+	public void onOfficersClicked(View view) {
+		Intent intent = new Intent(this, OfficersActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
 	}
