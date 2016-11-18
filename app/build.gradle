@@ -50,6 +50,7 @@ dependencies {
 	def daggerVersion = '2.0.2'
 	def rxJavaVersion = '1.2.2'
 	def jUnitVersion = '4.12'
+	def okHttp3Version = '3.3.0'
 
 	//support
 	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -64,7 +65,11 @@ dependencies {
 	compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
 	compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
 	compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
 	testCompile "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+
+	//OkHttp3
+	debugCompile "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
 
 	compile 'com.jakewharton:butterknife:7.0.1'
 	

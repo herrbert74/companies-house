@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.filinghistory;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.babestudios.companieshouse.BuildConfig;
@@ -35,7 +36,8 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 		getFilingHistory();
 	}
 
-	private void getFilingHistory() {
+	@VisibleForTesting
+	public void getFilingHistory() {
 		dataManager.getFilingHistory(getView().getCompanyNumber(), getView().getFilingCategory(), "0").subscribe(this);
 	}
 

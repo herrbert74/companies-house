@@ -1,10 +1,11 @@
-package com.babestudios.companieshouse.ui.insolvency;
+package com.babestudios.companieshouse.ui.persons;
 
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.data.DataManager;
-import com.babestudios.companieshouse.data.model.insolvency.Insolvency;
+import com.babestudios.companieshouse.data.model.persons.Persons;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
@@ -13,12 +14,12 @@ import javax.inject.Inject;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 
-public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> implements Observer<Insolvency> {
+public class PersonsPresenter extends TiPresenter<PersonsActivityView> implements Observer<Persons> {
 
 	DataManager dataManager;
 
 	@Inject
-	public InsolvencyPresenter(DataManager dataManager) {
+	public PersonsPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
 
@@ -33,12 +34,12 @@ public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> imp
 	protected void onWakeUp() {
 		super.onWakeUp();
 		getView().showProgress();
-		getInsolvency();
+		getPersons();
 	}
 
 	@VisibleForTesting
-	public void getInsolvency() {
-		dataManager.getInsolvency(getView().getCompanyNumber()).subscribe(this);
+	public void getPersons() {
+		dataManager.getPersons(getView().getCompanyNumber(), "0").subscribe(this);
 	}
 
 	@Override
@@ -49,23 +50,19 @@ public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> imp
 	public void onError(Throwable e) {
 		getView().hideProgress();
 		Log.d("test", "onError: " + e.fillInStackTrace());
-		if(e instanceof HttpException){
+		if (e instanceof HttpException) {
 			HttpException h = (HttpException) e;
-			if(h.code() == 404){
-				getView().showNoInsolvency();
+			Log.d("test", "onError: " + h.code());
+			if (h.code() == 404) {
+				getView().showNoPersons();
 			}
 		}
 	}
 
 	@Override
-	public void onNext(Insolvency insolvency) {
+	public void onNext(Persons persons) {
 		getView().hideProgress();
-		if(insolvency != null) {
-			getView().showInsolvency(insolvency);
-		} else {
-			getView().showNoInsolvency();
-		}
-
+		getView().showPersons(persons);
 	}
 
 	@Override

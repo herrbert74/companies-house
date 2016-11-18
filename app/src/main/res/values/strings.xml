@@ -20,4 +20,5 @@
 	<string name="company_annual_returns_not_found">Annual returns not found</string>
 	<string name="no_charges">No Charges</string>
 	<string name="no_insolvency">No insolvency</string>
+	<string name="no_person_with_significant_control">No person with significant control</string>
 </resources>

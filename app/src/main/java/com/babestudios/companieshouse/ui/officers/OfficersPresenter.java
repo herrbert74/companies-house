@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.officers;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.babestudios.companieshouse.BuildConfig;
@@ -36,7 +37,8 @@ public class OfficersPresenter extends TiPresenter<OfficersActivityView> impleme
 		getOfficers();
 	}
 
-	private void getOfficers() {
+	@VisibleForTesting
+	public void getOfficers() {
 		dataManager.getOfficers(getView().getCompanyNumber(), "0").subscribe(this);
 	}
 

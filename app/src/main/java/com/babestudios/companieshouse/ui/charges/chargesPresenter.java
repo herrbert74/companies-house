@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.charges;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.babestudios.companieshouse.BuildConfig;
@@ -36,7 +37,8 @@ public class ChargesPresenter extends TiPresenter<ChargesActivityView> implement
 		getCharges();
 	}
 
-	private void getCharges() {
+	@VisibleForTesting
+	public void getCharges() {
 		dataManager.getCharges(getView().getCompanyNumber(), "0").subscribe(this);
 	}
 

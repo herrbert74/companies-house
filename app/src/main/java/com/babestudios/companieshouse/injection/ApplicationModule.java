@@ -16,6 +16,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
@@ -33,10 +35,16 @@ public class ApplicationModule {
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
 	Retrofit provideCompaniesHouseRetrofit() {
+		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+		OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+		httpClient.addInterceptor(logging);
 		return new Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
 				.addConverterFactory(AdvancedGsonConverterFactory.create())//
+				.client(httpClient.build())//
 				.build();
 	}
 

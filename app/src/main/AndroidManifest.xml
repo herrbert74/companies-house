@@ -28,6 +28,7 @@
 		<activity android:name=".ui.charges.ChargesActivity"/>
 		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
 		<activity android:name=".ui.officers.OfficersActivity"/>
+		<activity android:name=".ui.persons.PersonsActivity"/>
 	</application>
 
 </manifest>

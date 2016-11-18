@@ -7,6 +7,7 @@ import com.babestudios.companieshouse.ui.favourites.FavouritesPresenter;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryActivity;
 import com.babestudios.companieshouse.ui.insolvency.InsolvencyActivity;
 import com.babestudios.companieshouse.ui.officers.OfficersActivity;
+import com.babestudios.companieshouse.ui.persons.PersonsActivity;
 import com.babestudios.companieshouse.ui.search.RecentSearchesResultsAdapter;
 import com.babestudios.companieshouse.ui.search.SearchActivity;
 import com.babestudios.companieshouse.ui.search.SearchPresenter;
@@ -34,6 +35,8 @@ public interface ApplicationComponent {
 	void inject(InsolvencyActivity insolvencyActivity);
 
 	void inject(OfficersActivity officersActivity);
+
+	void inject(PersonsActivity personsActivity);
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();
