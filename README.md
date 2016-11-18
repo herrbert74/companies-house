@@ -7,13 +7,23 @@ Companies House does have an application, but it is outdated and doesn't contain
 * You need Android Studio and you are good to go
 * Also available on Google Play (soon)
 
-### Implemented features ###
+### App screen levels ###
 
-* Company search
-* Recent searches
-* Company details page
+* List of companies (One of Search/Recent Searches/Favourites; starts with empty search screen)
+* Company screen
+* Specialized screens (Filing History/Charges/Insolvency/Officers/Persons with Significant Control)
+* Specialized detail screens (Not implemented yet)
+* Officer appointments (opens from the Officer Details screen; Not implemented yet)
 
-### Not yet implemented features ###
+### Technology highlights ###
 
-* Drill down from company details page to officers, filings, insolvency, charges and ownership data
-* Lot of tests are currently missing.
+* Retrofit with RxJava is used for networking.
+* MVP architecture for easy testing.
+* Large part of the presenters are unit tested.
+
+### Roadmap ###
+
+* UI tests with Espresso.
+* Animations.
+    * Search/Delete action buttons appearance/disappearance.
+    * Activity transactions.
