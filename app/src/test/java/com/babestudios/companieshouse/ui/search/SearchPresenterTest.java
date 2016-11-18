@@ -16,8 +16,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.inject.Inject;
-
 import rx.Observable;
 
 import static org.mockito.Matchers.any;
@@ -35,33 +33,18 @@ public class SearchPresenterTest {
 	@InjectMocks
 	SearchPresenter searchPresenter;
 
-	//@Mock
-	//InsolvencyActivity searchActivity;
-
-	SearchActivityView view;
-
-	@Inject
-	DataManager dataManager;
+	private SearchActivityView view;
 
 	@Before
 	public void setUp() {
-		TestApplicationComponent component = DaggerTestApplicationComponent.builder()
-				.testApplicationModule(new TestApplicationModule(application)).build();
+		TestApplicationComponent component = DaggerTestApplicationComponent.builder().testApplicationModule(new TestApplicationModule
+				(application)).build();
 		component.inject(searchPresenter);
 		searchPresenter = new SearchPresenter(Mockito.mock(DataManager.class));
-		/*final TiPresenterInstructor<SearchActivityView> instructor
-				= new TiPresenterInstructor<>(searchPresenter);*/
 		searchPresenter.create();
 		view = mock(SearchActivityView.class);
-		/*CompaniesHouseApplication companiesHouseApplication = mock(CompaniesHouseApplication.class);
-		when(CompaniesHouseApplication.getInstance()).thenReturn(new CompaniesHouseApplication());
-		instructor.attachView(view);*/
-
 		searchPresenter.bindNewView(view);
-
 		when(searchPresenter.dataManager.searchCompanies(any(), any())).thenReturn(Observable.just(new CompanySearchResult()));
-		//searchPresenter.create();
-		//searchPresenter.bindNewView(searchActivity);
 	}
 
 	@Test
