@@ -27,6 +27,7 @@ import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.ui.company.CompanyActivity;
 import com.babestudios.companieshouse.ui.favourites.FavouritesActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
+import com.babestudios.companieshouse.utils.DividerItemDecorationWithSubHeading;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 
 import net.grandcentrix.thirtyinch.TiActivity;
@@ -87,7 +88,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 		recentSearchesRecyclerView.setLayoutManager(linearLayoutManager);
 		recentSearchesRecyclerView.addItemDecoration(
-				new DividerItemDecoration(this));
+				new DividerItemDecorationWithSubHeading(this));
 	}
 
 	private void createSearchResultsRecyclerView() {

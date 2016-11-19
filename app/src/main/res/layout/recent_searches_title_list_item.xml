@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			  android:layout_width="match_parent"
-			  android:layout_height="wrap_content"
+			  android:layout_height="@dimen/subheading_height"
 			  android:gravity="center"
-			  android:orientation="vertical"
-			  android:paddingBottom="@dimen/text_margin">
+			  android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/lblTitle"
-		style="@style/Text.Title"
+		style="@style/Text.Bold"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_gravity="start"
-		android:text="@string/recent_searches"
-		android:textSize="20sp"
-		android:textStyle="bold"/>
+		android:gravity="start"
+		android:text="@string/recent_searches"/>
 
 </LinearLayout>

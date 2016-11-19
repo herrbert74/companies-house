@@ -54,8 +54,8 @@ public class RecentSearchesResultsAdapter extends RecyclerView.Adapter<RecyclerV
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 		if (viewHolder instanceof RecentSearchesViewHolder) {
-			((RecentSearchesViewHolder)viewHolder).lblCompanyName.setText(searchHistoryItems.get(searchHistoryItems.size() - position).companyName);
-			((RecentSearchesViewHolder)viewHolder).lblCompanyNumber.setText(searchHistoryItems.get(searchHistoryItems.size() - position).companyNumber);
+			((RecentSearchesViewHolder) viewHolder).lblCompanyName.setText(searchHistoryItems.get(searchHistoryItems.size() - position).companyName);
+			((RecentSearchesViewHolder) viewHolder).lblCompanyNumber.setText(searchHistoryItems.get(searchHistoryItems.size() - position).companyNumber);
 		}
 	}
 
@@ -70,6 +70,7 @@ public class RecentSearchesResultsAdapter extends RecyclerView.Adapter<RecyclerV
 	private boolean isPositionHeader(int position) {
 		return position == 0;
 	}
+
 	public long getItemId(int position) {
 		return position;
 	}
