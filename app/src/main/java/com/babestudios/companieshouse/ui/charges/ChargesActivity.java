@@ -24,7 +24,7 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ChargesActivity extends TiActivity<ChargesPresenter2, ChargesActivityView> implements ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
+public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivityView> implements ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -99,9 +99,9 @@ public class ChargesActivity extends TiActivity<ChargesPresenter2, ChargesActivi
 
 	@NonNull
 	@Override
-	public ChargesPresenter2 providePresenter() {
+	public ChargesPresenter providePresenter() {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new ChargesPresenter2(dataManager);
+		return new ChargesPresenter(dataManager);
 	}
 
 	@Override
