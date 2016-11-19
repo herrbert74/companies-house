@@ -56,8 +56,7 @@ public class SearchPresenterTest {
 	@Test
 	public void test_When_GetCompany_Then_DataManagerGetCompanyIsCalled() {
 		searchPresenter.getCompany("", "");
-		verify(view).startCompanyActivity(anyString());
-		verify(view).refreshRecentSearchesAdapter(any());
+		verify(view).startCompanyActivity(anyString(), anyString());
 	}
 
 

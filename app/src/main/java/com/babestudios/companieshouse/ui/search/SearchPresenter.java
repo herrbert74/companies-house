@@ -35,6 +35,8 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	private boolean isFirstStart = true;
 
+	ArrayList<SearchHistoryItem> searchHistoryItems = null;
+
 	@Inject
 	public SearchPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -55,6 +57,9 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 			showRecentSearches();
 		} else {
 			getView().clearSearchView();
+			if(searchHistoryItems != null) {
+				getView().refreshRecentSearchesAdapter(searchHistoryItems);
+			}
 		}
 	}
 
@@ -77,7 +82,6 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	public void onNext(CompanySearchResult companySearchResult) {
 		showState = ShowState.SEARCH;
 		getView().hideProgress();
-		Log.d("test", "onNext: " + companySearchResult.items.size());
 		getView().showCompanySearchResult(companySearchResult);
 		getView().changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 	}
@@ -101,7 +105,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	void getCompany(String companyName, String companyNumber) {
 		getView().startCompanyActivity(companyNumber, companyName);
-		getView().refreshRecentSearchesAdapter(dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis())));
+		searchHistoryItems = dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()));
 	}
 
 	void onFabClicked() {
