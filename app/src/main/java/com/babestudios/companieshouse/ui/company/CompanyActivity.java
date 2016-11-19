@@ -28,6 +28,9 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
+	@Bind(R.id.toolbar_title)
+	TextView toolbar_title;
+
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
 
@@ -62,6 +65,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	FloatingActionButton fab;
 
 	String companyNumber;
+	String companyName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +79,11 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
 		companyNumber = getIntent().getStringExtra("companyNumber");
+		companyName = getIntent().getStringExtra("companyName");
 
 		fab.setOnClickListener(view -> getPresenter().onFabClicked());
+		toolbar_title.setText(companyName);
+		companyNumberTextView.setText(companyNumber);
 	}
 
 	@Override
@@ -96,9 +103,11 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	@Override
 	public void showCompany(Company company) {
-		getSupportActionBar().setTitle(company.companyName);
+		getSupportActionBar().setTitle("");
+
+
 		incorporatedTextView.setText(String.format(getResources().getString(R.string.incorporated_on), company.dateOfCreation));
-		companyNumberTextView.setText(company.companyNumber);
+
 		addressLine1TextView.setText(company.registeredOfficeAddress.addressLine1);
 		if (company.registeredOfficeAddress.addressLine2 != null) {
 			addressLine2TextView.setVisibility(View.VISIBLE);
@@ -107,13 +116,13 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		addressPostalCodeTextView.setText(company.registeredOfficeAddress.postalCode);
 		addressLocalityTextView.setText(company.registeredOfficeAddress.locality);
 		String formattedDate;
-		if(company.accounts.lastAccounts.madeUpTo != null) {
+		if(company.accounts != null && company.accounts.lastAccounts.madeUpTo != null) {
 			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.accounts.lastAccounts.madeUpTo)));
 			accountTextView.setText(String.format(getResources().getString(R.string.company_accounts_formatted_text), company.accounts.lastAccounts.type, formattedDate));
 		} else {
 			accountTextView.setText(getResources().getString(R.string.company_accounts_not_found));
 		}
-		if(company.accounts.lastAccounts.madeUpTo != null) {
+		if(company.annualReturn != null && company.annualReturn.lastMadeUpTo != null) {
 			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.annualReturn.lastMadeUpTo)));
 			annualReturnsTextView.setText(String.format(getResources().getString(R.string.company_annual_returns_formatted_text), formattedDate));
 		}else {
@@ -169,5 +178,10 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		Intent intent = new Intent(this, PersonsActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onBackPressed() {
+		finishAfterTransition();
 	}
 }

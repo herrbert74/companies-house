@@ -1,7 +1,7 @@
 package com.babestudios.companieshouse;
 
 import com.babestudios.companieshouse.injection.ApplicationComponent;
-import com.babestudios.companieshouse.ui.charges.ChargesPresenter;
+import com.babestudios.companieshouse.ui.charges.ChargesPresenter2;
 import com.babestudios.companieshouse.ui.company.CompanyPresenter;
 import com.babestudios.companieshouse.ui.company.CompanyPresenterTest;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryPresenter;
@@ -23,7 +23,7 @@ public interface TestApplicationComponent extends ApplicationComponent {
 
 	void inject(InsolvencyPresenter insolvencyPresenter);
 
-	void inject(ChargesPresenter chargesPresenter);
+	void inject(ChargesPresenter2 chargesPresenter);
 
 	void inject(FilingHistoryPresenter filingHistoryPresenter);
 

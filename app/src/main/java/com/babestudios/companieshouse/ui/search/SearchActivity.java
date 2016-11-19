@@ -80,8 +80,6 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		}
 		createRecentSearchesRecyclerView();
 		createSearchResultsRecyclerView();
-
-
 		fab.setOnClickListener(view -> getPresenter().onFabClicked());
 	}
 
@@ -133,10 +131,11 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	@Override
-	public void startCompanyActivity(String companyNumber) {
-		Intent startIntent = new Intent(this, CompanyActivity.class);
-		startIntent.putExtra("companyNumber", companyNumber);
-		startActivity(startIntent);
+	public void startCompanyActivity(String companyNumber, String companyName) {
+		Intent startCompanyActivityIntent = new Intent(this, CompanyActivity.class);
+		startCompanyActivityIntent.putExtra("companyNumber", companyNumber);
+		startCompanyActivityIntent.putExtra("companyName", companyName);
+		startActivity(startCompanyActivityIntent);
 	}
 
 	@Override

@@ -21,4 +21,9 @@
 	<string name="no_charges">No Charges</string>
 	<string name="no_insolvency">No insolvency</string>
 	<string name="no_person_with_significant_control">No person with significant control</string>
+	<string name="filing_history">Filing history</string>
+	<string name="insolvency">Insolvency</string>
+	<string name="charges">Charges</string>
+	<string name="officers">Officers</string>
+	<string name="persons_with_significant_control">Persons with significant control</string>
 </resources>

@@ -30,14 +30,14 @@ public class ChargesPresenterTest {
 	Application application;
 
 	@InjectMocks
-	ChargesPresenter chargesPresenter;
+	ChargesPresenter2 chargesPresenter;
 
 	@Before
 	public void setUp() {
 		TestApplicationComponent component = DaggerTestApplicationComponent.builder()
 				.testApplicationModule(new TestApplicationModule(application)).build();
 		component.inject(chargesPresenter);
-		chargesPresenter = new ChargesPresenter(mock(DataManager.class));
+		chargesPresenter = new ChargesPresenter2(mock(DataManager.class));
 		chargesPresenter.create();
 		ChargesActivityView view = mock(ChargesActivityView.class);
 		chargesPresenter.bindNewView(view);

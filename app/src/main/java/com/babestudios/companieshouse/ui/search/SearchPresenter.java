@@ -100,7 +100,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	}
 
 	void getCompany(String companyName, String companyNumber) {
-		getView().startCompanyActivity(companyNumber);
+		getView().startCompanyActivity(companyNumber, companyName);
 		getView().refreshRecentSearchesAdapter(dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis())));
 	}
 

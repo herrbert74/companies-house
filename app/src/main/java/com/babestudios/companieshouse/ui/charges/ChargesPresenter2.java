@@ -14,12 +14,12 @@ import javax.inject.Inject;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 
-public class ChargesPresenter extends TiPresenter<ChargesActivityView> implements Observer<Charges> {
+public class ChargesPresenter2 extends TiPresenter<ChargesActivityView> implements Observer<Charges> {
 
 	DataManager dataManager;
 
 	@Inject
-	public ChargesPresenter(DataManager dataManager) {
+	public ChargesPresenter2(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
 
