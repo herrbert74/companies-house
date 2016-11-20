@@ -17,5 +17,5 @@ interface FavouritesActivityView extends TiView {
 	void showFavourites(SearchHistoryItem[] searchHistoryItems);
 
 	@CallOnMainThread
-	void startCompanyActivity(String companyNumber);
+	void startCompanyActivity(String companyNumber, String companyName);
 }

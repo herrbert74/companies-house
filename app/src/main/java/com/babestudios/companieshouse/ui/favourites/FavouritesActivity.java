@@ -100,7 +100,7 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 
 	@Override
 	public void favouritesResultItemClicked(View v, int position, String companyName, String companyNumber) {
-		getPresenter().getCompany(companyNumber);
+		getPresenter().getCompany(companyNumber, companyName);
 	}
 
 	@Override
@@ -110,9 +110,10 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 
 
 	@Override
-	public void startCompanyActivity(String companyNumber) {
+	public void startCompanyActivity(String companyNumber, String companyName) {
 		Intent startIntent = new Intent(this, CompanyActivity.class);
 		startIntent.putExtra("companyNumber", companyNumber);
+		startIntent.putExtra("companyName", companyName);
 		startActivity(startIntent);
 	}
 

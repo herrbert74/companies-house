@@ -1,8 +1,5 @@
 package com.babestudios.companieshouse.ui.favourites;
 
-import android.util.Base64;
-
-import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -18,15 +15,10 @@ public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 	@Inject
 	DataManager dataManager;
 
-	private final String authorization =
-			"Basic " + Base64.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
-
-
 	@Override
 	protected void onCreate() {
 		super.onCreate();
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
 	}
 
 	@Override
@@ -35,8 +27,8 @@ public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 		getView().showFavourites(dataManager.getFavourites());
 	}
 
-	void getCompany(String companyNumber) {
-		getView().startCompanyActivity(companyNumber);
+	void getCompany(String companyNumber, String companyName) {
+		getView().startCompanyActivity(companyNumber, companyName);
 	}
 
 	void removeFavourite(SearchHistoryItem favouriteToRemove) {
