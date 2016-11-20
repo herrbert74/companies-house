@@ -43,6 +43,7 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 
 	String companyNumber;
 
+	@SuppressWarnings("ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +52,8 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 		ButterKnife.bind(this);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setTitle(R.string.filing_history);
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
 		companyNumber = getIntent().getStringExtra("companyNumber");

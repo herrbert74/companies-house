@@ -46,6 +46,7 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 
 	String companyNumber;
 
+	@SuppressWarnings("ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,7 +55,8 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 		ButterKnife.bind(this);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setTitle(R.string.charges);
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
 		companyNumber = getIntent().getStringExtra("companyNumber");

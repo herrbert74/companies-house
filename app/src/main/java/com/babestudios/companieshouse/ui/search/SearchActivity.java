@@ -84,6 +84,15 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		fab.setOnClickListener(view -> getPresenter().onFabClicked());
 	}
 
+	/**
+	 * This is needed because Activity Transition messes up the lifecycle (onStart and onWakeUp is not always called). Remove if not needed!
+	 */
+	@Override
+	protected void onResume() {
+		getPresenter().getSearchHistoryItems();
+		super.onResume();
+	}
+
 	private void createRecentSearchesRecyclerView() {
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 		recentSearchesRecyclerView.setLayoutManager(linearLayoutManager);

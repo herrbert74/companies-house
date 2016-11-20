@@ -28,7 +28,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.toolbar_title)
+	@Bind(R.id.tv_company_name)
 	TextView toolbar_title;
 
 	@Bind(R.id.progressbar)
@@ -102,12 +102,10 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	}
 
 	@Override
+	@SuppressWarnings("ConstantConditions")
 	public void showCompany(Company company) {
-		getSupportActionBar().setTitle("");
-
-
+		getSupportActionBar().setTitle(R.string.company_details);
 		incorporatedTextView.setText(String.format(getResources().getString(R.string.incorporated_on), company.dateOfCreation));
-
 		addressLine1TextView.setText(company.registeredOfficeAddress.addressLine1);
 		if (company.registeredOfficeAddress.addressLine2 != null) {
 			addressLine2TextView.setVisibility(View.VISIBLE);

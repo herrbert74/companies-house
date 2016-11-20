@@ -63,6 +63,16 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		}
 	}
 
+	/**
+	 * This is needed because Activity Transition messes up the lifecycle (onStart and onWakeUp is not always called). Remove if not needed!
+	 */
+	public void getSearchHistoryItems(){
+		if(searchHistoryItems != null) {
+			getView().refreshRecentSearchesAdapter(searchHistoryItems);
+			searchHistoryItems = null;
+		}
+	}
+
 	private void showRecentSearches() {
 		getView().showRecentSearches(dataManager.getRecentSearches());
 		getView().changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);

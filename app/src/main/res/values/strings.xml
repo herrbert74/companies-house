@@ -26,4 +26,5 @@
 	<string name="charges">Charges</string>
 	<string name="officers">Officers</string>
 	<string name="persons_with_significant_control">Persons with significant control</string>
+	<string name="company_details">Company details</string>
 </resources>
