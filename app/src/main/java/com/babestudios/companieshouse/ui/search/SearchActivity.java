@@ -1,5 +1,7 @@
 package com.babestudios.companieshouse.ui.search;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
@@ -82,6 +86,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		createRecentSearchesRecyclerView();
 		createSearchResultsRecyclerView();
 		fab.setOnClickListener(view -> getPresenter().onFabClicked());
+		performAnimations();
 	}
 
 	/**
@@ -91,6 +96,16 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	protected void onResume() {
 		getPresenter().getSearchHistoryItems();
 		super.onResume();
+	}
+
+	private void performAnimations() {
+		fab.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.fab_size));
+		fab.animate()
+				.translationY(0)
+				.setInterpolator(new DecelerateInterpolator())
+				.setStartDelay(getResources().getInteger(R.integer.fab_move_in_start_delay))
+				.setDuration(getResources().getInteger(R.integer.fab_move_in_duration))
+				.start();
 	}
 
 	private void createRecentSearchesRecyclerView() {
@@ -162,7 +177,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	@Override
 	public void clearSearchView() {
-		MenuItemCompat.collapseActionView(searchMenuItem);
+		if (searchMenuItem != null) {
+			MenuItemCompat.collapseActionView(searchMenuItem);
+		}
 	}
 
 	@Override
@@ -172,11 +189,28 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	@Override
 	public void changeFabImage(SearchPresenter.FabImage type) {
-		if (type == SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE) {
-			fab.setImageResource(R.drawable.delete_vector);
-		} else if (type == SearchPresenter.FabImage.FAB_IMAGE_SEARCH_CLOSE) {
-			fab.setImageResource(R.drawable.close_vector);
-		}
+		fab.animate()
+				.translationY(6 * getResources().getDimensionPixelOffset(R.dimen.fab_size))
+				.setStartDelay(100)
+				.setInterpolator(new AccelerateInterpolator())
+				.setDuration(getResources().getInteger(R.integer.fab_move_in_duration))
+				.setListener(new AnimatorListenerAdapter() {
+					@Override
+					public void onAnimationEnd(Animator animation) {
+						if (type == SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE) {
+							fab.setImageResource(R.drawable.delete_vector);
+						} else if (type == SearchPresenter.FabImage.FAB_IMAGE_SEARCH_CLOSE) {
+							fab.setImageResource(R.drawable.close_vector);
+						}
+						fab.animate()
+								.translationY(0)
+								.setInterpolator(new DecelerateInterpolator())
+								.setStartDelay(100)
+								.setDuration(getResources().getInteger(R.integer.fab_move_in_duration))
+								.start();
+					}
+				})
+				.start();
 	}
 
 	@Override

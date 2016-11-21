@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -88,6 +89,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	@Override
 	protected void onResume() {
+		performAnimations();
 		super.onResume();
 	}
 
@@ -181,5 +183,15 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	@Override
 	public void onBackPressed() {
 		finishAfterTransition();
+	}
+
+	private void performAnimations() {
+		fab.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.fab_size));
+		fab.animate()
+				.translationY(0)
+				.setInterpolator(new DecelerateInterpolator())
+				.setStartDelay(getResources().getInteger(R.integer.fab_move_in_start_delay))
+				.setDuration(getResources().getInteger(R.integer.fab_move_in_duration))
+				.start();
 	}
 }

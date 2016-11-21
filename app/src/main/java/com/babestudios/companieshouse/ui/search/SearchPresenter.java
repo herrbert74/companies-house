@@ -54,7 +54,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		super.onWakeUp();
 		if(isFirstStart){
 			isFirstStart = false;
-			showRecentSearches();
+			showRecentSearches(true);
 		} else {
 			getView().clearSearchView();
 			if(searchHistoryItems != null) {
@@ -73,9 +73,11 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		}
 	}
 
-	private void showRecentSearches() {
+	private void showRecentSearches(boolean isFirstStart) {
 		getView().showRecentSearches(dataManager.getRecentSearches());
-		getView().changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
+		if(!isFirstStart) {
+			getView().changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
+		}
 		showState = ShowState.RECENT_SEARCHES;
 	}
 
@@ -124,7 +126,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 			getView().showDeleteRecentSearchesDialog();
 		} else if(showState == ShowState.SEARCH) {
 			getView().clearSearchView();
-			showRecentSearches();
+			showRecentSearches(false);
 		}
 	}
 
