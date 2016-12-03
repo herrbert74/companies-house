@@ -40,7 +40,7 @@ public class PreferencesHelper {
 			if (latestSearchesList.contains(searchItem)) {
 				latestSearchesList.remove(searchItem);
 			}
-		}else {
+		} else {
 			latestSearchesList = new ArrayList<>();
 		}
 		latestSearchesList.add(searchItem);
@@ -60,15 +60,15 @@ public class PreferencesHelper {
 	public SearchHistoryItem[] getRecentSearches() {
 		String latestSearches = sharedPreferences.getString(PREF_LATEST_SEARCHES, "");
 		SearchHistoryItem[] searchItems = null;
-		try{
+		try {
 			searchItems = gson.fromJson(latestSearches, SearchHistoryItem[].class);
-		}catch (Exception e){
+		} catch (Exception e) {
 			Log.d("test", "getRecentSearches error: " + e.getLocalizedMessage());
 		}
 		return searchItems;
 	}
 
-	public void addFavourite(SearchHistoryItem searchHistoryItem) {
+	public boolean addFavourite(SearchHistoryItem searchHistoryItem) {
 		SearchHistoryItem[] favouritesArray = getFavourites();
 		ArrayList<SearchHistoryItem> favourites;
 		if (favouritesArray != null) {
@@ -76,9 +76,14 @@ public class PreferencesHelper {
 		} else {
 			favourites = new ArrayList<>();
 		}
-		favourites.add(searchHistoryItem);
-		String favouritesString = gson.toJson(favourites.toArray(new SearchHistoryItem[favourites.size()]));
-		sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply();
+		if (favourites.contains(searchHistoryItem)) {
+			return false;
+		} else {
+			favourites.add(searchHistoryItem);
+			String favouritesString = gson.toJson(favourites.toArray(new SearchHistoryItem[favourites.size()]));
+			sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply();
+			return true;
+		}
 	}
 
 	public void clearAllFavourites() {
@@ -88,9 +93,9 @@ public class PreferencesHelper {
 	public SearchHistoryItem[] getFavourites() {
 		String favourites = sharedPreferences.getString(PREF_FAVOURITES, "");
 		SearchHistoryItem[] favouritesArray = null;
-		try{
+		try {
 			favouritesArray = gson.fromJson(favourites, SearchHistoryItem[].class);
-		}catch (Exception e){
+		} catch (Exception e) {
 			Log.d("test", "getFavourites error: " + e.getLocalizedMessage());
 		}
 		return favouritesArray;

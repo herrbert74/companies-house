@@ -18,6 +18,7 @@ import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.utils.Base64Wrapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Singleton;
 
@@ -106,8 +107,13 @@ public class DataManager {
 		preferencesHelper.clearAllRecentSearches();
 	}
 
-	public void addFavourite(SearchHistoryItem searchHistoryItem) {
-		preferencesHelper.addFavourite(searchHistoryItem);
+	public boolean addFavourite(SearchHistoryItem searchHistoryItem) {
+		return preferencesHelper.addFavourite(searchHistoryItem);
+	}
+
+	public boolean isFavourite(SearchHistoryItem searchHistoryItem) {
+		ArrayList<SearchHistoryItem> favourites = new ArrayList<>(Arrays.asList(preferencesHelper.getFavourites()));
+		return favourites.contains(searchHistoryItem);
 	}
 
 	public SearchHistoryItem[] getFavourites() {

@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
 	compileSdkVersion 24
-	buildToolsVersion "24.0.2"
+	buildToolsVersion '25.0.0'
 
 	defaultConfig {
 		applicationId "com.babestudios.companieshouse"
@@ -93,6 +93,8 @@ dependencies {
 	androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
+
+	debugCompile 'com.amitshekhar.android:debug-db:0.4.0'
 }
 
 apply from: 'config.gradle'

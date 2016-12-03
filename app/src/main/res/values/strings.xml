@@ -2,6 +2,7 @@
 	<string name="app_name">Companies House</string>
 	<string name="search">Search</string>
 	<string name="favourites">Favourites</string>
+	<string name="remove_favourites">Remove Favourites</string>
 	<string name="company_number">Company number</string>
 	<string name="incorporated_on">Incorporated on %1$s</string>
 	<string name="office_address">Office address</string>

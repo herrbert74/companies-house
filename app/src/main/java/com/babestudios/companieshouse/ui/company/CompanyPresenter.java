@@ -66,7 +66,17 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 		super.onDestroy();
 	}
 
-	void onFabClicked() {
-		dataManager.addFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
+	boolean onFabClicked() {
+		if(dataManager.isFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0))){
+			dataManager.removeFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
+			return false;
+		} else {
+			return dataManager.addFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
+		}
+
+	}
+
+	boolean isFavourite(SearchHistoryItem searchHistoryItem){
+		return dataManager.isFavourite(searchHistoryItem);
 	}
 }
