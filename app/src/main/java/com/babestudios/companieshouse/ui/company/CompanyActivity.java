@@ -1,22 +1,13 @@
 package com.babestudios.companieshouse.ui.company;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,6 +20,7 @@ import com.babestudios.companieshouse.ui.insolvency.InsolvencyActivity;
 import com.babestudios.companieshouse.ui.officers.OfficersActivity;
 import com.babestudios.companieshouse.ui.persons.PersonsActivity;
 import com.babestudios.companieshouse.utils.DateUtil;
+import com.jakewharton.rxbinding.view.RxView;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -93,11 +85,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		companyNumber = getIntent().getStringExtra("companyNumber");
 		companyName = getIntent().getStringExtra("companyName");
 
-		fab.setOnClickListener(view -> {
-					CompanyActivity.this.getPresenter().onFabClicked();
-					hideFab();
-				}
-		);
+		getPresenter().observablesFromViews(RxView.clicks(fab));
 		toolbar_title.setText(companyName);
 		companyNumberTextView.setText(companyNumber);
 	}
@@ -108,30 +96,25 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		super.onResume();
 	}
 
+	@Override
 	public void showFab() {
-		Log.d("test", "showFab: ");
 		if (getPresenter().isFavourite(new SearchHistoryItem(companyName, companyNumber, 0))) {
 			fab.setImageResource(R.drawable.favorite_clear_vector);
 		} else {
 			fab.setImageResource(R.drawable.favorite_vector);
 		}
-		/*if (ViewCompat.isLaidOut(fab)) {
-			fab.show();
-		} else {*/
-			//fab.animate().cancel();//cancel all animations
-			fab.setScaleX(0f);
-			fab.setScaleY(0f);
-			fab.setAlpha(0f);
-			fab.setVisibility(View.VISIBLE);
-			//values from support lib source code
-			fab.animate().setDuration(getResources().getInteger(R.integer.fab_move_in_duration)).scaleX(1).scaleY(1).alpha(1)
-					.setInterpolator(new LinearOutSlowInInterpolator());
+		fab.setScaleX(0f);
+		fab.setScaleY(0f);
+		fab.setAlpha(0f);
+		fab.setVisibility(View.VISIBLE);
+		fab.animate().setDuration(getResources().getInteger(R.integer.fab_move_in_duration)).scaleX(1).scaleY(1).alpha(1)
+				.setInterpolator(new LinearOutSlowInInterpolator());
 		//}
 	}
 
+	@Override
 	public void hideFab() {
 		fab.animate().cancel();//cancel all animations
-		Log.d("test", "hideFab: ");
 		fab.animate().setDuration(getResources().getInteger(R.integer.fab_move_in_duration)).scaleX(0f).scaleY(0f).alpha(0f)
 				.setInterpolator(new LinearOutSlowInInterpolator()).withEndAction(this::showFab);
 
@@ -228,5 +211,5 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	public void onBackPressed() {
 		finishAfterTransition();
 	}
-	
+
 }

@@ -9,6 +9,12 @@ import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread;
 public interface CompanyActivityView extends TiView {
 
 	@CallOnMainThread
+	void showFab();
+
+	@CallOnMainThread
+	void hideFab();
+
+	@CallOnMainThread
 	void showProgress();
 
 	@CallOnMainThread

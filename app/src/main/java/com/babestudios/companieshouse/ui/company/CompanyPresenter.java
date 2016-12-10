@@ -10,9 +10,12 @@ import net.grandcentrix.thirtyinch.TiPresenter;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.Observable;
 import rx.Observer;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
-public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
+public class CompanyPresenter extends TiPresenter<CompanyActivityView> /*implements Observer<Void>*/ {
 
 	@Singleton
 	@Inject
@@ -66,17 +69,18 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 		super.onDestroy();
 	}
 
-	boolean onFabClicked() {
-		if(dataManager.isFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0))){
-			dataManager.removeFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
-			return false;
-		} else {
-			return dataManager.addFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
-		}
-
+	boolean isFavourite(SearchHistoryItem searchHistoryItem) {
+		return dataManager.isFavourite(searchHistoryItem);
 	}
 
-	boolean isFavourite(SearchHistoryItem searchHistoryItem){
-		return dataManager.isFavourite(searchHistoryItem);
+	void observablesFromViews(Observable<Void> o) {
+		o.subscribe(aVoid -> {
+				if (dataManager.isFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0))) {
+					dataManager.removeFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
+				} else {
+					dataManager.addFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
+				}
+				getView().hideFab();
+			});
 	}
 }

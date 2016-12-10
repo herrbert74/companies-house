@@ -3,13 +3,13 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-	compileSdkVersion 24
+	compileSdkVersion 25
 	buildToolsVersion '25.0.0'
 
 	defaultConfig {
 		applicationId "com.babestudios.companieshouse"
 		minSdkVersion 21
-		targetSdkVersion 24
+		targetSdkVersion 25
 		versionCode 1
 		versionName "1.0"
 		vectorDrawables.useSupportLibrary = true
@@ -44,7 +44,7 @@ apt {
 }
 
 dependencies {
-	def supportLibraryVersion = '24.2.0'
+	def supportLibraryVersion = '25.0.1'
 	def thirtyInchVersion = '0.7.1'
 	def retrofitVersion = '2.1.0'
 	def daggerVersion = '2.0.2'
@@ -56,6 +56,10 @@ dependencies {
 	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
 	compile "com.android.support:design:$supportLibraryVersion"
 	compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
+
+	testCompile "com.android.support:appcompat-v7:$supportLibraryVersion"
+	testCompile "com.android.support:design:$supportLibraryVersion"
+	testCompile "com.android.support:recyclerview-v7:$supportLibraryVersion"
 
 	// MVP for activity and fragment
 	compile "net.grandcentrix.thirtyinch:thirtyinch:$thirtyInchVersion"
@@ -76,6 +80,8 @@ dependencies {
 	//RxJava
 	compile 'io.reactivex:rxandroid:1.0.1'
 	compile "io.reactivex:rxjava:$rxJavaVersion"
+	compile 'com.jakewharton.rxbinding:rxbinding:1.0.0'
+	compile 'com.jakewharton.rxbinding:rxbinding-design:1.0.0'
 
 	//Dagger
 	apt "com.google.dagger:dagger-compiler:$daggerVersion"
