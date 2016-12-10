@@ -37,6 +37,11 @@ class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		this.searchHistoryItems = searchHistoryItems;
 	}
 
+	void updateAdapter(ArrayList<SearchHistoryItem> searchHistoryItems) {
+		this.searchHistoryItems = searchHistoryItems;
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View itemLayoutView = LayoutInflater.from(parent.getContext())

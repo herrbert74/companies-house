@@ -27,6 +27,10 @@ public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 		getView().showFavourites(dataManager.getFavourites());
 	}
 
+	void onResume(){
+		getView().showFavourites(dataManager.getFavourites());
+	}
+
 	void getCompany(String companyNumber, String companyName) {
 		getView().startCompanyActivity(companyNumber, companyName);
 	}

@@ -88,9 +88,16 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 			}
 			favouritesAdapter = new FavouritesAdapter(FavouritesActivity.this, searchHistoryItemsList);
 			favouritesRecyclerView.setAdapter(favouritesAdapter);
+		} else {
+			((FavouritesAdapter)favouritesRecyclerView.getAdapter()).updateAdapter(new ArrayList<>(Arrays.asList(searchHistoryItems)));
 		}
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		getPresenter().onResume();
+	}
 
 	@NonNull
 	@Override
