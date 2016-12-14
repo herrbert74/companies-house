@@ -74,7 +74,7 @@ public class InsolvencyAdapter extends RecyclerView.Adapter<InsolvencyAdapter.In
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.searchResultItemClicked(v, this.getLayoutPosition(), insolvency.items.get(getLayoutPosition()).title, insolvency.items.get(getLayoutPosition()).companyNumber);
+			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), insolvency.items.get(getLayoutPosition()).title, insolvency.items.get(getLayoutPosition()).companyNumber);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.filinghistory;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +13,12 @@ import android.widget.ProgressBar;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
+import com.babestudios.companieshouse.ui.filinghistorydetails.FilingHistoryDetailsActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
+import com.google.gson.Gson;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -104,8 +108,12 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	}
 
 	@Override
-	public void searchResultItemClicked(View v, int position, String companyName, String companyNumber) {
-
+	public void filingItemClicked(View v, int position, FilingHistoryItem item) {
+		Gson gson = new Gson();
+		String jsonItem = gson.toJson(item, FilingHistoryItem.class);
+		Intent intent = new Intent(this, FilingHistoryDetailsActivity.class);
+		intent.putExtra("filingHistoryItem", jsonItem);
+		startActivity(intent);
 	}
 
 	@Override

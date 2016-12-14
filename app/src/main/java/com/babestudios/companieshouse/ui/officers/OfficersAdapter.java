@@ -74,7 +74,7 @@ public class OfficersAdapter extends RecyclerView.Adapter<OfficersAdapter.Office
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.searchResultItemClicked(v, this.getLayoutPosition(), officers.items.get(getLayoutPosition()).title, officers.items.get(getLayoutPosition()).companyNumber);
+			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), officers.items.get(getLayoutPosition()).title, officers.items.get(getLayoutPosition()).companyNumber);
 		}
 	}
 

@@ -12,7 +12,7 @@ public class FilingHistoryList {
 	@SerializedName("items_per_page")
 	public Integer itemsPerPage;
 	@SerializedName("items")
-	public List<FilingHistoryItem> items = new ArrayList<FilingHistoryItem>();
+	public List<FilingHistoryItem> items = new ArrayList<>();
 	@SerializedName("total_count")
 	public Integer totalCount;
 	@SerializedName("filing_history_status")

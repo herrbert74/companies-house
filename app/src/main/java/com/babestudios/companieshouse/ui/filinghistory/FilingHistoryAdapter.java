@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
 
 import butterknife.Bind;
@@ -74,12 +75,12 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.searchResultItemClicked(v, this.getLayoutPosition(), filingHistoryList.items.get(getLayoutPosition()).title, filingHistoryList.items.get(getLayoutPosition()).companyNumber);
+			mItemListener.filingItemClicked(v, this.getLayoutPosition(), filingHistoryList.items.get(getLayoutPosition()));
 		}
 	}
 
 	interface FilingHistoryRecyclerViewClickListener {
-		void searchResultItemClicked(View v, int position, String companyName, String companyNumber);
+		void filingItemClicked(View v, int position, FilingHistoryItem item);
 	}
 
 	void addItems(FilingHistoryList filingHistoryList) {

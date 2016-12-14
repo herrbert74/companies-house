@@ -72,7 +72,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.PersonsV
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.searchResultItemClicked(v, this.getLayoutPosition(), persons.items.get(getLayoutPosition()).title, persons.items.get(getLayoutPosition()).companyNumber);
+			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), persons.items.get(getLayoutPosition()).title, persons.items.get(getLayoutPosition()).companyNumber);
 		}
 	}
 

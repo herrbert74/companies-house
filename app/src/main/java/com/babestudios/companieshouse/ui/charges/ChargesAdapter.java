@@ -74,7 +74,7 @@ public class ChargesAdapter extends RecyclerView.Adapter<ChargesAdapter.ChargesV
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.searchResultItemClicked(v, this.getLayoutPosition(), charges.items.get(getLayoutPosition()).title, charges.items.get(getLayoutPosition()).companyNumber);
+			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), charges.items.get(getLayoutPosition()).title, charges.items.get(getLayoutPosition()).companyNumber);
 		}
 	}
 
