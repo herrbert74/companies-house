@@ -112,8 +112,13 @@ public class DataManager {
 	}
 
 	public boolean isFavourite(SearchHistoryItem searchHistoryItem) {
-		ArrayList<SearchHistoryItem> favourites = new ArrayList<>(Arrays.asList(preferencesHelper.getFavourites()));
-		return favourites.contains(searchHistoryItem);
+		SearchHistoryItem[] items = preferencesHelper.getFavourites();
+		if(items != null) {
+			ArrayList<SearchHistoryItem> favourites = new ArrayList<>(Arrays.asList(items));
+			return favourites.contains(searchHistoryItem);
+		} else {
+			return false;
+		}
 	}
 
 	public SearchHistoryItem[] getFavourites() {
