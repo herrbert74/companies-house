@@ -84,14 +84,6 @@
 
 			<TextView
 				style="@style/Text.Title"
-				android:text="@string/company_number"/>
-
-
-			<include
-				layout="@layout/divider"/>
-
-			<TextView
-				style="@style/Text.Title"
 				android:text="@string/office_address"/>
 
 			<TextView

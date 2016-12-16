@@ -38,6 +38,15 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	@Bind(R.id.textViewDescription)
 	TextView textViewDescription;
 
+	@Bind(R.id.textViewDescriptionValues)
+	TextView textViewDescriptionValues;
+
+	@Bind(R.id.textViewPages)
+	TextView textViewPages;
+
+	@Bind(R.id.textViewDocument)
+	TextView textViewDocument;
+
 	@Singleton
 	@Inject
 	DataManager dataManager;
@@ -57,6 +66,14 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 		textViewDate.setText(filingHistoryItem.date);
 		textViewCategory.setText(filingHistoryItem.category);
 		textViewDescription.setText(filingHistoryItem.description);
+		textViewPages.setText(Integer.toString(filingHistoryItem.pages));
+		textViewDocument.setText(filingHistoryItem.links.documentMetadata);
+
+		if (filingHistoryItem.category.equals("capital")) {
+			textViewDescriptionValues.setText(filingHistoryItem.descriptionValues.capital.get(0).currency + " " + filingHistoryItem.descriptionValues.capital.get(0).figure);
+		} else {
+			textViewDescriptionValues.setVisibility(View.GONE);
+		}
 
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);

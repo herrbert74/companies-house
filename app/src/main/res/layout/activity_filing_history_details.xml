@@ -10,10 +10,9 @@
 
 	<android.support.v7.widget.Toolbar
 		android:id="@+id/toolbar"
-		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
+		android:layout_width="0dp"
+		android:layout_height="56dp"
 		android:background="?attr/colorPrimary"
-		android:layout_marginBottom="@dimen/activity_vertical_margin"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
@@ -48,8 +47,8 @@
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/activity_vertical_margin"
-		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
 		android:text="Date"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
@@ -57,12 +56,13 @@
 	<TextView
 		android:id="@+id/textViewDate"
 		style="@style/Text.Title"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		android:layout_gravity="left"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
 		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDate"
+		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
 		tools:text="Long text here 1"/>
 
 	<TextView
@@ -70,8 +70,8 @@
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/activity_horizontal_margin"
-		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
 		android:text="Category"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewDate"/>
@@ -79,11 +79,13 @@
 	<TextView
 		android:id="@+id/textViewCategory"
 		style="@style/Text.Title"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
 		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCategory"
+		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
 		tools:text="Long text here 2"/>
 
 	<TextView
@@ -100,11 +102,71 @@
 	<TextView
 		android:id="@+id/textViewDescription"
 		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDescription"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Long text here 3 long long long"/>
+
+	<TextView
+		android:id="@+id/textViewDescriptionValues"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Capital: 100 GBP"
+		app:layout_constraintTop_toBottomOf="@+id/textViewDescription"/>
+
+	<TextView
+		android:id="@+id/textViewLabelPages"
+		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDescription"
+		android:text="Pages"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionValues"/>
+
+	<TextView
+		android:id="@+id/textViewPages"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelPages"
+		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
-		tools:text="Long text here 3"/>
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="25"/>
+
+	<TextView
+		android:id="@+id/textViewLabelDocument"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:text="Document"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewPages"/>
+
+	<TextView
+		android:id="@+id/textViewDocument"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDocument"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Long text here 3 long long long"/>
 
 </android.support.constraint.ConstraintLayout>
