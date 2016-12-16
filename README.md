@@ -20,6 +20,7 @@ Companies House does have an application, but it is outdated and doesn't contain
 * Retrofit with RxJava is used for networking.
 * MVP architecture for easy testing.
 * Large part of the presenters are unit tested.
+* New ConstraintLayout is used on Details screens.
 
 ### Roadmap ###
 
