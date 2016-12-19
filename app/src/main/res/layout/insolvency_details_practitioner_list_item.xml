@@ -1,0 +1,182 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+											 xmlns:app="http://schemas.android.com/apk/res-auto"
+											 xmlns:tools="http://schemas.android.com/tools"
+											 android:layout_width="match_parent"
+											 android:layout_height="wrap_content"
+											 android:paddingBottom="@dimen/activity_horizontal_margin">
+
+	<android.support.constraint.Guideline
+		android:id="@+id/guideline"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_begin="172dp"
+		tools:layout_editor_absoluteX="172dp"
+		tools:layout_editor_absoluteY="0dp"/>
+
+	<TextView
+		android:id="@+id/textViewLabelAppointedOn"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="Appointed on"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		android:layout_marginLeft="16dp"/>
+
+	<TextView
+		android:id="@+id/textViewAppointedOn"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelAppointedOn"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Long text here 1"/>
+
+	<TextView
+		android:id="@+id/textViewLabelCeasedToActOn"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="Ceased to act on"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewAppointedOn"
+		android:layout_marginLeft="16dp"/>
+
+	<TextView
+		android:id="@+id/textViewCeasedToActOn"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCeasedToActOn"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Long text here 2"/>
+
+	<TextView
+		android:id="@+id/textViewLabelName"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="Name"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCeasedToActOn"/>
+
+	<TextView
+		android:id="@+id/textViewName"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelName"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Long text here 3"/>
+
+	<TextView
+		android:id="@+id/textViewLabelRole"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="Role"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewName"
+		android:layout_marginLeft="16dp"/>
+
+	<TextView
+		android:id="@+id/textViewRole"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelRole"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Practitioner"/>
+
+	<TextView
+		android:id="@+id/textViewLabelAddress"
+		style="@style/Text.Bold"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:paddingStart="@dimen/activity_horizontal_margin"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewRole"
+		android:text="Address"
+		android:layout_marginTop="8dp"/>
+
+	<TextView
+		android:id="@+id/textViewAddressLine1"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewLabelAddress"
+		tools:text="14 Sample Street"/>
+
+	<TextView
+		android:id="@+id/textViewLocality"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewAddressLine1"
+		tools:text="Windsor"/>
+
+	<TextView
+		android:id="@+id/textViewPostalCode"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewLocality"
+		tools:text="AA14 1AA"/>
+
+	<TextView
+		android:id="@+id/textViewRegion"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:visibility="gone"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewPostalCode"
+		tools:text="Surrey"/>
+
+	<TextView
+		android:id="@+id/textViewCountry"
+		style="@style/Text"
+		android:visibility="gone"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewRegion"
+		tools:text="United Kingdom"/>
+
+</android.support.constraint.ConstraintLayout>

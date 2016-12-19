@@ -1,0 +1,63 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+											 xmlns:app="http://schemas.android.com/apk/res-auto"
+											 xmlns:tools="http://schemas.android.com/tools"
+											 android:layout_width="match_parent"
+											 android:layout_height="wrap_content"
+											 android:paddingBottom="@dimen/activity_horizontal_margin">
+
+	<android.support.constraint.Guideline
+		android:id="@+id/guideline"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_begin="172dp"
+		tools:layout_editor_absoluteX="172dp"
+		tools:layout_editor_absoluteY="0dp"/>
+
+	<TextView
+		android:id="@+id/textViewLabelDate"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="Date"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"/>
+
+	<TextView
+		android:id="@+id/textViewDate"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDate"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Long text here 1"/>
+
+	<TextView
+		android:id="@+id/textViewLabelType"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="Type"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewLabelDate"/>
+
+	<TextView
+		android:id="@+id/textViewType"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelType"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Long text here 2"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -111,8 +111,10 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	private void createRecentSearchesRecyclerView() {
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 		recentSearchesRecyclerView.setLayoutManager(linearLayoutManager);
+		ArrayList<Integer> titlePositions = new ArrayList<>();
+		titlePositions.add(0);
 		recentSearchesRecyclerView.addItemDecoration(
-				new DividerItemDecorationWithSubHeading(this));
+				new DividerItemDecorationWithSubHeading(this, titlePositions));
 	}
 
 	private void createSearchResultsRecyclerView() {

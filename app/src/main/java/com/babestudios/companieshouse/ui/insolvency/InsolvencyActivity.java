@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.insolvency;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +14,10 @@ import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.insolvency.Insolvency;
+import com.babestudios.companieshouse.data.model.insolvency.InsolvencyCase;
+import com.babestudios.companieshouse.ui.insolvencydetails.InsolvencyDetailsActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
+import com.google.gson.Gson;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -23,7 +27,7 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, InsolvencyActivityView> implements InsolvencyActivityView, InsolvencyAdapter.ChargesRecyclerViewClickListener {
+public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, InsolvencyActivityView> implements InsolvencyActivityView, InsolvencyAdapter.InsolvencyRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -106,8 +110,12 @@ public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, Insolven
 	}
 
 	@Override
-	public void chargesItemClicked(View v, int position, String companyName, String companyNumber) {
-
+	public void insolvencyItemClicked(View v, int position, InsolvencyCase insolvencyCase) {
+		Gson gson = new Gson();
+		String jsonItem = gson.toJson(insolvencyCase, InsolvencyCase.class);
+		Intent intent = new Intent(this, InsolvencyDetailsActivity.class);
+		intent.putExtra("insolvencyCase", jsonItem);
+		startActivity(intent);
 	}
 
 	@Override

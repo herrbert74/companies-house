@@ -11,20 +11,21 @@ import android.widget.TextView;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.insolvency.Insolvency;
+import com.babestudios.companieshouse.data.model.insolvency.InsolvencyCase;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class InsolvencyAdapter extends RecyclerView.Adapter<InsolvencyAdapter.InsolvencyViewHolder> {
 
-	private ChargesRecyclerViewClickListener mItemListener;
+	private InsolvencyRecyclerViewClickListener mItemListener;
 
 	private Insolvency insolvency = new Insolvency();
 
 	DataManager dataManager;
 
 	InsolvencyAdapter(Context c, Insolvency insolvency, DataManager dataManager) {
-		mItemListener = (ChargesRecyclerViewClickListener) c;
+		mItemListener = (InsolvencyRecyclerViewClickListener) c;
 		this.insolvency = insolvency;
 		this.dataManager = dataManager;
 	}
@@ -74,12 +75,12 @@ public class InsolvencyAdapter extends RecyclerView.Adapter<InsolvencyAdapter.In
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), insolvency.items.get(getLayoutPosition()).title, insolvency.items.get(getLayoutPosition()).companyNumber);
+			mItemListener.insolvencyItemClicked(v, this.getLayoutPosition(), insolvency.cases.get(getLayoutPosition()));
 		}
 	}
 
-	interface ChargesRecyclerViewClickListener {
-		void chargesItemClicked(View v, int position, String companyName, String companyNumber);
+	interface InsolvencyRecyclerViewClickListener {
+		void insolvencyItemClicked(View v, int position, InsolvencyCase insolvencyCase);
 	}
 
 	void addItems(Insolvency insolvency) {
