@@ -7,15 +7,15 @@ public class Particulars {
 	@SerializedName("chargor_acting_as_bare_trustee")
 	public String chargorActingAsBareTrustee;
 	@SerializedName("contains_fixed_charge")
-	public String containsFixedCharge;
+	public boolean containsFixedCharge;
 	@SerializedName("contains_floating_charge")
-	public String containsFloatingCharge;
+	public boolean containsFloatingCharge;
 	@SerializedName("contains_negative_pledge")
-	public String containsNegativePledge;
+	public boolean containsNegativePledge;
 	@SerializedName("description")
 	public String description;
 	@SerializedName("floating_charge_covers_all")
-	public String floatingChargeCoversAll;
+	public boolean floatingChargeCoversAll;
 	@SerializedName("type")
 	public String type;
 }

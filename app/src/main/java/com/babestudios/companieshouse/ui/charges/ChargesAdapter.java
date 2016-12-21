@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.charges.Charges;
+import com.babestudios.companieshouse.data.model.charges.ChargesItem;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -74,12 +75,12 @@ public class ChargesAdapter extends RecyclerView.Adapter<ChargesAdapter.ChargesV
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), charges.items.get(getLayoutPosition()).title, charges.items.get(getLayoutPosition()).companyNumber);
+			mItemListener.chargesItemClicked(v, this.getLayoutPosition(), charges.items.get(getLayoutPosition()));
 		}
 	}
 
 	interface ChargesRecyclerViewClickListener {
-		void chargesItemClicked(View v, int position, String companyName, String companyNumber);
+		void chargesItemClicked(View v, int position, ChargesItem chargesItem);
 	}
 
 	void addItems(Charges charges) {

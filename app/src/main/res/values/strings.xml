@@ -27,7 +27,17 @@
 	<string name="insolvency">Insolvency</string>
 	<string name="insolvency_details">Insolvency details</string>
 	<string name="charges">Charges</string>
+	<string name="charges_details">Charges details</string>
 	<string name="officers">Officers</string>
 	<string name="persons_with_significant_control">Persons with significant control</string>
 	<string name="company_details">Company details</string>
+	<string name="charges_details_delivered_on">Delivered on</string>
+	<string name="charges_details_status">Status</string>
+	<string name="charges_details_contains_floating_charge">Contains floating charge</string>
+	<string name="charges_details_floating_charge_covers_all">Floating charge covers all</string>
+	<string name="charges_details_contains_negative_pledge">Contains negative pledge</string>
+	<string name="charges_details_contains_fixed_charge">Contains fixed charge</string>
+	<string name="charges_details_satisfied_on">Satisfied on</string>
+	<string name="charges_details_persons_entitled">Persons entitled</string>
+	<string name="charges_details_filing_type">Filing type</string>
 </resources>

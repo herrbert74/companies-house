@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.charges;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +14,13 @@ import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.charges.Charges;
+import com.babestudios.companieshouse.data.model.charges.ChargesItem;
+import com.babestudios.companieshouse.data.model.insolvency.InsolvencyCase;
+import com.babestudios.companieshouse.ui.chargesdetails.ChargesDetailsActivity;
+import com.babestudios.companieshouse.ui.insolvencydetails.InsolvencyDetailsActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
+import com.google.gson.Gson;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -107,8 +113,12 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 	}
 
 	@Override
-	public void chargesItemClicked(View v, int position, String companyName, String companyNumber) {
-
+	public void chargesItemClicked(View v, int position, ChargesItem chargesItem) {
+		Gson gson = new Gson();
+		String jsonItem = gson.toJson(chargesItem, ChargesItem.class);
+		Intent intent = new Intent(this, ChargesDetailsActivity.class);
+		intent.putExtra("chargesItem", jsonItem);
+		startActivity(intent);
 	}
 
 	@Override
