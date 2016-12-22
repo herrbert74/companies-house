@@ -91,7 +91,7 @@ public class OfficersActivity extends TiActivity<OfficersPresenter, OfficersActi
 			officersAdapter = new OfficersAdapter(OfficersActivity.this, officers, dataManager);
 			officersRecyclerView.setAdapter(officersAdapter);
 		} else {
-			officersAdapter.addItems(officers);
+			officersAdapter.updateItems(officers);
 		}
 	}
 

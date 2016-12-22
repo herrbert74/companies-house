@@ -98,7 +98,7 @@ public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, Insolven
 			insolvencyAdapter = new InsolvencyAdapter(InsolvencyActivity.this, insolvency, dataManager);
 			insolvencyRecyclerView.setAdapter(insolvencyAdapter);
 		} else {
-			insolvencyAdapter.addItems(insolvency);
+			insolvencyAdapter.updateItems(insolvency);
 		}
 	}
 

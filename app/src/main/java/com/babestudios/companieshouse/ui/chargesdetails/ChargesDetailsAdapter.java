@@ -4,6 +4,7 @@ package com.babestudios.companieshouse.ui.chargesdetails;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,11 @@ class ChargesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 	private ChargesItem chargesItem;
 
+	Context context;
+
 	ChargesDetailsAdapter(Context c, ChargesItem chargesItem) {
 		this.chargesItem = chargesItem;
+		context = c;
 	}
 
 	@Override
@@ -53,18 +57,17 @@ class ChargesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 			((HeaderViewHolder) viewHolder).textViewContainsNegativePledge.setText(chargesItem.particulars.containsNegativePledge ? "YES" : "NO");
 			((HeaderViewHolder) viewHolder).textViewContainsFixedCharge.setText(chargesItem.particulars.containsFixedCharge ? "YES" : "NO");
 			if(chargesItem.satisfiedOn == null) {
-				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setVisibility(View.INVISIBLE);
-				ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)((HeaderViewHolder) viewHolder).textViewSatisfiedOn.getLayoutParams();
-				params.height = 0;
-				params.setMargins(0,0,0,0);
-				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setLayoutParams(params);
 				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setVisibility(View.INVISIBLE);
-				params = (ConstraintLayout.LayoutParams)((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.getLayoutParams();
-
-				params.height = 0;
+				ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.getLayoutParams();
+				params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
 				params.setMargins(0,0,0,0);
 				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setLayoutParams(params);
-				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setText("");
+				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setVisibility(View.INVISIBLE);
+				ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams)((HeaderViewHolder) viewHolder).textViewSatisfiedOn.getLayoutParams();
+				params2.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
+				params2.setMargins(0,0,0,0);
+				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setLayoutParams(params2);
+				//((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setText("");
 			}else{
 				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setVisibility(View.VISIBLE);
 				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setVisibility(View.VISIBLE);

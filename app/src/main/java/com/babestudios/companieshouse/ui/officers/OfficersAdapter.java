@@ -82,8 +82,8 @@ public class OfficersAdapter extends RecyclerView.Adapter<OfficersAdapter.Office
 		void officersItemClicked(View v, int position, String companyName, String companyNumber);
 	}
 
-	void addItems(Officers officers) {
-		this.officers.items.addAll(officers.items);
+	void updateItems(Officers officers) {
+		this.officers = officers;
 		notifyDataSetChanged();
 	}
 }

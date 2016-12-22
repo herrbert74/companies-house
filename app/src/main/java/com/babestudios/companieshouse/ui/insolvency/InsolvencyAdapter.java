@@ -83,8 +83,8 @@ public class InsolvencyAdapter extends RecyclerView.Adapter<InsolvencyAdapter.In
 		void insolvencyItemClicked(View v, int position, InsolvencyCase insolvencyCase);
 	}
 
-	void addItems(Insolvency insolvency) {
-		this.insolvency.cases.addAll(insolvency.cases);
+	void updateItems(Insolvency insolvency) {
+		this.insolvency = insolvency;
 		notifyDataSetChanged();
 	}
 }

@@ -15,9 +15,7 @@ import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.charges.Charges;
 import com.babestudios.companieshouse.data.model.charges.ChargesItem;
-import com.babestudios.companieshouse.data.model.insolvency.InsolvencyCase;
 import com.babestudios.companieshouse.ui.chargesdetails.ChargesDetailsActivity;
-import com.babestudios.companieshouse.ui.insolvencydetails.InsolvencyDetailsActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 import com.google.gson.Gson;
@@ -101,7 +99,7 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 			chargesAdapter = new ChargesAdapter(ChargesActivity.this, charges, dataManager);
 			chargesRecyclerView.setAdapter(chargesAdapter);
 		} else {
-			chargesAdapter.addItems(charges);
+			chargesAdapter.updateItems(charges);
 		}
 	}
 

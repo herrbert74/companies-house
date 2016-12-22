@@ -80,8 +80,8 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.PersonsV
 		void personsItemClicked(View v, int position, String companyName, String companyNumber);
 	}
 
-	void addItems(Persons persons) {
-		this.persons.items.addAll(persons.items);
+	void updateItems(Persons persons) {
+		this.persons = persons;
 		notifyDataSetChanged();
 	}
 }

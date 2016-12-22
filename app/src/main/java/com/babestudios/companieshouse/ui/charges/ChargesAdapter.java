@@ -83,8 +83,8 @@ public class ChargesAdapter extends RecyclerView.Adapter<ChargesAdapter.ChargesV
 		void chargesItemClicked(View v, int position, ChargesItem chargesItem);
 	}
 
-	void addItems(Charges charges) {
-		this.charges.items.addAll(charges.items);
+	void updateItems(Charges charges) {
+		this.charges = charges;
 		notifyDataSetChanged();
 	}
 }

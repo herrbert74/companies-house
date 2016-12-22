@@ -14,7 +14,6 @@ import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.persons.Persons;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
-import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -88,7 +87,7 @@ public class PersonsActivity extends TiActivity<PersonsPresenter, PersonsActivit
 			personsAdapter = new PersonsAdapter(PersonsActivity.this, persons, dataManager);
 			personsRecyclerView.setAdapter(personsAdapter);
 		} else {
-			personsAdapter.addItems(persons);
+			personsAdapter.updateItems(persons);
 		}
 	}
 

@@ -83,8 +83,8 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 		void filingItemClicked(View v, int position, FilingHistoryItem item);
 	}
 
-	void addItems(FilingHistoryList filingHistoryList) {
-		this.filingHistoryList.items.addAll(filingHistoryList.items);
+	void updateItems(FilingHistoryList filingHistoryList) {
+		this.filingHistoryList = filingHistoryList;
 		notifyDataSetChanged();
 	}
 }
