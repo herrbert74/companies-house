@@ -57,17 +57,8 @@ class ChargesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 			((HeaderViewHolder) viewHolder).textViewContainsNegativePledge.setText(chargesItem.particulars.containsNegativePledge ? "YES" : "NO");
 			((HeaderViewHolder) viewHolder).textViewContainsFixedCharge.setText(chargesItem.particulars.containsFixedCharge ? "YES" : "NO");
 			if(chargesItem.satisfiedOn == null) {
-				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setVisibility(View.INVISIBLE);
-				ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.getLayoutParams();
-				params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
-				params.setMargins(0,0,0,0);
-				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setLayoutParams(params);
-				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setVisibility(View.INVISIBLE);
-				ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams)((HeaderViewHolder) viewHolder).textViewSatisfiedOn.getLayoutParams();
-				params2.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, context.getResources().getDisplayMetrics());
-				params2.setMargins(0,0,0,0);
-				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setLayoutParams(params2);
-				//((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setText("");
+				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setVisibility(View.GONE);
+				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setVisibility(View.GONE);
 			}else{
 				((HeaderViewHolder) viewHolder).textViewSatisfiedOn.setVisibility(View.VISIBLE);
 				((HeaderViewHolder) viewHolder).textViewLabelSatisfiedOn.setVisibility(View.VISIBLE);
