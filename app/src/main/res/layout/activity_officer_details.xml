@@ -1,9 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 											 xmlns:app="http://schemas.android.com/apk/res-auto"
 											 xmlns:tools="http://schemas.android.com/tools"
 											 android:layout_width="match_parent"
-											 android:layout_height="wrap_content"
-											 android:paddingBottom="@dimen/activity_horizontal_margin">
+											 android:layout_height="match_parent"
+											 android:fitsSystemWindows="true"
+											 tools:context=".ui.officerdetails.OfficerDetailsActivity">
+
+
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="0dp"
+		android:layout_height="56dp"
+		android:background="?attr/colorPrimary"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:popupTheme="@style/AppTheme.PopupOverlay"
+		app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+
+	<ProgressBar
+		android:id="@+id/progressbar"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:indeterminate="true"
+		android:indeterminateBehavior="cycle"
+		android:visibility="gone"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:layout_constraintLeft_creator="1"
+		tools:layout_constraintTop_creator="1"/>
+
 
 	<android.support.constraint.Guideline
 		android:id="@+id/guideline"
@@ -15,61 +43,15 @@
 		tools:layout_editor_absoluteY="0dp"/>
 
 	<TextView
-		android:id="@+id/textViewLabelAppointedOn"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="16dp"
-		android:text="@string/insolvency_details_appointed_on"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toTopOf="parent"/>
-
-	<TextView
-		android:id="@+id/textViewAppointedOn"
-		style="@style/Text.Title"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelAppointedOn"
-		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintLeft_toLeftOf="@+id/guideline"
-		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 1"/>
-
-	<TextView
-		android:id="@+id/textViewLabelCeasedToActOn"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="16dp"
-		android:text="@string/insolvency_details_ceased_to_act_on"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewAppointedOn"/>
-
-	<TextView
-		android:id="@+id/textViewCeasedToActOn"
-		style="@style/Text.Title"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCeasedToActOn"
-		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintLeft_toLeftOf="@+id/guideline"
-		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 2"/>
-
-	<TextView
 		android:id="@+id/textViewLabelName"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="16dp"
-		android:text="@string/insolvency_details_name"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_vertical_margin"
+		android:text="@string/officer_details_name"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewCeasedToActOn"/>
+		app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
 	<TextView
 		android:id="@+id/textViewName"
@@ -81,42 +63,134 @@
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 3"/>
+		tools:text="PATEL, Ashish Nalin"/>
 
 	<TextView
-		android:id="@+id/textViewLabelRole"
+		android:id="@+id/textViewLabelAppointedOn"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="16dp"
-		android:text="@string/insolvency_details_role"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_vertical_margin"
+		android:text="@string/officer_details_appointed_on"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewName"/>
 
 	<TextView
-		android:id="@+id/textViewRole"
+		android:id="@+id/textViewAppointedOn"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelRole"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelAppointedOn"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Practitioner"/>
+		tools:text="2011-08-11"/>
+
+	<TextView
+		android:id="@+id/textViewLabelNationality"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_vertical_margin"
+		android:text="@string/officer_details_nationality"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewAppointedOn"/>
+
+	<TextView
+		android:id="@+id/textViewNationality"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelNationality"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="British"/>
+
+	<TextView
+		android:id="@+id/textViewLabelOccupation"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:text="@string/officer_details_occupation"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewNationality"/>
+
+	<TextView
+		android:id="@+id/textViewOccupation"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelOccupation"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Director"/>
+
+	<TextView
+		android:id="@+id/textViewLabelDateOfBirth"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:text="@string/officer_details_date_of_birth"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewOccupation"/>
+
+	<TextView
+		android:id="@+id/textViewDateOfBirth"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDateOfBirth"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="25/1980"/>
+
+	<TextView
+		android:id="@+id/textViewLabelCountryOfResidence"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:text="@string/officer_details_country_of_residence"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewDateOfBirth"/>
+
+	<TextView
+		android:id="@+id/textViewCountryOfResidence"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCountryOfResidence"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="United Kingdom"/>
 
 	<TextView
 		android:id="@+id/textViewLabelAddress"
 		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginStart="16dp"
 		android:paddingStart="@dimen/activity_horizontal_margin"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewRole"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCountryOfResidence"
 		android:text="@string/insolvency_details_address"
-		android:layout_marginTop="8dp"/>
+		android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
 	<TextView
 		android:id="@+id/textViewAddressLine1"
@@ -158,7 +232,6 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		android:visibility="gone"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewPostalCode"
 		tools:text="Surrey"/>
@@ -166,7 +239,6 @@
 	<TextView
 		android:id="@+id/textViewCountry"
 		style="@style/Text"
-		android:visibility="gone"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -174,5 +246,6 @@
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewRegion"
 		tools:text="United Kingdom"/>
+
 
 </android.support.constraint.ConstraintLayout>

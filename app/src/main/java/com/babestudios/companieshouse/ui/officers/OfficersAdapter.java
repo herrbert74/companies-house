@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.model.officers.OfficerItem;
 import com.babestudios.companieshouse.data.model.officers.Officers;
 
 import butterknife.Bind;
@@ -74,12 +75,12 @@ public class OfficersAdapter extends RecyclerView.Adapter<OfficersAdapter.Office
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), officers.items.get(getLayoutPosition()).title, officers.items.get(getLayoutPosition()).companyNumber);
+			mItemListener.officersItemClicked(v, this.getLayoutPosition(), officers.items.get(getLayoutPosition()));
 		}
 	}
 
 	interface OfficersRecyclerViewClickListener {
-		void officersItemClicked(View v, int position, String companyName, String companyNumber);
+		void officersItemClicked(View v, int position, OfficerItem officerItem);
 	}
 
 	void updateItems(Officers officers) {

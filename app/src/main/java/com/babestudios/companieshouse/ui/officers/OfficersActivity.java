@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.officers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +12,14 @@ import android.widget.ProgressBar;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryItem;
+import com.babestudios.companieshouse.data.model.officers.OfficerItem;
 import com.babestudios.companieshouse.data.model.officers.Officers;
+import com.babestudios.companieshouse.ui.filinghistorydetails.FilingHistoryDetailsActivity;
+import com.babestudios.companieshouse.ui.officerdetails.OfficerDetailsActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
 import com.babestudios.companieshouse.utils.EndlessRecyclerViewScrollListener;
+import com.google.gson.Gson;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -103,8 +109,12 @@ public class OfficersActivity extends TiActivity<OfficersPresenter, OfficersActi
 	}
 
 	@Override
-	public void officersItemClicked(View v, int position, String companyName, String companyNumber) {
-
+	public void officersItemClicked(View v, int position, OfficerItem officerItem) {
+		Gson gson = new Gson();
+		String jsonItem = gson.toJson(officerItem, OfficerItem.class);
+		Intent intent = new Intent(this, OfficerDetailsActivity.class);
+		intent.putExtra("officerItem", jsonItem);
+		startActivity(intent);
 	}
 
 	@Override

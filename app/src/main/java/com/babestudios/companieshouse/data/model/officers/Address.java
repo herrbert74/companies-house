@@ -14,4 +14,6 @@ public class Address {
 	public String country;
 	@SerializedName("address_line_1")
 	public String addressLine1;
+	@SerializedName("region")
+	public String region;
 }
