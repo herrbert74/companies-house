@@ -30,6 +30,7 @@
 	<string name="charges_details">Charges details</string>
 	<string name="officers">Officers</string>
 	<string name="officer_details">Officer details</string>
+	<string name="person_details">Person details</string>
 	<string name="persons_with_significant_control">Persons with significant control</string>
 	<string name="company_details">Company details</string>
 	<string name="charges_details_delivered_on">Delivered on</string>
@@ -52,4 +53,9 @@
 	<string name="officer_details_nationality">Nationality</string>
 	<string name="officer_details_occupation">Occupation</string>
 	<string name="officer_details_date_of_birth">Date of birth</string>
+	<string name="persons_details_notified_on">Notified on</string>
+	<string name="persons_details_registration_number">Registration number</string>
+	<string name="persons_details_place_registered">Place registered</string>
+	<string name="persons_details_natures_of_control">Natures of control</string>
+	<string name="officer_details_unknown">Unknown</string>
 </resources>

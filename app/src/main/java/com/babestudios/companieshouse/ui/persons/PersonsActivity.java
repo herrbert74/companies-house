@@ -1,5 +1,6 @@
 package com.babestudios.companieshouse.ui.persons;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +13,13 @@ import android.widget.TextView;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.model.officers.OfficerItem;
+import com.babestudios.companieshouse.data.model.persons.Person;
 import com.babestudios.companieshouse.data.model.persons.Persons;
+import com.babestudios.companieshouse.ui.officerdetails.OfficerDetailsActivity;
+import com.babestudios.companieshouse.ui.personsdetails.PersonsDetailsActivity;
 import com.babestudios.companieshouse.utils.DividerItemDecoration;
+import com.google.gson.Gson;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -105,8 +111,12 @@ public class PersonsActivity extends TiActivity<PersonsPresenter, PersonsActivit
 	}
 
 	@Override
-	public void personsItemClicked(View v, int position, String companyName, String companyNumber) {
-
+	public void personsItemClicked(View v, int position, Person person) {
+		Gson gson = new Gson();
+		String jsonItem = gson.toJson(person, Person.class);
+		Intent intent = new Intent(this, PersonsDetailsActivity.class);
+		intent.putExtra("personsItem", jsonItem);
+		startActivity(intent);
 	}
 
 	@Override

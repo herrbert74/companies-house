@@ -12,6 +12,7 @@ import com.babestudios.companieshouse.ui.insolvencydetails.InsolvencyDetailsActi
 import com.babestudios.companieshouse.ui.officerdetails.OfficerDetailsActivity;
 import com.babestudios.companieshouse.ui.officers.OfficersActivity;
 import com.babestudios.companieshouse.ui.persons.PersonsActivity;
+import com.babestudios.companieshouse.ui.personsdetails.PersonsDetailsActivity;
 import com.babestudios.companieshouse.ui.search.RecentSearchesResultsAdapter;
 import com.babestudios.companieshouse.ui.search.SearchActivity;
 import com.babestudios.companieshouse.ui.search.SearchPresenter;
@@ -49,6 +50,8 @@ public interface ApplicationComponent {
 	void inject(ChargesDetailsActivity chargesDetailsActivity);
 
 	void inject(OfficerDetailsActivity officerDetailsActivity);
+
+	void inject(PersonsDetailsActivity personsDetailsActivity);
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

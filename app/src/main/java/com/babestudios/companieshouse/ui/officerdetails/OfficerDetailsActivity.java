@@ -72,7 +72,11 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 		textViewAppointedOn.setText(officerItem.appointedOn);
 		textViewNationality.setText(officerItem.nationality);
 		textViewOccupation.setText(officerItem.occupation);
-		textViewDateOfBirth.setText(officerItem.dateOfBirth.month + "/" + officerItem.dateOfBirth.year);
+		if(officerItem.dateOfBirth != null) {
+			textViewDateOfBirth.setText(officerItem.dateOfBirth.month + "/" + officerItem.dateOfBirth.year);
+		} else {
+			textViewDateOfBirth.setText(R.string.officer_details_unknown);
+		}
 		textViewCountryOfResidence.setText(officerItem.countryOfResidence);
 		textViewAddressLine1.setText(officerItem.address.addressLine1);
 		textViewLocality.setText(officerItem.address.locality);
@@ -83,7 +87,7 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 			textViewRegion.setVisibility(View.VISIBLE);
 			textViewRegion.setText(officerItem.address.region);
 		}
-		if(officerItem.address.region == null) {
+		if(officerItem.address.country == null) {
 			textViewCountry.setVisibility(View.GONE);
 		} else {
 			textViewCountry.setVisibility(View.VISIBLE);

@@ -12,6 +12,8 @@ public class Address {
 	public String addressLine1;
 	@SerializedName("locality")
 	public String locality;
+	@SerializedName("region")
+	public String region;
 	@SerializedName("premises")
 	public String premises;
 }

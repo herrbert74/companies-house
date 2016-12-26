@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
+import com.babestudios.companieshouse.data.model.persons.Person;
 import com.babestudios.companieshouse.data.model.persons.Persons;
 
 import butterknife.Bind;
@@ -72,12 +73,12 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.PersonsV
 
 		@Override
 		public void onClick(View v) {
-			//mItemListener.filingItemClicked(v, this.getLayoutPosition(), persons.items.get(getLayoutPosition()).title, persons.items.get(getLayoutPosition()).companyNumber);
+			mItemListener.personsItemClicked(v, this.getLayoutPosition(), persons.items.get(getLayoutPosition()));
 		}
 	}
 
 	interface PersonsRecyclerViewClickListener {
-		void personsItemClicked(View v, int position, String companyName, String companyNumber);
+		void personsItemClicked(View v, int position, Person person);
 	}
 
 	void updateItems(Persons persons) {

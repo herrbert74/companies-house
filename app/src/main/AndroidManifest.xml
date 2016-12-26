@@ -33,6 +33,7 @@
 		<activity android:name=".ui.officers.OfficersActivity"/>
 		<activity android:name=".ui.officerdetails.OfficerDetailsActivity"/>
 		<activity android:name=".ui.persons.PersonsActivity"/>
+		<activity android:name=".ui.personsdetails.PersonsDetailsActivity"/>
 	</application>
 
 </manifest>

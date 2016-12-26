@@ -25,9 +25,7 @@ public class Person {
 	public NameElements nameElements;
 	@SerializedName("natures_of_control")
 	public List<String> naturesOfControl = new ArrayList<>();
-	@SerializedName("nationality")
 	public String nationality;
-	@SerializedName("name")
 	public String name;
-
+	public Identification identification;
 }

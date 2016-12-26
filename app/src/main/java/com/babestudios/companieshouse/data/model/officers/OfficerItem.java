@@ -1,6 +1,8 @@
 package com.babestudios.companieshouse.data.model.officers;
 
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 public class OfficerItem {
@@ -19,11 +21,12 @@ public class OfficerItem {
 	@SerializedName("date_of_birth")
 	public DateOfBirth dateOfBirth;
 	@SerializedName("occupation")
-	public String occupation;
+	@NonNull
+	public String occupation = "Unknown";
 	@SerializedName("country_of_residence")
-	public String countryOfResidence;
+	public String countryOfResidence = "Unknown";
 	@SerializedName("nationality")
-	public String nationality;
+	public String nationality = "Unknown";
 	@SerializedName("resigned_on")
 	public String resignedOn;
 }

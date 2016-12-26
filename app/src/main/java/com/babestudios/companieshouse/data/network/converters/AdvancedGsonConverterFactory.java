@@ -34,6 +34,7 @@ public class AdvancedGsonConverterFactory extends Converter.Factory {
 				.registerTypeAdapter(Date.class, new DateSerializer())//
 				.registerTypeAdapter(Boolean.class, new BooleanSerializer())//
 				.registerTypeAdapter(boolean.class, new BooleanSerializer())//
+				.registerTypeAdapter(String.class, new StringSerializer())//
 				.create());
 	}
 
