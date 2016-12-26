@@ -1,9 +1,11 @@
 package com.babestudios.companieshouse.ui.officerdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -11,15 +13,20 @@ import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.officers.OfficerItem;
+import com.babestudios.companieshouse.ui.officerappointments.OfficerAppointmentsActivity;
 import com.google.gson.Gson;
 
 import net.grandcentrix.thirtyinch.TiActivity;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, OfficerDetailsActivityView> implements OfficerDetailsActivityView {
 
@@ -57,6 +64,7 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 	DataManager dataManager;
 
 	String officerItemString;
+	String officerId;
 
 	@SuppressWarnings("ConstantConditions")
 	@Override
@@ -94,15 +102,25 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 			textViewCountry.setText(officerItem.address.country);
 		}
 
-
-
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setTitle(R.string.officer_details);
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
+		Pattern pattern = Pattern.compile("officers/(.+)/appointments");
+		Matcher matcher = pattern.matcher(officerItem.links.officer.appointments);
+		if (matcher.find())
+		{
+			officerId = matcher.group(1);
+		}
+	}
 
+	@OnClick(R.id.buttonAppointments)
+	public void onClick() {
+		Intent intent = new Intent(this, OfficerAppointmentsActivity.class);
+		intent.putExtra("officerId", officerId);
+		startActivity(intent);
 	}
 
 	@Override

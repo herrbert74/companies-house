@@ -58,4 +58,10 @@
 	<string name="persons_details_place_registered">Place registered</string>
 	<string name="persons_details_natures_of_control">Natures of control</string>
 	<string name="officer_details_unknown">Unknown</string>
+	<string name="officer_details_appointments">Appointments</string>
+	<string name="company_name">Company name</string>
+	<string name="company_status">Company status</string>
+	<string name="officer_appointments_resigned_on">Resigned on</string>
+	<string name="officer_appointments_role">Role</string>
+	<string name="officer_appointments_appointments">Appointments</string>
 </resources>

@@ -14,6 +14,7 @@ android {
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT', '"company/{companyNumber}/filing-history"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_CHARGES_ENDPOINT', '"company/{companyNumber}/charges"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT', '"company/{companyNumber}/officers"';
+			buildConfigField 'String', 'COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT', '"officers/{officerId}/appointments"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT', '"company/{companyNumber}/insolvency"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_PERSONS_ENDPOINT', '"company/{companyNumber}/persons-with-significant-control"';
 		}

@@ -1,0 +1,132 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+											 xmlns:app="http://schemas.android.com/apk/res-auto"
+											 xmlns:tools="http://schemas.android.com/tools"
+											 android:layout_width="match_parent"
+											 android:layout_height="wrap_content"
+											 android:paddingBottom="@dimen/activity_horizontal_margin">
+
+	<android.support.constraint.Guideline
+		android:id="@+id/guideline"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_begin="172dp"
+		tools:layout_editor_absoluteX="172dp"
+		tools:layout_editor_absoluteY="0dp"/>
+
+	<TextView
+		android:id="@+id/textViewLabelAppointedOn"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="@string/officer_details_appointed_on"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"/>
+
+	<TextView
+		android:id="@+id/textViewAppointedOn"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelAppointedOn"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="2012-08-12"/>
+
+	<TextView
+		android:id="@+id/textViewLabelCompanyName"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="@string/company_name"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewAppointedOn"/>
+
+	<TextView
+		android:id="@+id/textViewCompanyName"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCompanyName"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="ACME Holdings"/>
+
+	<TextView
+		android:id="@+id/textViewLabelCompanyStatus"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="@string/company_status"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCompanyName"/>
+
+	<TextView
+		android:id="@+id/textViewCompanyStatus"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCompanyStatus"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="active"/>
+
+	<TextView
+		android:id="@+id/textViewLabelRole"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="@string/officer_appointments_role"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCompanyStatus"/>
+
+	<TextView
+		android:id="@+id/textViewRole"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelRole"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="director"/>
+
+	<TextView
+		android:id="@+id/textViewLabelResignedOn"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="@string/officer_appointments_resigned_on"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewRole"/>
+
+	<TextView
+		android:id="@+id/textViewResignedOn"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelResignedOn"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="2014-09-12"/>
+
+</android.support.constraint.ConstraintLayout>

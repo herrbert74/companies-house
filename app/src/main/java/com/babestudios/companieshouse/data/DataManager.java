@@ -11,6 +11,7 @@ import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
 import com.babestudios.companieshouse.data.model.insolvency.Insolvency;
 import com.babestudios.companieshouse.data.model.officers.Officers;
+import com.babestudios.companieshouse.data.model.officers.appointments.Appointments;
 import com.babestudios.companieshouse.data.model.persons.Persons;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -93,6 +94,12 @@ public class DataManager {
 
 	public Observable<Officers> getOfficers(String companyNumber, String startItem) {
 		return companiesHouseService.getOfficers(authorization, companyNumber, null, null, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	public Observable<Appointments> getOfficerAppointments(String officerId, String startItem) {
+		return companiesHouseService.getOfficerAppointments(authorization, officerId, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());
 	}

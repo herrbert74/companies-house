@@ -1,0 +1,44 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+											 xmlns:app="http://schemas.android.com/apk/res-auto"
+											 xmlns:tools="http://schemas.android.com/tools"
+											 android:layout_width="match_parent"
+											 android:layout_height="wrap_content"
+											 android:paddingBottom="@dimen/activity_horizontal_margin">
+
+
+	<TextView
+		android:id="@+id/textViewOfficerName"
+		style="@style/Text.Title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		android:textAllCaps="true"
+		tools:text="John Doe"/>
+
+	<View
+		android:id="@+id/divider"
+		android:layout_width="0dp"
+		android:layout_height="1dp"
+		android:layout_marginTop="16dp"
+		android:background="@color/colorDivider"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewOfficerName"/>
+
+	<TextView
+		android:id="@+id/textViewTitle"
+		style="@style/Text.Bold"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:gravity="start"
+		android:text="@string/officer_appointments_appointments"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/divider"
+		tools:layout_editor_absoluteX="8dp"/>
+
+</android.support.constraint.ConstraintLayout>

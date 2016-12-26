@@ -57,5 +57,11 @@
 
 	<style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-
+<style name="ButtonPrimary" parent="Widget.AppCompat.Button.Colored">
+	<item name="android:layout_width">wrap_content</item>
+	<item name="android:layout_height">48dp</item>
+	<item name="background">@color/colorPrimary</item>
+	<item name="android:textColor">@android:color/white</item>
+	<item name="android:minWidth">88dp</item>
+</style>
 </resources>

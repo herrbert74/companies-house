@@ -32,6 +32,7 @@
 		<activity android:name=".ui.chargesdetails.ChargesDetailsActivity"/>
 		<activity android:name=".ui.officers.OfficersActivity"/>
 		<activity android:name=".ui.officerdetails.OfficerDetailsActivity"/>
+		<activity android:name=".ui.officerappointments.OfficerAppointmentsActivity"/>
 		<activity android:name=".ui.persons.PersonsActivity"/>
 		<activity android:name=".ui.personsdetails.PersonsDetailsActivity"/>
 	</application>
