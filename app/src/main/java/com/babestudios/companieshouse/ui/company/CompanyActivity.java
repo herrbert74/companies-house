@@ -17,6 +17,8 @@ import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.ui.charges.ChargesActivity;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryActivity;
 import com.babestudios.companieshouse.ui.insolvency.InsolvencyActivity;
+import com.babestudios.companieshouse.ui.map.MapActivity;
+import com.babestudios.companieshouse.ui.officerappointments.OfficerAppointmentsActivity;
 import com.babestudios.companieshouse.ui.officers.OfficersActivity;
 import com.babestudios.companieshouse.ui.persons.PersonsActivity;
 import com.babestudios.companieshouse.utils.DateUtil;
@@ -26,6 +28,7 @@ import net.grandcentrix.thirtyinch.TiActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivityView> implements CompanyActivityView {
 
@@ -70,6 +73,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 
 	String companyNumber;
 	String companyName;
+	String addressString;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,14 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		getPresenter().observablesFromViews(RxView.clicks(fab));
 		toolbar_title.setText(companyName);
 		companyNumberTextView.setText(companyNumber);
+	}
+
+	@OnClick(R.id.buttonShowOnMap)
+	void onClick() {
+		Intent intent = new Intent(this, MapActivity.class);
+		intent.putExtra("addressString", addressString);
+		intent.putExtra("companyName", companyName);
+		startActivity(intent);
 	}
 
 	@Override
@@ -155,6 +167,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		} else {
 			annualReturnsTextView.setText(getResources().getString(R.string.company_annual_returns_not_found));
 		}
+		addressString = (company.registeredOfficeAddress.addressLine2 != null ? company.registeredOfficeAddress.addressLine2 : company.registeredOfficeAddress.addressLine1) + ", " + company.registeredOfficeAddress.locality + ", " + company.registeredOfficeAddress.postalCode;
 	}
 
 	@Override

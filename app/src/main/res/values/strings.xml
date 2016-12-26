@@ -64,4 +64,6 @@
 	<string name="officer_appointments_resigned_on">Resigned on</string>
 	<string name="officer_appointments_role">Role</string>
 	<string name="officer_appointments_appointments">Appointments</string>
+	<string name="title_activity_maps">Map</string>
+	<string name="company_address_show_on_map">Show on map</string>
 </resources>

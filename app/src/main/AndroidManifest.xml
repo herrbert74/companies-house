@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		  package="com.babestudios.companieshouse">
 
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
 
 	<application
@@ -11,6 +12,8 @@
 		android:label="@string/app_name"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme.NoActionBar">
+		<uses-library android:name="com.google.android.maps"/>
+
 		<activity
 			android:name=".ui.search.SearchActivity"
 			android:windowSoftInputMode="stateHidden">
@@ -35,6 +38,13 @@
 		<activity android:name=".ui.officerappointments.OfficerAppointmentsActivity"/>
 		<activity android:name=".ui.persons.PersonsActivity"/>
 		<activity android:name=".ui.personsdetails.PersonsDetailsActivity"/>
+
+		<activity android:name=".ui.map.MapActivity"/>
+
+		<meta-data
+			android:name="com.google.android.geo.API_KEY"
+			android:value="AIzaSyDL491tNFSzvEl4Z0EuIejDli0caJVWdcA"/>
 	</application>
 
 </manifest>
+
