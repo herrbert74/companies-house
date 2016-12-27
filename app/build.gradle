@@ -17,11 +17,13 @@ android {
 	}
 	buildTypes {
 		release {
-			minifyEnabled false
+			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		debug {
-			testCoverageEnabled true
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			testCoverageEnabled false
 		}
 	}
 	testOptions {
@@ -73,7 +75,7 @@ dependencies {
 	testCompile "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
 
 	//OkHttp3
-	debugCompile "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
+	compile "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
 
 	//RxJava
 	compile "io.reactivex:rxjava:$rxJavaVersion"
