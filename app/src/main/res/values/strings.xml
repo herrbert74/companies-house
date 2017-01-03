@@ -1,5 +1,5 @@
 <resources>
-	<string name="app_name">Companies House</string>
+	<string name="app_name">Company Info UK</string>
 	<string name="search">Search</string>
 	<string name="favourites">Favourites</string>
 	<string name="remove_favourites">Remove Favourites</string>

@@ -7,7 +7,7 @@ android {
 	buildToolsVersion '25.0.2'
 
 	defaultConfig {
-		applicationId "com.babestudios.companieshouse"
+		applicationId "com.babestudios.companyinfouk"
 		minSdkVersion 21
 		targetSdkVersion 25
 		versionCode 1
@@ -21,8 +21,8 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		debug {
-			minifyEnabled true
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			minifyEnabled false
+			//proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 			testCoverageEnabled false
 		}
 	}
