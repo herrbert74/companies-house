@@ -21,12 +21,6 @@ public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 	}
 
-	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		getView().showFavourites(dataManager.getFavourites());
-	}
-
 	void onResume(){
 		getView().showFavourites(dataManager.getFavourites());
 	}

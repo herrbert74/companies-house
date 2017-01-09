@@ -79,17 +79,17 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 	@Override
 	public void showFavourites(SearchHistoryItem[] searchHistoryItems) {
 		favouritesRecyclerView.setVisibility(View.VISIBLE);
+		ArrayList<SearchHistoryItem> searchHistoryItemsList;
+		if (searchHistoryItems != null) {
+			searchHistoryItemsList = new ArrayList<>(Arrays.asList(searchHistoryItems));
+		} else {
+			searchHistoryItemsList = new ArrayList<>();
+		}
 		if (favouritesRecyclerView.getAdapter() == null) {
-			ArrayList<SearchHistoryItem> searchHistoryItemsList;
-			if (searchHistoryItems != null) {
-				searchHistoryItemsList = new ArrayList<>(Arrays.asList(searchHistoryItems));
-			} else {
-				searchHistoryItemsList = new ArrayList<>();
-			}
 			favouritesAdapter = new FavouritesAdapter(FavouritesActivity.this, searchHistoryItemsList);
 			favouritesRecyclerView.setAdapter(favouritesAdapter);
 		} else {
-			((FavouritesAdapter)favouritesRecyclerView.getAdapter()).updateAdapter(new ArrayList<>(Arrays.asList(searchHistoryItems)));
+			((FavouritesAdapter)favouritesRecyclerView.getAdapter()).updateAdapter(searchHistoryItemsList);
 		}
 	}
 
