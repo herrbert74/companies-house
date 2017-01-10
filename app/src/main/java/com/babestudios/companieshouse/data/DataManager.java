@@ -15,14 +15,17 @@ import com.babestudios.companieshouse.data.model.officers.appointments.Appointme
 import com.babestudios.companieshouse.data.model.persons.Persons;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
+import com.babestudios.companieshouse.data.network.CompaniesHouseDocumentService;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.utils.Base64Wrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import javax.inject.Singleton;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -33,11 +36,13 @@ public class DataManager {
 	private final String authorization;
 
 	private CompaniesHouseService companiesHouseService;
+	private CompaniesHouseDocumentService companiesHouseDocumentService;
 	private PreferencesHelper preferencesHelper;
 	private ApiLookupHelper apiLookupHelper = new ApiLookupHelper();
 
-	public DataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
+	public DataManager(CompaniesHouseService companiesHouseService, CompaniesHouseDocumentService companiesHouseDocumentService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
 		this.companiesHouseService = companiesHouseService;
+		this.companiesHouseDocumentService = companiesHouseDocumentService;
 		this.preferencesHelper = preferencesHelper;
 		authorization = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.getBytes(), Base64.NO_WRAP);
 	}
@@ -106,6 +111,12 @@ public class DataManager {
 
 	public Observable<Persons> getPersons(String companyNumber, String startItem) {
 		return companiesHouseService.getPersons(authorization, companyNumber, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	public Observable<ResponseBody> getDocument(String documentNumber) {
+		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentNumber)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());
 	}

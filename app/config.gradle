@@ -4,6 +4,7 @@ android {
 	buildTypes {
 		all {
 			buildConfigField 'String', 'COMPANIES_HOUSE_BASE_URL', '"https://api.companieshouse.gov.uk/"';
+			buildConfigField 'String', 'COMPANIES_HOUSE_DOCUMENT_API_BASE_URL', '"https://document-api.companieshouse.gov.uk/"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_API_KEY', '"ZphXpg-trfwANiTNfe4xwK6QXY4XwRww0wHxF5dm"';
 
 			buildConfigField 'String', 'COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT', '"search/companies"';
@@ -17,6 +18,7 @@ android {
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT', '"officers/{officerId}/appointments"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT', '"company/{companyNumber}/insolvency"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_GET_PERSONS_ENDPOINT', '"company/{companyNumber}/persons-with-significant-control"';
+			buildConfigField 'String', 'COMPANIES_HOUSE_GET_DOCUMENT_ENDPOINT', '"document/{documentNumber}/content"';
 		}
 	}
 }

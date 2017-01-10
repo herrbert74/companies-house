@@ -40,7 +40,7 @@ public class DataManagerTest {
 
 	@Before
 	public void setUp() {
-		dataManager = new DataManager(mockCompaniesHouseService, mockPreferencesHelper, base64Wrapper);
+		dataManager = new DataManager(mockCompaniesHouseService, companiesHouseDocumentService, mockPreferencesHelper, base64Wrapper);
 		//authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
 		companySearchResult = new CompanySearchResult();
 		doReturn(Observable.just(companySearchResult))

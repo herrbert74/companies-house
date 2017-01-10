@@ -7,6 +7,7 @@ import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.local.PreferencesHelper;
+import com.babestudios.companieshouse.data.network.CompaniesHouseDocumentService;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.data.network.converters.AdvancedGsonConverterFactory;
 import com.babestudios.companieshouse.utils.Base64Wrapper;
@@ -50,8 +51,31 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
+	@Named("CompaniesHouseDocumentRetrofit")
+	Retrofit provideCompaniesHouseDocumentRetrofit() {
+		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+		OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+		httpClient.addInterceptor(logging);
+		return new Retrofit.Builder()//
+				.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)//
+				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
+				.addConverterFactory(AdvancedGsonConverterFactory.create())//
+				.client(httpClient.build())//
+				.build();
+	}
+
+	@Provides
+	@Singleton
 	CompaniesHouseService provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") Retrofit retroFit) {
 		return retroFit.create(CompaniesHouseService.class);
+	}
+
+	@Provides
+	@Singleton
+	CompaniesHouseDocumentService provideCompaniesHouseDocumentService(@Named("CompaniesHouseDocumentRetrofit") Retrofit retroFit) {
+		return retroFit.create(CompaniesHouseDocumentService.class);
 	}
 
 	@Provides
@@ -67,8 +91,8 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	DataManager provideDataManager(CompaniesHouseService companiesHouseService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
-		return new DataManager(companiesHouseService, preferencesHelper, base64Wrapper);
+	DataManager provideDataManager(CompaniesHouseService companiesHouseService, CompaniesHouseDocumentService companiesHouseDocumentService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
+		return new DataManager(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper);
 	}
 
 	@Provides

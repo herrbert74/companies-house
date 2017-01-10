@@ -1,8 +1,13 @@
 package com.babestudios.companieshouse.ui.filinghistorydetails;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -53,6 +58,11 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 
 	String filingHistoryItemString;
 
+	@Override
+	public String getFilingHistoryItemString() {
+		return filingHistoryItemString;
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,5 +109,36 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	public FilingHistoryDetailsPresenter providePresenter() {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		return new FilingHistoryDetailsPresenter(dataManager);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.filing_history_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_show_pdf:
+				getPresenter().getDocument();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void showDocument(Uri uri) {
+		Intent target = new Intent(Intent.ACTION_VIEW);
+		target.setDataAndType(uri,"application/pdf");
+		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+		Intent intent = Intent.createChooser(target, "Open File");
+		try {
+			startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			// Instruct the user to install a PDF reader here, or something
+		}
 	}
 }
