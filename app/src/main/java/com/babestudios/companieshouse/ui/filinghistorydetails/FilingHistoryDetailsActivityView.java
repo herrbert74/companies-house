@@ -5,6 +5,8 @@ import android.net.Uri;
 import net.grandcentrix.thirtyinch.TiView;
 import net.grandcentrix.thirtyinch.callonmainthread.CallOnMainThread;
 
+import okhttp3.ResponseBody;
+
 interface FilingHistoryDetailsActivityView extends TiView {
 
 	@CallOnMainThread
@@ -17,4 +19,6 @@ interface FilingHistoryDetailsActivityView extends TiView {
 	void showDocument(Uri pdfBytes);
 
 	String getFilingHistoryItemString();
+
+	void checkPermissionAndWritePdf(ResponseBody responseBody);
 }

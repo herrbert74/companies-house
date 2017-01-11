@@ -1,8 +1,15 @@
 package com.babestudios.companieshouse.ui.filinghistorydetails;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryItem;
 import com.google.gson.Gson;
@@ -21,14 +28,18 @@ import javax.inject.Inject;
 import okhttp3.ResponseBody;
 import rx.Observer;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDetailsActivityView> implements Observer<ResponseBody> {
 
+	private DataManager dataManager;
+	private Context context;
 
-	DataManager dataManager;
 
 	@Inject
-	public FilingHistoryDetailsPresenter(DataManager dataManager) {
+	public FilingHistoryDetailsPresenter(DataManager dataManager, Context context) {
 		this.dataManager = dataManager;
+		this.context = context;
 	}
 
 	@Override
@@ -58,6 +69,14 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 		dataManager.getDocument(documentId).subscribe(this);
 	}
 
+	public boolean isExternalStorageWritable() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public void onCompleted() {
 
@@ -70,7 +89,15 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 
 	@Override
 	public void onNext(ResponseBody responseBody) {
-		File pdfFile = new File("./doc.pdf");
+		getView().checkPermissionAndWritePdf(responseBody);
+	}
+
+	public void writePdf(ResponseBody responseBody) {
+		File root = Environment.getExternalStorageDirectory();
+		File dir = new File(root.getAbsolutePath() + "/download");
+		dir.mkdirs();
+		File pdfFile = new File(dir, "doc.pdf");
+		//File pdfFile = new File(context.getFilesDir().getPath() + "/doc.pdf");
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		try {
@@ -87,7 +114,7 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 				}
 				outputStream.flush();
 			} catch (IOException e) {
-				Log.d("test", "Couldn't read file");
+				Log.d("test", e.getLocalizedMessage());
 			} finally {
 				if (inputStream != null) {
 					inputStream.close();

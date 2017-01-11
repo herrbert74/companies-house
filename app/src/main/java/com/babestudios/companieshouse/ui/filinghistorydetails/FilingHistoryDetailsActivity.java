@@ -1,16 +1,21 @@
 package com.babestudios.companieshouse.ui.filinghistorydetails;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
@@ -25,6 +30,9 @@ import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetailsPresenter, FilingHistoryDetailsActivityView> implements FilingHistoryDetailsActivityView {
 
@@ -58,9 +66,23 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 
 	String filingHistoryItemString;
 
+	private static final int REQUEST_WRITE_STORAGE = 0;
+
+	ResponseBody responseBody;
+
 	@Override
 	public String getFilingHistoryItemString() {
 		return filingHistoryItemString;
+	}
+
+	@Override
+	public void checkPermissionAndWritePdf(ResponseBody responseBody) {
+		if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			getPresenter().writePdf(responseBody);
+		} else {
+			this.responseBody = responseBody;
+			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+		}
 	}
 
 	@SuppressWarnings("ConstantConditions")
@@ -108,7 +130,7 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	@Override
 	public FilingHistoryDetailsPresenter providePresenter() {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new FilingHistoryDetailsPresenter(dataManager);
+		return new FilingHistoryDetailsPresenter(dataManager, this);
 	}
 
 	@Override
@@ -139,6 +161,24 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 			startActivity(intent);
 		} catch (ActivityNotFoundException e) {
 			// Instruct the user to install a PDF reader here, or something
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		//Checking the request code of our request
+		if (requestCode == REQUEST_WRITE_STORAGE) {
+
+			//If permission is granted
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				getPresenter().writePdf(responseBody);
+				//Displaying a toast
+				Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+
+			} else {
+				//Displaying another toast if permission is not granted
+				Toast.makeText(this, "The logs won't be saved to the SD card.", Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 }
