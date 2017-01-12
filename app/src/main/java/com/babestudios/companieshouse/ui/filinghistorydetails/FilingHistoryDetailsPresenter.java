@@ -97,7 +97,6 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 		File dir = new File(root.getAbsolutePath() + "/download");
 		dir.mkdirs();
 		File pdfFile = new File(dir, "doc.pdf");
-		//File pdfFile = new File(context.getFilesDir().getPath() + "/doc.pdf");
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		try {
@@ -127,7 +126,7 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.d("test", "Error during closing inputstream");
+			Log.d("test", "Error during closing input stream" + e.getLocalizedMessage());
 		}
 		getView().showDocument(Uri.fromFile(pdfFile));
 	}

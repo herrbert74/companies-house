@@ -57,9 +57,6 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	@Bind(R.id.textViewPages)
 	TextView textViewPages;
 
-	@Bind(R.id.textViewDocument)
-	TextView textViewDocument;
-
 	@Singleton
 	@Inject
 	DataManager dataManager;
@@ -99,7 +96,6 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 		textViewCategory.setText(filingHistoryItem.category);
 		textViewDescription.setText(filingHistoryItem.description);
 		textViewPages.setText(Integer.toString(filingHistoryItem.pages));
-		textViewDocument.setText(filingHistoryItem.links.documentMetadata);
 
 		if (filingHistoryItem.category.equals("capital")) {
 			textViewDescriptionValues.setText(filingHistoryItem.descriptionValues.capital.get(0).currency + " " + filingHistoryItem.descriptionValues.capital.get(0).figure);
@@ -160,7 +156,7 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 		try {
 			startActivity(intent);
 		} catch (ActivityNotFoundException e) {
-			// Instruct the user to install a PDF reader here, or something
+			Toast.makeText(this, "Couldn't find PDF reader. Please install one from Google Play.", Toast.LENGTH_LONG).show();
 		}
 	}
 

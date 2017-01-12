@@ -146,27 +146,4 @@
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="25"/>
 
-	<TextView
-		android:id="@+id/textViewLabelDocument"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/activity_horizontal_margin"
-		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		android:text="Document"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewPages"/>
-
-	<TextView
-		android:id="@+id/textViewDocument"
-		style="@style/Text.Title"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDocument"
-		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintLeft_toLeftOf="@+id/guideline"
-		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 3 long long long"/>
-
 </android.support.constraint.ConstraintLayout>
