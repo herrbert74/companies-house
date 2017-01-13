@@ -3,6 +3,7 @@ package com.babestudios.companieshouse;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.model.search.CompanySearchResult;
+import com.babestudios.companieshouse.data.network.CompaniesHouseDocumentService;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.utils.Base64Wrapper;
 
@@ -27,6 +28,9 @@ public class DataManagerTest {
 	CompaniesHouseService mockCompaniesHouseService;
 
 	@Mock
+	CompaniesHouseDocumentService mockCompaniesHouseDocumentService;
+
+	@Mock
 	PreferencesHelper mockPreferencesHelper;
 
 	@Mock
@@ -40,7 +44,7 @@ public class DataManagerTest {
 
 	@Before
 	public void setUp() {
-		dataManager = new DataManager(mockCompaniesHouseService, companiesHouseDocumentService, mockPreferencesHelper, base64Wrapper);
+		dataManager = new DataManager(mockCompaniesHouseService, mockCompaniesHouseDocumentService, mockPreferencesHelper, base64Wrapper);
 		//authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
 		companySearchResult = new CompanySearchResult();
 		doReturn(Observable.just(companySearchResult))
