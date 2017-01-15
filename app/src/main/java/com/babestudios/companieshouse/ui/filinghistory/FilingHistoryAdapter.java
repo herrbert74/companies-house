@@ -2,7 +2,12 @@ package com.babestudios.companieshouse.ui.filinghistory;
 
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,8 @@ import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,12 +47,73 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 	@Override
 	public void onBindViewHolder(FilingHistoryViewHolder viewHolder, int position) {
-
-		viewHolder.lblDescription.setText(dataManager.filingHistoryLookup(filingHistoryList.items.get(position).description));
+		Spannable spannableDescription = createSpannableDescription(dataManager.filingHistoryLookup(filingHistoryList.items.get(position).description), filingHistoryList.items.get(position));
+		viewHolder.lblDescription.setText(spannableDescription);
 		viewHolder.lblDate.setText(filingHistoryList.items.get(position).date);
 		viewHolder.lblCategory.setText(filingHistoryList.items.get(position).category);
 		viewHolder.lblType.setText(filingHistoryList.items.get(position).type);
 
+	}
+
+	private Spannable createSpannableDescription(String s, FilingHistoryItem filingHistoryItem) {
+		if (s != null) {
+			int first = s.indexOf("**");
+			int second = s.indexOf("**", first + 1) - 2;
+
+			s = s.replace("**", "");
+
+			ArrayList<Pair> spanPairs = new ArrayList<>();
+			int spanFirst;
+			if (filingHistoryItem.descriptionValues != null) {
+				String officerName = filingHistoryItem.descriptionValues.officerName;
+				if (officerName != null) {
+					s = s.replace("**", "").replace("{officer_name}", officerName);
+
+					spanFirst = s.indexOf(officerName);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + officerName.length()));
+				}
+				String appointmentDate = filingHistoryItem.descriptionValues.appointmentDate;
+				if (appointmentDate != null) {
+					s = s.replace("{appointment_date}", appointmentDate);
+					spanFirst = s.indexOf(appointmentDate);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + appointmentDate.length()));
+				}
+				String madeUpDate = filingHistoryItem.descriptionValues.madeUpDate;
+				if (madeUpDate != null) {
+					s = s.replace("{made_up_date}", madeUpDate);
+					spanFirst = s.indexOf(madeUpDate);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + madeUpDate.length()));
+				}
+				String terminationDate = filingHistoryItem.descriptionValues.terminationDate;
+				if (terminationDate != null) {
+					s = s.replace("{termination_date}", terminationDate);
+					spanFirst = s.indexOf(terminationDate);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + terminationDate.length()));
+				}
+				String newDate = filingHistoryItem.descriptionValues.newDate;
+				if (newDate  != null) {
+					s = s.replace("{new_date}", newDate);
+					spanFirst = s.indexOf(newDate);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + newDate.length()));
+				}
+				String changeDate = filingHistoryItem.descriptionValues.changeDate;
+				if (changeDate != null) {
+					s = s.replace("{change_date}", changeDate);
+					spanFirst = s.indexOf(changeDate);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + changeDate.length()));
+				}
+
+			}
+			Spannable spannable = new SpannableString(s);
+			StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+			spannable.setSpan(boldSpan, first, second, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+			for (Pair pair : spanPairs) {
+				StyleSpan boldSpan2 = new StyleSpan(Typeface.BOLD);
+				spannable.setSpan(boldSpan2, (int) pair.first, (int) pair.second, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+			}
+			return spannable;
+		}
+		return null;
 	}
 
 	public long getItemId(int position) {
