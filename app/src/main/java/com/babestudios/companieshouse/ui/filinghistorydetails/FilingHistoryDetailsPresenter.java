@@ -1,15 +1,10 @@
 package com.babestudios.companieshouse.ui.filinghistorydetails;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryItem;
 import com.google.gson.Gson;
@@ -28,8 +23,6 @@ import javax.inject.Inject;
 import okhttp3.ResponseBody;
 import rx.Observer;
 
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
 public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDetailsActivityView> implements Observer<ResponseBody> {
 
 	private DataManager dataManager;
@@ -45,8 +38,6 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
 	}
 
 	@Override

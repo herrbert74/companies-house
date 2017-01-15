@@ -29,10 +29,11 @@ public class CompanyPresenterTest {
 	@InjectMocks
 	CompanyPresenter companyPresenter;
 
+	@Mock
+	CompanyActivity companyActivity;
+
 	@Before
 	public void setUp() {
-		//companyPresenter = new CompanyPresenter();
-
 		TestApplicationComponent component = DaggerTestApplicationComponent.builder()
 				.testApplicationModule(new TestApplicationModule(application)).build();
 		component.inject(companyPresenter);
@@ -40,12 +41,19 @@ public class CompanyPresenterTest {
 		companyPresenter.company = new Company();
 	}
 
-	//TODO: onFabClick was changed to Observer, change the test
-	/*@Test
+	@Test
 	public void test_When_FabClicked_Then_DataManagerAddFavouriteIsCalled() {
-		companyPresenter.onFabClicked();
+		when(companyPresenter.dataManager.isFavourite(any())).thenReturn(false);
+		companyPresenter.observablesFromViews(Observable.just(null));
 		verify(companyPresenter.dataManager).addFavourite(any());
-	}*/
+	}
+
+	@Test
+	public void test_When_FabClicked_Then_DataManagerRemoveFavouriteIsCalled() {
+		when(companyPresenter.dataManager.isFavourite(any())).thenReturn(true);
+		companyPresenter.observablesFromViews(Observable.just(null));
+		verify(companyPresenter.dataManager).removeFavourite(any());
+	}
 
 	@Test
 	public void test_When_GetCompany_Then_DataManagerGetCompanyIsCalled() {
