@@ -45,7 +45,7 @@ public class FilingHistoryPresenterTest {
 	}
 
 	@Test
-	public void test_When_GetInsolvency_Then_DataManagerGetInsolvencyIsCalled() {
+	public void whenGetInsolvency_thenDataManagerGetInsolvencyIsCalled() {
 		filingHistoryPresenter.getFilingHistory();
 		verify(filingHistoryPresenter.dataManager).getFilingHistory(anyString(), any(), any());
 	}

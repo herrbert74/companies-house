@@ -126,7 +126,7 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	@Override
 	public FilingHistoryDetailsPresenter providePresenter() {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new FilingHistoryDetailsPresenter(dataManager, this);
+		return new FilingHistoryDetailsPresenter(dataManager);
 	}
 
 	@Override

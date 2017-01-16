@@ -45,8 +45,14 @@ public class ChargesPresenterTest {
 	}
 
 	@Test
-	public void test_When_GetInsolvency_Then_DataManagerGetInsolvencyIsCalled() {
+	public void whenGetInsolvency_thenDataManagerGetInsolvencyIsCalled() {
 		chargesPresenter.getCharges();
+		verify(chargesPresenter.dataManager).getCharges(anyString(), any());
+	}
+
+	@Test
+	public void whenLoadMoreCharges_thenDataManagerLoadMoreChargesIsCalled() {
+		chargesPresenter.loadMoreCharges(0);
 		verify(chargesPresenter.dataManager).getCharges(anyString(), any());
 	}
 }

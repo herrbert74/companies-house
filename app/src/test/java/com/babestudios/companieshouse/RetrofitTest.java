@@ -30,6 +30,7 @@ public class RetrofitTest {
 		Retrofit r = new Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
+				//.callbackExecutor(Executors.newSingleThreadExecutor())//
 				.addConverterFactory(AdvancedGsonConverterFactory.create())//
 				.build();
 
@@ -38,7 +39,9 @@ public class RetrofitTest {
 		companiesHouseService.searchCompanies(authorization, "GAMES", "100", "0")
 				.map(e -> e.items.get(0).title)
 				.subscribe(testSubscriber);
+		//List<String> result = testSubscriber.getOnNextEvents();
 		testSubscriber.assertValue("GAMES AGENCY LIMITED");
+		//assertThat(result.get(0).equals("GAMES AGENCY LIMITED"), is(true));
 		testSubscriber.assertNoErrors();
 
 	}

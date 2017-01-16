@@ -1,13 +1,17 @@
 package com.babestudios.companieshouse.data;
 
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Base64;
+import android.util.Log;
 
 import com.babestudios.companieshouse.BuildConfig;
-import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.local.ApiLookupHelper;
+import com.babestudios.companieshouse.data.local.PreferencesHelper;
 import com.babestudios.companieshouse.data.model.charges.Charges;
 import com.babestudios.companieshouse.data.model.company.Company;
+import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
 import com.babestudios.companieshouse.data.model.insolvency.Insolvency;
 import com.babestudios.companieshouse.data.model.officers.Officers;
@@ -18,10 +22,16 @@ import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.data.network.CompaniesHouseDocumentService;
 import com.babestudios.companieshouse.data.network.CompaniesHouseService;
 import com.babestudios.companieshouse.utils.Base64Wrapper;
+import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 import javax.inject.Singleton;
 
@@ -115,10 +125,53 @@ public class DataManager {
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
-	public Observable<ResponseBody> getDocument(String documentNumber) {
-		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentNumber)
+	public Observable<ResponseBody> getDocument(String filingHistoryItemString) {
+		Gson gson = new Gson();
+		FilingHistoryItem filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem.class);
+		String documentId = filingHistoryItem.links.documentMetadata.replace("https://document-api.companieshouse.gov.uk/document/", "");
+		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentId)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@NonNull
+	public File writeDocumentPdf(ResponseBody responseBody) {
+		File root = Environment.getExternalStorageDirectory();
+		File dir = new File(root.getAbsolutePath() + "/download");
+		dir.mkdirs();
+		File pdfFile = new File(dir, "doc.pdf");
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		try {
+			byte[] fileReader = new byte[4096];
+			try {
+				inputStream = responseBody.byteStream();
+				outputStream = new FileOutputStream(pdfFile);
+				while (true) {
+					int read = inputStream.read(fileReader);
+					if (read == -1) {
+						break;
+					}
+					outputStream.write(fileReader, 0, read);
+				}
+				outputStream.flush();
+			} catch (IOException e) {
+				Log.d("test", e.getLocalizedMessage());
+			} finally {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+
+				if (outputStream != null) {
+					outputStream.close();
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.d("test", "Error during closing input stream" + e.getLocalizedMessage());
+		}
+		return pdfFile;
 	}
 
 	public void clearAllRecentSearches() {

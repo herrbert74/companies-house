@@ -45,7 +45,7 @@ public class OfficersPresenterTest {
 	}
 
 	@Test
-	public void test_When_GetInsolvency_Then_DataManagerGetInsolvencyIsCalled() {
+	public void whenGetInsolvency_thenDataManagerGetInsolvencyIsCalled() {
 		officersPresenter.getOfficers();
 		verify(officersPresenter.dataManager).getOfficers(anyString(), any());
 	}
