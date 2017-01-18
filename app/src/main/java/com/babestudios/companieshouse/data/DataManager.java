@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import okhttp3.ResponseBody;
@@ -50,6 +51,7 @@ public class DataManager {
 	private PreferencesHelper preferencesHelper;
 	private ApiLookupHelper apiLookupHelper = new ApiLookupHelper();
 
+	@Inject
 	public DataManager(CompaniesHouseService companiesHouseService, CompaniesHouseDocumentService companiesHouseDocumentService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
 		this.companiesHouseService = companiesHouseService;
 		this.companiesHouseDocumentService = companiesHouseDocumentService;

@@ -2,6 +2,7 @@ package com.babestudios.companieshouse.injection;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.babestudios.companieshouse.BuildConfig;
 import com.babestudios.companieshouse.CompaniesHouseApplication;
@@ -92,6 +93,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	DataManager provideDataManager(CompaniesHouseService companiesHouseService, CompaniesHouseDocumentService companiesHouseDocumentService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
+		Log.d("test", "provideDataManager: ");
 		return new DataManager(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper);
 	}
 

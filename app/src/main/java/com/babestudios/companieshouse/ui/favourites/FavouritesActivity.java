@@ -27,6 +27,8 @@ import net.grandcentrix.thirtyinch.TiActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -42,6 +44,9 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
+
+	@Inject
+	public FavouritesPresenter favouritesPresenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +107,7 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 	@NonNull
 	@Override
 	public FavouritesPresenter providePresenter() {
-		return new FavouritesPresenter();
+		return favouritesPresenter;
 	}
 
 	@Override

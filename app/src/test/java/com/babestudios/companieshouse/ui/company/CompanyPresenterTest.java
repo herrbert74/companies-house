@@ -1,42 +1,31 @@
 package com.babestudios.companieshouse.ui.company;
 
-import android.app.Application;
-
-import com.babestudios.companieshouse.DaggerTestApplicationComponent;
-import com.babestudios.companieshouse.TestApplicationComponent;
-import com.babestudios.companieshouse.TestApplicationModule;
+import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.company.Company;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import rx.Observable;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CompanyPresenterTest {
 
-	@Mock
-	Application application;
-
-	@InjectMocks
 	CompanyPresenter companyPresenter;
-
-	@Mock
-	CompanyActivity companyActivity;
 
 	@Before
 	public void setUp() {
-		TestApplicationComponent component = DaggerTestApplicationComponent.builder()
-				.testApplicationModule(new TestApplicationModule(application)).build();
-		component.inject(companyPresenter);
+		companyPresenter = new CompanyPresenter(mock(DataManager.class));
+		companyPresenter.create();
+		CompanyActivityView view = mock(CompanyActivityView.class);
+		companyPresenter.bindNewView(view);
 		when(companyPresenter.dataManager.getCompany(any())).thenReturn(Observable.just(new Company()));
 		companyPresenter.company = new Company();
 	}

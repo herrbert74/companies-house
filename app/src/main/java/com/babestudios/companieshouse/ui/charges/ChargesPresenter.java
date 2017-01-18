@@ -26,8 +26,6 @@ public class ChargesPresenter extends TiPresenter<ChargesActivityView> implement
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
 	}
 
 	@Override

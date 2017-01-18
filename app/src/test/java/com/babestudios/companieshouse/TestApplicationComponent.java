@@ -19,21 +19,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {TestApplicationModule.class})
 public interface TestApplicationComponent extends ApplicationComponent {
-	void inject(CompanyPresenterTest companyPresenterTest);
-	void inject(CompanyPresenter companyPresenter);
+
 	void inject(SearchPresenter searchPresenter);
 
-	void inject(InsolvencyPresenter insolvencyPresenter);
-
-	void inject(ChargesPresenter chargesPresenter);
-
-	void inject(FilingHistoryPresenter filingHistoryPresenter);
-
-	void inject(OfficersPresenter officersPresenter);
-
-	void inject(PersonsPresenter personsPresenter);
-
-	void inject(FilingHistoryDetailsPresenter filingHistoryDetailsPresenter);
-
-	void inject(OfficerAppointmentsPresenter officerAppointmentsPresenter);
 }

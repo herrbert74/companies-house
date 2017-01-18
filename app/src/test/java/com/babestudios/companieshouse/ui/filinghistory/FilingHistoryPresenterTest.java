@@ -1,18 +1,11 @@
 package com.babestudios.companieshouse.ui.filinghistory;
 
-import android.app.Application;
-
-import com.babestudios.companieshouse.DaggerTestApplicationComponent;
-import com.babestudios.companieshouse.TestApplicationComponent;
-import com.babestudios.companieshouse.TestApplicationModule;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.filinghistory.FilingHistoryList;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import rx.Observable;
@@ -26,17 +19,10 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class FilingHistoryPresenterTest {
 
-	@Mock
-	Application application;
-
-	@InjectMocks
-	FilingHistoryPresenter filingHistoryPresenter;
+	private FilingHistoryPresenter filingHistoryPresenter;
 
 	@Before
 	public void setUp() {
-		TestApplicationComponent component = DaggerTestApplicationComponent.builder()
-				.testApplicationModule(new TestApplicationModule(application)).build();
-		component.inject(filingHistoryPresenter);
 		filingHistoryPresenter = new FilingHistoryPresenter(mock(DataManager.class));
 		filingHistoryPresenter.create();
 		FilingHistoryActivityView view = mock(FilingHistoryActivityView.class);
@@ -45,7 +31,7 @@ public class FilingHistoryPresenterTest {
 	}
 
 	@Test
-	public void whenGetInsolvency_thenDataManagerGetInsolvencyIsCalled() {
+	public void whenGetFilingHistory_thenDataManagerGetFilingHistoryIsCalled() {
 		filingHistoryPresenter.getFilingHistory();
 		verify(filingHistoryPresenter.dataManager).getFilingHistory(anyString(), any(), any());
 	}

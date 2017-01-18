@@ -1,24 +1,24 @@
 package com.babestudios.companieshouse.ui.favourites;
 
-import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 
-	@Singleton
-	@Inject
 	DataManager dataManager;
+
+	@Inject
+	public FavouritesPresenter(DataManager dataManager) {
+		this.dataManager = dataManager;
+	}
 
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 	}
 
 	void onResume(){

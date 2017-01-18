@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -25,6 +26,8 @@ import com.babestudios.companieshouse.utils.DateUtil;
 import com.jakewharton.rxbinding.view.RxView;
 
 import net.grandcentrix.thirtyinch.TiActivity;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,8 +78,12 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	String companyName;
 	String addressString;
 
+	@Inject
+	public CompanyPresenter companyPresenter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_company);
 		ButterKnife.bind(this);
@@ -187,7 +194,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	@NonNull
 	@Override
 	public CompanyPresenter providePresenter() {
-		return new CompanyPresenter();
+		return companyPresenter;
 	}
 
 	public void onFilingHistoryClicked(View view) {

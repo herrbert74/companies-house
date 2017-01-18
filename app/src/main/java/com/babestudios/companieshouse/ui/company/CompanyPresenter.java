@@ -1,6 +1,5 @@
 package com.babestudios.companieshouse.ui.company;
 
-import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.data.DataManager;
 import com.babestudios.companieshouse.data.model.company.Company;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
@@ -8,27 +7,24 @@ import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import net.grandcentrix.thirtyinch.TiPresenter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import rx.Observable;
 import rx.Observer;
-import rx.functions.Action0;
-import rx.functions.Action1;
 
-public class CompanyPresenter extends TiPresenter<CompanyActivityView> /*implements Observer<Void>*/ {
+public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 
-	@Singleton
-	@Inject
-	public
 	DataManager dataManager;
 
 	Company company;
 
+	@Inject
+	public CompanyPresenter(DataManager dataManager) {
+		this.dataManager = dataManager;
+	}
+
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
 	}
 
 	@Override

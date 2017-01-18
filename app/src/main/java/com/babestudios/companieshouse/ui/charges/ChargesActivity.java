@@ -50,9 +50,13 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 
 	String companyNumber;
 
+	@Inject
+	public ChargesPresenter chargesPresenter;
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_charges);
 
@@ -106,8 +110,8 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 	@NonNull
 	@Override
 	public ChargesPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new ChargesPresenter(dataManager);
+
+		return chargesPresenter;
 	}
 
 	@Override
