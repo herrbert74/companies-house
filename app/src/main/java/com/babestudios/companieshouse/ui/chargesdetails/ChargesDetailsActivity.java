@@ -2,6 +2,7 @@ package com.babestudios.companieshouse.ui.chargesdetails;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,17 +24,13 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ChargesDetailsActivity extends TiActivity<ChargesDetailsPresenter, ChargesDetailsActivityView> implements ChargesDetailsActivityView {
+public class ChargesDetailsActivity extends AppCompatActivity{
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
 	@Bind(R.id.charges_details_recycler_view)
 	RecyclerView chargesDetailsRecyclerView;
-
-	@Singleton
-	@Inject
-	DataManager dataManager;
 
 	@SuppressWarnings("ConstantConditions")
 	@Override
@@ -64,12 +61,5 @@ public class ChargesDetailsActivity extends TiActivity<ChargesDetailsPresenter, 
 				new DividerItemDecorationWithSubHeading(this, titlePositions));
 		ChargesDetailsAdapter adapter = new ChargesDetailsAdapter(this, chargesItem);
 		chargesDetailsRecyclerView.setAdapter(adapter);
-	}
-
-	@NonNull
-	@Override
-	public ChargesDetailsPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new ChargesDetailsPresenter(dataManager);
 	}
 }

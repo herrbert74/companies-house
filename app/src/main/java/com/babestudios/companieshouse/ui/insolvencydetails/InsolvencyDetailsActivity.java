@@ -2,6 +2,7 @@ package com.babestudios.companieshouse.ui.insolvencydetails;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,17 +25,13 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class InsolvencyDetailsActivity extends TiActivity<InsolvencyDetailsPresenter, InsolvencyDetailsActivityView> implements InsolvencyDetailsActivityView {
+public class InsolvencyDetailsActivity extends AppCompatActivity{
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
 	@Bind(R.id.insolvency_details_recycler_view)
 	RecyclerView insolvencyDetailsRecyclerView;
-
-	@Singleton
-	@Inject
-	DataManager dataManager;
 
 	String insolvencyItemString;
 
@@ -68,12 +65,5 @@ public class InsolvencyDetailsActivity extends TiActivity<InsolvencyDetailsPrese
 				new DividerItemDecorationWithSubHeading(this, titlePositions));
 		InsolvencyDetailsAdapter adapter = new InsolvencyDetailsAdapter(this, insolvencyCase.dates, insolvencyCase.practitioners);
 		insolvencyDetailsRecyclerView.setAdapter(adapter);
-	}
-
-	@NonNull
-	@Override
-	public InsolvencyDetailsPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new InsolvencyDetailsPresenter(dataManager);
 	}
 }

@@ -59,10 +59,6 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 	@Bind(R.id.textViewCountry)
 	TextView textViewCountry;
 
-	@Singleton
-	@Inject
-	DataManager dataManager;
-
 	String officerItemString;
 	String officerId;
 
@@ -136,7 +132,6 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 	@NonNull
 	@Override
 	public OfficerDetailsPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new OfficerDetailsPresenter(dataManager);
+		return new OfficerDetailsPresenter();
 	}
 }

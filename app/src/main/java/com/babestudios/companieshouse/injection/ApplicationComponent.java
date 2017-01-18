@@ -26,8 +26,11 @@ import dagger.Component;
 @Component(modules = {ApplicationModule.class})
 public interface ApplicationComponent {
 	void inject(SearchPresenter searchPresenter);
+
 	void inject(CompanyPresenter companyPresenter);
+
 	void inject(FavouritesPresenter favouritesPresenter);
+
 	void inject(RecentSearchesResultsAdapter recentSearchesResultsAdapter);
 
 	void inject(CompaniesHouseApplication companiesHouseApplication);
@@ -46,13 +49,7 @@ public interface ApplicationComponent {
 
 	void inject(FilingHistoryDetailsActivity filingHistoryDetailsActivity);
 
-	void inject(InsolvencyDetailsActivity insolvencyDetailsActivity);
-
-	void inject(ChargesDetailsActivity chargesDetailsActivity);
-
 	void inject(OfficerDetailsActivity officerDetailsActivity);
-
-	void inject(PersonsDetailsActivity personsDetailsActivity);
 
 	void inject(OfficerAppointmentsActivity officerAppointmentsActivity);
 

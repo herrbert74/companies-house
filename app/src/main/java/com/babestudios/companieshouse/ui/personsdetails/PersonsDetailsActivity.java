@@ -2,6 +2,7 @@ package com.babestudios.companieshouse.ui.personsdetails;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -22,7 +23,7 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PersonsDetailsActivity extends TiActivity<PersonsDetailsPresenter, PersonsDetailsActivityView> implements PersonsDetailsActivityView {
+public class PersonsDetailsActivity extends AppCompatActivity {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -66,10 +67,6 @@ public class PersonsDetailsActivity extends TiActivity<PersonsDetailsPresenter, 
 	TextView textViewRegion;
 	@Bind(R.id.textViewCountry)
 	TextView textViewCountry;
-
-	@Singleton
-	@Inject
-	DataManager dataManager;
 
 	String personsItemString;
 
@@ -145,30 +142,11 @@ public class PersonsDetailsActivity extends TiActivity<PersonsDetailsPresenter, 
 			textViewCountry.setText(person.address.country);
 		}
 
-
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setTitle(R.string.person_details);
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
-
-	}
-
-	@Override
-	public void showProgress() {
-		progressbar.setVisibility(View.VISIBLE);
-	}
-
-	@Override
-	public void hideProgress() {
-		progressbar.setVisibility(View.GONE);
-	}
-
-	@NonNull
-	@Override
-	public PersonsDetailsPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new PersonsDetailsPresenter(dataManager);
 	}
 }
