@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'jacoco'
+jacoco {
+	version "0.7.1.201405082137"
+}
 
 android {
 	compileSdkVersion 25
@@ -26,16 +30,17 @@ android {
 	}
 	buildTypes {
 		release {
+			testCoverageEnabled true
 			debuggable false
 			minifyEnabled true
 			signingConfig signingConfigs.release
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		debug {
+			testCoverageEnabled true
 			multiDexEnabled true
 			minifyEnabled false
 			//proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-			testCoverageEnabled false
 		}
 	}
 	testOptions {
@@ -119,9 +124,9 @@ dependencies {
 
 	//Espresso tests
 	androidTestCompile "junit:junit:$jUnitVersion"
-	androidTestCompile 'com.android.support.test:testing-support-lib:0.1', {
+	/*androidTestCompile 'com.android.support.test:testing-support-lib:0.1', {
 		exclude group: 'com.android.support', module: 'support-annotations'
-	}
+	}*/
 	androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}

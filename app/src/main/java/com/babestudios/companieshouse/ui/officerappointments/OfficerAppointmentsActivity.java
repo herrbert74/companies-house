@@ -56,7 +56,7 @@ public class OfficerAppointmentsActivity extends TiActivity<OfficerAppointmentsP
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setTitle(R.string.charges_details);
+			getSupportActionBar().setTitle(R.string.officer_appointments_title);
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
 
