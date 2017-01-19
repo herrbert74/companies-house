@@ -5,6 +5,7 @@ import com.babestudios.companieshouse.ui.charges.ChargesActivity;
 import com.babestudios.companieshouse.ui.chargesdetails.ChargesDetailsActivity;
 import com.babestudios.companieshouse.ui.company.CompanyActivity;
 import com.babestudios.companieshouse.ui.company.CompanyPresenter;
+import com.babestudios.companieshouse.ui.favourites.FavouritesActivity;
 import com.babestudios.companieshouse.ui.favourites.FavouritesPresenter;
 import com.babestudios.companieshouse.ui.filinghistory.FilingHistoryActivity;
 import com.babestudios.companieshouse.ui.filinghistorydetails.FilingHistoryDetailsActivity;
@@ -51,6 +52,8 @@ public interface ApplicationComponent {
 	void inject(OfficerAppointmentsActivity officerAppointmentsActivity);
 
 	void inject(CompanyActivity companyActivity);
+
+	void inject(FavouritesActivity favouritesActivity);
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

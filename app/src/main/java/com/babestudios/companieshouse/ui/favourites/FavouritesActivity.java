@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.babestudios.companieshouse.CompaniesHouseApplication;
 import com.babestudios.companieshouse.R;
 import com.babestudios.companieshouse.data.model.search.SearchHistoryItem;
 import com.babestudios.companieshouse.ui.company.CompanyActivity;
@@ -50,6 +51,7 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_favourites);
 		ButterKnife.bind(this);
