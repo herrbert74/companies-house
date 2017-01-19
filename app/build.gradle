@@ -125,6 +125,7 @@ dependencies {
 
 	//Espresso tests
 	androidTestCompile "junit:junit:$jUnitVersion"
+	androidTestCompile "org.mockito:mockito-core:$mockitoVersion"
 	/*androidTestCompile 'com.android.support.test:testing-support-lib:0.1', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}*/
