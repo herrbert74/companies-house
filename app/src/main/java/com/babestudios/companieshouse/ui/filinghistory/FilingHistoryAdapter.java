@@ -68,7 +68,6 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 				String officerName = filingHistoryItem.descriptionValues.officerName;
 				if (officerName != null) {
 					s = s.replace("**", "").replace("{officer_name}", officerName);
-
 					spanFirst = s.indexOf(officerName);
 					spanPairs.add(new Pair<>(spanFirst, spanFirst + officerName.length()));
 				}
@@ -101,6 +100,42 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 					s = s.replace("{change_date}", changeDate);
 					spanFirst = s.indexOf(changeDate);
 					spanPairs.add(new Pair<>(spanFirst, spanFirst + changeDate.length()));
+				}
+				String oldAddress = filingHistoryItem.descriptionValues.oldAddress;
+				if (oldAddress  != null) {
+					s = s.replace("{old_address}", oldAddress);
+					spanFirst = s.indexOf(oldAddress);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + oldAddress.length()));
+				}
+				String newAddress = filingHistoryItem.descriptionValues.newAddress;
+				if (newAddress  != null) {
+					s = s.replace("{new_address}", newAddress);
+					spanFirst = s.indexOf(newAddress);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + newAddress.length()));
+				}
+				String formAttached = filingHistoryItem.descriptionValues.formAttached;
+				if (formAttached  != null) {
+					s = s.replace("{form_attached}", formAttached);
+					spanFirst = s.indexOf(formAttached);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + formAttached.length()));
+				}
+				String chargeNumber = filingHistoryItem.descriptionValues.chargeNumber;
+				if (chargeNumber  != null) {
+					s = s.replace("{charge_number}", chargeNumber);
+					spanFirst = s.indexOf(chargeNumber);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + chargeNumber.length()));
+				}
+				String chargeCreationDate = filingHistoryItem.descriptionValues.chargeCreationDate;
+				if (chargeCreationDate  != null) {
+					s = s.replace("{charge_creation_date}", chargeCreationDate);
+					spanFirst = s.indexOf(chargeCreationDate);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + chargeCreationDate.length()));
+				}
+				String date = filingHistoryItem.descriptionValues.date;
+				if (date  != null) {
+					s = s.replace("{date}", date);
+					spanFirst = s.indexOf(date);
+					spanPairs.add(new Pair<>(spanFirst, spanFirst + date.length()));
 				}
 
 			}

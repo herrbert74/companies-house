@@ -24,6 +24,21 @@ public class DescriptionValues {
 	@SerializedName("change_date")
 	public String changeDate;
 
+	@SerializedName("old_address")
+	public String oldAddress;
+
+	@SerializedName("new_address")
+	public String newAddress;
+
+	@SerializedName("form_attached")
+	public String formAttached;
+
+	@SerializedName("charge_number")
+	public String chargeNumber;
+
+	@SerializedName("charge_creation_date")
+	public String chargeCreationDate;
+
 	@SerializedName("date")
 	public String date;
 
