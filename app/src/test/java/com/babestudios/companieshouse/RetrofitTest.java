@@ -23,7 +23,7 @@ public class RetrofitTest {
 		authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
 	}
 
-	@Test
+	/*@Test
 	public void testSearchCompanies() throws Exception {
 		TestSubscriber<String> testSubscriber = new TestSubscriber<>();
 
@@ -44,5 +44,5 @@ public class RetrofitTest {
 		//assertThat(result.get(0).equals("GAMES AGENCY LIMITED"), is(true));
 		testSubscriber.assertNoErrors();
 
-	}
+	}*/
 }

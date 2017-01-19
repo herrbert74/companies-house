@@ -6,11 +6,10 @@ import com.babestudios.companieshouse.data.model.insolvency.Insolvency;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import rx.Observable;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,13 +24,14 @@ public class InsolvencyPresenterTest {
 		insolvencyPresenter = new InsolvencyPresenter(mock(DataManager.class));
 		insolvencyPresenter.create();
 		InsolvencyActivityView view = mock(InsolvencyActivityView.class);
+		when(view.getCompanyNumber()).thenReturn("0");
 		insolvencyPresenter.bindNewView(view);
-		when(insolvencyPresenter.dataManager.getInsolvency(anyString())).thenReturn(Observable.just(new Insolvency()));
+		when(insolvencyPresenter.dataManager.getInsolvency("0")).thenReturn(Observable.just(new Insolvency()));
 	}
 
 	@Test
 	public void test_When_GetInsolvency_Then_DataManagerGetInsolvencyIsCalled() {
 		insolvencyPresenter.getInsolvency();
-		verify(insolvencyPresenter.dataManager).getInsolvency(anyString());
+		verify(insolvencyPresenter.dataManager).getInsolvency("0");
 	}
 }

@@ -25,20 +25,18 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
 	}
 
 	@Override
 	protected void onWakeUp() {
 		super.onWakeUp();
 		getView().showProgress();
-		getFilingHistory();
+		getFilingHistory(getView().getCompanyNumber(), getView().getFilingCategory());
 	}
 
 	@VisibleForTesting
-	public void getFilingHistory() {
-		dataManager.getFilingHistory(getView().getCompanyNumber(), getView().getFilingCategory(), "0").subscribe(this);
+	public void getFilingHistory(String companyNumber, String category) {
+		dataManager.getFilingHistory(companyNumber, category, "0").subscribe(this);
 	}
 
 	public void loadMoreFilingHistory(int page) {

@@ -5,14 +5,13 @@ import com.babestudios.companieshouse.data.DataManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import rx.Observable;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,19 +26,20 @@ public class FilingHistoryDetailsPresenterTest {
 		filingHistoryDetailsPresenter = new FilingHistoryDetailsPresenter(mock(DataManager.class));
 		filingHistoryDetailsPresenter.create();
 		FilingHistoryDetailsActivityView view = mock(FilingHistoryDetailsActivityView.class);
+		when(view.getFilingHistoryItemString()).thenReturn("0");
 		filingHistoryDetailsPresenter.bindNewView(view);
-		when(filingHistoryDetailsPresenter.dataManager.getDocument(anyString())).thenReturn(Observable.just(ResponseBody.create(MediaType.parse("text/plain"), "test")));
+		when(filingHistoryDetailsPresenter.dataManager.getDocument("0")).thenReturn(Observable.just(ResponseBody.create(MediaType.parse("text/plain"), "test")));
 	}
 
 	@Test
 	public void whenGetDocument_thenDataManagerGetDocumentIsCalled() {
 		filingHistoryDetailsPresenter.getDocument();
-		verify(filingHistoryDetailsPresenter.dataManager).getDocument(anyString());
+		verify(filingHistoryDetailsPresenter.dataManager).getDocument("0");
 	}
 
 	@Test
 	public void whenWritePdf_thenDataManagerWriteDocumentPdfIsCalled() {
 		filingHistoryDetailsPresenter.writePdf(ResponseBody.create(MediaType.parse("text/plain"), "test"));
-		verify(filingHistoryDetailsPresenter.dataManager).writeDocumentPdf(any());
+		verify(filingHistoryDetailsPresenter.dataManager).writeDocumentPdf(any(ResponseBody.class));
 	}
 }
