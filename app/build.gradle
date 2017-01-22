@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
 jacoco {
@@ -14,10 +14,15 @@ android {
 		applicationId "com.babestudios.companyinfouk"
 		minSdkVersion 21
 		targetSdkVersion 25
-		versionCode 2
-		versionName "1.0 beta2"
+		versionCode 3
+		versionName "1.0 beta3"
 		vectorDrawables.useSupportLibrary = true
-		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+		//testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+		testInstrumentationRunner 'com.babestudios.companyinfouk.MockTestRunner'
+		//testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+//TODO does not work
+		//https://github.com/chiuki/android-test-demo/blob/master/app/build.gradle
 	}
 	signingConfigs {
 
@@ -38,13 +43,12 @@ android {
 		}
 		debug {
 			testCoverageEnabled true
-			multiDexEnabled true
 			minifyEnabled false
 			//proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
 	testOptions {
-		unitTests.returnDefaultValues = true
+		//unitTests.returnDefaultValues = true
 	}
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_1_8
@@ -52,7 +56,7 @@ android {
 	}
 }
 
-configurations {
+/*configurations {
 	apt
 }
 
@@ -60,7 +64,7 @@ apt {
 	arguments {
 		resourcePackageName "com.babestudios.companieshouse"
 	}
-}
+}*/
 
 dependencies {
 	def supportLibraryVersion = '25.1.0'
@@ -71,12 +75,13 @@ dependencies {
 	def jUnitVersion = '4.12'
 	def mockitoVersion = '2.6.3'
 	def okHttp3Version = '3.3.0'
+	def RUNNER_VERSION = '0.5'
 
 	//support
 	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
 	compile "com.android.support:design:$supportLibraryVersion"
 	compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
-	compile	'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+	compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 
 	testCompile "com.android.support:appcompat-v7:$supportLibraryVersion"
 	testCompile "com.android.support:design:$supportLibraryVersion"
@@ -102,14 +107,15 @@ dependencies {
 	compile 'com.jakewharton.rxbinding:rxbinding-design:1.0.0'
 
 	//Dagger
-	apt "com.google.dagger:dagger-compiler:$daggerVersion"
+	annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 	compile "com.google.dagger:dagger:$daggerVersion"
-	testApt "com.google.dagger:dagger-compiler:$daggerVersion"
+	testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+	androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
 	//Google Play Services
 	compile 'com.google.android.gms:play-services-maps:10.0.1'
 
-	//Butterknife
+	//ButterKnife
 	compile 'com.jakewharton:butterknife:7.0.1'
 
 	//Other java
@@ -124,8 +130,8 @@ dependencies {
 	provided 'javax.annotation:jsr250-api:1.0'
 
 	//Espresso tests
-	androidTestCompile "junit:junit:$jUnitVersion"
-	androidTestCompile "org.mockito:mockito-core:$mockitoVersion"
+	//androidTestCompile "junit:junit:$jUnitVersion"
+	androidTestCompile "org.mockito:mockito-android:$mockitoVersion"
 	/*androidTestCompile 'com.android.support.test:testing-support-lib:0.1', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}*/
@@ -138,6 +144,15 @@ dependencies {
 		exclude group: 'com.android.support', module: 'design'
 		exclude group: 'com.android.support', module: 'recyclerview-v7'
 	}
+	androidTestCompile "com.android.support.test:runner:$RUNNER_VERSION", {
+		exclude group: 'com.android.support', module: 'support-annotations'
+	}
+	androidTestCompile "com.android.support.test:rules:$RUNNER_VERSION", {
+		exclude group: 'com.android.support', module: 'support-annotations'
+	}
+	/*androidTestCompile('com.android.support:multidex-instrumentation:1.0.1') {
+		exclude group: 'com.android.support', module: 'multidex'
+	}*/
 }
 
 apply from: 'config.gradle'

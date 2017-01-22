@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		  package="com.babestudios.companieshouse">
+		  package="com.babestudios.companyinfouk">
 
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.INTERNET"/>
 
 	<application
-		android:name=".CompaniesHouseApplication"
+		android:name="com.babestudios.companyinfouk.CompaniesHouseApplication"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher2"
 		android:label="@string/app_name"
@@ -16,7 +16,7 @@
 		<uses-library android:name="com.google.android.maps"/>
 
 		<activity
-			android:name=".ui.search.SearchActivity"
+			android:name="com.babestudios.companyinfouk.ui.search.SearchActivity"
 			android:windowSoftInputMode="stateHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -24,23 +24,23 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.company.CompanyActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.company.CompanyActivity"/>
 		<activity
-			android:name=".ui.favourites.FavouritesActivity"
+			android:name="com.babestudios.companyinfouk.ui.favourites.FavouritesActivity"
 			android:label="@string/favourites"/>
-		<activity android:name=".ui.filinghistory.FilingHistoryActivity"/>
-		<activity android:name=".ui.filinghistorydetails.FilingHistoryDetailsActivity"/>
-		<activity android:name=".ui.charges.ChargesActivity"/>
-		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
-		<activity android:name=".ui.insolvencydetails.InsolvencyDetailsActivity"/>
-		<activity android:name=".ui.chargesdetails.ChargesDetailsActivity"/>
-		<activity android:name=".ui.officers.OfficersActivity"/>
-		<activity android:name=".ui.officerdetails.OfficerDetailsActivity"/>
-		<activity android:name=".ui.officerappointments.OfficerAppointmentsActivity"/>
-		<activity android:name=".ui.persons.PersonsActivity"/>
-		<activity android:name=".ui.personsdetails.PersonsDetailsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.charges.ChargesActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.insolvencydetails.InsolvencyDetailsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.chargesdetails.ChargesDetailsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.officers.OfficersActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.persons.PersonsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.personsdetails.PersonsDetailsActivity"/>
 
-		<activity android:name=".ui.map.MapActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.ui.map.MapActivity"/>
 
 		<meta-data
 			android:name="com.google.android.geo.API_KEY"
