@@ -68,7 +68,7 @@ apt {
 
 dependencies {
 	def supportLibraryVersion = '25.1.0'
-	def thirtyInchVersion = '0.7.1'
+	def thirtyInchVersion = '0.8.0-rc2'
 	def retrofitVersion = '2.1.0'
 	def daggerVersion = '2.0.2'
 	def rxJavaVersion = '1.2.2'

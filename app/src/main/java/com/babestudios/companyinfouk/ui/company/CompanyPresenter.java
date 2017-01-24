@@ -1,5 +1,7 @@
 package com.babestudios.companyinfouk.ui.company;
 
+import android.support.annotation.NonNull;
+
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.company.Company;
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
@@ -28,8 +30,8 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	}
 
 	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
+	protected void onAttachView(@NonNull final CompanyActivityView view) {
+		super.onAttachView(view);
 		getCompany(getView().getCompanyNumber());
 	}
 

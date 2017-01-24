@@ -1,5 +1,7 @@
 package com.babestudios.companyinfouk.ui.favourites;
 
+import android.support.annotation.NonNull;
+
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 
@@ -21,8 +23,10 @@ public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 		super.onCreate();
 	}
 
-	void onResume(){
-		getView().showFavourites(dataManager.getFavourites());
+	@Override
+	public void onAttachView(@NonNull final FavouritesActivityView view){
+		super.onAttachView(view);
+		view.showFavourites(dataManager.getFavourites());
 	}
 
 	void getCompany(String companyNumber, String companyName) {

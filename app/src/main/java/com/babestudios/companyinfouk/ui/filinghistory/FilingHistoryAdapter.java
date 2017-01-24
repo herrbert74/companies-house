@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,12 +32,13 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 	private FilingHistoryList filingHistoryList = new FilingHistoryList();
 
+	@Inject
 	DataManager dataManager;
 
-	FilingHistoryAdapter(Context c, FilingHistoryList filingHistoryList, DataManager dataManager) {
+	FilingHistoryAdapter(Context c, FilingHistoryList filingHistoryList) {
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		mItemListener = (FilingHistoryRecyclerViewClickListener) c;
 		this.filingHistoryList = filingHistoryList;
-		this.dataManager = dataManager;
 	}
 
 	@Override

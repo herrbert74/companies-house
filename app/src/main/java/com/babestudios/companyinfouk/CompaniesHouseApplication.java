@@ -7,9 +7,6 @@ import com.babestudios.companyinfouk.injection.ApplicationComponent;
 import com.babestudios.companyinfouk.injection.ApplicationModule;
 import com.babestudios.companyinfouk.injection.DaggerApplicationComponent;
 
-import net.grandcentrix.thirtyinch.TiConfiguration;
-import net.grandcentrix.thirtyinch.TiPresenter;
-
 public class CompaniesHouseApplication extends Application {
 
 	private static CompaniesHouseApplication instance;
@@ -27,7 +24,6 @@ public class CompaniesHouseApplication extends Application {
 				.applicationModule(new ApplicationModule(this))
 				.build();
 		mApplicationComponent.inject(this);
-		TiPresenter.setDefaultConfig(PRESENTER_CONFIG);
 	}
 
 	public static Context getContext() {
@@ -41,11 +37,5 @@ public class CompaniesHouseApplication extends Application {
 	public static CompaniesHouseApplication getInstance() {
 		return instance;
 	}
-
-	public static final TiConfiguration PRESENTER_CONFIG =
-			new TiConfiguration.Builder()
-					.setRetainPresenterEnabled(false)
-					.build();
-
 
 }

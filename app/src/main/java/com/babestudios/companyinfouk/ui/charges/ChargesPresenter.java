@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.charges;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -29,9 +30,9 @@ public class ChargesPresenter extends TiPresenter<ChargesActivityView> implement
 	}
 
 	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		getView().showProgress();
+	protected void onAttachView(@NonNull ChargesActivityView view) {
+		super.onAttachView(view);
+		view.showProgress();
 		getCharges();
 	}
 

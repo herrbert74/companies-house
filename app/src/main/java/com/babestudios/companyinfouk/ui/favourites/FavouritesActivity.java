@@ -101,12 +101,6 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 		}
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		getPresenter().onResume();
-	}
-
 	@NonNull
 	@Override
 	public FavouritesPresenter providePresenter() {

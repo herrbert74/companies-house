@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.filinghistory;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -28,10 +29,10 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 	}
 
 	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		getView().showProgress();
-		getFilingHistory(getView().getCompanyNumber(), getView().getFilingCategory());
+	protected void onAttachView(@NonNull FilingHistoryActivityView view) {
+		super.onAttachView(view);
+		view.showProgress();
+		getFilingHistory(view.getCompanyNumber(), view.getFilingCategory());
 	}
 
 	@VisibleForTesting

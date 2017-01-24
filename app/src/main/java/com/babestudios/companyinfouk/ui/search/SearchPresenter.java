@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.search;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.babestudios.companyinfouk.BuildConfig;
@@ -33,9 +34,8 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	private String queryText;
 
-	private boolean isFirstStart = true;
-
-	ArrayList<SearchHistoryItem> searchHistoryItems = null;
+	//ArrayList<SearchHistoryItem> searchHistoryItems = null;
+	CompanySearchResult companySearchResult;
 
 	@Inject
 	public SearchPresenter(DataManager dataManager) {
@@ -43,41 +43,22 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	}
 
 	@Override
-	protected void onCreate() {
-		super.onCreate();
-		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
-	}
-
-	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		if(isFirstStart){
-			isFirstStart = false;
-			showRecentSearches(true);
+	protected void onAttachView(@NonNull final SearchActivityView view) {
+		super.onAttachView(view);
+		if (showState == ShowState.RECENT_SEARCHES) {
+			showRecentSearches();
 		} else {
-			getView().clearSearchView();
-			if(searchHistoryItems != null) {
-				getView().refreshRecentSearchesAdapter(searchHistoryItems);
+			view.clearSearchView();
+			if(companySearchResult != null){
+				view.showCompanySearchResult(companySearchResult);
+				view.changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 			}
 		}
 	}
 
-	/**
-	 * This is needed because Activity Transition messes up the lifecycle (onStart and onWakeUp is not always called). Remove if not needed!
-	 */
-	public void getSearchHistoryItems(){
-		if(searchHistoryItems != null) {
-			getView().refreshRecentSearchesAdapter(searchHistoryItems);
-			searchHistoryItems = null;
-		}
-	}
-
-	private void showRecentSearches(boolean isFirstStart) {
+	private void showRecentSearches() {
 		getView().showRecentSearches(dataManager.getRecentSearches());
-		if(!isFirstStart) {
-			getView().changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
-		}
+		getView().changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
 		showState = ShowState.RECENT_SEARCHES;
 	}
 
@@ -93,6 +74,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	@Override
 	public void onNext(CompanySearchResult companySearchResult) {
 		showState = ShowState.SEARCH;
+		this.companySearchResult = companySearchResult;
 		getView().hideProgress();
 		getView().showCompanySearchResult(companySearchResult);
 		getView().changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
@@ -110,23 +92,18 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 				.subscribe(this);
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-
 	void getCompany(String companyName, String companyNumber) {
 		getView().startCompanyActivity(companyNumber, companyName);
-		searchHistoryItems = dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()));
+		//searchHistoryItems = dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()));
 	}
 
 	void onFabClicked() {
-		if(showState == ShowState.RECENT_SEARCHES) {
+		if (showState == ShowState.RECENT_SEARCHES) {
 			showState = ShowState.SEARCH;
 			getView().showDeleteRecentSearchesDialog();
-		} else if(showState == ShowState.SEARCH) {
+		} else if (showState == ShowState.SEARCH) {
 			getView().clearSearchView();
-			showRecentSearches(false);
+			showRecentSearches();
 		}
 	}
 

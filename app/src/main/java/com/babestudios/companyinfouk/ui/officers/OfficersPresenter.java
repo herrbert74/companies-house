@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.officers;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -31,9 +32,9 @@ public class OfficersPresenter extends TiPresenter<OfficersActivityView> impleme
 	}
 
 	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		getView().showProgress();
+	protected void onAttachView(@NonNull OfficersActivityView view) {
+		super.onAttachView(view);
+		view.showProgress();
 		getOfficers();
 	}
 

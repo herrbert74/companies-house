@@ -93,7 +93,6 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	DataManager provideDataManager(CompaniesHouseService companiesHouseService, CompaniesHouseDocumentService companiesHouseDocumentService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
-		Log.d("test", "provideDataManager: ");
 		return new DataManager(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper);
 	}
 

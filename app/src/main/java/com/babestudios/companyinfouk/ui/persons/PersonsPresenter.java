@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.persons;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -30,9 +31,9 @@ public class PersonsPresenter extends TiPresenter<PersonsActivityView> implement
 	}
 
 	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		getView().showProgress();
+	protected void onAttachView(@NonNull PersonsActivityView view) {
+		super.onAttachView(view);
+		view.showProgress();
 		getPersons();
 	}
 

@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.ui.filinghistorydetails;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 
 import com.babestudios.companyinfouk.data.DataManager;
 
@@ -29,11 +30,10 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 	}
 
 	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		getView().showProgress();
+	protected void onAttachView(@NonNull FilingHistoryDetailsActivityView view) {
+		super.onAttachView(view);
+		view.showProgress();
 	}
-
 
 	@Override
 	protected void onDestroy() {

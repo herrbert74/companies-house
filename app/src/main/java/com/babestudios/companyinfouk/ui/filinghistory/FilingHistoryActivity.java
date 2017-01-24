@@ -14,6 +14,7 @@ import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
+import com.babestudios.companyinfouk.ui.company.CompanyPresenter;
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
@@ -40,15 +41,15 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Singleton
 	@Inject
-	DataManager dataManager;
+	public FilingHistoryPresenter filingHistoryPresenter;
 
 	String companyNumber;
 
 	@SuppressWarnings("ConstantConditions")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_filing_history);
 
@@ -92,7 +93,7 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	@Override
 	public void showFilingHistory(FilingHistoryList filingHistoryList) {
 		if (filingHistoryRecyclerView.getAdapter() == null) {
-			filingHistoryAdapter = new FilingHistoryAdapter(FilingHistoryActivity.this, filingHistoryList, dataManager);
+			filingHistoryAdapter = new FilingHistoryAdapter(FilingHistoryActivity.this, filingHistoryList);
 			filingHistoryRecyclerView.setAdapter(filingHistoryAdapter);
 		} else {
 			filingHistoryAdapter.updateItems(filingHistoryList);
@@ -102,8 +103,7 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	@NonNull
 	@Override
 	public FilingHistoryPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new FilingHistoryPresenter(dataManager);
+		return filingHistoryPresenter;
 	}
 
 	@Override

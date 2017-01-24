@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.insolvency;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -25,14 +26,12 @@ public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> imp
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
 	}
 
 	@Override
-	protected void onWakeUp() {
-		super.onWakeUp();
-		getView().showProgress();
+	protected void onAttachView(@NonNull InsolvencyActivityView view) {
+		super.onAttachView(view);
+		view.showProgress();
 		getInsolvency();
 	}
 

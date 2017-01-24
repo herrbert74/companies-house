@@ -89,15 +89,6 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		performAnimations();
 	}
 
-	/**
-	 * This is needed because Activity Transition messes up the lifecycle (onStart and onWakeUp is not always called). Remove if not needed!
-	 */
-	@Override
-	protected void onResume() {
-		getPresenter().getSearchHistoryItems();
-		super.onResume();
-	}
-
 	private void performAnimations() {
 		fab.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.fab_size));
 		fab.animate()
