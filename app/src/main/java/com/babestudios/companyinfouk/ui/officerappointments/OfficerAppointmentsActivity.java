@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.officerappointments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +12,9 @@ import android.widget.ProgressBar;
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.DataManager;
+import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment;
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments;
+import com.babestudios.companyinfouk.ui.company.CompanyActivity;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
 
 import net.grandcentrix.thirtyinch.TiActivity;
@@ -24,7 +27,8 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OfficerAppointmentsActivity extends TiActivity<OfficerAppointmentsPresenter, OfficerAppointmentsActivityView> implements OfficerAppointmentsActivityView {
+public class OfficerAppointmentsActivity extends TiActivity<OfficerAppointmentsPresenter, OfficerAppointmentsActivityView> implements OfficerAppointmentsActivityView,
+		OfficerAppointmentsAdapter.AppointmentsRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -101,5 +105,18 @@ public class OfficerAppointmentsActivity extends TiActivity<OfficerAppointmentsP
 	@Override
 	public void showError() {
 
+	}
+
+	@Override
+	public void appointmentItemClicked(View v, int position, Appointment item) {
+		startCompanyActivity(item.appointedTo.companyNumber, item.appointedTo.companyName);
+	}
+
+	@Override
+	public void startCompanyActivity(String companyNumber, String companyName) {
+		Intent startIntent = new Intent(this, CompanyActivity.class);
+		startIntent.putExtra("companyNumber", companyNumber);
+		startIntent.putExtra("companyName", companyName);
+		startActivity(startIntent);
 	}
 }

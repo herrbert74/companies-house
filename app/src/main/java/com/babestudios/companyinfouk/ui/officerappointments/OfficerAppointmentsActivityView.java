@@ -19,4 +19,6 @@ interface OfficerAppointmentsActivityView extends TiView {
 	String getOfficerId();
 
 	void showError();
+
+	void startCompanyActivity(String companyNumber, String companyName);
 }

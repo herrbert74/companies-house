@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.babestudios.companyinfouk.R;
+import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment;
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments;
 
 import butterknife.Bind;
@@ -21,11 +22,11 @@ class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 	private Appointments appointments;
 
-	Context context;
+	private AppointmentsRecyclerViewClickListener mItemListener;
 
 	OfficerAppointmentsAdapter(Context c, Appointments appointments) {
 		this.appointments = appointments;
-		context = c;
+		mItemListener = (AppointmentsRecyclerViewClickListener) c;
 	}
 
 	@Override
@@ -34,7 +35,6 @@ class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 		if (viewType == TYPE_APPOINTMENT) {
 			itemLayoutView = LayoutInflater.from(parent.getContext())
 					.inflate(R.layout.officer_appointments_list_item, parent, false);
-
 			return new TransactionsViewHolder(itemLayoutView);
 		} else if (viewType == TYPE_HEADER) {
 			itemLayoutView = LayoutInflater.from(parent.getContext())
@@ -54,11 +54,11 @@ class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 			((TransactionsViewHolder) viewHolder).textViewCompanyName.setText(appointments.items.get(position - 1).appointedTo.companyName);
 			((TransactionsViewHolder) viewHolder).textViewCompanyStatus.setText(appointments.items.get(position - 1).appointedTo.companyStatus);
 			((TransactionsViewHolder) viewHolder).textViewRole.setText(appointments.items.get(position - 1).officerRole);
-			if(appointments.items.get(position - 1).resignedOn != null) {
+			if (appointments.items.get(position - 1).resignedOn != null) {
 				((TransactionsViewHolder) viewHolder).textViewResignedOn.setText(appointments.items.get(position - 1).resignedOn);
 			} else {
 				((TransactionsViewHolder) viewHolder).textViewResignedOn.setVisibility(View.GONE);
-				((TransactionsViewHolder) viewHolder).textViewLableResignedOn.setVisibility(View.GONE);
+				((TransactionsViewHolder) viewHolder).textViewLabelResignedOn.setVisibility(View.GONE);
 			}
 		}
 
@@ -93,10 +93,11 @@ class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 		HeaderViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
+
 		}
 	}
 
-	public class TransactionsViewHolder extends RecyclerView.ViewHolder {
+	public class TransactionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 		@Bind(R.id.textViewAppointedOn)
 		TextView textViewAppointedOn;
@@ -107,13 +108,23 @@ class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 		@Bind(R.id.textViewRole)
 		TextView textViewRole;
 		@Bind(R.id.textViewLabelResignedOn)
-		TextView textViewLableResignedOn;
+		TextView textViewLabelResignedOn;
 		@Bind(R.id.textViewResignedOn)
 		TextView textViewResignedOn;
 
 		TransactionsViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
+			itemView.setOnClickListener(this);
 		}
+
+		@Override
+		public void onClick(View v) {
+			mItemListener.appointmentItemClicked(v, this.getLayoutPosition(), appointments.items.get(getLayoutPosition() - 1));
+		}
+	}
+
+	interface AppointmentsRecyclerViewClickListener {
+		void appointmentItemClicked(View v, int position, Appointment item);
 	}
 }

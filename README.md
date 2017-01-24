@@ -14,7 +14,7 @@ play.google.com/apps/testing/com.babestudios.companyinfouk
 * Company screen.
 * Specialized screens (Filing History/Charges/Insolvency/Officers/Persons with Significant Control).
 * Specialized detail screens.
-* Officer appointments. Opens from the Officer Details screen. Link to Company screen will be added soon.
+* Officer appointments. Opens from the Officer Details screen. Link to Company screen.
 
 ### Other features ###
 
