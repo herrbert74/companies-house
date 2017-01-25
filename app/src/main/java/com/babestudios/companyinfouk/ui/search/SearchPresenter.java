@@ -6,7 +6,6 @@ import android.util.Log;
 import com.babestudios.companyinfouk.BuildConfig;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
@@ -34,7 +33,6 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	private String queryText;
 
-	//ArrayList<SearchHistoryItem> searchHistoryItems = null;
 	CompanySearchResult companySearchResult;
 
 	@Inject
@@ -69,6 +67,9 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	@Override
 	public void onError(Throwable e) {
 		Log.d("test", "onError: " + e.fillInStackTrace());
+		if(getView()!= null) {
+			getView().showError();
+		}
 	}
 
 	@Override
@@ -83,8 +84,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	void search(String queryText) {
 		this.queryText = queryText;
 		getView().showProgress();
-		dataManager.searchCompanies(queryText, "0")
-				.subscribe(this);
+		dataManager.searchCompanies(queryText, "0").subscribe(this);
 	}
 
 	void searchLoadMore(int page) {
@@ -94,7 +94,6 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	void getCompany(String companyName, String companyNumber) {
 		getView().startCompanyActivity(companyNumber, companyName);
-		//searchHistoryItems = dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()));
 	}
 
 	void onFabClicked() {

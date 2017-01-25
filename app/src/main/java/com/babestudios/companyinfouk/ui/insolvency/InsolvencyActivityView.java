@@ -14,6 +14,9 @@ interface InsolvencyActivityView extends TiView {
 	void hideProgress();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showInsolvency(final Insolvency insolvency);
 
 	@CallOnMainThread

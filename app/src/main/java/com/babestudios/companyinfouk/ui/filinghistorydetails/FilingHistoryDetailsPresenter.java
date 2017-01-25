@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistorydetails;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.babestudios.companyinfouk.data.DataManager;
 
@@ -19,6 +20,8 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 
 	DataManager dataManager;
 
+	ResponseBody responseBody;
+
 	@Inject
 	public FilingHistoryDetailsPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -32,7 +35,11 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 	@Override
 	protected void onAttachView(@NonNull FilingHistoryDetailsActivityView view) {
 		super.onAttachView(view);
-		view.showProgress();
+		if(responseBody != null) {
+			view.checkPermissionAndWritePdf(responseBody);
+		} else {
+			view.showProgress();
+		}
 	}
 
 	@Override
@@ -60,15 +67,20 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 
 	@Override
 	public void onError(Throwable e) {
-
+		Log.d("test", "onError: " + e.fillInStackTrace());
+		if(getView()!= null) {
+			getView().showError();
+		}
 	}
 
 	@Override
 	public void onNext(ResponseBody responseBody) {
+		this.responseBody = responseBody;
 		getView().checkPermissionAndWritePdf(responseBody);
 	}
 
 	void writePdf(ResponseBody responseBody) {
+		this.responseBody = null;
 		File pdfFile = dataManager.writeDocumentPdf(responseBody);
 		getView().showDocument(Uri.fromFile(pdfFile));
 	}

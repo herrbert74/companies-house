@@ -21,12 +21,13 @@ play.google.com/apps/testing/com.babestudios.companyinfouk
 * Set, delete and show favourites.
 * PDF reports are downloadable and can be sent to the user's choice of reader application.
 
-### Technology highlights ###
+### Technical highlights ###
 
-* Retrofit with RxJava is used for networking.
+* Retrofit with RxJava is used for networking and button clicks.
 * MVP architecture for easy testing.
 * Large part of the presenters are unit tested.
 * New ConstraintLayout is used on Details screens.
+* Handling configuration changes with retained presenter and RxJava.
 
 ### Roadmap ###
 

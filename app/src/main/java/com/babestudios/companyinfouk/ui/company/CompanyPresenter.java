@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.ui.company;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.company.Company;
@@ -32,7 +33,11 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	@Override
 	protected void onAttachView(@NonNull final CompanyActivityView view) {
 		super.onAttachView(view);
-		getCompany(getView().getCompanyNumber());
+		if(company != null){
+			showCompany(company);
+		} else {
+			getCompany(getView().getCompanyNumber());
+		}
 	}
 
 	void getCompany(String companyNumber) {
@@ -45,21 +50,28 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 
 					@Override
 					public void onError(Throwable e) {
-
+						Log.d("test", "onError: " + e.fillInStackTrace());
+						if(getView()!= null) {
+							getView().showError();
+						}
 					}
 
 					@Override
 					public void onNext(Company company) {
-						CompanyPresenter.this.company = company;
 						company.accounts.lastAccounts.type = dataManager.accountTypeLookup(company.accounts.lastAccounts.type);
-						getView().showCompany(company);
-						if (company.sicCodes != null && company.sicCodes.size() > 0) {
-							getView().showNatureOfBusiness(company.sicCodes.get(0), dataManager.sicLookup(company.sicCodes.get(0)));
-						} else {
-							getView().showEmptyNatureOfBusiness();
-						}
+						CompanyPresenter.this.company = company;
+						showCompany(company);
 					}
 				});
+	}
+
+	private void showCompany(Company company) {
+		getView().showCompany(company);
+		if (company.sicCodes != null && company.sicCodes.size() > 0) {
+			getView().showNatureOfBusiness(company.sicCodes.get(0), dataManager.sicLookup(company.sicCodes.get(0)));
+		} else {
+			getView().showEmptyNatureOfBusiness();
+		}
 	}
 
 	@Override

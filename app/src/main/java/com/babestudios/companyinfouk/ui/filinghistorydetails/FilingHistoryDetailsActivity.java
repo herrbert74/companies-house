@@ -151,7 +151,6 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 		Intent target = new Intent(Intent.ACTION_VIEW);
 		target.setDataAndType(uri,"application/pdf");
 		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
 		Intent intent = Intent.createChooser(target, "Open File");
 		try {
 			startActivity(intent);
@@ -162,19 +161,18 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		//Checking the request code of our request
 		if (requestCode == REQUEST_WRITE_STORAGE) {
-
-			//If permission is granted
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				getPresenter().writePdf(responseBody);
-				//Displaying a toast
 				Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
-
 			} else {
-				//Displaying another toast if permission is not granted
 				Toast.makeText(this, "The logs won't be saved to the SD card.", Toast.LENGTH_LONG).show();
 			}
 		}
+	}
+
+	@Override
+	public void showError() {
+		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
 	}
 }

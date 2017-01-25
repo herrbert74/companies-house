@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
@@ -120,4 +121,8 @@ public class OfficersActivity extends TiActivity<OfficersPresenter, OfficersActi
 		return companyNumber;
 	}
 
+	@Override
+	public void showError() {
+		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+	}
 }

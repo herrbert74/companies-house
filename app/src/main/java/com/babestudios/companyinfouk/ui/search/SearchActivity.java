@@ -22,6 +22,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
@@ -275,4 +276,8 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		getPresenter().getCompany(companyName, companyNumber);
 	}
 
+	@Override
+	public void showError() {
+		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+	}
 }

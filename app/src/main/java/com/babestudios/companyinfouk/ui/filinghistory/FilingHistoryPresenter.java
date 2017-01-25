@@ -18,6 +18,8 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 
 	DataManager dataManager;
 
+	FilingHistoryList filingHistoryList;
+
 	@Inject
 	public FilingHistoryPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -31,8 +33,12 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 	@Override
 	protected void onAttachView(@NonNull FilingHistoryActivityView view) {
 		super.onAttachView(view);
-		view.showProgress();
-		getFilingHistory(view.getCompanyNumber(), view.getFilingCategory());
+		if(filingHistoryList != null) {
+			view.showFilingHistory(filingHistoryList);
+		} else {
+			view.showProgress();
+			getFilingHistory(view.getCompanyNumber(), view.getFilingCategory());
+		}
 	}
 
 	@VisibleForTesting
@@ -51,10 +57,14 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 	@Override
 	public void onError(Throwable e) {
 		Log.d("test", "onError: " + e.fillInStackTrace());
+		if(getView()!= null) {
+			getView().showError();
+		}
 	}
 
 	@Override
 	public void onNext(FilingHistoryList filingHistoryList) {
+		this.filingHistoryList = filingHistoryList;
 		getView().hideProgress();
 		getView().showFilingHistory(filingHistoryList);
 	}

@@ -17,6 +17,9 @@ interface SearchActivityView extends TiView {
 	void hideProgress();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showRecentSearches(SearchHistoryItem[] searchHistoryItems);
 
 	@CallOnMainThread

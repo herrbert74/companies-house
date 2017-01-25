@@ -14,6 +14,9 @@ public interface CompanyActivityView extends TiView {
 	void hideFab();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showProgress();
 
 	@CallOnMainThread

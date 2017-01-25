@@ -18,6 +18,8 @@ public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> imp
 
 	DataManager dataManager;
 
+	Insolvency insolvency;
+
 	@Inject
 	public InsolvencyPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -31,8 +33,12 @@ public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> imp
 	@Override
 	protected void onAttachView(@NonNull InsolvencyActivityView view) {
 		super.onAttachView(view);
-		view.showProgress();
-		getInsolvency();
+		if (insolvency != null) {
+			showInsolvency(insolvency);
+		} else {
+			view.showProgress();
+			getInsolvency();
+		}
 	}
 
 	@VisibleForTesting
@@ -48,23 +54,32 @@ public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> imp
 	public void onError(Throwable e) {
 		getView().hideProgress();
 		Log.d("test", "onError: " + e.fillInStackTrace());
-		if(e instanceof HttpException){
+		if (e instanceof HttpException) {
 			HttpException h = (HttpException) e;
-			if(h.code() == 404){
+			if (h.code() == 404) {
 				getView().showNoInsolvency();
+			} else {
+				getView().showError();
 			}
+		} else {
+			getView().showError();
 		}
 	}
 
 	@Override
 	public void onNext(Insolvency insolvency) {
+		this.insolvency = insolvency;
 		getView().hideProgress();
-		if(insolvency != null) {
+		showInsolvency(insolvency);
+
+	}
+
+	private void showInsolvency(Insolvency insolvency) {
+		if (insolvency != null) {
 			getView().showInsolvency(insolvency);
 		} else {
 			getView().showNoInsolvency();
 		}
-
 	}
 
 	@Override

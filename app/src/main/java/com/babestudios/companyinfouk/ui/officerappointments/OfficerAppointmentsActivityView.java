@@ -13,12 +13,14 @@ interface OfficerAppointmentsActivityView extends TiView {
 	void hideProgress();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showAppointments(final Appointments appointments);
 
 	@CallOnMainThread
 	String getOfficerId();
 
-	void showError();
-
 	void startCompanyActivity(String companyNumber, String companyName);
+
 }

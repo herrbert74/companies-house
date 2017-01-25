@@ -19,6 +19,9 @@ public class OfficersPresenter extends TiPresenter<OfficersActivityView> impleme
 
 	DataManager dataManager;
 
+	Officers officers;
+
+	@SuppressWarnings("WeakerAccess")
 	@Inject
 	public OfficersPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -27,15 +30,18 @@ public class OfficersPresenter extends TiPresenter<OfficersActivityView> impleme
 	@Override
 	protected void onCreate() {
 		super.onCreate();
-		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 
 	}
 
 	@Override
 	protected void onAttachView(@NonNull OfficersActivityView view) {
 		super.onAttachView(view);
-		view.showProgress();
-		getOfficers();
+		if(officers != null) {
+			view.showOfficers(officers);
+		} else {
+			view.showProgress();
+			getOfficers();
+		}
 	}
 
 	@VisibleForTesting
@@ -53,18 +59,15 @@ public class OfficersPresenter extends TiPresenter<OfficersActivityView> impleme
 
 	@Override
 	public void onError(Throwable e) {
-		getView().hideProgress();
 		Log.d("test", "onError: " + e.fillInStackTrace());
-		if(e instanceof HttpException){
-			HttpException h = (HttpException) e;
-			if(h.code() == 404){
-
-			}
+		if (getView() != null) {
+			getView().showError();
 		}
 	}
 
 	@Override
 	public void onNext(Officers officers) {
+		this.officers = officers;
 		getView().hideProgress();
 		getView().showOfficers(officers);
 	}

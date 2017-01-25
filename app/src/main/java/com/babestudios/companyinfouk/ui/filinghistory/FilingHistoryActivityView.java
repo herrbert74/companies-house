@@ -14,6 +14,9 @@ interface FilingHistoryActivityView extends TiView {
 	void hideProgress();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showFilingHistory(final FilingHistoryList filingHistoryList);
 
 	@CallOnMainThread

@@ -14,6 +14,9 @@ interface PersonsActivityView extends TiView {
 	void hideProgress();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showPersons(final Persons persons);
 
 	@CallOnMainThread

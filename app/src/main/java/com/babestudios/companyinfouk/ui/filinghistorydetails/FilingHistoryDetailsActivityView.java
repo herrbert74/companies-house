@@ -16,6 +16,9 @@ interface FilingHistoryDetailsActivityView extends TiView {
 	void hideProgress();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showDocument(Uri pdfBytes);
 
 	String getFilingHistoryItemString();

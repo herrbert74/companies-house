@@ -18,23 +18,22 @@ public class PersonsPresenter extends TiPresenter<PersonsActivityView> implement
 
 	DataManager dataManager;
 
+	Persons persons;
+
 	@Inject
 	public PersonsPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
 
 	@Override
-	protected void onCreate() {
-		super.onCreate();
-		//CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-
-	}
-
-	@Override
 	protected void onAttachView(@NonNull PersonsActivityView view) {
 		super.onAttachView(view);
-		view.showProgress();
-		getPersons();
+		if(persons != null) {
+			view.showPersons(persons);
+		} else {
+			view.showProgress();
+			getPersons();
+		}
 	}
 
 	@VisibleForTesting
@@ -55,7 +54,11 @@ public class PersonsPresenter extends TiPresenter<PersonsActivityView> implement
 			Log.d("test", "onError: " + h.code());
 			if (h.code() == 404) {
 				getView().showNoPersons();
+			} else {
+				getView().showError();
 			}
+		} else {
+			getView().showError();
 		}
 	}
 

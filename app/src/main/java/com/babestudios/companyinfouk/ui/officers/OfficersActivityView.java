@@ -14,6 +14,9 @@ interface OfficersActivityView extends TiView {
 	void hideProgress();
 
 	@CallOnMainThread
+	void showError();
+
+	@CallOnMainThread
 	void showOfficers(final Officers officers);
 
 	@CallOnMainThread

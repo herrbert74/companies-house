@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
@@ -126,7 +127,6 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		fab.setVisibility(View.VISIBLE);
 		fab.animate().setDuration(getResources().getInteger(R.integer.fab_move_in_duration)).scaleX(1).scaleY(1).alpha(1)
 				.setInterpolator(new LinearOutSlowInInterpolator());
-		//}
 	}
 
 	@Override
@@ -135,6 +135,11 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		fab.animate().setDuration(getResources().getInteger(R.integer.fab_move_in_duration)).scaleX(0f).scaleY(0f).alpha(0f)
 				.setInterpolator(new LinearOutSlowInInterpolator()).withEndAction(this::showFab);
 
+	}
+
+	@Override
+	public void showError() {
+		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
 	}
 
 	@Override
