@@ -28,12 +28,12 @@ public class FilingHistoryDetailsPresenterTest {
 	@Before
 	public void setUp() {
 		filingHistoryDetailsPresenter = new FilingHistoryDetailsPresenter(mock(DataManager.class));
-		filingHistoryDetailsPresenter.create();
 		FilingHistoryDetailsActivityView view = mock(FilingHistoryDetailsActivityView.class);
 		when(view.getFilingHistoryItemString()).thenReturn("0");
-		filingHistoryDetailsPresenter.attachView(view);
 		when(filingHistoryDetailsPresenter.dataManager.getDocument("0")).thenReturn(Observable.just(ResponseBody.create(MediaType.parse("text/plain"), "test")));
-		when(filingHistoryDetailsPresenter.dataManager.writeDocumentPdf(any(ResponseBody.class))).thenReturn(Uri.parse("http:\\some.com"));
+		//when(filingHistoryDetailsPresenter.dataManager.writeDocumentPdf(any(ResponseBody.class))).thenReturn(Uri.parse("http:\\some.com"));
+		filingHistoryDetailsPresenter.create();
+		filingHistoryDetailsPresenter.attachView(view);
 	}
 
 	@Test
@@ -42,9 +42,9 @@ public class FilingHistoryDetailsPresenterTest {
 		verify(filingHistoryDetailsPresenter.dataManager).getDocument("0");
 	}
 
-	@Test
+	/*@Test
 	public void whenWritePdf_thenDataManagerWriteDocumentPdfIsCalled() {
 		filingHistoryDetailsPresenter.writePdf(ResponseBody.create(MediaType.parse("text/plain"), "test"));
 		verify(filingHistoryDetailsPresenter.dataManager).writeDocumentPdf(any(ResponseBody.class));
-	}
+	}*/
 }

@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import rx.Observable;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,15 +23,17 @@ public class FilingHistoryPresenterTest {
 	@Before
 	public void setUp() {
 		filingHistoryPresenter = new FilingHistoryPresenter(mock(DataManager.class));
-		filingHistoryPresenter.create();
 		FilingHistoryActivityView view = mock(FilingHistoryActivityView.class);
-		filingHistoryPresenter.attachView(view);
+		when(view.getCompanyNumber()).thenReturn("23");
+		when(view.getFilingCategory()).thenReturn("0");
 		when(filingHistoryPresenter.dataManager.getFilingHistory("23", "0", "0")).thenReturn(Observable.just(new FilingHistoryList()));
+		filingHistoryPresenter.create();
+		filingHistoryPresenter.attachView(view);
 	}
 
 	@Test
 	public void whenGetFilingHistory_thenDataManagerGetFilingHistoryIsCalled() {
 		filingHistoryPresenter.getFilingHistory("23", "0");
-		verify(filingHistoryPresenter.dataManager).getFilingHistory("23", "0", "0");
+		verify(filingHistoryPresenter.dataManager, times(2)).getFilingHistory("23", "0", "0");
 	}
 }

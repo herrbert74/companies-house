@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import rx.Observable;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,16 +23,16 @@ public class PersonsPresenterTest {
 	@Before
 	public void setUp() {
 		personsPresenter = new PersonsPresenter(mock(DataManager.class));
-		personsPresenter.create();
 		PersonsActivityView view = mock(PersonsActivityView.class);
 		when(view.getCompanyNumber()).thenReturn("0");
-		personsPresenter.attachView(view);
 		when(personsPresenter.dataManager.getPersons("0", "0")).thenReturn(Observable.just(new Persons()));
+		personsPresenter.create();
+		personsPresenter.attachView(view);
 	}
 
 	@Test
 	public void test_When_GetInsolvency_Then_DataManagerGetInsolvencyIsCalled() {
 		personsPresenter.getPersons();
-		verify(personsPresenter.dataManager).getPersons("0", "0");
+		verify(personsPresenter.dataManager, times(2)).getPersons("0", "0");
 	}
 }

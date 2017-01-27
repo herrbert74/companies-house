@@ -26,8 +26,7 @@ public class FavouritesPresenterTest {
 	}
 
 	@Test
-	public void whenOnResume_shouldCallShowFavouritesOnView() {
-		favouritesPresenter.attachView(any());
+	public void onAttachView_shouldCallShowFavouritesOnView() {
 		verify(favouritesPresenter.getView()).showFavourites(any());
 	}
 
