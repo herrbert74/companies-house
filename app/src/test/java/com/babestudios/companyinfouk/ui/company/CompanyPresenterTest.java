@@ -1,7 +1,9 @@
 package com.babestudios.companyinfouk.ui.company;
 
 import com.babestudios.companyinfouk.data.DataManager;
+import com.babestudios.companyinfouk.data.model.company.Accounts;
 import com.babestudios.companyinfouk.data.model.company.Company;
+import com.babestudios.companyinfouk.data.model.company.LastAccounts;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,9 +27,13 @@ public class CompanyPresenterTest {
 		companyPresenter = new CompanyPresenter(mock(DataManager.class));
 		companyPresenter.create();
 		CompanyActivityView view = mock(CompanyActivityView.class);
-		companyPresenter.bindNewView(view);
-		when(companyPresenter.dataManager.getCompany(any())).thenReturn(Observable.just(new Company()));
-		companyPresenter.company = new Company();
+		Company company = new Company();
+		company.accounts = new Accounts();
+		company.accounts.lastAccounts = new LastAccounts();
+		company.accounts.lastAccounts.type = "any";
+		when(companyPresenter.dataManager.getCompany(any())).thenReturn(Observable.just(company));
+		when(companyPresenter.dataManager.accountTypeLookup(any())).thenReturn("");
+		companyPresenter.attachView(view);
 	}
 
 	@Test
@@ -46,7 +52,7 @@ public class CompanyPresenterTest {
 
 	@Test
 	public void test_When_GetCompany_Then_DataManagerGetCompanyIsCalled() {
-		companyPresenter.getCompany("");
-		verify(companyPresenter.dataManager).getCompany(any());
+		companyPresenter.getCompany("123456");
+		verify(companyPresenter.dataManager).getCompany("123456");
 	}
 }

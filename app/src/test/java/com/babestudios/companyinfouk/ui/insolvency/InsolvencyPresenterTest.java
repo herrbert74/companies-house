@@ -25,7 +25,7 @@ public class InsolvencyPresenterTest {
 		insolvencyPresenter.create();
 		InsolvencyActivityView view = mock(InsolvencyActivityView.class);
 		when(view.getCompanyNumber()).thenReturn("0");
-		insolvencyPresenter.bindNewView(view);
+		insolvencyPresenter.attachView(view);
 		when(insolvencyPresenter.dataManager.getInsolvency("0")).thenReturn(Observable.just(new Insolvency()));
 	}
 

@@ -26,7 +26,7 @@ public class OfficerAppointmentsPresenterTest {
 		officerAppointmentsPresenter.create();
 		OfficerAppointmentsActivityView view = mock(OfficerAppointmentsActivityView.class);
 		when(view.getOfficerId()).thenReturn("0");
-		officerAppointmentsPresenter.bindNewView(view);
+		officerAppointmentsPresenter.attachView(view);
 		when(officerAppointmentsPresenter.dataManager.getOfficerAppointments("0", "0")).thenReturn(Observable.just(new Appointments()));
 	}
 

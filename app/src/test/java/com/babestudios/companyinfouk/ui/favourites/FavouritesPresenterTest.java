@@ -22,12 +22,12 @@ public class FavouritesPresenterTest {
 		favouritesPresenter = new FavouritesPresenter(mock(DataManager.class));
 		favouritesPresenter.create();
 		FavouritesActivityView view = mock(FavouritesActivityView.class);
-		favouritesPresenter.bindNewView(view);
+		favouritesPresenter.attachView(view);
 	}
 
 	@Test
 	public void whenOnResume_shouldCallShowFavouritesOnView() {
-		favouritesPresenter.onResume();
+		favouritesPresenter.attachView(any());
 		verify(favouritesPresenter.getView()).showFavourites(any());
 	}
 

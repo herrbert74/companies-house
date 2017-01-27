@@ -25,7 +25,7 @@ public class PersonsPresenterTest {
 		personsPresenter.create();
 		PersonsActivityView view = mock(PersonsActivityView.class);
 		when(view.getCompanyNumber()).thenReturn("0");
-		personsPresenter.bindNewView(view);
+		personsPresenter.attachView(view);
 		when(personsPresenter.dataManager.getPersons("0", "0")).thenReturn(Observable.just(new Persons()));
 	}
 

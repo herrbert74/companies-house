@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.data;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -137,7 +138,7 @@ public class DataManager {
 	}
 
 	@NonNull
-	public File writeDocumentPdf(ResponseBody responseBody) {
+	public Uri writeDocumentPdf(ResponseBody responseBody) {
 		File root = Environment.getExternalStorageDirectory();
 		File dir = new File(root.getAbsolutePath() + "/download");
 		dir.mkdirs();
@@ -173,7 +174,7 @@ public class DataManager {
 		} catch (IOException e) {
 			Log.d("test", "Error during closing input stream" + e.getLocalizedMessage());
 		}
-		return pdfFile;
+		return Uri.fromFile(pdfFile);
 	}
 
 	public void clearAllRecentSearches() {

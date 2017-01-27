@@ -24,7 +24,7 @@ public class FilingHistoryPresenterTest {
 		filingHistoryPresenter = new FilingHistoryPresenter(mock(DataManager.class));
 		filingHistoryPresenter.create();
 		FilingHistoryActivityView view = mock(FilingHistoryActivityView.class);
-		filingHistoryPresenter.bindNewView(view);
+		filingHistoryPresenter.attachView(view);
 		when(filingHistoryPresenter.dataManager.getFilingHistory("23", "0", "0")).thenReturn(Observable.just(new FilingHistoryList()));
 	}
 

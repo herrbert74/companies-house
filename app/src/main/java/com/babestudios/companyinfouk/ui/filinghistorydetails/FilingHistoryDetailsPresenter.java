@@ -81,8 +81,7 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 
 	void writePdf(ResponseBody responseBody) {
 		this.responseBody = null;
-		File pdfFile = dataManager.writeDocumentPdf(responseBody);
-		getView().showDocument(Uri.fromFile(pdfFile));
+		getView().showDocument(dataManager.writeDocumentPdf(responseBody));
 	}
 
 

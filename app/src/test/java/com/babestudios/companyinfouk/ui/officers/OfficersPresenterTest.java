@@ -24,7 +24,7 @@ public class OfficersPresenterTest {
 		officersPresenter = new OfficersPresenter(mock(DataManager.class));
 		officersPresenter.create();
 		OfficersActivityView view = mock(OfficersActivityView.class);
-		officersPresenter.bindNewView(view);
+		officersPresenter.attachView(view);
 		when(view.getCompanyNumber()).thenReturn("0");
 		when(officersPresenter.dataManager.getOfficers("0", "0")).thenReturn(Observable.just(new Officers()));
 	}

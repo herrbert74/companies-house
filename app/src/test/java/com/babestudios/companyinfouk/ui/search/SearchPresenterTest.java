@@ -29,7 +29,7 @@ public class SearchPresenterTest {
 		searchPresenter = new SearchPresenter(Mockito.mock(DataManager.class));
 		searchPresenter.create();
 		view = mock(SearchActivityView.class);
-		searchPresenter.bindNewView(view);
+		searchPresenter.attachView(view);
 		when(searchPresenter.dataManager.searchCompanies(any(), anyString())).thenReturn(Observable.just(new CompanySearchResult()));
 	}
 
