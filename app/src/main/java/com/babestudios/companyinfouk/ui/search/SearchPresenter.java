@@ -6,6 +6,7 @@ import android.util.Log;
 import com.babestudios.companyinfouk.BuildConfig;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
@@ -33,6 +34,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	private String queryText;
 
+	ArrayList<SearchHistoryItem> searchHistoryItems = null;
 	CompanySearchResult companySearchResult;
 
 	@Inject
@@ -94,14 +96,15 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	void getCompany(String companyName, String companyNumber) {
 		getView().startCompanyActivity(companyNumber, companyName);
+		searchHistoryItems = dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()));
 	}
 
 	void onFabClicked() {
 		if (showState == ShowState.RECENT_SEARCHES) {
-			showState = ShowState.SEARCH;
 			getView().showDeleteRecentSearchesDialog();
 		} else if (showState == ShowState.SEARCH) {
 			getView().clearSearchView();
+			getView().refreshRecentSearchesAdapter(searchHistoryItems);
 			showRecentSearches();
 		}
 	}
