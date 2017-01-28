@@ -45,4 +45,5 @@ public class DescriptionValues {
 	@SerializedName("capital")
 	public List<Capital> capital = new ArrayList<>();
 
+	public String description;
 }
