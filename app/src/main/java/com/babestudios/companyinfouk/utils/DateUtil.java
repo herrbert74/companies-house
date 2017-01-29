@@ -41,7 +41,7 @@ public class DateUtil {
 
 	public static String formatShortDateFromTimeStampMillis(long timeStamp) {
 		Date date = new Date(timeStamp);
-		DateFormat df = new SimpleDateFormat("d MMM YYY", Locale.ENGLISH);
+		DateFormat df = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
 		return df.format(date);
 	}
 
