@@ -28,4 +28,8 @@
 
 	<dimen name="fab_size">56dp</dimen>
 	<dimen name="subheading_height">48dp</dimen>
+
+	<dimen name="icon_size">24dp</dimen>
+
+	<dimen name="constraint_guide_begin">216dp</dimen>
 </resources>

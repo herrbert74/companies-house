@@ -173,8 +173,8 @@
 				android:onClick="onFilingHistoryClicked">
 
 				<ImageView
-					android:layout_width="24dp"
-					android:layout_height="24dp"
+					android:layout_width="@dimen/icon_size"
+					android:layout_height="@dimen/icon_size"
 					android:layout_margin="@dimen/view_margin"
 					app:srcCompat="@drawable/company_filing_history_vector"/>
 
@@ -193,8 +193,8 @@
 				android:onClick="onInsolvencyClicked">
 
 				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_width="@dimen/icon_size"
+					android:layout_height="@dimen/icon_size"
 					android:layout_margin="@dimen/view_margin"
 					app:srcCompat="@drawable/company_insolvency_vector"/>
 
@@ -213,8 +213,8 @@
 				android:onClick="onChargesClicked">
 
 				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_width="@dimen/icon_size"
+					android:layout_height="@dimen/icon_size"
 					android:layout_margin="@dimen/view_margin"
 					app:srcCompat="@drawable/company_charges_vector"/>
 
@@ -233,8 +233,8 @@
 				android:onClick="onOfficersClicked">
 
 				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_width="@dimen/icon_size"
+					android:layout_height="@dimen/icon_size"
 					android:layout_margin="@dimen/view_margin"
 					app:srcCompat="@drawable/company_officers_vector"/>
 
@@ -253,8 +253,8 @@
 				android:onClick="onPersonsClicked">
 
 				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_width="@dimen/icon_size"
+					android:layout_height="@dimen/icon_size"
 					android:layout_margin="@dimen/view_margin"
 					app:srcCompat="@drawable/company_persons_with_control_vector"/>
 
