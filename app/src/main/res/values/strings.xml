@@ -70,4 +70,12 @@
 	<string name="transactions">Transactions</string>
 	<string name="type">Type</string>
 	<string name="date">Date</string>
+	<string name="search_menu_filter">Filter</string>
+	<string-array name="search_filter_options">
+		<item>All</item>
+		<item>Active</item>
+		<item>Liquidation</item>
+		<item>Open</item>
+		<item>Dissolved</item>
+	</string-array>
 </resources>

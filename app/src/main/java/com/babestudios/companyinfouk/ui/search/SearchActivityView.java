@@ -26,7 +26,7 @@ interface SearchActivityView extends TiView {
 	void startCompanyActivity(String companyNumber, String companyName);
 
 	@CallOnMainThread
-	void showCompanySearchResult(final CompanySearchResult companySearchResult);
+	void showCompanySearchResult(CompanySearchResult companySearchResult, SearchPresenter.FilterState filterState);
 
 	@CallOnMainThread
 	void clearSearchView();
@@ -39,4 +39,8 @@ interface SearchActivityView extends TiView {
 
 	@CallOnMainThread
 	void showDeleteRecentSearchesDialog();
+
+	void setFilterOnAdapter(SearchPresenter.FilterState filterState);
+
+	void setDeferredFilterState(SearchPresenter.FilterState filterState);
 }

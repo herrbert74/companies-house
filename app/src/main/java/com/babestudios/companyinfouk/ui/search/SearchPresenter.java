@@ -28,6 +28,25 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		SEARCH
 	}
 
+	enum FilterState {
+		FILTER_SHOW_ALL ("all"),
+		FILTER_ACTIVE("active"),
+		FILTER_LIQUIDATION("liquidation"),
+		FILTER_OPEN("open"),
+		FILER_DISSOLVED("dissolved");
+
+		private final String name;
+
+		FilterState(final String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
+
 	private ShowState showState = ShowState.RECENT_SEARCHES;
 
 	DataManager dataManager;
@@ -36,6 +55,8 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	ArrayList<SearchHistoryItem> searchHistoryItems = null;
 	CompanySearchResult companySearchResult;
+
+	FilterState filterState = FilterState.FILTER_SHOW_ALL;
 
 	@Inject
 	public SearchPresenter(DataManager dataManager) {
@@ -49,8 +70,9 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 			showRecentSearches();
 		} else {
 			view.clearSearchView();
-			if(companySearchResult != null){
-				view.showCompanySearchResult(companySearchResult);
+			if (companySearchResult != null) {
+				view.showCompanySearchResult(companySearchResult, filterState);
+				view.setDeferredFilterState(filterState);
 				view.changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 			}
 		}
@@ -69,7 +91,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	@Override
 	public void onError(Throwable e) {
 		Log.d("test", "onError: " + e.fillInStackTrace());
-		if(getView()!= null) {
+		if (getView() != null) {
 			getView().showError();
 		}
 	}
@@ -79,7 +101,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		showState = ShowState.SEARCH;
 		this.companySearchResult = companySearchResult;
 		getView().hideProgress();
-		getView().showCompanySearchResult(companySearchResult);
+		getView().showCompanySearchResult(companySearchResult, filterState);
 		getView().changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 	}
 
@@ -112,5 +134,12 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	void clearAllRecentSearches() {
 		dataManager.clearAllRecentSearches();
 		getView().refreshRecentSearchesAdapter(new ArrayList<>());
+	}
+
+	public void setFilterState(int state) {
+		filterState = FilterState.values()[state];
+		if (getView() != null && showState == ShowState.SEARCH) {
+			getView().setFilterOnAdapter(filterState);
+		}
 	}
 }

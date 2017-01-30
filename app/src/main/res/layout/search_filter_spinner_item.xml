@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/spinner_item_root"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal">
+
+	<TextView
+		android:id="@+id/spinner_item_text_view"
+		style="?android:attr/spinnerItemStyle"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_gravity="start"
+		android:layout_weight="1"
+		android:drawablePadding="0dp"
+		android:ellipsize="marquee"
+		android:gravity="start"
+		android:maxLines="1"
+		android:textAlignment="inherit"
+		tools:text="Something"/>
+
+	<ImageView
+		android:id="@+id/spinner_item_icon"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:contentDescription="@null"
+		android:paddingEnd="0dp"
+		android:paddingStart="@dimen/view_margin"
+		app:srcCompat="@drawable/arrow_drop_down_vector"/>
+</LinearLayout>

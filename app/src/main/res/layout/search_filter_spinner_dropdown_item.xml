@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/dropdown_item_root"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal">
+
+	<TextView
+		android:id="@+id/dropdown_item_text_view"
+		style="?android:attr/spinnerDropDownItemStyle"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:drawablePadding="0dp"
+		android:ellipsize="marquee"
+		android:gravity="start"
+		android:lines="1"
+		android:textAlignment="inherit"/>
+</LinearLayout>

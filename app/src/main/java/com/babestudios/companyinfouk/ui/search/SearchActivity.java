@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,10 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.Filter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +50,8 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityView> implements SearchActivityView, SearchResultsAdapter.SearchResultsRecyclerViewClickListener, RecentSearchesResultsAdapter.RecentSearchesRecyclerViewClickListener {
+public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityView> implements SearchActivityView, SearchResultsAdapter.SearchResultsRecyclerViewClickListener,
+		RecentSearchesResultsAdapter.RecentSearchesRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -72,6 +77,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@Singleton
 	@Inject
 	DataManager dataManager;
+
+	Menu menu;
+	private SearchPresenter.FilterState deferredFilterState;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -158,14 +166,15 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	@Override
-	public void showCompanySearchResult(CompanySearchResult companySearchResult) {
+	public void showCompanySearchResult(CompanySearchResult companySearchResult, SearchPresenter.FilterState filterState) {
+
 		recentSearchesRecyclerView.setVisibility(View.GONE);
 		searchRecyclerView.setVisibility(View.VISIBLE);
 		if (searchRecyclerView.getAdapter() == null) {
-			searchResultsAdapter = new SearchResultsAdapter(SearchActivity.this, companySearchResult);
+			searchResultsAdapter = new SearchResultsAdapter(SearchActivity.this, companySearchResult, filterState);
 			searchRecyclerView.setAdapter(searchResultsAdapter);
 		} else {
-			searchResultsAdapter.addItems(companySearchResult);
+			searchResultsAdapter.addItems(companySearchResult, filterState);
 		}
 	}
 
@@ -230,6 +239,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		this.menu = menu;
 		getMenuInflater().inflate(R.menu.search_menu, menu);
 
 		//Catch the click on the search button on the soft keyboard and send the query to the presenter
@@ -251,7 +261,34 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 			}
 			return false;
 		});
+		MenuItem item = menu.findItem(R.id.spinner);
+		Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
+		spinner.setBackgroundResource(0);
+		spinner.setPadding(0, 0, getResources().getDimensionPixelOffset(R.dimen.view_margin), 0);
+		SearchFilterAdapter adapter = new SearchFilterAdapter(this, getResources().getStringArray(R.array
+				.search_filter_options), true);
+		spinner.setAdapter(adapter);
+		if(deferredFilterState != null) {
+			spinner.setSelection(deferredFilterState.ordinal());
+			deferredFilterState = null;
+		}
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				getPresenter().setFilterState(position);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
+		});
 		return true;
+	}
+
+	@Override
+	public void setDeferredFilterState(SearchPresenter.FilterState filterState) {
+		this.deferredFilterState = filterState;
 	}
 
 	@Override
@@ -274,6 +311,11 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@Override
 	public void recentSearchesResultItemClicked(View v, int position, String companyName, String companyNumber) {
 		getPresenter().getCompany(companyName, companyNumber);
+	}
+
+	@Override
+	public void setFilterOnAdapter(SearchPresenter.FilterState filterState) {
+		searchResultsAdapter.setFilterOnAdapter(filterState);
 	}
 
 	@Override

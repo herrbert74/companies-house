@@ -10,4 +10,9 @@
 		  android:title="@string/favourites"
 		  android:icon="@drawable/favorite_vector"
 		  app:showAsAction="ifRoom|collapseActionView" />
+	<item
+		android:id="@+id/spinner"
+		android:title="@string/search_menu_filter"
+		app:actionViewClass="android.widget.Spinner"
+		app:showAsAction="ifRoom"/>
 </menu>
