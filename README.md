@@ -4,9 +4,11 @@ Companies House does have an application, but it is outdated and doesn't contain
 
 ### How do I get set up? ###
 
-* You need Android Studio and you are good to go.
-* Also available on Google Play as a Beta Version:
-play.google.com/apps/testing/com.babestudios.companyinfouk
+* You need the latest Android Studio.
+* Register an account and get an authentication code as described [here](https://developer.companieshouse.gov.uk/api/docs/index/gettingStarted.html).
+* Place the authentication code into your local gradle configuration folder (on windows it's under c:\Users\[User]\.gradle\gradle.properties by default) with the name
+"CH_API_KEY".
+* Also available on Google Play as a [Beta Version](play.google.com/apps/testing/com.babestudios.companyinfouk).
 
 ### App screen levels ###
 
@@ -14,12 +16,13 @@ play.google.com/apps/testing/com.babestudios.companyinfouk
 * Company screen.
 * Specialized screens (Filing History/Charges/Insolvency/Officers/Persons with Significant Control).
 * Specialized detail screens.
-* Officer appointments. Opens from the Officer Details screen. Link to Company screen.
+* Officer appointments. Opens from the Officer Details screen. Links to Company screen.
 
 ### Other features ###
 
 * Set, delete and show favourites.
 * PDF reports are downloadable and can be sent to the user's choice of reader application.
+* Filter search results by company status and filing history by filing category.
 
 ### Technical highlights ###
 
