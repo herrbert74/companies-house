@@ -5,7 +5,7 @@ android {
 		all {
 			buildConfigField 'String', 'COMPANIES_HOUSE_BASE_URL', '"https://api.companieshouse.gov.uk/"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_DOCUMENT_API_BASE_URL', '"https://document-api.companieshouse.gov.uk/"';
-			buildConfigField 'String', 'COMPANIES_HOUSE_API_KEY', '"ZphXpg-trfwANiTNfe4xwK6QXY4XwRww0wHxF5dm"';
+			buildConfigField 'String', 'COMPANIES_HOUSE_API_KEY', CH_API_KEY;
 
 			buildConfigField 'String', 'COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT', '"search/companies"';
 			buildConfigField 'String', 'COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE', '"100"';
