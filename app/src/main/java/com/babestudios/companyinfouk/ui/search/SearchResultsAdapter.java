@@ -17,8 +17,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
-import rx.Scheduler;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultsViewHolder> {
@@ -37,7 +35,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 	private void updateFilteredResults(CompanySearchResult companySearchResults, SearchPresenter.FilterState filterState) {
 		if (filterState.ordinal() > SearchPresenter.FilterState.FILTER_SHOW_ALL.ordinal()) {
 			Observable.from(companySearchResults.items).filter(companySearchResultItem -> companySearchResultItem.companyStatus.equalsIgnoreCase(filterState.toString()))
-					.observeOn(Schedulers.computation())
+					.observeOn(Schedulers.immediate())
 					.toList()
 					.subscribe(result -> filteredSearchResults = result);
 		} else {

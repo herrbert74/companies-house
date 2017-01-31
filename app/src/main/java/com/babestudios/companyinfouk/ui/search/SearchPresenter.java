@@ -53,10 +53,10 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	private String queryText;
 
-	ArrayList<SearchHistoryItem> searchHistoryItems = null;
-	CompanySearchResult companySearchResult;
+	private ArrayList<SearchHistoryItem> searchHistoryItems = null;
+	private CompanySearchResult companySearchResult;
 
-	FilterState filterState = FilterState.FILTER_SHOW_ALL;
+	private FilterState filterState = FilterState.FILTER_SHOW_ALL;
 
 	@Inject
 	public SearchPresenter(DataManager dataManager) {
@@ -71,7 +71,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		} else {
 			view.clearSearchView();
 			if (companySearchResult != null) {
-				view.showCompanySearchResult(companySearchResult, filterState);
+				view.showCompanySearchResult(companySearchResult, false, filterState);
 				view.setDeferredFilterState(filterState);
 				view.changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 			}
@@ -101,7 +101,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		showState = ShowState.SEARCH;
 		this.companySearchResult = companySearchResult;
 		getView().hideProgress();
-		getView().showCompanySearchResult(companySearchResult, filterState);
+		getView().showCompanySearchResult(companySearchResult, true, filterState);
 		getView().changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 	}
 

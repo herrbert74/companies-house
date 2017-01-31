@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Filter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -78,7 +76,6 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@Inject
 	DataManager dataManager;
 
-	Menu menu;
 	private SearchPresenter.FilterState deferredFilterState;
 
 	@Override
@@ -165,15 +162,20 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		startActivity(startCompanyActivityIntent);
 	}
 
+	/**
+	 *
+	 * @param companySearchResult
+	 * @param isFromOnNext: addItems on adapter should only be used for onLoadMore from onNext
+	 * @param filterState
+	 */
 	@Override
-	public void showCompanySearchResult(CompanySearchResult companySearchResult, SearchPresenter.FilterState filterState) {
-
+	public void showCompanySearchResult(CompanySearchResult companySearchResult, boolean isFromOnNext, SearchPresenter.FilterState filterState) {
 		recentSearchesRecyclerView.setVisibility(View.GONE);
 		searchRecyclerView.setVisibility(View.VISIBLE);
 		if (searchRecyclerView.getAdapter() == null) {
 			searchResultsAdapter = new SearchResultsAdapter(SearchActivity.this, companySearchResult, filterState);
 			searchRecyclerView.setAdapter(searchResultsAdapter);
-		} else {
+		} else if (isFromOnNext) {
 			searchResultsAdapter.addItems(companySearchResult, filterState);
 		}
 	}
@@ -239,7 +241,6 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		this.menu = menu;
 		getMenuInflater().inflate(R.menu.search_menu, menu);
 
 		//Catch the click on the search button on the soft keyboard and send the query to the presenter
@@ -265,10 +266,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
 		spinner.setBackgroundResource(0);
 		spinner.setPadding(0, 0, getResources().getDimensionPixelOffset(R.dimen.view_margin), 0);
-		SearchFilterAdapter adapter = new SearchFilterAdapter(this, getResources().getStringArray(R.array
-				.search_filter_options), true);
+		SearchFilterAdapter adapter = new SearchFilterAdapter(SearchActivity.this, getResources().getStringArray(R.array.search_filter_options), true);
 		spinner.setAdapter(adapter);
-		if(deferredFilterState != null) {
+		if (deferredFilterState != null) {
 			spinner.setSelection(deferredFilterState.ordinal());
 			deferredFilterState = null;
 		}

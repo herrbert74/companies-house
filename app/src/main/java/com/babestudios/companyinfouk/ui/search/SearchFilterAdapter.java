@@ -73,11 +73,9 @@ public class SearchFilterAdapter extends ArrayAdapter<String> {
 			holder.spinner_item_root = convertView.findViewById(R.id.spinner_item_root);
 			holder.spinner_item_icon = (ImageView) convertView.findViewById(R.id.spinner_item_icon);
 			holder.spinner_item_text_view = (TextView) convertView.findViewById(R.id.spinner_item_text_view);
-			if (isDarkTheme) {
-				holder.spinner_item_text_view.setTextColor(ContextCompat.getColor(context, android.R.color.white));
-				holder.spinner_item_icon.setImageDrawable(ResourceHelper.tintVectorDrawableCompat(context, VectorDrawableCompat.create
-						(context.getResources(), R.drawable.arrow_drop_down_vector, context.getTheme()), android.R.color.white));
-			}
+			holder.spinner_item_text_view.setTextColor(ContextCompat.getColor(context, android.R.color.white));
+			holder.spinner_item_icon.setImageDrawable(ResourceHelper.tintVectorDrawableCompat(context, VectorDrawableCompat.create
+					(context.getResources(), R.drawable.arrow_drop_down_vector, context.getTheme()), android.R.color.white));
 			convertView.setTag(holder);
 		} else {
 			holder = (SpinnerItemViewHolder) convertView.getTag();
