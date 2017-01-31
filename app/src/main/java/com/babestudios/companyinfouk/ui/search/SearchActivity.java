@@ -76,7 +76,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	@Inject
 	DataManager dataManager;
 
-	private SearchPresenter.FilterState deferredFilterState;
+	private SearchPresenter.FilterState initialFilterState;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -268,9 +268,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		spinner.setPadding(0, 0, getResources().getDimensionPixelOffset(R.dimen.view_margin), 0);
 		SearchFilterAdapter adapter = new SearchFilterAdapter(SearchActivity.this, getResources().getStringArray(R.array.search_filter_options), true);
 		spinner.setAdapter(adapter);
-		if (deferredFilterState != null) {
-			spinner.setSelection(deferredFilterState.ordinal());
-			deferredFilterState = null;
+		if (initialFilterState != null) {
+			spinner.setSelection(initialFilterState.ordinal());
+			initialFilterState = null;
 		}
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
@@ -287,8 +287,8 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	@Override
-	public void setDeferredFilterState(SearchPresenter.FilterState filterState) {
-		this.deferredFilterState = filterState;
+	public void setInitialFilterState(SearchPresenter.FilterState filterState) {
+		this.initialFilterState = filterState;
 	}
 
 	@Override

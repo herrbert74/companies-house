@@ -131,7 +131,7 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.filing_history_menu, menu);
+		getMenuInflater().inflate(R.menu.filing_history_details_menu, menu);
 		return true;
 	}
 

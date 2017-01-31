@@ -7,6 +7,7 @@ import android.util.Log;
 import com.babestudios.companyinfouk.BuildConfig;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
+import com.babestudios.companyinfouk.ui.search.SearchPresenter;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
@@ -16,9 +17,37 @@ import rx.Observer;
 
 public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityView> implements Observer<FilingHistoryList> {
 
+	enum CategoryFilter {
+		CATEGORY_SHOW_ALL ("all"),
+		CATEGORY_GAZETTE("gazette"),
+		CATEGORY_CONFIRMATION_STATEMENT("confirmation-statement"),
+		CATEGORY_ACCOUNTS("accounts"),
+		CATEGORY_ANNUAL_RETURN("annual return"),
+		CATEGORY_OFFICERS("officers"),
+		CATEGORY_ADDRESS("address"),
+		CATEGORY_CAPITAL("capital"),
+		CATEGORY_INSOLVENCY("insolvency"),
+		CATEGORY_OTHER("other"),
+		CATEGORY_INCORPORATION("incorporation"),
+		CATEGORY_MORTGAGE("mortgage");
+
+		private final String name;
+
+		CategoryFilter(final String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
+	
 	DataManager dataManager;
 
-	FilingHistoryList filingHistoryList;
+	private FilingHistoryList filingHistoryList;
+
+	private CategoryFilter categoryFilter = CategoryFilter.CATEGORY_SHOW_ALL;
 
 	@Inject
 	public FilingHistoryPresenter(DataManager dataManager) {
@@ -34,7 +63,8 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 	protected void onAttachView(@NonNull FilingHistoryActivityView view) {
 		super.onAttachView(view);
 		if(filingHistoryList != null) {
-			view.showFilingHistory(filingHistoryList);
+			view.showFilingHistory(filingHistoryList, categoryFilter);
+			view.setInitialCategoryFilter(categoryFilter);
 		} else {
 			view.showProgress();
 			getFilingHistory(view.getCompanyNumber(), view.getFilingCategory());
@@ -66,7 +96,7 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 	public void onNext(FilingHistoryList filingHistoryList) {
 		this.filingHistoryList = filingHistoryList;
 		getView().hideProgress();
-		getView().showFilingHistory(filingHistoryList);
+		getView().showFilingHistory(filingHistoryList, categoryFilter);
 	}
 
 	@Override
@@ -74,5 +104,11 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 		super.onDestroy();
 	}
 
+	void setCategoryFilter(int category) {
+		categoryFilter = CategoryFilter.values()[category];
+		if (getView() != null) {
+			getView().setFilterOnAdapter(categoryFilter);
+		}
+	}
 
 }

@@ -23,7 +23,7 @@ public class SearchFilterAdapter extends ArrayAdapter<String> {
 	private int verticalDropdownPadding;
 
 	public SearchFilterAdapter(Context context, String[] texts, boolean isDarkTheme) {
-		super(context, R.layout.search_filter_spinner_item, texts);
+		super(context, R.layout.menu_spinner_item, texts);
 		this.isDarkTheme = isDarkTheme;
 		mTexts = texts;
 		this.context = context;
@@ -35,7 +35,7 @@ public class SearchFilterAdapter extends ArrayAdapter<String> {
 		DropDownViewHolder holder;
 		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-			convertView = inflater.inflate(R.layout.search_filter_spinner_dropdown_item, parent, false);
+			convertView = inflater.inflate(R.layout.menu_spinner_dropdown_item, parent, false);
 			holder = new DropDownViewHolder();
 			holder.dropdown_root = convertView.findViewById(R.id.dropdown_item_root);
 			holder.dropdown_text_view = (TextView) convertView.findViewById(R.id.dropdown_item_text_view);
@@ -68,7 +68,7 @@ public class SearchFilterAdapter extends ArrayAdapter<String> {
 		SpinnerItemViewHolder holder;
 		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-			convertView = inflater.inflate(R.layout.search_filter_spinner_item, parent, false);
+			convertView = inflater.inflate(R.layout.menu_spinner_item, parent, false);
 			holder = new SpinnerItemViewHolder();
 			holder.spinner_item_root = convertView.findViewById(R.id.spinner_item_root);
 			holder.spinner_item_icon = (ImageView) convertView.findViewById(R.id.spinner_item_icon);

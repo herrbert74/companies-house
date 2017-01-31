@@ -78,4 +78,18 @@
 		<item>Open</item>
 		<item>Dissolved</item>
 	</string-array>
+	<string-array name="filing_history_categories">
+		<item>All</item>
+		<item>gazette</item>
+		<item>confirmation-statement</item>
+		<item>accounts</item>
+		<item>annual returns</item>
+		<item>officers</item>
+		<item>address</item>
+		<item>capital</item>
+		<item>insolvency</item>
+		<item>other</item>
+		<item>incorporation</item>
+		<item>mortgage</item>
+	</string-array>
 </resources>

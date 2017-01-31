@@ -33,7 +33,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		FILTER_ACTIVE("active"),
 		FILTER_LIQUIDATION("liquidation"),
 		FILTER_OPEN("open"),
-		FILER_DISSOLVED("dissolved");
+		FILTER_DISSOLVED("dissolved");
 
 		private final String name;
 
@@ -72,7 +72,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 			view.clearSearchView();
 			if (companySearchResult != null) {
 				view.showCompanySearchResult(companySearchResult, false, filterState);
-				view.setDeferredFilterState(filterState);
+				view.setInitialFilterState(filterState);
 				view.changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 			}
 		}
@@ -136,7 +136,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 		getView().refreshRecentSearchesAdapter(new ArrayList<>());
 	}
 
-	public void setFilterState(int state) {
+	void setFilterState(int state) {
 		filterState = FilterState.values()[state];
 		if (getView() != null && showState == ShowState.SEARCH) {
 			getView().setFilterOnAdapter(filterState);

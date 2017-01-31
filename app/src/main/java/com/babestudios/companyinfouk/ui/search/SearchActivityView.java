@@ -42,5 +42,5 @@ interface SearchActivityView extends TiView {
 
 	void setFilterOnAdapter(SearchPresenter.FilterState filterState);
 
-	void setDeferredFilterState(SearchPresenter.FilterState filterState);
+	void setInitialFilterState(SearchPresenter.FilterState filterState);
 }

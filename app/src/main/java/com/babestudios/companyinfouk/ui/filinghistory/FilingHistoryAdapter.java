@@ -18,27 +18,46 @@ import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
+import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
+import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem;
+import com.babestudios.companyinfouk.ui.search.SearchPresenter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdapter.FilingHistoryViewHolder> {
 
 	private FilingHistoryRecyclerViewClickListener mItemListener;
 
 	private FilingHistoryList filingHistoryList = new FilingHistoryList();
+	private List<FilingHistoryItem> filteredFilingHistoryItems;
 
 	@Inject
 	DataManager dataManager;
 
-	FilingHistoryAdapter(Context c, FilingHistoryList filingHistoryList) {
+	FilingHistoryAdapter(Context c, FilingHistoryList filingHistoryList, FilingHistoryPresenter.CategoryFilter categoryFilter) {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		mItemListener = (FilingHistoryRecyclerViewClickListener) c;
 		this.filingHistoryList = filingHistoryList;
+		updateFilteredResults(filingHistoryList, categoryFilter);
+	}
+
+	private void updateFilteredResults(FilingHistoryList filingHistoryList, FilingHistoryPresenter.CategoryFilter categoryFilter) {
+		if (categoryFilter.ordinal() > FilingHistoryPresenter.CategoryFilter.CATEGORY_SHOW_ALL.ordinal()) {
+			Observable.from(filingHistoryList.items).filter(filingHistoryItem -> filingHistoryItem.category.equalsIgnoreCase(categoryFilter.toString()))
+					.observeOn(Schedulers.immediate())
+					.toList()
+					.subscribe(result -> filteredFilingHistoryItems = result);
+		} else {
+			filteredFilingHistoryItems = filingHistoryList.items;
+		}
 	}
 
 	@Override
@@ -51,7 +70,7 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 	@Override
 	public void onBindViewHolder(FilingHistoryViewHolder viewHolder, int position) {
-		FilingHistoryItem filingHistoryItem = filingHistoryList.items.get(position);
+		FilingHistoryItem filingHistoryItem = filteredFilingHistoryItems.get(position);
 		if(filingHistoryItem.description.equals("legacy")){
 			viewHolder.lblDescription.setText(filingHistoryItem.descriptionValues.description);
 		} else {
@@ -168,7 +187,12 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 	@Override
 	public int getItemCount() {
-		return filingHistoryList.items.size();
+		return filteredFilingHistoryItems.size();
+	}
+
+	public void setFilterOnAdapter(FilingHistoryPresenter.CategoryFilter categoryFilter) {
+		updateFilteredResults(filingHistoryList, categoryFilter);
+		notifyDataSetChanged();
 	}
 
 	class FilingHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

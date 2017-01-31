@@ -1,22 +1,34 @@
 package com.babestudios.companyinfouk.ui.filinghistory;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
-import com.babestudios.companyinfouk.ui.company.CompanyPresenter;
+import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity;
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity;
+import com.babestudios.companyinfouk.ui.search.SearchActivity;
+import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter;
+import com.babestudios.companyinfouk.ui.search.SearchPresenter;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
 import com.google.gson.Gson;
@@ -24,7 +36,6 @@ import com.google.gson.Gson;
 import net.grandcentrix.thirtyinch.TiActivity;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,6 +57,7 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	public FilingHistoryPresenter filingHistoryPresenter;
 
 	String companyNumber;
+	private FilingHistoryPresenter.CategoryFilter initialCategoryFilter;
 
 	@SuppressWarnings("ConstantConditions")
 	@Override
@@ -97,9 +109,9 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 
 
 	@Override
-	public void showFilingHistory(FilingHistoryList filingHistoryList) {
+	public void showFilingHistory(FilingHistoryList filingHistoryList, FilingHistoryPresenter.CategoryFilter categoryFilter) {
 		if (filingHistoryRecyclerView.getAdapter() == null) {
-			filingHistoryAdapter = new FilingHistoryAdapter(FilingHistoryActivity.this, filingHistoryList);
+			filingHistoryAdapter = new FilingHistoryAdapter(FilingHistoryActivity.this, filingHistoryList, categoryFilter);
 			filingHistoryRecyclerView.setAdapter(filingHistoryAdapter);
 		} else {
 			filingHistoryAdapter.updateItems(filingHistoryList);
@@ -129,5 +141,45 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	@Override
 	public String getFilingCategory() {
 		return null;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.filing_history_menu, menu);
+
+		MenuItem item = menu.findItem(R.id.spinner);
+		Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
+		spinner.setBackgroundResource(0);
+		spinner.setPadding(0, 0, getResources().getDimensionPixelOffset(R.dimen.view_margin), 0);
+		SearchFilterAdapter adapter = new SearchFilterAdapter(FilingHistoryActivity.this, getResources().getStringArray(R.array.filing_history_categories), true);
+		spinner.setAdapter(adapter);
+		if (initialCategoryFilter != null) {
+			spinner.setSelection(initialCategoryFilter.ordinal());
+			initialCategoryFilter = null;
+		}
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				getPresenter().setCategoryFilter(position);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
+		});
+		return true;
+	}
+
+	@Override
+	public void setInitialCategoryFilter(FilingHistoryPresenter.CategoryFilter categoryFilter) {
+		this.initialCategoryFilter = categoryFilter;
+	}
+
+	@Override
+	public void setFilterOnAdapter(FilingHistoryPresenter.CategoryFilter categoryFilter) {
+		if(filingHistoryAdapter != null) {
+			filingHistoryAdapter.setFilterOnAdapter(categoryFilter);
+		}
 	}
 }
