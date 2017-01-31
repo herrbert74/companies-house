@@ -12,7 +12,7 @@ import javax.inject.Inject;
 public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 
 	DataManager dataManager;
-
+	SearchHistoryItem[] searchHistoryItems;
 	@Inject
 	public FavouritesPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -24,9 +24,10 @@ public class FavouritesPresenter extends TiPresenter<FavouritesActivityView> {
 	}
 
 	@Override
-	public void onAttachView(@NonNull final FavouritesActivityView view){
+	public void onAttachView(@NonNull final FavouritesActivityView view) {
 		super.onAttachView(view);
-		view.showFavourites(dataManager.getFavourites());
+		searchHistoryItems = dataManager.getFavourites();
+		view.showFavourites(searchHistoryItems);
 	}
 
 	void getCompany(String companyNumber, String companyName) {

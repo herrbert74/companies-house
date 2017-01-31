@@ -23,11 +23,11 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 @Module
-public class TestApplicationModule {
+public class AndroidTestApplicationModule {
 
 	private Application application;
 
-	public TestApplicationModule(Application application) {
+	public AndroidTestApplicationModule(Application application) {
 		this.application = application;
 	}
 
@@ -78,6 +78,6 @@ public class TestApplicationModule {
 
 	@Provides
 	FavouritesPresenter provideFavouritesPresenter(DataManager dataManager) {
-		return Mockito.mock(FavouritesPresenter.class);
+		return new FavouritesPresenter(Mockito.mock(DataManager.class));
 	}
 }

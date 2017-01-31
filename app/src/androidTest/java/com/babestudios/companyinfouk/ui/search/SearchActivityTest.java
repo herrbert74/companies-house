@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.TestApplicationComponent;
+import com.babestudios.companyinfouk.AndroidTestApplicationComponent;
 import com.babestudios.companyinfouk.TestCompaniesHouseApplication;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
 import com.google.gson.Gson;
@@ -51,7 +51,7 @@ public class SearchActivityTest {
 	public void setUp() {
 		Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
 		TestCompaniesHouseApplication app = (TestCompaniesHouseApplication) instrumentation.getTargetContext().getApplicationContext();
-		TestApplicationComponent component = app.getApplicationComponent();
+		AndroidTestApplicationComponent component = app.getApplicationComponent();
 		component.inject(this);
 		Gson gson = new Gson();
 		CompanySearchResult result = gson.fromJson(jsonString, CompanySearchResult.class);

@@ -10,13 +10,13 @@ public class TestCompaniesHouseApplication extends CompaniesHouseApplication {
 		instance = this;
 	}
 
-	TestApplicationComponent testApplicationComponent;
+	AndroidTestApplicationComponent testApplicationComponent;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		testApplicationComponent = DaggerTestApplicationComponent.builder()
-				.testApplicationModule(new TestApplicationModule(this))
+		testApplicationComponent = DaggerAndroidTestApplicationComponent.builder()
+				.androidTestApplicationModule(new AndroidTestApplicationModule(this))
 				.build();
 		testApplicationComponent.inject(this);
 	}
@@ -25,7 +25,7 @@ public class TestCompaniesHouseApplication extends CompaniesHouseApplication {
 		return instance;
 	}
 
-	public TestApplicationComponent getApplicationComponent() {
+	public AndroidTestApplicationComponent getApplicationComponent() {
 		return testApplicationComponent;
 	}
 
