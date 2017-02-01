@@ -6,8 +6,8 @@ Companies House does have an application, but it is outdated and doesn't contain
 
 * You need the latest Android Studio.
 * Register an account and get an authentication code as described [here](https://developer.companieshouse.gov.uk/api/docs/index/gettingStarted.html).
-* Place the authentication code into your local gradle configuration folder (on windows it's under c:\Users\[User]\.gradle\gradle.properties by default) with the name
-"CH_API_KEY".
+* Place the authentication code into your local gradle configuration file (on windows it's under c:\Users\\[User]\\.gradle\gradle.properties by default) with the name
+"CH_API_KEY", e.g. 'CH_API_KEY="YOUR API KEY HERE"'.
 * Also available on Google Play as a [Beta Version](play.google.com/apps/testing/com.babestudios.companyinfouk).
 
 ### App screen levels ###
