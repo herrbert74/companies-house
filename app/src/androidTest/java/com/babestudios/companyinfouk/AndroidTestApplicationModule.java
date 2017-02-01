@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.local.PreferencesHelper;
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService;
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService;
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory;
@@ -21,6 +22,8 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+
+import static org.mockito.Mockito.when;
 
 @Module
 public class AndroidTestApplicationModule {
@@ -73,11 +76,16 @@ public class AndroidTestApplicationModule {
 	@Provides
 	@Singleton
 	DataManager provideDataManager(CompaniesHouseService companiesHouseService, CompaniesHouseDocumentService companiesHouseDocumentService, PreferencesHelper preferencesHelper, Base64Wrapper base64Wrapper) {
-		return Mockito.mock(DataManager.class);
+		DataManager dataManager = Mockito.mock(DataManager.class);
+		SearchHistoryItem[] searchHistoryItems = new SearchHistoryItem[1];
+		SearchHistoryItem searchHistoryItem = new SearchHistoryItem("Acme Painting", "12345678", 12);
+		searchHistoryItems[0] = searchHistoryItem;
+		when(dataManager.getFavourites()).thenReturn(searchHistoryItems);
+		return dataManager;
 	}
 
 	@Provides
 	FavouritesPresenter provideFavouritesPresenter(DataManager dataManager) {
-		return new FavouritesPresenter(Mockito.mock(DataManager.class));
+		return new FavouritesPresenter(dataManager);
 	}
 }
