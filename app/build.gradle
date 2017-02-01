@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
 jacoco {
@@ -17,12 +16,7 @@ android {
 		versionCode 3
 		versionName "1.0 beta3"
 		vectorDrawables.useSupportLibrary = true
-		//testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
 		testInstrumentationRunner 'com.babestudios.companyinfouk.MockTestRunner'
-		//testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-//TODO does not work
-		//https://github.com/chiuki/android-test-demo/blob/master/app/build.gradle
 	}
 	signingConfigs {
 
@@ -55,16 +49,6 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
 }
-
-/*configurations {
-	apt
-}
-
-apt {
-	arguments {
-		resourcePackageName "com.babestudios.companieshouse"
-	}
-}*/
 
 dependencies {
 	def supportLibraryVersion = '25.1.1'
@@ -153,9 +137,6 @@ dependencies {
 	androidTestCompile "com.android.support.test:rules:$RUNNER_VERSION", {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	/*androidTestCompile('com.android.support:multidex-instrumentation:1.0.1') {
-		exclude group: 'com.android.support', module: 'multidex'
-	}*/
 }
 
 apply from: 'config.gradle'
