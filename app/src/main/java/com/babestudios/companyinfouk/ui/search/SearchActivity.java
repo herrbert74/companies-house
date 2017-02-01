@@ -36,6 +36,7 @@ import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import net.grandcentrix.thirtyinch.TiActivity;
 
@@ -257,7 +258,9 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 					imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 				}
 
-				getPresenter().search(searchView.getQuery().toString());
+				String queryText = searchView.getQuery().toString();
+				logSearch(queryText);
+				getPresenter().search(queryText);
 				return true;
 			}
 			return false;
@@ -284,6 +287,12 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 			}
 		});
 		return true;
+	}
+
+	private void logSearch(String queryText) {
+		Bundle bundle = new Bundle();
+		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, queryText);
+		CompaniesHouseApplication.getInstance().getFirebaseAnalytics().logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
 	}
 
 	@Override

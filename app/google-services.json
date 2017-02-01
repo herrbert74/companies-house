@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1086464519328",
+    "firebase_url": "https://companies-house-664f4.firebaseio.com",
+    "project_id": "companies-house-664f4",
+    "storage_bucket": "companies-house-664f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086464519328:android:c68560c654d57054",
+        "android_client_info": {
+          "package_name": "com.babestudios.companyinfouk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1086464519328-pdbmfe8m7toejqfqv0v1cdh57ognaast.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBFi1O9rKBrvCwjHh82_WWpB4GSoVtLsk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1086464519328-pdbmfe8m7toejqfqv0v1cdh57ognaast.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

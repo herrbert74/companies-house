@@ -118,6 +118,9 @@ dependencies {
 	//ButterKnife
 	compile 'com.jakewharton:butterknife:7.0.1'
 
+	//Firebase
+	compile 'com.google.firebase:firebase-core:10.0.1'
+
 	//Other java
 	compile 'javax.inject:javax.inject:1'
 	compile 'javax.annotation:javax.annotation-api:1.2'
@@ -156,3 +159,4 @@ dependencies {
 }
 
 apply from: 'config.gradle'
+apply plugin: 'com.google.gms.google-services'
