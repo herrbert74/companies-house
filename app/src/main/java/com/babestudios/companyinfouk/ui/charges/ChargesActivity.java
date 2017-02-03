@@ -16,11 +16,14 @@ import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.charges.Charges;
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem;
 import com.babestudios.companyinfouk.ui.chargesdetails.ChargesDetailsActivity;
+import com.babestudios.companyinfouk.ui.search.SearchPresenter;
+import com.babestudios.companyinfouk.uiplugins.ScreenViewPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,7 +31,7 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivityView> implements ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
+public class ChargesActivity extends CompositeActivity implements ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -53,12 +56,27 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 	@Inject
 	public ChargesPresenter chargesPresenter;
 
+	TiActivityPlugin<ChargesPresenter, ChargesActivityView> chargesActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return chargesPresenter;
+			});
+
+	ScreenViewPlugin screenViewPlugin = new ScreenViewPlugin();
+
+	public ChargesActivity() {
+
+		addPlugin(chargesActivityPlugin);
+		addPlugin(screenViewPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_charges);
+		screenViewPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
@@ -81,7 +99,7 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 		chargesRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
-				getPresenter().loadMoreCharges(page);
+				chargesActivityPlugin.getPresenter().loadMoreCharges(page);
 			}
 		});
 	}
@@ -107,12 +125,12 @@ public class ChargesActivity extends TiActivity<ChargesPresenter, ChargesActivit
 		}
 	}
 
-	@NonNull
+	/*@NonNull
 	@Override
 	public ChargesPresenter providePresenter() {
 
 		return chargesPresenter;
-	}
+	}*/
 
 	@Override
 	public void chargesItemClicked(View v, int position, ChargesItem chargesItem) {

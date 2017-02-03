@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -37,8 +36,9 @@ import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,7 @@ import javax.inject.Singleton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityView> implements SearchActivityView, SearchResultsAdapter.SearchResultsRecyclerViewClickListener,
+public class SearchActivity extends CompositeActivity implements SearchActivityView, SearchResultsAdapter.SearchResultsRecyclerViewClickListener,
 		RecentSearchesResultsAdapter.RecentSearchesRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
@@ -79,8 +79,19 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	private SearchPresenter.FilterState initialFilterState;
 
+	TiActivityPlugin<SearchPresenter, SearchActivityView> searchActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(SearchActivity.this);
+				return new SearchPresenter(dataManager);
+			});
+
+	public SearchActivity() {
+
+		addPlugin(searchActivityPlugin);
+	}
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 
@@ -92,7 +103,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		}
 		createRecentSearchesRecyclerView();
 		createSearchResultsRecyclerView();
-		fab.setOnClickListener(view -> getPresenter().onFabClicked());
+		fab.setOnClickListener(view -> searchActivityPlugin.getPresenter().onFabClicked());
 		performAnimations();
 	}
 
@@ -124,7 +135,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		searchRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
-				getPresenter().searchLoadMore(page);
+				searchActivityPlugin.getPresenter().searchLoadMore(page);
 			}
 		});
 	}
@@ -164,9 +175,8 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 	}
 
 	/**
-	 *
 	 * @param companySearchResult
-	 * @param isFromOnNext: addItems on adapter should only be used for onLoadMore from onNext
+	 * @param isFromOnNext:       addItems on adapter should only be used for onLoadMore from onNext
 	 * @param filterState
 	 */
 	@Override
@@ -225,7 +235,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 				.setTitle(R.string.delete_recent_searches)
 				.setMessage(R.string.are_you_sure_you_want_to_delete_all_recent_searches)
 				.setPositiveButton(android.R.string.yes, (dialog, which) -> {
-					getPresenter().clearAllRecentSearches();
+					searchActivityPlugin.getPresenter().clearAllRecentSearches();
 				})
 				.setNegativeButton(android.R.string.no, (dialog, which) -> {
 					// do nothing
@@ -233,12 +243,12 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 				.show();
 	}
 
-	@NonNull
+	/*@NonNull
 	@Override
 	public SearchPresenter providePresenter() {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		return new SearchPresenter(dataManager);
-	}
+	}*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -260,7 +270,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 				String queryText = searchView.getQuery().toString();
 				logSearch(queryText);
-				getPresenter().search(queryText);
+				searchActivityPlugin.getPresenter().search(queryText);
 				return true;
 			}
 			return false;
@@ -278,7 +288,7 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				getPresenter().setFilterState(position);
+				searchActivityPlugin.getPresenter().setFilterState(position);
 			}
 
 			@Override
@@ -314,12 +324,12 @@ public class SearchActivity extends TiActivity<SearchPresenter, SearchActivityVi
 
 	@Override
 	public void searchResultItemClicked(View v, int position, String companyName, String companyNumber) {
-		getPresenter().getCompany(companyName, companyNumber);
+		searchActivityPlugin.getPresenter().getCompany(companyName, companyNumber);
 	}
 
 	@Override
 	public void recentSearchesResultItemClicked(View v, int position, String companyName, String companyNumber) {
-		getPresenter().getCompany(companyName, companyNumber);
+		searchActivityPlugin.getPresenter().getCompany(companyName, companyNumber);
 	}
 
 	@Override
