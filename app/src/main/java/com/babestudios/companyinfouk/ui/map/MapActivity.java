@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.babestudios.companyinfouk.R;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,13 +17,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapActivity extends CompositeActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 	private GoogleMap mMap;
 
@@ -33,10 +35,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 	String companyName;
 	LatLng location;
 
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public MapActivity() {
+		addPlugin(baseActivityPlugin);
+	}
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		addressString = getIntent().getStringExtra("addressString");
 		companyName = getIntent().getStringExtra("companyName");

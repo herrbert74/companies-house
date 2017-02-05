@@ -13,22 +13,22 @@ import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.persons.Person;
 import com.babestudios.companyinfouk.data.model.persons.Persons;
 import com.babestudios.companyinfouk.ui.personsdetails.PersonsDetailsActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PersonsActivity extends TiActivity<PersonsPresenter, PersonsActivityView> implements PersonsActivityView, PersonsAdapter.PersonsRecyclerViewClickListener {
+public class PersonsActivity extends CompositeActivity implements PersonsActivityView, PersonsAdapter.PersonsRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -44,17 +44,30 @@ public class PersonsActivity extends TiActivity<PersonsPresenter, PersonsActivit
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Singleton
 	@Inject
-	DataManager dataManager;
+	PersonsPresenter personsPresenter;
 
 	String companyNumber;
 
+	TiActivityPlugin<PersonsPresenter, PersonsActivityView> personsActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return personsPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public PersonsActivity() {
+		addPlugin(personsActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_persons);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
@@ -89,7 +102,7 @@ public class PersonsActivity extends TiActivity<PersonsPresenter, PersonsActivit
 	@Override
 	public void showPersons(Persons persons) {
 		if (personsRecyclerView.getAdapter() == null) {
-			personsAdapter = new PersonsAdapter(PersonsActivity.this, persons, dataManager);
+			personsAdapter = new PersonsAdapter(PersonsActivity.this, persons);
 			personsRecyclerView.setAdapter(personsAdapter);
 		} else {
 			personsAdapter.updateItems(persons);
@@ -100,13 +113,6 @@ public class PersonsActivity extends TiActivity<PersonsPresenter, PersonsActivit
 	public void showNoPersons() {
 		lblNoPersons.setVisibility(View.VISIBLE);
 		personsRecyclerView.setVisibility(View.GONE);
-	}
-
-	@NonNull
-	@Override
-	public PersonsPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new PersonsPresenter(dataManager);
 	}
 
 	@Override

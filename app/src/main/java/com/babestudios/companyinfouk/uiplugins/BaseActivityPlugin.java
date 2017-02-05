@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.pascalwelsch.compositeandroid.activity.ActivityPlugin;
 
-public class ScreenViewPlugin extends ActivityPlugin {
+public class BaseActivityPlugin extends ActivityPlugin {
 
 	public void logScreenView(String screenName) {
 		Bundle bundle = new Bundle();

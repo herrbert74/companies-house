@@ -22,12 +22,9 @@ public class InsolvencyAdapter extends RecyclerView.Adapter<InsolvencyAdapter.In
 
 	private Insolvency insolvency = new Insolvency();
 
-	DataManager dataManager;
-
-	InsolvencyAdapter(Context c, Insolvency insolvency, DataManager dataManager) {
+	InsolvencyAdapter(Context c, Insolvency insolvency) {
 		mItemListener = (InsolvencyRecyclerViewClickListener) c;
 		this.insolvency = insolvency;
-		this.dataManager = dataManager;
 	}
 
 	@Override

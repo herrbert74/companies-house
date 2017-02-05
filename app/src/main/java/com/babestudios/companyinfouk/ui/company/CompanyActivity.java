@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.company;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +20,12 @@ import com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity;
 import com.babestudios.companyinfouk.ui.map.MapActivity;
 import com.babestudios.companyinfouk.ui.officers.OfficersActivity;
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DateUtil;
 import com.jakewharton.rxbinding.view.RxView;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 
@@ -32,7 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivityView> implements CompanyActivityView {
+public class CompanyActivity extends CompositeActivity implements CompanyActivityView {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -80,11 +81,27 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	@Inject
 	public CompanyPresenter companyPresenter;
 
+	TiActivityPlugin<CompanyPresenter, CompanyActivityView> companyActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return companyPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public CompanyActivity() {
+
+		addPlugin(companyActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_company);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
+
 		ButterKnife.bind(this);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
@@ -95,7 +112,7 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 		companyNumber = getIntent().getStringExtra("companyNumber");
 		companyName = getIntent().getStringExtra("companyName");
 
-		getPresenter().observablesFromViews(RxView.clicks(fab));
+		companyActivityPlugin.getPresenter().observablesFromViews(RxView.clicks(fab));
 		toolbar_title.setText(companyName);
 		companyNumberTextView.setText(companyNumber);
 	}
@@ -109,14 +126,14 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		showFab();
 		super.onResume();
 	}
 
 	@Override
 	public void showFab() {
-		if (getPresenter().isFavourite(new SearchHistoryItem(companyName, companyNumber, 0))) {
+		if (companyActivityPlugin.getPresenter().isFavourite(new SearchHistoryItem(companyName, companyNumber, 0))) {
 			fab.setImageResource(R.drawable.favorite_clear_vector);
 		} else {
 			fab.setImageResource(R.drawable.favorite_vector);
@@ -192,12 +209,6 @@ public class CompanyActivity extends TiActivity<CompanyPresenter, CompanyActivit
 	@Override
 	public void showEmptyNatureOfBusiness() {
 		natureOfBusinessTextView.setText(getResources().getString(R.string.no_data));
-	}
-
-	@NonNull
-	@Override
-	public CompanyPresenter providePresenter() {
-		return companyPresenter;
 	}
 
 	public void onFilingHistoryClicked(View view) {

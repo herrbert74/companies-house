@@ -13,22 +13,22 @@ import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency;
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase;
 import com.babestudios.companyinfouk.ui.insolvencydetails.InsolvencyDetailsActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, InsolvencyActivityView> implements InsolvencyActivityView, InsolvencyAdapter.InsolvencyRecyclerViewClickListener {
+public class InsolvencyActivity extends CompositeActivity implements InsolvencyActivityView, InsolvencyAdapter.InsolvencyRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -44,17 +44,31 @@ public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, Insolven
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Singleton
 	@Inject
-	DataManager dataManager;
+	InsolvencyPresenter insolvencyPresenter;
 
 	String companyNumber;
 
+	TiActivityPlugin<InsolvencyPresenter, InsolvencyActivityView> insolvencyActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return insolvencyPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public InsolvencyActivity() {
+
+		addPlugin(insolvencyActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_insolvency);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
@@ -73,13 +87,6 @@ public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, Insolven
 		insolvencyRecyclerView.setLayoutManager(linearLayoutManager);
 		insolvencyRecyclerView.addItemDecoration(
 				new DividerItemDecoration(this));
-
-		/*insolvencyRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-			@Override
-			public void onLoadMore(int page, int totalItemsCount) {
-				getPresenter().loadMoreCharges(page);
-			}
-		});*/
 	}
 
 	@Override
@@ -96,18 +103,11 @@ public class InsolvencyActivity extends TiActivity<InsolvencyPresenter, Insolven
 	@Override
 	public void showInsolvency(Insolvency insolvency) {
 		if (insolvencyRecyclerView.getAdapter() == null) {
-			insolvencyAdapter = new InsolvencyAdapter(InsolvencyActivity.this, insolvency, dataManager);
+			insolvencyAdapter = new InsolvencyAdapter(InsolvencyActivity.this, insolvency);
 			insolvencyRecyclerView.setAdapter(insolvencyAdapter);
 		} else {
 			insolvencyAdapter.updateItems(insolvency);
 		}
-	}
-
-	@NonNull
-	@Override
-	public InsolvencyPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new InsolvencyPresenter(dataManager);
 	}
 
 	@Override

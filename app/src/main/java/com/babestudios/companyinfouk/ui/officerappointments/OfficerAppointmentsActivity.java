@@ -12,23 +12,23 @@ import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment;
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments;
 import com.babestudios.companyinfouk.ui.company.CompanyActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OfficerAppointmentsActivity extends TiActivity<OfficerAppointmentsPresenter, OfficerAppointmentsActivityView> implements OfficerAppointmentsActivityView,
+public class OfficerAppointmentsActivity extends CompositeActivity implements OfficerAppointmentsActivityView,
 		OfficerAppointmentsAdapter.AppointmentsRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
@@ -40,17 +40,30 @@ public class OfficerAppointmentsActivity extends TiActivity<OfficerAppointmentsP
 	@Bind(R.id.officer_appointments_recycler_view)
 	RecyclerView officerAppointmentsRecyclerView;
 
-	@Singleton
 	@Inject
-	DataManager dataManager;
+	OfficerAppointmentsPresenter officerAppointmentsPresenter;
 
 	String officerId;
 
+	TiActivityPlugin<OfficerAppointmentsPresenter, OfficerAppointmentsActivityView> officerAppointmentsActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return officerAppointmentsPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public OfficerAppointmentsActivity() {
+		addPlugin(officerAppointmentsActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_officer_appointments);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 
@@ -74,13 +87,6 @@ public class OfficerAppointmentsActivity extends TiActivity<OfficerAppointmentsP
 				new DividerItemDecorationWithSubHeading(this, titlePositions));
 		OfficerAppointmentsAdapter adapter = new OfficerAppointmentsAdapter(this, appointments);
 		officerAppointmentsRecyclerView.setAdapter(adapter);
-	}
-
-	@NonNull
-	@Override
-	public OfficerAppointmentsPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new OfficerAppointmentsPresenter(dataManager);
 	}
 
 	@Override

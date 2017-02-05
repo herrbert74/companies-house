@@ -71,7 +71,7 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 	@Override
 	public void onBindViewHolder(FilingHistoryViewHolder viewHolder, int position) {
 		FilingHistoryItem filingHistoryItem = filteredFilingHistoryItems.get(position);
-		if(filingHistoryItem.description.equals("legacy")){
+		if(filingHistoryItem.description.equals("legacy") || filingHistoryItem.description.equals("miscellaneous")){
 			viewHolder.lblDescription.setText(filingHistoryItem.descriptionValues.description);
 		} else {
 			Spannable spannableDescription = createSpannableDescription(dataManager.filingHistoryLookup(filingHistoryItem.description), filingHistoryItem);

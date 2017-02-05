@@ -4,7 +4,13 @@ import android.support.annotation.NonNull;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
+import javax.inject.Inject;
+
 public class OfficerDetailsPresenter extends TiPresenter<OfficerDetailsActivityView> {
+
+	@Inject
+	public OfficerDetailsPresenter() {
+	}
 
 	@Override
 	protected void onCreate() {
@@ -16,7 +22,6 @@ public class OfficerDetailsPresenter extends TiPresenter<OfficerDetailsActivityV
 		super.onAttachView(view);
 		view.showProgress();
 	}
-
 
 	@Override
 	protected void onDestroy() {

@@ -8,15 +8,17 @@ import android.support.v7.widget.Toolbar;
 
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ChargesDetailsActivity extends AppCompatActivity{
+public class ChargesDetailsActivity extends CompositeActivity{
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -24,11 +26,18 @@ public class ChargesDetailsActivity extends AppCompatActivity{
 	@Bind(R.id.charges_details_recycler_view)
 	RecyclerView chargesDetailsRecyclerView;
 
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public ChargesDetailsActivity() {
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_charges_details);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		String chargesItemString = getIntent().getStringExtra("chargesItem");

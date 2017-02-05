@@ -32,6 +32,7 @@ import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 import com.babestudios.companyinfouk.ui.company.CompanyActivity;
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
@@ -73,27 +74,29 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 
 	MenuItem searchMenuItem;
 
-	@Singleton
 	@Inject
-	DataManager dataManager;
+	SearchPresenter searchPresenter;
 
 	private SearchPresenter.FilterState initialFilterState;
 
 	TiActivityPlugin<SearchPresenter, SearchActivityView> searchActivityPlugin = new TiActivityPlugin<>(
 			() -> {
 				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(SearchActivity.this);
-				return new SearchPresenter(dataManager);
+				return searchPresenter;
 			});
 
-	public SearchActivity() {
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
 
+	public SearchActivity() {
 		addPlugin(searchActivityPlugin);
+		addPlugin(baseActivityPlugin);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
@@ -242,13 +245,6 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 				})
 				.show();
 	}
-
-	/*@NonNull
-	@Override
-	public SearchPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new SearchPresenter(dataManager);
-	}*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -19,14 +19,14 @@ import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +34,7 @@ import okhttp3.ResponseBody;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetailsPresenter, FilingHistoryDetailsActivityView> implements FilingHistoryDetailsActivityView {
+public class FilingHistoryDetailsActivity extends CompositeActivity implements FilingHistoryDetailsActivityView {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -57,9 +57,8 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	@Bind(R.id.textViewPages)
 	TextView textViewPages;
 
-	@Singleton
 	@Inject
-	DataManager dataManager;
+	FilingHistoryDetailsPresenter filingHistoryDetailsPresenter;
 
 	String filingHistoryItemString;
 
@@ -67,26 +66,25 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 
 	ResponseBody responseBody;
 
-	@Override
-	public String getFilingHistoryItemString() {
-		return filingHistoryItemString;
-	}
+	TiActivityPlugin<FilingHistoryDetailsPresenter, FilingHistoryDetailsActivityView> filingHistoryDetailsActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return filingHistoryDetailsPresenter;
+			});
 
-	@Override
-	public void checkPermissionAndWritePdf(ResponseBody responseBody) {
-		if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-			getPresenter().writePdf(responseBody);
-		} else {
-			this.responseBody = responseBody;
-			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
-		}
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public FilingHistoryDetailsActivity() {
+		addPlugin(filingHistoryDetailsActivityPlugin);
+		addPlugin(baseActivityPlugin);
 	}
 
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_filing_history_details);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		filingHistoryItemString = getIntent().getStringExtra("filingHistoryItem");
@@ -97,7 +95,7 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 		textViewDescription.setText(filingHistoryItem.description);
 		textViewPages.setText(Integer.toString(filingHistoryItem.pages));
 
-		if (filingHistoryItem.category.equals("capital")) {
+		if (filingHistoryItem.category.equals("capital") && filingHistoryItem.descriptionValues.capital.size() != 0) {
 			textViewDescriptionValues.setText(filingHistoryItem.descriptionValues.capital.get(0).currency + " " + filingHistoryItem.descriptionValues.capital.get(0).figure);
 		} else {
 			textViewDescriptionValues.setVisibility(View.GONE);
@@ -122,13 +120,6 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 		progressbar.setVisibility(View.GONE);
 	}
 
-	@NonNull
-	@Override
-	public FilingHistoryDetailsPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new FilingHistoryDetailsPresenter(dataManager);
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.filing_history_details_menu, menu);
@@ -139,7 +130,7 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_show_pdf:
-				getPresenter().getDocument();
+				filingHistoryDetailsActivityPlugin.getPresenter().getDocument();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -149,7 +140,7 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	@Override
 	public void showDocument(Uri uri) {
 		Intent target = new Intent(Intent.ACTION_VIEW);
-		target.setDataAndType(uri,"application/pdf");
+		target.setDataAndType(uri, "application/pdf");
 		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		Intent intent = Intent.createChooser(target, "Open File");
 		try {
@@ -163,11 +154,26 @@ public class FilingHistoryDetailsActivity extends TiActivity<FilingHistoryDetail
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		if (requestCode == REQUEST_WRITE_STORAGE) {
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				getPresenter().writePdf(responseBody);
+				filingHistoryDetailsActivityPlugin.getPresenter().writePdf(responseBody);
 				Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(this, "The logs won't be saved to the SD card.", Toast.LENGTH_LONG).show();
 			}
+		}
+	}
+
+	@Override
+	public String getFilingHistoryItemString() {
+		return filingHistoryItemString;
+	}
+
+	@Override
+	public void checkPermissionAndWritePdf(ResponseBody responseBody) {
+		if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			filingHistoryDetailsActivityPlugin.getPresenter().writePdf(responseBody);
+		} else {
+			this.responseBody = responseBody;
+			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
 		}
 	}
 

@@ -8,21 +8,26 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem;
 import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, OfficerDetailsActivityView> implements OfficerDetailsActivityView {
+public class OfficerDetailsActivity extends CompositeActivity implements OfficerDetailsActivityView {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -56,11 +61,28 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 	String officerItemString;
 	String officerId;
 
+	@Inject
+	public OfficerDetailsPresenter officerDetailsPresenter;
+
+	TiActivityPlugin<OfficerDetailsPresenter, OfficerDetailsActivityView> officerDetailsActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return officerDetailsPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public OfficerDetailsActivity() {
+		addPlugin(officerDetailsActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_officer_details);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		officerItemString = getIntent().getStringExtra("officerItem");
@@ -121,11 +143,5 @@ public class OfficerDetailsActivity extends TiActivity<OfficerDetailsPresenter, 
 	@Override
 	public void hideProgress() {
 		progressbar.setVisibility(View.GONE);
-	}
-
-	@NonNull
-	@Override
-	public OfficerDetailsPresenter providePresenter() {
-		return new OfficerDetailsPresenter();
 	}
 }

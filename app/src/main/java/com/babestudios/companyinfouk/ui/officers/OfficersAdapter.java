@@ -22,12 +22,9 @@ public class OfficersAdapter extends RecyclerView.Adapter<OfficersAdapter.Office
 
 	private Officers officers = new Officers();
 
-	DataManager dataManager;
-
-	OfficersAdapter(Context c, Officers officers, DataManager dataManager) {
+	OfficersAdapter(Context c, Officers officers) {
 		mItemListener = (OfficersRecyclerViewClickListener) c;
 		this.officers = officers;
-		this.dataManager = dataManager;
 	}
 
 	@Override

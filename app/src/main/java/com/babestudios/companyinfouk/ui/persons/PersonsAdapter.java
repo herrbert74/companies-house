@@ -22,12 +22,9 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.PersonsV
 
 	private Persons persons = new Persons();
 
-	DataManager dataManager;
-
-	PersonsAdapter(Context c, Persons persons, DataManager dataManager) {
+	PersonsAdapter(Context c, Persons persons) {
 		mItemListener = (PersonsRecyclerViewClickListener) c;
 		this.persons = persons;
-		this.dataManager = dataManager;
 	}
 
 	@Override

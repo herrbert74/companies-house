@@ -1,46 +1,40 @@
 package com.babestudios.companyinfouk.ui.filinghistory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
-import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity;
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity;
-import com.babestudios.companyinfouk.ui.search.SearchActivity;
 import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter;
-import com.babestudios.companyinfouk.ui.search.SearchPresenter;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, FilingHistoryActivityView> implements FilingHistoryActivityView, FilingHistoryAdapter.FilingHistoryRecyclerViewClickListener {
+public class FilingHistoryActivity extends CompositeActivity implements FilingHistoryActivityView, FilingHistoryAdapter.FilingHistoryRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -59,12 +53,27 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 	String companyNumber;
 	private FilingHistoryPresenter.CategoryFilter initialCategoryFilter;
 
+	TiActivityPlugin<FilingHistoryPresenter, FilingHistoryActivityView> filingHistoryActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return filingHistoryPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public FilingHistoryActivity() {
+
+		addPlugin(filingHistoryActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_filing_history);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
@@ -87,7 +96,7 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 		filingHistoryRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
-				getPresenter().loadMoreFilingHistory(page);
+				filingHistoryActivityPlugin.getPresenter().loadMoreFilingHistory(page);
 			}
 		});
 	}
@@ -116,12 +125,6 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 		} else {
 			filingHistoryAdapter.updateItems(filingHistoryList);
 		}
-	}
-
-	@NonNull
-	@Override
-	public FilingHistoryPresenter providePresenter() {
-		return filingHistoryPresenter;
 	}
 
 	@Override
@@ -160,7 +163,7 @@ public class FilingHistoryActivity extends TiActivity<FilingHistoryPresenter, Fi
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				getPresenter().setCategoryFilter(position);
+				filingHistoryActivityPlugin.getPresenter().setCategoryFilter(position);
 			}
 
 			@Override

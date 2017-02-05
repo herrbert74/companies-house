@@ -12,23 +12,23 @@ import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem;
 import com.babestudios.companyinfouk.data.model.officers.Officers;
 import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OfficersActivity extends TiActivity<OfficersPresenter, OfficersActivityView> implements OfficersActivityView, OfficersAdapter.OfficersRecyclerViewClickListener {
+public class OfficersActivity extends CompositeActivity implements OfficersActivityView, OfficersAdapter.OfficersRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -41,17 +41,30 @@ public class OfficersActivity extends TiActivity<OfficersPresenter, OfficersActi
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Singleton
 	@Inject
-	DataManager dataManager;
+	OfficersPresenter officersPresenter;
 
 	String companyNumber;
 
+	TiActivityPlugin<OfficersPresenter, OfficersActivityView> officersActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return officersPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public OfficersActivity() {
+		addPlugin(officersActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_officers);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
@@ -74,7 +87,7 @@ public class OfficersActivity extends TiActivity<OfficersPresenter, OfficersActi
 		officersRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
-				getPresenter().loadMoreOfficers(page);
+				officersActivityPlugin.getPresenter().loadMoreOfficers(page);
 			}
 		});
 	}
@@ -93,18 +106,11 @@ public class OfficersActivity extends TiActivity<OfficersPresenter, OfficersActi
 	@Override
 	public void showOfficers(Officers officers) {
 		if (officersRecyclerView.getAdapter() == null) {
-			officersAdapter = new OfficersAdapter(OfficersActivity.this, officers, dataManager);
+			officersAdapter = new OfficersAdapter(OfficersActivity.this, officers);
 			officersRecyclerView.setAdapter(officersAdapter);
 		} else {
 			officersAdapter.updateItems(officers);
 		}
-	}
-
-	@NonNull
-	@Override
-	public OfficersPresenter providePresenter() {
-		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
-		return new OfficersPresenter(dataManager);
 	}
 
 	@Override

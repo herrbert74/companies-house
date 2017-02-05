@@ -7,7 +7,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +20,11 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 import com.babestudios.companyinfouk.ui.company.CompanyActivity;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import net.grandcentrix.thirtyinch.TiActivity;
+import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class FavouritesActivity extends TiActivity<FavouritesPresenter, FavouritesActivityView> implements FavouritesActivityView, FavouritesAdapter.FavouritesRecyclerViewClickListener {
+public class FavouritesActivity extends CompositeActivity implements FavouritesActivityView, FavouritesAdapter.FavouritesRecyclerViewClickListener {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -49,12 +50,28 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 	@Inject
 	public FavouritesPresenter favouritesPresenter;
 
+	TiActivityPlugin<FavouritesPresenter, FavouritesActivityView> favouritesActivityPlugin = new TiActivityPlugin<>(
+			() -> {
+				CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
+				return favouritesPresenter;
+			});
+
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public FavouritesActivity() {
+
+		addPlugin(favouritesActivityPlugin);
+		addPlugin(baseActivityPlugin);
+	}
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 
 		CompaniesHouseApplication.getInstance().getApplicationComponent().inject(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_favourites);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
+
 		ButterKnife.bind(this);
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
@@ -101,20 +118,14 @@ public class FavouritesActivity extends TiActivity<FavouritesPresenter, Favourit
 		}
 	}
 
-	@NonNull
-	@Override
-	public FavouritesPresenter providePresenter() {
-		return favouritesPresenter;
-	}
-
 	@Override
 	public void favouritesResultItemClicked(View v, int position, String companyName, String companyNumber) {
-		getPresenter().getCompany(companyNumber, companyName);
+		favouritesActivityPlugin.getPresenter().getCompany(companyNumber, companyName);
 	}
 
 	@Override
 	public void removeFavourite(SearchHistoryItem favouriteToRemove) {
-		getPresenter().removeFavourite(favouriteToRemove);
+		favouritesActivityPlugin.getPresenter().removeFavourite(favouriteToRemove);
 	}
 
 

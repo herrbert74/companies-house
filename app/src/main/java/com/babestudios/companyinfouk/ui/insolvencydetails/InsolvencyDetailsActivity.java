@@ -8,15 +8,17 @@ import android.support.v7.widget.Toolbar;
 
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class InsolvencyDetailsActivity extends AppCompatActivity{
+public class InsolvencyDetailsActivity extends CompositeActivity{
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -26,11 +28,18 @@ public class InsolvencyDetailsActivity extends AppCompatActivity{
 
 	String insolvencyItemString;
 
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public InsolvencyDetailsActivity() {
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_insolvency_details);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		insolvencyItemString = getIntent().getStringExtra("insolvencyCase");

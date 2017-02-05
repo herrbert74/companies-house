@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.persons.Person;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.google.gson.Gson;
+import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PersonsDetailsActivity extends AppCompatActivity {
+public class PersonsDetailsActivity extends CompositeActivity {
 
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
@@ -61,11 +63,18 @@ public class PersonsDetailsActivity extends AppCompatActivity {
 
 	String personsItemString;
 
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
+
+	public PersonsDetailsActivity() {
+		addPlugin(baseActivityPlugin);
+	}
+
 	@SuppressWarnings("ConstantConditions")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_persons_details);
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		personsItemString = getIntent().getStringExtra("personsItem");

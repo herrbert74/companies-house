@@ -55,7 +55,7 @@ public class SearchActivityTest {
 		component.inject(this);
 		Gson gson = new Gson();
 		CompanySearchResult result = gson.fromJson(jsonString, CompanySearchResult.class);
-		Mockito.when(mActivityTestRule.getActivity().getPresenter().dataManager.searchCompanies("you", "0")).thenReturn(Observable.just(
+		Mockito.when(mActivityTestRule.getActivity().searchActivityPlugin.getPresenter().dataManager.searchCompanies("you", "0")).thenReturn(Observable.just(
 				result
 		));
 	}

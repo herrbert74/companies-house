@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.charges;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +15,7 @@ import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.charges.Charges;
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem;
 import com.babestudios.companyinfouk.ui.chargesdetails.ChargesDetailsActivity;
-import com.babestudios.companyinfouk.ui.search.SearchPresenter;
-import com.babestudios.companyinfouk.uiplugins.ScreenViewPlugin;
+import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener;
 import com.google.gson.Gson;
@@ -62,12 +60,11 @@ public class ChargesActivity extends CompositeActivity implements ChargesActivit
 				return chargesPresenter;
 			});
 
-	ScreenViewPlugin screenViewPlugin = new ScreenViewPlugin();
+	BaseActivityPlugin baseActivityPlugin = new BaseActivityPlugin();
 
 	public ChargesActivity() {
-
 		addPlugin(chargesActivityPlugin);
-		addPlugin(screenViewPlugin);
+		addPlugin(baseActivityPlugin);
 	}
 
 	@SuppressWarnings("ConstantConditions")
@@ -76,7 +73,7 @@ public class ChargesActivity extends CompositeActivity implements ChargesActivit
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_charges);
-		screenViewPlugin.logScreenView(this.getLocalClassName());
+		baseActivityPlugin.logScreenView(this.getLocalClassName());
 
 		ButterKnife.bind(this);
 		if (toolbar != null) {
