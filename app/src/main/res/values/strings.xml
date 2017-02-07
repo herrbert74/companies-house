@@ -71,6 +71,10 @@
 	<string name="type">Type</string>
 	<string name="date">Date</string>
 	<string name="search_menu_filter">Filter</string>
+	<string name="category">Category</string>
+	<string name="subcategory">Subcategory</string>
+	<string name="description">Description</string>
+	<string name="pages">Pages</string>
 	<string-array name="search_filter_options">
 		<item>All</item>
 		<item>Active</item>

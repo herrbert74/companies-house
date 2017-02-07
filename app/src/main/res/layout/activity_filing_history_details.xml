@@ -47,7 +47,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		android:text="Date"
+		android:text="@string/date"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
@@ -61,7 +61,7 @@
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 1"/>
+		tools:text="2017-02-07"/>
 
 	<TextView
 		android:id="@+id/textViewLabelCategory"
@@ -70,7 +70,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		android:text="Category"
+		android:text="@string/category"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewDate"/>
 
@@ -84,7 +84,30 @@
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 2"/>
+		tools:text="Officers two liners for for for"/>
+
+	<TextView
+		android:id="@+id/textViewLabelSubcategory"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginTop="@dimen/activity_horizontal_margin"
+		android:text="@string/subcategory"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCategory"/>
+
+	<TextView
+		android:id="@+id/textViewSubcategory"
+		style="@style/Text.Title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCategory"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintLeft_toLeftOf="@+id/guideline"
+		app:layout_constraintRight_toRightOf="parent"
+		tools:text="Appointment"/>
 
 	<TextView
 		android:id="@+id/textViewLabelDescription"
@@ -93,16 +116,17 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		android:text="Description"
+		android:text="@string/description"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewCategory"/>
+		app:layout_constraintTop_toBottomOf="@+id/textViewSubcategory"/>
 
 	<TextView
 		android:id="@+id/textViewDescription"
-		style="@style/Text.Title"
+		style="@style/Text"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		android:textSize="@dimen/text_title"
 		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDescription"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
@@ -118,8 +142,8 @@
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Capital: 100 GBP"
-		app:layout_constraintTop_toBottomOf="@+id/textViewDescription"/>
+		app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
+		tools:text="Capital: 100 GBP"/>
 
 	<TextView
 		android:id="@+id/textViewLabelPages"
@@ -128,7 +152,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
-		android:text="Pages"
+		android:text="@string/pages"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionValues"/>
 

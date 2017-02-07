@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.filinghistorydetails;
 
-import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -8,8 +7,6 @@ import android.util.Log;
 import com.babestudios.companyinfouk.data.DataManager;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
-
-import java.io.File;
 
 import javax.inject.Inject;
 

@@ -19,6 +19,9 @@ public class FilingHistoryItem {
 	@SerializedName("category")
 	public String category;
 
+	@SerializedName("subcategory")
+	public String subcategory;
+
 	@SerializedName("action_date")
 	public String actionDate;
 

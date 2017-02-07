@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +21,14 @@ import android.widget.Toast;
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
+import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter;
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.google.gson.Gson;
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
+
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -47,6 +51,12 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 
 	@Bind(R.id.textViewCategory)
 	TextView textViewCategory;
+
+	@Bind(R.id.textViewLabelSubcategory)
+	TextView textViewLabelSubcategory;
+
+	@Bind(R.id.textViewSubcategory)
+	TextView textViewSubcategory;
 
 	@Bind(R.id.textViewDescription)
 	TextView textViewDescription;
@@ -92,8 +102,20 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 		FilingHistoryItem filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem.class);
 		textViewDate.setText(filingHistoryItem.date);
 		textViewCategory.setText(filingHistoryItem.category);
+		if(filingHistoryItem.subcategory != null) {
+			textViewSubcategory.setText(filingHistoryItem.subcategory);
+		}else{
+			textViewSubcategory.setVisibility(View.GONE);
+			textViewLabelSubcategory.setVisibility(View.GONE);
+		}
 		textViewDescription.setText(filingHistoryItem.description);
-		textViewPages.setText(Integer.toString(filingHistoryItem.pages));
+		if(filingHistoryItem.description.equals("legacy") || filingHistoryItem.description.equals("miscellaneous")){
+			textViewDescription.setText(filingHistoryItem.descriptionValues.description);
+		} else {
+			Spannable spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryDetailsPresenter.dataManager.filingHistoryLookup(filingHistoryItem.description), filingHistoryItem);
+			textViewDescription.setText(spannableDescription);
+		}
+		textViewPages.setText(String.format(Locale.UK, "%d", filingHistoryItem.pages));
 
 		if (filingHistoryItem.category.equals("capital") && filingHistoryItem.descriptionValues.capital.size() != 0) {
 			textViewDescriptionValues.setText(filingHistoryItem.descriptionValues.capital.get(0).currency + " " + filingHistoryItem.descriptionValues.capital.get(0).figure);
