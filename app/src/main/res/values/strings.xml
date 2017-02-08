@@ -94,6 +94,9 @@
 		<item>insolvency</item>
 		<item>other</item>
 		<item>incorporation</item>
+		<item>change of constitution</item>
+		<item>auditors</item>
+		<item>resolution</item>
 		<item>mortgage</item>
 	</string-array>
 </resources>

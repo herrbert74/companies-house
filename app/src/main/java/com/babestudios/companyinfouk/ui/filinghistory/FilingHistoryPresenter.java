@@ -37,6 +37,9 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 		CATEGORY_INSOLVENCY("insolvency"),
 		CATEGORY_OTHER("other"),
 		CATEGORY_INCORPORATION("incorporation"),
+		CATEGORY_CONSTITUTION("change-of-constitution"),
+		CATEGORY_AUDITORS("auditors"),
+		CATEGORY_RESOLUTION("resolution"),
 		CATEGORY_MORTGAGE("mortgage");
 
 		private final String name;

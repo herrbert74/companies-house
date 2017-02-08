@@ -117,7 +117,7 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 		@Override
 		public void onClick(View v) {
-			mItemListener.filingItemClicked(v, this.getLayoutPosition(), filingHistoryList.items.get(getLayoutPosition()));
+			mItemListener.filingItemClicked(v, this.getLayoutPosition(), filteredFilingHistoryItems.get(getLayoutPosition()));
 		}
 	}
 
