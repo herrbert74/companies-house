@@ -13,8 +13,8 @@ android {
 		applicationId "com.babestudios.companyinfouk"
 		minSdkVersion 21
 		targetSdkVersion 25
-		versionCode 3
-		versionName "1.0 beta3"
+		versionCode 4
+		versionName "1.0 beta4"
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner 'com.babestudios.companyinfouk.MockTestRunner'
 	}
