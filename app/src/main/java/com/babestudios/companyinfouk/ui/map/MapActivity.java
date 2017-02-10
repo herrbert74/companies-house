@@ -112,4 +112,10 @@ public class MapActivity extends CompositeActivity implements OnMapReadyCallback
 		}
 		return true;
 	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
+	}
 }

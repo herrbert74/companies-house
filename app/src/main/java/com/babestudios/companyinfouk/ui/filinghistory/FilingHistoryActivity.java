@@ -133,7 +133,7 @@ public class FilingHistoryActivity extends CompositeActivity implements FilingHi
 		String jsonItem = gson.toJson(item, FilingHistoryItem.class);
 		Intent intent = new Intent(this, FilingHistoryDetailsActivity.class);
 		intent.putExtra("filingHistoryItem", jsonItem);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 	}
 
 	@Override

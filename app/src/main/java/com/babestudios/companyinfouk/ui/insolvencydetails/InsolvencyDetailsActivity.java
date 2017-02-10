@@ -66,4 +66,10 @@ public class InsolvencyDetailsActivity extends CompositeActivity{
 		InsolvencyDetailsAdapter adapter = new InsolvencyDetailsAdapter(this, insolvencyCase.dates, insolvencyCase.practitioners);
 		insolvencyDetailsRecyclerView.setAdapter(adapter);
 	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
+	}
 }

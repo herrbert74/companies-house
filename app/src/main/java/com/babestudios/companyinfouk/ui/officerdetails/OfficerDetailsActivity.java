@@ -132,7 +132,7 @@ public class OfficerDetailsActivity extends CompositeActivity implements Officer
 	public void onClick() {
 		Intent intent = new Intent(this, OfficerAppointmentsActivity.class);
 		intent.putExtra("officerId", officerId);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 	}
 
 	@Override
@@ -143,5 +143,11 @@ public class OfficerDetailsActivity extends CompositeActivity implements Officer
 	@Override
 	public void hideProgress() {
 		progressbar.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 }

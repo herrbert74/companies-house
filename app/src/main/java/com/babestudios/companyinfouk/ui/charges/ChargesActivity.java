@@ -122,20 +122,13 @@ public class ChargesActivity extends CompositeActivity implements ChargesActivit
 		}
 	}
 
-	/*@NonNull
-	@Override
-	public ChargesPresenter providePresenter() {
-
-		return chargesPresenter;
-	}*/
-
 	@Override
 	public void chargesItemClicked(View v, int position, ChargesItem chargesItem) {
 		Gson gson = new Gson();
 		String jsonItem = gson.toJson(chargesItem, ChargesItem.class);
 		Intent intent = new Intent(this, ChargesDetailsActivity.class);
 		intent.putExtra("chargesItem", jsonItem);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 	}
 
 	@Override

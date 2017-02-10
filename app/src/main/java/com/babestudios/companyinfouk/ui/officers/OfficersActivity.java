@@ -119,7 +119,7 @@ public class OfficersActivity extends CompositeActivity implements OfficersActiv
 		String jsonItem = gson.toJson(officerItem, OfficerItem.class);
 		Intent intent = new Intent(this, OfficerDetailsActivity.class);
 		intent.putExtra("officerItem", jsonItem);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 	}
 
 	@Override
@@ -130,5 +130,11 @@ public class OfficersActivity extends CompositeActivity implements OfficersActiv
 	@Override
 	public void showError() {
 		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 }

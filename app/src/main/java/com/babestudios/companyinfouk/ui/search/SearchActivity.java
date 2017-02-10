@@ -174,8 +174,7 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 		Intent startCompanyActivityIntent = new Intent(this, CompanyActivity.class);
 		startCompanyActivityIntent.putExtra("companyNumber", companyNumber);
 		startCompanyActivityIntent.putExtra("companyName", companyName);
-		startActivity(startCompanyActivityIntent);
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+		baseActivityPlugin.startActivityWithRightSlide(startCompanyActivityIntent);
 	}
 
 	/**
@@ -312,7 +311,7 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 		switch (item.getItemId()) {
 			case R.id.action_favourites:
 				Intent intent = new Intent(this, FavouritesActivity.class);
-				startActivity(intent);
+				baseActivityPlugin.startActivityWithRightSlide(intent);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

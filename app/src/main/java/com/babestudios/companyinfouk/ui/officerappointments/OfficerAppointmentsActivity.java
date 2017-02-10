@@ -124,6 +124,12 @@ public class OfficerAppointmentsActivity extends CompositeActivity implements Of
 		Intent startIntent = new Intent(this, CompanyActivity.class);
 		startIntent.putExtra("companyNumber", companyNumber);
 		startIntent.putExtra("companyName", companyName);
-		startActivity(startIntent);
+		baseActivityPlugin.startActivityWithRightSlide(startIntent);
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 }

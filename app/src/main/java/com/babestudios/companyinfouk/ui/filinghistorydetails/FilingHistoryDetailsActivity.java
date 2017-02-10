@@ -166,7 +166,7 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		Intent intent = Intent.createChooser(target, "Open File");
 		try {
-			startActivity(intent);
+			baseActivityPlugin.startActivityWithRightSlide(intent);
 		} catch (ActivityNotFoundException e) {
 			Toast.makeText(this, "Couldn't find PDF reader. Please install one from Google Play.", Toast.LENGTH_LONG).show();
 		}
@@ -202,5 +202,11 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 	@Override
 	public void showError() {
 		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 }

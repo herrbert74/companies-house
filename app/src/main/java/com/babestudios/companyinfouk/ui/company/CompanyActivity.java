@@ -122,8 +122,7 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 		Intent intent = new Intent(this, MapActivity.class);
 		intent.putExtra("addressString", addressString);
 		intent.putExtra("companyName", companyName);
-		startActivity(intent);
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 	}
 
 	@Override
@@ -221,35 +220,35 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 	public void onFilingHistoryClicked(View view) {
 		Intent intent = new Intent(this, FilingHistoryActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onChargesClicked(View view) {
 		Intent intent = new Intent(this, ChargesActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onInsolvencyClicked(View view) {
 		Intent intent = new Intent(this, InsolvencyActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onOfficersClicked(View view) {
 		Intent intent = new Intent(this, OfficersActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onPersonsClicked(View view) {
 		Intent intent = new Intent(this, PersonsActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 

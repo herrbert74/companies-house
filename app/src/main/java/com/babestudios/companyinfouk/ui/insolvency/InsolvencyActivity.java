@@ -116,7 +116,7 @@ public class InsolvencyActivity extends CompositeActivity implements InsolvencyA
 		String jsonItem = gson.toJson(insolvencyCase, InsolvencyCase.class);
 		Intent intent = new Intent(this, InsolvencyDetailsActivity.class);
 		intent.putExtra("insolvencyCase", jsonItem);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 	}
 
 	@Override
@@ -133,5 +133,11 @@ public class InsolvencyActivity extends CompositeActivity implements InsolvencyA
 	@Override
 	public void showError() {
 		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 }

@@ -134,7 +134,7 @@ public class FavouritesActivity extends CompositeActivity implements FavouritesA
 		Intent startIntent = new Intent(this, CompanyActivity.class);
 		startIntent.putExtra("companyNumber", companyNumber);
 		startIntent.putExtra("companyName", companyName);
-		startActivity(startIntent);
+		baseActivityPlugin.startActivityWithRightSlide(startIntent);
 	}
 
 	private void setUpItemTouchHelper() {
@@ -297,6 +297,12 @@ public class FavouritesActivity extends CompositeActivity implements FavouritesA
 			}
 
 		});
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 
 }

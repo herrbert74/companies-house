@@ -121,7 +121,7 @@ public class PersonsActivity extends CompositeActivity implements PersonsActivit
 		String jsonItem = gson.toJson(person, Person.class);
 		Intent intent = new Intent(this, PersonsDetailsActivity.class);
 		intent.putExtra("personsItem", jsonItem);
-		startActivity(intent);
+		baseActivityPlugin.startActivityWithRightSlide(intent);
 	}
 
 	@Override
@@ -132,5 +132,11 @@ public class PersonsActivity extends CompositeActivity implements PersonsActivit
 	@Override
 	public void showError() {
 		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 }
