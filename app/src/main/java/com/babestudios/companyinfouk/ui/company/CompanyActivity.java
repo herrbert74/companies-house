@@ -123,6 +123,13 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 		intent.putExtra("addressString", addressString);
 		intent.putExtra("companyName", companyName);
 		startActivity(intent);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+	}
+
+	@Override
+	public void super_onBackPressed() {
+		super.super_finish();
+		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 	}
 
 	@Override
@@ -215,35 +222,40 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 		Intent intent = new Intent(this, FilingHistoryActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onChargesClicked(View view) {
 		Intent intent = new Intent(this, ChargesActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onInsolvencyClicked(View view) {
 		Intent intent = new Intent(this, InsolvencyActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onOfficersClicked(View view) {
 		Intent intent = new Intent(this, OfficersActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	public void onPersonsClicked(View view) {
 		Intent intent = new Intent(this, PersonsActivity.class);
 		intent.putExtra("companyNumber", companyNumber);
 		startActivity(intent);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
-	@Override
+	/*@Override
 	public void onBackPressed() {
 		finishAfterTransition();
-	}
+	}*/
 
 }

@@ -175,6 +175,7 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 		startCompanyActivityIntent.putExtra("companyNumber", companyNumber);
 		startCompanyActivityIntent.putExtra("companyName", companyName);
 		startActivity(startCompanyActivityIntent);
+		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
 
 	/**
