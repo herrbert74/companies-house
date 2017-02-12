@@ -18,7 +18,14 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 
 	DataManager dataManager;
 
-	Company company;
+	private Company company;
+	/**
+	 * It's safe to retrieve these from the view, because they come from the previous Activity, but not safe to get them from the company field, which might be null.
+	 */
+	private String companyNumber;
+	private String companyName;
+
+	private CompanyActivityView companyActivityView;
 
 	@Inject
 	public CompanyPresenter(DataManager dataManager) {
@@ -33,14 +40,18 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	@Override
 	protected void onAttachView(@NonNull final CompanyActivityView view) {
 		super.onAttachView(view);
-		if(company != null){
+		companyActivityView = view;
+		companyName = view.getCompanyName();
+		companyNumber = view.getCompanyNumber();
+		if (company != null) {
 			showCompany(company);
 		} else {
-			getCompany(getView().getCompanyNumber());
+			getCompany(companyNumber);
 		}
 	}
 
 	void getCompany(String companyNumber) {
+		companyActivityView.showProgress();
 		dataManager.getCompany(companyNumber)
 				.subscribe(new Observer<Company>() {
 					@Override
@@ -51,9 +62,8 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 					@Override
 					public void onError(Throwable e) {
 						Log.d("test", "onError: " + e.fillInStackTrace());
-						if(getView()!= null) {
-							getView().showError();
-						}
+						companyActivityView.showError();
+						companyActivityView.hideProgress();
 					}
 
 					@Override
@@ -66,11 +76,12 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	}
 
 	private void showCompany(Company company) {
-		getView().showCompany(company);
+		companyActivityView.showCompany(company);
+		companyActivityView.hideProgress();
 		if (company.sicCodes != null && company.sicCodes.size() > 0) {
-			getView().showNatureOfBusiness(company.sicCodes.get(0), dataManager.sicLookup(company.sicCodes.get(0)));
+			companyActivityView.showNatureOfBusiness(company.sicCodes.get(0), dataManager.sicLookup(company.sicCodes.get(0)));
 		} else {
-			getView().showEmptyNatureOfBusiness();
+			companyActivityView.showEmptyNatureOfBusiness();
 		}
 	}
 
@@ -85,12 +96,13 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 
 	void observablesFromViews(Observable<Void> o) {
 		o.subscribe(aVoid -> {
-				if (dataManager.isFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0))) {
-					dataManager.removeFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
-				} else {
-					dataManager.addFavourite(new SearchHistoryItem(company.companyName, company.companyNumber, 0));
-				}
-				getView().hideFab();
-			});
+
+			if (dataManager.isFavourite(new SearchHistoryItem(companyName, companyNumber, 0))) {
+				dataManager.removeFavourite(new SearchHistoryItem(companyName, companyNumber, 0));
+			} else {
+				dataManager.addFavourite(new SearchHistoryItem(companyName, companyNumber, 0));
+			}
+			companyActivityView.hideFab();
+		});
 	}
 }

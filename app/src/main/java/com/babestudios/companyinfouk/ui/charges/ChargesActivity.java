@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
@@ -120,6 +121,11 @@ public class ChargesActivity extends CompositeActivity implements ChargesActivit
 		} else {
 			chargesAdapter.updateItems(charges);
 		}
+	}
+
+	@Override
+	public void showError() {
+		Toast.makeText(this, R.string.could_not_retrieve_charges_info, Toast.LENGTH_LONG).show();
 	}
 
 	@Override

@@ -154,7 +154,7 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 
 	@Override
 	public void hideFab() {
-		fab.animate().cancel();//cancel all animations
+		fab.animate().cancel();
 		fab.animate().setDuration(getResources().getInteger(R.integer.fab_move_in_duration)).scaleX(0f).scaleY(0f).alpha(0f)
 				.setInterpolator(new LinearOutSlowInInterpolator()).withEndAction(this::showFab);
 
@@ -162,7 +162,7 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 
 	@Override
 	public void showError() {
-		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, R.string.could_not_retrieve_company_info, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
@@ -208,8 +208,14 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 		natureOfBusinessTextView.setText(sicCode + " - " + natureOfBusiness);
 	}
 
+	@Override
 	public String getCompanyNumber() {
 		return companyNumber;
+	}
+
+	@Override
+	public String getCompanyName() {
+		return companyName;
 	}
 
 	@Override
@@ -251,10 +257,4 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 		baseActivityPlugin.startActivityWithRightSlide(intent);
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 	}
-
-	/*@Override
-	public void onBackPressed() {
-		finishAfterTransition();
-	}*/
-
 }

@@ -22,4 +22,5 @@ interface ChargesActivityView extends TiView {
 	@CallOnMainThread
 	void showNoCharges();
 
+	void showError();
 }

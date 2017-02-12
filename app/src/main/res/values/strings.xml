@@ -75,6 +75,15 @@
 	<string name="subcategory">Subcategory</string>
 	<string name="description">Description</string>
 	<string name="pages">Pages</string>
+	<string name="could_not_complete_search">Could not complete search. Check your network connection.</string>
+	<string name="could_not_retrieve_company_info">Could not retrieve company information. Check your network connection.</string>
+	<string name="could_not_retrieve_filing_history_info">Could not retrieve filing history information. Check your network connection.</string>
+	<string name="could_not_retrieve_filing_history_document_info">Could not retrieve filing history document. Check your network connection.</string>
+	<string name="could_not_retrieve_charges_info">Could not retrieve charges information. Check your network connection.</string>
+	<string name="could_not_retrieve_officer_info">Could not retrieve officer information. Check your network connection.</string>
+	<string name="could_not_retrieve_officer_appointments_info">Could not retrieve officer appointments information. Check your network connection.</string>
+	<string name="could_not_retrieve_insolvency_info">Could not retrieve insolvency information. Check your network connection.</string>
+	<string name="could_not_retrieve_persons_info">Could not retrieve significant persons information. Check your network connection.</string>
 	<string-array name="search_filter_options">
 		<item>All</item>
 		<item>Active</item>

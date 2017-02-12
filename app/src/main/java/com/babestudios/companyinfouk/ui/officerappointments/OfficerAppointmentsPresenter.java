@@ -50,6 +50,7 @@ public class OfficerAppointmentsPresenter extends TiPresenter<OfficerAppointment
 	public void onError(Throwable e) {
 		Log.d("test", "onError: " + e.fillInStackTrace());
 		if(getView()!= null) {
+			getView().hideProgress();
 			getView().showError();
 		}
 	}

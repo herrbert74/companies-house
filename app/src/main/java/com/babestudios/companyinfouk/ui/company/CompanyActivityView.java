@@ -31,5 +31,8 @@ public interface CompanyActivityView extends TiView {
 	@CallOnMainThread
 	String getCompanyNumber();
 
+	@CallOnMainThread
+	String getCompanyName();
+
 	void showEmptyNatureOfBusiness();
 }

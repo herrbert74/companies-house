@@ -29,7 +29,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	}
 
 	enum FilterState {
-		FILTER_SHOW_ALL ("all"),
+		FILTER_SHOW_ALL("all"),
 		FILTER_ACTIVE("active"),
 		FILTER_LIQUIDATION("liquidation"),
 		FILTER_OPEN("open"),
@@ -58,6 +58,8 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 
 	private FilterState filterState = FilterState.FILTER_SHOW_ALL;
 
+	private SearchActivityView searchActivityView;
+
 	@Inject
 	public SearchPresenter(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -66,6 +68,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	@Override
 	protected void onAttachView(@NonNull final SearchActivityView view) {
 		super.onAttachView(view);
+		searchActivityView = view;
 		if (showState == ShowState.RECENT_SEARCHES) {
 			showRecentSearches();
 		} else {
@@ -79,8 +82,8 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	}
 
 	private void showRecentSearches() {
-		getView().showRecentSearches(dataManager.getRecentSearches());
-		getView().changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
+		searchActivityView.showRecentSearches(dataManager.getRecentSearches());
+		searchActivityView.changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
 		showState = ShowState.RECENT_SEARCHES;
 	}
 
@@ -91,8 +94,9 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	@Override
 	public void onError(Throwable e) {
 		Log.d("test", "onError: " + e.fillInStackTrace());
-		if (getView() != null) {
-			getView().showError();
+		if (searchActivityView != null) {
+			searchActivityView.showError();
+			searchActivityView.hideProgress();
 		}
 	}
 
@@ -100,14 +104,14 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	public void onNext(CompanySearchResult companySearchResult) {
 		showState = ShowState.SEARCH;
 		this.companySearchResult = companySearchResult;
-		getView().hideProgress();
-		getView().showCompanySearchResult(companySearchResult, true, filterState);
-		getView().changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
+		searchActivityView.hideProgress();
+		searchActivityView.showCompanySearchResult(companySearchResult, true, filterState);
+		searchActivityView.changeFabImage(FabImage.FAB_IMAGE_SEARCH_CLOSE);
 	}
 
 	void search(String queryText) {
 		this.queryText = queryText;
-		getView().showProgress();
+		searchActivityView.showProgress();
 		dataManager.searchCompanies(queryText, "0").subscribe(this);
 	}
 
@@ -117,29 +121,29 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	}
 
 	void getCompany(String companyName, String companyNumber) {
-		getView().startCompanyActivity(companyNumber, companyName);
+		searchActivityView.startCompanyActivity(companyNumber, companyName);
 		searchHistoryItems = dataManager.addRecentSearchItem(new SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()));
 	}
 
 	void onFabClicked() {
 		if (showState == ShowState.RECENT_SEARCHES) {
-			getView().showDeleteRecentSearchesDialog();
+			searchActivityView.showDeleteRecentSearchesDialog();
 		} else if (showState == ShowState.SEARCH) {
-			getView().clearSearchView();
-			getView().refreshRecentSearchesAdapter(searchHistoryItems);
+			searchActivityView.clearSearchView();
+			searchActivityView.refreshRecentSearchesAdapter(searchHistoryItems);
 			showRecentSearches();
 		}
 	}
 
 	void clearAllRecentSearches() {
 		dataManager.clearAllRecentSearches();
-		getView().refreshRecentSearchesAdapter(new ArrayList<>());
+		searchActivityView.refreshRecentSearchesAdapter(new ArrayList<>());
 	}
 
 	void setFilterState(int state) {
 		filterState = FilterState.values()[state];
-		if (getView() != null && showState == ShowState.SEARCH) {
-			getView().setFilterOnAdapter(filterState);
+		if (searchActivityView != null && showState == ShowState.SEARCH) {
+			searchActivityView.setFilterOnAdapter(filterState);
 		}
 	}
 }

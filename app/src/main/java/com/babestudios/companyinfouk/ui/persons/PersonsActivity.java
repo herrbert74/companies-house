@@ -131,7 +131,7 @@ public class PersonsActivity extends CompositeActivity implements PersonsActivit
 
 	@Override
 	public void showError() {
-		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, R.string.could_not_retrieve_persons_info, Toast.LENGTH_LONG).show();
 	}
 
 	@Override

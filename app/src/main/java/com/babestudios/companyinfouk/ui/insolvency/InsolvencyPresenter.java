@@ -60,9 +60,11 @@ public class InsolvencyPresenter extends TiPresenter<InsolvencyActivityView> imp
 				getView().showNoInsolvency();
 			} else {
 				getView().showError();
+				getView().hideProgress();
 			}
 		} else {
 			getView().showError();
+			getView().hideProgress();
 		}
 	}
 

@@ -201,7 +201,7 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 
 	@Override
 	public void showError() {
-		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, R.string.could_not_retrieve_filing_history_document_info, Toast.LENGTH_LONG).show();
 	}
 
 	@Override

@@ -61,6 +61,7 @@ public class OfficersPresenter extends TiPresenter<OfficersActivityView> impleme
 	public void onError(Throwable e) {
 		Log.d("test", "onError: " + e.fillInStackTrace());
 		if (getView() != null) {
+			getView().hideProgress();
 			getView().showError();
 		}
 	}

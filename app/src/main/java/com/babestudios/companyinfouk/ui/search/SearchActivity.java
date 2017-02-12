@@ -335,6 +335,6 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 
 	@Override
 	public void showError() {
-		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, R.string.could_not_complete_search, Toast.LENGTH_LONG).show();
 	}
 }

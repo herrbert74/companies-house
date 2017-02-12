@@ -100,6 +100,7 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 		Log.d("test", "onError: " + e.fillInStackTrace());
 		if(getView()!= null) {
 			getView().showError();
+			getView().hideProgress();
 		}
 	}
 

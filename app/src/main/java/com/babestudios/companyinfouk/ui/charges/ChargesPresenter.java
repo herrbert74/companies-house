@@ -53,11 +53,15 @@ public class ChargesPresenter extends TiPresenter<ChargesActivityView> implement
 	public void onError(Throwable e) {
 		getView().hideProgress();
 		Log.d("test", "onError: " + e.fillInStackTrace());
-		if(e instanceof HttpException){
+		if (e instanceof HttpException) {
 			HttpException h = (HttpException) e;
-			if(h.code() == 404){
+			if (h.code() == 404) {
 				getView().showNoCharges();
+			} else {
+				getView().showError();
 			}
+		} else {
+			getView().showError();
 		}
 	}
 

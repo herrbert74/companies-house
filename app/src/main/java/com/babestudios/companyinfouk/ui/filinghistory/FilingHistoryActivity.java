@@ -113,7 +113,7 @@ public class FilingHistoryActivity extends CompositeActivity implements FilingHi
 
 	@Override
 	public void showError() {
-		Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, R.string.could_not_retrieve_filing_history_info, Toast.LENGTH_LONG).show();
 	}
 
 
