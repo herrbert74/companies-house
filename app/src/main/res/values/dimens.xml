@@ -32,4 +32,5 @@
 	<dimen name="icon_size">24dp</dimen>
 
 	<dimen name="constraint_guide_begin">216dp</dimen>
+	<dimen name="appbar_height">216dp</dimen>
 </resources>

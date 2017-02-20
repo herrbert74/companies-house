@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.ui.company;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
@@ -38,9 +39,6 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 	@Bind(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.tv_company_name)
-	TextView toolbar_title;
-
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
 
@@ -73,6 +71,9 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 
 	@Bind(R.id.fab)
 	FloatingActionButton fab;
+
+	@Bind(R.id.collapsing_toolbar)
+	CollapsingToolbarLayout collapsingToolbarLayout;
 
 	String companyNumber;
 	String companyName;
@@ -113,8 +114,9 @@ public class CompanyActivity extends CompositeActivity implements CompanyActivit
 		companyName = getIntent().getStringExtra("companyName");
 
 		companyActivityPlugin.getPresenter().observablesFromViews(RxView.clicks(fab));
-		toolbar_title.setText(companyName);
+		//toolbar_title.setText(companyName);
 		companyNumberTextView.setText(companyNumber);
+		collapsingToolbarLayout.setTitle(companyName);
 	}
 
 	@OnClick(R.id.buttonShowOnMap)

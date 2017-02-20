@@ -65,7 +65,7 @@ dependencies {
 	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
 	compile "com.android.support:design:$supportLibraryVersion"
 	compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
-	compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+	compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
 
 	testCompile "com.android.support:appcompat-v7:$supportLibraryVersion"
 	testCompile "com.android.support:design:$supportLibraryVersion"

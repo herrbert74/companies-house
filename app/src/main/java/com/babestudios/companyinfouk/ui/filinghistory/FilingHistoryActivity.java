@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +48,9 @@ public class FilingHistoryActivity extends CompositeActivity implements FilingHi
 	@Bind(R.id.progressbar)
 	ProgressBar progressbar;
 
+	@Bind(R.id.collapsing_toolbar)
+	CollapsingToolbarLayout collapsingToolbarLayout;
+
 	@Inject
 	public FilingHistoryPresenter filingHistoryPresenter;
 
@@ -79,12 +83,13 @@ public class FilingHistoryActivity extends CompositeActivity implements FilingHi
 		if (toolbar != null) {
 			setSupportActionBar(toolbar);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setTitle(R.string.filing_history);
+			//getSupportActionBar().setTitle(R.string.filing_history);
 			toolbar.setNavigationOnClickListener(v -> onBackPressed());
 		}
 		companyNumber = getIntent().getStringExtra("companyNumber");
 		createFilingHistoryRecyclerView();
 
+		collapsingToolbarLayout.setTitle(getString(R.string.filing_history));
 
 	}
 	private void createFilingHistoryRecyclerView() {

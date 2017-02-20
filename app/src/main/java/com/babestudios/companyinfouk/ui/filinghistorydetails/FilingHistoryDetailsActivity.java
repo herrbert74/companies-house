@@ -67,10 +67,15 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 	@Bind(R.id.textViewPages)
 	TextView textViewPages;
 
+	@Bind(R.id.textViewLabelPages)
+	TextView textViewLabelPages;
+
 	@Inject
 	FilingHistoryDetailsPresenter filingHistoryDetailsPresenter;
 
 	String filingHistoryItemString;
+
+	FilingHistoryItem filingHistoryItem;
 
 	private static final int REQUEST_WRITE_STORAGE = 0;
 
@@ -99,7 +104,7 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 		ButterKnife.bind(this);
 		filingHistoryItemString = getIntent().getStringExtra("filingHistoryItem");
 		Gson gson = new Gson();
-		FilingHistoryItem filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem.class);
+		filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem.class);
 		textViewDate.setText(filingHistoryItem.date);
 		textViewCategory.setText(filingHistoryItem.category);
 		if(filingHistoryItem.subcategory != null) {
@@ -115,7 +120,12 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 			Spannable spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryDetailsPresenter.dataManager.filingHistoryLookup(filingHistoryItem.description), filingHistoryItem);
 			textViewDescription.setText(spannableDescription);
 		}
-		textViewPages.setText(String.format(Locale.UK, "%d", filingHistoryItem.pages));
+
+		if(filingHistoryItem.pages != null) {
+			textViewPages.setText(String.format(Locale.UK, "%d", filingHistoryItem.pages));
+		} else {
+			textViewLabelPages.setVisibility(View.GONE);
+		}
 
 		if (filingHistoryItem.category.equals("capital") && filingHistoryItem.descriptionValues.capital.size() != 0) {
 			textViewDescriptionValues.setText(filingHistoryItem.descriptionValues.capital.get(0).currency + " " + filingHistoryItem.descriptionValues.capital.get(0).figure);
@@ -144,7 +154,9 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.filing_history_details_menu, menu);
+		if(filingHistoryItem.links != null && filingHistoryItem.links.documentMetadata != null) {
+			getMenuInflater().inflate(R.menu.filing_history_details_menu, menu);
+		}
 		return true;
 	}
 

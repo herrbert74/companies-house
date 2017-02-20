@@ -69,6 +69,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/activity_horizontal_margin"
+
 				app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelName"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintLeft_toLeftOf="@+id/guideline"
