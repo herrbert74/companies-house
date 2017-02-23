@@ -189,7 +189,6 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 		if (requestCode == REQUEST_WRITE_STORAGE) {
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				filingHistoryDetailsActivityPlugin.getPresenter().writePdf(responseBody);
-				Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(this, "The logs won't be saved to the SD card.", Toast.LENGTH_LONG).show();
 			}
