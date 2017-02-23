@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This version won't draw a lie under the sub header, the first item
@@ -42,13 +41,15 @@ public class DividerItemDecorationWithSubHeading extends RecyclerView.ItemDecora
 
 	@Override
 	public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+
 		int left = parent.getPaddingLeft();
 		int right = parent.getWidth() - parent.getPaddingRight();
 
 		int childCount = parent.getChildCount();
+
 		for (int i = 0; i < childCount; i++) {
-			if (!titlePositions.contains(i)) {
-				View child = parent.getChildAt(i);
+			View child = parent.getChildAt(i);
+			if (!titlePositions.contains(parent.getChildLayoutPosition(child))) {
 
 				RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
