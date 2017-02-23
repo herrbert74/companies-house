@@ -13,8 +13,8 @@ android {
 		applicationId "com.babestudios.companyinfouk"
 		minSdkVersion 21
 		targetSdkVersion 25
-		versionCode 5
-		versionName "1.0 beta5"
+		versionCode 6
+		versionName "1.0"
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner 'com.babestudios.companyinfouk.MockTestRunner'
 	}
@@ -65,7 +65,7 @@ dependencies {
 	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
 	compile "com.android.support:design:$supportLibraryVersion"
 	compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
-	compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
+	compile 'com.android.support.constraint:constraint-layout:1.0.0'
 
 	testCompile "com.android.support:appcompat-v7:$supportLibraryVersion"
 	testCompile "com.android.support:design:$supportLibraryVersion"
