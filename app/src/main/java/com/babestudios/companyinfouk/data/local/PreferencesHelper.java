@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -33,31 +34,24 @@ public class PreferencesHelper {
 	}
 
 	public ArrayList<SearchHistoryItem> addRecentSearch(SearchHistoryItem searchItem) {
-		SearchHistoryItem[] latestSearches = getRecentSearches();
-		ArrayList<SearchHistoryItem> latestSearchesList;
-		if (latestSearches != null) {
-			latestSearchesList = new ArrayList<>(Arrays.asList(latestSearches));
-			if (latestSearchesList.contains(searchItem)) {
-				latestSearchesList.remove(searchItem);
-			}
-		} else {
-			latestSearchesList = new ArrayList<>();
+		ArrayList<SearchHistoryItem> latestSearches = new ArrayList<>(getRecentSearches());
+		if (latestSearches.contains(searchItem)) {
+			latestSearches.remove(searchItem);
 		}
-		latestSearchesList.add(searchItem);
-		if (latestSearchesList.size() > 10) {
-			latestSearchesList.remove(0);
+		latestSearches.add(searchItem);
+		if (latestSearches.size() > 10) {
+			latestSearches.remove(0);
 		}
-		latestSearches = latestSearchesList.toArray(new SearchHistoryItem[latestSearchesList.size()]);
 		String latestSearchesString = gson.toJson(latestSearches);
 		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, latestSearchesString).apply();
-		return latestSearchesList;
+		return new ArrayList<>(latestSearches);
 	}
 
 	public void clearAllRecentSearches() {
 		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, "").apply();
 	}
 
-	public SearchHistoryItem[] getRecentSearches() {
+	public List<SearchHistoryItem> getRecentSearches() {
 		String latestSearches = sharedPreferences.getString(PREF_LATEST_SEARCHES, "");
 		SearchHistoryItem[] searchItems = null;
 		try {
@@ -65,7 +59,7 @@ public class PreferencesHelper {
 		} catch (Exception e) {
 			Log.d("test", "getRecentSearches error: " + e.getLocalizedMessage());
 		}
-		return searchItems;
+		return Arrays.asList(searchItems != null ? searchItems : new SearchHistoryItem[0]);
 	}
 
 	public boolean addFavourite(SearchHistoryItem searchHistoryItem) {

@@ -20,7 +20,7 @@ interface SearchActivityView extends TiView {
 	void showError();
 
 	@CallOnMainThread
-	void showRecentSearches(SearchHistoryItem[] searchHistoryItems);
+	void showRecentSearches(ArrayList<SearchHistoryItem> searchHistoryItems);
 
 	@CallOnMainThread
 	void startCompanyActivity(String companyNumber, String companyName);

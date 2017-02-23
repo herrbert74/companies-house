@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -82,7 +83,7 @@ public class DataManager {
 		return preferencesHelper.addRecentSearch(searchHistoryItem);
 	}
 
-	public SearchHistoryItem[] getRecentSearches() {
+	public List<SearchHistoryItem> getRecentSearches() {
 		return preferencesHelper.getRecentSearches();
 	}
 

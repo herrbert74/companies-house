@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication;
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 import com.babestudios.companyinfouk.ui.company.CompanyActivity;
@@ -45,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -154,18 +152,22 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 	}
 
 	@Override
-	public void showRecentSearches(SearchHistoryItem[] searchHistoryItems) {
+	public void showRecentSearches(ArrayList<SearchHistoryItem> searchHistoryItems) {
 		recentSearchesRecyclerView.setVisibility(View.VISIBLE);
 		searchRecyclerView.setVisibility(View.GONE);
 		if (recentSearchesRecyclerView.getAdapter() == null) {
-			ArrayList<SearchHistoryItem> searchHistoryItemsList;
-			if (searchHistoryItems != null) {
-				searchHistoryItemsList = new ArrayList<>(Arrays.asList(searchHistoryItems));
-			} else {
-				searchHistoryItemsList = new ArrayList<>();
-			}
-			recentSearchesResultsAdapter = new RecentSearchesResultsAdapter(SearchActivity.this, searchHistoryItemsList);
+			recentSearchesResultsAdapter = new RecentSearchesResultsAdapter(SearchActivity.this, searchHistoryItems);
 			recentSearchesRecyclerView.setAdapter(recentSearchesResultsAdapter);
+		}
+	}
+
+	@Override
+	public void refreshRecentSearchesAdapter(ArrayList<SearchHistoryItem> searchHistoryItems) {
+		if (recentSearchesRecyclerView.getAdapter() == null) {
+			recentSearchesResultsAdapter = new RecentSearchesResultsAdapter(SearchActivity.this, searchHistoryItems);
+			recentSearchesRecyclerView.setAdapter(recentSearchesResultsAdapter);
+		} else {
+			recentSearchesResultsAdapter.refreshData(searchHistoryItems);
 		}
 	}
 
@@ -199,11 +201,6 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 		if (searchMenuItem != null) {
 			MenuItemCompat.collapseActionView(searchMenuItem);
 		}
-	}
-
-	@Override
-	public void refreshRecentSearchesAdapter(ArrayList<SearchHistoryItem> searchHistoryItems) {
-		recentSearchesResultsAdapter.refreshData(searchHistoryItems);
 	}
 
 	@Override

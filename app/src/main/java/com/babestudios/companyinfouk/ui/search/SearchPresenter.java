@@ -82,7 +82,8 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	}
 
 	private void showRecentSearches() {
-		searchActivityView.showRecentSearches(dataManager.getRecentSearches());
+		searchHistoryItems = new ArrayList<>(dataManager.getRecentSearches());
+		searchActivityView.showRecentSearches(searchHistoryItems);
 		searchActivityView.changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE);
 		showState = ShowState.RECENT_SEARCHES;
 	}
