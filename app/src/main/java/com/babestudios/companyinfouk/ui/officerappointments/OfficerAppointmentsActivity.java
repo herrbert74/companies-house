@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.officerappointments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,19 +24,19 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OfficerAppointmentsActivity extends CompositeActivity implements OfficerAppointmentsActivityView,
 		OfficerAppointmentsAdapter.AppointmentsRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Bind(R.id.officer_appointments_recycler_view)
+	@BindView(R.id.officer_appointments_recycler_view)
 	RecyclerView officerAppointmentsRecyclerView;
 
 	@Inject

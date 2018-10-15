@@ -27,23 +27,23 @@ import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChargesActivity extends CompositeActivity implements ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.charges_recycler_view)
+	@BindView(R.id.charges_recycler_view)
 	RecyclerView chargesRecyclerView;
 
-	@Bind(R.id.lblNoCharges)
+	@BindView(R.id.lblNoCharges)
 	TextView lblNoCharges;
 
 	private ChargesAdapter chargesAdapter;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
 	@Singleton

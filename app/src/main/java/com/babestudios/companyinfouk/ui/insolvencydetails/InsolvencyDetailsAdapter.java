@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.insolvencydetails;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import com.babestudios.companyinfouk.data.model.insolvency.Practitioner;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class InsolvencyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -114,7 +113,7 @@ public class InsolvencyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.
 	}
 
 	class TitleViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.lblTitle)
+		@BindView(R.id.lblTitle)
 		TextView lblTitle;
 
 		public TitleViewHolder(View itemView) {
@@ -125,9 +124,9 @@ public class InsolvencyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.
 
 	class DatesViewHolder extends RecyclerView.ViewHolder {
 
-		@Bind(R.id.textViewDate)
+		@BindView(R.id.textViewDate)
 		TextView textViewDate;
-		@Bind(R.id.textViewType)
+		@BindView(R.id.textViewType)
 		TextView textViewType;
 
 
@@ -138,23 +137,23 @@ public class InsolvencyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.
 	}
 
 	class PractitionersViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.textViewAppointedOn)
+		@BindView(R.id.textViewAppointedOn)
 		TextView textViewAppointedOn;
-		@Bind(R.id.textViewCeasedToActOn)
+		@BindView(R.id.textViewCeasedToActOn)
 		TextView textViewCeasedToActOn;
-		@Bind(R.id.textViewName)
+		@BindView(R.id.textViewName)
 		TextView textViewName;
-		@Bind(R.id.textViewRole)
+		@BindView(R.id.textViewRole)
 		TextView textViewRole;
-		@Bind(R.id.textViewAddressLine1)
+		@BindView(R.id.textViewAddressLine1)
 		TextView textViewAddressLine1;
-		@Bind(R.id.textViewLocality)
+		@BindView(R.id.textViewLocality)
 		TextView textViewLocality;
-		@Bind(R.id.textViewPostalCode)
+		@BindView(R.id.textViewPostalCode)
 		TextView textViewPostalCode;
-		@Bind(R.id.textViewRegion)
+		@BindView(R.id.textViewRegion)
 		TextView textViewRegion;
-		@Bind(R.id.textViewCountry)
+		@BindView(R.id.textViewCountry)
 		TextView textViewCountry;
 
 		PractitionersViewHolder(View itemView) {

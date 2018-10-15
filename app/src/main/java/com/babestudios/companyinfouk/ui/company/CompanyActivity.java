@@ -30,49 +30,49 @@ import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CompanyActivity extends CompositeActivity implements CompanyActivityView {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Bind(R.id.tv_incorporated)
+	@BindView(R.id.tv_incorporated)
 	TextView incorporatedTextView;
 
-	@Bind(R.id.tv_company_number)
+	@BindView(R.id.tv_company_number)
 	TextView companyNumberTextView;
 
-	@Bind(R.id.tv_address_line_1)
+	@BindView(R.id.tv_address_line_1)
 	TextView addressLine1TextView;
 
-	@Bind(R.id.tv_address_line_2)
+	@BindView(R.id.tv_address_line_2)
 	TextView addressLine2TextView;
 
-	@Bind(R.id.tv_address_postal_code)
+	@BindView(R.id.tv_address_postal_code)
 	TextView addressPostalCodeTextView;
 
-	@Bind(R.id.tv_address_locality)
+	@BindView(R.id.tv_address_locality)
 	TextView addressLocalityTextView;
 
-	@Bind(R.id.tv_nature_of_business)
+	@BindView(R.id.tv_nature_of_business)
 	TextView natureOfBusinessTextView;
 
-	@Bind(R.id.tv_accounts)
+	@BindView(R.id.tv_accounts)
 	TextView accountTextView;
 
-	@Bind(R.id.tv_annual_returns)
+	@BindView(R.id.tv_annual_returns)
 	TextView annualReturnsTextView;
 
-	@Bind(R.id.fab)
+	@BindView(R.id.fab)
 	FloatingActionButton fab;
 
-	@Bind(R.id.collapsing_toolbar)
+	@BindView(R.id.collapsing_toolbar)
 	CollapsingToolbarLayout collapsingToolbarLayout;
 
 	String companyNumber;

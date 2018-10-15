@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.persons;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.persons.Person;
 import com.babestudios.companyinfouk.data.model.persons.Persons;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.PersonsViewHolder> {
@@ -53,13 +51,13 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.PersonsV
 	}
 
 	class PersonsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblName)
+		@BindView(R.id.lblName)
 		TextView lblName;
-		@Bind(R.id.lblNotifiedOn)
+		@BindView(R.id.lblNotifiedOn)
 		TextView lblNotifiedOn;
-		@Bind(R.id.lblNatureOfControl)
+		@BindView(R.id.lblNatureOfControl)
 		TextView lblNatureOfControl;
-		@Bind(R.id.lblLocality)
+		@BindView(R.id.lblLocality)
 		TextView lblLocality;
 
 		PersonsViewHolder(View itemView) {

@@ -41,33 +41,32 @@ import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends CompositeActivity implements SearchActivityView, SearchResultsAdapter.SearchResultsRecyclerViewClickListener,
 		RecentSearchesResultsAdapter.RecentSearchesRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.recent_searches_recycler_view)
+	@BindView(R.id.recent_searches_recycler_view)
 	RecyclerView recentSearchesRecyclerView;
 
-	@Bind(R.id.search_recycler_view)
+	@BindView(R.id.search_recycler_view)
 	RecyclerView searchRecyclerView;
 
-	@Bind(R.id.fab)
+	@BindView(R.id.fab)
 	FloatingActionButton fab;
 
 	private SearchResultsAdapter searchResultsAdapter;
 
 	private RecentSearchesResultsAdapter recentSearchesResultsAdapter;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
 	MenuItem searchMenuItem;

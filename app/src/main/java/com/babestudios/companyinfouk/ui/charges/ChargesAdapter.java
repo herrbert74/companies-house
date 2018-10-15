@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.charges;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.charges.Charges;
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChargesAdapter extends RecyclerView.Adapter<ChargesAdapter.ChargesViewHolder> {
@@ -58,13 +57,13 @@ public class ChargesAdapter extends RecyclerView.Adapter<ChargesAdapter.ChargesV
 	}
 
 	class ChargesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblCreatedOn)
+		@BindView(R.id.lblCreatedOn)
 		TextView lblCreatedOn;
-		@Bind(R.id.lblStatus)
+		@BindView(R.id.lblStatus)
 		TextView lblStatus;
-		@Bind(R.id.lblChargeCode)
+		@BindView(R.id.lblChargeCode)
 		TextView lblChargeCode;
-		@Bind(R.id.lblPersonEntitled)
+		@BindView(R.id.lblPersonEntitled)
 		TextView lblPersonEntitled;
 
 		ChargesViewHolder(View itemView) {

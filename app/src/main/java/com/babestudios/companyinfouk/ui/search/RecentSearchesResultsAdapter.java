@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.search;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecentSearchesResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -81,7 +80,7 @@ public class RecentSearchesResultsAdapter extends RecyclerView.Adapter<RecyclerV
 	}
 
 	class TitleViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.lblTitle)
+		@BindView(R.id.lblTitle)
 		TextView lblTitle;
 
 		public TitleViewHolder(View itemView) {
@@ -91,9 +90,9 @@ public class RecentSearchesResultsAdapter extends RecyclerView.Adapter<RecyclerV
 
 
 	class RecentSearchesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblCompanyName)
+		@BindView(R.id.lblCompanyName)
 		TextView lblCompanyName;
-		@Bind(R.id.lblCompanyNumber)
+		@BindView(R.id.lblCompanyNumber)
 		TextView lblCompanyNumber;
 
 		RecentSearchesViewHolder(View itemView) {

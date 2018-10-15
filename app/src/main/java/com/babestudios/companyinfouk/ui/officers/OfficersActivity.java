@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.officers;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,20 +24,20 @@ import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OfficersActivity extends CompositeActivity implements OfficersActivityView, OfficersAdapter.OfficersRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.officers_recycler_view)
+	@BindView(R.id.officers_recycler_view)
 	RecyclerView officersRecyclerView;
 
 	private OfficersAdapter officersAdapter;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
 	@Inject

@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.favourites;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
@@ -18,7 +17,7 @@ import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -87,7 +86,7 @@ class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	}
 
 	class TitleViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.lblTitle)
+		@BindView(R.id.lblTitle)
 		TextView lblTitle;
 
 		public TitleViewHolder(View itemView) {
@@ -97,13 +96,13 @@ class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 	class FavouritesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblCompanyName)
+		@BindView(R.id.lblCompanyName)
 		TextView lblCompanyName;
-		@Bind(R.id.lblCompanyNumber)
+		@BindView(R.id.lblCompanyNumber)
 		TextView lblCompanyNumber;
-		@Bind(R.id.undo_button)
+		@BindView(R.id.undo_button)
 		Button undoButton;
-		@Bind(R.id.ll)
+		@BindView(R.id.ll)
 		LinearLayout ll;
 
 		FavouritesViewHolder(View itemView) {

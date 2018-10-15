@@ -1,18 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 jacoco {
 	version "0.7.1.201405082137"
 }
 
 android {
-	compileSdkVersion 25
-	buildToolsVersion '25.0.2'
+	compileSdkVersion 27
 
 	defaultConfig {
 		applicationId "com.babestudios.companyinfouk"
 		minSdkVersion 21
-		targetSdkVersion 25
+		targetSdkVersion 27
 		versionCode 6
 		versionName "1.0"
 		vectorDrawables.useSupportLibrary = true
@@ -51,92 +52,94 @@ android {
 }
 
 dependencies {
-	def supportLibraryVersion = '25.1.0'
+	def supportLibraryVersion = '27.1.1'
 	def thirtyInchVersion = '0.8.0-rc2'
 	def retrofitVersion = '2.1.0'
 	def daggerVersion = '2.0.2'
 	def rxJavaVersion = '1.2.2'
+	def butterKnifeVersion = '8.8.1'
 	def jUnitVersion = '4.12'
 	def mockitoVersion = '2.6.3'
 	def okHttp3Version = '3.3.0'
 	def RUNNER_VERSION = '0.5'
 
 	//support
-	compile "com.android.support:appcompat-v7:$supportLibraryVersion"
-	compile "com.android.support:design:$supportLibraryVersion"
-	compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
-	compile 'com.android.support.constraint:constraint-layout:1.0.0'
+	implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+	implementation "com.android.support:design:$supportLibraryVersion"
+	implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
+	implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-	testCompile "com.android.support:appcompat-v7:$supportLibraryVersion"
-	testCompile "com.android.support:design:$supportLibraryVersion"
-	testCompile "com.android.support:recyclerview-v7:$supportLibraryVersion"
+	testImplementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+	testImplementation "com.android.support:design:$supportLibraryVersion"
+	testImplementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
 
 	// MVP for activity and fragment
-	compile "net.grandcentrix.thirtyinch:thirtyinch:$thirtyInchVersion"
-	testCompile "net.grandcentrix.thirtyinch:thirtyinch-test:$thirtyInchVersion"
-	compile "net.grandcentrix.thirtyinch:thirtyinch-plugin:$thirtyInchVersion"
-	compile "com.pascalwelsch.compositeandroid:activity:$supportLibraryVersion"
+	implementation "net.grandcentrix.thirtyinch:thirtyinch:$thirtyInchVersion"
+	testImplementation "net.grandcentrix.thirtyinch:thirtyinch-test:$thirtyInchVersion"
+	implementation "net.grandcentrix.thirtyinch:thirtyinch-plugin:$thirtyInchVersion"
+	implementation "com.pascalwelsch.compositeandroid:activity:$supportLibraryVersion"
 
 	//Retrofit
-	compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-	compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
-	compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-	testCompile "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+	implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+	implementation "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+	implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+	testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
 
 	//OkHttp3
-	compile "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
+	implementation "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
 
 	//RxJava
-	compile "io.reactivex:rxjava:$rxJavaVersion"
-	compile 'io.reactivex:rxandroid:1.0.1'
-	compile 'com.jakewharton.rxbinding:rxbinding:1.0.0'
-	compile 'com.jakewharton.rxbinding:rxbinding-design:1.0.0'
+	implementation "io.reactivex:rxjava:$rxJavaVersion"
+	implementation 'io.reactivex:rxandroid:1.0.1'
+	implementation 'com.jakewharton.rxbinding:rxbinding:1.0.0'
+	implementation 'com.jakewharton.rxbinding:rxbinding-design:1.0.0'
 
 	//Dagger
 	annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-	compile "com.google.dagger:dagger:$daggerVersion"
+	implementation "com.google.dagger:dagger:$daggerVersion"
 	testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 	androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
 	//Google Play Services
-	compile 'com.google.android.gms:play-services-maps:10.0.1'
+	implementation 'com.google.android.gms:play-services-maps:10.0.1'
 
 	//ButterKnife
-	compile 'com.jakewharton:butterknife:7.0.1'
+	implementation "com.jakewharton:butterknife:$butterKnifeVersion"
+	kapt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
 	//Firebase
-	compile 'com.google.firebase:firebase-core:10.0.1'
+	implementation 'com.google.firebase:firebase-core:10.0.1'
 
 	//Other java
-	compile 'javax.inject:javax.inject:1'
-	compile 'javax.annotation:javax.annotation-api:1.2'
+	implementation 'javax.inject:javax.inject:1'
+	implementation 'javax.annotation:javax.annotation-api:1.2'
 
 	//Test
-	testCompile "junit:junit:$jUnitVersion"
-	testCompile "org.mockito:mockito-core:$mockitoVersion"
-	testCompile 'org.hamcrest:hamcrest-library:1.1'
-	//debugCompile 'com.amitshekhar.android:debug-db:0.4.0'
+	testImplementation "junit:junit:$jUnitVersion"
+	testImplementation "org.mockito:mockito-core:$mockitoVersion"
+	testImplementation 'org.hamcrest:hamcrest-library:1.1'
+	//debugImplementation 'com.amitshekhar.android:debug-db:0.4.0'
 	provided 'javax.annotation:jsr250-api:1.0'
 
 	//Espresso tests
-	//androidTestCompile "junit:junit:$jUnitVersion"
-	androidTestCompile "org.mockito:mockito-android:$mockitoVersion"
-	/*androidTestCompile 'com.android.support.test:testing-support-lib:0.1', {
+	//androidTestImplementation "junit:junit:$jUnitVersion"
+	androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+	/*androidTestImplementation 'com.android.support.test:testing-support-lib:0.1', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}*/
-	androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+	androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+	androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 		exclude group: 'com.android.support', module: 'support-v4'
 		exclude group: 'com.android.support', module: 'design'
 		exclude group: 'com.android.support', module: 'recyclerview-v7'
 	}
-	androidTestCompile "com.android.support.test:runner:$RUNNER_VERSION", {
+	androidTestImplementation "com.android.support.test:runner:$RUNNER_VERSION", {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	androidTestCompile "com.android.support.test:rules:$RUNNER_VERSION", {
+	androidTestImplementation "com.android.support.test:rules:$RUNNER_VERSION", {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 }

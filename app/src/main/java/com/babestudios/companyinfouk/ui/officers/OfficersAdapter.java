@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.officers;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem;
 import com.babestudios.companyinfouk.data.model.officers.Officers;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OfficersAdapter extends RecyclerView.Adapter<OfficersAdapter.OfficersViewHolder> {
@@ -55,13 +53,13 @@ public class OfficersAdapter extends RecyclerView.Adapter<OfficersAdapter.Office
 	}
 
 	class OfficersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblName)
+		@BindView(R.id.lblName)
 		TextView lblName;
-		@Bind(R.id.lblAppointedOn)
+		@BindView(R.id.lblAppointedOn)
 		TextView lblAppointedOn;
-		@Bind(R.id.lblRole)
+		@BindView(R.id.lblRole)
 		TextView lblRole;
-		@Bind(R.id.lblResignedOn)
+		@BindView(R.id.lblResignedOn)
 		TextView lblResignedOn;
 
 		OfficersViewHolder(View itemView) {

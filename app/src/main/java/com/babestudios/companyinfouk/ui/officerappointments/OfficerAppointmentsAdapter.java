@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.officerappointments;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,7 @@ import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment;
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -87,7 +86,7 @@ class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 	}
 
 	public class HeaderViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.textViewOfficerName)
+		@BindView(R.id.textViewOfficerName)
 		TextView textViewOfficerName;
 
 		HeaderViewHolder(View itemView) {
@@ -99,17 +98,17 @@ class OfficerAppointmentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 	public class TransactionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		@Bind(R.id.textViewAppointedOn)
+		@BindView(R.id.textViewAppointedOn)
 		TextView textViewAppointedOn;
-		@Bind(R.id.textViewCompanyName)
+		@BindView(R.id.textViewCompanyName)
 		TextView textViewCompanyName;
-		@Bind(R.id.textViewCompanyStatus)
+		@BindView(R.id.textViewCompanyStatus)
 		TextView textViewCompanyStatus;
-		@Bind(R.id.textViewRole)
+		@BindView(R.id.textViewRole)
 		TextView textViewRole;
-		@Bind(R.id.textViewLabelResignedOn)
+		@BindView(R.id.textViewLabelResignedOn)
 		TextView textViewLabelResignedOn;
-		@Bind(R.id.textViewResignedOn)
+		@BindView(R.id.textViewResignedOn)
 		TextView textViewResignedOn;
 
 		TransactionsViewHolder(View itemView) {

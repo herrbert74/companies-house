@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.persons;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,23 +24,23 @@ import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PersonsActivity extends CompositeActivity implements PersonsActivityView, PersonsAdapter.PersonsRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.persons_recycler_view)
+	@BindView(R.id.persons_recycler_view)
 	RecyclerView personsRecyclerView;
 
-	@Bind(R.id.lblNoPersons)
+	@BindView(R.id.lblNoPersons)
 	TextView lblNoPersons;
 
 	private PersonsAdapter personsAdapter;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
 	@Inject

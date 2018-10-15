@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.ui.map;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -21,14 +20,14 @@ import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MapActivity extends CompositeActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 	private GoogleMap mMap;
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
 	String addressString;

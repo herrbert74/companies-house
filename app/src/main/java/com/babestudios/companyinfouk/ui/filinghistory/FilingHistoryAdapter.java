@@ -1,13 +1,8 @@
 package com.babestudios.companyinfouk.ui.filinghistory;
 
-
 import android.content.Context;
-import android.graphics.Typeface;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +13,12 @@ import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem;
-import com.babestudios.companyinfouk.ui.search.SearchPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -100,13 +91,13 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 	}
 
 	class FilingHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblDate)
+		@BindView(R.id.lblDate)
 		TextView lblDate;
-		@Bind(R.id.lblDescription)
+		@BindView(R.id.lblDescription)
 		TextView lblDescription;
-		@Bind(R.id.lblCategory)
+		@BindView(R.id.lblCategory)
 		TextView lblCategory;
-		@Bind(R.id.lblType)
+		@BindView(R.id.lblType)
 		TextView lblType;
 
 		FilingHistoryViewHolder(View itemView) {

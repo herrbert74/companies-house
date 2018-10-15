@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.officerdetails;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -23,39 +22,39 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class OfficerDetailsActivity extends CompositeActivity implements OfficerDetailsActivityView {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Bind(R.id.textViewName)
+	@BindView(R.id.textViewName)
 	TextView textViewName;
-	@Bind(R.id.textViewAppointedOn)
+	@BindView(R.id.textViewAppointedOn)
 	TextView textViewAppointedOn;
-	@Bind(R.id.textViewNationality)
+	@BindView(R.id.textViewNationality)
 	TextView textViewNationality;
-	@Bind(R.id.textViewOccupation)
+	@BindView(R.id.textViewOccupation)
 	TextView textViewOccupation;
-	@Bind(R.id.textViewDateOfBirth)
+	@BindView(R.id.textViewDateOfBirth)
 	TextView textViewDateOfBirth;
-	@Bind(R.id.textViewCountryOfResidence)
+	@BindView(R.id.textViewCountryOfResidence)
 	TextView textViewCountryOfResidence;
-	@Bind(R.id.textViewAddressLine1)
+	@BindView(R.id.textViewAddressLine1)
 	TextView textViewAddressLine1;
-	@Bind(R.id.textViewLocality)
+	@BindView(R.id.textViewLocality)
 	TextView textViewLocality;
-	@Bind(R.id.textViewPostalCode)
+	@BindView(R.id.textViewPostalCode)
 	TextView textViewPostalCode;
-	@Bind(R.id.textViewRegion)
+	@BindView(R.id.textViewRegion)
 	TextView textViewRegion;
-	@Bind(R.id.textViewCountry)
+	@BindView(R.id.textViewCountry)
 	TextView textViewCountry;
 
 	String officerItemString;

@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.filinghistory;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,23 +31,23 @@ import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FilingHistoryActivity extends CompositeActivity implements FilingHistoryActivityView, FilingHistoryAdapter.FilingHistoryRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.filing_history_recycler_view)
+	@BindView(R.id.filing_history_recycler_view)
 	RecyclerView filingHistoryRecyclerView;
 
 	private FilingHistoryAdapter filingHistoryAdapter;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Bind(R.id.collapsing_toolbar)
+	@BindView(R.id.collapsing_toolbar)
 	CollapsingToolbarLayout collapsingToolbarLayout;
 
 	@Inject

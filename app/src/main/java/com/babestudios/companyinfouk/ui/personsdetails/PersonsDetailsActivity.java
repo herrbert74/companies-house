@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.ui.personsdetails;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -13,52 +12,52 @@ import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.google.gson.Gson;
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PersonsDetailsActivity extends CompositeActivity {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Bind(R.id.textViewName)
+	@BindView(R.id.textViewName)
 	TextView textViewName;
-	@Bind(R.id.textViewNotifiedOn)
+	@BindView(R.id.textViewNotifiedOn)
 	TextView textViewNotifiedOn;
-	@Bind(R.id.textViewNaturesOfControl)
+	@BindView(R.id.textViewNaturesOfControl)
 	TextView textViewNaturesOfControl;
-	@Bind(R.id.textViewNationality)
+	@BindView(R.id.textViewNationality)
 	TextView textViewNationality;
-	@Bind(R.id.textViewDateOfBirth)
+	@BindView(R.id.textViewDateOfBirth)
 	TextView textViewDateOfBirth;
-	@Bind(R.id.textViewCountryOfResidence)
+	@BindView(R.id.textViewCountryOfResidence)
 	TextView textViewCountryOfResidence;
-	@Bind(R.id.textViewPlaceRegistered)
+	@BindView(R.id.textViewPlaceRegistered)
 	TextView textViewPlaceRegistered;
-	@Bind(R.id.textViewRegistrationNumber)
+	@BindView(R.id.textViewRegistrationNumber)
 	TextView textViewRegistrationNumber;
-	@Bind(R.id.textViewLabelNationality)
+	@BindView(R.id.textViewLabelNationality)
 	TextView textViewLabelNationality;
-	@Bind(R.id.textViewLabelDateOfBirth)
+	@BindView(R.id.textViewLabelDateOfBirth)
 	TextView textViewLabelDateOfBirth;
-	@Bind(R.id.textViewLabelCountryOfResidence)
+	@BindView(R.id.textViewLabelCountryOfResidence)
 	TextView textViewLabelCountryOfResidence;
-	@Bind(R.id.textViewLabelPlaceRegistered)
+	@BindView(R.id.textViewLabelPlaceRegistered)
 	TextView textViewLabelPlaceRegistered;
-	@Bind(R.id.textViewLabelRegistrationNumber)
+	@BindView(R.id.textViewLabelRegistrationNumber)
 	TextView textViewLabelRegistrationNumber;
-	@Bind(R.id.textViewAddressLine1)
+	@BindView(R.id.textViewAddressLine1)
 	TextView textViewAddressLine1;
-	@Bind(R.id.textViewLocality)
+	@BindView(R.id.textViewLocality)
 	TextView textViewLocality;
-	@Bind(R.id.textViewPostalCode)
+	@BindView(R.id.textViewPostalCode)
 	TextView textViewPostalCode;
-	@Bind(R.id.textViewRegion)
+	@BindView(R.id.textViewRegion)
 	TextView textViewRegion;
-	@Bind(R.id.textViewCountry)
+	@BindView(R.id.textViewCountry)
 	TextView textViewCountry;
 
 	String personsItemString;

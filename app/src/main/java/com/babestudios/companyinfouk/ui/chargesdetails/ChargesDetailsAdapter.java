@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.chargesdetails;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 class ChargesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -94,23 +93,23 @@ class ChargesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 	}
 
 	public class HeaderViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.textViewDeliveredOn)
+		@BindView(R.id.textViewDeliveredOn)
 		TextView textViewDeliveredOn;
-		@Bind(R.id.textViewStatus)
+		@BindView(R.id.textViewStatus)
 		TextView textViewStatus;
-		@Bind(R.id.textViewContainsFloatingCharge)
+		@BindView(R.id.textViewContainsFloatingCharge)
 		TextView textViewContainsFloatingCharge;
-		@Bind(R.id.textViewFloatingChargeCoversAll)
+		@BindView(R.id.textViewFloatingChargeCoversAll)
 		TextView textViewFloatingChargeCoversAll;
-		@Bind(R.id.textViewContainsNegativePledge)
+		@BindView(R.id.textViewContainsNegativePledge)
 		TextView textViewContainsNegativePledge;
-		@Bind(R.id.textViewContainsFixedCharge)
+		@BindView(R.id.textViewContainsFixedCharge)
 		TextView textViewContainsFixedCharge;
-		@Bind(R.id.textViewLabelSatisfiedOn)
+		@BindView(R.id.textViewLabelSatisfiedOn)
 		TextView textViewLabelSatisfiedOn;
-		@Bind(R.id.textViewSatisfiedOn)
+		@BindView(R.id.textViewSatisfiedOn)
 		TextView textViewSatisfiedOn;
-		@Bind(R.id.textViewPersonsEntitled)
+		@BindView(R.id.textViewPersonsEntitled)
 		TextView textViewPersonsEntitled;
 
 		HeaderViewHolder(View itemView) {
@@ -121,9 +120,9 @@ class ChargesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 	public class TransactionsViewHolder extends RecyclerView.ViewHolder {
 
-		@Bind(R.id.textViewFilingType)
+		@BindView(R.id.textViewFilingType)
 		TextView textViewFilingType;
-		@Bind(R.id.textViewDeliveredOn)
+		@BindView(R.id.textViewDeliveredOn)
 		TextView textViewDeliveredOn;
 
 

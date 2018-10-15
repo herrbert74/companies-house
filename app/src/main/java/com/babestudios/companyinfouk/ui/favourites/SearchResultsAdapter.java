@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.favourites;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultsViewHolder> {
@@ -53,13 +52,13 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 	}
 
 	class SearchResultsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblAddress)
+		@BindView(R.id.lblAddress)
 		TextView lblAddress;
-		@Bind(R.id.lblCompanyName)
+		@BindView(R.id.lblCompanyName)
 		TextView lblCompanyName;
-		@Bind(R.id.lblActiveStatus)
+		@BindView(R.id.lblActiveStatus)
 		TextView lblActiveStatus;
-		@Bind(R.id.lblIncorporated)
+		@BindView(R.id.lblIncorporated)
 		TextView lblIncorporated;
 
 		SearchResultsViewHolder(View itemView) {

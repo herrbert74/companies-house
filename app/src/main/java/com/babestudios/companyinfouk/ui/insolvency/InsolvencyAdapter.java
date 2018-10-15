@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.insolvency;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency;
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class InsolvencyAdapter extends RecyclerView.Adapter<InsolvencyAdapter.InsolvencyViewHolder> {
@@ -57,13 +55,13 @@ public class InsolvencyAdapter extends RecyclerView.Adapter<InsolvencyAdapter.In
 	}
 
 	class InsolvencyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Bind(R.id.lblDate)
+		@BindView(R.id.lblDate)
 		TextView lblDate;
-		@Bind(R.id.lblType)
+		@BindView(R.id.lblType)
 		TextView lblType;
-		@Bind(R.id.lblNumber)
+		@BindView(R.id.lblNumber)
 		TextView lblNumber;
-		@Bind(R.id.lblPractitioner)
+		@BindView(R.id.lblPractitioner)
 		TextView lblPractitioner;
 
 		InsolvencyViewHolder(View itemView) {

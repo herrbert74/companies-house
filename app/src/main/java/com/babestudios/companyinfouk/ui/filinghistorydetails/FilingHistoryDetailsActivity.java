@@ -32,7 +32,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 
@@ -40,34 +40,34 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class FilingHistoryDetailsActivity extends CompositeActivity implements FilingHistoryDetailsActivityView {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Bind(R.id.textViewDate)
+	@BindView(R.id.textViewDate)
 	TextView textViewDate;
 
-	@Bind(R.id.textViewCategory)
+	@BindView(R.id.textViewCategory)
 	TextView textViewCategory;
 
-	@Bind(R.id.textViewLabelSubcategory)
+	@BindView(R.id.textViewLabelSubcategory)
 	TextView textViewLabelSubcategory;
 
-	@Bind(R.id.textViewSubcategory)
+	@BindView(R.id.textViewSubcategory)
 	TextView textViewSubcategory;
 
-	@Bind(R.id.textViewDescription)
+	@BindView(R.id.textViewDescription)
 	TextView textViewDescription;
 
-	@Bind(R.id.textViewDescriptionValues)
+	@BindView(R.id.textViewDescriptionValues)
 	TextView textViewDescriptionValues;
 
-	@Bind(R.id.textViewPages)
+	@BindView(R.id.textViewPages)
 	TextView textViewPages;
 
-	@Bind(R.id.textViewLabelPages)
+	@BindView(R.id.textViewLabelPages)
 	TextView textViewLabelPages;
 
 	@Inject

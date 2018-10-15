@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.ui.insolvency;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,26 +25,26 @@ import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class InsolvencyActivity extends CompositeActivity implements InsolvencyActivityView, InsolvencyAdapter.InsolvencyRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.insolvency_recycler_view)
+	@BindView(R.id.insolvency_recycler_view)
 	RecyclerView insolvencyRecyclerView;
 
-	@Bind(R.id.lblNoInsolvency)
+	@BindView(R.id.lblNoInsolvency)
 	TextView lblNoInsolvency;
 
 	private InsolvencyAdapter insolvencyAdapter;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
-	@Bind(R.id.collapsing_toolbar)
+	@BindView(R.id.collapsing_toolbar)
 	CollapsingToolbarLayout collapsingToolbarLayout;
 
 	@Inject

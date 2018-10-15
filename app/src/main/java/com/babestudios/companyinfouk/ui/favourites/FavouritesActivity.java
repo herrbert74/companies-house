@@ -31,20 +31,20 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FavouritesActivity extends CompositeActivity implements FavouritesActivityView, FavouritesAdapter.FavouritesRecyclerViewClickListener {
 
-	@Bind(R.id.toolbar)
+	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@Bind(R.id.favourites_recycler_view)
+	@BindView(R.id.favourites_recycler_view)
 	RecyclerView favouritesRecyclerView;
 
 	private FavouritesAdapter favouritesAdapter;
 
-	@Bind(R.id.progressbar)
+	@BindView(R.id.progressbar)
 	ProgressBar progressbar;
 
 	@Inject
