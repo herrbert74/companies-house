@@ -31,6 +31,7 @@ import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem;
 import com.babestudios.companyinfouk.ui.company.CompanyActivity;
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity;
+import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity;
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DividerItemDecoration;
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading;
@@ -304,9 +305,14 @@ public class SearchActivity extends CompositeActivity implements SearchActivityV
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		switch (item.getItemId()) {
 			case R.id.action_favourites:
-				Intent intent = new Intent(this, FavouritesActivity.class);
+				intent = new Intent(this, FavouritesActivity.class);
+				baseActivityPlugin.startActivityWithRightSlide(intent);
+				return true;
+			case R.id.action_privacy:
+				intent = new Intent(this, PrivacyActivity.class);
 				baseActivityPlugin.startActivityWithRightSlide(intent);
 				return true;
 			default:

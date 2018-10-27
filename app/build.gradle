@@ -14,8 +14,8 @@ android {
 		applicationId "com.babestudios.companyinfouk"
 		minSdkVersion 21
 		targetSdkVersion 27
-		versionCode 6
-		versionName "1.0"
+		versionCode 8
+		versionName "1.2"
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner 'com.babestudios.companyinfouk.MockTestRunner'
 	}
@@ -95,7 +95,7 @@ dependencies {
 	implementation 'com.jakewharton.rxbinding:rxbinding-design:1.0.0'
 
 	//Dagger
-	annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+	kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 	implementation "com.google.dagger:dagger:$daggerVersion"
 	testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 	androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"

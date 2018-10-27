@@ -14,5 +14,9 @@
 		android:id="@+id/spinner"
 		android:title="@string/search_menu_filter"
 		app:actionViewClass="android.widget.Spinner"
-		app:showAsAction="ifRoom"/>
+		app:showAsAction="always"/>
+	<item
+		android:id="@+id/action_privacy"
+		android:title="@string/privacy_policy"
+		app:showAsAction="never"/>
 </menu>
