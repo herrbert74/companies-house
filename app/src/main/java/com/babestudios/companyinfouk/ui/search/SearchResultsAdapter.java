@@ -33,7 +33,10 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 	private void updateFilteredResults(CompanySearchResult companySearchResults, SearchPresenter.FilterState filterState) {
 		if (filterState.ordinal() > SearchPresenter.FilterState.FILTER_SHOW_ALL.ordinal()) {
-			Observable.from(companySearchResults.items).filter(companySearchResultItem -> companySearchResultItem.companyStatus.equalsIgnoreCase(filterState.toString()))
+			Observable.from(companySearchResults.items)
+					.filter(companySearchResultItem
+							-> companySearchResultItem.companyStatus != null
+							&& companySearchResultItem.companyStatus.equalsIgnoreCase(filterState.toString()))
 					.observeOn(Schedulers.immediate())
 					.toList()
 					.subscribe(result -> filteredSearchResults = result);
