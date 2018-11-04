@@ -15,8 +15,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultsViewHolder> {
 
@@ -33,11 +33,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 	private void updateFilteredResults(CompanySearchResult companySearchResults, SearchPresenter.FilterState filterState) {
 		if (filterState.ordinal() > SearchPresenter.FilterState.FILTER_SHOW_ALL.ordinal()) {
-			Observable.from(companySearchResults.items)
+			Observable.fromIterable(companySearchResults.items)
 					.filter(companySearchResultItem
 							-> companySearchResultItem.companyStatus != null
 							&& companySearchResultItem.companyStatus.equalsIgnoreCase(filterState.toString()))
-					.observeOn(Schedulers.immediate())
+					.observeOn(Schedulers.trampoline())
 					.toList()
 					.subscribe(result -> filteredSearchResults = result);
 		} else {

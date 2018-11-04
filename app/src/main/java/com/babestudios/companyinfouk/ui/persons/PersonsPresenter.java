@@ -11,8 +11,9 @@ import net.grandcentrix.thirtyinch.TiPresenter;
 
 import javax.inject.Inject;
 
-import retrofit2.adapter.rxjava.HttpException;
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import retrofit2.HttpException;
 
 public class PersonsPresenter extends TiPresenter<PersonsActivityView> implements Observer<Persons> {
 
@@ -42,7 +43,12 @@ public class PersonsPresenter extends TiPresenter<PersonsActivityView> implement
 	}
 
 	@Override
-	public void onCompleted() {
+	public void onComplete() {
+	}
+
+	@Override
+	public void onSubscribe(Disposable d) {
+
 	}
 
 	@Override

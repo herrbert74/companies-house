@@ -10,11 +10,11 @@ import com.babestudios.companyinfouk.data.model.officers.appointments.Appointmen
 import com.babestudios.companyinfouk.data.model.persons.Persons;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
 
 public interface CompaniesHouseService {
 	@GET(BuildConfig.COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT)

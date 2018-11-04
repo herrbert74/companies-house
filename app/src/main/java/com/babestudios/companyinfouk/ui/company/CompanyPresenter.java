@@ -11,8 +11,8 @@ import net.grandcentrix.thirtyinch.TiPresenter;
 
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.Observer;
+import io.reactivex.Observable;
+import io.reactivex.observers.DisposableObserver;
 
 public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 
@@ -53,9 +53,9 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 	void getCompany(String companyNumber) {
 		companyActivityView.showProgress();
 		dataManager.getCompany(companyNumber)
-				.subscribe(new Observer<Company>() {
+				.subscribe(new DisposableObserver<Company>() {
 					@Override
-					public void onCompleted() {
+					public void onComplete() {
 
 					}
 
@@ -94,8 +94,8 @@ public class CompanyPresenter extends TiPresenter<CompanyActivityView> {
 		return dataManager.isFavourite(searchHistoryItem);
 	}
 
-	void observablesFromViews(Observable<Void> o) {
-		o.subscribe(aVoid -> {
+	void observablesFromViews(Observable<Object> o) {
+		o.subscribe(object -> {
 
 			if (dataManager.isFavourite(new SearchHistoryItem(companyName, companyNumber, 0))) {
 				dataManager.removeFavourite(new SearchHistoryItem(companyName, companyNumber, 0));

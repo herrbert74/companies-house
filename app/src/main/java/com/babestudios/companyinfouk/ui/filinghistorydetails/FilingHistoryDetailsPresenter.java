@@ -10,8 +10,9 @@ import net.grandcentrix.thirtyinch.TiPresenter;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import okhttp3.ResponseBody;
-import rx.Observer;
 
 public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDetailsActivityView> implements Observer<ResponseBody> {
 
@@ -58,7 +59,12 @@ public class FilingHistoryDetailsPresenter extends TiPresenter<FilingHistoryDeta
 	}
 
 	@Override
-	public void onCompleted() {
+	public void onComplete() {
+
+	}
+
+	@Override
+	public void onSubscribe(Disposable d) {
 
 	}
 

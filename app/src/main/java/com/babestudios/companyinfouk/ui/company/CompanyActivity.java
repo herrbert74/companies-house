@@ -23,7 +23,7 @@ import com.babestudios.companyinfouk.ui.officers.OfficersActivity;
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity;
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin;
 import com.babestudios.companyinfouk.utils.DateUtil;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity;
 
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin;

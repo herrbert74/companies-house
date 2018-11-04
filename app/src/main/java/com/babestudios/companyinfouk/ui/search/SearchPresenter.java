@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 public class SearchPresenter extends TiPresenter<SearchActivityView> implements Observer<CompanySearchResult> {
 
@@ -89,7 +91,7 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 	}
 
 	@Override
-	public void onCompleted() {
+	public void onComplete() {
 	}
 
 	@Override
@@ -99,6 +101,11 @@ public class SearchPresenter extends TiPresenter<SearchActivityView> implements 
 			searchActivityView.showError();
 			searchActivityView.hideProgress();
 		}
+	}
+
+	@Override
+	public void onSubscribe(Disposable d) {
+
 	}
 
 	@Override

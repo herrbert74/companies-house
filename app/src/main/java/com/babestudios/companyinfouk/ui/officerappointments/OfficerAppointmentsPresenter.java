@@ -11,9 +11,10 @@ import net.grandcentrix.thirtyinch.TiPresenter;
 
 import javax.inject.Inject;
 
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
-public class OfficerAppointmentsPresenter extends TiPresenter<OfficerAppointmentsActivityView> implements Observer<Appointments>{
+public class OfficerAppointmentsPresenter extends TiPresenter<OfficerAppointmentsActivityView> implements Observer<Appointments> {
 
 
 	DataManager dataManager;
@@ -42,7 +43,12 @@ public class OfficerAppointmentsPresenter extends TiPresenter<OfficerAppointment
 	}
 
 	@Override
-	public void onCompleted() {
+	public void onComplete() {
+
+	}
+
+	@Override
+	public void onSubscribe(Disposable d) {
 
 	}
 

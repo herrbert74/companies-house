@@ -13,7 +13,6 @@ import com.babestudios.companyinfouk.BuildConfig;
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem;
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList;
-import com.babestudios.companyinfouk.ui.search.SearchPresenter;
 
 import net.grandcentrix.thirtyinch.TiPresenter;
 
@@ -21,7 +20,9 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import rx.Observer;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityView> implements Observer<FilingHistoryList> {
 
@@ -92,7 +93,12 @@ public class FilingHistoryPresenter extends TiPresenter<FilingHistoryActivityVie
 	}
 
 	@Override
-	public void onCompleted() {
+	public void onComplete() {
+	}
+
+	@Override
+	public void onSubscribe(Disposable d) {
+
 	}
 
 	@Override

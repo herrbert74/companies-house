@@ -20,8 +20,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdapter.FilingHistoryViewHolder> {
 
@@ -42,8 +42,8 @@ public class FilingHistoryAdapter extends RecyclerView.Adapter<FilingHistoryAdap
 
 	private void updateFilteredResults(FilingHistoryList filingHistoryList, FilingHistoryPresenter.CategoryFilter categoryFilter) {
 		if (categoryFilter.ordinal() > FilingHistoryPresenter.CategoryFilter.CATEGORY_SHOW_ALL.ordinal()) {
-			Observable.from(filingHistoryList.items).filter(filingHistoryItem -> filingHistoryItem.category.equalsIgnoreCase(categoryFilter.toString()))
-					.observeOn(Schedulers.immediate())
+			Observable.fromIterable(filingHistoryList.items).filter(filingHistoryItem -> filingHistoryItem.category.equalsIgnoreCase(categoryFilter.toString()))
+					.observeOn(Schedulers.trampoline())
 					.toList()
 					.subscribe(result -> filteredFilingHistoryItems = result);
 		} else {
