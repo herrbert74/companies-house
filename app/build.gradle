@@ -54,7 +54,7 @@ dependencies {
 	def supportLibraryVersion = '28.0.0'
 	def thirtyInchVersion = '0.8.0-rc2'
 	def retrofitVersion = '2.4.0'
-	def daggerVersion = '2.0.2'
+	def daggerVersion = '2.19'
 	def rxJavaVersion = '2.2.3'
 	def rxBindingVersion = '2.2.0'
 	def butterKnifeVersion = '8.8.1'
