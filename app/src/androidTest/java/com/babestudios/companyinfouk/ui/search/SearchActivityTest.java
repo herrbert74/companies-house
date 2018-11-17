@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.babestudios.companyinfouk.R;
-import com.babestudios.companyinfouk.AndroidTestApplicationComponent;
 import com.babestudios.companyinfouk.TestCompaniesHouseApplication;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
+import com.babestudios.companyinfouk.injection.AndroidTestApplicationComponent;
 import com.google.gson.Gson;
 
 import org.hamcrest.Description;
@@ -23,9 +23,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -39,6 +38,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.mockito.Mockito.when;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -55,7 +55,7 @@ public class SearchActivityTest {
 		component.inject(this);
 		Gson gson = new Gson();
 		CompanySearchResult result = gson.fromJson(jsonString, CompanySearchResult.class);
-		Mockito.when(mActivityTestRule.getActivity().searchActivityPlugin.getPresenter().dataManager.searchCompanies("you", "0")).thenReturn(Observable.just(
+		when(mActivityTestRule.getActivity().searchActivityPlugin.getPresenter().dataManager.searchCompanies("you", "0")).thenReturn(Observable.just(
 				result
 		));
 	}
@@ -89,7 +89,6 @@ public class SearchActivityTest {
 								0),
 						isDisplayed()));
 		textView.check(matches(withText("YOU LIMITED")));
-
 	}
 
 	public static Matcher<View> childAtPosition(

@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CompanyPresenterTest {
 
-	CompanyPresenter companyPresenter;
+	private CompanyPresenter companyPresenter;
 
 	@Before
 	public void setUp() {
@@ -31,28 +31,28 @@ public class CompanyPresenterTest {
 		company.accounts = new Accounts();
 		company.accounts.lastAccounts = new LastAccounts();
 		company.accounts.lastAccounts.type = "any";
-		when(companyPresenter.dataManager.getCompany(any())).thenReturn(Observable.just(company));
-		when(companyPresenter.dataManager.accountTypeLookup(any())).thenReturn("");
+		when(companyPresenter.getDataManager().getCompany(any())).thenReturn(Observable.just(company));
+		when(companyPresenter.getDataManager().accountTypeLookup(any())).thenReturn("");
 		companyPresenter.attachView(view);
 	}
 
 	@Test
 	public void test_When_FabClicked_Then_DataManagerAddFavouriteIsCalled() {
-		when(companyPresenter.dataManager.isFavourite(any())).thenReturn(false);
-		companyPresenter.observablesFromViews(Observable.just(null));
-		verify(companyPresenter.dataManager).addFavourite(any());
+		when(companyPresenter.getDataManager().isFavourite(any())).thenReturn(false);
+		companyPresenter.observablesFromViews(Observable.just(1));
+		verify(companyPresenter.getDataManager()).addFavourite(any());
 	}
 
 	@Test
 	public void test_When_FabClicked_Then_DataManagerRemoveFavouriteIsCalled() {
-		when(companyPresenter.dataManager.isFavourite(any())).thenReturn(true);
-		companyPresenter.observablesFromViews(Observable.just(null));
-		verify(companyPresenter.dataManager).removeFavourite(any());
+		when(companyPresenter.getDataManager().isFavourite(any())).thenReturn(true);
+		companyPresenter.observablesFromViews(Observable.just(1));
+		verify(companyPresenter.getDataManager()).removeFavourite(any());
 	}
 
 	@Test
 	public void test_When_GetCompany_Then_DataManagerGetCompanyIsCalled() {
 		companyPresenter.getCompany("123456");
-		verify(companyPresenter.dataManager).getCompany("123456");
+		verify(companyPresenter.getDataManager()).getCompany("123456");
 	}
 }

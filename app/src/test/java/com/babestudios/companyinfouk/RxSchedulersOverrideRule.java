@@ -7,12 +7,16 @@ import org.junit.runners.model.Statement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import rx.Scheduler;
+import io.reactivex.Scheduler;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.schedulers.Schedulers;
+/*import rx.Scheduler;
 import rx.android.plugins.RxAndroidPlugins;
 import rx.android.plugins.RxAndroidSchedulersHook;
 import rx.plugins.RxJavaPlugins;
 import rx.plugins.RxJavaSchedulersHook;
-import rx.schedulers.Schedulers;
+import rx.schedulers.Schedulers;*/
 
 /**
  * This rule registers SchedulerHooks for RxJava and RxAndroid to ensure that subscriptions
@@ -20,9 +24,9 @@ import rx.schedulers.Schedulers;
  * Warning, this rule will reset RxAndroidPlugins and RxJavaPlugins before and after each test so
  * if the application code uses RxJava plugins this may affect the behaviour of the testing method.
  */
-public class RxSchedulersOverrideRule implements TestRule {
+public abstract class RxSchedulersOverrideRule implements TestRule {
 
-    private final RxJavaSchedulersHook mRxJavaSchedulersHook = new RxJavaSchedulersHook() {
+    /*private final RxJavaSchedulersHook mRxJavaSchedulersHook = new RxJavaSchedulersHook() {
 
         @Override
         public Scheduler getIOScheduler() {
@@ -70,5 +74,5 @@ public class RxSchedulersOverrideRule implements TestRule {
                 callResetViaReflectionIn(RxJavaPlugins.getInstance());
             }
         };
-    }
+    }*/
 }

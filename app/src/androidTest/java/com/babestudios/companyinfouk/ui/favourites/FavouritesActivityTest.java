@@ -6,9 +6,9 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.babestudios.companyinfouk.AndroidTestApplicationComponent;
 import com.babestudios.companyinfouk.R;
 import com.babestudios.companyinfouk.TestCompaniesHouseApplication;
+import com.babestudios.companyinfouk.injection.AndroidTestApplicationComponent;
 
 import org.junit.Before;
 import org.junit.Rule;

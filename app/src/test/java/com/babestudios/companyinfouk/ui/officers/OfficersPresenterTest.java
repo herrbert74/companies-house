@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

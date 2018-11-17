@@ -12,7 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;

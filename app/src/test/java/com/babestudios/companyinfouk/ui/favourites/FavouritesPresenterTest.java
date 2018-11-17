@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 public class FavouritesPresenterTest {
 
 
-	FavouritesPresenter favouritesPresenter;
+	private FavouritesPresenter favouritesPresenter;
 
 	@Before
 	public void setUp() {

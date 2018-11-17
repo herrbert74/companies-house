@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -28,7 +28,6 @@ public class InsolvencyPresenterTest {
 		when(insolvencyPresenter.dataManager.getInsolvency("0")).thenReturn(Observable.just(new Insolvency()));
 		insolvencyPresenter.create();
 		insolvencyPresenter.attachView(view);
-
 	}
 
 	@Test

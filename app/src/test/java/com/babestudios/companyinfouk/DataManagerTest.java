@@ -14,8 +14,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import rx.Observable;
-import rx.observers.TestSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -37,8 +38,8 @@ public class DataManagerTest {
 
 	private DataManager dataManager;
 
-	@Rule
-	public final RxSchedulersOverrideRule overrideSchedulersRule = new RxSchedulersOverrideRule();
+	//@Rule
+	//public final RxSchedulersOverrideRule overrideSchedulersRule = new RxSchedulersOverrideRule();
 	private CompanySearchResult companySearchResult;
 
 	@Before
@@ -57,11 +58,11 @@ public class DataManagerTest {
 
 		//RxJavaHooks.setOnGenericScheduledExecutorService(Schedulers.immediate());
 
-		TestSubscriber<CompanySearchResult> testSubscriber = new TestSubscriber<>();
+		TestObserver<CompanySearchResult> testSubscriber = new TestObserver<>();
 		dataManager.searchCompanies("Games", "0").subscribe(testSubscriber);
-		testSubscriber.assertTerminalEvent();
+		testSubscriber.assertTerminated();
 		testSubscriber.assertValue(companySearchResult);
-		testSubscriber.assertCompleted();
+		testSubscriber.assertComplete();
 		testSubscriber.assertNoErrors();
 
 	}

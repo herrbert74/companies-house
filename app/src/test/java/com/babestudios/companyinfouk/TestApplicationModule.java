@@ -17,7 +17,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 @Module
 public class TestApplicationModule{
@@ -34,7 +34,7 @@ public class TestApplicationModule{
 	Retrofit provideCompaniesHouseRetrofit() {
 		return new Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
-				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
+				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
 				.addConverterFactory(AdvancedGsonConverterFactory.create())//
 				.build();
 	}
