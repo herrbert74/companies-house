@@ -2,10 +2,16 @@ package com.babestudios.companyinfouk;
 
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
+import com.google.gson.Gson;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
@@ -17,6 +23,51 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(JUnit4.class)
 public class GsonTest {
+
+	@Test
+	public void advancedGsonConverter_map_converts() {
+		AdvancedGsonConverterFactory c = AdvancedGsonConverterFactory.create();
+		InputStream i = this.getClass().getClassLoader().getResourceAsStream("json_map.json");
+		String z = "";
+		try {
+			z = new String(toByteArray(i), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//ResponseBody r = ResponseBody.create(MediaType.parse("application/json; charset=utf-8"), z);
+		Gson gson = new Gson();
+		CapitalMap capitalMap = gson.fromJson(z, CapitalMap.class);
+		assertThat(capitalMap.getCapital().size() == 2, is(true));
+	}
+
+	@Test
+	public void single_item_map_converts() {
+		AdvancedGsonConverterFactory c = AdvancedGsonConverterFactory.create();
+		String z = "";
+		try {
+			InputStream i = this.getClass().getClassLoader().getResourceAsStream("json_map_single.json");
+			z = new String(toByteArray(i), StandardCharsets.UTF_8);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//ResponseBody r = ResponseBody.create(MediaType.parse("application/json; charset=utf-8"), z);
+		Gson gson = new Gson();
+		CapitalMap capitalMap = gson.fromJson(z, CapitalMap.class);
+		assertThat(capitalMap.getCapital().size() == 1, is(true));
+	}
+
+	public static byte[] toByteArray(InputStream stream) throws IOException {
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		byte[] bytes = new byte[4048];
+		int bytesRead = stream.read(bytes);
+		while (bytesRead != -1) {
+			output.write(bytes, 0, bytesRead);
+			bytesRead = stream.read(bytes);
+		}
+		byte[] result = output.toByteArray();
+		output.close();
+		return result;
+	}
 
 	@Test
 	public void advancedGsonConverter_searchCompanies_converts() {

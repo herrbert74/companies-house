@@ -1,0 +1,9 @@
+{
+	"pages": 1,
+	"capital": {
+		"1": {
+            "figure": "2",
+            "currency": "GBP"
+        }
+	}
+}
