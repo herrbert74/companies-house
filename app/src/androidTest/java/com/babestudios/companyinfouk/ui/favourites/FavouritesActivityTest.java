@@ -41,7 +41,7 @@ public class FavouritesActivityTest {
 
 	@Test
 	public void whenComingFromRecentSearchesActivity_showsData() {
-		onView(withRecyclerView(R.id.favourites_recycler_view).atPositionOnView(0, R.id.lblCompanyName)).check(matches(withText("Acme Painting")));
+		onView(withRecyclerView(R.id.rvFavourites).atPositionOnView(0, R.id.lblCompanyName)).check(matches(withText("Acme Painting")));
 	}
 
 }
