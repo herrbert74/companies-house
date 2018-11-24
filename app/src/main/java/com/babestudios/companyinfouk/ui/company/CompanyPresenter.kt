@@ -37,7 +37,7 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 
 	fun getCompany(companyNumber: String?) {
 		companyActivityView!!.showProgress()
-		dataManager.getCompany(companyNumber)
+		dataManager.getCompany(companyNumber ?: "")
 				.subscribe(object : DisposableObserver<Company>() {
 					override fun onComplete() {
 

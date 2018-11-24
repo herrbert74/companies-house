@@ -1,5 +1,7 @@
 package com.babestudios.companyinfouk;
 
+import android.support.annotation.NonNull;
+
 import com.babestudios.companyinfouk.data.DataManager;
 import com.babestudios.companyinfouk.data.local.PreferencesHelper;
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult;
@@ -8,15 +10,20 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseService;
 import com.babestudios.companyinfouk.utils.Base64Wrapper;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.schedulers.ExecutorScheduler;
 import io.reactivex.observers.TestObserver;
-import io.reactivex.subscribers.TestSubscriber;
+import io.reactivex.plugins.RxJavaPlugins;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -55,8 +62,11 @@ public class DataManagerTest {
 	@Test
 	public void test_searchCompanies_successful(){
 
-
-		//RxJavaHooks.setOnGenericScheduledExecutorService(Schedulers.immediate());
+		RxJavaPlugins.setInitIoSchedulerHandler(scheduler -> immediate);
+		RxJavaPlugins.setInitComputationSchedulerHandler(scheduler -> immediate);
+		RxJavaPlugins.setInitNewThreadSchedulerHandler(scheduler -> immediate);
+		RxJavaPlugins.setInitSingleSchedulerHandler(scheduler -> immediate);
+		RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> immediate);
 
 		TestObserver<CompanySearchResult> testSubscriber = new TestObserver<>();
 		dataManager.searchCompanies("Games", "0").subscribe(testSubscriber);
@@ -66,4 +76,17 @@ public class DataManagerTest {
 		testSubscriber.assertNoErrors();
 
 	}
+
+	private Scheduler immediate = new Scheduler() {
+		@Override
+		public Disposable scheduleDirect(@NonNull Runnable run, long delay, @NonNull TimeUnit unit) {
+			// this prevents StackOverflowErrors when scheduling with a delay
+			return super.scheduleDirect(run, 0, unit);
+		}
+
+		@Override
+		public Worker createWorker() {
+			return new ExecutorScheduler.ExecutorWorker(Runnable::run);
+		}
+	};
 }

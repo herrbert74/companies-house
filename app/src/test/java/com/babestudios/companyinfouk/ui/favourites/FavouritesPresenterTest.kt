@@ -1,44 +1,46 @@
 package com.babestudios.companyinfouk.ui.favourites
 
 import com.babestudios.companyinfouk.data.DataManager
-
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 
 @RunWith(MockitoJUnitRunner::class)
 class FavouritesPresenterTest {
 
 
-	private var favouritesPresenter: FavouritesPresenter? = null
+	private lateinit var favouritesPresenter: FavouritesPresenter
 
 	@Before
 	fun setUp() {
-		favouritesPresenter = FavouritesPresenter(mock(DataManager::class.java))
-		favouritesPresenter?.create()
-		val view = mock(FavouritesActivityView::class.java)
-		favouritesPresenter?.attachView(view)
+		val mockDataManager: DataManager = mock()
+		val view: FavouritesActivityView = mock()
+		favouritesPresenter = FavouritesPresenter(mockDataManager)
+		favouritesPresenter.create()
+		`when`<Array<SearchHistoryItem>>(mockDataManager.favourites).thenReturn(arrayOf(SearchHistoryItem("", "", 0L)))
+		favouritesPresenter.attachView(view)
 	}
 
 	@Test
 	fun onAttachView_shouldCallShowFavouritesOnView() {
-		verify<FavouritesActivityView>(favouritesPresenter?.view).showFavourites(ArgumentMatchers.any())
+		verify(favouritesPresenter.view!!).showFavourites(any())
 	}
 
 	@Test
 	fun whenGetCompany_shouldCallStartCompanyActivityOnView() {
-		favouritesPresenter?.getCompany(ArgumentMatchers.any(), ArgumentMatchers.any())
-		verify<FavouritesActivityView>(favouritesPresenter?.view).startCompanyActivity(ArgumentMatchers.any(), ArgumentMatchers.any())
+		favouritesPresenter.getCompany("", "")
+		verify(favouritesPresenter.view!!).startCompanyActivity(any(), any())
 	}
 
 	@Test
 	fun whenRemoveFavourite_shouldCallDataManagerRemoveFavourite() {
-		favouritesPresenter?.removeFavourite(ArgumentMatchers.any())
-		verify(favouritesPresenter?.dataManager)?.removeFavourite(ArgumentMatchers.any())
+		favouritesPresenter.removeFavourite(SearchHistoryItem("", "", 0L))
+		verify(favouritesPresenter.dataManager).removeFavourite(any())
 	}
 }

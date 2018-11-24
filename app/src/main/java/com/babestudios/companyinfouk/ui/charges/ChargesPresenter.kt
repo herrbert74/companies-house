@@ -26,11 +26,11 @@ constructor(var dataManager: DataManager) : TiPresenter<ChargesActivityView>(), 
 
 	@VisibleForTesting
 	fun getCharges() {
-		dataManager.getCharges(view?.companyNumber, "0").subscribe(this)
+		dataManager.getCharges(view?.companyNumber ?: "", "0").subscribe(this)
 	}
 
 	fun loadMoreCharges(page: Int) {
-		dataManager.getCharges(view?.companyNumber, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
+		dataManager.getCharges(view?.companyNumber ?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
 	}
 
 	override fun onComplete() {}

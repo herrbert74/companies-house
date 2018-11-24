@@ -117,7 +117,7 @@ public class FilingHistoryDetailsActivity extends CompositeActivity implements F
 		if(filingHistoryItem.description.equals("legacy") || filingHistoryItem.description.equals("miscellaneous")){
 			textViewDescription.setText(filingHistoryItem.descriptionValues.description);
 		} else {
-			Spannable spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryDetailsPresenter.dataManager.filingHistoryLookup(filingHistoryItem.description), filingHistoryItem);
+			Spannable spannableDescription = FilingHistoryPresenter.Companion.createSpannableDescription(filingHistoryDetailsPresenter.dataManager.filingHistoryLookup(filingHistoryItem.description), filingHistoryItem);
 			textViewDescription.setText(spannableDescription);
 		}
 
