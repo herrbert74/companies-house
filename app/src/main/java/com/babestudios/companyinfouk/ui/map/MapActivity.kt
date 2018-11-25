@@ -25,6 +25,7 @@ class MapActivity : CompositeActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
 	private var mMap: GoogleMap? = null
 
+	@JvmField
 	@BindView(R.id.toolbar)
 	internal var toolbar: Toolbar? = null
 
@@ -65,7 +66,7 @@ class MapActivity : CompositeActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 	override fun onMapReady(googleMap: GoogleMap) {
 		mMap = googleMap
 		mMap?.setOnMarkerClickListener(this)
-		location?.also{
+		location?.also {
 			setLocationInMap(it)
 		} ?: run {
 			location = LatLng(51.5033635, -0.1276248)

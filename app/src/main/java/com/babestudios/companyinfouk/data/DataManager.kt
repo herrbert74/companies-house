@@ -3,10 +3,8 @@ package com.babestudios.companyinfouk.data
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Environment
-import android.support.annotation.VisibleForTesting
 import android.util.Base64
 import android.util.Log
-
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.data.local.ApiLookupHelper
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
@@ -24,30 +22,20 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.utils.Base64Wrapper
 import com.google.gson.Gson
-
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import java.util.ArrayList
-import java.util.Arrays
-
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
+import java.io.*
+import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
-//@VisibleForTesting
 class DataManager @Inject
 constructor(private val companiesHouseService: CompaniesHouseService, private val companiesHouseDocumentService: CompaniesHouseDocumentService, private val preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper) {
 
-	private val authorization: String
+	private val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
 	private val apiLookupHelper = ApiLookupHelper()
 
 	val recentSearches: List<SearchHistoryItem>
@@ -55,10 +43,6 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 
 	val favourites: Array<SearchHistoryItem>
 		get() = preferencesHelper.favourites
-
-	init {
-		authorization = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
-	}
 
 	fun sicLookup(code: String): String {
 		return apiLookupHelper.sicLookup(code)
@@ -179,11 +163,11 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
 		val items = preferencesHelper.favourites
-		if (items != null) {
+		return if (items != null) {
 			val favourites = ArrayList(Arrays.asList(*items))
-			return favourites.contains(searchHistoryItem)
+			favourites.contains(searchHistoryItem)
 		} else {
-			return false
+			false
 		}
 	}
 
