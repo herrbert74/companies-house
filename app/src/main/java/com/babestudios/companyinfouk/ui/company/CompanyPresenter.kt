@@ -50,7 +50,9 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 					}
 
 					override fun onNext(company: Company) {
-						company.accounts.lastAccounts.type = dataManager.accountTypeLookup(company.accounts.lastAccounts.type)
+						if (!company.accounts.lastAccounts.type.isNullOrBlank()) {
+							company.accounts.lastAccounts.type = dataManager.accountTypeLookup(company.accounts.lastAccounts.type)
+						}
 						this@CompanyPresenter.company = company
 						showCompany(company)
 					}

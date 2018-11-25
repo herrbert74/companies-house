@@ -43,7 +43,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 
 @Singleton
-@VisibleForTesting
+//@VisibleForTesting
 class DataManager @Inject
 constructor(private val companiesHouseService: CompaniesHouseService, private val companiesHouseDocumentService: CompaniesHouseDocumentService, private val preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper) {
 
