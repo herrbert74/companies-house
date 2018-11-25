@@ -11,7 +11,9 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-
+import butterknife.BindView
+import butterknife.ButterKnife
+import butterknife.OnClick
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.company.Company
@@ -26,14 +28,8 @@ import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.companyinfouk.utils.DateUtil
 import com.jakewharton.rxbinding2.view.RxView
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-
 import javax.inject.Inject
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 
 @Suppress("UNUSED_PARAMETER")
 class CompanyActivity : CompositeActivity(), CompanyActivityView {
@@ -119,17 +115,17 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 		ButterKnife.bind(this)
 		if (toolbar != null) {
 			setSupportActionBar(toolbar)
-			supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+			supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-			toolbar!!.setNavigationOnClickListener { onBackPressed() }
+			toolbar?.setNavigationOnClickListener { onBackPressed() }
 		}
 		companyNumber = intent.getStringExtra("companyNumber")
 		companyName = intent.getStringExtra("companyName")
 
-		companyActivityPlugin.presenter.observablesFromViews(RxView.clicks(fab!!))
+		fab?.let { companyActivityPlugin.presenter.observablesFromViews(RxView.clicks(it)) }
 		//toolbar_title.setText(companyName);
-		companyNumberTextView!!.text = companyNumber
-		collapsingToolbarLayout!!.title = companyName
+		companyNumberTextView?.text = companyNumber
+		collapsingToolbarLayout?.title = companyName
 	}
 
 	@OnClick(R.id.buttonShowOnMap)
@@ -151,22 +147,26 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	}
 
 	override fun showFab() {
-		if (companyActivityPlugin.presenter.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
-			fab!!.setImageResource(R.drawable.favorite_clear_vector)
-		} else {
-			fab!!.setImageResource(R.drawable.favorite_vector)
+		fab?.also {
+			if (companyActivityPlugin.presenter.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
+				it.setImageResource(R.drawable.favorite_clear_vector)
+			} else {
+				it.setImageResource(R.drawable.favorite_vector)
+			}
+			it.scaleX = 0f
+			it.scaleY = 0f
+			it.alpha = 0f
+			it.show()
+			it.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(1f).scaleY(1f).alpha(1f).interpolator = LinearOutSlowInInterpolator()
 		}
-		fab!!.scaleX = 0f
-		fab!!.scaleY = 0f
-		fab!!.alpha = 0f
-		fab!!.show()
-		fab!!.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(1f).scaleY(1f).alpha(1f).interpolator = LinearOutSlowInInterpolator()
 	}
 
 	override fun hideFab() {
-		fab!!.animate().cancel()
-		fab!!.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(0f).scaleY(0f).alpha(0f)
-				.setInterpolator(LinearOutSlowInInterpolator()).withEndAction { this.showFab() }
+		fab?.also {
+			it.animate().cancel()
+			it.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(0f).scaleY(0f).alpha(0f)
+					.setInterpolator(LinearOutSlowInInterpolator()).withEndAction { this.showFab() }
+		}
 
 	}
 
@@ -175,42 +175,42 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	}
 
 	override fun showProgress() {
-		progressbar!!.visibility = View.VISIBLE
+		progressbar?.visibility = View.VISIBLE
 	}
 
 	override fun hideProgress() {
-		progressbar!!.visibility = View.GONE
+		progressbar?.visibility = View.GONE
 	}
 
 	override fun showCompany(company: Company) {
-		supportActionBar!!.setTitle(R.string.company_details)
-		incorporatedTextView!!.text = String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
-		addressLine1TextView!!.text = company.registeredOfficeAddress.addressLine1
+		supportActionBar?.setTitle(R.string.company_details)
+		incorporatedTextView?.text = String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
+		addressLine1TextView?.text = company.registeredOfficeAddress.addressLine1
 		if (company.registeredOfficeAddress.addressLine2 != null) {
-			addressLine2TextView!!.visibility = View.VISIBLE
-			addressLine2TextView!!.text = company.registeredOfficeAddress.addressLine2
+			addressLine2TextView?.visibility = View.VISIBLE
+			addressLine2TextView?.text = company.registeredOfficeAddress.addressLine2
 		}
-		addressPostalCodeTextView!!.text = company.registeredOfficeAddress.postalCode
-		addressLocalityTextView!!.text = company.registeredOfficeAddress.locality
+		addressPostalCodeTextView?.text = company.registeredOfficeAddress.postalCode
+		addressLocalityTextView?.text = company.registeredOfficeAddress.locality
 		var formattedDate: String
-		if (company.accounts != null && company.accounts.lastAccounts.madeUpTo != null) {
-			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.accounts.lastAccounts.madeUpTo)!!))
-			accountTextView!!.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts.lastAccounts.type, formattedDate)
+		if (company.accounts != null && !company.accounts.lastAccounts.madeUpTo.isNullOrBlank()) {
+			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.accounts.lastAccounts.madeUpTo)))
+			accountTextView?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts.lastAccounts.type, formattedDate)
 		} else {
-			accountTextView!!.text = resources.getString(R.string.company_accounts_not_found)
+			accountTextView?.text = resources.getString(R.string.company_accounts_not_found)
 		}
-		if (company.annualReturn != null && company.annualReturn.lastMadeUpTo != null) {
-			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.annualReturn.lastMadeUpTo)!!))
-			annualReturnsTextView!!.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
+		if (company.annualReturn != null && !company.annualReturn.lastMadeUpTo.isNullOrBlank()) {
+			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.annualReturn.lastMadeUpTo)))
+			annualReturnsTextView?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
 		} else {
-			annualReturnsTextView!!.text = resources.getString(R.string.company_annual_returns_not_found)
+			annualReturnsTextView?.text = resources.getString(R.string.company_annual_returns_not_found)
 		}
 		addressString = (if (company.registeredOfficeAddress.addressLine2 != null) company.registeredOfficeAddress.addressLine2 else company.registeredOfficeAddress.addressLine1) + ", " + company.registeredOfficeAddress.locality + ", " + company.registeredOfficeAddress.postalCode
 	}
 
 	@SuppressLint("SetTextI18n")
 	override fun showNatureOfBusiness(sicCode: String, natureOfBusiness: String) {
-		natureOfBusinessTextView!!.text = "$sicCode - $natureOfBusiness"
+		natureOfBusinessTextView?.text = "$sicCode - $natureOfBusiness"
 	}
 
 	/*override fun getCompanyNumber(): String {
@@ -222,7 +222,7 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	}*/
 
 	override fun showEmptyNatureOfBusiness() {
-		natureOfBusinessTextView!!.text = resources.getString(R.string.no_data)
+		natureOfBusinessTextView?.text = resources.getString(R.string.no_data)
 	}
 
 	fun onFilingHistoryClicked(view: View) {
