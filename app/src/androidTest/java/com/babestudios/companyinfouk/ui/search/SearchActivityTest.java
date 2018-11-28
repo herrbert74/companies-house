@@ -55,7 +55,7 @@ public class SearchActivityTest {
 		component.inject(this);
 		Gson gson = new Gson();
 		CompanySearchResult result = gson.fromJson(jsonString, CompanySearchResult.class);
-		when(mActivityTestRule.getActivity().searchActivityPlugin.getPresenter().dataManager.searchCompanies("you", "0")).thenReturn(Observable.just(
+		when(mActivityTestRule.getActivity().getSearchActivityPlugin().getPresenter().getDataManager().searchCompanies("you", "0")).thenReturn(Observable.just(
 				result
 		));
 	}
