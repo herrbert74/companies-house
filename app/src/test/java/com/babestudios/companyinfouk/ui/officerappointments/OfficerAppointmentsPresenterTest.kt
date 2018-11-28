@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.ui.officerappointments
 
 import com.babestudios.companyinfouk.data.DataManager
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
+import com.nhaarman.mockitokotlin2.any
 
 import org.junit.Before
 import org.junit.Test
@@ -10,7 +11,6 @@ import org.mockito.junit.MockitoJUnitRunner
 
 import io.reactivex.Observable
 
-import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
@@ -26,7 +26,7 @@ class OfficerAppointmentsPresenterTest {
 		officerAppointmentsPresenter = OfficerAppointmentsPresenter(mock(DataManager::class.java))
 		val view = mock(OfficerAppointmentsActivityView::class.java)
 		`when`(view.officerId).thenReturn("0")
-		`when`(officerAppointmentsPresenter.dataManager.getOfficerAppointments("0", "0")).thenReturn(Observable.just<T>(Appointments()))
+		`when`(officerAppointmentsPresenter.dataManager.getOfficerAppointments("0", "0")).thenReturn(Observable.just(Appointments()))
 		officerAppointmentsPresenter.create()
 		officerAppointmentsPresenter.attachView(view)
 	}
@@ -41,6 +41,6 @@ class OfficerAppointmentsPresenterTest {
 	fun whenOnNext_thenViewHideProgressAndShowAppointmentsIsCalled() {
 		officerAppointmentsPresenter.onNext(Appointments())
 		verify<OfficerAppointmentsActivityView>(officerAppointmentsPresenter.view, times(2)).hideProgress()
-		verify<OfficerAppointmentsActivityView>(officerAppointmentsPresenter.view, times(2)).showAppointments(any(Appointments::class.java))
+		verify<OfficerAppointmentsActivityView>(officerAppointmentsPresenter.view, times(2)).showAppointments(any())
 	}
 }
