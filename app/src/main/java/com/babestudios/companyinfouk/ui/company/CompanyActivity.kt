@@ -194,14 +194,20 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 		addressLocalityTextView?.text = company.registeredOfficeAddress.locality
 		var formattedDate: String
 		if (company.accounts != null && !company.accounts.lastAccounts.madeUpTo.isNullOrBlank()) {
-			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.accounts.lastAccounts.madeUpTo)))
-			accountTextView?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts.lastAccounts.type, formattedDate)
+			val date = DateUtil.parseMySqlDate(company.accounts.lastAccounts.madeUpTo)
+			date?.let {
+				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(it))
+				accountTextView?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts.lastAccounts.type, formattedDate)
+			}
 		} else {
 			accountTextView?.text = resources.getString(R.string.company_accounts_not_found)
 		}
 		if (company.annualReturn != null && !company.annualReturn.lastMadeUpTo.isNullOrBlank()) {
-			formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(DateUtil.parseMySqlDate(company.annualReturn.lastMadeUpTo)))
-			annualReturnsTextView?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
+			val date = DateUtil.parseMySqlDate(company.annualReturn.lastMadeUpTo)
+			date?.let {
+				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(it))
+				annualReturnsTextView?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
+			}
 		} else {
 			annualReturnsTextView?.text = resources.getString(R.string.company_annual_returns_not_found)
 		}

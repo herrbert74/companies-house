@@ -61,7 +61,10 @@ class SearchFilterAdapter(context: Context, private val mTexts: Array<String>, p
 			holder.ivSpinnerItem = convertViewCopy.findViewById<View>(R.id.ivSpinnerItem) as ImageView
 			holder.lblSpinnerItem = convertViewCopy.findViewById<View>(R.id.lblSpinnerItem) as TextView
 			holder.lblSpinnerItem?.setTextColor(ContextCompat.getColor(context, android.R.color.white))
-			holder.ivSpinnerItem?.setImageDrawable(ResourceHelper.tintVectorDrawableCompat(context, VectorDrawableCompat.create(context.resources, R.drawable.arrow_drop_down_vector, context.theme), android.R.color.white))
+			val vector = VectorDrawableCompat.create(context.resources, R.drawable.arrow_drop_down_vector, context.theme)
+			vector?.let {
+				holder.ivSpinnerItem?.setImageDrawable(ResourceHelper.tintVectorDrawableCompat(context, it, android.R.color.white))
+			}
 			convertViewCopy.tag = holder
 		} else {
 			holder = convertViewCopy.tag as SpinnerItemViewHolder
