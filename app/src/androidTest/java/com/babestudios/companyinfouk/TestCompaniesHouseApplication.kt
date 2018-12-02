@@ -22,9 +22,9 @@ class TestCompaniesHouseApplication : CompaniesHouseApplication() {
 		testApplicationComponent.inject(this)
 	}
 
-	override fun getApplicationComponent(): AndroidTestApplicationComponent {
+	/*override fun getApplicationComponent(): AndroidTestApplicationComponent {
 		return testApplicationComponent
-	}
+	}*/
 
 	companion object {
 

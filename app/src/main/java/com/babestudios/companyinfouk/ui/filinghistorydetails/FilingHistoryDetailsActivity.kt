@@ -89,7 +89,7 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 	private lateinit var responseBody: ResponseBody
 
 	private var filingHistoryDetailsActivityPlugin = TiActivityPlugin<FilingHistoryDetailsPresenter, FilingHistoryDetailsActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		filingHistoryDetailsPresenter
 	}
 

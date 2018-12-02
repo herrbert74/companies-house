@@ -94,7 +94,7 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	lateinit var companyPresenter: CompanyPresenter
 
 	private var companyActivityPlugin = TiActivityPlugin<CompanyPresenter, CompanyActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		companyPresenter
 	}
 
@@ -107,7 +107,7 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_company)
 		baseActivityPlugin.logScreenView(this.localClassName)

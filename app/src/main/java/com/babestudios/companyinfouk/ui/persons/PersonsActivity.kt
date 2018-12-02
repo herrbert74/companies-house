@@ -49,7 +49,7 @@ class PersonsActivity : CompositeActivity(), PersonsActivityView, PersonsAdapter
 	override lateinit var companyNumber: String
 
 	private var personsActivityPlugin = TiActivityPlugin<PersonsPresenter, PersonsActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		personsPresenter
 	}
 

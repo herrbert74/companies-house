@@ -82,7 +82,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 	private var initialFilterState: SearchPresenter.FilterState? = null
 
 	internal var searchActivityPlugin = TiActivityPlugin<SearchPresenter, SearchActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this@SearchActivity)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this@SearchActivity)
 		searchPresenter
 	}
 
@@ -285,7 +285,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 	private fun logSearch(queryText: String) {
 		val bundle = Bundle()
 		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, queryText)
-		CompaniesHouseApplication.getInstance().firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
+		CompaniesHouseApplication.instance.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
 	}
 
 	override fun setInitialFilterState(filterState: SearchPresenter.FilterState) {

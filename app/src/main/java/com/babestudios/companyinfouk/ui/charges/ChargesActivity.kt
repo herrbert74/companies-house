@@ -60,7 +60,7 @@ class ChargesActivity : CompositeActivity(), ChargesActivityView, ChargesAdapter
 	lateinit var chargesPresenter: ChargesPresenter
 
 	internal var chargesActivityPlugin = TiActivityPlugin<ChargesPresenter, ChargesActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		chargesPresenter
 	}
 

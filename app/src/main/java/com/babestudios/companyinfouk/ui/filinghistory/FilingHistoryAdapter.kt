@@ -29,7 +29,7 @@ class FilingHistoryAdapter internal constructor(c: Context, filingHistoryList: F
 	lateinit var dataManager: DataManager
 
 	init {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		mItemListener = c as FilingHistoryRecyclerViewClickListener
 		this.filingHistoryList = filingHistoryList
 		updateFilteredResults(filingHistoryList, categoryFilter)

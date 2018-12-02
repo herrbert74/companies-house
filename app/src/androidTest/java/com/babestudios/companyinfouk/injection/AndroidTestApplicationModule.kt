@@ -66,9 +66,8 @@ class AndroidTestApplicationModule(private val application: Application) {
 	@Singleton
 	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService, preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): DataManager {
 		val dataManager = Mockito.mock(DataManager::class.java)
-		val searchHistoryItems = arrayOfNulls<SearchHistoryItem>(1)
 		val searchHistoryItem = SearchHistoryItem("Acme Painting", "12345678", 12)
-		searchHistoryItems[0] = searchHistoryItem
+		val searchHistoryItems = arrayOf(searchHistoryItem)
 		`when`(dataManager.favourites).thenReturn(searchHistoryItems)
 		return dataManager
 	}

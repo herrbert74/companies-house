@@ -54,7 +54,7 @@ class InsolvencyActivity : CompositeActivity(), InsolvencyActivityView, Insolven
 	override lateinit var companyNumber: String
 
 	private var insolvencyActivityPlugin = TiActivityPlugin<InsolvencyPresenter, InsolvencyActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		insolvencyPresenter
 	}
 

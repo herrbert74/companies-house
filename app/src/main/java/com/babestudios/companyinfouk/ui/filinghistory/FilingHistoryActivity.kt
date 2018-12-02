@@ -56,7 +56,7 @@ class FilingHistoryActivity : CompositeActivity(), FilingHistoryActivityView, Fi
 	private var initialCategoryFilter: FilingHistoryPresenter.CategoryFilter? = null
 
 	internal var filingHistoryActivityPlugin = TiActivityPlugin<FilingHistoryPresenter, FilingHistoryActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		filingHistoryPresenter
 	}
 
@@ -71,7 +71,7 @@ class FilingHistoryActivity : CompositeActivity(), FilingHistoryActivityView, Fi
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_filing_history)
 		baseActivityPlugin.logScreenView(this.localClassName)

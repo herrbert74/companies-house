@@ -48,7 +48,7 @@ class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActi
 	override lateinit var officerId: String
 
 	private var officerAppointmentsActivityPlugin = TiActivityPlugin<OfficerAppointmentsPresenter, OfficerAppointmentsActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		officerAppointmentsPresenter
 	}
 

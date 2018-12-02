@@ -50,7 +50,7 @@ class OfficersActivity : CompositeActivity(), OfficersActivityView, OfficersAdap
 
 
 	internal var officersActivityPlugin = TiActivityPlugin<OfficersPresenter, OfficersActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		officersPresenter
 	}
 

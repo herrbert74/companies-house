@@ -72,7 +72,7 @@ class OfficerDetailsActivity : CompositeActivity(), OfficerDetailsActivityView {
 	lateinit var officerDetailsPresenter: OfficerDetailsPresenter
 
 	private var officerDetailsActivityPlugin = TiActivityPlugin<OfficerDetailsPresenter, OfficerDetailsActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		officerDetailsPresenter
 	}
 

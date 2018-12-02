@@ -42,9 +42,9 @@ class InsolvencyDetailsAdapter(private val insolvencyDates: List<Date>, private 
 	override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
 		if (viewHolder is TitleViewHolder) {
 			if (position == 0) {
-				viewHolder.lblTitle?.text = CompaniesHouseApplication.getContext().getText(R.string.insolvency_dates)
+				viewHolder.lblTitle?.text = CompaniesHouseApplication.context.getText(R.string.insolvency_dates)
 			} else {
-				viewHolder.lblTitle?.text = CompaniesHouseApplication.getContext().getText(R.string.insolvency_practitioners)
+				viewHolder.lblTitle?.text = CompaniesHouseApplication.context.getText(R.string.insolvency_practitioners)
 			}
 		} else if (viewHolder is PractitionersViewHolder) {
 			viewHolder.textViewAppointedOn?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].appointedOn

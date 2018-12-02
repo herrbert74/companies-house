@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.company
 
+import android.support.annotation.VisibleForTesting
 import android.util.Log
 import com.babestudios.base.ext.biLet
 import com.babestudios.companyinfouk.data.DataManager

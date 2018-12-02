@@ -39,7 +39,7 @@ class FavouritesActivity : CompositeActivity(), FavouritesActivityView, Favourit
 	lateinit var favouritesPresenter: FavouritesPresenter
 
 	private var favouritesActivityPlugin = TiActivityPlugin<FavouritesPresenter, FavouritesActivityView> {
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		favouritesPresenter
 	}
 
@@ -53,7 +53,7 @@ class FavouritesActivity : CompositeActivity(), FavouritesActivityView, Favourit
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 
-		CompaniesHouseApplication.getInstance().applicationComponent.inject(this)
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_favourites)
 		baseActivityPlugin.logScreenView(this.localClassName)
