@@ -1,17 +1,14 @@
 package com.babestudios.companyinfouk.ui.company
 
 import android.util.Log
-
+import com.babestudios.base.ext.biLet
 import com.babestudios.companyinfouk.data.DataManager
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
-import javax.inject.Inject
-
 import io.reactivex.Observable
 import io.reactivex.observers.DisposableObserver
+import net.grandcentrix.thirtyinch.TiPresenter
+import javax.inject.Inject
 
 class CompanyPresenter @Inject
 constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
@@ -50,8 +47,8 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 					}
 
 					override fun onNext(company: Company) {
-						if (!company.accounts.lastAccounts.type.isNullOrBlank()) {
-							company.accounts.lastAccounts.type = dataManager.accountTypeLookup(company.accounts.lastAccounts.type)
+						company.accounts?.lastAccounts?.type?.let {
+							company.accounts?.lastAccounts?.type = dataManager.accountTypeLookup(it)
 						}
 						this@CompanyPresenter.company = company
 						showCompany(company)
@@ -62,7 +59,7 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 	private fun showCompany(company: Company) {
 		companyActivityView?.showCompany(company)
 		companyActivityView?.hideProgress()
-		if (company.sicCodes != null && company.sicCodes.size > 0) {
+		if (company.sicCodes.isNotEmpty()) {
 			companyActivityView?.showNatureOfBusiness(company.sicCodes[0], dataManager.sicLookup(company.sicCodes[0]))
 		} else {
 			companyActivityView?.showEmptyNatureOfBusiness()
@@ -75,13 +72,14 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 
 	fun observablesFromViews(o: Observable<Any>) {
 		o.subscribe {
-
-			if (dataManager.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
-				dataManager.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
-			} else {
-				dataManager.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+			(companyName to companyNumber).biLet { companyName, companyNumber ->
+				if (dataManager.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
+					dataManager.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+				} else {
+					dataManager.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+				}
+				companyActivityView?.hideFab()
 			}
-			companyActivityView?.hideFab()
 		}
 	}
 }

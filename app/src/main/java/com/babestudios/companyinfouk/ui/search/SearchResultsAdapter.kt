@@ -13,6 +13,7 @@ import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
 
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.babestudios.base.ext.biLet
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
@@ -89,7 +90,9 @@ class SearchResultsAdapter internal constructor(c: Context, private val companyS
 
 		override fun onClick(v: View) {
 			filteredSearchResults?.let {
-				mItemListener.searchResultItemClicked(v, this.layoutPosition, it[layoutPosition].title, it[layoutPosition].companyNumber)
+				(it[layoutPosition].title to it[layoutPosition].companyNumber).biLet {title, companyNumber->
+					mItemListener.searchResultItemClicked(v, this.layoutPosition, title, companyNumber)
+				}
 			}
 		}
 	}

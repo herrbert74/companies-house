@@ -185,47 +185,48 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	override fun showCompany(company: Company) {
 		supportActionBar?.setTitle(R.string.company_details)
 		incorporatedTextView?.text = String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
-		addressLine1TextView?.text = company.registeredOfficeAddress.addressLine1
-		if (company.registeredOfficeAddress.addressLine2 != null) {
+		addressLine1TextView?.text = company.registeredOfficeAddress?.addressLine1
+		if (company.registeredOfficeAddress?.addressLine2 != null) {
 			addressLine2TextView?.visibility = View.VISIBLE
-			addressLine2TextView?.text = company.registeredOfficeAddress.addressLine2
+			addressLine2TextView?.text = company.registeredOfficeAddress?.addressLine2
 		}
-		addressPostalCodeTextView?.text = company.registeredOfficeAddress.postalCode
-		addressLocalityTextView?.text = company.registeredOfficeAddress.locality
+		addressPostalCodeTextView?.text = company.registeredOfficeAddress?.postalCode
+		addressLocalityTextView?.text = company.registeredOfficeAddress?.locality
 		var formattedDate: String
-		if (company.accounts != null && !company.accounts.lastAccounts.madeUpTo.isNullOrBlank()) {
-			val date = DateUtil.parseMySqlDate(company.accounts.lastAccounts.madeUpTo)
-			date?.let {
-				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(it))
-				accountTextView?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts.lastAccounts.type, formattedDate)
+		company.accounts?.lastAccounts?.madeUpTo?.let {
+			val madeUpToDate = DateUtil.parseMySqlDate(it)
+			madeUpToDate?.let { date ->
+				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(date))
+				accountTextView?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts?.lastAccounts?.type, formattedDate)
 			}
-		} else {
+
+		} ?: run {
 			accountTextView?.text = resources.getString(R.string.company_accounts_not_found)
 		}
-		if (company.annualReturn != null && !company.annualReturn.lastMadeUpTo.isNullOrBlank()) {
-			val date = DateUtil.parseMySqlDate(company.annualReturn.lastMadeUpTo)
-			date?.let {
-				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(it))
+		company.annualReturn?.lastMadeUpTo?.let {
+			val lastMadeUpToDate = DateUtil.parseMySqlDate(it)
+			lastMadeUpToDate?.let { date ->
+				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(date))
 				annualReturnsTextView?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
 			}
-		} else {
+		} ?: run {
 			annualReturnsTextView?.text = resources.getString(R.string.company_annual_returns_not_found)
 		}
-		addressString = (if (company.registeredOfficeAddress.addressLine2 != null) company.registeredOfficeAddress.addressLine2 else company.registeredOfficeAddress.addressLine1) + ", " + company.registeredOfficeAddress.locality + ", " + company.registeredOfficeAddress.postalCode
+		addressString = company.registeredOfficeAddress?.addressLine2?.let {
+			it
+		} ?: run {
+			(company.registeredOfficeAddress?.addressLine1
+					+ ", "
+					+ company.registeredOfficeAddress?.locality
+					+ ", "
+					+ company.registeredOfficeAddress?.postalCode)
+		}
 	}
 
 	@SuppressLint("SetTextI18n")
 	override fun showNatureOfBusiness(sicCode: String, natureOfBusiness: String) {
 		natureOfBusinessTextView?.text = "$sicCode - $natureOfBusiness"
 	}
-
-	/*override fun getCompanyNumber(): String {
-		return companyNumber
-	}
-
-	override fun getCompanyName(): String {
-		return companyName
-	}*/
 
 	override fun showEmptyNatureOfBusiness() {
 		natureOfBusinessTextView?.text = resources.getString(R.string.no_data)

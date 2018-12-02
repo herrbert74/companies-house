@@ -123,6 +123,6 @@ public class GsonTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertThat(response.items.get(0).title.equals("GAMES ALLIANCE LIMITED"), is(true));
+		assertThat(response.getItems().get(0).getTitle().equals("GAMES ALLIANCE LIMITED"), is(true));
 	}
 }

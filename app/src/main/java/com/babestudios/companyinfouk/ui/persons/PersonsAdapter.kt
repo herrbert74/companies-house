@@ -36,7 +36,7 @@ class PersonsAdapter internal constructor(c: Context, persons: Persons) : Recycl
 		viewHolder.lblName?.text = persons.items[position].name
 		viewHolder.lblNotifiedOn?.text = persons.items[position].notifiedOn
 		viewHolder.lblNatureOfControl?.text = persons.items[position].naturesOfControl[0]
-		viewHolder.lblLocality?.text = persons.items[position].address.locality
+		viewHolder.lblLocality?.text = persons.items[position].address?.locality
 	}
 
 	override fun getItemId(position: Int): Long {

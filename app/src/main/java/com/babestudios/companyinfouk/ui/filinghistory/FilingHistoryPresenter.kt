@@ -109,73 +109,73 @@ constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryAc
 				val spanPairs = ArrayList<Pair<*, *>>()
 				var spanFirst: Int
 				if (filingHistoryItem.descriptionValues != null) {
-					val officerName = filingHistoryItem.descriptionValues.officerName
+					val officerName = filingHistoryItem.descriptionValues?.officerName
 					if (officerName != null) {
 						s = s.replace("**", "").replace("{officer_name}", officerName)
 						spanFirst = s.indexOf(officerName)
 						spanPairs.add(Pair(spanFirst, spanFirst + officerName.length))
 					}
-					val appointmentDate = filingHistoryItem.descriptionValues.appointmentDate
+					val appointmentDate = filingHistoryItem.descriptionValues?.appointmentDate
 					if (appointmentDate != null) {
 						s = s.replace("{appointment_date}", appointmentDate)
 						spanFirst = s.indexOf(appointmentDate)
 						spanPairs.add(Pair(spanFirst, spanFirst + appointmentDate.length))
 					}
-					val madeUpDate = filingHistoryItem.descriptionValues.madeUpDate
+					val madeUpDate = filingHistoryItem.descriptionValues?.madeUpDate
 					if (madeUpDate != null) {
 						s = s.replace("{made_up_date}", madeUpDate)
 						spanFirst = s.indexOf(madeUpDate)
 						spanPairs.add(Pair(spanFirst, spanFirst + madeUpDate.length))
 					}
-					val terminationDate = filingHistoryItem.descriptionValues.terminationDate
+					val terminationDate = filingHistoryItem.descriptionValues?.terminationDate
 					if (terminationDate != null) {
 						s = s.replace("{termination_date}", terminationDate)
 						spanFirst = s.indexOf(terminationDate)
 						spanPairs.add(Pair(spanFirst, spanFirst + terminationDate.length))
 					}
-					val newDate = filingHistoryItem.descriptionValues.newDate
+					val newDate = filingHistoryItem.descriptionValues?.newDate
 					if (newDate != null) {
 						s = s.replace("{new_date}", newDate)
 						spanFirst = s.indexOf(newDate)
 						spanPairs.add(Pair(spanFirst, spanFirst + newDate.length))
 					}
-					val changeDate = filingHistoryItem.descriptionValues.changeDate
+					val changeDate = filingHistoryItem.descriptionValues?.changeDate
 					if (changeDate != null) {
 						s = s.replace("{change_date}", changeDate)
 						spanFirst = s.indexOf(changeDate)
 						spanPairs.add(Pair(spanFirst, spanFirst + changeDate.length))
 					}
-					val oldAddress = filingHistoryItem.descriptionValues.oldAddress
+					val oldAddress = filingHistoryItem.descriptionValues?.oldAddress
 					if (oldAddress != null) {
 						s = s.replace("{old_address}", oldAddress)
 						spanFirst = s.indexOf(oldAddress)
 						spanPairs.add(Pair(spanFirst, spanFirst + oldAddress.length))
 					}
-					val newAddress = filingHistoryItem.descriptionValues.newAddress
+					val newAddress = filingHistoryItem.descriptionValues?.newAddress
 					if (newAddress != null) {
 						s = s.replace("{new_address}", newAddress)
 						spanFirst = s.indexOf(newAddress)
 						spanPairs.add(Pair(spanFirst, spanFirst + newAddress.length))
 					}
-					val formAttached = filingHistoryItem.descriptionValues.formAttached
+					val formAttached = filingHistoryItem.descriptionValues?.formAttached
 					if (formAttached != null) {
 						s = s.replace("{form_attached}", formAttached)
 						spanFirst = s.indexOf(formAttached)
 						spanPairs.add(Pair(spanFirst, spanFirst + formAttached.length))
 					}
-					val chargeNumber = filingHistoryItem.descriptionValues.chargeNumber
+					val chargeNumber = filingHistoryItem.descriptionValues?.chargeNumber
 					if (chargeNumber != null) {
 						s = s.replace("{charge_number}", chargeNumber)
 						spanFirst = s.indexOf(chargeNumber)
 						spanPairs.add(Pair(spanFirst, spanFirst + chargeNumber.length))
 					}
-					val chargeCreationDate = filingHistoryItem.descriptionValues.chargeCreationDate
+					val chargeCreationDate = filingHistoryItem.descriptionValues?.chargeCreationDate
 					if (chargeCreationDate != null) {
 						s = s.replace("{charge_creation_date}", chargeCreationDate)
 						spanFirst = s.indexOf(chargeCreationDate)
 						spanPairs.add(Pair(spanFirst, spanFirst + chargeCreationDate.length))
 					}
-					val date = filingHistoryItem.descriptionValues.date
+					val date = filingHistoryItem.descriptionValues?.date
 					if (date != null) {
 						s = s.replace("{date}", date)
 						spanFirst = s.indexOf(date)

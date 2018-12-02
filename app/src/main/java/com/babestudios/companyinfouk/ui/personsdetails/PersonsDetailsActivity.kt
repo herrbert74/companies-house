@@ -1,19 +1,18 @@
 package com.babestudios.companyinfouk.ui.personsdetails
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.persons.Person
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-
-import butterknife.BindView
-import butterknife.ButterKnife
 
 class PersonsDetailsActivity : CompositeActivity() {
 
@@ -88,6 +87,7 @@ class PersonsDetailsActivity : CompositeActivity() {
 		addPlugin(baseActivityPlugin)
 	}
 
+	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_persons_details)
@@ -113,12 +113,12 @@ class PersonsDetailsActivity : CompositeActivity() {
 			textViewCountryOfResidence?.visibility = View.VISIBLE
 			textViewCountryOfResidence?.text = person.countryOfResidence
 		}
-		if (person.dateOfBirth == null) {
+		person.dateOfBirth?.let {
+			textViewDateOfBirth?.visibility = View.VISIBLE
+			textViewDateOfBirth?.text = "${it.month.toString()} / ${it.year.toString()}"
+		} ?: run {
 			textViewDateOfBirth?.visibility = View.GONE
 			textViewLabelDateOfBirth?.visibility = View.GONE
-		} else {
-			textViewDateOfBirth?.visibility = View.VISIBLE
-			textViewDateOfBirth?.text = person.dateOfBirth.month.toString() + "/" + person.dateOfBirth.year
 		}
 		val naturesOfControl = StringBuilder()
 		for (i in person.naturesOfControl.indices) {
@@ -129,34 +129,34 @@ class PersonsDetailsActivity : CompositeActivity() {
 		}
 		textViewNaturesOfControl?.text = naturesOfControl.toString()
 
-		textViewAddressLine1?.text = person.address.addressLine1
-		textViewLocality?.text = person.address.locality
-		textViewPostalCode?.text = person.address.postalCode
-		if (person.identification == null || person.identification.placeRegistered == null) {
+		textViewAddressLine1?.text = person.address?.addressLine1
+		textViewLocality?.text = person.address?.locality
+		textViewPostalCode?.text = person.address?.postalCode
+		person.identification?.placeRegistered?.let {
+			textViewPlaceRegistered?.text = it
+			textViewPlaceRegistered?.visibility = View.VISIBLE
+		} ?: run {
 			textViewPlaceRegistered?.visibility = View.GONE
 			textViewLabelPlaceRegistered?.visibility = View.GONE
-		} else {
-			textViewPlaceRegistered?.visibility = View.VISIBLE
-			textViewPlaceRegistered?.text = person.identification.placeRegistered
 		}
-		if (person.identification == null || person.identification.registrationNumber == null) {
-			textViewRegistrationNumber?.visibility = View.GONE
-			textViewLabelRegistrationNumber?.visibility = View.GONE
-		} else {
+		person.identification?.registrationNumber?.let {
+			textViewRegistrationNumber?.text = it
 			textViewRegistrationNumber?.visibility = View.VISIBLE
-			textViewRegistrationNumber?.text = person.identification.registrationNumber
+		} ?: run {
+			textViewLabelRegistrationNumber?.visibility = View.GONE
+			textViewRegistrationNumber?.visibility = View.GONE
 		}
-		if (person.address.region == null) {
+		if (person.address?.region == null) {
 			textViewRegion?.visibility = View.GONE
 		} else {
 			textViewRegion?.visibility = View.VISIBLE
-			textViewRegion?.text = person.address.region
+			textViewRegion?.text = person.address?.region
 		}
-		if (person.address.country == null) {
-			textViewCountry?.visibility = View.GONE
-		} else {
+		person.address?.country?.let {
+			textViewCountry?.text = it
 			textViewCountry?.visibility = View.VISIBLE
-			textViewCountry?.text = person.address.country
+		} ?:run {
+			textViewCountry?.visibility = View.GONE
 		}
 
 		if (toolbar != null) {

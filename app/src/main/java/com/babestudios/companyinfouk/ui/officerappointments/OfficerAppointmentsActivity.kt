@@ -26,6 +26,7 @@ import javax.inject.Inject
 
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.babestudios.base.ext.biLet
 
 class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActivityView, OfficerAppointmentsAdapter.AppointmentsRecyclerViewClickListener {
 
@@ -69,30 +70,30 @@ class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActi
 
 		if (toolbar != null) {
 			setSupportActionBar(toolbar)
-			supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-			supportActionBar!!.setTitle(R.string.officer_appointments_title)
-			toolbar!!.setNavigationOnClickListener { onBackPressed() }
+			supportActionBar?.setDisplayHomeAsUpEnabled(true)
+			supportActionBar?.setTitle(R.string.officer_appointments_title)
+			toolbar?.setNavigationOnClickListener { onBackPressed() }
 		}
 
 	}
 
 	private fun createChargesDetailsRecyclerView(appointments: Appointments) {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		officerAppointmentsRecyclerView!!.layoutManager = linearLayoutManager
+		officerAppointmentsRecyclerView?.layoutManager = linearLayoutManager
 		val titlePositions = ArrayList<Int>()
 		titlePositions.add(0)
-		officerAppointmentsRecyclerView!!.addItemDecoration(
+		officerAppointmentsRecyclerView?.addItemDecoration(
 				DividerItemDecorationWithSubHeading(this, titlePositions))
 		val adapter = OfficerAppointmentsAdapter(this, appointments)
-		officerAppointmentsRecyclerView!!.adapter = adapter
+		officerAppointmentsRecyclerView?.adapter = adapter
 	}
 
 	override fun showProgress() {
-		progressbar!!.visibility = View.VISIBLE
+		progressbar?.visibility = View.VISIBLE
 	}
 
 	override fun hideProgress() {
-		progressbar!!.visibility = View.GONE
+		progressbar?.visibility = View.GONE
 	}
 
 	override fun showAppointments(appointments: Appointments) {
@@ -104,7 +105,9 @@ class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActi
 	}
 
 	override fun appointmentItemClicked(v: View, position: Int, item: Appointment) {
-		startCompanyActivity(item.appointedTo.companyNumber, item.appointedTo.companyName)
+		(item.appointedTo?.companyNumber to item.appointedTo?.companyName).biLet { companyNumber, companyName ->
+			startCompanyActivity(companyNumber, companyName)
+		}
 	}
 
 	override fun startCompanyActivity(companyNumber: String, companyName: String) {

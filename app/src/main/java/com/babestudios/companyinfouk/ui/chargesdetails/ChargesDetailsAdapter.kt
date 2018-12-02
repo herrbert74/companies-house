@@ -35,10 +35,10 @@ internal class ChargesDetailsAdapter(var context: Context, private val chargesIt
 		if (viewHolder is HeaderViewHolder) {
 			viewHolder.textViewDeliveredOn!!.text = chargesItem.deliveredOn
 			viewHolder.textViewStatus!!.text = chargesItem.status
-			viewHolder.textViewContainsFloatingCharge!!.text = if (chargesItem.particulars.containsFloatingCharge) "YES" else "NO"
-			viewHolder.textViewFloatingChargeCoversAll!!.text = if (chargesItem.particulars.floatingChargeCoversAll) "YES" else "NO"
-			viewHolder.textViewContainsNegativePledge!!.text = if (chargesItem.particulars.containsNegativePledge) "YES" else "NO"
-			viewHolder.textViewContainsFixedCharge!!.text = if (chargesItem.particulars.containsFixedCharge) "YES" else "NO"
+			viewHolder.textViewContainsFloatingCharge!!.text = if (chargesItem.particulars?.containsFloatingCharge == true) "YES" else "NO"
+			viewHolder.textViewFloatingChargeCoversAll!!.text = if (chargesItem.particulars?.floatingChargeCoversAll== true) "YES" else "NO"
+			viewHolder.textViewContainsNegativePledge!!.text = if (chargesItem.particulars?.containsNegativePledge== true) "YES" else "NO"
+			viewHolder.textViewContainsFixedCharge!!.text = if (chargesItem.particulars?.containsFixedCharge== true) "YES" else "NO"
 			if (chargesItem.satisfiedOn == null) {
 				viewHolder.textViewLabelSatisfiedOn!!.visibility = View.GONE
 				viewHolder.textViewSatisfiedOn!!.visibility = View.GONE
@@ -127,7 +127,7 @@ internal class ChargesDetailsAdapter(var context: Context, private val chargesIt
 
 	companion object {
 
-		private val TYPE_HEADER = 0
-		private val TYPE_TRANSACTION = 1
+		private const val TYPE_HEADER = 0
+		private const val TYPE_TRANSACTION = 1
 	}
 }

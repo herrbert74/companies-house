@@ -1,0 +1,13 @@
+package com.babestudios.companyinfouk.data.model.officers
+
+
+import com.google.gson.annotations.SerializedName
+
+class Identification {
+	@SerializedName("place_registered")
+	var placeRegistered: String? = null
+	@SerializedName("identification_type")
+	var identificationType: String? = null
+	@SerializedName("registration_number")
+	var registrationNumber: String? = null
+}

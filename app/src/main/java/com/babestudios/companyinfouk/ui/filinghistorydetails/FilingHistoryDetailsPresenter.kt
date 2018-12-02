@@ -1,42 +1,35 @@
 package com.babestudios.companyinfouk.ui.filinghistorydetails
 
-import android.os.Environment
-import android.util.Log
-
 import com.babestudios.companyinfouk.data.DataManager
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
-import javax.inject.Inject
-
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
+import com.google.gson.Gson
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import net.grandcentrix.thirtyinch.TiPresenter
 import okhttp3.ResponseBody
+import javax.inject.Inject
 
 class FilingHistoryDetailsPresenter @Inject
 constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryDetailsActivityView>(), Observer<ResponseBody> {
 
-	internal var responseBody: ResponseBody? = null
-
-	val isExternalStorageWritable: Boolean
-		get() {
-			val state = Environment.getExternalStorageState()
-			return if (Environment.MEDIA_MOUNTED == state) {
-				true
-			} else false
-		}
+	private var responseBody: ResponseBody? = null
 
 	override fun onAttachView(view: FilingHistoryDetailsActivityView) {
 		super.onAttachView(view)
-		if (responseBody != null) {
-			view.checkPermissionAndWritePdf(responseBody!!)
-		} else {
+		responseBody?.let {
+			view.checkPermissionAndWritePdf(it)
+		} ?: run {
 			view.showProgress()
 		}
 	}
 
-	fun getDocument() {
-		dataManager.getDocument(view!!.filingHistoryItemString).subscribe(this)
+	fun getDocument(filingHistoryItemString: String) {
+		val gson = Gson()
+		val filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem::class.java)
+		filingHistoryItem.links?.documentMetadata?.let {
+			val documentId = it.replace("https://document-api.companieshouse.gov.uk/document/", "")
+			dataManager.getDocument(documentId).subscribe(this)
+		}
 	}
 
 	override fun onComplete() {
@@ -48,21 +41,18 @@ constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryDe
 	}
 
 	override fun onError(e: Throwable) {
-		Log.d("test", "onError: " + e.fillInStackTrace())
-		if (view != null) {
-			view!!.hideProgress()
-			view!!.showError()
-		}
+		view?.hideProgress()
+		view?.showError()
 	}
 
 	override fun onNext(responseBody: ResponseBody) {
 		this.responseBody = responseBody
-		view!!.checkPermissionAndWritePdf(responseBody)
+		view?.checkPermissionAndWritePdf(responseBody)
 	}
 
 	internal fun writePdf(responseBody: ResponseBody) {
 		this.responseBody = null
-		view!!.showDocument(dataManager.writeDocumentPdf(responseBody))
+		view?.showDocument(dataManager.writeDocumentPdf(responseBody))
 	}
 
 

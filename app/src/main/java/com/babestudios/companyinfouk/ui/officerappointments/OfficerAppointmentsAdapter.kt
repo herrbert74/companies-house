@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
-
-import butterknife.BindView
-import butterknife.ButterKnife
 
 internal class OfficerAppointmentsAdapter(c: Context, private val appointments: Appointments) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -41,13 +39,18 @@ internal class OfficerAppointmentsAdapter(c: Context, private val appointments: 
 		if (viewHolder is HeaderViewHolder) {
 			viewHolder.textViewOfficerName?.text = appointments.name
 		} else if (viewHolder is TransactionsViewHolder) {
-			viewHolder.textViewAppointedOn?.text = appointments.items[position - 1].appointedOn
-			viewHolder.textViewCompanyName?.text = appointments.items[position - 1].appointedTo.companyName
-			viewHolder.textViewCompanyStatus?.text = appointments.items[position - 1].appointedTo.companyStatus
-			viewHolder.textViewRole?.text = appointments.items[position - 1].officerRole
-			if (appointments.items[position - 1].resignedOn != null) {
-				viewHolder.textViewResignedOn?.text = appointments.items[position - 1].resignedOn
-			} else {
+			appointments.items?.let {
+				viewHolder.textViewAppointedOn?.text = it[position - 1].appointedOn
+				viewHolder.textViewCompanyName?.text = it[position - 1].appointedTo?.companyName
+				viewHolder.textViewCompanyStatus?.text = it[position - 1].appointedTo?.companyStatus
+				viewHolder.textViewRole?.text = it[position - 1].officerRole
+				if (it[position - 1].resignedOn != null) {
+					viewHolder.textViewResignedOn?.text = it[position - 1].resignedOn
+				} else {
+					viewHolder.textViewResignedOn?.visibility = View.GONE
+					viewHolder.textViewLabelResignedOn?.visibility = View.GONE
+				}
+			} ?: run {
 				viewHolder.textViewResignedOn?.visibility = View.GONE
 				viewHolder.textViewLabelResignedOn?.visibility = View.GONE
 			}
@@ -72,7 +75,7 @@ internal class OfficerAppointmentsAdapter(c: Context, private val appointments: 
 	}
 
 	override fun getItemCount(): Int {
-		return appointments.items.size + 1
+		return appointments.items?.let { it.size + 1 } ?: 1
 	}
 
 	inner class HeaderViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -113,7 +116,9 @@ internal class OfficerAppointmentsAdapter(c: Context, private val appointments: 
 		}
 
 		override fun onClick(v: View) {
-			mItemListener.appointmentItemClicked(v, this.layoutPosition, appointments.items[layoutPosition - 1])
+			appointments.items?.let {
+				mItemListener.appointmentItemClicked(v, this.layoutPosition, it[layoutPosition - 1])
+			}
 		}
 	}
 

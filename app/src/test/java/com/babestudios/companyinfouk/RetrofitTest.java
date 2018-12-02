@@ -42,7 +42,7 @@ public class RetrofitTest {
 		CompaniesHouseService companiesHouseService =  r.create(CompaniesHouseService.class);
 
 		companiesHouseService.searchCompanies(authorization, "GAMES", "100", "0")
-				.map(e -> e.items.get(0).title)
+				.map(e -> e.getItems().get(0).getTitle())
 				.subscribe(testSubscriber);
 		List<Object> result = testSubscriber.getEvents().get(0);
 		testSubscriber.assertValue("CELESTIAL GAMES & BOOKS LTD");//GAMES AGENCY LIMITED");

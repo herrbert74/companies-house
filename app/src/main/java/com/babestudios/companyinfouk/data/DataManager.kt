@@ -10,7 +10,6 @@ import com.babestudios.companyinfouk.data.local.ApiLookupHelper
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.company.Company
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.model.officers.Officers
@@ -21,7 +20,6 @@ import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.utils.Base64Wrapper
-import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -108,10 +106,7 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getDocument(filingHistoryItemString: String): Observable<ResponseBody> {
-		val gson = Gson()
-		val filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem::class.java)
-		val documentId = filingHistoryItem.links.documentMetadata.replace("https://document-api.companieshouse.gov.uk/document/", "")
+	fun getDocument(documentId: String): Observable<ResponseBody> {
 		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentId)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
@@ -163,7 +158,7 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
 		val items = preferencesHelper.favourites
-		return if (items != null) {
+		return if (items.isNotEmpty()) {
 			val favourites = ArrayList(Arrays.asList(*items))
 			favourites.contains(searchHistoryItem)
 		} else {

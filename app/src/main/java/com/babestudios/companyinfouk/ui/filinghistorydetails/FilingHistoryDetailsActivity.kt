@@ -35,6 +35,7 @@ import butterknife.ButterKnife
 import okhttp3.ResponseBody
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.annotation.SuppressLint
 
 class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsActivityView {
 
@@ -99,6 +100,7 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 		addPlugin(baseActivityPlugin)
 	}
 
+	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_filing_history_details)
@@ -118,10 +120,12 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 		}
 		textViewDescription?.text = filingHistoryItem.description
 		if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
-			textViewDescription?.text = filingHistoryItem.descriptionValues.description
+			textViewDescription?.text = filingHistoryItem.descriptionValues?.description
 		} else {
-			val spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryDetailsPresenter.dataManager.filingHistoryLookup(filingHistoryItem.description), filingHistoryItem)
-			textViewDescription?.text = spannableDescription
+			filingHistoryItem.description?.let {
+				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryDetailsPresenter.dataManager.filingHistoryLookup(it), filingHistoryItem)
+				textViewDescription?.text = spannableDescription
+			}
 		}
 
 		if (filingHistoryItem.pages != null) {
@@ -130,8 +134,10 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 			textViewLabelPages?.visibility = View.GONE
 		}
 
-		if (filingHistoryItem.category == "capital" && filingHistoryItem.descriptionValues.capital.size != 0) {
-			textViewDescriptionValues?.text = "${filingHistoryItem.descriptionValues.capital[0].currency} ${filingHistoryItem.descriptionValues.capital[0].figure}"
+		if (filingHistoryItem.category == "capital" && filingHistoryItem.descriptionValues?.capital?.isNotEmpty() == true) {
+			filingHistoryItem.descriptionValues?.let {
+				textViewDescriptionValues?.text = "${it.capital[0].currency} ${it.capital[0].figure}"
+			}
 		} else {
 			textViewDescriptionValues?.visibility = View.GONE
 		}
@@ -154,7 +160,7 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
-		if (filingHistoryItem.links != null && filingHistoryItem.links.documentMetadata != null) {
+		filingHistoryItem.links?.documentMetadata?.let {
 			menuInflater.inflate(R.menu.filing_history_details_menu, menu)
 		}
 		return true
@@ -163,7 +169,7 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		return when (item.itemId) {
 			R.id.action_show_pdf -> {
-				filingHistoryDetailsActivityPlugin.presenter.getDocument()
+				filingHistoryDetailsActivityPlugin.presenter.getDocument(filingHistoryItemString)
 				true
 			}
 			else -> super.onOptionsItemSelected(item)

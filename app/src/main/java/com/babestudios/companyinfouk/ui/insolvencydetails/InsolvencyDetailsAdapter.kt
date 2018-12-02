@@ -42,33 +42,33 @@ class InsolvencyDetailsAdapter(private val insolvencyDates: List<Date>, private 
 	override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
 		if (viewHolder is TitleViewHolder) {
 			if (position == 0) {
-				viewHolder.lblTitle!!.text = CompaniesHouseApplication.getContext().getText(R.string.insolvency_dates)
+				viewHolder.lblTitle?.text = CompaniesHouseApplication.getContext().getText(R.string.insolvency_dates)
 			} else {
-				viewHolder.lblTitle!!.text = CompaniesHouseApplication.getContext().getText(R.string.insolvency_practitioners)
+				viewHolder.lblTitle?.text = CompaniesHouseApplication.getContext().getText(R.string.insolvency_practitioners)
 			}
 		} else if (viewHolder is PractitionersViewHolder) {
-			viewHolder.textViewAppointedOn!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].appointedOn
-			viewHolder.textViewCeasedToActOn!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].ceasedToActOn
-			viewHolder.textViewName!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].name
-			viewHolder.textViewRole!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].role
-			viewHolder.textViewAddressLine1!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address.addressLine1
-			viewHolder.textViewLocality!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address.locality
-			viewHolder.textViewPostalCode!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address.postalCode
-			if (insolvencyPractitioners[position - insolvencyDates.size - 2].address.region == null) {
-				viewHolder.textViewRegion!!.visibility = View.GONE
+			viewHolder.textViewAppointedOn?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].appointedOn
+			viewHolder.textViewCeasedToActOn?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].ceasedToActOn
+			viewHolder.textViewName?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].name
+			viewHolder.textViewRole?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].role
+			viewHolder.textViewAddressLine1?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address?.addressLine1
+			viewHolder.textViewLocality?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address?.locality
+			viewHolder.textViewPostalCode?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address?.postalCode
+			if (insolvencyPractitioners[position - insolvencyDates.size - 2].address?.region == null) {
+				viewHolder.textViewRegion?.visibility = View.GONE
 			} else {
-				viewHolder.textViewRegion!!.visibility = View.VISIBLE
-				viewHolder.textViewRegion!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address.region
+				viewHolder.textViewRegion?.visibility = View.VISIBLE
+				viewHolder.textViewRegion?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address?.region
 			}
-			if (insolvencyPractitioners[position - insolvencyDates.size - 2].address.country == null) {
-				viewHolder.textViewCountry!!.visibility = View.GONE
+			if (insolvencyPractitioners[position - insolvencyDates.size - 2].address?.country == null) {
+				viewHolder.textViewCountry?.visibility = View.GONE
 			} else {
-				viewHolder.textViewCountry!!.visibility = View.VISIBLE
-				viewHolder.textViewCountry!!.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address.country
+				viewHolder.textViewCountry?.visibility = View.VISIBLE
+				viewHolder.textViewCountry?.text = insolvencyPractitioners[position - insolvencyDates.size - 2].address?.country
 			}
 		} else if (viewHolder is DatesViewHolder) {
-			viewHolder.textViewDate!!.text = insolvencyDates[position - 1].date
-			viewHolder.textViewType!!.text = insolvencyDates[position - 1].type
+			viewHolder.textViewDate?.text = insolvencyDates[position - 1].date
+			viewHolder.textViewType?.text = insolvencyDates[position - 1].type
 		}
 
 	}

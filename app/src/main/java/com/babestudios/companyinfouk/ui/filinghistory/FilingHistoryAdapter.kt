@@ -57,10 +57,12 @@ class FilingHistoryAdapter internal constructor(c: Context, filingHistoryList: F
 	override fun onBindViewHolder(viewHolder: FilingHistoryViewHolder, position: Int) {
 		val filingHistoryItem = filteredFilingHistoryItems[position]
 		if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
-			viewHolder.lblDescription?.text = filingHistoryItem.descriptionValues.description
+			viewHolder.lblDescription?.text = filingHistoryItem.descriptionValues?.description
 		} else {
-			val spannableDescription = FilingHistoryPresenter.createSpannableDescription(dataManager.filingHistoryLookup(filingHistoryItem.description), filingHistoryItem)
-			viewHolder.lblDescription?.text = spannableDescription
+			filingHistoryItem.description?.let {
+				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(dataManager.filingHistoryLookup(it), filingHistoryItem)
+				viewHolder.lblDescription?.text = spannableDescription
+			}
 		}
 		viewHolder.lblDate?.text = filingHistoryItem.date
 		viewHolder.lblCategory?.text = filingHistoryItem.category

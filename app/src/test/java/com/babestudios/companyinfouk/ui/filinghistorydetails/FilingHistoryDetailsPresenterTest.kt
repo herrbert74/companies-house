@@ -33,7 +33,7 @@ class FilingHistoryDetailsPresenterTest {
 
 	@Test
 	fun whenGetDocument_thenDataManagerGetDocumentIsCalled() {
-		filingHistoryDetailsPresenter!!.getDocument()
+		filingHistoryDetailsPresenter!!.getDocument(filingHistoryItemString)
 		verify(filingHistoryDetailsPresenter!!.dataManager).getDocument("0")
 	}
 
