@@ -6,21 +6,15 @@ import android.support.v4.util.Pair
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.util.Log
-
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.data.DataManager
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
-import java.util.ArrayList
-
-import javax.inject.Inject
-
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import net.grandcentrix.thirtyinch.TiPresenter
+import java.util.*
+import javax.inject.Inject
 
 
 class FilingHistoryPresenter @Inject
@@ -80,14 +74,12 @@ constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryAc
 	}
 
 	override fun onError(e: Throwable) {
-		Log.d("test", "onError: " + e.fillInStackTrace())
 		view?.showError()
 		view?.hideProgress()
 	}
 
 	override fun onNext(filingHistoryList: FilingHistoryList) {
 		this.filingHistoryList = filingHistoryList
-		view?.hideProgress()
 		view?.showFilingHistory(filingHistoryList, categoryFilter)
 	}
 

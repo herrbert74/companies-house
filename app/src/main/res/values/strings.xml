@@ -1,4 +1,7 @@
 <resources>
+	<string name="empty_list">This list is empty</string>
+	<string name="error_happened_try_again">An error happened. Please try again.</string>
+
 	<string name="app_name">Company Info UK</string>
 	<string name="search">Search</string>
 	<string name="favourites">Favourites</string>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:id="@+id/multiStateView"
+			  android:gravity="center"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent">
+
+	<ProgressBar
+		android:id="@+id/network_user_connect_connecting"
+		style="@style/Widget.AppCompat.ProgressBar"
+		android:layout_gravity="center"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		android:gravity="center"
+		android:indeterminate="true"
+		android:indeterminateBehavior="cycle"/>
+
+</LinearLayout>

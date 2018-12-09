@@ -15,6 +15,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
@@ -26,6 +27,7 @@ import com.babestudios.companyinfouk.utils.DividerItemDecoration
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
+import kotlinx.android.synthetic.main.activity_filing_history.*
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
 import javax.inject.Inject
 
@@ -78,21 +80,21 @@ class FilingHistoryActivity : CompositeActivity(), FilingHistoryActivityView, Fi
 
 		ButterKnife.bind(this)
 		setSupportActionBar(toolbar)
-		supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		toolbar?.setNavigationOnClickListener { onBackPressed() }
 		companyNumber = intent.getStringExtra("companyNumber")
 		createFilingHistoryRecyclerView()
 
-		collapsingToolbarLayout!!.title = getString(R.string.filing_history)
+		collapsingToolbarLayout?.title = getString(R.string.filing_history)
 	}
 
 	private fun createFilingHistoryRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		filingHistoryRecyclerView!!.layoutManager = linearLayoutManager
-		filingHistoryRecyclerView!!.addItemDecoration(
+		filingHistoryRecyclerView?.layoutManager = linearLayoutManager
+		filingHistoryRecyclerView?.addItemDecoration(
 				DividerItemDecoration(this))
 
-		filingHistoryRecyclerView!!.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		filingHistoryRecyclerView?.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
 				filingHistoryActivityPlugin.presenter.loadMoreFilingHistory(page)
 			}
@@ -100,24 +102,27 @@ class FilingHistoryActivity : CompositeActivity(), FilingHistoryActivityView, Fi
 	}
 
 	override fun showProgress() {
-		progressbar!!.visibility = View.VISIBLE
+		msvFilingHistory.viewState = VIEW_STATE_LOADING
+		progressbar?.visibility = View.VISIBLE
 	}
 
 	override fun hideProgress() {
-		progressbar!!.visibility = View.GONE
+		progressbar?.visibility = View.GONE
 	}
 
 	override fun showError() {
+		msvFilingHistory.viewState = VIEW_STATE_ERROR
 		Toast.makeText(this, R.string.could_not_retrieve_filing_history_info, Toast.LENGTH_LONG).show()
 	}
 
 
 	override fun showFilingHistory(filingHistoryList: FilingHistoryList, categoryFilter: FilingHistoryPresenter.CategoryFilter) {
-		if (filingHistoryRecyclerView!!.adapter == null) {
+		msvFilingHistory.viewState = VIEW_STATE_CONTENT
+		if (filingHistoryRecyclerView?.adapter == null) {
 			filingHistoryAdapter = FilingHistoryAdapter(this@FilingHistoryActivity, filingHistoryList, categoryFilter)
-			filingHistoryRecyclerView!!.adapter = filingHistoryAdapter
+			filingHistoryRecyclerView?.adapter = filingHistoryAdapter
 		} else {
-			filingHistoryAdapter!!.updateItems(filingHistoryList)
+			filingHistoryAdapter?.updateItems(filingHistoryList)
 		}
 	}
 
@@ -138,8 +143,8 @@ class FilingHistoryActivity : CompositeActivity(), FilingHistoryActivityView, Fi
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
 		val adapter = SearchFilterAdapter(this@FilingHistoryActivity, resources.getStringArray(R.array.filing_history_categories), true)
 		spinner.adapter = adapter
-		if (initialCategoryFilter != null) {
-			spinner.setSelection(initialCategoryFilter!!.ordinal)
+		initialCategoryFilter?.let {
+			spinner.setSelection(it.ordinal)
 			initialCategoryFilter = null
 		}
 		spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -160,7 +165,7 @@ class FilingHistoryActivity : CompositeActivity(), FilingHistoryActivityView, Fi
 
 	override fun setFilterOnAdapter(categoryFilter: FilingHistoryPresenter.CategoryFilter) {
 		if (filingHistoryAdapter != null) {
-			filingHistoryAdapter!!.setFilterOnAdapter(categoryFilter)
+			filingHistoryAdapter?.setFilterOnAdapter(categoryFilter)
 		}
 	}
 
