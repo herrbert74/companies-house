@@ -4,8 +4,9 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.ui.charges.ChargesActivity
 import com.babestudios.companyinfouk.ui.company.CompanyActivity
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
-import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryAdapter
+import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
+import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
 import com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity
 import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity
@@ -15,13 +16,11 @@ import com.babestudios.companyinfouk.ui.persons.PersonsActivity
 import com.babestudios.companyinfouk.ui.search.RecentSearchesResultsAdapter
 import com.babestudios.companyinfouk.ui.search.SearchActivity
 import com.babestudios.companyinfouk.ui.search.SearchPresenter
-
+import dagger.Component
 import javax.inject.Singleton
 
-import dagger.Component
-
 @Singleton
-@Component(modules = arrayOf(ApplicationModule::class))
+@Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
 	fun inject(searchPresenter: SearchPresenter)
 
@@ -31,7 +30,7 @@ interface ApplicationComponent {
 
 	fun inject(searchActivity: SearchActivity)
 
-	fun inject(filingHistoryActivity: FilingHistoryActivity)
+	//fun inject(filingHistoryActivity: FilingHistoryActivity)
 
 	fun inject(chargesActivity: ChargesActivity)
 
@@ -52,6 +51,10 @@ interface ApplicationComponent {
 	fun inject(favouritesActivity: FavouritesActivity)
 
 	fun inject(filingHistoryAdapter: FilingHistoryAdapter)
+
+	fun inject(filingHistoryViewHolder: FilingHistoryViewHolder)
+
+	fun inject(filingHistoryPresenter: FilingHistoryPresenter)
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

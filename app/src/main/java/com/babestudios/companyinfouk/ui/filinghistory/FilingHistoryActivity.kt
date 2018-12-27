@@ -1,176 +1,183 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.CollapsingToolbarLayout
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.Menu
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ProgressBar
 import android.widget.Spinner
-import android.widget.Toast
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.CompaniesHouseApplication
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.view.MultiStateView
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
+import com.babestudios.companyinfouk.ext.logScreenView
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
 import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.companyinfouk.utils.DividerItemDecoration
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
 import com.google.gson.Gson
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
+import com.jakewharton.rxbinding2.widget.RxAdapterView
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import io.reactivex.CompletableSource
 import kotlinx.android.synthetic.main.activity_filing_history.*
-import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-import javax.inject.Inject
+import net.medshr.android.base.mvp.lists.BaseViewHolder
 
-class FilingHistoryActivity : CompositeActivity(), FilingHistoryActivityView, FilingHistoryAdapter.FilingHistoryRecyclerViewClickListener {
+class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
-	@JvmField
-	@BindView(R.id.toolbar)
-	internal var toolbar: Toolbar? = null
+	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
-	@JvmField
-	@BindView(R.id.filing_history_recycler_view)
-	internal var filingHistoryRecyclerView: RecyclerView? = null
-
-	@JvmField
-	@BindView(R.id.progressbar)
-	internal var progressbar: ProgressBar? = null
-
-	@JvmField
-	@BindView(R.id.collapsing_toolbar)
-	internal var collapsingToolbarLayout: CollapsingToolbarLayout? = null
+	private val viewModel by lazy { ViewModelProviders.of(this).get(FilingHistoryViewModel::class.java) }
 
 	private var filingHistoryAdapter: FilingHistoryAdapter? = null
 
-	@Inject
-	lateinit var filingHistoryPresenter: FilingHistoryPresenter
+	lateinit var filingHistoryPresenter: FilingHistoryPresenterContract
 
-	override lateinit var companyNumber: String
-	private var initialCategoryFilter: FilingHistoryPresenter.CategoryFilter? = null
+	//override lateinit var companyNumber: String
+	//private var initialCategoryFilter: FilingHistoryPresenter.CategoryFilter? = null
 
-	internal var filingHistoryActivityPlugin = TiActivityPlugin<FilingHistoryPresenter, FilingHistoryActivityView> {
+	/*internal var filingHistoryActivityPlugin = TiActivityPlugin<FilingHistoryPresenter, FilingHistoryActivityView> {
 		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		filingHistoryPresenter
 	}
 
 	internal var baseActivityPlugin = BaseActivityPlugin()
+*/
+	//override val filingCategory: String? = null
 
-	override val filingCategory: String? = null
+	//region lifeCycle
 
-	init {
-
-		addPlugin(filingHistoryActivityPlugin)
-		addPlugin(baseActivityPlugin)
-	}
+	private lateinit var spinner: Spinner
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
+		//CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_filing_history)
-		baseActivityPlugin.logScreenView(this.localClassName)
+		logScreenView(this.localClassName)
 
-		ButterKnife.bind(this)
-		setSupportActionBar(toolbar)
+		setSupportActionBar(tbFilingHistory)
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		toolbar?.setNavigationOnClickListener { onBackPressed() }
-		companyNumber = intent.getStringExtra("companyNumber")
+		tbFilingHistory?.setNavigationOnClickListener { onBackPressed() }
+		val companyNumber = intent.getStringExtra("companyNumber")
 		createFilingHistoryRecyclerView()
 
-		collapsingToolbarLayout?.title = getString(R.string.filing_history)
+		ctbFilingHistory?.title = getString(R.string.filing_history)
+		initPresenter(companyNumber)
+		observeState()
+	}
+
+	private fun initPresenter(companyNumber: String) {
+		val maybePresenter = lastCustomNonConfigurationInstance as FilingHistoryPresenterContract?
+
+		if (maybePresenter != null) {
+			filingHistoryPresenter = maybePresenter
+		}
+
+		if (!::filingHistoryPresenter.isInitialized) {
+			viewModel.state.value.companyNumber = companyNumber
+			filingHistoryPresenter = FilingHistoryPresenter(viewModel, requestScope())
+		}
 	}
 
 	private fun createFilingHistoryRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		filingHistoryRecyclerView?.layoutManager = linearLayoutManager
-		filingHistoryRecyclerView?.addItemDecoration(
+		rvFilingHistory?.layoutManager = linearLayoutManager
+		rvFilingHistory?.addItemDecoration(
 				DividerItemDecoration(this))
 
-		filingHistoryRecyclerView?.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		rvFilingHistory?.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
-				filingHistoryActivityPlugin.presenter.loadMoreFilingHistory(page)
+				filingHistoryPresenter.loadMoreFilingHistory(page)
 			}
 		})
-	}
-
-	override fun showProgress() {
-		msvFilingHistory.viewState = VIEW_STATE_LOADING
-		progressbar?.visibility = View.VISIBLE
-	}
-
-	override fun hideProgress() {
-		progressbar?.visibility = View.GONE
-	}
-
-	override fun showError() {
-		msvFilingHistory.viewState = VIEW_STATE_ERROR
-		Toast.makeText(this, R.string.could_not_retrieve_filing_history_info, Toast.LENGTH_LONG).show()
-	}
-
-
-	override fun showFilingHistory(filingHistoryList: FilingHistoryList, categoryFilter: FilingHistoryPresenter.CategoryFilter) {
-		msvFilingHistory.viewState = VIEW_STATE_CONTENT
-		if (filingHistoryRecyclerView?.adapter == null) {
-			filingHistoryAdapter = FilingHistoryAdapter(this@FilingHistoryActivity, filingHistoryList, categoryFilter)
-			filingHistoryRecyclerView?.adapter = filingHistoryAdapter
-		} else {
-			filingHistoryAdapter?.updateItems(filingHistoryList)
-		}
-	}
-
-	override fun filingItemClicked(v: View, position: Int, item: FilingHistoryItem) {
-		val gson = Gson()
-		val jsonItem = gson.toJson(item, FilingHistoryItem::class.java)
-		val intent = Intent(this, FilingHistoryDetailsActivity::class.java)
-		intent.putExtra("filingHistoryItem", jsonItem)
-		baseActivityPlugin.startActivityWithRightSlide(intent)
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		menuInflater.inflate(R.menu.filing_history_menu, menu)
 
 		val item = menu.findItem(R.id.spinner)
-		val spinner = MenuItemCompat.getActionView(item) as Spinner
+		spinner = item.actionView as Spinner
 		spinner.setBackgroundResource(0)
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
 		val adapter = SearchFilterAdapter(this@FilingHistoryActivity, resources.getStringArray(R.array.filing_history_categories), true)
 		spinner.adapter = adapter
-		initialCategoryFilter?.let {
-			spinner.setSelection(it.ordinal)
-			initialCategoryFilter = null
+		if (viewModel.state.value.filingCategoryFilter != Category.CATEGORY_SHOW_ALL) {
+			spinner.setSelection(viewModel.state.value.filingCategoryFilter.ordinal)
 		}
-		spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-			override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-				filingHistoryActivityPlugin.presenter.setCategoryFilter(position)
-			}
-
-			override fun onNothingSelected(parent: AdapterView<*>) {
-
-			}
-		}
+		observeActions()
 		return true
 	}
 
-	override fun setInitialCategoryFilter(categoryFilter: FilingHistoryPresenter.CategoryFilter) {
-		this.initialCategoryFilter = categoryFilter
+	//endregion
+
+	//region Actions
+
+	private fun observeActions() {
+		RxAdapterView.itemSelections(spinner)
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { er -> filingHistoryPresenter.setCategoryFilter(er) }
+		filingHistoryAdapter?.getViewClickedObservable()
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
+					filingItemClicked(viewModel.state.value.filingHistoryList[(view as FilingHistoryViewHolder).adapterPosition].filingHistoryItem)
+				}
 	}
 
-	override fun setFilterOnAdapter(categoryFilter: FilingHistoryPresenter.CategoryFilter) {
-		if (filingHistoryAdapter != null) {
-			filingHistoryAdapter?.setFilterOnAdapter(categoryFilter)
+	private fun filingItemClicked(item: FilingHistoryItem?) {
+		val gson = Gson()
+		val jsonItem = gson.toJson(item, FilingHistoryItem::class.java)
+		val intent = Intent(this, FilingHistoryDetailsActivity::class.java)
+		intent.putExtra("filingHistoryItem", jsonItem)
+		startActivityWithRightSlide(intent)
+	}
+
+	//endregion
+
+	//region Render
+
+	private fun observeState() {
+		viewModel.state
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { render(it) }
+	}
+
+	private fun render(state: FilingHistoryState) {
+		when {
+			state.contentChange == ContentChange.SHOW_FILING_HISTORY_ITEM -> {
+				state.contentChange = ContentChange.NONE
+				filingItemClicked(state.clickedFilingHistoryItem)
+			}
+			state.isLoading -> msvFilingHistory.viewState = MultiStateView.VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> msvFilingHistory.viewState = MultiStateView.VIEW_STATE_ERROR
+			state.filingHistoryList.isEmpty() -> {
+				msvFilingHistory.viewState = MultiStateView.VIEW_STATE_EMPTY
+			}
+			else -> {
+				msvFilingHistory.viewState = MultiStateView.VIEW_STATE_CONTENT
+				showFilingHistory()
+			}
 		}
 	}
 
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	private fun showFilingHistory() {
+		msvFilingHistory.viewState = VIEW_STATE_CONTENT
+		if (rvFilingHistory?.adapter == null) {
+			filingHistoryAdapter = FilingHistoryAdapter(viewModel.state.value.filingHistoryList, FilingHistoryTypesFactory())
+			rvFilingHistory?.adapter = filingHistoryAdapter
+		} else {
+			filingHistoryAdapter?.updateItems(viewModel.state.value.filingHistoryList)
+		}
 	}
+
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	}
+
+	//endregion
 }

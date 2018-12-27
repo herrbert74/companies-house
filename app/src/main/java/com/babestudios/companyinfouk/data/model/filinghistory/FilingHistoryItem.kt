@@ -16,7 +16,7 @@ class FilingHistoryItem {
 	var links: FilingHistoryLinks? = null
 
 	@SerializedName("category")
-	var category: String? = null
+	var category: Category? = null
 
 	@SerializedName("subcategory")
 	var subcategory: String? = null

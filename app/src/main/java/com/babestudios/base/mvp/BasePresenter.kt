@@ -1,11 +1,14 @@
 package com.babestudios.base.mvp
 
 import android.annotation.SuppressLint
+import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.zipWith
 
-abstract class BasePresenter<S : BaseState, VM : StateViewModel<S>>(override var viewModel: VM) : Presenter<S, VM> {
+abstract class BasePresenter<S : BaseState, VM : StateViewModel<S>>(override var viewModel: VM,
+																	override var lifeCycleCompletable: CompletableSource)
+	: Presenter<S, VM> {
 
 	@SuppressLint("CheckResult")
 	fun sendToViewModel(reducer: (S) -> S) {

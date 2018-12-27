@@ -111,7 +111,7 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 		val gson = Gson()
 		filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem::class.java)
 		textViewDate?.text = filingHistoryItem.date
-		textViewCategory?.text = filingHistoryItem.category
+		textViewCategory?.text = filingHistoryItem.category?.displayName
 		if (filingHistoryItem.subcategory != null) {
 			textViewSubcategory?.text = filingHistoryItem.subcategory
 		} else {
@@ -134,7 +134,7 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 			textViewLabelPages?.visibility = View.GONE
 		}
 
-		if (filingHistoryItem.category == "capital" && filingHistoryItem.descriptionValues?.capital?.isNotEmpty() == true) {
+		if (filingHistoryItem.category?.displayName == "capital" && filingHistoryItem.descriptionValues?.capital?.isNotEmpty() == true) {
 			filingHistoryItem.descriptionValues?.let {
 				textViewDescriptionValues?.text = "${it.capital[0].currency} ${it.capital[0].figure}"
 			}

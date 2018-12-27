@@ -6,86 +6,114 @@ import android.support.v4.util.Pair
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import com.babestudios.base.ext.biLet
+import com.babestudios.base.ext.getSerializedName
+import com.babestudios.base.mvp.BasePresenter
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
+import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
+import com.uber.autodispose.AutoDispose
+import io.reactivex.CompletableSource
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import net.grandcentrix.thirtyinch.TiPresenter
 import java.util.*
 import javax.inject.Inject
 
+interface FilingHistoryPresenterContract : Presenter<FilingHistoryState, FilingHistoryViewModel> {
+	fun setCategoryFilter(category: Int)
+	fun loadMoreFilingHistory(page: Int)
+}
 
-class FilingHistoryPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryActivityView>(), Observer<FilingHistoryList> {
+class FilingHistoryPresenter
+constructor(override var viewModel: FilingHistoryViewModel,
+			override var lifeCycleCompletable: CompletableSource)
+	: BasePresenter<FilingHistoryState, FilingHistoryViewModel>(viewModel, lifeCycleCompletable), FilingHistoryPresenterContract {
 
-	private var filingHistoryList: FilingHistoryList? = null
-
-	private var categoryFilter = CategoryFilter.CATEGORY_SHOW_ALL
-
-	enum class CategoryFilter(private val name2: String) {
-		CATEGORY_SHOW_ALL("all"),
-		CATEGORY_GAZETTE("gazette"),
-		CATEGORY_CONFIRMATION_STATEMENT("confirmation-statement"),
-		CATEGORY_ACCOUNTS("accounts"),
-		CATEGORY_ANNUAL_RETURN("annual return"),
-		CATEGORY_OFFICERS("officers"),
-		CATEGORY_ADDRESS("address"),
-		CATEGORY_CAPITAL("capital"),
-		CATEGORY_INSOLVENCY("insolvency"),
-		CATEGORY_OTHER("other"),
-		CATEGORY_INCORPORATION("incorporation"),
-		CATEGORY_CONSTITUTION("change-of-constitution"),
-		CATEGORY_AUDITORS("auditors"),
-		CATEGORY_RESOLUTION("resolution"),
-		CATEGORY_MORTGAGE("mortgage");
-
-		override fun toString(): String {
-			return name2
+	init {
+		CompaniesHouseApplication.instance.applicationComponent.inject(this)
+		sendToViewModel {
+			it.apply {
+				this.isLoading = true
+			}
 		}
+		getFilingHistory(viewModel.state.value.companyNumber, viewModel.state.value.filingCategoryFilter)
 	}
 
-	override fun onAttachView(view: FilingHistoryActivityView) {
-		super.onAttachView(view)
-		if (filingHistoryList != null) {
-			view.showFilingHistory(filingHistoryList!!, categoryFilter)
-			view.setInitialCategoryFilter(categoryFilter)
-		} else {
-			view.showProgress()
-			getFilingHistory(view.companyNumber, view.filingCategory)
-		}
-	}
+	@Inject
+	lateinit var dataManager: DataManager
 
+	@Suppress("UNUSED_PARAMETER")
 	@VisibleForTesting
-	fun getFilingHistory(companyNumber: String, category: String?) {
-		dataManager.getFilingHistory(companyNumber, category ?: "", "0").subscribe(this)
+	fun getFilingHistory(companyNumber: String?, category: Category) {
+		(category to companyNumber).biLet { _, _companyNumber ->
+			dataManager.getFilingHistory(_companyNumber, category.getSerializedName(), "0")
+					.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
+					.subscribe(object : ObserverWrapper<FilingHistoryList>(this) {
+						override fun onSuccess(reply: FilingHistoryList) {
+							onFilingHistorySuccess(reply)
+						}
+
+						override fun onFailed(e: Throwable) {
+							onFilingHistoryError(e)
+						}
+					})
+		}
 	}
 
-	fun loadMoreFilingHistory(page: Int) {
-		dataManager.getFilingHistory(view!!.companyNumber, view!!.filingCategory
-				?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
+	override fun loadMoreFilingHistory(page: Int) {
+		viewModel.state.value.companyNumber?.let {
+			dataManager.getFilingHistory(it, "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+					.subscribe(object : ObserverWrapper<FilingHistoryList>(this) {
+						override fun onSuccess(reply: FilingHistoryList) {
+							onFilingHistorySuccess(reply)
+						}
+
+						override fun onFailed(e: Throwable) {
+							onFilingHistoryError(e)
+						}
+					})
+		}
 	}
 
-	override fun onComplete() {}
-
-	override fun onSubscribe(d: Disposable) {
-
+	fun onFilingHistoryError(e: Throwable) {
+		sendToViewModel {
+			it.apply {
+				this.isLoading = false
+				this.errorType = ErrorType.UNKNOWN
+				this.errorMessage = e.localizedMessage
+			}
+		}
 	}
 
-	override fun onError(e: Throwable) {
-		view?.showError()
-		view?.hideProgress()
+	fun onFilingHistorySuccess(filingHistoryList: FilingHistoryList) {
+		sendToViewModel {
+			it.apply {
+				this.isLoading = false
+				this.filingHistoryList.addAll(convertHistoryListToVisitables(filingHistoryList))
+			}
+		}
 	}
 
-	override fun onNext(filingHistoryList: FilingHistoryList) {
-		this.filingHistoryList = filingHistoryList
-		view?.showFilingHistory(filingHistoryList, categoryFilter)
+	private fun convertHistoryListToVisitables(filingHistoryList: FilingHistoryList): ArrayList<FilingHistoryVisitable> {
+		return ArrayList(filingHistoryList.items.map { item -> FilingHistoryVisitable(item) })
 	}
 
-	fun setCategoryFilter(category: Int) {
-		categoryFilter = CategoryFilter.values()[category]
-		view?.setFilterOnAdapter(categoryFilter)
+	override fun setCategoryFilter(category: Int) {
+		sendToViewModel {
+			it.apply {
+				this.page = 1
+				this.total = 0
+				this.filingCategoryFilter = Category.values()[category]
+				this.isLoading = true
+			}
+		}
+		getFilingHistory(viewModel.state.value.companyNumber, viewModel.state.value.filingCategoryFilter)
 	}
 
 	companion object {
