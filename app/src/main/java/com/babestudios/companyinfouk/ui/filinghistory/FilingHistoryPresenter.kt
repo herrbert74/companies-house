@@ -6,6 +6,7 @@ import android.support.v4.util.Pair
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import android.util.Log
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.mvp.BasePresenter
@@ -205,11 +206,13 @@ constructor(override var viewModel: FilingHistoryViewModel,
 				}
 				val spannable = SpannableString(s)
 				val boldSpan = StyleSpan(Typeface.BOLD)
-				spannable.setSpan(boldSpan, first, second, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-				for (pair in spanPairs) {
-					val boldSpan2 = StyleSpan(Typeface.BOLD)
-					if (pair.first as Int > -1 && pair.second as Int > -1) {
-						spannable.setSpan(boldSpan2, pair.first as Int, pair.second as Int, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+				if (first > -1) {
+					spannable.setSpan(boldSpan, first, second, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+					for (pair in spanPairs) {
+						val boldSpan2 = StyleSpan(Typeface.BOLD)
+						if (pair.first as Int > -1 && pair.second as Int > -1) {
+							spannable.setSpan(boldSpan2, pair.first as Int, pair.second as Int, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+						}
 					}
 				}
 				return spannable

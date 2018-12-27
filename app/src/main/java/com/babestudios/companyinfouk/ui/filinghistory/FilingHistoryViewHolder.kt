@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
+import android.util.Log
 import android.view.View
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.DataManager
@@ -22,6 +23,7 @@ class FilingHistoryViewHolder(itemView: View) : BaseViewHolder<FilingHistoryVisi
 			itemView.lblDescription?.text = filingHistoryItem.descriptionValues?.description
 		} else {
 			filingHistoryItem.description?.let {
+				Log.d("test", "bind: $it")
 				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(dataManager.filingHistoryLookup(it), filingHistoryItem)
 				itemView.lblDescription?.text = spannableDescription
 			}
