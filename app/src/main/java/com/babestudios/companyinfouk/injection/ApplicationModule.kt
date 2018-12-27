@@ -10,6 +10,7 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.utils.Base64Wrapper
+import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -38,6 +39,7 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 
 		val httpClient = OkHttpClient.Builder()
 		httpClient.addInterceptor(logging)
+		httpClient.addInterceptor(ChuckInterceptor(CompaniesHouseApplication.context))
 		return Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//

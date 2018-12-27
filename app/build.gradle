@@ -62,6 +62,7 @@ dependencies {
 	def jUnitVersion = '4.12'
 	def mockitoVersion = '2.23.0'
 	def okHttp3Version = '3.10.0'
+	def chuckVersion = '1.1.0'
 	def RUNNER_VERSION = '0.5'
 
 	//support
@@ -137,6 +138,10 @@ dependencies {
 
 	//Firebase
 	implementation 'com.google.firebase:firebase-core:16.0.6'
+
+	//Chuck
+	debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
+	releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
 
 	//Other java
 	implementation 'javax.inject:javax.inject:1'
