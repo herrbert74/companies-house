@@ -71,6 +71,11 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		observeState()
 	}
 
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+	}
+
 	private fun initPresenter(companyNumber: String) {
 		val maybePresenter = lastCustomNonConfigurationInstance as FilingHistoryPresenterContract?
 
@@ -118,14 +123,17 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 	//region Actions
 
 	private fun observeActions() {
-		RxAdapterView.itemSelections(spinner)
-				.`as`(AutoDispose.autoDisposable(this))
-				.subscribe { er -> filingHistoryPresenter.setCategoryFilter(er) }
-		filingHistoryAdapter?.getViewClickedObservable()
-				?.`as`(AutoDispose.autoDisposable(this))
-				?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
-					filingItemClicked(viewModel.state.value.filingHistoryList[(view as FilingHistoryViewHolder).adapterPosition].filingHistoryItem)
-				}
+		if (::spinner.isInitialized) {
+			RxAdapterView.itemSelections(spinner)
+					.skip(2)
+					.`as`(AutoDispose.autoDisposable(this))
+					.subscribe { er -> filingHistoryPresenter.setCategoryFilter(er) }
+			filingHistoryAdapter?.getViewClickedObservable()
+					?.`as`(AutoDispose.autoDisposable(this))
+					?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
+						filingItemClicked(viewModel.state.value.filingHistoryList[(view as FilingHistoryViewHolder).adapterPosition].filingHistoryItem)
+					}
+		}
 	}
 
 	private fun filingItemClicked(item: FilingHistoryItem?) {

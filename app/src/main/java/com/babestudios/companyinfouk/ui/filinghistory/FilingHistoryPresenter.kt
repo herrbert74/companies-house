@@ -6,7 +6,6 @@ import android.support.v4.util.Pair
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.util.Log
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.mvp.BasePresenter
@@ -21,9 +20,6 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import java.util.*
 import javax.inject.Inject
 
 interface FilingHistoryPresenterContract : Presenter<FilingHistoryState, FilingHistoryViewModel> {
@@ -49,7 +45,6 @@ constructor(override var viewModel: FilingHistoryViewModel,
 	@Inject
 	lateinit var dataManager: DataManager
 
-	@Suppress("UNUSED_PARAMETER")
 	@VisibleForTesting
 	fun getFilingHistory(companyNumber: String?, category: Category) {
 		(category to companyNumber).biLet { _, _companyNumber ->
@@ -69,7 +64,10 @@ constructor(override var viewModel: FilingHistoryViewModel,
 
 	override fun loadMoreFilingHistory(page: Int) {
 		viewModel.state.value.companyNumber?.let {
-			dataManager.getFilingHistory(it, "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+			dataManager.getFilingHistory(
+					it,
+					viewModel.state.value.filingCategoryFilter.getSerializedName(),
+					(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribe(object : ObserverWrapper<FilingHistoryList>(this) {
 						override fun onSuccess(reply: FilingHistoryList) {
 							onFilingHistorySuccess(reply)
@@ -111,10 +109,11 @@ constructor(override var viewModel: FilingHistoryViewModel,
 				this.page = 1
 				this.total = 0
 				this.filingCategoryFilter = Category.values()[category]
+				this.filingHistoryList = ArrayList()
 				this.isLoading = true
 			}
 		}
-		getFilingHistory(viewModel.state.value.companyNumber, viewModel.state.value.filingCategoryFilter)
+		getFilingHistory(viewModel.state.value.companyNumber, Category.values()[category])
 	}
 
 	companion object {

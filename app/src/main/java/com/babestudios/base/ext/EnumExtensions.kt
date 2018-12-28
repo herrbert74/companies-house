@@ -7,7 +7,7 @@ fun Enum<*>.getSerializedName(): String {
 		val f = this.javaClass.getField(this.name)
 		val a = f.getAnnotation(SerializedName::class.java)
 		a?.value ?: ""
-	} catch (ignored: NoSuchFieldException) {
+	} catch (ignored: Throwable) {
 		""
 	}
 
