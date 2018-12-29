@@ -168,6 +168,7 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 			else -> {
 				msvFilingHistory.viewState = MultiStateView.VIEW_STATE_CONTENT
 				showFilingHistory()
+				observeActions()
 			}
 		}
 	}
