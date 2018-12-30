@@ -9,6 +9,7 @@ import android.widget.Spinner
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
@@ -38,24 +39,11 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
 	lateinit var filingHistoryPresenter: FilingHistoryPresenterContract
 
-	//override lateinit var companyNumber: String
-	//private var initialCategoryFilter: FilingHistoryPresenter.CategoryFilter? = null
-
-	/*internal var filingHistoryActivityPlugin = TiActivityPlugin<FilingHistoryPresenter, FilingHistoryActivityView> {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		filingHistoryPresenter
-	}
-
-	internal var baseActivityPlugin = BaseActivityPlugin()
-*/
-	//override val filingCategory: String? = null
-
 	//region lifeCycle
 
 	private lateinit var spinner: Spinner
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		//CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_filing_history)
 		logScreenView(this.localClassName)
@@ -85,9 +73,13 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
 		if (!::filingHistoryPresenter.isInitialized) {
 			viewModel.state.value.companyNumber = companyNumber
-			filingHistoryPresenter = FilingHistoryPresenter(viewModel, requestScope())
+			filingHistoryPresenter = Injector.get().filingHistoryPresenter()
+			filingHistoryPresenter.setViewModel(viewModel, requestScope())
 		}
 	}
+
+	override fun onRetainCustomNonConfigurationInstance() =
+			filingHistoryPresenter
 
 	private fun createFilingHistoryRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

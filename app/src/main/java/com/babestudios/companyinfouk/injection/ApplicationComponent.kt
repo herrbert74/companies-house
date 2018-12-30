@@ -56,6 +56,8 @@ interface ApplicationComponent {
 
 	fun inject(filingHistoryPresenter: FilingHistoryPresenter)
 
+	fun filingHistoryPresenter(): FilingHistoryPresenter
+
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();
 

@@ -1,19 +1,23 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
 import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
-
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.disposables.Disposable
+import io.reactivex.internal.schedulers.ExecutorScheduler
+import io.reactivex.plugins.RxJavaPlugins
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
-
-import io.reactivex.Observable
-
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import java.util.concurrent.Executor
+import java.util.concurrent.TimeUnit
 
 @RunWith(MockitoJUnitRunner::class)
 class FilingHistoryPresenterTest {
@@ -22,18 +26,33 @@ class FilingHistoryPresenterTest {
 
 	@Before
 	fun setUp() {
-		filingHistoryPresenter = FilingHistoryPresenter(mock(DataManager::class.java))
-		val view = mock(FilingHistoryActivityView::class.java)
-		`when`(view.companyNumber).thenReturn("23")
-		`when`<String>(view.filingCategory).thenReturn("0")
-		`when`(filingHistoryPresenter.dataManager.getFilingHistory("23", "0", "0")).thenReturn(Observable.just(FilingHistoryList()))
-		filingHistoryPresenter.create()
-		filingHistoryPresenter.attachView(view)
+		RxJavaPlugins.setInitIoSchedulerHandler { immediate }
+		RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
+		RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
+		RxJavaPlugins.setInitSingleSchedulerHandler { immediate }
+		RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
+		val viewModel = FilingHistoryViewModel()
+		val completable: CompletableSource = Completable.fromCallable { "" }
+		val dataManager = mock(DataManager::class.java)
+		filingHistoryPresenter = FilingHistoryPresenter(dataManager)
+		filingHistoryPresenter.setViewModel(viewModel, completable)
+		`when`(filingHistoryPresenter.dataManager.getFilingHistory("23", "", "0")).thenReturn(Observable.just(FilingHistoryList()))
 	}
 
 	@Test
 	fun whenGetFilingHistory_thenDataManagerGetFilingHistoryIsCalled() {
-		filingHistoryPresenter.getFilingHistory("23", "0")
-		verify(filingHistoryPresenter.dataManager, times(2)).getFilingHistory("23", "0", "0")
+		filingHistoryPresenter.getFilingHistory("23", Category.CATEGORY_SHOW_ALL)
+		verify(filingHistoryPresenter.dataManager, times(1)).getFilingHistory("23", "", "0")
+	}
+
+	private val immediate = object : Scheduler() {
+		override fun scheduleDirect(run: Runnable, delay: Long, unit: TimeUnit): Disposable {
+			// this prevents StackOverflowErrors when scheduling with a delay
+			return super.scheduleDirect(run, 0, unit)
+		}
+
+		override fun createWorker(): Scheduler.Worker {
+			return ExecutorScheduler.ExecutorWorker(Executor { it.run() })
+		}
 	}
 }

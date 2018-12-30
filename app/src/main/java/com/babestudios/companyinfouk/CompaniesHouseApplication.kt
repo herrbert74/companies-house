@@ -39,7 +39,17 @@ open class CompaniesHouseApplication : Application() {
 
 		val context: Context
 			get() = instance
+
+		@JvmStatic
+		fun get(): CompaniesHouseApplication = instance
 	}
 
 
+}
+
+class Injector private constructor() {
+	companion object {
+		fun get(): ApplicationComponent =
+				CompaniesHouseApplication.get().applicationComponent
+	}
 }

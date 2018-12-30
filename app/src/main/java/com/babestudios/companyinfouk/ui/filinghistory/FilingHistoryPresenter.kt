@@ -13,7 +13,6 @@ import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.DataManager
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
@@ -28,22 +27,9 @@ interface FilingHistoryPresenterContract : Presenter<FilingHistoryState, FilingH
 }
 
 class FilingHistoryPresenter
-constructor(override var viewModel: FilingHistoryViewModel,
-			override var lifeCycleCompletable: CompletableSource)
-	: BasePresenter<FilingHistoryState, FilingHistoryViewModel>(viewModel, lifeCycleCompletable), FilingHistoryPresenterContract {
+@Inject
+constructor(var dataManager: DataManager) : BasePresenter<FilingHistoryState, FilingHistoryViewModel>(), FilingHistoryPresenterContract {
 
-	init {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		sendToViewModel {
-			it.apply {
-				this.isLoading = true
-			}
-		}
-		getFilingHistory(viewModel.state.value.companyNumber, viewModel.state.value.filingCategoryFilter)
-	}
-
-	@Inject
-	lateinit var dataManager: DataManager
 
 	@VisibleForTesting
 	fun getFilingHistory(companyNumber: String?, category: Category) {
@@ -62,11 +48,24 @@ constructor(override var viewModel: FilingHistoryViewModel,
 		}
 	}
 
+	override fun setViewModel(viewModel: FilingHistoryViewModel?, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		sendToViewModel {
+			it.apply {
+				this.isLoading = true
+			}
+		}
+		viewModel?.also {
+			getFilingHistory(viewModel.state.value.companyNumber, viewModel.state.value.filingCategoryFilter)
+		}
+	}
+
 	override fun loadMoreFilingHistory(page: Int) {
-		viewModel.state.value.companyNumber?.let {
+		(viewModel to viewModel?.state?.value?.companyNumber).biLet { vm, companyNumber ->
 			dataManager.getFilingHistory(
-					it,
-					viewModel.state.value.filingCategoryFilter.getSerializedName(),
+					companyNumber,
+					vm.state.value.filingCategoryFilter.getSerializedName(),
 					(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribe(object : ObserverWrapper<FilingHistoryList>(this) {
 						override fun onSuccess(reply: FilingHistoryList) {
@@ -113,7 +112,7 @@ constructor(override var viewModel: FilingHistoryViewModel,
 				this.isLoading = true
 			}
 		}
-		getFilingHistory(viewModel.state.value.companyNumber, Category.values()[category])
+		getFilingHistory(viewModel?.state?.value?.companyNumber, Category.values()[category])
 	}
 
 	companion object {
