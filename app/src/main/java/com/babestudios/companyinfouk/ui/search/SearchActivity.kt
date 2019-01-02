@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -19,12 +18,9 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ProgressBar
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
-
+import android.widget.*
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
@@ -38,15 +34,9 @@ import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-
-import java.util.ArrayList
-
+import java.util.*
 import javax.inject.Inject
-
-import butterknife.BindView
-import butterknife.ButterKnife
 
 class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAdapter.SearchResultsRecyclerViewClickListener, RecentSearchesResultsAdapter.RecentSearchesRecyclerViewClickListener {
 
@@ -194,9 +184,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 	}
 
 	override fun clearSearchView() {
-		if (searchMenuItem != null) {
-			MenuItemCompat.collapseActionView(searchMenuItem)
-		}
+		searchMenuItem?.collapseActionView()
 	}
 
 	override fun changeFabImage(type: SearchPresenter.FabImage) {
@@ -241,7 +229,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 
 		//Catch the click on the search button on the soft keyboard and send the query to the presenter
 		searchMenuItem = menu.findItem(R.id.action_search)
-		val searchView = MenuItemCompat.getActionView(searchMenuItem) as SearchView
+		val searchView = searchMenuItem?.actionView as SearchView
 		val searchText = searchView.findViewById<View>(android.support.v7.appcompat.R.id.search_src_text) as TextView
 		searchText.setOnEditorActionListener { _, actionId, _ ->
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -261,7 +249,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 			false
 		}
 		val item = menu.findItem(R.id.spinner)
-		val spinner = MenuItemCompat.getActionView(item) as Spinner
+		val spinner = item.actionView as Spinner
 		spinner.setBackgroundResource(0)
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
 		val adapter = SearchFilterAdapter(this@SearchActivity, resources.getStringArray(R.array.search_filter_options), true)
