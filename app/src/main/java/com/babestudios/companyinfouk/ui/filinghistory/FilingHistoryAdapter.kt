@@ -10,7 +10,7 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import net.medshr.android.base.mvp.lists.BaseViewHolder
+import com.babestudios.base.mvp.list.BaseViewHolder
 import javax.inject.Inject
 
 class FilingHistoryAdapter internal constructor(private var visitables: List<FilingHistoryVisitable>,

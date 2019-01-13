@@ -1,4 +1,4 @@
-package net.medshr.android.base.mvp.lists
+package com.babestudios.base.mvp.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

@@ -4,7 +4,7 @@ import android.view.View
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.DataManager
 import kotlinx.android.synthetic.main.filing_history_list_item.view.*
-import net.medshr.android.base.mvp.lists.BaseViewHolder
+import com.babestudios.base.mvp.list.BaseViewHolder
 import javax.inject.Inject
 
 class FilingHistoryViewHolder(itemView: View) : BaseViewHolder<FilingHistoryVisitable>(itemView) {

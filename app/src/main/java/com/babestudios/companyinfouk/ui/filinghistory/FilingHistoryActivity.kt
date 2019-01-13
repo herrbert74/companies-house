@@ -27,7 +27,7 @@ import com.uber.autodispose.ScopeProvider
 import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 import kotlinx.android.synthetic.main.activity_filing_history.*
-import net.medshr.android.base.mvp.lists.BaseViewHolder
+import com.babestudios.base.mvp.list.BaseViewHolder
 
 class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
