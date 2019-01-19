@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk
 import android.app.Application
 import android.content.Context
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
@@ -52,7 +52,7 @@ class TestApplicationModule(private val application: Application) {
 
 	@Provides
 	@Singleton
-	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, preferencesHelper: PreferencesHelper): DataManager {
-		return Mockito.mock(DataManager::class.java)
+	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, preferencesHelper: PreferencesHelper): CompaniesRepository {
+		return Mockito.mock(CompaniesRepository::class.java)
 	}
 }

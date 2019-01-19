@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.officerappointments
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.nhaarman.mockitokotlin2.any
 
@@ -23,10 +23,10 @@ class OfficerAppointmentsPresenterTest {
 
 	@Before
 	fun setUp() {
-		officerAppointmentsPresenter = OfficerAppointmentsPresenter(mock(DataManager::class.java))
+		officerAppointmentsPresenter = OfficerAppointmentsPresenter(mock(CompaniesRepository::class.java))
 		val view = mock(OfficerAppointmentsActivityView::class.java)
 		`when`(view.officerId).thenReturn("0")
-		`when`(officerAppointmentsPresenter.dataManager.getOfficerAppointments("0", "0")).thenReturn(Observable.just(Appointments()))
+		`when`(officerAppointmentsPresenter.companiesRepository.getOfficerAppointments("0", "0")).thenReturn(Observable.just(Appointments()))
 		officerAppointmentsPresenter.create()
 		officerAppointmentsPresenter.attachView(view)
 	}
@@ -34,7 +34,7 @@ class OfficerAppointmentsPresenterTest {
 	@Test
 	fun whenGetAppointments_thenDataManagerGetAppointmentsIsCalled() {
 		officerAppointmentsPresenter.getAppointments()
-		verify(officerAppointmentsPresenter.dataManager, times(2)).getOfficerAppointments("0", "0")
+		verify(officerAppointmentsPresenter.companiesRepository, times(2)).getOfficerAppointments("0", "0")
 	}
 
 	@Test

@@ -13,7 +13,7 @@ import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
@@ -28,13 +28,13 @@ interface FilingHistoryPresenterContract : Presenter<FilingHistoryState, FilingH
 
 class FilingHistoryPresenter
 @Inject
-constructor(var dataManager: DataManager) : BasePresenter<FilingHistoryState, FilingHistoryViewModel>(), FilingHistoryPresenterContract {
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<FilingHistoryState, FilingHistoryViewModel>(), FilingHistoryPresenterContract {
 
 
 	@VisibleForTesting
 	fun getFilingHistory(companyNumber: String?, category: Category) {
 		(category to companyNumber).biLet { _, _companyNumber ->
-			dataManager.getFilingHistory(_companyNumber, category.getSerializedName(), "0")
+			companiesRepository.getFilingHistory(_companyNumber, category.getSerializedName(), "0")
 					.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
 					.subscribe(object : ObserverWrapper<FilingHistoryList>(this) {
 						override fun onSuccess(reply: FilingHistoryList) {
@@ -63,7 +63,7 @@ constructor(var dataManager: DataManager) : BasePresenter<FilingHistoryState, Fi
 
 	override fun loadMoreFilingHistory(page: Int) {
 		(viewModel to viewModel?.state?.value?.companyNumber).biLet { vm, companyNumber ->
-			dataManager.getFilingHistory(
+			companiesRepository.getFilingHistory(
 					companyNumber,
 					vm.state.value.filingCategoryFilter.getSerializedName(),
 					(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())

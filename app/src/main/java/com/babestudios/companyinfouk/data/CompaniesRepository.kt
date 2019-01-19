@@ -30,7 +30,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataManager @Inject
+class CompaniesRepository @Inject
 constructor(private val companiesHouseService: CompaniesHouseService, private val companiesHouseDocumentService: CompaniesHouseDocumentService, private val preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper) {
 
 	private val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)

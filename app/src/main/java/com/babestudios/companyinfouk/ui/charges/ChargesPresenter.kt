@@ -4,7 +4,7 @@ import android.support.annotation.VisibleForTesting
 import android.util.Log
 
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.charges.Charges
 
 import net.grandcentrix.thirtyinch.TiPresenter
@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable
 import retrofit2.HttpException
 
 class ChargesPresenter @Inject
-constructor(var dataManager: DataManager) : TiPresenter<ChargesActivityView>(), Observer<Charges> {
+constructor(var companiesRepository: CompaniesRepository) : TiPresenter<ChargesActivityView>(), Observer<Charges> {
 
 	override fun onAttachView(view: ChargesActivityView) {
 		super.onAttachView(view)
@@ -26,11 +26,11 @@ constructor(var dataManager: DataManager) : TiPresenter<ChargesActivityView>(), 
 
 	@VisibleForTesting
 	fun getCharges() {
-		dataManager.getCharges(view?.companyNumber ?: "", "0").subscribe(this)
+		companiesRepository.getCharges(view?.companyNumber ?: "", "0").subscribe(this)
 	}
 
 	fun loadMoreCharges(page: Int) {
-		dataManager.getCharges(view?.companyNumber ?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
+		companiesRepository.getCharges(view?.companyNumber ?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
 	}
 
 	override fun onComplete() {}

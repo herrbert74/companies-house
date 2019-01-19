@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.ui.filinghistory
 
 import android.view.View
 import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import kotlinx.android.synthetic.main.filing_history_list_item.view.*
 import com.babestudios.base.mvp.list.BaseViewHolder
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class FilingHistoryViewHolder(itemView: View) : BaseViewHolder<FilingHistoryVisi
 	}
 
 	@Inject
-	lateinit var dataManager: DataManager
+	lateinit var companiesRepository: CompaniesRepository
 
 	override fun bind(visitable: FilingHistoryVisitable) {
 		val filingHistoryItem = visitable.filingHistoryItem
@@ -22,7 +22,7 @@ class FilingHistoryViewHolder(itemView: View) : BaseViewHolder<FilingHistoryVisi
 			itemView.lblDescription?.text = filingHistoryItem.descriptionValues?.description
 		} else {
 			filingHistoryItem.description?.let {
-				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(dataManager.filingHistoryLookup(it), filingHistoryItem)
+				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(companiesRepository.filingHistoryLookup(it), filingHistoryItem)
 				itemView.lblDescription?.text = spannableDescription
 			}
 		}

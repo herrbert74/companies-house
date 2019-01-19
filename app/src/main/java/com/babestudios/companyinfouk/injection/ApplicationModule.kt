@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
@@ -90,8 +90,8 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 
 	@Provides
 	@Singleton
-	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService, preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): DataManager {
-		return DataManager(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper)
+	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService, preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): CompaniesRepository {
+		return CompaniesRepository(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper)
 	}
 
 	@Provides

@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.search
 import android.util.Log
 
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 
@@ -18,7 +18,7 @@ import io.reactivex.disposables.Disposable
 
 
 class SearchPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<SearchActivityView>(), Observer<CompanySearchResult> {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<SearchActivityView>(), Observer<CompanySearchResult> {
 
 	private var showState = ShowState.RECENT_SEARCHES
 
@@ -69,7 +69,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<SearchActivityV
 	}
 
 	private fun showRecentSearches() {
-		searchHistoryItems = ArrayList(dataManager.recentSearches)
+		searchHistoryItems = ArrayList(companiesRepository.recentSearches)
 		searchHistoryItems?.let { searchActivityView?.showRecentSearches(it) }
 		searchActivityView?.changeFabImage(FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE)
 		showState = ShowState.RECENT_SEARCHES
@@ -100,19 +100,19 @@ constructor(internal var dataManager: DataManager) : TiPresenter<SearchActivityV
 	internal fun search(queryText: String) {
 		this.queryText = queryText
 		searchActivityView?.showProgress()
-		dataManager.searchCompanies(queryText, "0").subscribe(this)
+		companiesRepository.searchCompanies(queryText, "0").subscribe(this)
 	}
 
 	internal fun searchLoadMore(page: Int) {
 		queryText?.let {
-			dataManager.searchCompanies(it, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+			companiesRepository.searchCompanies(it, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribe(this)
 		}
 	}
 
 	internal fun getCompany(companyName: String, companyNumber: String) {
 		searchActivityView?.startCompanyActivity(companyNumber, companyName)
-		searchHistoryItems = dataManager.addRecentSearchItem(SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()))
+		searchHistoryItems = companiesRepository.addRecentSearchItem(SearchHistoryItem(companyName, companyNumber, System.currentTimeMillis()))
 	}
 
 	internal fun onFabClicked() {
@@ -126,7 +126,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<SearchActivityV
 	}
 
 	internal fun clearAllRecentSearches() {
-		dataManager.clearAllRecentSearches()
+		companiesRepository.clearAllRecentSearches()
 		searchActivityView?.refreshRecentSearchesAdapter(ArrayList())
 	}
 

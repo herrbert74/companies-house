@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 
 import butterknife.BindView
 import butterknife.ButterKnife
 
-class ChargesAdapter internal constructor(c: Context, charges: Charges, internal var dataManager: DataManager) : RecyclerView.Adapter<ChargesAdapter.ChargesViewHolder>() {
+class ChargesAdapter internal constructor(c: Context, charges: Charges, internal var companiesRepository: CompaniesRepository) : RecyclerView.Adapter<ChargesAdapter.ChargesViewHolder>() {
 
 	private val mItemListener: ChargesRecyclerViewClickListener
 

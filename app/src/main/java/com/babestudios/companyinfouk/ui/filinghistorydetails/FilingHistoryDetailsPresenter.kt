@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.filinghistorydetails
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.google.gson.Gson
 import io.reactivex.Observer
@@ -10,7 +10,7 @@ import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class FilingHistoryDetailsPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryDetailsActivityView>(), Observer<ResponseBody> {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<FilingHistoryDetailsActivityView>(), Observer<ResponseBody> {
 
 	private var responseBody: ResponseBody? = null
 
@@ -28,7 +28,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryDe
 		val filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem::class.java)
 		filingHistoryItem.links?.documentMetadata?.let {
 			val documentId = it.replace("https://document-api.companieshouse.gov.uk/document/", "")
-			dataManager.getDocument(documentId).subscribe(this)
+			companiesRepository.getDocument(documentId).subscribe(this)
 		}
 	}
 
@@ -52,7 +52,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<FilingHistoryDe
 
 	internal fun writePdf(responseBody: ResponseBody) {
 		this.responseBody = null
-		view?.showDocument(dataManager.writeDocumentPdf(responseBody))
+		view?.showDocument(companiesRepository.writeDocumentPdf(responseBody))
 	}
 
 

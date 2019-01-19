@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.search
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.nhaarman.mockitokotlin2.any
@@ -32,16 +32,16 @@ class SearchPresenterTest {
 
 	@Before
 	fun setUp() {
-		searchPresenter = SearchPresenter(Mockito.mock(DataManager::class.java))
+		searchPresenter = SearchPresenter(Mockito.mock(CompaniesRepository::class.java))
 		searchPresenter!!.create()
 		view = mock(SearchActivityView::class.java)
 		searchPresenter!!.attachView(view!!)
-		`when`(searchPresenter!!.dataManager.searchCompanies(any(), anyString())).thenReturn(Observable.just(CompanySearchResult()))
+		`when`(searchPresenter!!.companiesRepository.searchCompanies(any(), anyString())).thenReturn(Observable.just(CompanySearchResult()))
 		val searchHistoryItems = ArrayList<SearchHistoryItem>()
 		val searchHistoryItem1 = SearchHistoryItem("RUN", "12345", 12L)
 		searchHistoryItems.add(searchHistoryItem)
 		searchHistoryItems.add(searchHistoryItem1)
-		`when`(searchPresenter!!.dataManager.addRecentSearchItem(searchHistoryItem)).thenReturn(searchHistoryItems)
+		`when`(searchPresenter!!.companiesRepository.addRecentSearchItem(searchHistoryItem)).thenReturn(searchHistoryItems)
 	}
 
 	@Test
@@ -64,19 +64,19 @@ class SearchPresenterTest {
 	fun whenGetCompany_thenDataManagerAddRecentSearchItem_andStartActivityIsCalled() {
 		searchPresenter!!.getCompany("TUI", "12344")
 		verify<SearchActivityView>(view).startCompanyActivity(anyString(), anyString())
-		verify(searchPresenter!!.dataManager).addRecentSearchItem(searchHistoryItem)
+		verify(searchPresenter!!.companiesRepository).addRecentSearchItem(searchHistoryItem)
 	}
 
 	@Test
 	fun whenSearch_thenDataManagerSearchCompaniesIsCalled() {
 		searchPresenter!!.search("")
-		verify(searchPresenter!!.dataManager).searchCompanies(any(), anyString())
+		verify(searchPresenter!!.companiesRepository).searchCompanies(any(), anyString())
 	}
 
 	@Test
 	fun whenSearchLoadMore_thenDataManagerSearchCompaniesIsCalled() {
 		searchPresenter!!.search("")
-		verify(searchPresenter!!.dataManager).searchCompanies(any(), anyString())
+		verify(searchPresenter!!.companiesRepository).searchCompanies(any(), anyString())
 	}
 
 

@@ -65,6 +65,6 @@ interface ApplicationComponent {
 
 	/*Application application();
 	@ApplicationContext Context context();
-	DataManager dataManager();*/
+	CompaniesRepository companiesRepository();*/
 
 }

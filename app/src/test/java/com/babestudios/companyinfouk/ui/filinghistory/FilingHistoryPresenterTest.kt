@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
 import io.reactivex.Completable
@@ -33,16 +33,16 @@ class FilingHistoryPresenterTest {
 		RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
 		val viewModel = FilingHistoryViewModel()
 		val completable: CompletableSource = Completable.fromCallable { "" }
-		val dataManager = mock(DataManager::class.java)
+		val dataManager = mock(CompaniesRepository::class.java)
 		filingHistoryPresenter = FilingHistoryPresenter(dataManager)
 		filingHistoryPresenter.setViewModel(viewModel, completable)
-		`when`(filingHistoryPresenter.dataManager.getFilingHistory("23", "", "0")).thenReturn(Observable.just(FilingHistoryList()))
+		`when`(filingHistoryPresenter.companiesRepository.getFilingHistory("23", "", "0")).thenReturn(Observable.just(FilingHistoryList()))
 	}
 
 	@Test
 	fun whenGetFilingHistory_thenDataManagerGetFilingHistoryIsCalled() {
 		filingHistoryPresenter.getFilingHistory("23", Category.CATEGORY_SHOW_ALL)
-		verify(filingHistoryPresenter.dataManager, times(1)).getFilingHistory("23", "", "0")
+		verify(filingHistoryPresenter.companiesRepository, times(1)).getFilingHistory("23", "", "0")
 	}
 
 	private val immediate = object : Scheduler() {

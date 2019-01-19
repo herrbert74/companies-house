@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
@@ -28,7 +28,7 @@ import org.mockito.Mockito.doReturn
 import java.util.concurrent.Executor
 
 @RunWith(MockitoJUnitRunner::class)
-class DataManagerTest {
+class CompaniesRepositoryTest {
 
 	@Mock
 	internal var mockCompaniesHouseService: CompaniesHouseService? = null
@@ -42,7 +42,7 @@ class DataManagerTest {
 	@Mock
 	internal var base64Wrapper: Base64Wrapper? = null
 
-	private var dataManager: DataManager? = null
+	private var companiesRepository: CompaniesRepository? = null
 
 	//@Rule
 	//public final RxSchedulersOverrideRule overrideSchedulersRule = new RxSchedulersOverrideRule();
@@ -61,7 +61,7 @@ class DataManagerTest {
 
 	@Before
 	fun setUp() {
-		dataManager = DataManager(mockCompaniesHouseService!!, mockCompaniesHouseDocumentService!!, mockPreferencesHelper!!, base64Wrapper!!)
+		companiesRepository = CompaniesRepository(mockCompaniesHouseService!!, mockCompaniesHouseDocumentService!!, mockPreferencesHelper!!, base64Wrapper!!)
 		//authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
 		companySearchResult = CompanySearchResult()
 		doReturn(Observable.just(companySearchResult!!))
@@ -81,7 +81,7 @@ class DataManagerTest {
 
 
 		val testSubscriber = TestObserver<CompanySearchResult>()
-		dataManager!!.searchCompanies("Games", "0").subscribe(testSubscriber)
+		companiesRepository!!.searchCompanies("Games", "0").subscribe(testSubscriber)
 		testSubscriber.assertTerminated()
 		testSubscriber.assertValue(companySearchResult)
 		testSubscriber.assertComplete()

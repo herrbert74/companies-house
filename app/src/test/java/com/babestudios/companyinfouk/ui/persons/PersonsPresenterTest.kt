@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.persons
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.persons.Persons
 
 import org.junit.Before
@@ -22,10 +22,10 @@ class PersonsPresenterTest {
 
 	@Before
 	fun setUp() {
-		personsPresenter = PersonsPresenter(mock(DataManager::class.java))
+		personsPresenter = PersonsPresenter(mock(CompaniesRepository::class.java))
 		val view = mock(PersonsActivityView::class.java)
 		`when`(view.companyNumber).thenReturn("0")
-		`when`(personsPresenter.dataManager.getPersons("0", "0")).thenReturn(Observable.just(Persons()))
+		`when`(personsPresenter.companiesRepository.getPersons("0", "0")).thenReturn(Observable.just(Persons()))
 		personsPresenter.create()
 		personsPresenter.attachView(view)
 	}
@@ -33,6 +33,6 @@ class PersonsPresenterTest {
 	@Test
 	fun test_When_GetInsolvency_Then_DataManagerGetInsolvencyIsCalled() {
 		personsPresenter.getPersons()
-		verify(personsPresenter.dataManager, times(2)).getPersons("0", "0")
+		verify(personsPresenter.companiesRepository, times(2)).getPersons("0", "0")
 	}
 }

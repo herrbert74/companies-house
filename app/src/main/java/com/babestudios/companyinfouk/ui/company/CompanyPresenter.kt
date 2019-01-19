@@ -1,9 +1,8 @@
 package com.babestudios.companyinfouk.ui.company
 
-import android.support.annotation.VisibleForTesting
 import android.util.Log
 import com.babestudios.base.ext.biLet
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import io.reactivex.Observable
@@ -12,7 +11,7 @@ import net.grandcentrix.thirtyinch.TiPresenter
 import javax.inject.Inject
 
 class CompanyPresenter @Inject
-constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
+constructor(var companiesRepository: CompaniesRepository) : TiPresenter<CompanyActivityView>() {
 
 	var company: Company? = null
 	/**
@@ -35,7 +34,7 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 
 	fun getCompany(companyNumber: String?) {
 		companyActivityView!!.showProgress()
-		dataManager.getCompany(companyNumber ?: "")
+		companiesRepository.getCompany(companyNumber ?: "")
 				.subscribe(object : DisposableObserver<Company>() {
 					override fun onComplete() {
 
@@ -49,7 +48,7 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 
 					override fun onNext(company: Company) {
 						company.accounts?.lastAccounts?.type?.let {
-							company.accounts?.lastAccounts?.type = dataManager.accountTypeLookup(it)
+							company.accounts?.lastAccounts?.type = companiesRepository.accountTypeLookup(it)
 						}
 						this@CompanyPresenter.company = company
 						showCompany(company)
@@ -61,23 +60,23 @@ constructor(var dataManager: DataManager) : TiPresenter<CompanyActivityView>() {
 		companyActivityView?.showCompany(company)
 		companyActivityView?.hideProgress()
 		if (company.sicCodes.isNotEmpty()) {
-			companyActivityView?.showNatureOfBusiness(company.sicCodes[0], dataManager.sicLookup(company.sicCodes[0]))
+			companyActivityView?.showNatureOfBusiness(company.sicCodes[0], companiesRepository.sicLookup(company.sicCodes[0]))
 		} else {
 			companyActivityView?.showEmptyNatureOfBusiness()
 		}
 	}
 
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
-		return dataManager.isFavourite(searchHistoryItem)
+		return companiesRepository.isFavourite(searchHistoryItem)
 	}
 
 	fun observablesFromViews(o: Observable<Any>) {
 		o.subscribe {
 			(companyName to companyNumber).biLet { companyName, companyNumber ->
-				if (dataManager.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
-					dataManager.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+				if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
+					companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
 				} else {
-					dataManager.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+					companiesRepository.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
 				}
 				companyActivityView?.hideFab()
 			}

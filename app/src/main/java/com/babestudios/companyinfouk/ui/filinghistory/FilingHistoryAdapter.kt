@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -23,7 +23,7 @@ class FilingHistoryAdapter internal constructor(private var visitables: List<Fil
 	}
 
 	@Inject
-	lateinit var dataManager: DataManager
+	lateinit var companiesRepository: CompaniesRepository
 
 	init {
 		CompaniesHouseApplication.instance.applicationComponent.inject(this)

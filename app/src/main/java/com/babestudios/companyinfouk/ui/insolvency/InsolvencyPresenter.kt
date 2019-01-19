@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.ui.insolvency
 
 import android.support.annotation.VisibleForTesting
 import android.util.Log
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -11,7 +11,7 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 class InsolvencyPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<InsolvencyActivityView>(), Observer<Insolvency> {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<InsolvencyActivityView>(), Observer<Insolvency> {
 
 	internal var insolvency: Insolvency? = null
 
@@ -28,7 +28,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<InsolvencyActiv
 	@VisibleForTesting
 	fun getInsolvency() {
 		view?.let {
-			dataManager.getInsolvency(it.companyNumber).subscribe(this)
+			companiesRepository.getInsolvency(it.companyNumber).subscribe(this)
 		}
 	}
 

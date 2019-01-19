@@ -12,7 +12,7 @@ import android.widget.Toast
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 import com.babestudios.companyinfouk.ui.chargesdetails.ChargesDetailsActivity
@@ -52,7 +52,7 @@ class ChargesActivity : CompositeActivity(), ChargesActivityView, ChargesAdapter
 
 	@Singleton
 	@Inject
-	internal lateinit var dataManager: DataManager
+	internal lateinit var companiesRepository: CompaniesRepository
 
 	override lateinit var companyNumber: String
 
@@ -114,7 +114,7 @@ class ChargesActivity : CompositeActivity(), ChargesActivityView, ChargesAdapter
 
 	override fun showCharges(charges: Charges) {
 		if (chargesRecyclerView!!.adapter == null) {
-			chargesAdapter = ChargesAdapter(this@ChargesActivity, charges, dataManager)
+			chargesAdapter = ChargesAdapter(this@ChargesActivity, charges, companiesRepository)
 			chargesRecyclerView!!.adapter = chargesAdapter
 		} else {
 			chargesAdapter!!.updateItems(charges)

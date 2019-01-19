@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.charges;
 
-import com.babestudios.companyinfouk.data.DataManager;
+import com.babestudios.companyinfouk.data.CompaniesRepository;
 import com.babestudios.companyinfouk.data.model.charges.Charges;
 
 import org.junit.Before;
@@ -22,10 +22,10 @@ public class ChargesPresenterTest {
 
 	@Before
 	public void setUp() {
-		chargesPresenter = new ChargesPresenter(mock(DataManager.class));
+		chargesPresenter = new ChargesPresenter(mock(CompaniesRepository.class));
 		ChargesActivityView view = mock(ChargesActivityView.class);
 		when(view.getCompanyNumber()).thenReturn("0");
-		when(chargesPresenter.getDataManager().getCharges("0", "0")).thenReturn(Observable.just(new Charges()));
+		when(chargesPresenter.getCompaniesRepository().getCharges("0", "0")).thenReturn(Observable.just(new Charges()));
 		chargesPresenter.create();
 		chargesPresenter.attachView(view);
 
@@ -34,12 +34,12 @@ public class ChargesPresenterTest {
 	@Test
 	public void whenGetInsolvency_thenDataManagerGetInsolvencyIsCalled() {
 		chargesPresenter.getCharges();
-		verify(chargesPresenter.getDataManager(), times(2)).getCharges("0", "0");
+		verify(chargesPresenter.getCompaniesRepository(), times(2)).getCharges("0", "0");
 	}
 
 	@Test
 	public void whenLoadMoreCharges_thenDataManagerLoadMoreChargesIsCalled() {
 		chargesPresenter.loadMoreCharges(0);
-		verify(chargesPresenter.getDataManager(), times(2)).getCharges("0", "0");
+		verify(chargesPresenter.getCompaniesRepository(), times(2)).getCharges("0", "0");
 	}
 }

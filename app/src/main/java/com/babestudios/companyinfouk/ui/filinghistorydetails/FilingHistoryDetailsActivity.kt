@@ -123,7 +123,7 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 			textViewDescription?.text = filingHistoryItem.descriptionValues?.description
 		} else {
 			filingHistoryItem.description?.let {
-				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryDetailsPresenter.dataManager.filingHistoryLookup(it), filingHistoryItem)
+				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryDetailsPresenter.companiesRepository.filingHistoryLookup(it), filingHistoryItem)
 				textViewDescription?.text = spannableDescription
 			}
 		}

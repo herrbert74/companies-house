@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.persons
 import android.support.annotation.VisibleForTesting
 import android.util.Log
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.persons.Persons
 
 import net.grandcentrix.thirtyinch.TiPresenter
@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable
 import retrofit2.HttpException
 
 class PersonsPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<PersonsActivityView>(), Observer<Persons> {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<PersonsActivityView>(), Observer<Persons> {
 
 	internal var persons: Persons? = null
 
@@ -32,7 +32,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<PersonsActivity
 	@VisibleForTesting
 	fun getPersons() {
 		view?.let {
-			dataManager.getPersons(it.companyNumber, "0").subscribe(this)
+			companiesRepository.getPersons(it.companyNumber, "0").subscribe(this)
 		}
 	}
 

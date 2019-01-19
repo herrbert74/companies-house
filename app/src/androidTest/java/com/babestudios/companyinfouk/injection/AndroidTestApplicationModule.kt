@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.injection
 import android.app.Application
 import android.content.Context
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
@@ -64,8 +64,8 @@ class AndroidTestApplicationModule(private val application: Application) {
 
 	@Provides
 	@Singleton
-	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService, preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): DataManager {
-		val dataManager = Mockito.mock(DataManager::class.java)
+	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService, preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): CompaniesRepository {
+		val dataManager = Mockito.mock(CompaniesRepository::class.java)
 		val searchHistoryItem = SearchHistoryItem("Acme Painting", "12345678", 12)
 		val searchHistoryItems = arrayOf(searchHistoryItem)
 		`when`(dataManager.favourites).thenReturn(searchHistoryItems)
@@ -73,7 +73,7 @@ class AndroidTestApplicationModule(private val application: Application) {
 	}
 
 	@Provides
-	internal fun provideFavouritesPresenter(dataManager: DataManager): FavouritesPresenter {
-		return FavouritesPresenter(dataManager)
+	internal fun provideFavouritesPresenter(companiesRepository: CompaniesRepository): FavouritesPresenter {
+		return FavouritesPresenter(companiesRepository)
 	}
 }

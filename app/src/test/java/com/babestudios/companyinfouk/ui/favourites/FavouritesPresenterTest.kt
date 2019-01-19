@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.favourites
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
@@ -19,11 +19,11 @@ class FavouritesPresenterTest {
 
 	@Before
 	fun setUp() {
-		val mockDataManager: DataManager = mock()
+		val mockCompaniesRepository: CompaniesRepository = mock()
 		val view: FavouritesActivityView = mock()
-		favouritesPresenter = FavouritesPresenter(mockDataManager)
+		favouritesPresenter = FavouritesPresenter(mockCompaniesRepository)
 		favouritesPresenter.create()
-		`when`<Array<SearchHistoryItem>>(mockDataManager.favourites).thenReturn(arrayOf(SearchHistoryItem("", "", 0L)))
+		`when`<Array<SearchHistoryItem>>(mockCompaniesRepository.favourites).thenReturn(arrayOf(SearchHistoryItem("", "", 0L)))
 		favouritesPresenter.attachView(view)
 	}
 
@@ -41,6 +41,6 @@ class FavouritesPresenterTest {
 	@Test
 	fun whenRemoveFavourite_shouldCallDataManagerRemoveFavourite() {
 		favouritesPresenter.removeFavourite(SearchHistoryItem("", "", 0L))
-		verify(favouritesPresenter.dataManager).removeFavourite(any())
+		verify(favouritesPresenter.companiesRepository).removeFavourite(any())
 	}
 }

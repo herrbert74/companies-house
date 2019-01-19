@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.filinghistorydetails
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryLinks
 import com.google.gson.Gson
@@ -22,15 +22,15 @@ class FilingHistoryDetailsPresenterTest {
 	lateinit var view: FilingHistoryDetailsActivityView
 	@Before
 	fun setUp() {
-		filingHistoryDetailsPresenter = FilingHistoryDetailsPresenter(mock(DataManager::class.java))
+		filingHistoryDetailsPresenter = FilingHistoryDetailsPresenter(mock(CompaniesRepository::class.java))
 		view = mock(FilingHistoryDetailsActivityView::class.java)
 		val historyLinks = FilingHistoryLinks()
 		historyLinks.documentMetadata = "something"
 		val filingHistoryItem = FilingHistoryItem()
 		filingHistoryItem.links = historyLinks
 		whenever(view.filingHistoryItemString).thenReturn(Gson().toJson(filingHistoryItem))
-		whenever(filingHistoryDetailsPresenter?.dataManager?.getDocument("something")).thenReturn(Observable.just(ResponseBody.create(MediaType.parse("text/plain"), "test")))
-		//whenever(filingHistoryDetailsPresenter.dataManager.writeDocumentPdf(any(ResponseBody.class))).thenReturn(Uri.parse("http:\\some.com"));
+		whenever(filingHistoryDetailsPresenter?.companiesRepository?.getDocument("something")).thenReturn(Observable.just(ResponseBody.create(MediaType.parse("text/plain"), "test")))
+		//whenever(filingHistoryDetailsPresenter.companiesRepository.writeDocumentPdf(any(ResponseBody.class))).thenReturn(Uri.parse("http:\\some.com"));
 		filingHistoryDetailsPresenter?.create()
 		filingHistoryDetailsPresenter?.attachView(view)
 	}
@@ -38,12 +38,12 @@ class FilingHistoryDetailsPresenterTest {
 	@Test
 	fun whenGetDocument_thenDataManagerGetDocumentIsCalled() {
 		filingHistoryDetailsPresenter?.getDocument(view.filingHistoryItemString)
-		verify(filingHistoryDetailsPresenter?.dataManager)?.getDocument("something")
+		verify(filingHistoryDetailsPresenter?.companiesRepository)?.getDocument("something")
 	}
 
 	/*@Test
 	public void whenWritePdf_thenDataManagerWriteDocumentPdfIsCalled() {
 		filingHistoryDetailsPresenter.writePdf(ResponseBody.create(MediaType.parse("text/plain"), "test"));
-		verify(filingHistoryDetailsPresenter.dataManager).writeDocumentPdf(any(ResponseBody.class));
+		verify(filingHistoryDetailsPresenter.companiesRepository).writeDocumentPdf(any(ResponseBody.class));
 	}*/
 }

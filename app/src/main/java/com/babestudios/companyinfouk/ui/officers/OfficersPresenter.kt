@@ -4,7 +4,7 @@ import android.support.annotation.VisibleForTesting
 import android.util.Log
 
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.Officers
 
 import net.grandcentrix.thirtyinch.TiPresenter
@@ -15,7 +15,7 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
 class OfficersPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<OfficersActivityView>(), Observer<Officers> {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<OfficersActivityView>(), Observer<Officers> {
 
 	internal var officers: Officers? = null
 
@@ -32,13 +32,13 @@ constructor(internal var dataManager: DataManager) : TiPresenter<OfficersActivit
 	@VisibleForTesting
 	fun getOfficers() {
 		view?.let {
-			dataManager.getOfficers(it.companyNumber, "0").subscribe(this)
+			companiesRepository.getOfficers(it.companyNumber, "0").subscribe(this)
 		}
 	}
 
 	fun loadMoreOfficers(page: Int) {
 		view?.let {
-			dataManager.getOfficers(it.companyNumber, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
+			companiesRepository.getOfficers(it.companyNumber, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
 		}
 	}
 

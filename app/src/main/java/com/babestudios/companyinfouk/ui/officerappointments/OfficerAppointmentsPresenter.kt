@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.officerappointments
 import android.support.annotation.VisibleForTesting
 import android.util.Log
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 
 import net.grandcentrix.thirtyinch.TiPresenter
@@ -14,7 +14,7 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
 class OfficerAppointmentsPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<OfficerAppointmentsActivityView>(), Observer<Appointments> {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<OfficerAppointmentsActivityView>(), Observer<Appointments> {
 
 	internal var appointments: Appointments? = null
 
@@ -31,7 +31,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<OfficerAppointm
 	@VisibleForTesting
 	fun getAppointments() {
 		view?.let {
-			dataManager.getOfficerAppointments(it.officerId, "0").subscribe(this)
+			companiesRepository.getOfficerAppointments(it.officerId, "0").subscribe(this)
 		}
 	}
 

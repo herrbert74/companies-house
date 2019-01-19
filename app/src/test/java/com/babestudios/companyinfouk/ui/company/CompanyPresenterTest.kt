@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.company
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.company.Accounts
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.company.LastAccounts
@@ -21,9 +21,9 @@ class CompanyPresenterTest {
 
 	@Before
 	fun setUp() {
-		val mockDataManager: DataManager = mock()
+		val mockCompaniesRepository: CompaniesRepository = mock()
 		val view: CompanyActivityView = mock()
-		companyPresenter = CompanyPresenter(mockDataManager)
+		companyPresenter = CompanyPresenter(mockCompaniesRepository)
 		companyPresenter.create()
 		val company = Company()
 		company.accounts = Accounts()
@@ -31,28 +31,28 @@ class CompanyPresenterTest {
 		company.accounts?.lastAccounts?.type = "any"
 		whenever(view.companyName).thenReturn("name")
 		whenever(view.companyNumber).thenReturn("123")
-		whenever(companyPresenter.dataManager.getCompany(any())).thenReturn(Observable.just(company))
-		whenever(companyPresenter.dataManager.accountTypeLookup(any())).thenReturn("")
+		whenever(companyPresenter.companiesRepository.getCompany(any())).thenReturn(Observable.just(company))
+		whenever(companyPresenter.companiesRepository.accountTypeLookup(any())).thenReturn("")
 		companyPresenter.attachView(view)
 	}
 
 	@Test
 	fun test_When_FabClicked_Then_DataManagerAddFavouriteIsCalled() {
-		whenever(companyPresenter.dataManager.isFavourite(any())).thenReturn(false)
+		whenever(companyPresenter.companiesRepository.isFavourite(any())).thenReturn(false)
 		companyPresenter.observablesFromViews(Observable.just(1))
-		verify(companyPresenter.dataManager).addFavourite(any())
+		verify(companyPresenter.companiesRepository).addFavourite(any())
 	}
 
 	@Test
 	fun test_When_FabClicked_Then_DataManagerRemoveFavouriteIsCalled() {
-		whenever(companyPresenter.dataManager.isFavourite(any())).thenReturn(true)
+		whenever(companyPresenter.companiesRepository.isFavourite(any())).thenReturn(true)
 		companyPresenter.observablesFromViews(Observable.just(1))
-		verify(companyPresenter.dataManager).removeFavourite(any())
+		verify(companyPresenter.companiesRepository).removeFavourite(any())
 	}
 
 	@Test
 	fun test_When_GetCompany_Then_DataManagerGetCompanyIsCalled() {
 		companyPresenter.getCompany("123456")
-		verify(companyPresenter.dataManager).getCompany("123456")
+		verify(companyPresenter.companiesRepository).getCompany("123456")
 	}
 }

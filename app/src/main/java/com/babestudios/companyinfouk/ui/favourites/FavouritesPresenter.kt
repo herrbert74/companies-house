@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.favourites
 
-import com.babestudios.companyinfouk.data.DataManager
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 
 import net.grandcentrix.thirtyinch.TiPresenter
@@ -8,12 +8,12 @@ import net.grandcentrix.thirtyinch.TiPresenter
 import javax.inject.Inject
 
 class FavouritesPresenter @Inject
-constructor(internal var dataManager: DataManager) : TiPresenter<FavouritesActivityView>() {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<FavouritesActivityView>() {
 	lateinit var searchHistoryItems: Array<SearchHistoryItem>
 
 	public override fun onAttachView(view: FavouritesActivityView) {
 		super.onAttachView(view)
-		searchHistoryItems = dataManager.favourites
+		searchHistoryItems = companiesRepository.favourites
 		view.showFavourites(searchHistoryItems)
 	}
 
@@ -22,7 +22,7 @@ constructor(internal var dataManager: DataManager) : TiPresenter<FavouritesActiv
 	}
 
 	internal fun removeFavourite(favouriteToRemove: SearchHistoryItem) {
-		dataManager.removeFavourite(favouriteToRemove)
+		companiesRepository.removeFavourite(favouriteToRemove)
 	}
 
 }
