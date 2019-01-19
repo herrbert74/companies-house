@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.widget.Spinner
 import com.babestudios.base.mvp.ErrorType
-import com.babestudios.base.view.MultiStateView
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
@@ -27,7 +27,6 @@ import com.uber.autodispose.ScopeProvider
 import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 import kotlinx.android.synthetic.main.activity_filing_history.*
-import com.babestudios.base.mvp.list.BaseViewHolder
 
 class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
@@ -152,13 +151,13 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 				state.contentChange = ContentChange.NONE
 				filingItemClicked(state.clickedFilingHistoryItem)
 			}
-			state.isLoading -> msvFilingHistory.viewState = MultiStateView.VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> msvFilingHistory.viewState = MultiStateView.VIEW_STATE_ERROR
+			state.isLoading -> msvFilingHistory.viewState = VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> msvFilingHistory.viewState = VIEW_STATE_ERROR
 			state.filingHistoryList.isEmpty() -> {
-				msvFilingHistory.viewState = MultiStateView.VIEW_STATE_EMPTY
+				msvFilingHistory.viewState = VIEW_STATE_EMPTY
 			}
 			else -> {
-				msvFilingHistory.viewState = MultiStateView.VIEW_STATE_CONTENT
+				msvFilingHistory.viewState = VIEW_STATE_CONTENT
 				showFilingHistory()
 				observeActions()
 			}
