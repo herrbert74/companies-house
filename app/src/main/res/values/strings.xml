@@ -90,6 +90,7 @@
 	<string name="could_not_retrieve_persons_info">Could not retrieve significant persons information. Check your network connection.</string>
 	<string name="insolvency_dates">Dates</string>
 	<string name="insolvency_practitioners">Practitioners</string>
+	<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 	<string-array name="search_filter_options">
 		<item>All</item>
 		<item>Active</item>
