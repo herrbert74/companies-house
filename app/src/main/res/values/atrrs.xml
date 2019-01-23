@@ -12,4 +12,7 @@
 		</attr>
 		<attr name="msv_animateViewChanges" format="boolean" />
 	</declare-styleable>
+	<declare-styleable name="ParallaxAppBarView">
+		<attr name="imageViewSrc" format="reference" />
+	</declare-styleable>
 </resources>

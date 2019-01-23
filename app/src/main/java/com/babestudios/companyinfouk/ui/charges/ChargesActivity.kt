@@ -9,7 +9,8 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.CompaniesRepository
@@ -21,14 +22,10 @@ import com.babestudios.companyinfouk.utils.DividerItemDecoration
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-
+import kotlinx.android.synthetic.main.activity_charges.*
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-
 import javax.inject.Inject
 import javax.inject.Singleton
-
-import butterknife.BindView
-import butterknife.ButterKnife
 
 class ChargesActivity : CompositeActivity(), ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
 
@@ -78,16 +75,12 @@ class ChargesActivity : CompositeActivity(), ChargesActivityView, ChargesAdapter
 		baseActivityPlugin.logScreenView(this.localClassName)
 
 		ButterKnife.bind(this)
-		if (toolbar != null) {
-			setSupportActionBar(toolbar)
-			supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-			supportActionBar!!.setTitle(R.string.charges)
-			toolbar!!.setNavigationOnClickListener { onBackPressed() }
-		}
 		companyNumber = intent.getStringExtra("companyNumber")
 		createChargesRecyclerView()
-
-
+		setSupportActionBar(pabCharges.getToolbar())
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		supportActionBar?.setTitle(R.string.charges)
+		pabCharges.setNavigationOnClickListener { onBackPressed() }
 	}
 
 	private fun createChargesRecyclerView() {
