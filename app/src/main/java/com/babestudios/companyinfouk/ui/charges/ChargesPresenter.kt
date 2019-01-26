@@ -30,7 +30,10 @@ constructor(var companiesRepository: CompaniesRepository) : TiPresenter<ChargesA
 	}
 
 	fun loadMoreCharges(page: Int) {
-		companiesRepository.getCharges(view?.companyNumber ?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
+		if (charges == null || charges!!.items.size < totalCount?.toInt()!!) {
+			companiesRepository.getCharges(view?.companyNumber
+					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
+		}
 	}
 
 	override fun onComplete() {}
@@ -53,7 +56,13 @@ constructor(var companiesRepository: CompaniesRepository) : TiPresenter<ChargesA
 		}
 	}
 
+	private var totalCount: String? = null
+
+	private var charges: Charges? = null
+
 	override fun onNext(charges: Charges) {
+		totalCount = charges.totalCount
+		this.charges = charges
 		view?.hideProgress()
 		view?.showCharges(charges)
 	}

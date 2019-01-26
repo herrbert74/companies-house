@@ -1,51 +1,54 @@
 package com.babestudios.companyinfouk.data.model.charges
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 import java.util.ArrayList
 
-class ChargesItem {
+@Parcelize
+data class ChargesItem(
 	@SerializedName("acquired_on")
-	var acquiredOn: String? = null
+	var acquiredOn: String? = null,
 	@SerializedName("assets_ceased_released")
-	var assetsCeasedReleased: String? = null
+	var assetsCeasedReleased: String? = null,
 	@SerializedName("charge_code")
-	var chargeCode: String? = null
+	var chargeCode: String? = null,
 	@SerializedName("charge_number")
-	var chargeNumber: String? = null
+	var chargeNumber: String? = null,
 	@SerializedName("classification")
-	var classification: Classification? = null
+	var classification: Classification? = null,
 	@SerializedName("covering_instrument_date")
-	var coveringInstrumentDate: String? = null
+	var coveringInstrumentDate: String? = null,
 	@SerializedName("created_on")
-	var createdOn: String? = null
+	var createdOn: String? = null,
 	@SerializedName("delivered_on")
-	var deliveredOn: String? = null
+	var deliveredOn: String? = null,
 	@SerializedName("etag")
-	var etag: String? = null
+	var etag: String? = null,
 	@SerializedName("id")
-	var id: String? = null
+	var id: String? = null,
 	@SerializedName("insolvency_cases")
-	var insolvencyCases: List<InsolvencyCase> = ArrayList()
+	var insolvencyCases: List<InsolvencyCase> = ArrayList(),
 	@SerializedName("links")
-	var links: ChargesItemLinks? = null
+	var links: ChargesItemLinks? = null,
 	@SerializedName("more_than_four_persons_entitled")
-	var moreThanFourPersonsEntitled: String? = null
+	var moreThanFourPersonsEntitled: String? = null,
 	@SerializedName("particulars")
-	var particulars: Particulars? = null
+	var particulars: Particulars? = null,
 	@SerializedName("persons_entitled")
-	var personsEntitled: List<PersonsEntitled> = ArrayList()
+	var personsEntitled: List<PersonsEntitled> = ArrayList(),
 	@SerializedName("resolved_on")
-	var resolvedOn: String? = null
+	var resolvedOn: String? = null,
 	@SerializedName("satisfied_on")
-	var satisfiedOn: String? = null
+	var satisfiedOn: String? = null,
 	@SerializedName("scottish_alterations")
-	var scottishAlterations: ScottishAlterations? = null
+	var scottishAlterations: ScottishAlterations? = null,
 	@SerializedName("secured_details")
-	var securedDetails: SecuredDetails? = null
+	var securedDetails: SecuredDetails? = null,
 	@SerializedName("status")
-	var status: String? = null
+	var status: String? = null,
 	@SerializedName("transactions")
 	var transactions: List<Transaction> = ArrayList()
-}
+) : Parcelable

@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.charges
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,11 +15,10 @@ import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
-import com.babestudios.companyinfouk.ui.chargesdetails.ChargesDetailsActivity
+import com.babestudios.companyinfouk.ui.chargesdetails.createChargesDetailsIntent
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.companyinfouk.utils.DividerItemDecoration
 import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
-import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import kotlinx.android.synthetic.main.activity_charges.*
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
@@ -119,11 +117,7 @@ class ChargesActivity : CompositeActivity(), ChargesActivityView, ChargesAdapter
 	}
 
 	override fun chargesItemClicked(v: View, position: Int, chargesItem: ChargesItem) {
-		val gson = Gson()
-		val jsonItem = gson.toJson(chargesItem, ChargesItem::class.java)
-		val intent = Intent(this, ChargesDetailsActivity::class.java)
-		intent.putExtra("chargesItem", jsonItem)
-		baseActivityPlugin.startActivityWithRightSlide(intent)
+		baseActivityPlugin.startActivityWithRightSlide(this.createChargesDetailsIntent(chargesItem))
 	}
 
 	override fun showNoCharges() {

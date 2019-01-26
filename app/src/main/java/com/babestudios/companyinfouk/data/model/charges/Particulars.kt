@@ -1,9 +1,12 @@
 package com.babestudios.companyinfouk.data.model.charges
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class Particulars {
+@Parcelize
+class Particulars : Parcelable {
 	@SerializedName("chargor_acting_as_bare_trustee")
 	var chargorActingAsBareTrustee: String? = null
 	@SerializedName("contains_fixed_charge")

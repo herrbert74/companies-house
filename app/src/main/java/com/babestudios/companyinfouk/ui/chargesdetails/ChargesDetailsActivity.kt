@@ -1,21 +1,21 @@
 package com.babestudios.companyinfouk.ui.chargesdetails
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading
-import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
+import java.util.*
 
-import java.util.ArrayList
-
-import butterknife.BindView
-import butterknife.ButterKnife
+private const val CHARGES_ITEM = "com.babestudios.companyinfouk.ui.charges_item"
 
 class ChargesDetailsActivity : CompositeActivity() {
 
@@ -39,9 +39,7 @@ class ChargesDetailsActivity : CompositeActivity() {
 		baseActivityPlugin.logScreenView(this.localClassName)
 
 		ButterKnife.bind(this)
-		val chargesItemString = intent.getStringExtra("chargesItem")
-		val gson = Gson()
-		val chargesItem = gson.fromJson(chargesItemString, ChargesItem::class.java)
+		val chargesItem = intent.getParcelableExtra<ChargesItem>(CHARGES_ITEM)
 
 		if (toolbar != null) {
 			setSupportActionBar(toolbar)
@@ -62,4 +60,11 @@ class ChargesDetailsActivity : CompositeActivity() {
 		val adapter = ChargesDetailsAdapter(this, chargesItem)
 		chargesDetailsRecyclerView!!.adapter = adapter
 	}
+
 }
+
+fun Context.createChargesDetailsIntent(chargesItem: ChargesItem): Intent {
+	return Intent(this, ChargesDetailsActivity::class.java)
+			.putExtra(CHARGES_ITEM, chargesItem)
+}
+

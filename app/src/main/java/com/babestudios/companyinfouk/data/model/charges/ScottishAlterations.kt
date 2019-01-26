@@ -1,9 +1,12 @@
 package com.babestudios.companyinfouk.data.model.charges
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class ScottishAlterations {
+@Parcelize
+class ScottishAlterations : Parcelable {
 	@SerializedName("has_alterations_to_order")
 	var hasAlterationsToOrder: String? = null
 	@SerializedName("has_alterations_to_prohibitions")
