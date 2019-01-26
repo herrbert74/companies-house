@@ -4,6 +4,6 @@
 	<item
 		android:id="@+id/action_show_pdf"
 		app:showAsAction="ifRoom"
-		android:icon="@drawable/picture_as_pdf_vector"
+		android:icon="@drawable/ic_picture_as_pdf"
 		android:title="@string/search"/>
 </menu>

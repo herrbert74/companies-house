@@ -127,7 +127,7 @@ class FavouritesActivity : CompositeActivity(), FavouritesActivityView, Favourit
 
 			private fun init() {
 				background = ColorDrawable(Color.RED)
-				xMark = ContextCompat.getDrawable(this@FavouritesActivity, R.drawable.close_vector)!!
+				xMark = ContextCompat.getDrawable(this@FavouritesActivity, R.drawable.ic_close)!!
 				//Set it to background color, because otherwise it will stay on top after half swipe
 				val a = TypedValue()
 				theme.resolveAttribute(android.R.attr.windowBackground, a, true)

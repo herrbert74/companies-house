@@ -30,7 +30,7 @@
 				android:contentDescription="@null"
 				android:fitsSystemWindows="true"
 				android:scaleType="centerCrop"
-				android:src="@drawable/appointments_bg"
+				android:src="@drawable/bg_appointments"
 				app:layout_collapseMode="parallax"/>
 
 			<View

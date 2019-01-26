@@ -29,7 +29,7 @@
 				android:contentDescription="@null"
 				android:fitsSystemWindows="true"
 				android:scaleType="centerCrop"
-				android:src="@drawable/filing_history_bg"
+				android:src="@drawable/bg_filing_history"
 				app:layout_collapseMode="parallax"/>
 
 			<View

@@ -149,9 +149,9 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	override fun showFab() {
 		fab?.also {
 			if (companyActivityPlugin.presenter.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
-				it.setImageResource(R.drawable.favorite_clear_vector)
+				it.setImageResource(R.drawable.ic_favorite_clear)
 			} else {
-				it.setImageResource(R.drawable.favorite_vector)
+				it.setImageResource(R.drawable.ic_favorite)
 			}
 			it.scaleX = 0f
 			it.scaleY = 0f

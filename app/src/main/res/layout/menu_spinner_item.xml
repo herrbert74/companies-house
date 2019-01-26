@@ -31,5 +31,5 @@
 		android:contentDescription="@null"
 		android:paddingEnd="0dp"
 		android:paddingStart="@dimen/view_margin"
-		app:srcCompat="@drawable/arrow_drop_down_vector"/>
+		app:srcCompat="@drawable/ic_arrow_drop_down"/>
 </LinearLayout>

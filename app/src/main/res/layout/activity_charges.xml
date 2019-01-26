@@ -12,7 +12,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
 		android:theme="@style/AppTheme.AppBarOverlay"
-		app:imageViewSrc="@drawable/charges_bg"/>
+		app:imageViewSrc="@drawable/bg_charges"/>
 
 	<ProgressBar
 		android:id="@+id/progressbar"

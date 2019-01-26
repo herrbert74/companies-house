@@ -197,9 +197,9 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 					.setListener(object : AnimatorListenerAdapter() {
 						override fun onAnimationEnd(animation: Animator) {
 							if (type === SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE) {
-								it.setImageResource(R.drawable.delete_vector)
+								it.setImageResource(R.drawable.ic_delete)
 							} else if (type === SearchPresenter.FabImage.FAB_IMAGE_SEARCH_CLOSE) {
-								it.setImageResource(R.drawable.close_vector)
+								it.setImageResource(R.drawable.ic_close)
 							}
 							it.animate()
 									.translationY(0f)
