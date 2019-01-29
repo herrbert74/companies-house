@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.utils
+package com.babestudios.base.view
 
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager

@@ -19,7 +19,7 @@ import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.ui.company.CompanyActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecoration
+import com.babestudios.base.view.DividerItemDecoration
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin

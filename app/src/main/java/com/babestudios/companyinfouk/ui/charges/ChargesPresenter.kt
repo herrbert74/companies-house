@@ -1,70 +1,80 @@
 package com.babestudios.companyinfouk.ui.charges
 
-import android.support.annotation.VisibleForTesting
-import android.util.Log
-
+import android.annotation.SuppressLint
+import com.babestudios.base.mvp.BasePresenter
+import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
+import com.uber.autodispose.AutoDispose
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.charges.Charges
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
+import com.babestudios.companyinfouk.ui.charges.list.AbstractChargesVisitable
+import com.babestudios.companyinfouk.ui.charges.list.ChargesVisitable
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import retrofit2.HttpException
+interface ChargesPresenterContract : Presenter<ChargesState, ChargesViewModel> {
+	fun fetchCharges(parameter: String)
+	fun loadMoreCharges(page: Int)
+}
 
-class ChargesPresenter @Inject
-constructor(var companiesRepository: CompaniesRepository) : TiPresenter<ChargesActivityView>(), Observer<Charges> {
+@SuppressLint("CheckResult")
+class ChargesPresenter
+@Inject
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<ChargesState, ChargesViewModel>(), ChargesPresenterContract {
 
-	override fun onAttachView(view: ChargesActivityView) {
-		super.onAttachView(view)
-		view.showProgress()
-		getCharges()
-	}
-
-	@VisibleForTesting
-	fun getCharges() {
-		companiesRepository.getCharges(view?.companyNumber ?: "", "0").subscribe(this)
-	}
-
-	fun loadMoreCharges(page: Int) {
-		if (charges == null || charges!!.items.size < totalCount?.toInt()!!) {
-			companiesRepository.getCharges(view?.companyNumber
-					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
-		}
-	}
-
-	override fun onComplete() {}
-
-	override fun onSubscribe(d: Disposable) {
-
-	}
-
-	override fun onError(e: Throwable) {
-		view?.hideProgress()
-		Log.d("test", "onError: " + e.fillInStackTrace())
-		if (e is HttpException) {
-			if (e.code() == 404) {
-				view?.showNoCharges()
-			} else {
-				view?.showError()
+	override fun setViewModel(viewModel: ChargesViewModel?, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		sendToViewModel {
+			it.apply {
+				this.isLoading = true
 			}
-		} else {
-			view?.showError()
+		}
+		viewModel?.state?.value?.parameter?.also {
+			fetchCharges(it)
 		}
 	}
 
-	private var totalCount: String? = null
+	override fun fetchCharges(parameter: String) {
+		companiesRepository.fetchCharges(parameter, "0")
+				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
+				.subscribeWith(object : ObserverWrapper<Charges>(this) {
+					override fun onSuccess(reply: Charges) {
+						sendToViewModel {
+							it.apply {
+								this.isLoading = false
+								this.contentChange = ContentChange.CHARGES_RECEIVED
+								this.chargeItems = convertToVisitables(reply)
+								this.totalCount = reply.totalCount?.toInt()
+							}
+						}
+					}
+				})
+	}
 
-	private var charges: Charges? = null
+	private fun convertToVisitables(reply: Charges): List<AbstractChargesVisitable> {
+		return ArrayList(reply.items.map { item -> ChargesVisitable(item) })
+	}
 
-	override fun onNext(charges: Charges) {
-		totalCount = charges.totalCount
-		this.charges = charges
-		view?.hideProgress()
-		view?.showCharges(charges)
+	override fun loadMoreCharges(page: Int) {
+		if (viewModel?.state?.value?.chargeItems == null || viewModel?.state?.value?.chargeItems!!.size < viewModel?.state?.value?.totalCount!!) {
+			companiesRepository.fetchCharges(viewModel?.state?.value?.parameter
+					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+					.subscribeWith(object : ObserverWrapper<Charges>(this) {
+						override fun onSuccess(reply: Charges) {
+							val newList = viewModel?.state?.value?.chargeItems?.toMutableList()
+							newList?.addAll(convertToVisitables(reply))
+							sendToViewModel {
+								it.apply {
+									this.isLoading = false
+									this.contentChange = ContentChange.CHARGES_RECEIVED
+									newList?.toList()?.let { list -> this.chargeItems = list }
+								}
+							}
+						}
+					})
+		}
 	}
 
 }

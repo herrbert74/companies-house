@@ -19,7 +19,7 @@ internal class ChargesDetailsAdapter(var context: Context, private val chargesIt
 		val itemLayoutView: View
 		if (viewType == TYPE_TRANSACTION) {
 			itemLayoutView = LayoutInflater.from(parent.context)
-					.inflate(R.layout.charges_details_transactions_list_item, parent, false)
+					.inflate(R.layout.row_charges_details_transactions, parent, false)
 
 			return TransactionsViewHolder(itemLayoutView)
 		} else if (viewType == TYPE_HEADER) {

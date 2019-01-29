@@ -29,9 +29,9 @@ import com.babestudios.companyinfouk.ui.company.CompanyActivity
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecoration
-import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading
-import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.DividerItemDecorationWithSubHeading
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin

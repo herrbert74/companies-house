@@ -19,7 +19,7 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.ui.charges.ChargesActivity
+import com.babestudios.companyinfouk.ui.charges.createChargesIntent
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity
 import com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity
 import com.babestudios.companyinfouk.ui.map.MapActivity
@@ -248,9 +248,7 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 	}
 
 	fun onChargesClicked(view: View) {
-		val intent = Intent(this, ChargesActivity::class.java)
-		intent.putExtra("companyNumber", companyNumber)
-		baseActivityPlugin.startActivityWithRightSlide(intent)
+		baseActivityPlugin.startActivityWithRightSlide(this.createChargesIntent(companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 

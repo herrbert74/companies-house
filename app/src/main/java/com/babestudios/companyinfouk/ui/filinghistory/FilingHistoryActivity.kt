@@ -17,8 +17,8 @@ import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
 import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter
-import com.babestudios.companyinfouk.utils.DividerItemDecoration
-import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.google.gson.Gson
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity

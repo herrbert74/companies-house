@@ -18,7 +18,7 @@ import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.ui.insolvencydetails.InsolvencyDetailsActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecoration
+import com.babestudios.base.view.DividerItemDecoration
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin

@@ -15,7 +15,7 @@ import com.babestudios.companyinfouk.data.model.officers.appointments.Appointmen
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.babestudios.companyinfouk.ui.company.CompanyActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading
+import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin

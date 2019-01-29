@@ -5,7 +5,7 @@
 												 android:layout_width="match_parent"
 												 android:layout_height="match_parent"
 												 android:fitsSystemWindows="true"
-												 tools:context="com.babestudios.companyinfouk.ui.charges.ChargesActivity">
+												 tools:context=".ui.charges.ChargesActivity">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabCharges"
@@ -14,37 +14,22 @@
 		android:theme="@style/AppTheme.AppBarOverlay"
 		app:imageViewSrc="@drawable/bg_charges"/>
 
-	<ProgressBar
-		android:id="@+id/progressbar"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_gravity="center"
-		android:indeterminate="true"
-		android:indeterminateBehavior="cycle"
-		android:visibility="gone"/>
-
-	<android.support.v4.widget.NestedScrollView
+	<com.babestudios.base.view.MultiStateView
+		android:id="@+id/msvCharges"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+		app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+		app:msv_emptyView="@layout/multi_state_view_empty"
+		app:msv_errorView="@layout/multi_state_view_error"
+		app:msv_loadingView="@layout/multi_state_view_progress"
+		app:msv_viewState="content">
 
-		<TextView
-			android:id="@+id/lblNoCharges"
-			style="@style/Text.Headline"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:text="@string/no_charges"
-			android:visibility="gone"/>
-
-	</android.support.v4.widget.NestedScrollView>
-
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/charges_recycler_view"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:paddingBottom="@dimen/view_margin_small"
-		android:scrollbars="vertical"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/rvCharges"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:paddingBottom="@dimen/view_margin_small"
+			android:scrollbars="vertical"/>
+	</com.babestudios.base.view.MultiStateView>
 
 </android.support.design.widget.CoordinatorLayout>

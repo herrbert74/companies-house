@@ -1,128 +1,140 @@
 package com.babestudios.companyinfouk.ui.charges
 
+import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.CompaniesRepository
-import com.babestudios.companyinfouk.data.model.charges.Charges
-import com.babestudios.companyinfouk.data.model.charges.ChargesItem
-import com.babestudios.companyinfouk.ui.chargesdetails.createChargesDetailsIntent
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecoration
-import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import io.reactivex.CompletableSource
 import kotlinx.android.synthetic.main.activity_charges.*
-import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.babestudios.companyinfouk.ui.chargesdetails.createChargesDetailsIntent
+import com.babestudios.companyinfouk.R
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.ui.charges.list.*
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.multi_state_view_error.*
 
-class ChargesActivity : CompositeActivity(), ChargesActivityView, ChargesAdapter.ChargesRecyclerViewClickListener {
+private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.COMPANY_NUMBER"
 
-	@JvmField
-	@BindView(R.id.toolbar)
-	internal var toolbar: Toolbar? = null
+class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 
-	@JvmField
-	@BindView(R.id.charges_recycler_view)
-	internal var chargesRecyclerView: RecyclerView? = null
+	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
-	@JvmField
-	@BindView(R.id.lblNoCharges)
-	internal var lblNoCharges: TextView? = null
+	private val viewModel by lazy { ViewModelProviders.of(this).get(ChargesViewModel::class.java) }
 
 	private var chargesAdapter: ChargesAdapter? = null
 
-	@JvmField
-	@BindView(R.id.progressbar)
-	internal var progressbar: ProgressBar? = null
+	private lateinit var chargesPresenter: ChargesPresenterContract
 
-	@Singleton
-	@Inject
-	internal lateinit var companiesRepository: CompaniesRepository
+	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	override lateinit var companyNumber: String
-
-	@Inject
-	lateinit var chargesPresenter: ChargesPresenter
-
-	internal var chargesActivityPlugin = TiActivityPlugin<ChargesPresenter, ChargesActivityView> {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		chargesPresenter
-	}
-
-	internal var baseActivityPlugin = BaseActivityPlugin()
-
-	init {
-		addPlugin(chargesActivityPlugin)
-		addPlugin(baseActivityPlugin)
-	}
+	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_charges)
-		baseActivityPlugin.logScreenView(this.localClassName)
-
-		ButterKnife.bind(this)
-		companyNumber = intent.getStringExtra("companyNumber")
-		createChargesRecyclerView()
 		setSupportActionBar(pabCharges.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		supportActionBar?.setTitle(R.string.charges)
 		pabCharges.setNavigationOnClickListener { onBackPressed() }
+		supportActionBar?.title = "Charges"
+		initPresenter(intent.extras.getString(COMPANY_NUMBER)!!)
+		createRecyclerView()
+		observeState()
 	}
 
-	private fun createChargesRecyclerView() {
-		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		chargesRecyclerView!!.layoutManager = linearLayoutManager
-		chargesRecyclerView!!.addItemDecoration(
-				DividerItemDecoration(this))
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+	}
 
-		chargesRecyclerView!!.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+	private fun initPresenter(customParameter: String) {
+		val maybePresenter = lastCustomNonConfigurationInstance as ChargesPresenterContract?
+
+		if (maybePresenter != null) {
+			chargesPresenter = maybePresenter
+		}
+
+		if (!::chargesPresenter.isInitialized) {
+			viewModel.state.value.parameter = customParameter
+			chargesPresenter = Injector.get().chargesPresenter()
+			chargesPresenter.setViewModel(viewModel, requestScope())
+		}
+	}
+
+	private fun createRecyclerView() {
+		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+		rvCharges?.layoutManager = linearLayoutManager
+		rvCharges?.addItemDecoration(DividerItemDecoration(this))
+		rvCharges?.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
-				chargesActivityPlugin.presenter.loadMoreCharges(page)
+				chargesPresenter.loadMoreCharges(page)
 			}
 		})
 	}
 
-	override fun showProgress() {
-		progressbar!!.visibility = View.VISIBLE
+	//endregion
+
+	//region render
+
+	private fun observeState() {
+		viewModel.state
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { render(it) }
 	}
 
-	override fun hideProgress() {
-		progressbar!!.visibility = View.GONE
-	}
-
-
-	override fun showCharges(charges: Charges) {
-		if (chargesRecyclerView!!.adapter == null) {
-			chargesAdapter = ChargesAdapter(this@ChargesActivity, charges, companiesRepository)
-			chargesRecyclerView!!.adapter = chargesAdapter
-		} else {
-			chargesAdapter!!.updateItems(charges)
+	private fun render(state: ChargesState) {
+		when {
+			state.isLoading -> msvCharges.viewState = VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> {
+				msvCharges.viewState = VIEW_STATE_ERROR
+				tvMsvError.text = getString(R.string.could_not_retrieve_charges_info)
+			}
+			state.chargeItems == null -> msvCharges.viewState = VIEW_STATE_EMPTY
+			else -> {
+				msvCharges.viewState = VIEW_STATE_CONTENT
+				if (rvCharges?.adapter == null) {
+					chargesAdapter = ChargesAdapter(viewModel.state.value.chargeItems, ChargesTypeFactory())
+					rvCharges?.adapter = chargesAdapter
+					observeActions()
+				} else {
+					chargesAdapter?.updateItems(viewModel.state.value.chargeItems)
+					observeActions()
+				}
+			}
 		}
 	}
 
-	override fun showError() {
-		Toast.makeText(this, R.string.could_not_retrieve_charges_info, Toast.LENGTH_LONG).show()
+	//endregion
+
+	//region events
+
+	private fun observeActions() {
+		eventDisposables.clear()
+		chargesAdapter?.getViewClickedObservable()
+				?.take(1)
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<AbstractChargesVisitable> ->
+					startActivityWithRightSlide(
+							this.createChargesDetailsIntent(
+									(viewModel.state.value.chargeItems[(view as ChargesViewHolder).adapterPosition] as ChargesVisitable).chargesItem))
+				}
+				?.let { eventDisposables.add(it) }
 	}
 
-	override fun chargesItemClicked(v: View, position: Int, chargesItem: ChargesItem) {
-		baseActivityPlugin.startActivityWithRightSlide(this.createChargesDetailsIntent(chargesItem))
-	}
+	//endregion
+}
 
-	override fun showNoCharges() {
-		lblNoCharges!!.visibility = View.VISIBLE
-		chargesRecyclerView!!.visibility = View.GONE
-	}
-
+fun Context.createChargesIntent(companyNumber: String): Intent {
+	return Intent(this, ChargesActivity::class.java)
+			.putExtra(COMPANY_NUMBER, companyNumber)
 }

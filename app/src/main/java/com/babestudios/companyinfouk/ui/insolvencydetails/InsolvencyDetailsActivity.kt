@@ -9,7 +9,7 @@ import butterknife.ButterKnife
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecorationWithSubHeading
+import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import java.util.*

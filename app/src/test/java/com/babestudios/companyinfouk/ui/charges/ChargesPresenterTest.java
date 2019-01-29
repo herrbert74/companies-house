@@ -25,7 +25,7 @@ public class ChargesPresenterTest {
 		chargesPresenter = new ChargesPresenter(mock(CompaniesRepository.class));
 		ChargesActivityView view = mock(ChargesActivityView.class);
 		when(view.getCompanyNumber()).thenReturn("0");
-		when(chargesPresenter.getCompaniesRepository().getCharges("0", "0")).thenReturn(Observable.just(new Charges()));
+		when(chargesPresenter.getCompaniesRepository().fetchCharges("0", "0")).thenReturn(Observable.just(new Charges()));
 		chargesPresenter.create();
 		chargesPresenter.attachView(view);
 
@@ -34,12 +34,12 @@ public class ChargesPresenterTest {
 	@Test
 	public void whenGetInsolvency_thenDataManagerGetInsolvencyIsCalled() {
 		chargesPresenter.getCharges();
-		verify(chargesPresenter.getCompaniesRepository(), times(2)).getCharges("0", "0");
+		verify(chargesPresenter.getCompaniesRepository(), times(2)).fetchCharges("0", "0");
 	}
 
 	@Test
 	public void whenLoadMoreCharges_thenDataManagerLoadMoreChargesIsCalled() {
 		chargesPresenter.loadMoreCharges(0);
-		verify(chargesPresenter.getCompaniesRepository(), times(2)).getCharges("0", "0");
+		verify(chargesPresenter.getCompaniesRepository(), times(2)).fetchCharges("0", "0");
 	}
 }

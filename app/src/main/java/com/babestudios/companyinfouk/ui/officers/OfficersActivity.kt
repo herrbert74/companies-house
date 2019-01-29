@@ -15,8 +15,8 @@ import com.babestudios.companyinfouk.data.model.officers.OfficerItem
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecoration
-import com.babestudios.companyinfouk.utils.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 

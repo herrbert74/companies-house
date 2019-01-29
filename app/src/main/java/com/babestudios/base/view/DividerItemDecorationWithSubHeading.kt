@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.utils
+package com.babestudios.base.view
 
 import android.content.Context
 import android.graphics.Canvas

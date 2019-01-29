@@ -17,7 +17,7 @@ import com.babestudios.companyinfouk.data.model.persons.Person
 import com.babestudios.companyinfouk.data.model.persons.Persons
 import com.babestudios.companyinfouk.ui.personsdetails.PersonsDetailsActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.companyinfouk.utils.DividerItemDecoration
+import com.babestudios.base.view.DividerItemDecoration
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin

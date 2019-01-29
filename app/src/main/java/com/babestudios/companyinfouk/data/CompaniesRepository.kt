@@ -76,7 +76,7 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getCharges(companyNumber: String, startItem: String): Observable<Charges> {
+	fun fetchCharges(companyNumber: String, startItem: String): Observable<Charges> {
 		return companiesHouseService.getCharges(authorization, companyNumber, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
