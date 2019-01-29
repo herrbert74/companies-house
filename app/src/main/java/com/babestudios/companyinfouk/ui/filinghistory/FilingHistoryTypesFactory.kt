@@ -14,11 +14,11 @@ import com.babestudios.base.mvp.list.BaseViewHolder
  *
  */
 class FilingHistoryTypesFactory : FilingHistoryAdapter.FilingHistoryTypesFactory {
-	override fun type(filingHistoryItem: FilingHistoryItem): Int = R.layout.filing_history_list_item
+	override fun type(filingHistoryItem: FilingHistoryItem): Int = R.layout.row_filing_history
 
 	override fun holder(type: Int, view: View): BaseViewHolder<*> {
 		return when(type) {
-			R.layout.filing_history_list_item -> FilingHistoryViewHolder(view)
+			R.layout.row_filing_history -> FilingHistoryViewHolder(view)
 			else -> throw RuntimeException("Illegal view type")
 		}
 	}

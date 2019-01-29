@@ -7,12 +7,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import butterknife.BindView
 import butterknife.ButterKnife
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-import kotlinx.android.synthetic.main.favourites_list_item.view.*
+import kotlinx.android.synthetic.main.row_favourites.view.*
 import java.util.*
 
 internal class FavouritesAdapter(c: Context, searchHistoryItems: ArrayList<SearchHistoryItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -37,7 +35,7 @@ internal class FavouritesAdapter(c: Context, searchHistoryItems: ArrayList<Searc
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 		val itemLayoutView = LayoutInflater.from(parent.context)
-				.inflate(R.layout.favourites_list_item, parent, false)
+				.inflate(R.layout.row_favourites, parent, false)
 
 		return FavouritesViewHolder(itemLayoutView)
 	}

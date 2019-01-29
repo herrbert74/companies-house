@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistory
 import android.view.View
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.CompaniesRepository
-import kotlinx.android.synthetic.main.filing_history_list_item.view.*
+import kotlinx.android.synthetic.main.row_filing_history.view.*
 import com.babestudios.base.mvp.list.BaseViewHolder
 import javax.inject.Inject
 

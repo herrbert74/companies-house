@@ -42,7 +42,7 @@ class SearchResultsAdapter internal constructor(c: Context, private val companyS
 
 	override fun onCreateViewHolder(parent: ViewGroup, i: Int): SearchResultsViewHolder {
 		val itemLayoutView = LayoutInflater.from(parent.context)
-				.inflate(R.layout.search_result_list_item, parent, false)
+				.inflate(R.layout.row_search_result, parent, false)
 
 		return SearchResultsViewHolder(itemLayoutView)
 	}

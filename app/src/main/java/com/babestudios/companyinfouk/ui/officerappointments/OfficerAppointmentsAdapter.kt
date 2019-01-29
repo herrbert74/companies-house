@@ -24,7 +24,7 @@ internal class OfficerAppointmentsAdapter(c: Context, private val appointments: 
 		val itemLayoutView: View
 		if (viewType == TYPE_APPOINTMENT) {
 			itemLayoutView = LayoutInflater.from(parent.context)
-					.inflate(R.layout.officer_appointments_list_item, parent, false)
+					.inflate(R.layout.row_officer_appointments, parent, false)
 			return TransactionsViewHolder(itemLayoutView)
 		} else if (viewType == TYPE_HEADER) {
 			itemLayoutView = LayoutInflater.from(parent.context)

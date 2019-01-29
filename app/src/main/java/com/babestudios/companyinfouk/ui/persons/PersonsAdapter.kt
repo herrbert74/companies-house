@@ -27,7 +27,7 @@ class PersonsAdapter internal constructor(c: Context, persons: Persons) : Recycl
 
 	override fun onCreateViewHolder(parent: ViewGroup, i: Int): PersonsViewHolder {
 		val itemLayoutView = LayoutInflater.from(parent.context)
-				.inflate(R.layout.persons_list_item, parent, false)
+				.inflate(R.layout.row_persons, parent, false)
 
 		return PersonsViewHolder(itemLayoutView)
 	}

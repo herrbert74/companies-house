@@ -34,12 +34,12 @@ class RecentSearchesResultsAdapter(c: Context, searchHistoryItems: ArrayList<Sea
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 		if (viewType == TYPE_ITEM) {
 			val itemLayoutView = LayoutInflater.from(parent.context)
-					.inflate(R.layout.recent_searches_list_item, parent, false)
+					.inflate(R.layout.row_recent_searches, parent, false)
 
 			return RecentSearchesViewHolder(itemLayoutView)
 		} else if (viewType == TYPE_HEADER) {
 			val itemLayoutView = LayoutInflater.from(parent.context)
-					.inflate(R.layout.recent_searches_title_list_item, parent, false)
+					.inflate(R.layout.row_recent_searches_title, parent, false)
 
 			return TitleViewHolder(itemLayoutView)
 		}

@@ -27,7 +27,7 @@ class InsolvencyAdapter internal constructor(c: Context, insolvency: Insolvency)
 
 	override fun onCreateViewHolder(parent: ViewGroup, i: Int): InsolvencyViewHolder {
 		val itemLayoutView = LayoutInflater.from(parent.context)
-				.inflate(R.layout.insolvency_list_item, parent, false)
+				.inflate(R.layout.row_insolvency, parent, false)
 
 		return InsolvencyViewHolder(itemLayoutView)
 	}

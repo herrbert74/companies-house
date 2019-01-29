@@ -19,19 +19,19 @@ class InsolvencyDetailsAdapter(private val insolvencyDates: List<Date>, private 
 		when (viewType) {
 			TYPE_DATE -> {
 				itemLayoutView = LayoutInflater.from(parent.context)
-						.inflate(R.layout.insolvency_details_date_list_item, parent, false)
+						.inflate(R.layout.row_insolvency_details_date, parent, false)
 
 				return DatesViewHolder(itemLayoutView)
 			}
 			TYPE_PRACTITIONER -> {
 				itemLayoutView = LayoutInflater.from(parent.context)
-						.inflate(R.layout.insolvency_details_practitioner_list_item, parent, false)
+						.inflate(R.layout.row_insolvency_details_practitioner, parent, false)
 
 				return PractitionersViewHolder(itemLayoutView)
 			}
 			TYPE_HEADER -> {
 				itemLayoutView = LayoutInflater.from(parent.context)
-						.inflate(R.layout.recent_searches_title_list_item, parent, false)
+						.inflate(R.layout.row_recent_searches_title, parent, false)
 
 				return TitleViewHolder(itemLayoutView)
 			}

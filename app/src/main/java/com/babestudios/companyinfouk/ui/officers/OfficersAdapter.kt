@@ -27,7 +27,7 @@ class OfficersAdapter internal constructor(c: Context, officers: Officers) : Rec
 
 	override fun onCreateViewHolder(parent: ViewGroup, i: Int): OfficersViewHolder {
 		val itemLayoutView = LayoutInflater.from(parent.context)
-				.inflate(R.layout.officers_list_item, parent, false)
+				.inflate(R.layout.row_officers, parent, false)
 
 		return OfficersViewHolder(itemLayoutView)
 	}
