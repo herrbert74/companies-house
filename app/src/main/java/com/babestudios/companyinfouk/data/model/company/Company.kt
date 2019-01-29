@@ -49,10 +49,10 @@ class Company {
 	var hasBeenLiquidated: String? = null
 
 	@SerializedName("has_charges")
-	var hasCharges: String? = null
+	var hasCharges: Boolean = true
 
 	@SerializedName("has_insolvency_history")
-	var hasInsolvencyHistory: String? = null
+	var hasInsolvencyHistory: Boolean = true
 
 	@SerializedName("is_community_interest_company")
 	var isCommunityInterestCompany: String? = null

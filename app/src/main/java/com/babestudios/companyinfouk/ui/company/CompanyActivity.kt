@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
 import android.support.v7.widget.Toolbar
 import android.view.View
+import android.view.View.GONE
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -28,6 +29,7 @@ import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.companyinfouk.utils.DateUtil
 import com.jakewharton.rxbinding2.view.RxView
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
+import kotlinx.android.synthetic.main.activity_company.*
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
 import javax.inject.Inject
 
@@ -220,6 +222,12 @@ class CompanyActivity : CompositeActivity(), CompanyActivityView {
 					+ company.registeredOfficeAddress?.locality
 					+ ", "
 					+ company.registeredOfficeAddress?.postalCode)
+		}
+		if (!company.hasCharges) {
+			llCompanyCharges.visibility = GONE
+		}
+		if (!company.hasInsolvencyHistory) {
+			llCompanyInsolvency.visibility = GONE
 		}
 	}
 
