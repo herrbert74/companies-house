@@ -31,7 +31,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 				this.isLoading = true
 			}
 		}
-		viewModel?.state?.value?.parameter?.also {
+		viewModel?.state?.value?.companyNumber?.also {
 			fetchCharges(it)
 		}
 	}
@@ -59,7 +59,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 
 	override fun loadMoreCharges(page: Int) {
 		if (viewModel?.state?.value?.chargeItems == null || viewModel?.state?.value?.chargeItems!!.size < viewModel?.state?.value?.totalCount!!) {
-			companiesRepository.fetchCharges(viewModel?.state?.value?.parameter
+			companiesRepository.fetchCharges(viewModel?.state?.value?.companyNumber
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribeWith(object : ObserverWrapper<Charges>(this) {
 						override fun onSuccess(reply: Charges) {

@@ -12,6 +12,6 @@ data class ChargesState(
 		var chargeItems: List<AbstractChargesVisitable> = ArrayList()
 ) : BaseState() {
 	var totalCount: Int? = null
-	var parameter: String? = ""
+	var companyNumber: String? = ""
 	var contentChange: ContentChange = ContentChange.NONE
 }

@@ -24,7 +24,7 @@ abstract class BasePresenter<S : BaseState, VM : StateViewModel<S>> : Presenter<
 	}
 
 	open fun onError(errorType: ErrorType, errorMessage: String?) {
-		sendToViewModel { it ->
+		sendToViewModel {
 			it.apply {
 				this.isLoading = false
 				this.errorType = errorType

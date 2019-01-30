@@ -24,7 +24,6 @@ open class CompaniesHouseApplication : Application() {
 		applicationComponent = DaggerApplicationComponent.builder()
 				.applicationModule(ApplicationModule(this))
 				.build()
-		applicationComponent.inject(this)
 	}
 
 	private fun logAppOpen() {

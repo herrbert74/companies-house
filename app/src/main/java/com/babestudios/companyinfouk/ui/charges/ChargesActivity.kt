@@ -57,7 +57,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		observeActions()
 	}
 
-	private fun initPresenter(customParameter: String) {
+	private fun initPresenter(companyNumber: String) {
 		val maybePresenter = lastCustomNonConfigurationInstance as ChargesPresenterContract?
 
 		if (maybePresenter != null) {
@@ -65,7 +65,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 
 		if (!::chargesPresenter.isInitialized) {
-			viewModel.state.value.parameter = customParameter
+			viewModel.state.value.companyNumber = companyNumber
 			chargesPresenter = Injector.get().chargesPresenter()
 			chargesPresenter.setViewModel(viewModel, requestScope())
 		}
