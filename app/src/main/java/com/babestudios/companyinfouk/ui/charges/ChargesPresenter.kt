@@ -14,7 +14,7 @@ import io.reactivex.CompletableSource
 import javax.inject.Inject
 
 interface ChargesPresenterContract : Presenter<ChargesState, ChargesViewModel> {
-	fun fetchCharges(parameter: String)
+	fun fetchCharges(companyNumber: String)
 	fun loadMoreCharges(page: Int)
 }
 
@@ -36,8 +36,8 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 		}
 	}
 
-	override fun fetchCharges(parameter: String) {
-		companiesRepository.fetchCharges(parameter, "0")
+	override fun fetchCharges(companyNumber: String) {
+		companiesRepository.fetchCharges(companyNumber, "0")
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
 				.subscribeWith(object : ObserverWrapper<Charges>(this) {
 					override fun onSuccess(reply: Charges) {

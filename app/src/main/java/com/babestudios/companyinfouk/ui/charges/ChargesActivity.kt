@@ -46,7 +46,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		setSupportActionBar(pabCharges.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabCharges.setNavigationOnClickListener { onBackPressed() }
-		supportActionBar?.title = "Charges"
+		supportActionBar?.setTitle(R.string.charges)
 		initPresenter(intent.extras.getString(COMPANY_NUMBER)!!)
 		createRecyclerView()
 		observeState()
