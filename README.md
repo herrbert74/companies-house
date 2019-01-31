@@ -26,14 +26,17 @@ Companies House does have an application, but it is outdated and doesn't contain
 
 ### Technical highlights ###
 
-* Retrofit with RxJava is used for networking and button clicks.
-* MVP architecture for easy testing.
+* 100% Kotlin (not fully idiomatic, but getting there).
+* Retrofit 2 with RxJava is used for networking and button clicks.
+* MVP architecture with Dagger 2 for easy testing.
+* ViewModel holds the state, AutoDispose from Uber and RxLifecycle from Trello guarantees correct lifecycle handling.
 * Large part of the presenters are unit tested.
 * New ConstraintLayout is used on Details screens.
-* Handling configuration changes with retained presenter and RxJava.
 
 ### Roadmap ###
 
+* Add ViewModel, AutoDispose, etc. everywhere.
+* Add more API mappings (lots of enums can be converted to strings).
 * More UI tests with Espresso.
 * Animations.
     * Search/Delete action buttons appearance/disappearance.
