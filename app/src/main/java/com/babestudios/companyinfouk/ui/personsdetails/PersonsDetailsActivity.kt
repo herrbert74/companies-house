@@ -90,7 +90,7 @@ class PersonsDetailsActivity : CompositeActivity() {
 	@SuppressLint("SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_persons_details)
+		setContentView(R.layout.activity_person_details)
 		baseActivityPlugin.logScreenView(this.localClassName)
 
 		ButterKnife.bind(this)

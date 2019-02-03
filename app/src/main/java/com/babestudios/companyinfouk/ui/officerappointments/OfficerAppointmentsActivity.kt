@@ -77,7 +77,7 @@ class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActi
 
 	}
 
-	private fun createChargesDetailsRecyclerView(appointments: Appointments) {
+	private fun createRecyclerView(appointments: Appointments) {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 		officerAppointmentsRecyclerView?.layoutManager = linearLayoutManager
 		val titlePositions = ArrayList<Int>()
@@ -97,7 +97,7 @@ class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActi
 	}
 
 	override fun showAppointments(appointments: Appointments) {
-		createChargesDetailsRecyclerView(appointments)
+		createRecyclerView(appointments)
 	}
 
 	override fun showError() {

@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView
 import java.util.*
 
 /**
- * This version won't draw a lie under the sub header, the first item
+ * This version won't draw a line under the sub header, the first item
  */
 
 class DividerItemDecorationWithSubHeading(private val titlePositions: ArrayList<Int>) : RecyclerView.ItemDecoration() {

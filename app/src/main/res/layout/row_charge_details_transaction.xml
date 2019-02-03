@@ -13,46 +13,46 @@
 		app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"/>
 
 	<TextView
-		android:id="@+id/textViewLabelFilingType"
+		android:id="@+id/lblChargeDetailsHeaderFilingType"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_vertical_margin"
-		android:text="@string/charges_details_filing_type"
+		android:text="@string/charge_details_filing_type"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toTopOf="parent"/>
 
 	<TextView
-		android:id="@+id/textViewFilingType"
+		android:id="@+id/tvChargeDetailsHeaderFilingType"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelFilingType"
+		app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsHeaderFilingType"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="Long text here 1"/>
 
 	<TextView
-		android:id="@+id/textViewLabelDeliveredOn"
+		android:id="@+id/lblChargeDetailsHeaderDeliveredOn"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_vertical_margin"
-		android:text="@string/charges_details_delivered_on"
+		android:text="@string/charge_details_delivered_on"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewFilingType"/>
+		app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsHeaderFilingType"/>
 
 	<TextView
-		android:id="@+id/textViewDeliveredOn"
+		android:id="@+id/tvChargeDetailsTransactionDeliveredOn"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDeliveredOn"
+		app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsHeaderDeliveredOn"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"

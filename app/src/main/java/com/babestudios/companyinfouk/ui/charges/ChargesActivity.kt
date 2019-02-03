@@ -11,7 +11,7 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.CompletableSource
 import kotlinx.android.synthetic.main.activity_charges.*
-import com.babestudios.companyinfouk.ui.chargesdetails.createChargesDetailsIntent
+import com.babestudios.companyinfouk.ui.chargedetails.createChargeDetailsIntent
 import com.babestudios.companyinfouk.R
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
@@ -125,7 +125,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractChargesVisitable> ->
 					startActivityWithRightSlide(
-							this.createChargesDetailsIntent(
+							this.createChargeDetailsIntent(
 									(viewModel.state.value.chargeItems[(view as ChargesViewHolder).adapterPosition] as ChargesVisitable).chargesItem))
 				}
 				?.let { eventDisposables.add(it) }

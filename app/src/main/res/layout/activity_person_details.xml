@@ -113,7 +113,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/activity_horizontal_margin"
 				android:layout_marginTop="@dimen/activity_vertical_margin"
-				android:text="@string/persons_details_notified_on"
+				android:text="@string/person_details_notified_on"
 				app:layout_constraintLeft_toLeftOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/textViewName"/>
 
@@ -136,7 +136,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/activity_horizontal_margin"
 				android:layout_marginTop="@dimen/activity_vertical_margin"
-				android:text="@string/persons_details_natures_of_control"
+				android:text="@string/person_details_natures_of_control"
 				app:layout_constraintLeft_toLeftOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/textViewNotifiedOn"/>
 
@@ -228,7 +228,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/activity_horizontal_margin"
 				android:layout_marginTop="@dimen/activity_vertical_margin"
-				android:text="@string/persons_details_place_registered"
+				android:text="@string/person_details_place_registered"
 				app:layout_constraintLeft_toLeftOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/textViewCountryOfResidence"/>
 
@@ -251,7 +251,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/activity_horizontal_margin"
 				android:layout_marginTop="@dimen/activity_horizontal_margin"
-				android:text="@string/persons_details_registration_number"
+				android:text="@string/person_details_registration_number"
 				app:layout_constraintLeft_toLeftOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/textViewPlaceRegistered"/>
 

@@ -14,6 +14,7 @@
 		android:label="@string/app_name"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme.NoActionBar">
+		<activity android:name=".ui.chargedetails.ChargeDetailsActivity"/>
 		<activity android:name=".ui.charges.ChargesActivity"/>
 
 		<uses-library android:name="com.google.android.maps"/>
@@ -35,7 +36,6 @@
 		<activity android:name=".ui.filinghistorydetails.FilingHistoryDetailsActivity"/>
 		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
 		<activity android:name=".ui.insolvencydetails.InsolvencyDetailsActivity"/>
-		<activity android:name=".ui.chargesdetails.ChargesDetailsActivity"/>
 		<activity android:name=".ui.officers.OfficersActivity"/>
 		<activity android:name=".ui.officerdetails.OfficerDetailsActivity"/>
 		<activity android:name=".ui.officerappointments.OfficerAppointmentsActivity"/>
