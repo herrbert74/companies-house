@@ -179,7 +179,8 @@ class FilingHistoryDetailsActivity : CompositeActivity(), FilingHistoryDetailsAc
 	override fun showDocument(pdfBytes: Uri) {
 		val target = Intent(Intent.ACTION_VIEW)
 		target.setDataAndType(pdfBytes, "application/pdf")
-		target.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+		target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+		target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 		val intent = Intent.createChooser(target, "Open File")
 		try {
 			baseActivityPlugin.startActivityWithRightSlide(intent)

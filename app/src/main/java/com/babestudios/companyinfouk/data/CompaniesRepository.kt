@@ -3,9 +3,11 @@ package com.babestudios.companyinfouk.data
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Environment
+import android.support.v4.content.FileProvider
 import android.util.Base64
 import android.util.Log
 import com.babestudios.companyinfouk.BuildConfig
+import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.local.ApiLookupHelper
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.model.charges.Charges
@@ -113,9 +115,7 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 	}
 
 	fun writeDocumentPdf(responseBody: ResponseBody): Uri {
-		val root = Environment.getExternalStorageDirectory()
-		val dir = File(root.absolutePath + "/download")
-		dir.mkdirs()
+		val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 		val pdfFile = File(dir, "doc.pdf")
 		var inputStream: InputStream? = null
 		var outputStream: OutputStream? = null
@@ -145,7 +145,8 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 			Log.d("test", "Error during closing input stream" + e.localizedMessage)
 		}
 
-		return Uri.fromFile(pdfFile)
+		Log.d("test", "writeDocumentPdf: ${CompaniesHouseApplication.context.packageName}.fileprovider")
+		return FileProvider.getUriForFile(CompaniesHouseApplication.context, CompaniesHouseApplication.context.packageName + ".fileprovider", pdfFile)
 	}
 
 	fun clearAllRecentSearches() {

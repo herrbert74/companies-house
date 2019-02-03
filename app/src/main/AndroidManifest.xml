@@ -44,6 +44,16 @@
 		<activity android:name=".ui.map.MapActivity"/>
 		<activity android:name=".ui.privacy.PrivacyActivity"/>
 
+		<provider
+			android:name="android.support.v4.content.FileProvider"
+			android:authorities="${applicationId}.fileprovider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/provider_paths"/>
+		</provider>
+
 		<meta-data
 			android:name="com.google.android.geo.API_KEY"
 			android:value="AIzaSyDL491tNFSzvEl4Z0EuIejDli0caJVWdcA"/>

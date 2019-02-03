@@ -27,7 +27,8 @@ constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter
 		val gson = Gson()
 		val filingHistoryItem = gson.fromJson(filingHistoryItemString, FilingHistoryItem::class.java)
 		filingHistoryItem.links?.documentMetadata?.let {
-			val documentId = it.replace("https://document-api.companieshouse.gov.uk/document/", "")
+			//val documentId = it.replace("https://document-api.companieshouse.gov.uk/document/", "")
+			val documentId = it.replace("https://frontend-doc-api.companieshouse.gov.uk/document/", "")
 			companiesRepository.getDocument(documentId).subscribe(this)
 		}
 	}
