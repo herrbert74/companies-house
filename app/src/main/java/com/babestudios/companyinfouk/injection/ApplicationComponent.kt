@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.injection
 
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.ui.charges.ChargesPresenter
-import com.babestudios.companyinfouk.ui.company.CompanyActivity
+import com.babestudios.companyinfouk.ui.company.CompanyPresenter
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryAdapter
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
@@ -42,8 +42,6 @@ interface ApplicationComponent {
 
 	fun inject(officerAppointmentsActivity: OfficerAppointmentsActivity)
 
-	fun inject(companyActivity: CompanyActivity)
-
 	fun inject(favouritesActivity: FavouritesActivity)
 
 	fun inject(filingHistoryAdapter: FilingHistoryAdapter)
@@ -55,6 +53,8 @@ interface ApplicationComponent {
 	fun filingHistoryPresenter(): FilingHistoryPresenter
 
 	fun chargesPresenter(): ChargesPresenter
+
+	fun companyPresenter(): CompanyPresenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

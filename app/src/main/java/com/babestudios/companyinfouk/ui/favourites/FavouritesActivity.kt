@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.favourites
 
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -17,9 +16,9 @@ import android.view.View
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.ui.company.CompanyActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
@@ -109,10 +108,7 @@ class FavouritesActivity : CompositeActivity(), FavouritesActivityView, Favourit
 
 
 	override fun startCompanyActivity(companyNumber: String, companyName: String) {
-		val startIntent = Intent(this, CompanyActivity::class.java)
-		startIntent.putExtra("companyNumber", companyNumber)
-		startIntent.putExtra("companyName", companyName)
-		baseActivityPlugin.startActivityWithRightSlide(startIntent)
+		baseActivityPlugin.startActivityWithRightSlide(createCompanyIntent(companyNumber, companyName))
 	}
 
 	private fun setUpItemTouchHelper() {

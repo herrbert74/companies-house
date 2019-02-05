@@ -21,17 +21,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.DividerItemDecorationWithSubHeading
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.ui.company.CompanyActivity
+import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.base.view.DividerItemDecorationWithSubHeading
-import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
@@ -161,10 +161,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 	}
 
 	override fun startCompanyActivity(companyNumber: String, companyName: String) {
-		val startCompanyActivityIntent = Intent(this, CompanyActivity::class.java)
-		startCompanyActivityIntent.putExtra("companyNumber", companyNumber)
-		startCompanyActivityIntent.putExtra("companyName", companyName)
-		baseActivityPlugin.startActivityWithRightSlide(startCompanyActivityIntent)
+		baseActivityPlugin.startActivityWithRightSlide(createCompanyIntent(companyNumber, companyName))
 	}
 
 	/**

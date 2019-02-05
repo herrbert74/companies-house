@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.officerappointments
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -13,7 +12,6 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
-import com.babestudios.companyinfouk.ui.company.CompanyActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
@@ -27,6 +25,7 @@ import javax.inject.Inject
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.babestudios.base.ext.biLet
+import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 
 class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActivityView, OfficerAppointmentsAdapter.AppointmentsRecyclerViewClickListener {
 
@@ -111,10 +110,7 @@ class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActi
 	}
 
 	override fun startCompanyActivity(companyNumber: String, companyName: String) {
-		val startIntent = Intent(this, CompanyActivity::class.java)
-		startIntent.putExtra("companyNumber", companyNumber)
-		startIntent.putExtra("companyName", companyName)
-		baseActivityPlugin.startActivityWithRightSlide(startIntent)
+		baseActivityPlugin.startActivityWithRightSlide(createCompanyIntent(companyNumber, companyName))
 	}
 
 	override fun super_onBackPressed() {

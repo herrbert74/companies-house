@@ -1,85 +1,88 @@
 package com.babestudios.companyinfouk.ui.company
 
-import android.util.Log
+import android.annotation.SuppressLint
 import com.babestudios.base.ext.biLet
+import com.babestudios.base.mvp.BasePresenter
+import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-import io.reactivex.Observable
-import io.reactivex.observers.DisposableObserver
-import net.grandcentrix.thirtyinch.TiPresenter
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 
-class CompanyPresenter @Inject
-constructor(var companiesRepository: CompaniesRepository) : TiPresenter<CompanyActivityView>() {
+interface CompanyPresenterContract : Presenter<CompanyState, CompanyViewModel> {
+	fun fetchCompany(companyNumber: String)
+	fun updateFavorites()
+}
 
-	var company: Company? = null
-	/**
-	 * It's safe to retrieve these from the view, because they come from the previous Activity, but not safe to get them from the company field, which might be null.
-	 */
-	private var companyNumber: String? = null
-	private var companyName: String? = null
+@SuppressLint("CheckResult")
+class CompanyPresenter
+@Inject
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<CompanyState, CompanyViewModel>(), CompanyPresenterContract {
 
-	private var companyActivityView: CompanyActivityView? = null
-
-	override fun onAttachView(view: CompanyActivityView) {
-		super.onAttachView(view)
-		companyActivityView = view
-		companyName = view.companyName
-		companyNumber = view.companyNumber
-		company?.let {
-			showCompany(it)
-		} ?: getCompany(companyNumber)
+	override fun setViewModel(viewModel: CompanyViewModel?, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		sendToViewModel {
+			it.apply {
+				this.isLoading = true
+				this.isFavorite = companiesRepository.isFavourite(SearchHistoryItem(this.companyName, this.companyNumber, 0))
+			}
+		}
+		viewModel?.state?.value?.companyNumber?.also {
+			fetchCompany(it)
+		}
 	}
 
-	fun getCompany(companyNumber: String?) {
-		companyActivityView!!.showProgress()
-		companiesRepository.getCompany(companyNumber ?: "")
-				.subscribe(object : DisposableObserver<Company>() {
-					override fun onComplete() {
-
-					}
-
-					override fun onError(e: Throwable) {
-						Log.d("test", "onError: " + e.fillInStackTrace())
-						companyActivityView?.showError()
-						companyActivityView?.hideProgress()
-					}
-
-					override fun onNext(company: Company) {
-						company.accounts?.lastAccounts?.type?.let {
-							company.accounts?.lastAccounts?.type = companiesRepository.accountTypeLookup(it)
+	override fun fetchCompany(companyNumber: String) {
+		companiesRepository.getCompany(companyNumber)
+				.subscribeWith(object : ObserverWrapper<Company>(this) {
+					override fun onSuccess(reply: Company) {
+						sendToViewModel {
+							it.apply {
+								this.isLoading = false
+								this.contentChange = ContentChange.COMPANY_RECEIVED
+								this.company = reply
+								this.addressString = getAddressString(reply)
+								if (reply.sicCodes.isNotEmpty()) {
+									this.natureOfBusinessString = "${reply.sicCodes[0]} ${companiesRepository.sicLookup(reply.sicCodes[0])}"
+								} else {
+									//TODO Create a string provider to get this from strings.xml, but don't rely on context here
+									this.natureOfBusinessString = "No data"
+								}
+							}
 						}
-						this@CompanyPresenter.company = company
-						showCompany(company)
 					}
 				})
 	}
 
-	private fun showCompany(company: Company) {
-		companyActivityView?.showCompany(company)
-		companyActivityView?.hideProgress()
-		if (company.sicCodes.isNotEmpty()) {
-			companyActivityView?.showNatureOfBusiness(company.sicCodes[0], companiesRepository.sicLookup(company.sicCodes[0]))
-		} else {
-			companyActivityView?.showEmptyNatureOfBusiness()
+	private fun getAddressString(company: Company): String {
+		return company.registeredOfficeAddress?.addressLine2?.let { line2 ->
+			line2
+		} ?: run {
+			(company.registeredOfficeAddress?.addressLine1
+					+ ", "
+					+ company.registeredOfficeAddress?.locality
+					+ ", "
+					+ company.registeredOfficeAddress?.postalCode)
 		}
 	}
 
-	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
-		return companiesRepository.isFavourite(searchHistoryItem)
-	}
-
-	fun observablesFromViews(o: Observable<Any>) {
-		o.subscribe {
-			(companyName to companyNumber).biLet { companyName, companyNumber ->
-				if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
-					companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
-				} else {
-					companiesRepository.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+	override fun updateFavorites() {
+		(viewModel?.state?.value?.companyName to viewModel?.state?.value?.companyNumber).biLet { companyName, companyNumber ->
+			if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
+				companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+			} else {
+				companiesRepository.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+			}
+			sendToViewModel {
+				it.apply {
+					this.contentChange = ContentChange.HIDE_FAB
+					this.isFavorite = companiesRepository.isFavourite(SearchHistoryItem(this.companyName, this.companyNumber, 0))
 				}
-				companyActivityView?.hideFab()
 			}
 		}
 	}
+
 }
