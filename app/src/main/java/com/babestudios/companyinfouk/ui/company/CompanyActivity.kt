@@ -1,23 +1,15 @@
 package com.babestudios.companyinfouk.ui.company
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-
-import kotlinx.android.synthetic.main.activity_company.*
-import com.babestudios.companyinfouk.R
-import com.babestudios.base.mvp.ErrorType
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.ScopeProvider
-import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import io.reactivex.CompletableSource
-import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.view.animation.LinearOutSlowInInterpolator
-import android.util.Log
 import android.view.View
+import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.charges.createChargesIntent
@@ -28,8 +20,13 @@ import com.babestudios.companyinfouk.ui.officers.OfficersActivity
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity
 import com.babestudios.companyinfouk.utils.DateUtil
 import com.jakewharton.rxbinding2.view.RxView
-
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_company.*
 
 private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_number"
 private const val COMPANY_NAME = "com.babestudios.companyinfouk.ui.company_name"
@@ -54,7 +51,30 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabCompany.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.title = intent.getStringExtra(COMPANY_NAME)
-		initPresenter(intent.getStringExtra(COMPANY_NUMBER), intent.getStringExtra(COMPANY_NAME))
+		when {
+			viewModel.state.value.company != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<CompanyState>("STATE")?.let {
+					with(viewModel.state.value) {
+						company = it.company
+						companyName = it.companyName
+						companyNumber = it.companyNumber
+						addressString = it.addressString
+						isFavorite = it.isFavorite
+						natureOfBusinessString = it.natureOfBusinessString
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
+				viewModel.state.value.companyName = intent.getStringExtra(COMPANY_NAME)
+				initPresenter(viewModel)
+			}
+		}
+
 		observeState()
 	}
 
@@ -63,7 +83,12 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		observeActions()
 	}
 
-	private fun initPresenter(companyNumber: String, companyName: String) {
+	override fun onSaveInstanceState(outState: Bundle?) {
+		outState?.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+	private fun initPresenter(viewModel: CompanyViewModel) {
 		val maybePresenter = lastCustomNonConfigurationInstance as CompanyPresenterContract?
 
 		if (maybePresenter != null) {
@@ -71,8 +96,6 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 
 		if (!::companyPresenter.isInitialized) {
-			viewModel.state.value.companyNumber = companyNumber
-			viewModel.state.value.companyName = companyName
 			companyPresenter = Injector.get().companyPresenter()
 			companyPresenter.setViewModel(viewModel, requestScope())
 		}
@@ -99,8 +122,10 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 				hideFab(state.isFavorite)
 			}
 			else -> {
-				msvCompany.viewState = VIEW_STATE_CONTENT
-				showCompany(state.company, state.natureOfBusinessString)
+				state.company?.let {
+					msvCompany.viewState = VIEW_STATE_CONTENT
+					showCompany(it, state.natureOfBusinessString)
+				}
 			}
 		}
 	}
@@ -162,7 +187,6 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	private fun hideFab(favorite: Boolean) {
-		Log.d("test", "hideFab: $favorite")
 		fabCompanyFavorite?.also {
 			it.animate().cancel()
 			it.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(0f).scaleY(0f).alpha(0f)

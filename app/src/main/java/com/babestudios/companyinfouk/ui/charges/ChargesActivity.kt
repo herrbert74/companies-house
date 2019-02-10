@@ -103,11 +103,11 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 			else -> {
 				msvCharges.viewState = VIEW_STATE_CONTENT
 				if (rvCharges?.adapter == null) {
-					chargesAdapter = ChargesAdapter(viewModel.state.value.chargeItems, ChargesTypeFactory())
+					chargesAdapter = ChargesAdapter(state.chargeItems, ChargesTypeFactory())
 					rvCharges?.adapter = chargesAdapter
 					observeActions()
 				} else {
-					chargesAdapter?.updateItems(viewModel.state.value.chargeItems)
+					chargesAdapter?.updateItems(state.chargeItems)
 					observeActions()
 				}
 			}

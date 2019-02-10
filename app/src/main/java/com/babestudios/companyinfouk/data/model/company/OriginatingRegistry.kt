@@ -1,13 +1,16 @@
 package com.babestudios.companyinfouk.data.model.company
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class OriginatingRegistry {
+@Parcelize
+class OriginatingRegistry(
 
-	@SerializedName("country")
-	var country: String? = null
+		@SerializedName("country")
+		var country: String? = null,
 
-	@SerializedName("name")
-	var name: String? = null
+		@SerializedName("name")
+		var name: String? = null
 
-}
+) : Parcelable

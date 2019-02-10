@@ -1,15 +1,16 @@
 package com.babestudios.companyinfouk.data.model.company
 
-import javax.annotation.Generated
-import com.google.gson.annotations.Expose
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class AccountingReferenceDate {
+@Parcelize
+class AccountingReferenceDate(
 
-	@SerializedName("day")
-	var day: String? = null
+		@SerializedName("day")
+		var day: String? = null,
 
-	@SerializedName("month")
-	var month: String? = null
+		@SerializedName("month")
+		var month: String? = null
 
-}
+) : Parcelable

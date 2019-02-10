@@ -24,14 +24,23 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Compan
 	override fun setViewModel(viewModel: CompanyViewModel?, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		sendToViewModel {
-			it.apply {
-				this.isLoading = true
-				this.isFavorite = companiesRepository.isFavourite(SearchHistoryItem(this.companyName, this.companyNumber, 0))
+		viewModel?.state?.value?.company?.let {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = false
+					this.contentChange = ContentChange.COMPANY_RECEIVED
+				}
 			}
-		}
-		viewModel?.state?.value?.companyNumber?.also {
-			fetchCompany(it)
+		} ?: run {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = true
+					this.isFavorite = companiesRepository.isFavourite(SearchHistoryItem(this.companyName, this.companyNumber, 0))
+				}
+			}
+			viewModel?.state?.value?.companyNumber?.also {
+				fetchCompany(it)
+			}
 		}
 	}
 
