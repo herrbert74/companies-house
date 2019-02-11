@@ -5,23 +5,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.ui.chargedetails.createChargeDetailsIntent
+import com.babestudios.companyinfouk.ui.charges.list.*
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.ScopeProvider
 import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.CompletableSource
-import kotlinx.android.synthetic.main.activity_charges.*
-import com.babestudios.companyinfouk.ui.chargedetails.createChargeDetailsIntent
-import com.babestudios.companyinfouk.R
-import com.babestudios.base.mvp.ErrorType
-import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
-import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.base.view.EndlessRecyclerViewScrollListener
-import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
-import com.babestudios.companyinfouk.ui.charges.list.*
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_charges.*
 import kotlinx.android.synthetic.main.multi_state_view_error.*
 
 private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.COMPANY_NUMBER"
@@ -47,8 +47,24 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabCharges.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.setTitle(R.string.charges)
-		initPresenter(intent.extras.getString(COMPANY_NUMBER)!!)
 		createRecyclerView()
+		when {
+			viewModel.state.value.chargeItems != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<ChargesState>("STATE")?.let {
+					with(viewModel.state.value) {
+						companyNumber = it.companyNumber
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)!!
+				initPresenter(viewModel)
+			}
+		}
 		observeState()
 	}
 
@@ -57,7 +73,12 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		observeActions()
 	}
 
-	private fun initPresenter(companyNumber: String) {
+	override fun onSaveInstanceState(outState: Bundle?) {
+		outState?.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+	private fun initPresenter(viewModel: ChargesViewModel) {
 		val maybePresenter = lastCustomNonConfigurationInstance as ChargesPresenterContract?
 
 		if (maybePresenter != null) {
@@ -65,7 +86,6 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 
 		if (!::chargesPresenter.isInitialized) {
-			viewModel.state.value.companyNumber = companyNumber
 			chargesPresenter = Injector.get().chargesPresenter()
 			chargesPresenter.setViewModel(viewModel, requestScope())
 		}
@@ -101,14 +121,16 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 			}
 			state.chargeItems == null -> msvCharges.viewState = VIEW_STATE_EMPTY
 			else -> {
-				msvCharges.viewState = VIEW_STATE_CONTENT
-				if (rvCharges?.adapter == null) {
-					chargesAdapter = ChargesAdapter(state.chargeItems, ChargesTypeFactory())
-					rvCharges?.adapter = chargesAdapter
-					observeActions()
-				} else {
-					chargesAdapter?.updateItems(state.chargeItems)
-					observeActions()
+				state.chargeItems?.let {
+					msvCharges.viewState = VIEW_STATE_CONTENT
+					if (rvCharges?.adapter == null) {
+						chargesAdapter = ChargesAdapter(it, ChargesTypeFactory())
+						rvCharges?.adapter = chargesAdapter
+						observeActions()
+					} else {
+						chargesAdapter?.updateItems(it)
+						observeActions()
+					}
 				}
 			}
 		}
@@ -124,9 +146,10 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractChargesVisitable> ->
-					startActivityWithRightSlide(
-							this.createChargeDetailsIntent(
-									(viewModel.state.value.chargeItems[(view as ChargesViewHolder).adapterPosition] as ChargesVisitable).chargesItem))
+					viewModel.state.value.chargeItems?.let { chargeItems ->
+						startActivityWithRightSlide(this.createChargeDetailsIntent(
+								(chargeItems[(view as ChargesViewHolder).adapterPosition] as ChargesVisitable).chargesItem))
+					}
 				}
 				?.let { eventDisposables.add(it) }
 	}

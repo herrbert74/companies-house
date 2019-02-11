@@ -26,13 +26,22 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 	override fun setViewModel(viewModel: ChargesViewModel?, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		sendToViewModel {
-			it.apply {
-				this.isLoading = true
+		viewModel?.state?.value?.chargeItems?.let {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = false
+					this.contentChange = ContentChange.CHARGES_RECEIVED
+				}
 			}
-		}
-		viewModel?.state?.value?.companyNumber?.also {
-			fetchCharges(it)
+		} ?: run {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = true
+				}
+			}
+			viewModel?.state?.value?.companyNumber?.also {
+				fetchCharges(it)
+			}
 		}
 	}
 
