@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +9,8 @@ import android.view.Menu
 import android.widget.Spinner
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
@@ -15,10 +18,12 @@ import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryAdapter
+import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryTypeFactory
+import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
+import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
 import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter
-import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.google.gson.Gson
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -26,7 +31,10 @@ import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.ScopeProvider
 import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_filing_history.*
+
+private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_number"
 
 class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
@@ -37,6 +45,8 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 	private var filingHistoryAdapter: FilingHistoryAdapter? = null
 
 	lateinit var filingHistoryPresenter: FilingHistoryPresenterContract
+
+	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
 	//region lifeCycle
 
@@ -50,11 +60,29 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		setSupportActionBar(tbFilingHistory)
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		tbFilingHistory?.setNavigationOnClickListener { onBackPressed() }
-		val companyNumber = intent.getStringExtra("companyNumber")
 		createFilingHistoryRecyclerView()
 
 		ctbFilingHistory?.title = getString(R.string.filing_history)
-		initPresenter(companyNumber)
+		when {
+			viewModel.state.value.filingHistoryList != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<FilingHistoryState>("STATE")?.let {
+					with(viewModel.state.value) {
+						companyNumber = it.companyNumber
+						filingHistoryList = it.filingHistoryList
+						filingCategoryFilter = it.filingCategoryFilter
+						clickedFilingHistoryItem = null
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
+				initPresenter(viewModel)
+			}
+		}
 		observeState()
 	}
 
@@ -63,7 +91,12 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		observeActions()
 	}
 
-	private fun initPresenter(companyNumber: String) {
+	override fun onSaveInstanceState(outState: Bundle?) {
+		outState?.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+	private fun initPresenter(viewModel: FilingHistoryViewModel) {
 		val maybePresenter = lastCustomNonConfigurationInstance as FilingHistoryPresenterContract?
 
 		if (maybePresenter != null) {
@@ -71,7 +104,6 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 
 		if (!::filingHistoryPresenter.isInitialized) {
-			viewModel.state.value.companyNumber = companyNumber
 			filingHistoryPresenter = Injector.get().filingHistoryPresenter()
 			filingHistoryPresenter.setViewModel(viewModel, requestScope())
 		}
@@ -114,17 +146,21 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 	//region Actions
 
 	private fun observeActions() {
+		eventDisposables.clear()
 		if (::spinner.isInitialized) {
 			RxAdapterView.itemSelections(spinner)
 					.skip(2)
 					.`as`(AutoDispose.autoDisposable(this))
 					.subscribe { er -> filingHistoryPresenter.setCategoryFilter(er) }
-			filingHistoryAdapter?.getViewClickedObservable()
-					?.`as`(AutoDispose.autoDisposable(this))
-					?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
-						filingItemClicked(viewModel.state.value.filingHistoryList[(view as FilingHistoryViewHolder).adapterPosition].filingHistoryItem)
-					}
 		}
+		filingHistoryAdapter?.getViewClickedObservable()
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
+					viewModel.state.value.filingHistoryList?.let { filingHistoryList ->
+						filingItemClicked(filingHistoryList[(view as FilingHistoryViewHolder).adapterPosition].filingHistoryItem)
+					}
+				}
+				?.let { eventDisposables.add(it) }
 	}
 
 	private fun filingItemClicked(item: FilingHistoryItem?) {
@@ -151,9 +187,11 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 				state.contentChange = ContentChange.NONE
 				filingItemClicked(state.clickedFilingHistoryItem)
 			}
-			state.isLoading -> msvFilingHistory.viewState = VIEW_STATE_LOADING
+			state.isLoading -> {
+				msvFilingHistory.viewState = VIEW_STATE_LOADING
+			}
 			state.errorType != ErrorType.NONE -> msvFilingHistory.viewState = VIEW_STATE_ERROR
-			state.filingHistoryList.isEmpty() -> {
+			state.filingHistoryList?.isNotEmpty() == false -> {
 				msvFilingHistory.viewState = VIEW_STATE_EMPTY
 			}
 			else -> {
@@ -166,11 +204,13 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun showFilingHistory() {
 		msvFilingHistory.viewState = VIEW_STATE_CONTENT
-		if (rvFilingHistory?.adapter == null) {
-			filingHistoryAdapter = FilingHistoryAdapter(viewModel.state.value.filingHistoryList, FilingHistoryTypesFactory())
-			rvFilingHistory?.adapter = filingHistoryAdapter
-		} else {
-			filingHistoryAdapter?.updateItems(viewModel.state.value.filingHistoryList)
+		viewModel.state.value.filingHistoryList?.also { filingHistoryList ->
+			if (rvFilingHistory?.adapter == null) {
+				filingHistoryAdapter = FilingHistoryAdapter(filingHistoryList, FilingHistoryTypeFactory())
+				rvFilingHistory?.adapter = filingHistoryAdapter
+			} else {
+				filingHistoryAdapter?.updateItems(filingHistoryList)
+			}
 		}
 	}
 
@@ -180,4 +220,9 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	//endregion
+}
+
+fun Context.createFilingHistoryIntent(companyNumber: String): Intent {
+	return Intent(this, FilingHistoryActivity::class.java)
+			.putExtra(COMPANY_NUMBER, companyNumber)
 }

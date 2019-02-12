@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.ui.filinghistory
+package com.babestudios.companyinfouk.ui.filinghistory.list
 
 import android.view.View
 import com.babestudios.companyinfouk.R
@@ -13,7 +13,7 @@ import com.babestudios.base.mvp.list.BaseViewHolder
  * https://github.com/dmitrikudrenko/BetterAdapters
  *
  */
-class FilingHistoryTypesFactory : FilingHistoryAdapter.FilingHistoryTypesFactory {
+class FilingHistoryTypeFactory : FilingHistoryAdapter.FilingHistoryTypeFactory {
 	override fun type(filingHistoryItem: FilingHistoryItem): Int = R.layout.row_filing_history
 
 	override fun holder(type: Int, view: View): BaseViewHolder<*> {

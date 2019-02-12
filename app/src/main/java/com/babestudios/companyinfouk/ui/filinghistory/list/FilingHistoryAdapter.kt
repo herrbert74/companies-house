@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.ui.filinghistory
+package com.babestudios.companyinfouk.ui.filinghistory.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,10 +14,10 @@ import com.babestudios.base.mvp.list.BaseViewHolder
 import javax.inject.Inject
 
 class FilingHistoryAdapter internal constructor(private var visitables: List<FilingHistoryVisitable>,
-												private val filingHistoryTypesFactory: FilingHistoryTypesFactory) : RecyclerView.Adapter<BaseViewHolder<FilingHistoryVisitable>>() {
+												private val filingHistoryTypeFactory: FilingHistoryTypeFactory) : RecyclerView.Adapter<BaseViewHolder<FilingHistoryVisitable>>() {
 
 
-	interface FilingHistoryTypesFactory {
+	interface FilingHistoryTypeFactory {
 		fun type(filingHistoryItem: FilingHistoryItem): Int
 		fun holder(type: Int, view: View): BaseViewHolder<*>
 	}
@@ -31,7 +31,7 @@ class FilingHistoryAdapter internal constructor(private var visitables: List<Fil
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FilingHistoryVisitable> {
 		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v =  filingHistoryTypesFactory.holder(viewType, view) as BaseViewHolder<FilingHistoryVisitable>
+		val v =  filingHistoryTypeFactory.holder(viewType, view) as BaseViewHolder<FilingHistoryVisitable>
 		RxView.clicks(view)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
@@ -44,7 +44,7 @@ class FilingHistoryAdapter internal constructor(private var visitables: List<Fil
 	}
 
 	override fun getItemViewType(position: Int): Int {
-		return visitables[position].type(filingHistoryTypesFactory)
+		return visitables[position].type(filingHistoryTypeFactory)
 	}
 
 	private val itemClickSubject = PublishSubject.create<BaseViewHolder<FilingHistoryVisitable>>()

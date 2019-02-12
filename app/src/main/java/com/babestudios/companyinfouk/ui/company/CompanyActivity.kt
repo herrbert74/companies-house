@@ -14,6 +14,7 @@ import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.charges.createChargesIntent
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity
+import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
 import com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity
 import com.babestudios.companyinfouk.ui.map.MapActivity
 import com.babestudios.companyinfouk.ui.officers.OfficersActivity
@@ -215,9 +216,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	fun onFilingHistoryClicked(view: View) {
-		val intent = Intent(this, FilingHistoryActivity::class.java)
-		intent.putExtra("companyNumber", viewModel.state.value.companyNumber)
-		startActivityWithRightSlide(intent)
+		startActivityWithRightSlide(this.createFilingHistoryIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 

@@ -17,6 +17,7 @@ import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
+import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import javax.inject.Inject
@@ -30,6 +31,27 @@ class FilingHistoryPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<FilingHistoryState, FilingHistoryViewModel>(), FilingHistoryPresenterContract {
 
+
+	override fun setViewModel(viewModel: FilingHistoryViewModel?, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		viewModel?.state?.value?.filingHistoryList?.let {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = false
+				}
+			}
+		} ?: run {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = true
+				}
+			}
+			viewModel?.state?.value?.also {
+				getFilingHistory(it.companyNumber, it.filingCategoryFilter)
+			}
+		}
+	}
 
 	@VisibleForTesting
 	fun getFilingHistory(companyNumber: String?, category: Category) {
@@ -45,19 +67,6 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 							onFilingHistoryError(e)
 						}
 					})
-		}
-	}
-
-	override fun setViewModel(viewModel: FilingHistoryViewModel?, lifeCycleCompletable: CompletableSource?) {
-		this.viewModel = viewModel
-		this.lifeCycleCompletable = lifeCycleCompletable
-		sendToViewModel {
-			it.apply {
-				this.isLoading = true
-			}
-		}
-		viewModel?.also {
-			getFilingHistory(viewModel.state.value.companyNumber, viewModel.state.value.filingCategoryFilter)
 		}
 	}
 
@@ -93,7 +102,9 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 		sendToViewModel {
 			it.apply {
 				this.isLoading = false
-				this.filingHistoryList.addAll(convertHistoryListToVisitables(filingHistoryList))
+				this.filingHistoryList?.addAll(convertHistoryListToVisitables(filingHistoryList)) ?: run {
+					this.filingHistoryList = convertHistoryListToVisitables(filingHistoryList)
+				}
 			}
 		}
 	}
@@ -105,8 +116,6 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 	override fun setCategoryFilter(category: Int) {
 		sendToViewModel {
 			it.apply {
-				this.page = 1
-				this.total = 0
 				this.filingCategoryFilter = Category.values()[category]
 				this.filingHistoryList = ArrayList()
 				this.isLoading = true
