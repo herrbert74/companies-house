@@ -4,6 +4,7 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.ui.charges.ChargesPresenter
 import com.babestudios.companyinfouk.ui.company.CompanyPresenter
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
+import com.babestudios.companyinfouk.ui.favourites.FavouritesPresenter
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryAdapter
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
@@ -55,6 +56,8 @@ interface ApplicationComponent {
 	fun chargesPresenter(): ChargesPresenter
 
 	fun companyPresenter(): CompanyPresenter
+
+	fun favouritesPresenter(): FavouritesPresenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

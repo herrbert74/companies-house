@@ -29,7 +29,7 @@ import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
-import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
+import com.babestudios.companyinfouk.ui.favourites.createFavouritesIntent
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -281,8 +281,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 		val intent: Intent
 		return when (item.itemId) {
 			R.id.action_favourites -> {
-				intent = Intent(this, FavouritesActivity::class.java)
-				baseActivityPlugin.startActivityWithRightSlide(intent)
+				baseActivityPlugin.startActivityWithRightSlide(createFavouritesIntent())
 				true
 			}
 			R.id.action_privacy -> {

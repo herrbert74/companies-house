@@ -1,114 +1,219 @@
 package com.babestudios.companyinfouk.ui.favourites
 
+import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
-
-import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-
-import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-
-import java.util.ArrayList
-import java.util.Arrays
-
-import javax.inject.Inject
-
+import com.babestudios.companyinfouk.ui.favourites.list.*
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import io.reactivex.CompletableSource
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_favourites.*
+import java.util.*
 
-class FavouritesActivity : CompositeActivity(), FavouritesActivityView, FavouritesAdapter.FavouritesRecyclerViewClickListener {
+private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
+
+class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private var favouritesAdapter: FavouritesAdapter? = null
 
-	@Inject
-	lateinit var favouritesPresenter: FavouritesPresenter
+	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
-	private var favouritesActivityPlugin = TiActivityPlugin<FavouritesPresenter, FavouritesActivityView> {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		favouritesPresenter
-	}
+	private val viewModel by lazy { ViewModelProviders.of(this).get(FavouritesViewModel::class.java) }
 
-	internal var baseActivityPlugin = BaseActivityPlugin()
+	private lateinit var favouritesPresenter: FavouritesPresenterContract
 
-	init {
+	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-		addPlugin(favouritesActivityPlugin)
-		addPlugin(baseActivityPlugin)
-	}
+	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_favourites)
-		baseActivityPlugin.logScreenView(this.localClassName)
-
-		if (tbFavourites != null) {
-			setSupportActionBar(tbFavourites)
-			supportActionBar?.setDisplayHomeAsUpEnabled(true)
-			tbFavourites?.setNavigationOnClickListener { onBackPressed() }
+		setSupportActionBar(pabFavourites.getToolbar())
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		pabFavourites.setNavigationOnClickListener { onBackPressed() }
+		supportActionBar?.setTitle(R.string.favourites)
+		when {
+			viewModel.state.value.favouriteItems != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<FavouritesState>("STATE")?.let {
+					with(viewModel.state.value) {
+						favouriteItems = it.favouriteItems
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				initPresenter(viewModel)
+			}
 		}
-		createRecentSearchesRecyclerView()
+
+		createRecyclerView()
 		setUpItemTouchHelper()
 		setUpAnimationDecoratorHelper()
+
+		observeState()
 	}
 
-	private fun createRecentSearchesRecyclerView() {
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+	}
+
+	override fun onSaveInstanceState(outState: Bundle?) {
+		outState?.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+
+	private fun initPresenter(viewModel: FavouritesViewModel) {
+		if (!::favouritesPresenter.isInitialized) {
+			favouritesPresenter = Injector.get().favouritesPresenter()
+			favouritesPresenter.setViewModel(viewModel, requestScope())
+		}
+	}
+
+	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 		rvFavourites?.layoutManager = linearLayoutManager
-		rvFavourites?.addItemDecoration(
-				DividerItemDecoration(this))
+		rvFavourites.addItemDecoration(DividerItemDecoration(this))
 	}
 
+	//endregion
 
-	override fun showProgress() {
-		pbFavourites?.visibility = View.VISIBLE
+	//region render
+
+	private fun observeState() {
+		viewModel.state
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { render(it) }
 	}
 
-	override fun hideProgress() {
-		pbFavourites?.visibility = View.GONE
-	}
-
-	override fun showFavourites(searchHistoryItems: Array<SearchHistoryItem>?) {
-		rvFavourites?.visibility = View.VISIBLE
-		val searchHistoryItemsList: ArrayList<SearchHistoryItem> = if (searchHistoryItems != null) {
-			ArrayList(Arrays.asList(*searchHistoryItems))
-		} else {
-			ArrayList()
+	private fun render(state: FavouritesState) {
+		when {
+			state.isLoading -> msvFavourites.viewState = VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> msvFavourites.viewState = VIEW_STATE_ERROR
+			state.favouriteItems == null -> msvFavourites.viewState = VIEW_STATE_EMPTY
+			else -> {
+				state.favouriteItems?.let {
+					msvFavourites.viewState = VIEW_STATE_CONTENT
+					if (rvFavourites?.adapter == null) {
+						favouritesAdapter = FavouritesAdapter(it, FavouritesTypeFactory())
+						rvFavourites?.adapter = favouritesAdapter
+						observeActions()
+					} else {
+						favouritesAdapter?.updateItems(it)
+						observeActions()
+					}
+				}
+			}
 		}
-		if (rvFavourites?.adapter == null) {
-			favouritesAdapter = FavouritesAdapter(this@FavouritesActivity, searchHistoryItemsList)
-			rvFavourites?.adapter = favouritesAdapter
-		} else {
-			(rvFavourites?.adapter as FavouritesAdapter).updateAdapter(searchHistoryItemsList)
+	}
+
+	//endregion
+
+	//region events
+
+	private fun observeActions() {
+		eventDisposables.clear()
+		favouritesAdapter?.getViewClickedObservable()
+				?.take(1)
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
+					viewModel.state.value.favouriteItems?.let { favouriteItems ->
+						Log.d("test", "observeActions: item click")
+						val item = favouriteItems[(view as FavouritesViewHolder).adapterPosition].favouritesItem.searchHistoryItem
+						startActivityWithRightSlide(this.createCompanyIntent(item.companyNumber, item.companyName))
+					}
+				}
+				?.let { eventDisposables.add(it) }
+
+		favouritesAdapter?.getCancelClickedObservable()
+				?.take(1)
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
+					Log.d("test", "observeActions: cancel")
+				}
+				?.let { eventDisposables.add(it) }
+	}
+
+	//endregion
+
+	//region Swipe to dismiss
+
+	private val searchHistoryItemsPendingRemoval = ArrayList<FavouritesVisitable>()
+	private val handler = Handler()
+	private val pendingRunnables = HashMap<FavouritesVisitable, Runnable>()
+
+	fun pendingRemoval(position: Int) {
+		viewModel.state.value.favouriteItems?.let {
+			val item = it[position]
+			if (!searchHistoryItemsPendingRemoval.contains(item)) {
+				item.favouritesItem.isPendingRemoval = true
+				searchHistoryItemsPendingRemoval.add(item)
+				// this will redraw row in "undo" state
+				favouritesAdapter?.notifyItemChanged(position)
+				// let's create, store and post a runnable to remove the item
+				val pendingRemovalRunnable = Runnable {
+					remove(it.indexOf(item))
+					removeFavourite(item)
+				}
+				handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT.toLong())
+				pendingRunnables[item] = pendingRemovalRunnable
+			}
 		}
 	}
 
-	override fun favouritesResultItemClicked(v: View, position: Int, companyName: String, companyNumber: String) {
-		favouritesActivityPlugin.presenter.getCompany(companyNumber, companyName)
+	private fun removeFavourite(favouriteToRemove: FavouritesVisitable) {
+		favouritesPresenter.removeFavourite(favouriteToRemove.favouritesItem.searchHistoryItem)
 	}
 
-	override fun removeFavourite(favouriteToRemove: SearchHistoryItem) {
-		favouritesActivityPlugin.presenter.removeFavourite(favouriteToRemove)
+	private fun remove(position: Int) {
+		viewModel.state.value.favouriteItems?.let {
+			val item = it[position]
+			if (searchHistoryItemsPendingRemoval.contains(item)) {
+				searchHistoryItemsPendingRemoval.remove(item)
+			}
+			if (it.contains(item)) {
+				it.toMutableList().removeAt(position)
+				viewModel.state.value.favouriteItems = it.toList()
+				favouritesAdapter?.notifyItemRemoved(position)
+			}
+		}
 	}
 
-
-	override fun startCompanyActivity(companyNumber: String, companyName: String) {
-		baseActivityPlugin.startActivityWithRightSlide(createCompanyIntent(companyNumber, companyName))
+	fun isPendingRemoval(position: Int): Boolean {
+		return viewModel.state.value.favouriteItems?.let {
+			val item = it[position]
+			searchHistoryItemsPendingRemoval.contains(item)
+		} ?: false
 	}
 
 	private fun setUpItemTouchHelper() {
@@ -140,14 +245,14 @@ class FavouritesActivity : CompositeActivity(), FavouritesActivityView, Favourit
 
 			override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
 				val position = viewHolder.adapterPosition
-				return if (favouritesAdapter?.isPendingRemoval(position) == true) {
+				return if (isPendingRemoval(position)) {
 					0
 				} else super.getSwipeDirs(recyclerView, viewHolder)
 			}
 
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
 				val swipedPosition = viewHolder.adapterPosition
-				favouritesAdapter?.pendingRemoval(swipedPosition)
+				pendingRemoval(swipedPosition)
 			}
 
 			override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
@@ -279,9 +384,9 @@ class FavouritesActivity : CompositeActivity(), FavouritesActivityView, Favourit
 		})
 	}
 
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}
+	//endregion
+}
 
+fun Context.createFavouritesIntent(): Intent {
+	return Intent(this, FavouritesActivity::class.java)
 }

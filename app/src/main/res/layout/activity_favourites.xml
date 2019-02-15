@@ -5,67 +5,30 @@
 												 android:layout_width="match_parent"
 												 android:layout_height="match_parent"
 												 android:fitsSystemWindows="true"
-												 tools:context="com.babestudios.companyinfouk.ui.favourites.FavouritesActivity">
+												 tools:context=".ui.favourites.FavouritesActivity">
 
-	<android.support.design.widget.AppBarLayout
+	<com.babestudios.base.view.ParallaxAppBarView
+		android:id="@+id/pabFavourites"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
-		android:theme="@style/AppTheme.AppBarOverlay">
+		android:theme="@style/AppTheme.AppBarOverlay"
+		app:imageViewSrc="@drawable/bg_favourites"/>
 
-		<android.support.design.widget.CollapsingToolbarLayout
-			android:id="@+id/collapsing_toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:fitsSystemWindows="true"
-			app:contentScrim="?attr/colorPrimary"
-			app:expandedTitleMarginEnd="64dp"
-			app:expandedTitleMarginStart="48dp"
-			app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-			<ImageView
-				android:id="@+id/image"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				android:scaleType="centerCrop"
-				android:src="@drawable/bg_favourites"
-				app:layout_collapseMode="parallax"/>
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/transparent_black"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				app:layout_collapseMode="parallax"/>
-
-			<android.support.v7.widget.Toolbar
-				android:id="@+id/tbFavourites"
-				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:background="@android:color/transparent"
-				app:layout_collapseMode="pin"
-				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
-		</android.support.design.widget.CollapsingToolbarLayout>
-	</android.support.design.widget.AppBarLayout>
-
-	<ProgressBar
-		android:id="@+id/pbFavourites"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_gravity="center"
-		android:indeterminate="true"
-		android:indeterminateBehavior="cycle"
-		android:visibility="gone"/>
-
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/rvFavourites"
+	<com.babestudios.base.view.MultiStateView
+		android:id="@+id/msvFavourites"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@id/toolbar"
-		android:paddingBottom="@dimen/view_margin_small"
-		android:scrollbars="vertical"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+		app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+		app:msv_emptyView="@layout/multi_state_view_empty"
+		app:msv_errorView="@layout/multi_state_view_error"
+		app:msv_loadingView="@layout/multi_state_view_progress"
+		app:msv_viewState="content">
 
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/rvFavourites"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:paddingBottom="@dimen/view_margin_small"
+			android:scrollbars="vertical"/>
+	</com.babestudios.base.view.MultiStateView>
 </android.support.design.widget.CoordinatorLayout>
