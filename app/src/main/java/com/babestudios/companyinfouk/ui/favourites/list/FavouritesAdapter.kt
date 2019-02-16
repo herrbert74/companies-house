@@ -31,7 +31,7 @@ class FavouritesAdapter(private var favouritesVisitables: List<AbstractFavourite
 	private val cancelClickSubject = PublishSubject.create<BaseViewHolder<AbstractFavouritesVisitable>>()
 
 	fun getCancelClickedObservable(): Observable<BaseViewHolder<AbstractFavouritesVisitable>> {
-		return itemClickSubject
+		return cancelClickSubject
 	}
 
 	interface FavouritesTypeFactory {

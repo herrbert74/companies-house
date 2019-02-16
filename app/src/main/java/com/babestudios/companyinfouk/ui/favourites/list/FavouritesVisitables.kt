@@ -8,7 +8,11 @@ abstract class AbstractFavouritesVisitable {
 }
 
 @Parcelize
-class FavouritesVisitable(val favouritesItem: FavouritesItem) : AbstractFavouritesVisitable(), Parcelable {
+data class FavouritesVisitable(val favouritesItem: FavouritesItem) : AbstractFavouritesVisitable(), Parcelable, Comparable<FavouritesVisitable> {
+	override fun compareTo(other: FavouritesVisitable): Int {
+		return favouritesItem.searchHistoryItem.companyNumber.compareTo(other.favouritesItem.searchHistoryItem.companyNumber)
+	}
+
 	override fun type(favouritesTypeFactory: FavouritesAdapter.FavouritesTypeFactory): Int {
 		return favouritesTypeFactory.type(favouritesItem)
 	}

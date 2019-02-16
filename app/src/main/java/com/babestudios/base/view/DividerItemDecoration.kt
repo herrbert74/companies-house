@@ -2,9 +2,11 @@ package com.babestudios.base.view
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.view.View
 
 class DividerItemDecoration : RecyclerView.ItemDecoration {
 
@@ -42,6 +44,10 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
 			mDivider!!.setBounds(left, top, right, bottom)
 			mDivider!!.draw(c)
 		}
+	}
+
+	override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+		outRect.set(0, 0, 0, mDivider?.intrinsicHeight ?: 0)
 	}
 
 	companion object {
