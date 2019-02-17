@@ -145,7 +145,6 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 			Log.d("test", "Error during closing input stream" + e.localizedMessage)
 		}
 
-		Log.d("test", "writeDocumentPdf: ${CompaniesHouseApplication.context.packageName}.fileprovider")
 		return FileProvider.getUriForFile(CompaniesHouseApplication.context, CompaniesHouseApplication.context.packageName + ".fileprovider", pdfFile)
 	}
 

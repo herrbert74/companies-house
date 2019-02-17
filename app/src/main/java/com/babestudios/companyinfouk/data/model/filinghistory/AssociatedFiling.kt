@@ -15,7 +15,7 @@ class AssociatedFiling(
 		@SerializedName("description")
 		var description: String? = null,
 		@SerializedName("data")
-		var data: @RawValue Data? = null,
+		var data: @RawValue Any? = null,
 		@SerializedName("date")
 		var date: String? = null,
 		@SerializedName("action_date")

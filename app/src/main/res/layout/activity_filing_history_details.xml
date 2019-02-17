@@ -5,209 +5,182 @@
 												 android:layout_width="match_parent"
 												 android:layout_height="match_parent"
 												 android:fitsSystemWindows="true"
-												 tools:context="com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity">
+												 tools:context=".ui.filinghistorydetails.FilingHistoryDetailsActivity">
 
-	<android.support.design.widget.AppBarLayout
+	<com.babestudios.base.view.ParallaxAppBarView
+		android:id="@+id/pabFilingHistoryDetails"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
-		android:theme="@style/AppTheme.AppBarOverlay">
+		android:theme="@style/AppTheme.AppBarOverlay"
+		app:imageViewSrc="@drawable/bg_filing_history"/>
 
-		<android.support.design.widget.CollapsingToolbarLayout
-			android:id="@+id/collapsing_toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:fitsSystemWindows="true"
-			app:contentScrim="?attr/colorPrimary"
-			app:expandedTitleMarginEnd="64dp"
-			app:expandedTitleMarginStart="48dp"
-			app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-			<ImageView
-				android:id="@+id/image"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				android:scaleType="centerCrop"
-				android:src="@drawable/bg_filing_history"
-				app:layout_collapseMode="parallax"/>
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/transparent_black"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				app:layout_collapseMode="parallax"/>
-
-			<android.support.v7.widget.Toolbar
-				android:id="@+id/toolbar"
-				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:background="@android:color/transparent"
-				app:layout_collapseMode="pin"
-				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-		</android.support.design.widget.CollapsingToolbarLayout>
-	</android.support.design.widget.AppBarLayout>
-
-	<android.support.v4.widget.NestedScrollView
+	<com.babestudios.base.view.MultiStateView
+		android:id="@+id/msvFilingHistoryDetails"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+		app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+		app:msv_emptyView="@layout/multi_state_view_empty"
+		app:msv_errorView="@layout/multi_state_view_error"
+		app:msv_loadingView="@layout/multi_state_view_progress"
+		app:msv_viewState="content">
 
-		<android.support.constraint.ConstraintLayout
+		<android.support.v4.widget.NestedScrollView
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-			<ProgressBar
-				android:id="@+id/progressbar"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:indeterminate="true"
-				android:indeterminateBehavior="cycle"
-				android:visibility="gone"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				tools:layout_constraintLeft_creator="1"
-				tools:layout_constraintTop_creator="1"/>
+			<android.support.constraint.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<ProgressBar
+					android:id="@+id/progressbar"
+					android:layout_width="0dp"
+					android:layout_height="0dp"
+					android:indeterminate="true"
+					android:indeterminateBehavior="cycle"
+					android:visibility="gone"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:layout_constraintLeft_creator="1"
+					tools:layout_constraintTop_creator="1"/>
 
 
-			<android.support.constraint.Guideline
-				android:id="@+id/guideline"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"/>
+				<android.support.constraint.Guideline
+					android:id="@+id/guideline"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"/>
 
-			<TextView
-				android:id="@+id/textViewLabelDate"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/activity_horizontal_margin"
-				android:text="@string/date"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintTop_toTopOf="parent"/>
+				<TextView
+					android:id="@+id/textViewLabelDate"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/date"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent"/>
 
-			<TextView
-				android:id="@+id/textViewDate"
-				style="@style/Text.Title"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDate"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
-				tools:text="2017-02-07"/>
+				<TextView
+					android:id="@+id/textViewDate"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDate"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="2017-02-07"/>
 
-			<TextView
-				android:id="@+id/textViewLabelCategory"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/activity_horizontal_margin"
-				android:text="@string/category"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/textViewDate"/>
+				<TextView
+					android:id="@+id/textViewLabelCategory"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/category"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textViewDate"/>
 
-			<TextView
-				android:id="@+id/textViewCategory"
-				style="@style/Text.Title"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCategory"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
-				tools:text="Officers two liners for for for"/>
+				<TextView
+					android:id="@+id/textViewCategory"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCategory"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="Officers two liners for for for"/>
 
-			<TextView
-				android:id="@+id/textViewLabelSubcategory"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/activity_horizontal_margin"
-				android:text="@string/subcategory"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/textViewCategory"/>
+				<TextView
+					android:id="@+id/textViewLabelSubcategory"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/subcategory"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textViewCategory"/>
 
-			<TextView
-				android:id="@+id/textViewSubcategory"
-				style="@style/Text.Title"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/textViewCategory"
-				tools:text="Appointment"/>
+				<TextView
+					android:id="@+id/textViewSubcategory"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textViewCategory"
+					tools:text="Appointment"/>
 
-			<TextView
-				android:id="@+id/textViewLabelDescription"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/activity_horizontal_margin"
-				android:text="@string/description"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/textViewSubcategory"/>
+				<TextView
+					android:id="@+id/textViewLabelDescription"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/description"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textViewSubcategory"/>
 
-			<TextView
-				android:id="@+id/textViewDescription"
-				style="@style/Text"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				android:textSize="@dimen/text_title"
-				app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDescription"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
-				tools:text="Long text here 3 long long long"/>
+				<TextView
+					android:id="@+id/textViewDescription"
+					style="@style/Text"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					android:textSize="@dimen/text_title"
+					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDescription"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="Long text here 3 long long long"/>
 
-			<TextView
-				android:id="@+id/textViewDescriptionValues"
-				style="@style/Text.Title"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
-				tools:text="Capital: 100 GBP"/>
+				<TextView
+					android:id="@+id/textViewDescriptionValues"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
+					tools:text="Capital: 100 GBP"/>
 
-			<TextView
-				android:id="@+id/textViewLabelPages"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/activity_horizontal_margin"
-				android:layout_marginTop="@dimen/activity_horizontal_margin"
-				android:text="@string/pages"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionValues"/>
+				<TextView
+					android:id="@+id/textViewLabelPages"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/pages"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionValues"/>
 
-			<TextView
-				android:id="@+id/textViewPages"
-				style="@style/Text.Title"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/activity_horizontal_margin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelPages"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
-				tools:text="25"/>
-		</android.support.constraint.ConstraintLayout>
-	</android.support.v4.widget.NestedScrollView>
+				<TextView
+					android:id="@+id/textViewPages"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelPages"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="25"/>
+			</android.support.constraint.ConstraintLayout>
+		</android.support.v4.widget.NestedScrollView>
+	</com.babestudios.base.view.MultiStateView>
 </android.support.design.widget.CoordinatorLayout>

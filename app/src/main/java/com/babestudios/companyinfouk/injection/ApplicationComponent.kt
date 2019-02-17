@@ -9,6 +9,7 @@ import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryAdapter
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
+import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsPresenter
 import com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity
 import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity
 import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
@@ -58,6 +59,8 @@ interface ApplicationComponent {
 	fun companyPresenter(): CompanyPresenter
 
 	fun favouritesPresenter(): FavouritesPresenter
+
+	fun filingHistoryDetailsPresenter(): FilingHistoryDetailsPresenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

@@ -23,6 +23,7 @@ import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryTypeFact
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
+import com.babestudios.companyinfouk.ui.filinghistorydetails.createFilingHistoryDetailsIntent
 import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter
 import com.google.gson.Gson
 import com.jakewharton.rxbinding2.widget.RxAdapterView
@@ -164,11 +165,10 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	private fun filingItemClicked(item: FilingHistoryItem?) {
-		val gson = Gson()
-		val jsonItem = gson.toJson(item, FilingHistoryItem::class.java)
-		val intent = Intent(this, FilingHistoryDetailsActivity::class.java)
-		intent.putExtra("filingHistoryItem", jsonItem)
-		startActivityWithRightSlide(intent)
+		item?.let {
+			val detailsIntent = createFilingHistoryDetailsIntent(it)
+			startActivityWithRightSlide(detailsIntent)
+		}
 	}
 
 	//endregion
