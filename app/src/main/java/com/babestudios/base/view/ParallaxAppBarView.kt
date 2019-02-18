@@ -2,8 +2,8 @@ package com.babestudios.base.view
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.design.widget.AppBarLayout
-import android.support.v7.widget.Toolbar
+import com.google.android.material.appbar.AppBarLayout
+import androidx.appcompat.widget.Toolbar
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView

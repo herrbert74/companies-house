@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.map
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 
 import com.babestudios.companyinfouk.R

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-												 xmlns:app="http://schemas.android.com/apk/res-auto"
-												 xmlns:tools="http://schemas.android.com/tools"
-												 android:layout_width="match_parent"
-												 android:layout_height="match_parent"
-												 android:fitsSystemWindows="true"
-												 tools:context="com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+													 xmlns:app="http://schemas.android.com/apk/res-auto"
+													 xmlns:tools="http://schemas.android.com/tools"
+													 android:layout_width="match_parent"
+													 android:layout_height="match_parent"
+													 android:fitsSystemWindows="true"
+													 tools:context="com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity">
 
-	<android.support.design.widget.AppBarLayout
+	<com.google.android.material.appbar.AppBarLayout
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
 		android:theme="@style/AppTheme.AppBarOverlay">
 
-		<android.support.design.widget.CollapsingToolbarLayout
+		<com.google.android.material.appbar.CollapsingToolbarLayout
 			android:id="@+id/ctbFilingHistory"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
@@ -40,15 +40,15 @@
 				android:fitsSystemWindows="true"
 				app:layout_collapseMode="parallax"/>
 
-			<android.support.v7.widget.Toolbar
+			<androidx.appcompat.widget.Toolbar
 				android:id="@+id/tbFilingHistory"
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
 				android:background="@android:color/transparent"
 				app:layout_collapseMode="pin"
 				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
-		</android.support.design.widget.CollapsingToolbarLayout>
-	</android.support.design.widget.AppBarLayout>
+		</com.google.android.material.appbar.CollapsingToolbarLayout>
+	</com.google.android.material.appbar.AppBarLayout>
 
 	<com.babestudios.base.view.MultiStateView
 		android:id="@+id/msvFilingHistory"
@@ -60,7 +60,7 @@
 		app:msv_loadingView="@layout/multi_state_view_progress"
 		app:msv_viewState="loading">
 
-		<android.support.v7.widget.RecyclerView
+		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/rvFilingHistory"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
@@ -68,4 +68,4 @@
 			android:scrollbars="vertical"/>
 	</com.babestudios.base.view.MultiStateView>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

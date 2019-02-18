@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.officerappointments
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import android.util.Log
 
 import com.babestudios.companyinfouk.data.CompaniesRepository

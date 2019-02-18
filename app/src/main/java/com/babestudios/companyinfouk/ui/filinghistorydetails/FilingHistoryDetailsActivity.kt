@@ -1,15 +1,15 @@
 package com.babestudios.companyinfouk.ui.filinghistorydetails
 
 import android.Manifest
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -71,6 +71,12 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 				initPresenter(viewModel)
 			}
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+		observeState()
 	}
 
 	override fun onSaveInstanceState(outState: Bundle?) {

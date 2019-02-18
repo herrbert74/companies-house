@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.ui.company
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.animation.LinearOutSlowInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import android.view.View
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*

@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
 import android.graphics.Typeface
-import android.support.annotation.VisibleForTesting
-import android.support.v4.util.Pair
+import androidx.annotation.VisibleForTesting
+import androidx.core.util.Pair
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan

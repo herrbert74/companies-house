@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.ui.personsdetails
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView

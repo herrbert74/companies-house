@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.data
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Environment
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import android.util.Base64
 import android.util.Log
 import com.babestudios.companyinfouk.BuildConfig

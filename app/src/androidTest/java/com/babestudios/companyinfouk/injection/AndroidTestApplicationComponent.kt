@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.injection
 
-import android.support.test.rule.ActivityTestRule
+import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.TestCompaniesHouseApplication
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivityTest

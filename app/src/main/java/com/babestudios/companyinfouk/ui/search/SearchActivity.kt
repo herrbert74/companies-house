@@ -5,12 +5,12 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.Toolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -227,7 +227,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 		//Catch the click on the search button on the soft keyboard and send the query to the presenter
 		searchMenuItem = menu.findItem(R.id.action_search)
 		val searchView = searchMenuItem?.actionView as SearchView
-		val searchText = searchView.findViewById<View>(android.support.v7.appcompat.R.id.search_src_text) as TextView
+		val searchText = searchView.findViewById<View>(androidx.appcompat.R.id.search_src_text) as TextView
 		searchText.setOnEditorActionListener { _, actionId, _ ->
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 				searchRecyclerView?.adapter = null

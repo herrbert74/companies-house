@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-												 xmlns:app="http://schemas.android.com/apk/res-auto"
-												 xmlns:tools="http://schemas.android.com/tools"
-												 android:layout_width="match_parent"
-												 android:layout_height="match_parent"
-												 android:fitsSystemWindows="true"
-												 tools:context="com.babestudios.companyinfouk.ui.chargedetails.ChargeDetailsActivity">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+													 xmlns:app="http://schemas.android.com/apk/res-auto"
+													 xmlns:tools="http://schemas.android.com/tools"
+													 android:layout_width="match_parent"
+													 android:layout_height="match_parent"
+													 android:fitsSystemWindows="true"
+													 tools:context="com.babestudios.companyinfouk.ui.chargedetails.ChargeDetailsActivity">
 
 
 	<com.babestudios.base.view.ParallaxAppBarView
@@ -15,13 +15,13 @@
 		android:theme="@style/AppTheme.AppBarOverlay"
 		app:imageViewSrc="@drawable/bg_charges"/>
 
-	<android.support.constraint.ConstraintLayout
+	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:paddingBottom="@dimen/activity_horizontal_margin"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<android.support.constraint.Guideline
+		<androidx.constraintlayout.widget.Guideline
 			android:id="@+id/guideline"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -221,13 +221,13 @@
 			app:layout_constraintRight_toRightOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsPersonsEntitled"/>
 
-		<android.support.v7.widget.RecyclerView
+		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/rvChargeDetails"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:paddingBottom="@dimen/view_margin_small"
 			android:scrollbars="vertical"
 			app:layout_constraintTop_toBottomOf="@+id/divChargeDetails"/>
-	</android.support.constraint.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.widget.Spinner
 import com.babestudios.base.mvp.ErrorType
