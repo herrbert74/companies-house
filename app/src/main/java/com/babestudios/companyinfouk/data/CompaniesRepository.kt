@@ -31,90 +31,118 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class CompaniesRepository @Inject
-constructor(private val companiesHouseService: CompaniesHouseService, private val companiesHouseDocumentService: CompaniesHouseDocumentService, private val preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper) {
-
-	private val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
-	private val apiLookupHelper = ApiLookupHelper()
-
+interface CompaniesRepositoryContract {
+	var preferencesHelper: PreferencesHelper
+	val authorization: String
+	val apiLookupHelper: ApiLookupHelper
 	val recentSearches: List<SearchHistoryItem>
+	val favourites: Array<SearchHistoryItem>
+
+	fun sicLookup(code: String): String
+	fun accountTypeLookup(accountType: String): String
+	fun filingHistoryLookup(filingHistory: String): String
+	fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult>
+	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
+	fun getCompany(companyNumber: String): Observable<Company>
+	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Observable<FilingHistoryList>
+	fun fetchCharges(companyNumber: String, startItem: String): Observable<Charges>
+	fun getInsolvency(companyNumber: String): Observable<Insolvency>
+	fun getOfficers(companyNumber: String, startItem: String): Observable<Officers>
+	fun getOfficerAppointments(officerId: String, startItem: String): Observable<Appointments>
+	fun getPersons(companyNumber: String, startItem: String): Observable<Persons>
+	fun getDocument(documentId: String): Observable<ResponseBody>
+	fun writeDocumentPdf(responseBody: ResponseBody): Uri
+	fun clearAllRecentSearches()
+	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean
+	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean
+	fun removeFavourite(favouriteToRemove: SearchHistoryItem)
+}
+
+@Singleton
+open class CompaniesRepository @Inject
+constructor(private val companiesHouseService: CompaniesHouseService, private val companiesHouseDocumentService: CompaniesHouseDocumentService, override var
+preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper) : CompaniesRepositoryContract {
+
+	override val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
+	override val apiLookupHelper = ApiLookupHelper()
+
+	override val recentSearches: List<SearchHistoryItem>
 		get() = preferencesHelper.recentSearches
 
-	val favourites: Array<SearchHistoryItem>
+	override val favourites: Array<SearchHistoryItem>
 		get() = preferencesHelper.favourites
 
-	fun sicLookup(code: String): String {
+	override fun sicLookup(code: String): String {
 		return apiLookupHelper.sicLookup(code)
 	}
 
-	fun accountTypeLookup(accountType: String): String {
+	override fun accountTypeLookup(accountType: String): String {
 		return apiLookupHelper.accountTypeLookup(accountType)
 	}
 
-	fun filingHistoryLookup(filingHistory: String): String {
+	override fun filingHistoryLookup(filingHistory: String): String {
 		return apiLookupHelper.filingHistoryDescriptionLookup(filingHistory)
 	}
 
-	fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult> {
+	override fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult> {
 		return companiesHouseService.searchCompanies(authorization, queryText.toString(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem> {
+	override fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem> {
 		return preferencesHelper.addRecentSearch(searchHistoryItem)
 	}
 
-	fun getCompany(companyNumber: String): Observable<Company> {
+	override fun getCompany(companyNumber: String): Observable<Company> {
 		return companiesHouseService.getCompany(authorization, companyNumber)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Observable<FilingHistoryList> {
+	override fun getFilingHistory(companyNumber: String, category: String, startItem: String): Observable<FilingHistoryList> {
 		return companiesHouseService.getFilingHistory(authorization, companyNumber, category, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun fetchCharges(companyNumber: String, startItem: String): Observable<Charges> {
+	override fun fetchCharges(companyNumber: String, startItem: String): Observable<Charges> {
 		return companiesHouseService.getCharges(authorization, companyNumber, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getInsolvency(companyNumber: String): Observable<Insolvency> {
+	override fun getInsolvency(companyNumber: String): Observable<Insolvency> {
 		return companiesHouseService.getInsolvency(authorization, companyNumber)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getOfficers(companyNumber: String, startItem: String): Observable<Officers> {
+	override fun getOfficers(companyNumber: String, startItem: String): Observable<Officers> {
 		return companiesHouseService.getOfficers(authorization, companyNumber, null, null, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getOfficerAppointments(officerId: String, startItem: String): Observable<Appointments> {
+	override fun getOfficerAppointments(officerId: String, startItem: String): Observable<Appointments> {
 		return companiesHouseService.getOfficerAppointments(authorization, officerId, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getPersons(companyNumber: String, startItem: String): Observable<Persons> {
+	override fun getPersons(companyNumber: String, startItem: String): Observable<Persons> {
 		return companiesHouseService.getPersons(authorization, companyNumber, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun getDocument(documentId: String): Observable<ResponseBody> {
+	override fun getDocument(documentId: String): Observable<ResponseBody> {
 		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentId)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	fun writeDocumentPdf(responseBody: ResponseBody): Uri {
+	override fun writeDocumentPdf(responseBody: ResponseBody): Uri {
 		val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 		val pdfFile = File(dir, "doc.pdf")
 		var inputStream: InputStream? = null
@@ -148,15 +176,15 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 		return FileProvider.getUriForFile(CompaniesHouseApplication.context, CompaniesHouseApplication.context.packageName + ".fileprovider", pdfFile)
 	}
 
-	fun clearAllRecentSearches() {
+	override fun clearAllRecentSearches() {
 		preferencesHelper.clearAllRecentSearches()
 	}
 
-	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
+	override fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
 		return preferencesHelper.addFavourite(searchHistoryItem)
 	}
 
-	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
+	override fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
 		val items = preferencesHelper.favourites
 		return if (items.isNotEmpty()) {
 			val favourites = ArrayList(Arrays.asList(*items))
@@ -166,7 +194,7 @@ constructor(private val companiesHouseService: CompaniesHouseService, private va
 		}
 	}
 
-	fun removeFavourite(favouriteToRemove: SearchHistoryItem) {
+	override fun removeFavourite(favouriteToRemove: SearchHistoryItem) {
 		preferencesHelper.removeFavourite(favouriteToRemove)
 	}
 }

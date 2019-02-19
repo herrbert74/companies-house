@@ -97,7 +97,7 @@ class SearchActivityTest {
 		//component.inject(this)
 		val gson = Gson()
 		val result = gson.fromJson(jsonString, CompanySearchResult::class.java)
-		/*`when`(mActivityTestRule.activity.getSearchActivityPlugin().getPresenter().getDataManager().searchCompanies("you", "0")).thenReturn(Observable
+		/*`when`(activityTestRule.activity.getSearchActivityPlugin().getPresenter().getDataManager().searchCompanies("you", "0")).thenReturn(Observable
 		.just<T>(
 
 				result
