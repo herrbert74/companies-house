@@ -1,71 +1,64 @@
 package com.babestudios.companyinfouk.ui.insolvency
 
-import androidx.annotation.VisibleForTesting
-import android.util.Log
+import android.annotation.SuppressLint
+import com.babestudios.base.mvp.BasePresenter
+import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import net.grandcentrix.thirtyinch.TiPresenter
-import retrofit2.HttpException
+import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyVisitable
+import com.uber.autodispose.AutoDispose
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 
-class InsolvencyPresenter @Inject
-constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<InsolvencyActivityView>(), Observer<Insolvency> {
+interface InsolvencyPresenterContract : Presenter<InsolvencyState, InsolvencyViewModel> {
+	fun fetchInsolvencies(companyNumber: String)
+}
 
-	internal var insolvency: Insolvency? = null
+@SuppressLint("CheckResult")
+class InsolvencyPresenter
+@Inject
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<InsolvencyState, InsolvencyViewModel>(), InsolvencyPresenterContract {
 
-	override fun onAttachView(view: InsolvencyActivityView) {
-		super.onAttachView(view)
-		if (insolvency != null) {
-			showInsolvency(insolvency)
-		} else {
-			view.showProgress()
-			getInsolvency()
-		}
-	}
-
-	@VisibleForTesting
-	fun getInsolvency() {
-		view?.let {
-			companiesRepository.getInsolvency(it.companyNumber).subscribe(this)
-		}
-	}
-
-	override fun onComplete() {}
-
-	override fun onSubscribe(d: Disposable) {
-
-	}
-
-	override fun onError(e: Throwable) {
-		view?.hideProgress()
-		Log.d("test", "onError: " + e.fillInStackTrace())
-		if (e is HttpException) {
-			if (e.code() == 404) {
-				view?.showNoInsolvency()
-			} else {
-				view?.showError()
-				view?.hideProgress()
+	override fun setViewModel(viewModel: InsolvencyViewModel?, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		viewModel?.state?.value?.insolvencyItems?.let {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = false
+					this.contentChange = ContentChange.INSOLVENCIES_RECEIVED
+				}
 			}
-		} else {
-			view?.showError()
-			view?.hideProgress()
+		} ?: run {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = true
+				}
+			}
+			viewModel?.state?.value?.companyNumber?.also {
+				fetchInsolvencies(it)
+			}
 		}
 	}
 
-	override fun onNext(insolvency: Insolvency) {
-		this.insolvency = insolvency
-		view?.hideProgress()
-		showInsolvency(insolvency)
-
+	override fun fetchInsolvencies(companyNumber: String) {
+		companiesRepository.getInsolvency(companyNumber)
+				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
+				.subscribeWith(object : ObserverWrapper<Insolvency>(this) {
+					override fun onSuccess(reply: Insolvency) {
+						sendToViewModel {
+							it.apply {
+								this.isLoading = false
+								this.contentChange = ContentChange.INSOLVENCIES_RECEIVED
+								this.insolvencyItems = convertToVisitables(reply)
+							}
+						}
+					}
+				})
 	}
 
-	private fun showInsolvency(insolvency: Insolvency?) {
-		if (insolvency != null) {
-			view?.showInsolvency(insolvency)
-		} else {
-			view?.showNoInsolvency()
-		}
+	private fun convertToVisitables(reply: Insolvency): List<InsolvencyVisitable> {
+		return ArrayList(reply.cases.map { insolvencyCase -> InsolvencyVisitable(insolvencyCase) })
 	}
 }

@@ -1,7 +1,6 @@
 package com.babestudios.base.mvp
 
 import android.annotation.SuppressLint
-import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryViewModel
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

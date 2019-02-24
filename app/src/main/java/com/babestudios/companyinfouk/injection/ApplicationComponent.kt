@@ -5,12 +5,12 @@ import com.babestudios.companyinfouk.ui.charges.ChargesPresenter
 import com.babestudios.companyinfouk.ui.company.CompanyPresenter
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
 import com.babestudios.companyinfouk.ui.favourites.FavouritesPresenter
-import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryAdapter
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
+import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryAdapter
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsPresenter
-import com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity
+import com.babestudios.companyinfouk.ui.insolvency.InsolvencyPresenter
 import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity
 import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
 import com.babestudios.companyinfouk.ui.officers.OfficersActivity
@@ -31,8 +31,6 @@ interface ApplicationComponent {
 	fun inject(companiesHouseApplication: CompaniesHouseApplication)
 
 	fun inject(searchActivity: SearchActivity)
-
-	fun inject(insolvencyActivity: InsolvencyActivity)
 
 	fun inject(officersActivity: OfficersActivity)
 
@@ -61,6 +59,8 @@ interface ApplicationComponent {
 	fun favouritesPresenter(): FavouritesPresenter
 
 	fun filingHistoryDetailsPresenter(): FilingHistoryDetailsPresenter
+
+	fun insolvencyPresenter(): InsolvencyPresenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

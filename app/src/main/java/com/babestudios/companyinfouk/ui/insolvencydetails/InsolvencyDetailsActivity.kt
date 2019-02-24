@@ -1,5 +1,7 @@
 package com.babestudios.companyinfouk.ui.insolvencydetails
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,8 @@ import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import java.util.*
 
+private const val INSOLVENCY_CASE = "com.babestudios.companyinfouk.ui.insolvency_case"
+
 class InsolvencyDetailsActivity : CompositeActivity() {
 
 	@JvmField
@@ -24,7 +28,6 @@ class InsolvencyDetailsActivity : CompositeActivity() {
 	@BindView(R.id.insolvency_details_recycler_view)
 	internal var insolvencyDetailsRecyclerView: RecyclerView? = null
 
-	private lateinit var insolvencyItemString: String
 
 	internal var baseActivityPlugin = BaseActivityPlugin()
 
@@ -38,9 +41,7 @@ class InsolvencyDetailsActivity : CompositeActivity() {
 		baseActivityPlugin.logScreenView(this.localClassName)
 
 		ButterKnife.bind(this)
-		insolvencyItemString = intent.getStringExtra("insolvencyCase")
-		val gson = Gson()
-		val insolvencyCase = gson.fromJson(insolvencyItemString, InsolvencyCase::class.java)
+		val insolvencyCase = intent.getParcelableExtra<InsolvencyCase>(INSOLVENCY_CASE)
 
 		if (toolbar != null) {
 			setSupportActionBar(toolbar)
@@ -67,4 +68,9 @@ class InsolvencyDetailsActivity : CompositeActivity() {
 		super.super_finish()
 		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
 	}
+}
+
+fun Context.createInsolvencyDetailsIntent(insolvencyCase: InsolvencyCase): Intent {
+	return Intent(this, InsolvencyDetailsActivity::class.java)
+			.putExtra(INSOLVENCY_CASE, insolvencyCase)
 }

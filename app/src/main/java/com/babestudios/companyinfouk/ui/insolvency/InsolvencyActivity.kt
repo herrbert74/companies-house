@@ -1,133 +1,155 @@
 package com.babestudios.companyinfouk.ui.insolvency
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.babestudios.companyinfouk.CompaniesHouseApplication
+
+import kotlinx.android.synthetic.main.activity_insolvency.*
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.ui.insolvencydetails.InsolvencyDetailsActivity
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.companyinfouk.ui.insolvencydetails.createInsolvencyDetailsIntent
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import io.reactivex.CompletableSource
+import androidx.lifecycle.ViewModelProviders
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.view.DividerItemDecoration
-import com.google.gson.Gson
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-import javax.inject.Inject
+import com.babestudios.companyinfouk.ui.insolvency.list.AbstractInsolvencyVisitable
+import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyAdapter
+import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyTypeFactory
+import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyViewHolder
 
-class InsolvencyActivity : CompositeActivity(), InsolvencyActivityView, InsolvencyAdapter.InsolvencyRecyclerViewClickListener {
+import io.reactivex.disposables.CompositeDisposable
 
-	@JvmField
-	@BindView(R.id.toolbar)
-	internal var toolbar: Toolbar? = null
+private const val COMPANY = "com.babestudios.companyinfouk.ui.company"
 
-	@JvmField
-	@BindView(R.id.insolvency_recycler_view)
-	internal var insolvencyRecyclerView: RecyclerView? = null
+class InsolvencyActivity : RxAppCompatActivity(), ScopeProvider {
 
-	@JvmField
-	@BindView(R.id.lblNoInsolvency)
-	internal var lblNoInsolvency: TextView? = null
 
 	private var insolvencyAdapter: InsolvencyAdapter? = null
 
-	@JvmField
-	@BindView(R.id.progressbar)
-	internal var progressbar: ProgressBar? = null
+	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
-	@JvmField
-	@BindView(R.id.collapsing_toolbar)
-	internal var collapsingToolbarLayout: CollapsingToolbarLayout? = null
+	private val viewModel by lazy { ViewModelProviders.of(this).get(InsolvencyViewModel::class.java) }
 
-	@Inject
-	lateinit var insolvencyPresenter: InsolvencyPresenter
+	private lateinit var insolvencyPresenter: InsolvencyPresenterContract
 
-	override lateinit var companyNumber: String
+	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	private var insolvencyActivityPlugin = TiActivityPlugin<InsolvencyPresenter, InsolvencyActivityView> {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		insolvencyPresenter
-	}
-
-	internal var baseActivityPlugin = BaseActivityPlugin()
-
-	init {
-
-		addPlugin(insolvencyActivityPlugin)
-		addPlugin(baseActivityPlugin)
-	}
+	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_insolvency)
-		baseActivityPlugin.logScreenView(this.localClassName)
-
-		ButterKnife.bind(this)
-		toolbar?.also {
-			setSupportActionBar(it)
-			supportActionBar?.setDisplayHomeAsUpEnabled(true)
-			it.setNavigationOnClickListener { onBackPressed() }
+		setSupportActionBar(pabInsolvency.getToolbar())
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		pabInsolvency.setNavigationOnClickListener { onBackPressed() }
+		supportActionBar?.setTitle(R.string.insolvency)
+		when {
+			viewModel.state.value.insolvencyItems != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<InsolvencyState>("STATE")?.let {
+					with(viewModel.state.value) {
+						insolvencyItems = it.insolvencyItems
+						companyNumber = it.companyNumber
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY)
+				initPresenter(viewModel)
+			}
 		}
-		companyNumber = intent.getStringExtra("companyNumber")
-		createInsolvencyRecyclerView()
 
-		collapsingToolbarLayout?.title = getString(R.string.insolvency)
-
+		createRecyclerView()
+		observeState()
 	}
 
-	private fun createInsolvencyRecyclerView() {
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+	}
+
+	override fun onSaveInstanceState(outState: Bundle?) {
+		outState?.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+	private fun initPresenter(viewModel: InsolvencyViewModel) {
+		if (!::insolvencyPresenter.isInitialized) {
+			insolvencyPresenter = Injector.get().insolvencyPresenter()
+			insolvencyPresenter.setViewModel(viewModel, requestScope())
+		}
+	}
+
+	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		insolvencyRecyclerView?.layoutManager = linearLayoutManager
-		insolvencyRecyclerView?.addItemDecoration(
-				DividerItemDecoration(this))
-	}
-
-	override fun showProgress() {
-		progressbar?.visibility = View.VISIBLE
-	}
-
-	override fun hideProgress() {
-		progressbar?.visibility = View.GONE
+		rvInsolvency?.layoutManager = linearLayoutManager
+		rvInsolvency.addItemDecoration(DividerItemDecoration(this))
 	}
 
 
-	override fun showInsolvency(insolvency: Insolvency) {
-		if (insolvencyRecyclerView?.adapter == null) {
-			insolvencyAdapter = InsolvencyAdapter(this@InsolvencyActivity, insolvency)
-			insolvencyRecyclerView?.adapter = insolvencyAdapter
-		} else {
-			insolvencyAdapter?.updateItems(insolvency)
+	//endregion
+
+	//region render
+
+	private fun observeState() {
+		viewModel.state
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { render(it) }
+	}
+
+	private fun render(state: InsolvencyState) {
+		when {
+			state.isLoading -> msvInsolvency.viewState = VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> msvInsolvency.viewState = VIEW_STATE_ERROR
+			state.insolvencyItems == null -> msvInsolvency.viewState = VIEW_STATE_EMPTY
+			else -> {
+				state.insolvencyItems?.let {
+					msvInsolvency.viewState = VIEW_STATE_CONTENT
+					if (rvInsolvency?.adapter == null) {
+						insolvencyAdapter = InsolvencyAdapter(it, InsolvencyTypeFactory())
+						rvInsolvency?.adapter = insolvencyAdapter
+					} else {
+						insolvencyAdapter?.updateItems(it)
+					}
+					observeActions()
+				}
+			}
 		}
 	}
 
-	override fun insolvencyItemClicked(v: View, position: Int, insolvencyCase: InsolvencyCase) {
-		val gson = Gson()
-		val jsonItem = gson.toJson(insolvencyCase, InsolvencyCase::class.java)
-		val intent = Intent(this, InsolvencyDetailsActivity::class.java)
-		intent.putExtra("insolvencyCase", jsonItem)
-		baseActivityPlugin.startActivityWithRightSlide(intent)
+	//endregion
+
+	//region events
+
+	private fun observeActions() {
+		eventDisposables.clear()
+		insolvencyAdapter?.getViewClickedObservable()
+				?.take(1)
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<AbstractInsolvencyVisitable> ->
+					viewModel.state.value.insolvencyItems?.let { insolvencyItems ->
+						startActivityWithRightSlide(
+								this.createInsolvencyDetailsIntent(insolvencyItems[(view as InsolvencyViewHolder).adapterPosition].insolvencyCase))
+					}
+				}
+				?.let { eventDisposables.add(it) }
 	}
 
-	override fun showNoInsolvency() {
-		lblNoInsolvency?.visibility = View.VISIBLE
-		insolvencyRecyclerView?.visibility = View.GONE
-	}
+	//endregion
+}
 
-	override fun showError() {
-		Toast.makeText(this, R.string.could_not_retrieve_insolvency_info, Toast.LENGTH_LONG).show()
-	}
-
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}
+fun Context.createInsolvencyIntent(company: String): Intent {
+	return Intent(this, InsolvencyActivity::class.java)
+			.putExtra(COMPANY, company)
 }

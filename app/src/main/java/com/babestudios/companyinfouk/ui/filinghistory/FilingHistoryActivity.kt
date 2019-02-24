@@ -1,12 +1,12 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.widget.Spinner
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
@@ -22,10 +22,8 @@ import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryAdapter
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryTypeFactory
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
-import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
 import com.babestudios.companyinfouk.ui.filinghistorydetails.createFilingHistoryDetailsIntent
 import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter
-import com.google.gson.Gson
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose

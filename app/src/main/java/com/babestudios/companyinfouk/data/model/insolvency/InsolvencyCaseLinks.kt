@@ -1,9 +1,12 @@
 package com.babestudios.companyinfouk.data.model.insolvency
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class InsolvencyCaseLinks {
+@Parcelize
+data class InsolvencyCaseLinks (
 	@SerializedName("charge")
 	var charge: String? = null
-}
+):Parcelable

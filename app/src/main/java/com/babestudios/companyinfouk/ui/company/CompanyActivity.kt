@@ -13,9 +13,8 @@ import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.charges.createChargesIntent
-import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity
 import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
-import com.babestudios.companyinfouk.ui.insolvency.InsolvencyActivity
+import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
 import com.babestudios.companyinfouk.ui.officers.OfficersActivity
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity
@@ -226,9 +225,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	fun onInsolvencyClicked(view: View) {
-		val intent = Intent(this, InsolvencyActivity::class.java)
-		intent.putExtra("companyNumber", viewModel.state.value.companyNumber)
-		startActivityWithRightSlide(intent)
+		startActivityWithRightSlide(this.createInsolvencyIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 
