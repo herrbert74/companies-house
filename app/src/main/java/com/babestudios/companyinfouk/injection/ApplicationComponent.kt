@@ -11,6 +11,7 @@ import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHold
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsActivity
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsPresenter
 import com.babestudios.companyinfouk.ui.insolvency.InsolvencyPresenter
+import com.babestudios.companyinfouk.ui.insolvencydetails.InsolvencyDetailsPresenter
 import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity
 import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
 import com.babestudios.companyinfouk.ui.officers.OfficersActivity
@@ -61,6 +62,8 @@ interface ApplicationComponent {
 	fun filingHistoryDetailsPresenter(): FilingHistoryDetailsPresenter
 
 	fun insolvencyPresenter(): InsolvencyPresenter
+
+	fun insolvencyDetailsPresenter(): InsolvencyDetailsPresenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

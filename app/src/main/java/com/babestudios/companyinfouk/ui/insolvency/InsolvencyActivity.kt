@@ -3,29 +3,27 @@ package com.babestudios.companyinfouk.ui.insolvency
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-
-import kotlinx.android.synthetic.main.activity_insolvency.*
-import com.babestudios.companyinfouk.R
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.ui.insolvencydetails.createInsolvencyDetailsIntent
-import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.ScopeProvider
-import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import io.reactivex.CompletableSource
-import androidx.lifecycle.ViewModelProviders
+import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.insolvency.list.AbstractInsolvencyVisitable
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyAdapter
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyTypeFactory
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyViewHolder
-
+import com.babestudios.companyinfouk.ui.insolvencydetails.createInsolvencyDetailsIntent
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_insolvency.*
 
 private const val COMPANY = "com.babestudios.companyinfouk.ui.company"
 
