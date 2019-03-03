@@ -13,7 +13,6 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem
 import com.babestudios.companyinfouk.data.model.officers.Officers
-import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
@@ -26,6 +25,7 @@ import javax.inject.Inject
 
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
 
 class OfficersActivity : CompositeActivity(), OfficersActivityView, OfficersAdapter.OfficersRecyclerViewClickListener {
 

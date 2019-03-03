@@ -1,61 +1,92 @@
 package com.babestudios.companyinfouk.ui.officerappointments
 
-import androidx.annotation.VisibleForTesting
-import android.util.Log
-
+import android.annotation.SuppressLint
+import com.babestudios.base.mvp.BasePresenter
+import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.companyinfouk.BuildConfig
+import com.uber.autodispose.AutoDispose
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
+import com.babestudios.companyinfouk.ui.officerappointments.list.AbstractOfficerAppointmentsVisitable
+import com.babestudios.companyinfouk.ui.officerappointments.list.OfficerAppointmentsVisitable
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+interface OfficerAppointmentsPresenterContract : Presenter<OfficerAppointmentsState, OfficerAppointmentsViewModel> {
+	fun fetchAppointments(officerId: String)
+	fun loadMoreAppointments(page: Int)
+}
 
-class OfficerAppointmentsPresenter @Inject
-constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<OfficerAppointmentsActivityView>(), Observer<Appointments> {
+@SuppressLint("CheckResult")
+class OfficerAppointmentsPresenter
+@Inject
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<OfficerAppointmentsState, OfficerAppointmentsViewModel>(), OfficerAppointmentsPresenterContract {
 
-	internal var appointments: Appointments? = null
-
-	override fun onAttachView(view: OfficerAppointmentsActivityView) {
-		super.onAttachView(view)
-		appointments?.also {
-			view.showAppointments(it)
+	override fun setViewModel(viewModel: OfficerAppointmentsViewModel?, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		viewModel?.state?.value?.appointmentItems?.let {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = false
+					this.contentChange = ContentChange.APPOINTMENTS_RECEIVED
+				}
+			}
 		} ?: run {
-			view.showProgress()
-			getAppointments()
+			sendToViewModel {
+				it.apply {
+					this.isLoading = true
+				}
+			}
+			viewModel?.state?.value?.officerId?.also {
+				fetchAppointments(it)
+			}
 		}
 	}
 
-	@VisibleForTesting
-	fun getAppointments() {
-		view?.let {
-			companiesRepository.getOfficerAppointments(it.officerId, "0").subscribe(this)
+	override fun fetchAppointments(officerId: String) {
+		companiesRepository.getOfficerAppointments(officerId, "0")
+				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
+				.subscribeWith(object : ObserverWrapper<Appointments>(this) {
+					override fun onSuccess(reply: Appointments) {
+						sendToViewModel {
+							it.apply {
+								this.isLoading = false
+								this.officerName = reply.name
+								this.contentChange = ContentChange.APPOINTMENTS_RECEIVED
+								this.appointmentItems = convertToVisitables(reply)
+								this.totalResults = reply.totalResults?.toInt()
+							}
+						}
+					}
+				})
+	}
+
+	override fun loadMoreAppointments(page: Int) {
+		if (viewModel?.state?.value?.appointmentItems == null || viewModel?.state?.value?.appointmentItems!!.size < viewModel?.state?.value?.totalResults!!) {
+			companiesRepository.getOfficerAppointments(viewModel?.state?.value?.officerId
+					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+					.subscribeWith(object : ObserverWrapper<Appointments>(this) {
+						override fun onSuccess(reply: Appointments) {
+							val newList = viewModel?.state?.value?.appointmentItems?.toMutableList()
+							newList?.addAll(convertToVisitables(reply))
+							sendToViewModel {
+								it.apply {
+									this.isLoading = false
+									this.contentChange = ContentChange.APPOINTMENTS_RECEIVED
+									newList?.toList()?.let { list -> this.appointmentItems = list }
+								}
+							}
+						}
+					})
 		}
 	}
 
-	override fun onComplete() {
-
+	private fun convertToVisitables(reply: Appointments): List<AbstractOfficerAppointmentsVisitable> {
+		return reply.items?.let {
+			ArrayList(it.toMutableList().map { item -> OfficerAppointmentsVisitable(item) })
+		} ?: emptyList()
 	}
 
-	override fun onSubscribe(d: Disposable) {
-
-	}
-
-	override fun onError(e: Throwable) {
-		Log.d("test", "onError: " + e.fillInStackTrace())
-		view?.let {
-			it.hideProgress()
-			it.showError()
-		}
-	}
-
-	override fun onNext(appointments: Appointments) {
-		this.appointments = appointments
-		view?.let {
-			it.hideProgress()
-			it.showAppointments(appointments)
-		}
-	}
 }

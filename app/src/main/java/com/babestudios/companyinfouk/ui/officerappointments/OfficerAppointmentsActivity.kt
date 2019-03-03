@@ -1,120 +1,162 @@
 package com.babestudios.companyinfouk.ui.officerappointments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.Toast
 
-import com.babestudios.companyinfouk.CompaniesHouseApplication
+import kotlinx.android.synthetic.main.activity_officer_appointments2.*
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment
-import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.babestudios.base.view.DividerItemDecorationWithSubHeading
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-
-import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-
-import java.util.ArrayList
-
-import javax.inject.Inject
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.babestudios.base.ext.biLet
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import io.reactivex.CompletableSource
+import androidx.lifecycle.ViewModelProviders
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
+import com.babestudios.companyinfouk.ui.officerappointments.list.*
 
-class OfficerAppointmentsActivity : CompositeActivity(), OfficerAppointmentsActivityView, OfficerAppointmentsAdapter.AppointmentsRecyclerViewClickListener {
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.row_officer_appointments_header.*
 
-	@JvmField
-	@BindView(R.id.toolbar)
-	internal var toolbar: Toolbar? = null
+private const val OFFICER_ID = "com.babestudios.companyinfouk.ui.officer_id"
 
-	@JvmField
-	@BindView(R.id.progressbar)
-	internal var progressbar: ProgressBar? = null
+class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 
-	@JvmField
-	@BindView(R.id.officer_appointments_recycler_view)
-	internal var officerAppointmentsRecyclerView: RecyclerView? = null
 
-	@Inject
-	internal lateinit var officerAppointmentsPresenter: OfficerAppointmentsPresenter
+	private var officerAppointmentsAdapter: OfficerAppointmentsAdapter? = null
 
-	override lateinit var officerId: String
+	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
-	private var officerAppointmentsActivityPlugin = TiActivityPlugin<OfficerAppointmentsPresenter, OfficerAppointmentsActivityView> {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		officerAppointmentsPresenter
-	}
+	private val viewModel by lazy { ViewModelProviders.of(this).get(OfficerAppointmentsViewModel::class.java) }
 
-	internal var baseActivityPlugin = BaseActivityPlugin()
+	private lateinit var officerAppointmentsPresenter: OfficerAppointmentsPresenterContract
 
-	init {
-		addPlugin(officerAppointmentsActivityPlugin)
-		addPlugin(baseActivityPlugin)
-	}
+	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_officer_appointments)
-		baseActivityPlugin.logScreenView(this.localClassName)
-
-		ButterKnife.bind(this)
-
-		officerId = intent.getStringExtra("officerId")
-
-		if (toolbar != null) {
-			setSupportActionBar(toolbar)
-			supportActionBar?.setDisplayHomeAsUpEnabled(true)
-			supportActionBar?.setTitle(R.string.officer_appointments_title)
-			toolbar?.setNavigationOnClickListener { onBackPressed() }
+		setContentView(R.layout.activity_officer_appointments2)
+		setSupportActionBar(pabOfficerAppointments.getToolbar())
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		pabOfficerAppointments.setNavigationOnClickListener { onBackPressed() }
+		supportActionBar?.setTitle(R.string.officer_appointments_title)
+		when {
+			viewModel.state.value.appointmentItems != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<OfficerAppointmentsState>("STATE")?.let {
+					with(viewModel.state.value) {
+						appointmentItems = it.appointmentItems
+						officerId = it.officerId
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				viewModel.state.value.officerId = intent.getStringExtra(OFFICER_ID)
+				initPresenter(viewModel)
+			}
 		}
 
+		createRecyclerView()
+		observeState()
 	}
 
-	private fun createRecyclerView(appointments: Appointments) {
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+	}
+
+	override fun onSaveInstanceState(outState: Bundle) {
+		outState.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+	private fun initPresenter(viewModel: OfficerAppointmentsViewModel) {
+		if (!::officerAppointmentsPresenter.isInitialized) {
+			officerAppointmentsPresenter = Injector.get().officerAppointmentsPresenter()
+			officerAppointmentsPresenter.setViewModel(viewModel, requestScope())
+		}
+	}
+
+	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		officerAppointmentsRecyclerView?.layoutManager = linearLayoutManager
-		val titlePositions = ArrayList<Int>()
-		titlePositions.add(0)
-		officerAppointmentsRecyclerView?.addItemDecoration(
-				DividerItemDecorationWithSubHeading(this, titlePositions))
-		val adapter = OfficerAppointmentsAdapter(this, appointments)
-		officerAppointmentsRecyclerView?.adapter = adapter
+		rvOfficerAppointments?.layoutManager = linearLayoutManager
+		rvOfficerAppointments.addItemDecoration(DividerItemDecoration(this))
+		rvOfficerAppointments.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+			override fun onLoadMore(page: Int, totalItemsCount: Int) {
+				officerAppointmentsPresenter.loadMoreAppointments(page)
+			}
+		})
 	}
 
-	override fun showProgress() {
-		progressbar?.visibility = View.VISIBLE
+
+	//endregion
+
+	//region render
+
+	private fun observeState() {
+		viewModel.state
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { render(it) }
 	}
 
-	override fun hideProgress() {
-		progressbar?.visibility = View.GONE
-	}
-
-	override fun showAppointments(appointments: Appointments) {
-		createRecyclerView(appointments)
-	}
-
-	override fun showError() {
-		Toast.makeText(this, R.string.could_not_retrieve_officer_appointments_info, Toast.LENGTH_LONG).show()
-	}
-
-	override fun appointmentItemClicked(v: View, position: Int, item: Appointment) {
-		(item.appointedTo?.companyNumber to item.appointedTo?.companyName).biLet { companyNumber, companyName ->
-			startCompanyActivity(companyNumber, companyName)
+	private fun render(state: OfficerAppointmentsState) {
+		when {
+			state.isLoading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> msvOfficerAppointments.viewState = VIEW_STATE_ERROR
+			state.appointmentItems == null -> msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
+			else -> {
+				state.appointmentItems?.let {
+					msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
+					textViewOfficerName.text = state.officerName
+					if (rvOfficerAppointments?.adapter == null) {
+						officerAppointmentsAdapter = OfficerAppointmentsAdapter(it, OfficerAppointmentsTypeFactory())
+						rvOfficerAppointments?.adapter = officerAppointmentsAdapter
+					} else {
+						officerAppointmentsAdapter?.updateItems(it)
+					}
+					observeActions()
+				}
+			}
 		}
 	}
 
-	override fun startCompanyActivity(companyNumber: String, companyName: String) {
-		baseActivityPlugin.startActivityWithRightSlide(createCompanyIntent(companyNumber, companyName))
+	//endregion
+
+	//region events
+
+	private fun observeActions() {
+		eventDisposables.clear()
+		officerAppointmentsAdapter?.getViewClickedObservable()
+				?.take(1)
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<AbstractOfficerAppointmentsVisitable> ->
+					viewModel.state.value.appointmentItems?.let { appointmentItems ->
+						val company = (appointmentItems[(view as OfficerAppointmentsViewHolder).adapterPosition] as OfficerAppointmentsVisitable).appointment.appointedTo
+						company?.let { appointedTo ->
+							startActivityWithRightSlide(this.createCompanyIntent(appointedTo.companyNumber!!, appointedTo.companyName!!))
+						}
+					}
+				}
+				?.let { eventDisposables.add(it) }
 	}
 
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}
+	//endregion
+}
+
+fun Context.createOfficerAppointmentsIntent(officerId: String): Intent {
+	return Intent(this, OfficerAppointmentsActivity::class.java)
+			.putExtra(OFFICER_ID, officerId)
 }

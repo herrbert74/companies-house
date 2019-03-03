@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.ui.officerdetails
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import android.view.View
@@ -13,7 +12,7 @@ import butterknife.OnClick
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem
-import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity
+import com.babestudios.companyinfouk.ui.officerappointments.createOfficerAppointmentsIntent
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
@@ -134,9 +133,7 @@ class OfficerDetailsActivity : CompositeActivity(), OfficerDetailsActivityView {
 
 	@OnClick(R.id.buttonAppointments)
 	fun onClick() {
-		val intent = Intent(this, OfficerAppointmentsActivity::class.java)
-		intent.putExtra("officerId", officerId)
-		baseActivityPlugin.startActivityWithRightSlide(intent)
+		baseActivityPlugin.startActivityWithRightSlide(createOfficerAppointmentsIntent(officerId))
 	}
 
 	override fun showProgress() {

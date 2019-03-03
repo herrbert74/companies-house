@@ -1,13 +1,16 @@
 package com.babestudios.companyinfouk.data.model.officers.appointments
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class FormerName {
+@Parcelize
+class FormerName(
 
-	@SerializedName("forenames")
-	var forenames: String? = null
-	@SerializedName("surname")
-	var surname: String? = null
+		@SerializedName("forenames")
+		var forenames: String? = null,
+		@SerializedName("surname")
+		var surname: String? = null
 
-}
+) : Parcelable

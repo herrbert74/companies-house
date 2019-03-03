@@ -12,7 +12,7 @@ import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetail
 import com.babestudios.companyinfouk.ui.filinghistorydetails.FilingHistoryDetailsPresenter
 import com.babestudios.companyinfouk.ui.insolvency.InsolvencyPresenter
 import com.babestudios.companyinfouk.ui.insolvencydetails.InsolvencyDetailsPresenter
-import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity
+import com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsPresenter
 import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
 import com.babestudios.companyinfouk.ui.officers.OfficersActivity
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity
@@ -41,8 +41,6 @@ interface ApplicationComponent {
 
 	fun inject(officerDetailsActivity: OfficerDetailsActivity)
 
-	fun inject(officerAppointmentsActivity: OfficerAppointmentsActivity)
-
 	fun inject(favouritesActivity: FavouritesActivity)
 
 	fun inject(filingHistoryAdapter: FilingHistoryAdapter)
@@ -64,6 +62,8 @@ interface ApplicationComponent {
 	fun insolvencyPresenter(): InsolvencyPresenter
 
 	fun insolvencyDetailsPresenter(): InsolvencyDetailsPresenter
+
+	fun officerAppointmentsPresenter(): OfficerAppointmentsPresenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();
