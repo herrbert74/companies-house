@@ -20,10 +20,10 @@ class InsolvencyPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<InsolvencyState, InsolvencyViewModel>(), InsolvencyPresenterContract {
 
-	override fun setViewModel(viewModel: InsolvencyViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: InsolvencyViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		viewModel?.state?.value?.insolvencyItems?.let {
+		viewModel.state.value?.insolvencyItems?.let {
 			sendToViewModel {
 				it.apply {
 					this.isLoading = false
@@ -36,7 +36,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Insolv
 					this.isLoading = true
 				}
 			}
-			viewModel?.state?.value?.companyNumber?.also {
+			viewModel.state.value?.companyNumber?.also {
 				fetchInsolvencies(it)
 			}
 		}

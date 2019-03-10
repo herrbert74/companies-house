@@ -23,10 +23,10 @@ class ChargesPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<ChargesState, ChargesViewModel>(), ChargesPresenterContract {
 
-	override fun setViewModel(viewModel: ChargesViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: ChargesViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		viewModel?.state?.value?.chargeItems?.let {
+		viewModel.state.value?.chargeItems?.let {
 			sendToViewModel {
 				it.apply {
 					this.isLoading = false
@@ -39,7 +39,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 					this.isLoading = true
 				}
 			}
-			viewModel?.state?.value?.companyNumber?.also {
+			viewModel.state.value?.companyNumber?.also {
 				fetchCharges(it)
 			}
 		}
@@ -67,12 +67,12 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 	}
 
 	override fun loadMoreCharges(page: Int) {
-		if (viewModel?.state?.value?.chargeItems == null || viewModel?.state?.value?.chargeItems!!.size < viewModel?.state?.value?.totalCount!!) {
-			companiesRepository.fetchCharges(viewModel?.state?.value?.companyNumber
+		if (viewModel.state.value?.chargeItems == null || viewModel.state.value?.chargeItems!!.size < viewModel.state.value?.totalCount!!) {
+			companiesRepository.fetchCharges(viewModel.state.value?.companyNumber
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribeWith(object : ObserverWrapper<Charges>(this) {
 						override fun onSuccess(reply: Charges) {
-							val newList = viewModel?.state?.value?.chargeItems?.toMutableList()
+							val newList = viewModel.state.value?.chargeItems?.toMutableList()
 							newList?.addAll(convertToVisitables(reply))
 							sendToViewModel {
 								it.apply {

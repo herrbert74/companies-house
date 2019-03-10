@@ -32,10 +32,10 @@ class FilingHistoryPresenter
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<FilingHistoryState, FilingHistoryViewModel>(), FilingHistoryPresenterContract {
 
 
-	override fun setViewModel(viewModel: FilingHistoryViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: FilingHistoryViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		viewModel?.state?.value?.filingHistoryList?.let {
+		viewModel.state.value?.filingHistoryList?.let {
 			sendToViewModel {
 				it.apply {
 					this.isLoading = false
@@ -47,7 +47,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 					this.isLoading = true
 				}
 			}
-			viewModel?.state?.value?.also {
+			viewModel.state.value?.also {
 				getFilingHistory(it.companyNumber, it.filingCategoryFilter)
 			}
 		}
@@ -71,7 +71,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 	}
 
 	override fun loadMoreFilingHistory(page: Int) {
-		(viewModel to viewModel?.state?.value?.companyNumber).biLet { vm, companyNumber ->
+		(viewModel to viewModel.state.value?.companyNumber).biLet { vm, companyNumber ->
 			companiesRepository.getFilingHistory(
 					companyNumber,
 					vm.state.value.filingCategoryFilter.getSerializedName(),
@@ -121,7 +121,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 				this.isLoading = true
 			}
 		}
-		getFilingHistory(viewModel?.state?.value?.companyNumber, Category.values()[category])
+		getFilingHistory(viewModel.state.value?.companyNumber, Category.values()[category])
 	}
 
 	companion object {

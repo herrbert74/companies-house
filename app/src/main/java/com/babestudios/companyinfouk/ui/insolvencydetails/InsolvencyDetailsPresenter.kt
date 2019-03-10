@@ -19,13 +19,13 @@ class InsolvencyDetailsPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<InsolvencyDetailsState, InsolvencyDetailsViewModel>(), InsolvencyDetailsPresenterContract {
 
-	override fun setViewModel(viewModel: InsolvencyDetailsViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: InsolvencyDetailsViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
 		sendToViewModel {
 			it.apply {
 				this.contentChange = ContentChange.INSOLVENCY_CASE_RECEIVED
-				this.insolvencyDetailsItems = viewModel?.state?.value?.insolvencyCase?.let { insolvencyCase -> convertToVisitables(insolvencyCase) }
+				this.insolvencyDetailsItems = viewModel.state.value?.insolvencyCase?.let { insolvencyCase -> convertToVisitables(insolvencyCase) }
 			}
 		}
 	}

@@ -8,12 +8,12 @@ import io.reactivex.rxkotlin.zipWith
 
 abstract class BasePresenter<S : BaseState, VM : StateViewModel<S>> : Presenter<S, VM> {
 
-	var viewModel: VM? = null
+	lateinit var viewModel: VM
 	var lifeCycleCompletable: CompletableSource? = null
 
 	@SuppressLint("CheckResult")
 	fun sendToViewModel(reducer: (S) -> S) {
-		viewModel?.apply {
+		viewModel.apply {
 			Observable.just(reducer)
 					.observeOn(AndroidSchedulers.mainThread())
 					.zipWith(this.state)

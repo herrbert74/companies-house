@@ -21,10 +21,10 @@ class CompanyPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<CompanyState, CompanyViewModel>(), CompanyPresenterContract {
 
-	override fun setViewModel(viewModel: CompanyViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: CompanyViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		viewModel?.state?.value?.company?.let {
+		viewModel.state.value?.company?.let {
 			sendToViewModel {
 				it.apply {
 					this.isLoading = false
@@ -38,7 +38,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Compan
 					this.isFavorite = companiesRepository.isFavourite(SearchHistoryItem(this.companyName, this.companyNumber, 0))
 				}
 			}
-			viewModel?.state?.value?.companyNumber?.also {
+			viewModel.state.value?.companyNumber?.also {
 				fetchCompany(it)
 			}
 		}
@@ -79,7 +79,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Compan
 	}
 
 	override fun updateFavorites() {
-		(viewModel?.state?.value?.companyName to viewModel?.state?.value?.companyNumber).biLet { companyName, companyNumber ->
+		(viewModel.state.value?.companyName to viewModel.state.value?.companyNumber).biLet { companyName, companyNumber ->
 			if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
 				companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
 			} else {

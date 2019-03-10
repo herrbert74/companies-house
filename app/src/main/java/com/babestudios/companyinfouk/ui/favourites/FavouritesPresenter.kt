@@ -19,7 +19,7 @@ class FavouritesPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepositoryContract) : BasePresenter<FavouritesState, FavouritesViewModel>(), FavouritesPresenterContract {
 
-	override fun setViewModel(viewModel: FavouritesViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: FavouritesViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
 		sendToViewModel {

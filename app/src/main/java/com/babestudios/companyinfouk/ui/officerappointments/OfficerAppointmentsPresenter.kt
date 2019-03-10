@@ -23,10 +23,10 @@ class OfficerAppointmentsPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<OfficerAppointmentsState, OfficerAppointmentsViewModel>(), OfficerAppointmentsPresenterContract {
 
-	override fun setViewModel(viewModel: OfficerAppointmentsViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: OfficerAppointmentsViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		viewModel?.state?.value?.appointmentItems?.let {
+		viewModel.state.value?.appointmentItems?.let {
 			sendToViewModel {
 				it.apply {
 					this.isLoading = false
@@ -39,7 +39,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Office
 					this.isLoading = true
 				}
 			}
-			viewModel?.state?.value?.officerId?.also {
+			viewModel.state.value?.officerId?.also {
 				fetchAppointments(it)
 			}
 		}
@@ -64,12 +64,12 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Office
 	}
 
 	override fun loadMoreAppointments(page: Int) {
-		if (viewModel?.state?.value?.appointmentItems == null || viewModel?.state?.value?.appointmentItems!!.size < viewModel?.state?.value?.totalResults!!) {
-			companiesRepository.getOfficerAppointments(viewModel?.state?.value?.officerId
+		if (viewModel.state.value?.appointmentItems == null || viewModel.state.value?.appointmentItems!!.size < viewModel.state.value?.totalResults!!) {
+			companiesRepository.getOfficerAppointments(viewModel.state.value?.officerId
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribeWith(object : ObserverWrapper<Appointments>(this) {
 						override fun onSuccess(reply: Appointments) {
-							val newList = viewModel?.state?.value?.appointmentItems?.toMutableList()
+							val newList = viewModel.state.value?.appointmentItems?.toMutableList()
 							newList?.addAll(convertToVisitables(reply))
 							sendToViewModel {
 								it.apply {

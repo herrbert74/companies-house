@@ -20,10 +20,10 @@ class FilingHistoryDetailsPresenter
 @Inject
 constructor(var companiesRepository: CompaniesRepository) : BasePresenter<FilingHistoryDetailsState, FilingHistoryDetailsViewModel>(), FilingHistoryDetailsPresenterContract {
 
-	override fun setViewModel(viewModel: FilingHistoryDetailsViewModel?, lifeCycleCompletable: CompletableSource?) {
+	override fun setViewModel(viewModel: FilingHistoryDetailsViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		viewModel?.state?.value?.filingHistoryItem?.description?.let { description ->
+		viewModel.state.value?.filingHistoryItem?.description?.let { description ->
 			sendToViewModel {
 				it.apply {
 					this.contentChange = ContentChange.FILING_HISTORY_ITEM_RECEIVED
@@ -34,7 +34,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 	}
 
 	override fun fetchDocument() {
-		viewModel?.state?.value?.filingHistoryItem?.links?.documentMetadata?.also { data ->
+		viewModel.state.value?.filingHistoryItem?.links?.documentMetadata?.also { data ->
 			sendToViewModel {
 				it.apply {
 					this.isLoading = true
@@ -61,7 +61,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 	}
 
 	override fun writeDocument() {
-		viewModel?.state?.value?.pdfResponseBody?.let { pdfResponseBody ->
+		viewModel.state.value?.pdfResponseBody?.let { pdfResponseBody ->
 			sendToViewModel {
 				it.apply {
 					this.contentChange = ContentChange.PDF_WRITTEN
