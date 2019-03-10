@@ -16,7 +16,7 @@ import com.babestudios.companyinfouk.ui.charges.createChargesIntent
 import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
 import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
-import com.babestudios.companyinfouk.ui.officers.OfficersActivity
+import com.babestudios.companyinfouk.ui.officers.createOfficersIntent
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity
 import com.babestudios.companyinfouk.utils.DateUtil
 import com.jakewharton.rxbinding2.view.RxView
@@ -235,9 +235,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	fun onOfficersClicked(view: View) {
-		val intent = Intent(this, OfficersActivity::class.java)
-		intent.putExtra("companyNumber", viewModel.state.value.companyNumber)
-		startActivityWithRightSlide(intent)
+		startActivityWithRightSlide(this.createOfficersIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 

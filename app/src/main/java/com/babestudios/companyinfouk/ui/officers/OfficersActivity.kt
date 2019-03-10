@@ -1,123 +1,159 @@
 package com.babestudios.companyinfouk.ui.officers
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.Toast
 
-import com.babestudios.companyinfouk.CompaniesHouseApplication
+import kotlinx.android.synthetic.main.activity_officers.*
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.officers.OfficerItem
-import com.babestudios.companyinfouk.data.model.officers.Officers
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import io.reactivex.CompletableSource
+import androidx.lifecycle.ViewModelProviders
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-
-import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-
-import javax.inject.Inject
-
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.babestudios.companyinfouk.ui.officerdetails.createOfficerDetailsIntent
+import com.babestudios.companyinfouk.ui.officers.list.*
 
-class OfficersActivity : CompositeActivity(), OfficersActivityView, OfficersAdapter.OfficersRecyclerViewClickListener {
+import io.reactivex.disposables.CompositeDisposable
 
-	@JvmField
-	@BindView(R.id.toolbar)
-	internal var toolbar: Toolbar? = null
+private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_number"
 
-	@JvmField
-	@BindView(R.id.officers_recycler_view)
-	internal var officersRecyclerView: RecyclerView? = null
+class OfficersActivity : RxAppCompatActivity(), ScopeProvider {
+
 
 	private var officersAdapter: OfficersAdapter? = null
 
-	@JvmField
-	@BindView(R.id.progressbar)
-	internal var progressbar: ProgressBar? = null
+	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
-	@Inject
-	internal lateinit var officersPresenter: OfficersPresenter
+	private val viewModel by lazy { ViewModelProviders.of(this).get(OfficersViewModel::class.java) }
 
-	override lateinit var companyNumber: String
+	private lateinit var officersPresenter: OfficersPresenterContract
 
+	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	internal var officersActivityPlugin = TiActivityPlugin<OfficersPresenter, OfficersActivityView> {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		officersPresenter
-	}
-
-	internal var baseActivityPlugin = BaseActivityPlugin()
-
-	init {
-		addPlugin(officersActivityPlugin)
-		addPlugin(baseActivityPlugin)
-	}
+	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_officers)
-		baseActivityPlugin.logScreenView(this.localClassName)
-
-		ButterKnife.bind(this)
-		if (toolbar != null) {
-			setSupportActionBar(toolbar)
-			supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-			supportActionBar!!.setTitle(R.string.officers)
-			toolbar!!.setNavigationOnClickListener { onBackPressed() }
+		setSupportActionBar(pabOfficers.getToolbar())
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		pabOfficers.setNavigationOnClickListener { onBackPressed() }
+		supportActionBar?.setTitle(R.string.officers)
+		when {
+			viewModel.state.value.officerItems != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<OfficersState>("STATE")?.let {
+					with(viewModel.state.value) {
+						officerItems = it.officerItems
+						companyNumber = it.companyNumber
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
+				initPresenter(viewModel)
+			}
 		}
-		companyNumber = intent.getStringExtra("companyNumber")
-		createOfficersRecyclerView()
 
-
+		createRecyclerView()
+		observeState()
 	}
 
-	private fun createOfficersRecyclerView() {
-		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		officersRecyclerView!!.layoutManager = linearLayoutManager
-		officersRecyclerView!!.addItemDecoration(
-				DividerItemDecoration(this))
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+	}
 
-		officersRecyclerView!!.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+	override fun onSaveInstanceState(outState: Bundle) {
+		outState.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+	private fun initPresenter(viewModel: OfficersViewModel) {
+		if (!::officersPresenter.isInitialized) {
+			officersPresenter = Injector.get().officersPresenter()
+			officersPresenter.setViewModel(viewModel, requestScope())
+		}
+	}
+
+	private fun createRecyclerView() {
+		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+		rvOfficers?.layoutManager = linearLayoutManager
+		rvOfficers.addItemDecoration(DividerItemDecoration(this))
+		rvOfficers.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
-				officersActivityPlugin.presenter.loadMoreOfficers(page)
+				officersPresenter.loadMoreOfficers(page)
 			}
 		})
 	}
 
-	override fun showProgress() {
-		progressbar!!.visibility = View.VISIBLE
+
+	//endregion
+
+	//region render
+
+	private fun observeState() {
+		viewModel.state
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { render(it) }
 	}
 
-	override fun hideProgress() {
-		progressbar!!.visibility = View.GONE
-	}
-
-
-	override fun showOfficers(officers: Officers) {
-		if (officersRecyclerView!!.adapter == null) {
-			officersAdapter = OfficersAdapter(this@OfficersActivity, officers)
-			officersRecyclerView!!.adapter = officersAdapter
-		} else {
-			officersAdapter!!.updateItems(officers)
+	private fun render(state: OfficersState) {
+		when {
+			state.isLoading -> msvOfficers.viewState = VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> msvOfficers.viewState = VIEW_STATE_ERROR
+			state.officerItems == null -> msvOfficers.viewState = VIEW_STATE_EMPTY
+			else -> {
+				state.officerItems?.let {
+					msvOfficers.viewState = VIEW_STATE_CONTENT
+					if (rvOfficers?.adapter == null) {
+						officersAdapter = OfficersAdapter(it, OfficersTypeFactory())
+						rvOfficers?.adapter = officersAdapter
+					} else {
+						officersAdapter?.updateItems(it)
+					}
+					observeActions()
+				}
+			}
 		}
 	}
 
-	override fun officersItemClicked(v: View, position: Int, officerItem: OfficerItem) {
-		baseActivityPlugin.startActivityWithRightSlide(createOfficerDetailsIntent(officerItem))
+	//endregion
+
+	//region events
+
+	private fun observeActions() {
+		eventDisposables.clear()
+		officersAdapter?.getViewClickedObservable()
+				?.take(1)
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<AbstractOfficersVisitable> ->
+					viewModel.state.value.officerItems?.let { officerItems ->
+						startActivityWithRightSlide(
+								this.createOfficerDetailsIntent(
+										(officerItems[(view as OfficersViewHolder).adapterPosition] as OfficersVisitable).officersItem))
+					}
+				}
+				?.let { eventDisposables.add(it) }
 	}
 
-	override fun showError() {
-		Toast.makeText(this, R.string.could_not_retrieve_officer_info, Toast.LENGTH_LONG).show()
-	}
+	//endregion
+}
 
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}
+fun Context.createOfficersIntent(companyNumber: String): Intent {
+	return Intent(this, OfficersActivity::class.java)
+			.putExtra(COMPANY_NUMBER, companyNumber)
 }

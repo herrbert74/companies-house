@@ -1,66 +1,91 @@
 package com.babestudios.companyinfouk.ui.officers
 
-import androidx.annotation.VisibleForTesting
-import android.util.Log
-
+import android.annotation.SuppressLint
+import com.babestudios.base.mvp.BasePresenter
+import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
+import com.uber.autodispose.AutoDispose
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.Officers
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
+import com.babestudios.companyinfouk.ui.officers.list.AbstractOfficersVisitable
+import com.babestudios.companyinfouk.ui.officers.list.OfficersVisitable
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+interface OfficersPresenterContract : Presenter<OfficersState, OfficersViewModel> {
+	fun fetchOfficers(companyNumber: String)
+	fun loadMoreOfficers(page: Int)
+}
 
-class OfficersPresenter @Inject
-constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<OfficersActivityView>(), Observer<Officers> {
+@SuppressLint("CheckResult")
+class OfficersPresenter
+@Inject
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<OfficersState, OfficersViewModel>(), OfficersPresenterContract {
 
-	internal var officers: Officers? = null
-
-	override fun onAttachView(view: OfficersActivityView) {
-		super.onAttachView(view)
-		officers?.let {
-			view.showOfficers(it)
+	override fun setViewModel(viewModel: OfficersViewModel, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		viewModel.state.value?.officerItems?.let {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = false
+					this.contentChange = ContentChange.OFFICERS_RECEIVED
+				}
+			}
 		} ?: run {
-			view.showProgress()
-			getOfficers()
+			sendToViewModel {
+				it.apply {
+					this.isLoading = true
+				}
+			}
+			viewModel.state.value?.companyNumber?.also {
+				fetchOfficers(it)
+			}
+		}
+
+	}
+
+	override fun fetchOfficers(companyNumber: String) {
+		companiesRepository.getOfficers(companyNumber, "0")
+				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
+				.subscribeWith(object : ObserverWrapper<Officers>(this) {
+					override fun onSuccess(reply: Officers) {
+						sendToViewModel {
+							it.apply {
+								this.isLoading = false
+								this.contentChange = ContentChange.OFFICERS_RECEIVED
+								this.officerItems = convertToVisitables(reply)
+								this.totalCount = reply.totalResults
+							}
+						}
+					}
+				})
+	}
+
+
+	override fun loadMoreOfficers(page: Int) {
+		if (viewModel.state.value?.officerItems == null || viewModel.state.value?.officerItems!!.size < viewModel.state.value?.totalCount!!) {
+			companiesRepository.getOfficers(viewModel.state.value?.companyNumber
+					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+					.subscribeWith(object : ObserverWrapper<Officers>(this) {
+						override fun onSuccess(reply: Officers) {
+							val newList = viewModel.state.value?.officerItems?.toMutableList()
+							newList?.addAll(convertToVisitables(reply))
+							sendToViewModel {
+								it.apply {
+									this.isLoading = false
+									this.contentChange = ContentChange.OFFICERS_RECEIVED
+									newList?.toList()?.let { list -> this.officerItems = list }
+								}
+							}
+						}
+					})
 		}
 	}
 
-	@VisibleForTesting
-	fun getOfficers() {
-		view?.let {
-			companiesRepository.getOfficers(it.companyNumber, "0").subscribe(this)
-		}
+	private fun convertToVisitables(reply: Officers): List<AbstractOfficersVisitable> {
+		return ArrayList(reply.items.map { item -> OfficersVisitable(item) })
 	}
 
-	fun loadMoreOfficers(page: Int) {
-		view?.let {
-			companiesRepository.getOfficers(it.companyNumber, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()).subscribe(this)
-		}
-	}
-
-	override fun onComplete() {}
-
-	override fun onSubscribe(d: Disposable) {
-
-	}
-
-	override fun onError(e: Throwable) {
-		Log.d("test", "onError: " + e.fillInStackTrace())
-		view?.also {
-			it.hideProgress()
-			it.showError()
-		}
-	}
-
-	override fun onNext(officers: Officers) {
-		this.officers = officers
-		view?.also {
-			it.hideProgress()
-			it.showOfficers(officers)
-		}
-	}
 }
