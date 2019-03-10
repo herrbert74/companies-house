@@ -139,6 +139,7 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 				checkPermissionAndWriteDocument()
 			}
 			state.contentChange == ContentChange.PDF_WRITTEN -> {
+				state.contentChange = ContentChange.NONE
 				msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
 				viewModel.state.value.pdfUri?.let {
 					showDocument(it)

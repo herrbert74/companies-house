@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Parcelable
 import com.babestudios.base.mvp.BaseState
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 import okhttp3.ResponseBody
@@ -20,6 +21,9 @@ data class FilingHistoryDetailsState(
 		var filingHistoryItem: FilingHistoryItem? = null,
 		var filingHistoryItemDescription: String? = null,
 		var contentChange: ContentChange = ContentChange.NONE,
-		var pdfResponseBody: @RawValue ResponseBody? = null,
+		//pdfResponseBody: @RawValue ResponseBody? = null,
 		var pdfUri: @RawValue Uri? = null
-) : BaseState(), Parcelable
+) : BaseState(), Parcelable {
+	@IgnoredOnParcel
+	var pdfResponseBody : ResponseBody? = null
+}
