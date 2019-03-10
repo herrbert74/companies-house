@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.officers
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
-import com.google.gson.Gson
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
@@ -25,7 +23,7 @@ import javax.inject.Inject
 
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsActivity
+import com.babestudios.companyinfouk.ui.officerdetails.createOfficerDetailsIntent
 
 class OfficersActivity : CompositeActivity(), OfficersActivityView, OfficersAdapter.OfficersRecyclerViewClickListener {
 
@@ -111,11 +109,7 @@ class OfficersActivity : CompositeActivity(), OfficersActivityView, OfficersAdap
 	}
 
 	override fun officersItemClicked(v: View, position: Int, officerItem: OfficerItem) {
-		val gson = Gson()
-		val jsonItem = gson.toJson(officerItem, OfficerItem::class.java)
-		val intent = Intent(this, OfficerDetailsActivity::class.java)
-		intent.putExtra("officerItem", jsonItem)
-		baseActivityPlugin.startActivityWithRightSlide(intent)
+		baseActivityPlugin.startActivityWithRightSlide(createOfficerDetailsIntent(officerItem))
 	}
 
 	override fun showError() {

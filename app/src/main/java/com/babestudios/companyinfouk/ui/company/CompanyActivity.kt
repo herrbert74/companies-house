@@ -195,6 +195,11 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 
 	}
 
+	override fun onBackPressed() {
+		super.onBackPressed()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	}
+
 	//endregion
 
 	//region events

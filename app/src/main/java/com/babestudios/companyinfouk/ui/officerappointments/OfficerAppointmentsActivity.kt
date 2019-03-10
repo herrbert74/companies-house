@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 
-import kotlinx.android.synthetic.main.activity_officer_appointments2.*
+import kotlinx.android.synthetic.main.activity_officer_appointments.*
 import com.babestudios.companyinfouk.R
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
@@ -45,7 +45,7 @@ class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_officer_appointments2)
+		setContentView(R.layout.activity_officer_appointments)
 		setSupportActionBar(pabOfficerAppointments.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabOfficerAppointments.setNavigationOnClickListener { onBackPressed() }
@@ -101,6 +101,10 @@ class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 		})
 	}
 
+	override fun onBackPressed() {
+		super.onBackPressed()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	}
 
 	//endregion
 

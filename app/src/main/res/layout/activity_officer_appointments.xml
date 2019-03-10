@@ -5,73 +5,42 @@
 													 android:layout_width="match_parent"
 													 android:layout_height="match_parent"
 													 android:fitsSystemWindows="true"
-													 tools:context="com.babestudios.companyinfouk.ui.officerappointments.OfficerAppointmentsActivity">
+													 tools:context=".ui.officerappointments.OfficerAppointmentsActivity">
 
-
-	<com.google.android.material.appbar.AppBarLayout
+	<com.babestudios.base.view.ParallaxAppBarView
+		android:id="@+id/pabOfficerAppointments"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
-		android:theme="@style/AppTheme.AppBarOverlay">
+		android:theme="@style/AppTheme.AppBarOverlay"
+		app:imageViewSrc="@drawable/bg_appointments"/>
 
-		<com.google.android.material.appbar.CollapsingToolbarLayout
-			android:id="@+id/collapsing_toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:fitsSystemWindows="true"
-			app:contentScrim="?attr/colorPrimary"
-			app:expandedTitleMarginEnd="64dp"
-			app:expandedTitleMarginStart="48dp"
-			app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-			<ImageView
-				android:id="@+id/image"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				android:scaleType="centerCrop"
-				android:src="@drawable/bg_appointments"
-				app:layout_collapseMode="parallax"/>
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/transparent_black"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				app:layout_collapseMode="parallax"/>
-
-			<androidx.appcompat.widget.Toolbar
-				android:id="@+id/toolbar"
-				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:background="@android:color/transparent"
-				app:layout_collapseMode="pin"
-				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
-		</com.google.android.material.appbar.CollapsingToolbarLayout>
-	</com.google.android.material.appbar.AppBarLayout>
-
-	<ProgressBar
-		android:id="@+id/progressbar"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_gravity="center"
-		android:indeterminate="true"
-		android:indeterminateBehavior="cycle"
-		android:visibility="gone"/>
-
-	<androidx.core.widget.NestedScrollView
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:orientation="vertical"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/officer_appointments_recycler_view"
+		<include
+			layout="@layout/row_officer_appointments_header"
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"/>
+
+		<com.babestudios.base.view.MultiStateView
+			android:id="@+id/msvOfficerAppointments"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:clickable="true"
-			android:paddingBottom="@dimen/view_margin_small"
-			android:scrollbars="vertical"
-			app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-	</androidx.core.widget.NestedScrollView>
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			app:msv_emptyView="@layout/multi_state_view_empty"
+			app:msv_errorView="@layout/multi_state_view_error"
+			app:msv_loadingView="@layout/multi_state_view_progress"
+			app:msv_viewState="content">
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/rvOfficerAppointments"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:paddingBottom="@dimen/view_margin_small"
+				android:scrollbars="vertical"/>
+		</com.babestudios.base.view.MultiStateView>
+	</LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
