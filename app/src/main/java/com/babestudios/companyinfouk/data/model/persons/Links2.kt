@@ -6,9 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class DateOfBirth(
-		@SerializedName("year")
-		var year: Long? = null,
-		@SerializedName("month")
-		var month: Long? = null
+class Links2(
+		@SerializedName("self")
+		var self: String? = null
 ) : Parcelable

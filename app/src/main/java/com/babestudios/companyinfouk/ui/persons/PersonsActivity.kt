@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.ui.persons
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +14,9 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.persons.Person
 import com.babestudios.companyinfouk.data.model.persons.Persons
-import com.babestudios.companyinfouk.ui.personsdetails.PersonsDetailsActivity
 import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
 import com.babestudios.base.view.DividerItemDecoration
-import com.google.gson.Gson
+import com.babestudios.companyinfouk.ui.persondetails.createPersonDetailsIntent
 import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
 import javax.inject.Inject
@@ -107,11 +105,7 @@ class PersonsActivity : CompositeActivity(), PersonsActivityView, PersonsAdapter
 	}
 
 	override fun personsItemClicked(v: View, position: Int, person: Person) {
-		val gson = Gson()
-		val jsonItem = gson.toJson(person, Person::class.java)
-		val intent = Intent(this, PersonsDetailsActivity::class.java)
-		intent.putExtra("personsItem", jsonItem)
-		baseActivityPlugin.startActivityWithRightSlide(intent)
+		baseActivityPlugin.startActivityWithRightSlide(createPersonDetailsIntent(person))
 	}
 
 	override fun showError() {

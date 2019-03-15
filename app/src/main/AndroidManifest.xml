@@ -39,7 +39,7 @@
 		<activity android:name=".ui.officerdetails.OfficerDetailsActivity"/>
 		<activity android:name=".ui.officerappointments.OfficerAppointmentsActivity"/>
 		<activity android:name=".ui.persons.PersonsActivity"/>
-		<activity android:name=".ui.personsdetails.PersonsDetailsActivity"/>
+		<activity android:name=".ui.persondetails.PersonDetailsActivity"/>
 		<activity android:name=".ui.map.MapActivity"/>
 		<activity android:name=".ui.privacy.PrivacyActivity"/>
 
