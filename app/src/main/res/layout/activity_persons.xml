@@ -5,81 +5,31 @@
 													 android:layout_width="match_parent"
 													 android:layout_height="match_parent"
 													 android:fitsSystemWindows="true"
-													 tools:context="com.babestudios.companyinfouk.ui.persons.PersonsActivity">
+													 tools:context=".ui.persons2.Persons2Activity">
 
-	<com.google.android.material.appbar.AppBarLayout
+	<com.babestudios.base.view.ParallaxAppBarView
+		android:id="@+id/pabPersons"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
-		android:theme="@style/AppTheme.AppBarOverlay">
+		android:theme="@style/AppTheme.AppBarOverlay"
+		app:imageViewSrc="@drawable/bg_persons"/>
 
-		<com.google.android.material.appbar.CollapsingToolbarLayout
-			android:id="@+id/collapsing_toolbar"
+	<com.babestudios.base.view.MultiStateView
+		android:id="@+id/msvPersons"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		app:msv_emptyView="@layout/multi_state_view_empty"
+		app:msv_errorView="@layout/multi_state_view_error"
+		app:msv_loadingView="@layout/multi_state_view_progress"
+		app:msv_viewState="content">
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/rvPersons"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:fitsSystemWindows="true"
-			app:contentScrim="?attr/colorPrimary"
-			app:expandedTitleMarginEnd="64dp"
-			app:expandedTitleMarginStart="48dp"
-			app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-			<ImageView
-				android:id="@+id/image"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				android:scaleType="centerCrop"
-				android:src="@drawable/bg_persons"
-				app:layout_collapseMode="parallax"/>
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/transparent_black"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				app:layout_collapseMode="parallax"/>
-
-			<androidx.appcompat.widget.Toolbar
-				android:id="@+id/toolbar"
-				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:background="@android:color/transparent"
-				app:layout_collapseMode="pin"
-				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
-		</com.google.android.material.appbar.CollapsingToolbarLayout>
-	</com.google.android.material.appbar.AppBarLayout>
-
-	<ProgressBar
-		android:id="@+id/progressbar"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_gravity="center"
-		android:indeterminate="true"
-		android:indeterminateBehavior="cycle"
-		android:visibility="gone"/>
-
-	<androidx.core.widget.NestedScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-		<TextView
-			android:id="@+id/lblNoPersons"
-			style="@style/Text.Headline"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:text="@string/no_person_with_significant_control"
-			android:visibility="gone"/>
-	</androidx.core.widget.NestedScrollView>
-
-	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/persons_recycler_view"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:paddingBottom="@dimen/view_margin_small"
-		android:scrollbars="vertical"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+			android:paddingBottom="@dimen/view_margin_small"
+			android:scrollbars="vertical"/>
+	</com.babestudios.base.view.MultiStateView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

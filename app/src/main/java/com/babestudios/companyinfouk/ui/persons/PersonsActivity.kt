@@ -1,119 +1,157 @@
 package com.babestudios.companyinfouk.ui.persons
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.persons.Person
-import com.babestudios.companyinfouk.data.model.persons.Persons
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
+import com.babestudios.base.mvp.ErrorType
+import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.persondetails.createPersonDetailsIntent
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
-import net.grandcentrix.thirtyinch.plugin.TiActivityPlugin
-import javax.inject.Inject
+import com.babestudios.companyinfouk.ui.persons.list.*
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import io.reactivex.CompletableSource
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_persons.*
 
-class PersonsActivity : CompositeActivity(), PersonsActivityView, PersonsAdapter.PersonsRecyclerViewClickListener {
+private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_number"
 
-	@JvmField
-	@BindView(R.id.toolbar)
-	internal var toolbar: Toolbar? = null
+class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 
-	@JvmField
-	@BindView(R.id.persons_recycler_view)
-	internal var personsRecyclerView: RecyclerView? = null
-
-	@JvmField
-	@BindView(R.id.lblNoPersons)
-	internal var lblNoPersons: TextView? = null
 
 	private var personsAdapter: PersonsAdapter? = null
 
-	@JvmField
-	@BindView(R.id.progressbar)
-	internal var progressbar: ProgressBar? = null
+	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
-	@Inject
-	internal lateinit var personsPresenter: PersonsPresenter
+	private val viewModel by lazy { ViewModelProviders.of(this).get(PersonsViewModel::class.java) }
 
-	override lateinit var companyNumber: String
+	private lateinit var personsPresenter: PersonsPresenterContract
 
-	private var personsActivityPlugin = TiActivityPlugin<PersonsPresenter, PersonsActivityView> {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
-		personsPresenter
-	}
+	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	internal var baseActivityPlugin = BaseActivityPlugin()
-
-	init {
-		addPlugin(personsActivityPlugin)
-		addPlugin(baseActivityPlugin)
-	}
+	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_persons)
-		baseActivityPlugin.logScreenView(this.localClassName)
-
-		ButterKnife.bind(this)
-		if (toolbar != null) {
-			setSupportActionBar(toolbar)
-			supportActionBar?.setDisplayHomeAsUpEnabled(true)
-			supportActionBar?.setTitle(R.string.persons_with_significant_control)
-			toolbar?.setNavigationOnClickListener { onBackPressed() }
+		setSupportActionBar(pabPersons.getToolbar())
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		pabPersons.setNavigationOnClickListener { onBackPressed() }
+		supportActionBar?.setTitle(R.string.persons_with_significant_control)
+		when {
+			viewModel.state.value.persons != null -> {
+				initPresenter(viewModel)
+			}
+			savedInstanceState != null -> {
+				savedInstanceState.getParcelable<PersonsState>("STATE")?.let {
+					with(viewModel.state.value) {
+						persons = it.persons
+						companyNumber = it.companyNumber
+					}
+				}
+				initPresenter(viewModel)
+			}
+			else -> {
+				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
+				initPresenter(viewModel)
+			}
 		}
-		companyNumber = intent.getStringExtra("companyNumber")
-		createPersonsRecyclerView()
+
+		createRecyclerView()
+		observeState()
 	}
 
-	private fun createPersonsRecyclerView() {
+	override fun onResume() {
+		super.onResume()
+		observeActions()
+	}
+
+	override fun onSaveInstanceState(outState: Bundle) {
+		outState.putParcelable("STATE", viewModel.state.value)
+		super.onSaveInstanceState(outState)
+	}
+
+	private fun initPresenter(viewModel: PersonsViewModel) {
+		if (!::personsPresenter.isInitialized) {
+			personsPresenter = Injector.get().personsPresenter()
+			personsPresenter.setViewModel(viewModel, requestScope())
+		}
+	}
+
+	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-		personsRecyclerView?.layoutManager = linearLayoutManager
-		personsRecyclerView?.addItemDecoration(
-				DividerItemDecoration(this))
-	}
-
-	override fun showProgress() {
-		progressbar?.visibility = View.VISIBLE
-	}
-
-	override fun hideProgress() {
-		progressbar?.visibility = View.GONE
+		rvPersons?.layoutManager = linearLayoutManager
+		rvPersons.addItemDecoration(DividerItemDecoration(this))
+		rvPersons.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+			override fun onLoadMore(page: Int, totalItemsCount: Int) {
+				personsPresenter.loadMorePersons(page)
+			}
+		})
 	}
 
 
-	override fun showPersons(persons: Persons) {
-		if (personsRecyclerView?.adapter == null) {
-			personsAdapter = PersonsAdapter(this@PersonsActivity, persons)
-			personsRecyclerView?.adapter = personsAdapter
-		} else {
-			personsAdapter?.updateItems(persons)
+	//endregion
+
+	//region render
+
+	private fun observeState() {
+		viewModel.state
+				.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { render(it) }
+	}
+
+	private fun render(state: PersonsState) {
+		when {
+			state.isLoading -> msvPersons.viewState = VIEW_STATE_LOADING
+			state.errorType != ErrorType.NONE -> msvPersons.viewState = VIEW_STATE_ERROR
+			state.persons == null -> msvPersons.viewState = VIEW_STATE_EMPTY
+			else -> {
+				state.persons?.let {
+					msvPersons.viewState = VIEW_STATE_CONTENT
+					if (rvPersons?.adapter == null) {
+						personsAdapter = PersonsAdapter(it, PersonsTypeFactory())
+						rvPersons?.adapter = personsAdapter
+					} else {
+						personsAdapter?.updateItems(it)
+					}
+					observeActions()
+				}
+			}
 		}
 	}
 
-	override fun showNoPersons() {
-		lblNoPersons?.visibility = View.VISIBLE
-		personsRecyclerView?.visibility = View.GONE
+	//endregion
+
+	//region events
+
+	private fun observeActions() {
+		eventDisposables.clear()
+		personsAdapter?.getViewClickedObservable()
+				?.take(1)
+				?.`as`(AutoDispose.autoDisposable(this))
+				?.subscribe { view: BaseViewHolder<AbstractPersonsVisitable> ->
+					viewModel.state.value.persons?.let { personItems ->
+						startActivityWithRightSlide(
+								this.createPersonDetailsIntent(
+										(personItems[(view as Persons2ViewHolder).adapterPosition] as PersonsVisitable).person))
+					}
+				}
+				?.let { eventDisposables.add(it) }
 	}
 
-	override fun personsItemClicked(v: View, position: Int, person: Person) {
-		baseActivityPlugin.startActivityWithRightSlide(createPersonDetailsIntent(person))
-	}
+	//endregion
+}
 
-	override fun showError() {
-		Toast.makeText(this, R.string.could_not_retrieve_persons_info, Toast.LENGTH_LONG).show()
-	}
-
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}
+fun Context.createPersonsIntent(companyNumber: String): Intent {
+	return Intent(this, PersonsActivity::class.java)
+			.putExtra(COMPANY_NUMBER, companyNumber)
 }

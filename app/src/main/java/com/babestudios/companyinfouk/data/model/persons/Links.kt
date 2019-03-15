@@ -1,9 +1,12 @@
 package com.babestudios.companyinfouk.data.model.persons
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class Links {
-	@SerializedName("self")
-	var self: String? = null
-}
+@Parcelize
+class Links(
+		@SerializedName("self")
+		var self: String? = null
+) : Parcelable

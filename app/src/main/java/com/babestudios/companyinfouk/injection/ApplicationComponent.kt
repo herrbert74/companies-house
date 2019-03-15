@@ -17,6 +17,7 @@ import com.babestudios.companyinfouk.ui.officerdetails.OfficerDetailsPresenter
 import com.babestudios.companyinfouk.ui.officers.OfficersPresenter
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity
 import com.babestudios.companyinfouk.ui.persondetails.PersonDetailsPresenter
+import com.babestudios.companyinfouk.ui.persons.PersonsPresenter
 import com.babestudios.companyinfouk.ui.search.RecentSearchesResultsAdapter
 import com.babestudios.companyinfouk.ui.search.SearchActivity
 import com.babestudios.companyinfouk.ui.search.SearchPresenter
@@ -67,6 +68,8 @@ interface ApplicationComponent {
 	fun officersPresenter(): OfficersPresenter
 
 	fun personDetailsPresenter(): PersonDetailsPresenter
+
+	fun personsPresenter(): PersonsPresenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

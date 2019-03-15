@@ -1,11 +1,11 @@
 package com.babestudios.companyinfouk.ui.company
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import android.view.View
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.lifecycle.ViewModelProviders
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
@@ -17,7 +17,7 @@ import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
 import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
 import com.babestudios.companyinfouk.ui.officers.createOfficersIntent
-import com.babestudios.companyinfouk.ui.persons.PersonsActivity
+import com.babestudios.companyinfouk.ui.persons.createPersonsIntent
 import com.babestudios.companyinfouk.utils.DateUtil
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -219,30 +219,28 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 				}
 	}
 
-	fun onFilingHistoryClicked(view: View) {
-		startActivityWithRightSlide(this.createFilingHistoryIntent(viewModel.state.value.companyNumber))
+	fun onFilingHistoryClicked(@Suppress("UNUSED_PARAMETER") view: View) {
+		startActivityWithRightSlide(createFilingHistoryIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 
-	fun onChargesClicked(view: View) {
-		startActivityWithRightSlide(this.createChargesIntent(viewModel.state.value.companyNumber))
+	fun onChargesClicked(@Suppress("UNUSED_PARAMETER") view: View) {
+		startActivityWithRightSlide(createChargesIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 
-	fun onInsolvencyClicked(view: View) {
-		startActivityWithRightSlide(this.createInsolvencyIntent(viewModel.state.value.companyNumber))
+	fun onInsolvencyClicked(@Suppress("UNUSED_PARAMETER") view: View) {
+		startActivityWithRightSlide(createInsolvencyIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 
-	fun onOfficersClicked(view: View) {
-		startActivityWithRightSlide(this.createOfficersIntent(viewModel.state.value.companyNumber))
+	fun onOfficersClicked(@Suppress("UNUSED_PARAMETER") view: View) {
+		startActivityWithRightSlide(createOfficersIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 
-	fun onPersonsClicked(view: View) {
-		val intent = Intent(this, PersonsActivity::class.java)
-		intent.putExtra("companyNumber", viewModel.state.value.companyNumber)
-		startActivityWithRightSlide(intent)
+	fun onPersonsClicked(@Suppress("UNUSED_PARAMETER") view: View) {
+		startActivityWithRightSlide(createPersonsIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 

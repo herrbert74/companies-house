@@ -1,69 +1,91 @@
 package com.babestudios.companyinfouk.ui.persons
 
-import androidx.annotation.VisibleForTesting
-import android.util.Log
-
+import android.annotation.SuppressLint
+import com.babestudios.base.mvp.BasePresenter
+import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.companyinfouk.BuildConfig
+import com.uber.autodispose.AutoDispose
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.persons.Persons
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
+import com.babestudios.companyinfouk.ui.persons.list.AbstractPersonsVisitable
+import com.babestudios.companyinfouk.ui.persons.list.PersonsVisitable
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import retrofit2.HttpException
+interface PersonsPresenterContract : Presenter<PersonsState, PersonsViewModel> {
+	fun fetchPersons(companyNumber: String)
+	fun loadMorePersons(page: Int)
+}
 
-class PersonsPresenter @Inject
-constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<PersonsActivityView>(), Observer<Persons> {
+@SuppressLint("CheckResult")
+class PersonsPresenter
+@Inject
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<PersonsState, PersonsViewModel>(), PersonsPresenterContract {
 
-	internal var persons: Persons? = null
-
-	override fun onAttachView(view: PersonsActivityView) {
-		super.onAttachView(view)
-		persons?.let {
-			view.showPersons(it)
-		} ?: run {
-			view.showProgress()
-			getPersons()
-		}
-	}
-
-	@VisibleForTesting
-	fun getPersons() {
-		view?.let {
-			companiesRepository.getPersons(it.companyNumber, "0").subscribe(this)
-		}
-	}
-
-	override fun onComplete() {}
-
-	override fun onSubscribe(d: Disposable) {
-
-	}
-
-	override fun onError(e: Throwable) {
-		view?.let {
-			it.hideProgress()
-			Log.d("test", "onError: " + e.fillInStackTrace())
-			if (e is HttpException) {
-				Log.d("test", "onError: " + e.code())
-				if (e.code() == 404) {
-					it.showNoPersons()
-				} else {
-					it.showError()
+	override fun setViewModel(viewModel: PersonsViewModel, lifeCycleCompletable: CompletableSource?) {
+		this.viewModel = viewModel
+		this.lifeCycleCompletable = lifeCycleCompletable
+		viewModel.state.value?.persons?.let {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = false
+					this.contentChange = ContentChange.PERSONS_RECEIVED
 				}
-			} else {
-				it.showError()
+			}
+		} ?: run {
+			sendToViewModel {
+				it.apply {
+					this.isLoading = true
+				}
+			}
+			viewModel.state.value?.companyNumber?.also {
+				fetchPersons(it)
 			}
 		}
+
 	}
 
-	override fun onNext(persons: Persons) {
-		view?.let {
-			it.hideProgress()
-			it.showPersons(persons)
+	override fun fetchPersons(companyNumber: String) {
+		companiesRepository.getPersons(companyNumber, "0")
+				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
+				.subscribeWith(object : ObserverWrapper<Persons>(this) {
+					override fun onSuccess(reply: Persons) {
+						sendToViewModel {
+							it.apply {
+								this.isLoading = false
+								this.contentChange = ContentChange.PERSONS_RECEIVED
+								this.persons = convertToVisitables(reply)
+								this.totalCount = reply.totalResults?.toInt()
+							}
+						}
+					}
+				})
+	}
+
+
+	override fun loadMorePersons(page: Int) {
+		if (viewModel.state.value?.persons == null || viewModel.state.value?.persons!!.size < viewModel.state.value?.totalCount!!) {
+			companiesRepository.getPersons(viewModel.state.value?.companyNumber
+					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+					.subscribeWith(object : ObserverWrapper<Persons>(this) {
+						override fun onSuccess(reply: Persons) {
+							val newList = viewModel.state.value?.persons?.toMutableList()
+							newList?.addAll(convertToVisitables(reply))
+							sendToViewModel {
+								it.apply {
+									this.isLoading = false
+									this.contentChange = ContentChange.PERSONS_RECEIVED
+									newList?.toList()?.let { list -> this.persons = list }
+								}
+							}
+						}
+					})
 		}
+	}
+
+	private fun convertToVisitables(reply: Persons): List<AbstractPersonsVisitable> {
+		return ArrayList(reply.items.map { item -> PersonsVisitable(item) })
 	}
 
 }
