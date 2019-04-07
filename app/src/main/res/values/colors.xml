@@ -10,4 +10,5 @@
 	<color name="colorDivider">#16000000</color>
 
 	<color name="transparent_black">#99000000</color>
+	<color name="translucent_black">#33000000</color>
 </resources>

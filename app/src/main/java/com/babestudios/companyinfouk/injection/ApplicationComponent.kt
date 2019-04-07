@@ -21,6 +21,7 @@ import com.babestudios.companyinfouk.ui.persons.PersonsPresenter
 import com.babestudios.companyinfouk.ui.search.RecentSearchesResultsAdapter
 import com.babestudios.companyinfouk.ui.search.SearchActivity
 import com.babestudios.companyinfouk.ui.search.SearchPresenter
+import com.babestudios.companyinfouk.ui.main.Search2Presenter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -70,6 +71,8 @@ interface ApplicationComponent {
 	fun personDetailsPresenter(): PersonDetailsPresenter
 
 	fun personsPresenter(): PersonsPresenter
+
+	fun searchPresenter(): Search2Presenter
 
 	/*@Named("CompaniesHouseRetrofit")
 	Retrofit getCompaniesHouseRetrofit();

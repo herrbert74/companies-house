@@ -6,6 +6,7 @@ import android.content.Context
 import com.babestudios.companyinfouk.injection.ApplicationComponent
 import com.babestudios.companyinfouk.injection.ApplicationModule
 import com.babestudios.companyinfouk.injection.DaggerApplicationComponent
+import com.facebook.stetho.Stetho
 import com.google.firebase.analytics.FirebaseAnalytics
 
 open class CompaniesHouseApplication : Application() {
@@ -19,6 +20,7 @@ open class CompaniesHouseApplication : Application() {
 	override fun onCreate() {
 		super.onCreate()
 		instance = this
+		Stetho.initializeWithDefaults(this)
 		firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 		logAppOpen()
 		applicationComponent = DaggerApplicationComponent.builder()

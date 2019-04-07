@@ -59,9 +59,9 @@ internal constructor(@ApplicationContext context: Context) {
 		if (latestSearches.contains(searchItem)) {
 			latestSearches.remove(searchItem)
 		}
-		latestSearches.add(searchItem)
+		latestSearches.add(0, searchItem)
 		if (latestSearches.size > 10) {
-			latestSearches.removeAt(0)
+			latestSearches.removeAt(latestSearches.lastIndex)
 		}
 		val latestSearchesString = gson.toJson(latestSearches)
 		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, latestSearchesString).apply()

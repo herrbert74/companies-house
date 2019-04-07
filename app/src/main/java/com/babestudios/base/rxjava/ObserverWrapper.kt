@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference
 import java.net.SocketTimeoutException
 
 
-abstract class ObserverWrapper<R>(var presenter: BasePresenter<*, *>) : Observer<R> {
+abstract class ObserverWrapper<R>(presenter: BasePresenter<*, *>) : Observer<R> {
 
 	private var weakReference: WeakReference<BasePresenter<*, *>>? = null
 

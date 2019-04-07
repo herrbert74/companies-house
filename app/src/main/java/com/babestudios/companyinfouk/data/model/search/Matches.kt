@@ -1,15 +1,18 @@
 package com.babestudios.companyinfouk.data.model.search
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 import java.util.ArrayList
 
-class Matches {
+@Parcelize
+class Matches (
 
 	@SerializedName("title")
-	var title: List<Int> = ArrayList()
+	var title: List<Int> = ArrayList(),
 
 	@SerializedName("snippet")
-	var snippet: List<Any> = ArrayList()
+	var snippet: List<String> = ArrayList()
 
-}
+): Parcelable

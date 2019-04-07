@@ -151,6 +151,9 @@ dependencies {
 	implementation 'javax.inject:javax.inject:1'
 	implementation 'javax.annotation:javax.annotation-api:1.2'
 
+	//Debugging
+	implementation 'com.facebook.stetho:stetho:1.5.0'
+
 	//Test
 	testImplementation "junit:junit:$jUnitVersion"
 	testImplementation "org.mockito:mockito-core:$mockitoVersion"
