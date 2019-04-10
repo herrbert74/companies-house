@@ -4,6 +4,7 @@
 													 xmlns:tools="http://schemas.android.com/tools"
 													 android:layout_width="match_parent"
 													 android:layout_height="match_parent"
+													 android:background="@color/grey_1"
 													 android:fitsSystemWindows="true"
 													 tools:context=".ui.main.MainActivity">
 
@@ -40,7 +41,7 @@
 			android:id="@+id/rvMainSearch"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:background="@android:color/white"
+			android:background="@color/grey_1"
 			android:paddingBottom="@dimen/view_margin_small"
 			android:scrollbars="vertical"/>
 	</com.babestudios.base.view.MultiStateView>

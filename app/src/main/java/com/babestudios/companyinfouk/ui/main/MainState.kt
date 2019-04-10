@@ -18,7 +18,7 @@ enum class ContentChange {
 
 @Parcelize
 data class SearchState(
-		var searchItems: List<AbstractSearchVisitable>?,
+		var searchItems: List<AbstractSearchVisitable> = ArrayList(),
 		var searchHistoryItems: List<AbstractSearchHistoryVisitable>?,
 		var totalCount: Int? = null,
 		var queryText: String = "",

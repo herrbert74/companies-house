@@ -51,6 +51,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.multi_state_view_empty.view.*
 import java.util.concurrent.TimeUnit
 
 
@@ -81,7 +82,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		setContentView(R.layout.activity_main)
 		setSupportActionBar(tbMain)
 		when {
-			viewModel.state.value.searchItems != null -> {
+			viewModel.state.value.searchItems.isNotEmpty() -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
@@ -289,7 +290,10 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 			state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED -> {
 				if (state.searchHistoryItems.isNullOrEmpty()) {
 					msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
+					msvMainSearchHistory.tvMsvEmpty.text = getString(R.string.no_recent_searches)
+					fabMainSearch.visibility = GONE
 				} else {
+					fabMainSearch.visibility = View.VISIBLE
 					state.searchHistoryItems?.let {
 						msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
 						if (rvMainSearchHistory?.adapter == null) {
@@ -298,7 +302,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 						} else {
 							searchHistoryAdapter?.updateItems(it)
 						}
-						changeFabImage(SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE)
+						//changeFabImage(SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE)
 						observeActions()
 					}
 				}
@@ -313,27 +317,44 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					} else {
 						searchHistoryAdapter?.updateItems(it)
 					}
-					changeFabImage(SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE)
+					//changeFabImage(SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE)
 					observeActions()
 				}
 			}
 			state.contentChange == ContentChange.DELETE_SEARCH_HISTORY -> {
 				viewModel.state.value.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
 				showDeleteRecentSearchesDialog()
-
 			}
-			state.searchItems == null -> msvMainSearch.viewState = VIEW_STATE_EMPTY
 			else -> {
-				state.searchItems?.let {
-					rvMainSearch.visibility = View.VISIBLE
-					msvMainSearch.viewState = VIEW_STATE_CONTENT
-					if (rvMainSearch?.adapter == null) {
-						searchAdapter = SearchAdapter(it, SearchTypeFactory())
-						rvMainSearch?.adapter = searchAdapter
-					} else {
-						searchAdapter?.updateItems(it)
-					}
+				//When closing the SearchView, it triggers one more query text change regardless of previous text, but we want the history state instead
+				if (msvMainSearch.visibility == GONE) {
+					fabMainSearch.visibility = View.VISIBLE
+					viewModel.state.value.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
+					return
+				}
+				fabMainSearch.visibility = GONE
+				if (state.queryText.length >= 3 && state.searchItems.isEmpty()) {
+					msvMainSearch.viewState = VIEW_STATE_EMPTY
+					msvMainSearch.tvMsvEmpty.text = getString(R.string.no_search_result)
 					observeActions()
+				} else {
+					msvMainSearch.viewState = MultiStateView.VIEW_STATE_CONTENT
+					if (viewModel.state.value.queryText.let { it.length > 2 })
+						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
+					else
+						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent_black))
+
+					state.searchItems.let {
+						rvMainSearch.visibility = View.VISIBLE
+						msvMainSearch.viewState = VIEW_STATE_CONTENT
+						if (rvMainSearch?.adapter == null) {
+							searchAdapter = SearchAdapter(it, SearchTypeFactory())
+							rvMainSearch?.adapter = searchAdapter
+						} else {
+							searchAdapter?.updateItems(it)
+						}
+						observeActions()
+					}
 				}
 			}
 		}
@@ -365,7 +386,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 	}
 
-	fun showDeleteRecentSearchesDialog() {
+	private fun showDeleteRecentSearchesDialog() {
 		AlertDialog.Builder(this)
 				.setTitle(R.string.delete_recent_searches)
 				.setMessage(R.string.are_you_sure_you_want_to_delete_all_recent_searches)
@@ -374,6 +395,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					// do nothing
 				}
 				.show()
+		observeActions()
 	}
 	//endregion
 
@@ -405,7 +427,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractSearchVisitable> ->
-					viewModel.state.value.searchItems?.let { searchItems ->
+					viewModel.state.value.searchItems.let { searchItems ->
 						val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
 						(searchItem.companyNumber to searchItem.title).biLet { number, title ->
 							search2Presenter.searchItemClicked(number, title)

@@ -37,14 +37,14 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 	override fun setViewModel(viewModel: MainViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		viewModel.state.value?.searchItems?.let {
+		if (viewModel.state.value?.searchItems?.isNotEmpty() == true) {
 			sendToViewModel {
 				it.apply {
 					this.isLoading = false
 					this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
 				}
 			}
-		} ?: run {
+		} else {
 			showRecentSearches()
 		}
 	}
@@ -102,7 +102,8 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 
 	private fun convertSearchHistoryToVisitables(reply: List<SearchHistoryItem>): List<AbstractSearchHistoryVisitable> {
 		val searchHistoryVisitables: MutableList<AbstractSearchHistoryVisitable> = reply.map { item -> SearchHistoryVisitable(SearchHistoryItem(item.companyName, item.companyNumber, System.currentTimeMillis())) }.toMutableList()
-		searchHistoryVisitables.add(0, SearchHistoryHeaderVisitable(SearchHistoryHeaderItem(CompaniesHouseApplication.context.getString(R.string.recent_searches))))
+		if (searchHistoryVisitables.size > 0)
+			searchHistoryVisitables.add(0, SearchHistoryHeaderVisitable(SearchHistoryHeaderItem(CompaniesHouseApplication.context.getString(R.string.recent_searches))))
 		return searchHistoryVisitables
 	}
 
@@ -119,8 +120,17 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 					this.isSearchLoading = true
 				}
 			}
+			search(queryText)
+		} else {
+			sendToViewModel {
+				it.apply {
+					this.isSearchLoading = false
+					this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
+					this.searchItems = ArrayList()
+					this.queryText = queryText
+				}
+			}
 		}
-		search(queryText)
 	}
 
 	override fun searchItemClicked(number: String, name: String) {
@@ -137,7 +147,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 
 	override fun fabMainClicked() {
 		if (viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
-				/*|| viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_UPDATED*/) {
+		/*|| viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_UPDATED*/) {
 			sendToViewModel {
 				it.apply {
 					this.contentChange = ContentChange.DELETE_SEARCH_HISTORY

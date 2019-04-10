@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:app="http://schemas.android.com/apk/res-auto"
-			  android:id="@+id/multiStateView"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:background="@android:color/white"
-			  android:orientation="vertical">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+												   xmlns:app="http://schemas.android.com/apk/res-auto"
+												   android:id="@+id/multiStateView"
+												   android:layout_width="match_parent"
+												   android:layout_gravity="center"
+												   android:layout_height="match_parent"
+												   android:background="@color/grey_1">
 
 	<ImageView
+		android:id="@+id/ivEmptyView"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center_horizontal"
 		android:layout_marginTop="@dimen/view_margin"
 		android:layout_marginStart="@dimen/view_margin"
 		android:layout_marginEnd="@dimen/view_margin"
 		android:layout_marginBottom="@dimen/view_margin"
 		android:scaleType="fitCenter"
-		app:srcCompat="@drawable/tumbleweed_vignette"/>
+		app:layout_constraintBottom_toTopOf="@+id/tvMsvEmpty"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_chainStyle="packed"
+		app:srcCompat="@drawable/ic_business"/>
 
 	<TextView
 		android:id="@+id/tvMsvEmpty"
@@ -31,6 +34,8 @@
 		android:gravity="center"
 		android:text="@string/empty_list"
 		android:textColor="@color/text_primary"
-		android:textSize="@dimen/text_subheading"/>
+		android:textSize="@dimen/text_subheading"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/ivEmptyView"/>
 	<!--android:layout_marginBottom="@dimen/activity_margin_extra_large"-->
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

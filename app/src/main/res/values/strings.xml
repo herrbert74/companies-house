@@ -91,6 +91,8 @@
 	<string name="insolvency_dates">Dates</string>
 	<string name="insolvency_practitioners">Practitioners</string>
 	<string name="appbar_scrolling_view_behavior" translatable="false">	com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+	<string name="no_recent_searches">You have no recent searches. Start by searching for a company above!</string>
+	<string name="no_search_result">Your search did not return any companies. Please try another one</string>
 	<string-array name="search_filter_options">
 		<item>All</item>
 		<item>Active</item>
