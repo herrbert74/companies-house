@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.ui.main
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -191,6 +192,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		return true
 	}
 
+	@SuppressLint("PrivateResource")
 	fun animateSearchToolbar(numberOfMenuIcon: Int, containsOverflow: Boolean, show: Boolean) {
 
 		tbMain.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
@@ -291,9 +293,9 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				if (state.searchHistoryItems.isNullOrEmpty()) {
 					msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
 					msvMainSearchHistory.tvMsvEmpty.text = getString(R.string.no_recent_searches)
-					fabMainSearch.visibility = GONE
+					fabMainSearch.hide()
 				} else {
-					fabMainSearch.visibility = View.VISIBLE
+					fabMainSearch.show()
 					state.searchHistoryItems?.let {
 						msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
 						if (rvMainSearchHistory?.adapter == null) {
@@ -328,11 +330,11 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 			else -> {
 				//When closing the SearchView, it triggers one more query text change regardless of previous text, but we want the history state instead
 				if (msvMainSearch.visibility == GONE) {
-					fabMainSearch.visibility = View.VISIBLE
+					fabMainSearch.show()
 					viewModel.state.value.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
 					return
 				}
-				fabMainSearch.visibility = GONE
+				fabMainSearch.hide()
 				if (state.queryText.length >= 3 && state.searchItems.isEmpty()) {
 					msvMainSearch.viewState = VIEW_STATE_EMPTY
 					msvMainSearch.tvMsvEmpty.text = getString(R.string.no_search_result)
