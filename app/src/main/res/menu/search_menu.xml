@@ -9,10 +9,11 @@
 	<item android:id="@+id/action_favourites"
 		  android:title="@string/favourites"
 		  android:icon="@drawable/ic_favorite"
-		  app:showAsAction="ifRoom|collapseActionView" />
+		  app:showAsAction="ifRoom" />
 	<item
-		android:id="@+id/spinner"
+		android:id="@+id/action_filter"
 		android:title="@string/search_menu_filter"
+		android:icon="@drawable/ic_close_black"
 		app:actionViewClass="android.widget.Spinner"
 		app:showAsAction="always"/>
 	<item

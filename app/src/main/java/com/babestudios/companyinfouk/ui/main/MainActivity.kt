@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.ui.main
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
@@ -12,9 +11,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
-import android.view.animation.*
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.TranslateAnimation
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -29,7 +31,6 @@ import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
-import com.babestudios.base.view.MultiStateView
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
@@ -39,7 +40,7 @@ import com.babestudios.companyinfouk.ui.favourites.createFavouritesIntent
 import com.babestudios.companyinfouk.ui.main.recents.*
 import com.babestudios.companyinfouk.ui.main.search.*
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
-import com.babestudios.companyinfouk.ui.search.SearchPresenter
+import com.babestudios.companyinfouk.views.FilterAdapter
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -70,10 +71,12 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private var isSearchFromSaved = false
 	//Menu
 	lateinit var searchMenuItem: MenuItem
 	private var favouritesMenuItem: MenuItem? = null
 	private var privacyMenuItem: MenuItem? = null
+	private var filterMenuItem: MenuItem? = null
 	private var lblSearch: TextView? = null
 
 	//region life cycle
@@ -83,13 +86,17 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		setContentView(R.layout.activity_main)
 		setSupportActionBar(tbMain)
 		when {
-			viewModel.state.value.searchItems.isNotEmpty() -> {
+			viewModel.state.value.searchVisitables.isNotEmpty() -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
 				savedInstanceState.getParcelable<SearchState>("STATE")?.let {
 					with(viewModel.state.value) {
-						searchItems = it.searchItems
+						searchVisitables = it.searchVisitables
+						filterState = it.filterState
+						queryText = it.queryText
+						totalCount = it.totalCount
+						filteredSearchVisitables = it.filteredSearchVisitables
 					}
 				}
 				initPresenter(viewModel)
@@ -143,10 +150,28 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		menuInflater.inflate(R.menu.search_menu, menu)
-		if (viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED) {
-			menu.removeItem(R.id.spinner)
+		//Filter
+		filterMenuItem = menu.findItem(R.id.action_filter)
+		filterMenuItem?.isVisible = false
+		val spinner = filterMenuItem?.actionView as Spinner
+		spinner.setBackgroundResource(0)
+		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
+		val adapter = FilterAdapter(
+				this@MainActivity,
+				resources.getStringArray(R.array.search_filter_options),
+				isDropdownDarkTheme = true,
+				isToolbarDarkTheme = false
+		)
+		spinner.adapter = adapter
+		spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+			override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+				search2Presenter.setFilterState(FilterState.values()[position])
+			}
+
+			override fun onNothingSelected(parent: AdapterView<*>) {
+
+			}
 		}
-		//Catch the click on the search button on the soft keyboard and send the query to the presenter
 		searchMenuItem = menu.findItem(R.id.action_search)
 		favouritesMenuItem = menu.findItem(R.id.action_favourites)
 		privacyMenuItem = menu.findItem(R.id.action_privacy)
@@ -155,40 +180,33 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		observeActions()
 		lblSearch?.hint = "Search"
 		lblSearch?.textColor = ContextCompat.getColor(this, android.R.color.black)
-		lblSearch?.setOnEditorActionListener { _, actionId, _ ->
-			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				rvMainSearch.adapter = null
-				val view = this.currentFocus
-				if (view != null) {
-					view.clearFocus()
-					val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-					imm.hideSoftInputFromWindow(view.windowToken, 0)
-				}
-				return@setOnEditorActionListener true
-			}
-			false
-		}
 		searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
 			override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-				// Called when SearchView is collapsing
-				favouritesMenuItem?.isVisible = true
-				privacyMenuItem?.isVisible = true
-				searchMenuItem.isVisible = true
 				if (searchMenuItem.isActionViewExpanded) {
 					animateSearchToolbar(1, containsOverflow = false, show = false)
 				}
+				filterMenuItem?.isVisible = false
+				searchMenuItem.isVisible = true
+				privacyMenuItem?.isVisible = true
+				favouritesMenuItem?.isVisible = true
 				return true
 			}
 
 
 			override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-				// Called when SearchView is expanding
-				//favouritesMenuItem?.isVisible = false
-				//privacyMenuItem?.isVisible = false
 				animateSearchToolbar(1, containsOverflow = true, show = true)
+				favouritesMenuItem?.isVisible = false
+				privacyMenuItem?.isVisible = false
+				filterMenuItem?.isVisible = true
 				return true
 			}
 		})
+		if (isSearchFromSaved) {
+			searchMenuItem.expandActionView()
+			(searchMenuItem.actionView as SearchView).setQuery(viewModel.state.value.queryText, false)
+			(filterMenuItem?.actionView as Spinner).setSelection(viewModel.state.value.filterState.ordinal)
+			isSearchFromSaved = false
+		}
 		return true
 	}
 
@@ -199,6 +217,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 		if (show) {
 			msvMainSearch.visibility = View.VISIBLE
+			msvMainSearch.viewState = VIEW_STATE_CONTENT
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = tbMain.width -
 						if (containsOverflow) resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) else (0) -
@@ -212,10 +231,13 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				translateAnimation.duration = 220
 				tbMain.clearAnimation()
 				tbMain.startAnimation(translateAnimation)
-
 			}
 		} else {
 			msvMainSearch.visibility = View.GONE
+			fabMainSearch.show()
+			viewModel.state.value.queryText = ""
+			viewModel.state.value.searchVisitables = ArrayList()
+			viewModel.state.value.filteredSearchVisitables = ArrayList()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = tbMain.width -
 						if (containsOverflow) resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) else 0 -
@@ -227,6 +249,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					override fun onAnimationEnd(animation: Animator) {
 						super.onAnimationEnd(animation)
 						tbMain.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
+						invalidateOptionsMenu()
 					}
 				})
 				createCircularReveal.start()
@@ -244,6 +267,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 					override fun onAnimationEnd(animation: Animation) {
 						tbMain.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
+						invalidateOptionsMenu()
 					}
 
 					override fun onAnimationRepeat(animation: Animation) {
@@ -260,17 +284,6 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		return resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
 	}
 
-	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		return when (item.itemId) {
-			/*R.id.action_TODO -> {
-				search2Presenter.TODO
-				true
-			}*/
-			else -> super.onOptionsItemSelected(item)
-		}
-	}
-
-
 	//endregion
 
 	//region render
@@ -284,19 +297,22 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 	private fun render(state: SearchState) {
 		when {
 			state.isLoading -> msvMainSearch.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> msvMainSearch.viewState = VIEW_STATE_ERROR
+			state.errorType != ErrorType.NONE -> {
+				msvMainSearch.viewState = VIEW_STATE_ERROR
+				state.errorType = ErrorType.NONE
+			}
 			state.isSearchLoading -> {
-				msvMainSearch.viewState = MultiStateView.VIEW_STATE_LOADING
+				msvMainSearch.viewState = VIEW_STATE_LOADING
 				observeActions()
 			}
 			state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED -> {
-				if (state.searchHistoryItems.isNullOrEmpty()) {
+				if (state.searchHistoryVisitables.isNullOrEmpty()) {
 					msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
 					msvMainSearchHistory.tvMsvEmpty.text = getString(R.string.no_recent_searches)
 					fabMainSearch.hide()
 				} else {
 					fabMainSearch.show()
-					state.searchHistoryItems?.let {
+					state.searchHistoryVisitables?.let {
 						msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
 						if (rvMainSearchHistory?.adapter == null) {
 							searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
@@ -304,14 +320,13 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 						} else {
 							searchHistoryAdapter?.updateItems(it)
 						}
-						//changeFabImage(SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE)
 						observeActions()
 					}
 				}
 				invalidateOptionsMenu()
 			}
 			state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_UPDATED -> {
-				state.searchHistoryItems?.let {
+				state.searchHistoryVisitables?.let {
 					msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
 					if (rvMainSearchHistory?.adapter == null) {
 						searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
@@ -319,7 +334,6 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					} else {
 						searchHistoryAdapter?.updateItems(it)
 					}
-					//changeFabImage(SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE)
 					observeActions()
 				}
 			}
@@ -328,25 +342,24 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				showDeleteRecentSearchesDialog()
 			}
 			else -> {
-				//When closing the SearchView, it triggers one more query text change regardless of previous text, but we want the history state instead
-				if (msvMainSearch.visibility == GONE) {
-					fabMainSearch.show()
-					viewModel.state.value.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
-					return
+				if (state.contentChange == ContentChange.SEARCH_ITEMS_RECEIVED_FROM_SAVED_INSTANCE_STATE) {
+					msvMainSearch.visibility = View.VISIBLE
+					msvMainSearch.viewState = VIEW_STATE_CONTENT
+					isSearchFromSaved = true
 				}
 				fabMainSearch.hide()
-				if (state.queryText.length >= 3 && state.searchItems.isEmpty()) {
+				if (state.queryText.length >= 3 && state.filteredSearchVisitables.isEmpty()) {
 					msvMainSearch.viewState = VIEW_STATE_EMPTY
 					msvMainSearch.tvMsvEmpty.text = getString(R.string.no_search_result)
 					observeActions()
 				} else {
-					msvMainSearch.viewState = MultiStateView.VIEW_STATE_CONTENT
+					msvMainSearch.viewState = VIEW_STATE_CONTENT
 					if (viewModel.state.value.queryText.let { it.length > 2 })
 						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
 					else
 						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent_black))
 
-					state.searchItems.let {
+					state.filteredSearchVisitables.let {
 						rvMainSearch.visibility = View.VISIBLE
 						msvMainSearch.viewState = VIEW_STATE_CONTENT
 						if (rvMainSearch?.adapter == null) {
@@ -359,32 +372,6 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					}
 				}
 			}
-		}
-	}
-
-	private fun changeFabImage(type: SearchPresenter.FabImage) {
-		fabMainSearch?.also {
-			it.animate()
-					.translationY((6 * resources.getDimensionPixelOffset(R.dimen.fab_size)).toFloat())
-					.setStartDelay(100)
-					.setInterpolator(AccelerateInterpolator())
-					.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
-					.setListener(object : AnimatorListenerAdapter() {
-						override fun onAnimationEnd(animation: Animator) {
-							if (type === SearchPresenter.FabImage.FAB_IMAGE_RECENT_SEARCH_DELETE) {
-								it.setImageResource(R.drawable.ic_delete)
-							} else if (type === SearchPresenter.FabImage.FAB_IMAGE_SEARCH_CLOSE) {
-								it.setImageResource(R.drawable.ic_close)
-							}
-							it.animate()
-									.translationY(0f)
-									.setInterpolator(DecelerateInterpolator())
-									.setStartDelay(100)
-									.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
-									.start()
-						}
-					})
-					.start()
 		}
 	}
 
@@ -419,7 +406,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractSearchHistoryVisitable> ->
-					viewModel.state.value.searchHistoryItems?.let { searchHistoryItems ->
+					viewModel.state.value.searchHistoryVisitables?.let { searchHistoryItems ->
 						val searchHistoryItem = (searchHistoryItems[(view as SearchHistoryViewHolder).adapterPosition] as SearchHistoryVisitable).searchHistoryItem
 						startActivityWithRightSlide(this.createCompanyIntent(searchHistoryItem.companyNumber, searchHistoryItem.companyName))
 					}
@@ -429,7 +416,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractSearchVisitable> ->
-					viewModel.state.value.searchItems.let { searchItems ->
+					viewModel.state.value.filteredSearchVisitables.let { searchItems ->
 						val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
 						(searchItem.companyNumber to searchItem.title).biLet { number, title ->
 							search2Presenter.searchItemClicked(number, title)

@@ -23,7 +23,7 @@ import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryTypeFact
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.ui.filinghistorydetails.createFilingHistoryDetailsIntent
-import com.babestudios.companyinfouk.ui.search.SearchFilterAdapter
+import com.babestudios.companyinfouk.views.FilterAdapter
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose
@@ -127,11 +127,16 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		menuInflater.inflate(R.menu.filing_history_menu, menu)
 
-		val item = menu.findItem(R.id.spinner)
+		val item = menu.findItem(R.id.action_filter)
 		spinner = item.actionView as Spinner
 		spinner.setBackgroundResource(0)
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
-		val adapter = SearchFilterAdapter(this@FilingHistoryActivity, resources.getStringArray(R.array.filing_history_categories), true)
+		val adapter = FilterAdapter(
+				this@FilingHistoryActivity,
+				resources.getStringArray(R.array.filing_history_categories),
+				isDropdownDarkTheme = true,
+				isToolbarDarkTheme = true
+		)
 		spinner.adapter = adapter
 		if (viewModel.state.value.filingCategoryFilter != Category.CATEGORY_SHOW_ALL) {
 			spinner.setSelection(viewModel.state.value.filingCategoryFilter.ordinal)

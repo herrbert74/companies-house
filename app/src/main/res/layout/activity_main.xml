@@ -57,7 +57,7 @@
 			android:layout_height="?attr/actionBarSize"
 			android:background="?attr/colorPrimary"
 			app:popupTheme="@style/MyThemeOverlay.ActionBar"
-			app:theme="@style/MyThemeOverlay.ActionBar"/>
+			android:theme="@style/MyThemeOverlay.ActionBar"/>
 	</com.google.android.material.appbar.AppBarLayout>
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton

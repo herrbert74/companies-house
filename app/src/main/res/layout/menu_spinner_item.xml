@@ -11,14 +11,13 @@
 
 	<TextView
 		android:id="@+id/lblSpinnerItem"
-		style="?android:attr/spinnerItemStyle"
 		android:layout_width="0dp"
+		android:textSize="@dimen/text_subheading"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
 		android:layout_weight="1"
 		android:drawablePadding="0dp"
 		android:ellipsize="marquee"
-		android:gravity="start"
 		android:textAlignment="inherit"
 		tools:text="Something"
 		android:singleLine="true"/>

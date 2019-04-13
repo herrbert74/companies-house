@@ -73,11 +73,11 @@ class AndroidTestApplicationModule(private val application: Application) {
 		CompaniesRepository(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper)
 		val dataManager = mock<CompaniesRepository>()
 		val searchHistoryItem = SearchHistoryItem("Acme Painting", "12345678", 12)
-		val searchHistoryItems = arrayOf(searchHistoryItem)
+		val searchHistoryVisitables = arrayOf(searchHistoryItem)
 
 		val preferencesHelper = mock<PreferencesHelper>()
 		dataManager.preferencesHelper = preferencesHelper
-		whenever(dataManager.favourites).thenReturn(searchHistoryItems)
+		whenever(dataManager.favourites).thenReturn(searchHistoryVisitables)
 		return dataManager
 	}*/
 

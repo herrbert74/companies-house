@@ -245,7 +245,7 @@ class SearchActivity : CompositeActivity(), SearchActivityView, SearchResultsAda
 			}
 			false
 		}
-		val item = menu.findItem(R.id.spinner)
+		val item = menu.findItem(R.id.action_filter)
 		val spinner = item.actionView as Spinner
 		spinner.setBackgroundResource(0)
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)

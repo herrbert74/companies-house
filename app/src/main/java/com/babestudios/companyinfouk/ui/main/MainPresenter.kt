@@ -16,8 +16,12 @@ import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryHeaderVisitabl
 import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryVisitable
 import com.babestudios.companyinfouk.ui.main.search.AbstractSearchVisitable
 import com.babestudios.companyinfouk.ui.main.search.SearchVisitable
+import com.babestudios.companyinfouk.ui.search.SearchPresenter
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 interface Search2PresenterContract : Presenter<SearchState, MainViewModel> {
@@ -27,6 +31,7 @@ interface Search2PresenterContract : Presenter<SearchState, MainViewModel> {
 	fun searchItemClicked(number: String, name: String)
 	fun fabMainClicked()
 	fun clearAllRecentSearches()
+	fun setFilterState(filterState: FilterState)
 }
 
 @SuppressLint("CheckResult")
@@ -37,11 +42,12 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 	override fun setViewModel(viewModel: MainViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
-		if (viewModel.state.value?.searchItems?.isNotEmpty() == true) {
+		if (viewModel.state.value?.searchVisitables?.isNotEmpty() == true) {
+			showRecentSearches()
 			sendToViewModel {
 				it.apply {
 					this.isLoading = false
-					this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
+					this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED_FROM_SAVED_INSTANCE_STATE
 				}
 			}
 		} else {
@@ -55,7 +61,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 			it.apply {
 				this.isLoading = false
 				this.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
-				this.searchHistoryItems = convertSearchHistoryToVisitables(searchHistoryItems)
+				this.searchHistoryVisitables = convertSearchHistoryToVisitables(searchHistoryItems)
 			}
 		}
 	}
@@ -65,36 +71,46 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
 				.subscribeWith(object : ObserverWrapper<CompanySearchResult>(this) {
 					override fun onSuccess(reply: CompanySearchResult) {
-						sendToViewModel {
-							it.apply {
-								this.isLoading = false
-								this.isSearchLoading = false
-								this.queryText = queryText
-								this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
-								this.searchItems = convertSearchResultsToVisitables(reply)
-								this.totalCount = reply.totalResults
-							}
-						}
+						val searchVisitables = convertSearchResultsToVisitables(reply)
+						filterSearchResults(viewModel.state.value.filterState, searchVisitables)
+								.subscribe { filteredSearchResults ->
+									sendToViewModel {
+										it.apply {
+											this.isLoading = false
+											this.isSearchLoading = false
+											this.queryText = queryText
+											this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
+											this.searchVisitables = searchVisitables
+											this.filteredSearchVisitables = filteredSearchResults
+											this.totalCount = reply.totalResults
+										}
+									}
+								}
 					}
 				})
 	}
 
 
 	override fun loadMoreSearch(page: Int) {
-		if (viewModel.state.value?.searchItems == null || viewModel.state.value?.searchItems!!.size < viewModel.state.value?.totalCount!!) {
+		if (viewModel.state.value?.searchVisitables == null || viewModel.state.value?.searchVisitables!!.size < viewModel.state.value?.totalCount!!) {
 			companiesRepository.searchCompanies(viewModel.state.value?.queryText
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribeWith(object : ObserverWrapper<CompanySearchResult>(this) {
 						override fun onSuccess(reply: CompanySearchResult) {
-							val newList = viewModel.state.value?.searchItems?.toMutableList()
-							newList?.addAll(convertSearchResultsToVisitables(reply))
-							sendToViewModel {
-								it.apply {
-									this.isLoading = false
-									this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
-									newList?.toList()?.let { list -> this.searchItems = list }
-								}
-							}
+							val newSearchVisitables = viewModel.state.value.searchVisitables.toMutableList()
+							newSearchVisitables.addAll(convertSearchResultsToVisitables(reply))
+							filterSearchResults(viewModel.state.value.filterState, newSearchVisitables.toList())
+									.subscribe { filteredSearchResults ->
+										sendToViewModel {
+											it.apply {
+												this.isLoading = false
+												this.isSearchLoading = false
+												this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
+												this.searchVisitables = newSearchVisitables
+												this.filteredSearchVisitables = filteredSearchResults
+											}
+										}
+									}
 						}
 					})
 		}
@@ -126,7 +142,8 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 				it.apply {
 					this.isSearchLoading = false
 					this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
-					this.searchItems = ArrayList()
+					this.searchVisitables = ArrayList()
+					this.filteredSearchVisitables = ArrayList()
 					this.queryText = queryText
 				}
 			}
@@ -137,7 +154,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 		val searchHistoryItems = companiesRepository.addRecentSearchItem(SearchHistoryItem(name, number, System.currentTimeMillis()))
 		sendToViewModel {
 			it.apply {
-				this.searchHistoryItems = convertSearchHistoryToVisitables(searchHistoryItems)
+				this.searchHistoryVisitables = convertSearchHistoryToVisitables(searchHistoryItems)
 				this.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_UPDATED
 			}
 		}
@@ -146,18 +163,13 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 	//endregion
 
 	override fun fabMainClicked() {
-		if (viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
-		/*|| viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_UPDATED*/) {
+		if (viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED) {
 			sendToViewModel {
 				it.apply {
 					this.contentChange = ContentChange.DELETE_SEARCH_HISTORY
 				}
 			}
-		} /*else if (viewModel.state.value.contentChange == ContentChange.SEARCH_ITEMS_RECEIVED) {
-			searchActivityView?.clearSearchView()
-			searchHistoryItems?.let { searchActivityView?.refreshRecentSearchesAdapter(it) }
-			showRecentSearches()
-		}*/
+		}
 	}
 
 	override fun clearAllRecentSearches() {
@@ -165,8 +177,41 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 		sendToViewModel {
 			it.apply {
 				this.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
-				this.searchHistoryItems = convertSearchHistoryToVisitables(ArrayList())
+				this.searchHistoryVisitables = convertSearchHistoryToVisitables(ArrayList())
 			}
 		}
+	}
+
+	override fun setFilterState(filterState: FilterState) {
+		if (filterState.ordinal > SearchPresenter.FilterState.FILTER_SHOW_ALL.ordinal) {
+			filterSearchResults(filterState, viewModel.state.value.searchVisitables)
+					.subscribe { result ->
+						sendToViewModel {
+							it.apply {
+								this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
+								this.filteredSearchVisitables = result
+								this.filterState = filterState
+							}
+						}
+					}
+		} else {
+			sendToViewModel {
+				it.apply {
+					this.contentChange = ContentChange.SEARCH_ITEMS_RECEIVED
+					this.filteredSearchVisitables = searchVisitables.toList()
+					this.filterState = filterState
+				}
+			}
+		}
+	}
+
+	private fun filterSearchResults(filterState: FilterState, searchVisitables: List<AbstractSearchVisitable>): Single<List<AbstractSearchVisitable>> {
+		return Observable.fromIterable(searchVisitables)
+				.filter { companySearchResultItem ->
+					val searchItem = (companySearchResultItem as SearchVisitable).searchItem
+					filterState == FilterState.FILTER_SHOW_ALL || (searchItem.companyStatus != null && searchItem.companyStatus.equals(filterState.toString(), ignoreCase = true))
+				}
+				.observeOn(Schedulers.trampoline())
+				.toList()
 	}
 }

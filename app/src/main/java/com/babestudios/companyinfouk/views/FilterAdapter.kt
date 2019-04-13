@@ -1,21 +1,20 @@
-package com.babestudios.companyinfouk.ui.search
+package com.babestudios.companyinfouk.views
 
 
 import android.content.Context
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.core.content.ContextCompat
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.utils.ResourceHelper
 
 
-class SearchFilterAdapter(context: Context, private val mTexts: Array<String>, private val isDarkTheme: Boolean) : ArrayAdapter<String>(context, R.layout.menu_spinner_item, mTexts) {
+class FilterAdapter(context: Context, private val mTexts: Array<String>, private val isDropdownDarkTheme: Boolean, private val isToolbarDarkTheme: Boolean) : ArrayAdapter<String>(context, R.layout.menu_spinner_item, mTexts) {
 	private val verticalDropdownPadding: Int = context.resources.getDimensionPixelSize(R.dimen.view_margin_small)
 
 	override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -40,7 +39,7 @@ class SearchFilterAdapter(context: Context, private val mTexts: Array<String>, p
 			bottomPadding = verticalDropdownPadding
 		}
 
-		if (isDarkTheme) {
+		if (isDropdownDarkTheme) {
 			holder.llDropdownItemRoot?.setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
 		}
 
@@ -60,10 +59,10 @@ class SearchFilterAdapter(context: Context, private val mTexts: Array<String>, p
 			holder.llSpinnerItemRoot = convertViewCopy!!.findViewById(R.id.llSpinnerItemRoot)
 			holder.ivSpinnerItem = convertViewCopy.findViewById<View>(R.id.ivSpinnerItem) as ImageView
 			holder.lblSpinnerItem = convertViewCopy.findViewById<View>(R.id.lblSpinnerItem) as TextView
-			holder.lblSpinnerItem?.setTextColor(ContextCompat.getColor(context, android.R.color.black))
+			holder.lblSpinnerItem?.setTextColor(ContextCompat.getColor(context, if (isToolbarDarkTheme) android.R.color.white else android.R.color.black))
 			val vector = VectorDrawableCompat.create(context.resources, R.drawable.ic_arrow_drop_down, context.theme)
 			vector?.let {
-				holder.ivSpinnerItem?.setImageDrawable(ResourceHelper.tintVectorDrawableCompat(context, it, android.R.color.white))
+				holder.ivSpinnerItem?.setImageDrawable(ResourceHelper.tintVectorDrawableCompat(context, it, if (isToolbarDarkTheme) android.R.color.white else android.R.color.black))
 			}
 			convertViewCopy.tag = holder
 		} else {
