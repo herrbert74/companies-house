@@ -5,10 +5,13 @@ Companies House does have an application, but it is outdated and doesn't contain
 ### How do I get set up? ###
 
 * You need the latest Android Studio.
+* Check out the BaBeStudiosBase library project to the same directory (e.g. ~HOME/projects) as this project:
+https://bitbucket.org/herrbert74/babestudiosbase/src/master/
 * Register an account and get an authentication code as described [here](https://developer.companieshouse.gov.uk/api/docs/index/gettingStarted.html).
 * Place the authentication code into your local gradle configuration file (on windows it's under c:\Users\\[User]\\.gradle\gradle.properties by default) with the name
 "CH_API_KEY", e.g. 'CH_API_KEY="YOUR API KEY HERE"'.
-* Also available on Google Play as a [Beta Version](play.google.com/apps/testing/com.babestudios.companyinfouk).
+* Also available on Google Play (older version):
+https://play.google.com/store/apps/details?id=com.babestudios.companyinfouk
 
 ### App screen levels ###
 
@@ -27,17 +30,13 @@ Companies House does have an application, but it is outdated and doesn't contain
 ### Technical highlights ###
 
 * 100% Kotlin (not fully idiomatic, but getting there).
-* Retrofit 2 with RxJava is used for networking and button clicks.
+* Retrofit 2 with RxJava is used for networking and events.
 * MVP architecture with Dagger 2 for easy testing.
 * ViewModel holds the state, AutoDispose from Uber and RxLifecycle from Trello guarantees correct lifecycle handling.
 * Large part of the presenters are unit tested.
-* New ConstraintLayout is used on Details screens.
+* ConstraintLayout is used on Details screens.
 
 ### Roadmap ###
 
-* Add ViewModel, AutoDispose, etc. everywhere.
-* Add more API mappings (lots of enums can be converted to strings).
+* Add company registers and company exemptions.
 * More UI tests with Espresso.
-* Animations.
-    * Search/Delete action buttons appearance/disappearance.
-    * Activity transactions.
