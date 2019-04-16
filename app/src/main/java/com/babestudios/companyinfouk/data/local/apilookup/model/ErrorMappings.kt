@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data.local.apilookup.model
 
-data class Error(
+data class ErrorMappings(
 		val errors: Errors
 )
 

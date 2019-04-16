@@ -187,7 +187,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-	implementation project(":base")
+	implementation project(':base')
 }
 
 task f{

@@ -1,15 +1,15 @@
 package com.babestudios.companyinfouk
 
-import android.app.Application
 import android.content.Context
-
+import com.babestudios.base.BaseApplication
+import com.babestudios.base.ErrorComponent
 import com.babestudios.companyinfouk.injection.ApplicationComponent
 import com.babestudios.companyinfouk.injection.ApplicationModule
 import com.babestudios.companyinfouk.injection.DaggerApplicationComponent
 import com.facebook.stetho.Stetho
 import com.google.firebase.analytics.FirebaseAnalytics
 
-open class CompaniesHouseApplication : Application() {
+open class CompaniesHouseApplication : BaseApplication() {
 
 	var firebaseAnalytics: FirebaseAnalytics? = null
 		private set
@@ -23,6 +23,9 @@ open class CompaniesHouseApplication : Application() {
 		Stetho.initializeWithDefaults(this)
 		firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 		logAppOpen()
+		init(object : ErrorComponent {
+			override fun provideErrorResolver() = CompaniesHouseErrorResolver()
+		})
 		applicationComponent = DaggerApplicationComponent.builder()
 				.applicationModule(ApplicationModule(this))
 				.build()

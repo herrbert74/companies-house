@@ -5,7 +5,7 @@
 													 android:layout_width="match_parent"
 													 android:layout_height="match_parent"
 													 android:fitsSystemWindows="true"
-													 tools:context=".ui.persons2.Persons2Activity">
+													 tools:context=".ui.persons.PersonsActivity">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabPersons"
