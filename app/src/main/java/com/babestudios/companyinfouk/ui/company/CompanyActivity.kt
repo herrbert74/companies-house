@@ -27,6 +27,7 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_company.*
+import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 
 private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_number"
 private const val COMPANY_NAME = "com.babestudios.companyinfouk.ui.company_name"
@@ -117,7 +118,10 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 				msvCompany.viewState = VIEW_STATE_LOADING
 				hideFab(state.isFavorite)
 			}
-			state.errorType != ErrorType.NONE -> msvCompany.viewState = VIEW_STATE_ERROR
+			state.errorType != ErrorType.NONE -> {
+				msvCompany.viewState = VIEW_STATE_ERROR
+				msvCompany.tvMsvError.text = state.errorMessage
+			}
 			state.contentChange == ContentChange.HIDE_FAB -> {
 				hideFab(state.isFavorite)
 			}

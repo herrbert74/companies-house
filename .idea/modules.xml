@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../BaBeStudiosBase/base/BaBeStudiosBase-base.iml" filepath="$PROJECT_DIR$/../BaBeStudiosBase/base/BaBeStudiosBase-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../BaBeStudiosBase/base2/base.iml" filepath="$PROJECT_DIR$/../BaBeStudiosBase/base2/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../BaBeStudiosBase/base/base.iml" filepath="$PROJECT_DIR$/../BaBeStudiosBase/base/base.iml" />
       <module fileurl="file://$PROJECT_DIR$/companies-house.iml" filepath="$PROJECT_DIR$/companies-house.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../BaBeStudiosBase/base/git-BaBeStudiosBase-base.iml" filepath="$PROJECT_DIR$/../BaBeStudiosBase/base/git-BaBeStudiosBase-base.iml" />
     </modules>
   </component>
 </project>
