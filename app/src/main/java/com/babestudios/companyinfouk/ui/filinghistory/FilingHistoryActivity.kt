@@ -32,6 +32,7 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_filing_history.*
+import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 
 private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_number"
 
@@ -193,7 +194,11 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 			state.isLoading -> {
 				msvFilingHistory.viewState = VIEW_STATE_LOADING
 			}
-			state.errorType != ErrorType.NONE -> msvFilingHistory.viewState = VIEW_STATE_ERROR
+			state.errorType != ErrorType.NONE -> {
+				msvFilingHistory.viewState = VIEW_STATE_ERROR
+				state.errorType = ErrorType.NONE
+				msvFilingHistory.tvMsvError.text = state.errorMessage
+			}
 			state.filingHistoryList?.isNotEmpty() == false -> {
 				msvFilingHistory.viewState = VIEW_STATE_EMPTY
 			}

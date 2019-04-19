@@ -3,27 +3,26 @@ package com.babestudios.companyinfouk.ui.officers
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-
-import kotlinx.android.synthetic.main.activity_officers.*
-import com.babestudios.companyinfouk.R
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.view.DividerItemDecoration
+import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.ui.officerdetails.createOfficerDetailsIntent
+import com.babestudios.companyinfouk.ui.officers.list.*
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.ScopeProvider
 import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.CompletableSource
-import androidx.lifecycle.ViewModelProviders
-import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.base.view.EndlessRecyclerViewScrollListener
-import com.babestudios.companyinfouk.ui.officerdetails.createOfficerDetailsIntent
-import com.babestudios.companyinfouk.ui.officers.list.*
-
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_officers.*
+import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 
 private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_number"
 
@@ -114,7 +113,11 @@ class OfficersActivity : RxAppCompatActivity(), ScopeProvider {
 	private fun render(state: OfficersState) {
 		when {
 			state.isLoading -> msvOfficers.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> msvOfficers.viewState = VIEW_STATE_ERROR
+			state.errorType != ErrorType.NONE -> {
+				msvOfficers.viewState = VIEW_STATE_ERROR
+				state.errorType = ErrorType.NONE
+				msvOfficers.tvMsvError.text = state.errorMessage
+			}
 			state.officerItems == null -> msvOfficers.viewState = VIEW_STATE_EMPTY
 			else -> {
 				state.officerItems?.let {

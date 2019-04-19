@@ -32,6 +32,7 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_favourites.*
+import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 import java.util.*
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
@@ -123,7 +124,11 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 	private fun render(state: FavouritesState) {
 		when {
 			state.isLoading -> msvFavourites.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> msvFavourites.viewState = VIEW_STATE_ERROR
+			state.errorType != ErrorType.NONE -> {
+				msvFavourites.viewState = VIEW_STATE_ERROR
+				state.errorType = ErrorType.NONE
+				msvFavourites.tvMsvError.text = state.errorMessage
+			}
 			state.favouriteItems?.isEmpty() == true -> msvFavourites.viewState = VIEW_STATE_EMPTY
 			else -> {
 				state.favouriteItems?.let {

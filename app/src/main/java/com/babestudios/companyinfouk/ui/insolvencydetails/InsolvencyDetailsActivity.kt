@@ -20,6 +20,7 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_insolvency_details.*
+import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 import java.util.ArrayList
 
 private const val INSOLVENCY_CASE = "com.babestudios.companyinfouk.ui.insolvency_case"
@@ -104,7 +105,11 @@ class InsolvencyDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	private fun render(state: InsolvencyDetailsState) {
 		when {
 			state.isLoading -> msvInsolvencyDetails.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> msvInsolvencyDetails.viewState = VIEW_STATE_ERROR
+			state.errorType != ErrorType.NONE -> {
+				msvInsolvencyDetails.viewState = VIEW_STATE_ERROR
+				state.errorType = ErrorType.NONE
+				msvInsolvencyDetails.tvMsvError.text = state.errorMessage
+			}
 			state.insolvencyDetailsItems?.isEmpty() == true -> msvInsolvencyDetails.viewState = VIEW_STATE_EMPTY
 			else -> {
 				state.insolvencyDetailsItems?.let { items ->

@@ -54,6 +54,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.multi_state_view_empty.view.*
+import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 import java.util.concurrent.TimeUnit
 
 
@@ -300,6 +301,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 			state.errorType != ErrorType.NONE -> {
 				msvMainSearch.viewState = VIEW_STATE_ERROR
 				state.errorType = ErrorType.NONE
+				msvMainSearch.tvMsvError.text = state.errorMessage
 			}
 			state.isSearchLoading -> {
 				msvMainSearch.viewState = VIEW_STATE_LOADING

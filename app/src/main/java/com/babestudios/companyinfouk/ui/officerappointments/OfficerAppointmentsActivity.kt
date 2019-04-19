@@ -24,6 +24,7 @@ import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.officerappointments.list.*
 
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 import kotlinx.android.synthetic.main.row_officer_appointments_header.*
 
 private const val OFFICER_ID = "com.babestudios.companyinfouk.ui.officer_id"
@@ -119,7 +120,11 @@ class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 	private fun render(state: OfficerAppointmentsState) {
 		when {
 			state.isLoading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> msvOfficerAppointments.viewState = VIEW_STATE_ERROR
+			state.errorType != ErrorType.NONE -> {
+				msvOfficerAppointments.viewState = VIEW_STATE_ERROR
+				state.errorType = ErrorType.NONE
+				msvOfficerAppointments.tvMsvError.text = state.errorMessage
+			}
 			state.appointmentItems == null -> msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
 			else -> {
 				state.appointmentItems?.let {

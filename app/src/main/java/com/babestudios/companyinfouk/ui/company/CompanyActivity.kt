@@ -116,14 +116,17 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		when {
 			state.isLoading -> {
 				msvCompany.viewState = VIEW_STATE_LOADING
-				hideFab(state.isFavorite)
+				hideFabToShowFavoriteState(state.isFavorite)
 			}
 			state.errorType != ErrorType.NONE -> {
 				msvCompany.viewState = VIEW_STATE_ERROR
+				fabCompanyFavorite.animate().cancel()
+				fabCompanyFavorite.hide()
+				pabCompany.setExpanded(false)
 				msvCompany.tvMsvError.text = state.errorMessage
 			}
 			state.contentChange == ContentChange.HIDE_FAB -> {
-				hideFab(state.isFavorite)
+				hideFabToShowFavoriteState(state.isFavorite)
 			}
 			else -> {
 				state.company?.let {
@@ -190,7 +193,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 	}
 
-	private fun hideFab(favorite: Boolean) {
+	private fun hideFabToShowFavoriteState(favorite: Boolean) {
 		fabCompanyFavorite?.also {
 			it.animate().cancel()
 			it.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(0f).scaleY(0f).alpha(0f)

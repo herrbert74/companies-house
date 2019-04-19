@@ -19,7 +19,7 @@
 		app:layout_constraintBottom_toTopOf="@+id/tvMsvEmpty"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintVertical_chainStyle="packed"
-		app:srcCompat="@drawable/ic_business"/>
+		app:srcCompat="@drawable/ic_business_no_search_results_circle"/>
 
 	<TextView
 		android:id="@+id/tvMsvEmpty"

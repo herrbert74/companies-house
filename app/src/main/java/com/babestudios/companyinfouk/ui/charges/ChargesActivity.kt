@@ -117,6 +117,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 			state.isLoading -> msvCharges.viewState = VIEW_STATE_LOADING
 			state.errorType != ErrorType.NONE -> {
 				msvCharges.viewState = VIEW_STATE_ERROR
+				state.errorType = ErrorType.NONE
 				tvMsvError.text = getString(R.string.could_not_retrieve_charges_info)
 			}
 			state.chargeItems == null -> msvCharges.viewState = VIEW_STATE_EMPTY
