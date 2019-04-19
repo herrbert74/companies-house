@@ -141,7 +141,7 @@ dependencies {
 	kapt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
 	//Firebase
-	implementation 'com.google.firebase:firebase-core:16.0.7'
+	implementation 'com.google.firebase:firebase-core:16.0.8'
 
 	//Chuck
 	debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
