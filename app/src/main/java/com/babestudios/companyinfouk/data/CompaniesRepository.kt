@@ -3,13 +3,14 @@ package com.babestudios.companyinfouk.data
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Environment
-import androidx.core.content.FileProvider
 import android.util.Base64
 import android.util.Log
+import androidx.core.content.FileProvider
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.data.local.ApiLookupHelper
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
@@ -32,15 +33,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface CompaniesRepositoryContract {
-	var preferencesHelper: PreferencesHelper
+	//var preferencesHelper: PreferencesHelper
 	val authorization: String
-	val apiLookupHelper: ApiLookupHelper
 	val recentSearches: List<SearchHistoryItem>
 	val favourites: Array<SearchHistoryItem>
 
+	//String mapping
 	fun sicLookup(code: String): String
 	fun accountTypeLookup(accountType: String): String
 	fun filingHistoryLookup(filingHistory: String): String
+
+	//Companies House API
 	fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult>
 	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
 	fun getCompany(companyNumber: String): Observable<Company>
@@ -52,6 +55,8 @@ interface CompaniesRepositoryContract {
 	fun getPersons(companyNumber: String, startItem: String): Observable<Persons>
 	fun getDocument(documentId: String): Observable<ResponseBody>
 	fun writeDocumentPdf(responseBody: ResponseBody): Uri
+
+	//Preferences
 	fun clearAllRecentSearches()
 	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean
@@ -60,11 +65,17 @@ interface CompaniesRepositoryContract {
 
 @Singleton
 open class CompaniesRepository @Inject
-constructor(private val companiesHouseService: CompaniesHouseService, private val companiesHouseDocumentService: CompaniesHouseDocumentService, override var
-preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper) : CompaniesRepositoryContract {
+constructor(
+		private val companiesHouseService: CompaniesHouseService,
+		private val companiesHouseDocumentService: CompaniesHouseDocumentService,
+		private var preferencesHelper: PreferencesHelper,
+		base64Wrapper: Base64Wrapper,
+		private val constantsHelper: ConstantsHelper,
+		private val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
+) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
-	override val apiLookupHelper = ApiLookupHelper()
+	//override val apiLookupHelper = ApiLookupHelper()
 
 	override val recentSearches: List<SearchHistoryItem>
 		get() = preferencesHelper.recentSearches
@@ -73,15 +84,15 @@ preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper) : CompaniesR
 		get() = preferencesHelper.favourites
 
 	override fun sicLookup(code: String): String {
-		return apiLookupHelper.sicLookup(code)
+		return constantsHelper.sicLookUp(code)
 	}
 
 	override fun accountTypeLookup(accountType: String): String {
-		return apiLookupHelper.accountTypeLookup(accountType)
+		return constantsHelper.accountTypeLookUp(accountType)
 	}
 
 	override fun filingHistoryLookup(filingHistory: String): String {
-		return apiLookupHelper.filingHistoryDescriptionLookup(filingHistory)
+		return filingHistoryDescriptionsHelper.filingHistoryLookUp(filingHistory)
 	}
 
 	override fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult> {

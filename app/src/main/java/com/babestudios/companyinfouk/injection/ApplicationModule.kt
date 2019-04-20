@@ -7,6 +7,8 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
@@ -91,13 +93,37 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 
 	@Provides
 	@Singleton
-	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService,
-									preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): CompaniesRepositoryContract {
-		return CompaniesRepository(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper)
+	internal fun provideCompaniesRepository(
+			companiesHouseService: CompaniesHouseService,
+			companiesHouseDocumentService: CompaniesHouseDocumentService,
+			preferencesHelper: PreferencesHelper,
+			base64Wrapper: Base64Wrapper,
+			constantsHelper: ConstantsHelper,
+			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
+	): CompaniesRepositoryContract {
+		return CompaniesRepository(
+				companiesHouseService,
+				companiesHouseDocumentService,
+				preferencesHelper,
+				base64Wrapper,
+				constantsHelper,
+				filingHistoryDescriptionsHelper
+		)
 	}
 
 	@Provides
 	internal fun provideBase64Wrapper(): Base64Wrapper {
 		return Base64Wrapper()
 	}
+
+	@Provides
+	internal fun provideConstantsHelper(): ConstantsHelper {
+		return ConstantsHelper()
+	}
+
+	@Provides
+	internal fun provideFilingHistoryDescriptionsHelper(): FilingHistoryDescriptionsHelper {
+		return FilingHistoryDescriptionsHelper()
+	}
+
 }

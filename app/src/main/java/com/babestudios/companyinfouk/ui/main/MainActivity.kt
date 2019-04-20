@@ -421,7 +421,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					viewModel.state.value.filteredSearchVisitables.let { searchItems ->
 						val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
 						(searchItem.companyNumber to searchItem.title).biLet { number, title ->
-							search2Presenter.searchItemClicked("6526846848484684", title)
+							search2Presenter.searchItemClicked(number, title)
 							startActivityWithRightSlide(this.createCompanyIntent(number, title))
 						}
 					}

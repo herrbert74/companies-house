@@ -67,7 +67,7 @@ class AndroidTestApplicationModule(private val application: Application) {
 
 	/*@Provides
 	@Singleton
-	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService,
+	internal fun provideCompaniesRepository(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService,
 									@Mock preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): CompaniesRepository {
 		//val dataManager = Mockito.mock(CompaniesRepository::class.java)
 		CompaniesRepository(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper)

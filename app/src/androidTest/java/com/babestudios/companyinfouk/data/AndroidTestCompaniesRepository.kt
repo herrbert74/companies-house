@@ -1,8 +1,6 @@
 package com.babestudios.companyinfouk.data
 
 import android.net.Uri
-import com.babestudios.companyinfouk.data.local.ApiLookupHelper
-import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
@@ -14,18 +12,13 @@ import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import io.reactivex.Observable
 import okhttp3.ResponseBody
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Singleton
 
 
 @Singleton
 class AndroidTestCompaniesRepository : CompaniesRepositoryContract {
-	override var preferencesHelper: PreferencesHelper
-		get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-		set(value) {}
 	override val authorization: String
-		get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-	override val apiLookupHelper: ApiLookupHelper
 		get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 	override val recentSearches: List<SearchHistoryItem>
 		get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
