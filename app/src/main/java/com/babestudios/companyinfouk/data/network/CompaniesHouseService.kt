@@ -9,8 +9,7 @@ import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.babestudios.companyinfouk.data.model.persons.Persons
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
-
-import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -21,11 +20,11 @@ interface CompaniesHouseService {
 	fun searchCompanies(@Header("Authorization") authorization: String,
 						@Query("q") searchTerm: String,
 						@Query("items_per_page") itemsPerPage: String,
-						@Query("start_index") startIndex: String): Observable<CompanySearchResult>
+						@Query("start_index") startIndex: String): Single<CompanySearchResult>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_COMPANY_ENDPOINT)
 	fun getCompany(@Header("Authorization") authorization: String,
-				   @Path("companyNumber") companyNumber: String): Observable<Company>
+				   @Path("companyNumber") companyNumber: String): Single<Company>
 
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT)
@@ -33,17 +32,17 @@ interface CompaniesHouseService {
 						 @Path("companyNumber") companyNumber: String,
 						 @Query("category") category: String,
 						 @Query("items_per_page") itemsPerPage: String,
-						 @Query("start_index") startIndex: String): Observable<FilingHistoryList>
+						 @Query("start_index") startIndex: String): Single<FilingHistoryList>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_CHARGES_ENDPOINT)
 	fun getCharges(@Header("Authorization") authorization: String,
 				   @Path("companyNumber") companyNumber: String,
 				   @Query("items_per_page") itemsPerPage: String,
-				   @Query("start_index") startIndex: String): Observable<Charges>
+				   @Query("start_index") startIndex: String): Single<Charges>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT)
 	fun getInsolvency(@Header("Authorization") authorization: String,
-					  @Path("companyNumber") companyNumber: String): Observable<Insolvency>
+					  @Path("companyNumber") companyNumber: String): Single<Insolvency>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT)
 	fun getOfficers(@Header("Authorization") authorization: String,
@@ -52,20 +51,20 @@ interface CompaniesHouseService {
 					@Query("registerType") registerType: String?,
 					@Query("orderBy") orderBy: String?,
 					@Query("items_per_page") itemsPerPage: String,
-					@Query("start_index") startIndex: String): Observable<Officers>
+					@Query("start_index") startIndex: String): Single<Officers>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT)
 	fun getOfficerAppointments(@Header("Authorization") authorization: String,
 							   @Path("officerId") officerId: String,
 							   @Query("items_per_page") itemsPerPage: String,
-							   @Query("start_index") startIndex: String): Observable<Appointments>
+							   @Query("start_index") startIndex: String): Single<Appointments>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_ENDPOINT)
 	fun getPersons(@Header("Authorization") authorization: String,
 				   @Path("companyNumber") companyNumber: String,
 				   @Query("registerView") registerView: String?,
 				   @Query("items_per_page") itemsPerPage: String,
-				   @Query("start_index") startIndex: String): Observable<Persons>
+				   @Query("start_index") startIndex: String): Single<Persons>
 }
 
 

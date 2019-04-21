@@ -1,24 +1,19 @@
 package com.babestudios.companyinfouk.ui.search
 
 import android.util.Log
-
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-
-import net.grandcentrix.thirtyinch.TiPresenter
-
-import java.util.ArrayList
-
-import javax.inject.Inject
-
-import io.reactivex.Observer
+import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
+import net.grandcentrix.thirtyinch.TiPresenter
+import java.util.*
+import javax.inject.Inject
 
 
 class SearchPresenter @Inject
-constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<SearchActivityView>(), Observer<CompanySearchResult> {
+constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter<SearchActivityView>(), SingleObserver<CompanySearchResult> {
 
 	private var showState = ShowState.RECENT_SEARCHES
 
@@ -75,8 +70,6 @@ constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter
 		showState = ShowState.RECENT_SEARCHES
 	}
 
-	override fun onComplete() {}
-
 	override fun onError(e: Throwable) {
 		Log.d("test", "onError: " + e.fillInStackTrace())
 		if (searchActivityView != null) {
@@ -89,7 +82,7 @@ constructor(internal var companiesRepository: CompaniesRepository) : TiPresenter
 
 	}
 
-	override fun onNext(companySearchResult: CompanySearchResult) {
+	override fun onSuccess(companySearchResult: CompanySearchResult) {
 		showState = ShowState.SEARCH
 		this.companySearchResult = companySearchResult
 		searchActivityView?.hideProgress()

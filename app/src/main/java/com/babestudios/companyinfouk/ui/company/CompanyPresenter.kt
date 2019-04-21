@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
@@ -46,7 +46,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Compan
 
 	override fun fetchCompany(companyNumber: String) {
 		companiesRepository.getCompany(companyNumber)
-				.subscribeWith(object : ObserverWrapper<Company>(this) {
+				.subscribeWith(object : SingleObserverWrapper<Company>(this) {
 					override fun onSuccess(reply: Company) {
 						sendToViewModel {
 							it.apply {

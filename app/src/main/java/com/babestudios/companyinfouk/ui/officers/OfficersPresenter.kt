@@ -3,13 +3,13 @@ package com.babestudios.companyinfouk.ui.officers
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
-import com.uber.autodispose.AutoDispose
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.ui.officers.list.AbstractOfficersVisitable
 import com.babestudios.companyinfouk.ui.officers.list.OfficersVisitable
+import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import javax.inject.Inject
 
@@ -49,7 +49,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Office
 	override fun fetchOfficers(companyNumber: String) {
 		companiesRepository.getOfficers(companyNumber, "0")
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-				.subscribeWith(object : ObserverWrapper<Officers>(this) {
+				.subscribeWith(object : SingleObserverWrapper<Officers>(this) {
 					override fun onSuccess(reply: Officers) {
 						sendToViewModel {
 							it.apply {
@@ -68,7 +68,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Office
 		if (viewModel.state.value?.officerItems == null || viewModel.state.value?.officerItems!!.size < viewModel.state.value?.totalCount!!) {
 			companiesRepository.getOfficers(viewModel.state.value?.companyNumber
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
-					.subscribeWith(object : ObserverWrapper<Officers>(this) {
+					.subscribeWith(object : SingleObserverWrapper<Officers>(this) {
 						override fun onSuccess(reply: Officers) {
 							val newList = viewModel.state.value?.officerItems?.toMutableList()
 							newList?.addAll(convertToVisitables(reply))

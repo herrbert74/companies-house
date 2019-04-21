@@ -3,13 +3,13 @@ package com.babestudios.companyinfouk.ui.charges
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
-import com.uber.autodispose.AutoDispose
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.ui.charges.list.AbstractChargesVisitable
 import com.babestudios.companyinfouk.ui.charges.list.ChargesVisitable
+import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import javax.inject.Inject
 
@@ -48,7 +48,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 	override fun fetchCharges(companyNumber: String) {
 		companiesRepository.fetchCharges(companyNumber, "0")
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-				.subscribeWith(object : ObserverWrapper<Charges>(this) {
+				.subscribeWith(object : SingleObserverWrapper<Charges>(this) {
 					override fun onSuccess(reply: Charges) {
 						sendToViewModel {
 							it.apply {
@@ -70,7 +70,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Charge
 		if (viewModel.state.value?.chargeItems == null || viewModel.state.value?.chargeItems!!.size < viewModel.state.value?.totalCount!!) {
 			companiesRepository.fetchCharges(viewModel.state.value?.companyNumber
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
-					.subscribeWith(object : ObserverWrapper<Charges>(this) {
+					.subscribeWith(object : SingleObserverWrapper<Charges>(this) {
 						override fun onSuccess(reply: Charges) {
 							val newList = viewModel.state.value?.chargeItems?.toMutableList()
 							newList?.addAll(convertToVisitables(reply))

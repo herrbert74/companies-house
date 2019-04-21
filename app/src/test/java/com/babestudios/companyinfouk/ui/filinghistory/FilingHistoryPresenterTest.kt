@@ -3,10 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistory
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Observable
-import io.reactivex.Scheduler
+import io.reactivex.*
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.disposables.Disposable
 import io.reactivex.internal.schedulers.ExecutorScheduler
@@ -36,7 +33,7 @@ class FilingHistoryPresenterTest {
 		val dataManager = mock(CompaniesRepository::class.java)
 		filingHistoryPresenter = FilingHistoryPresenter(dataManager)
 		filingHistoryPresenter.setViewModel(viewModel, completable)
-		`when`(filingHistoryPresenter.companiesRepository.getFilingHistory("23", "", "0")).thenReturn(Observable.just(FilingHistoryList()))
+		`when`(filingHistoryPresenter.companiesRepository.getFilingHistory("23", "", "0")).thenReturn(Single.just(FilingHistoryList()))
 	}
 
 	@Test

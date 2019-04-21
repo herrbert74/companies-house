@@ -1,17 +1,17 @@
 package com.babestudios.companyinfouk.ui.filinghistory
 
 import android.graphics.Typeface
-import androidx.annotation.VisibleForTesting
-import androidx.core.util.Pair
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import androidx.annotation.VisibleForTesting
+import androidx.core.util.Pair
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
@@ -58,7 +58,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 		(category to companyNumber).biLet { _, _companyNumber ->
 			companiesRepository.getFilingHistory(_companyNumber, category.getSerializedName(), "0")
 					.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-					.subscribe(object : ObserverWrapper<FilingHistoryList>(this) {
+					.subscribe(object : SingleObserverWrapper<FilingHistoryList>(this) {
 						override fun onSuccess(reply: FilingHistoryList) {
 							onFilingHistorySuccess(reply)
 						}
@@ -76,7 +76,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 					companyNumber,
 					vm.state.value.filingCategoryFilter.getSerializedName(),
 					(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
-					.subscribe(object : ObserverWrapper<FilingHistoryList>(this) {
+					.subscribe(object : SingleObserverWrapper<FilingHistoryList>(this) {
 						override fun onSuccess(reply: FilingHistoryList) {
 							onFilingHistorySuccess(reply)
 						}

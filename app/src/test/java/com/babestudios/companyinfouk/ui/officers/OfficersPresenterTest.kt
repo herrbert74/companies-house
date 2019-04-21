@@ -2,18 +2,12 @@ package com.babestudios.companyinfouk.ui.officers
 
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.Officers
-
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
-
-import io.reactivex.Observable
-
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
 
 @RunWith(MockitoJUnitRunner::class)
 class OfficersPresenterTest {
@@ -25,7 +19,7 @@ class OfficersPresenterTest {
 		officersPresenter = OfficersPresenter(mock(CompaniesRepository::class.java))
 		val view = mock(OfficersActivityView::class.java)
 		`when`(view.companyNumber).thenReturn("0")
-		`when`(officersPresenter!!.companiesRepository.getOfficers("0", "0")).thenReturn(Observable.just(Officers()))
+		`when`(officersPresenter!!.companiesRepository.getOfficers("0", "0")).thenReturn(Single.just(Officers()))
 		officersPresenter!!.create()
 		officersPresenter!!.attachView(view)
 	}

@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -25,7 +25,7 @@ public class ChargesPresenterTest {
 		chargesPresenter = new ChargesPresenter(mock(CompaniesRepository.class));
 		ChargesActivityView view = mock(ChargesActivityView.class);
 		when(view.getCompanyNumber()).thenReturn("0");
-		when(chargesPresenter.getCompaniesRepository().fetchCharges("0", "0")).thenReturn(Observable.just(new Charges()));
+		when(chargesPresenter.getCompaniesRepository().fetchCharges("0", "0")).thenReturn(Single.just(new Charges()));
 		chargesPresenter.create();
 		chargesPresenter.attachView(view);
 

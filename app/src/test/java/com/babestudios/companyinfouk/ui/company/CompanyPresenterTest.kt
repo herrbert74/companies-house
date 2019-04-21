@@ -9,6 +9,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +32,7 @@ class CompanyPresenterTest {
 		company.accounts?.lastAccounts?.type = "any"
 		whenever(view.companyName).thenReturn("name")
 		whenever(view.companyNumber).thenReturn("123")
-		whenever(companyPresenter.companiesRepository.getCompany(any())).thenReturn(Observable.just(company))
+		whenever(companyPresenter.companiesRepository.getCompany(any())).thenReturn(Single.just(company))
 		whenever(companyPresenter.companiesRepository.accountTypeLookup(any())).thenReturn("")
 		companyPresenter.attachView(view)
 	}

@@ -5,13 +5,14 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryLinks
 import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.whenever
-import io.reactivex.Observable
+import io.reactivex.Single
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -29,7 +30,7 @@ class FilingHistoryDetailsPresenterTest {
 		val filingHistoryItem = FilingHistoryItem()
 		filingHistoryItem.links = historyLinks
 		whenever(view.filingHistoryItemString).thenReturn(Gson().toJson(filingHistoryItem))
-		whenever(filingHistoryDetailsPresenter?.companiesRepository?.getDocument("something")).thenReturn(Observable.just(ResponseBody.create(MediaType.parse("text/plain"), "test")))
+		whenever(filingHistoryDetailsPresenter?.companiesRepository?.getDocument("something")).thenReturn(Single.just(ResponseBody.create(MediaType.parse("text/plain"), "test")))
 		//whenever(filingHistoryDetailsPresenter.companiesRepository.writeDocumentPdf(any(ResponseBody.class))).thenReturn(Uri.parse("http:\\some.com"));
 		filingHistoryDetailsPresenter?.create()
 		filingHistoryDetailsPresenter?.attachView(view)

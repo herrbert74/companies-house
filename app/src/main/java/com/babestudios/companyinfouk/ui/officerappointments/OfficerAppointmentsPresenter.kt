@@ -3,13 +3,13 @@ package com.babestudios.companyinfouk.ui.officerappointments
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
-import com.uber.autodispose.AutoDispose
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.babestudios.companyinfouk.ui.officerappointments.list.AbstractOfficerAppointmentsVisitable
 import com.babestudios.companyinfouk.ui.officerappointments.list.OfficerAppointmentsVisitable
+import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import javax.inject.Inject
 
@@ -48,7 +48,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Office
 	override fun fetchAppointments(officerId: String) {
 		companiesRepository.getOfficerAppointments(officerId, "0")
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-				.subscribeWith(object : ObserverWrapper<Appointments>(this) {
+				.subscribeWith(object : SingleObserverWrapper<Appointments>(this) {
 					override fun onSuccess(reply: Appointments) {
 						sendToViewModel {
 							it.apply {
@@ -67,7 +67,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Office
 		if (viewModel.state.value?.appointmentItems == null || viewModel.state.value?.appointmentItems!!.size < viewModel.state.value?.totalResults!!) {
 			companiesRepository.getOfficerAppointments(viewModel.state.value?.officerId
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
-					.subscribeWith(object : ObserverWrapper<Appointments>(this) {
+					.subscribeWith(object : SingleObserverWrapper<Appointments>(this) {
 						override fun onSuccess(reply: Appointments) {
 							val newList = viewModel.state.value?.appointmentItems?.toMutableList()
 							newList?.addAll(convertToVisitables(reply))

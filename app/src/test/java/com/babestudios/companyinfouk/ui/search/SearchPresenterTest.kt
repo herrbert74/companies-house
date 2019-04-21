@@ -4,22 +4,14 @@ import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.nhaarman.mockitokotlin2.any
-
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
-
-import java.util.ArrayList
-
-import io.reactivex.Observable
-
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
+import org.mockito.junit.MockitoJUnitRunner
+import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
 class SearchPresenterTest {
@@ -32,11 +24,11 @@ class SearchPresenterTest {
 
 	@Before
 	fun setUp() {
-		searchPresenter = SearchPresenter(Mockito.mock(CompaniesRepository::class.java))
+		searchPresenter = SearchPresenter(mock(CompaniesRepository::class.java))
 		searchPresenter!!.create()
 		view = mock(SearchActivityView::class.java)
 		searchPresenter!!.attachView(view!!)
-		`when`(searchPresenter!!.companiesRepository.searchCompanies(any(), anyString())).thenReturn(Observable.just(CompanySearchResult()))
+		`when`(searchPresenter!!.companiesRepository.searchCompanies(any(), anyString())).thenReturn(Single.just(CompanySearchResult()))
 		val searchHistoryItems = ArrayList<SearchHistoryItem>()
 		val searchHistoryItem1 = SearchHistoryItem("RUN", "12345", 12L)
 		searchHistoryItems.add(searchHistoryItem)

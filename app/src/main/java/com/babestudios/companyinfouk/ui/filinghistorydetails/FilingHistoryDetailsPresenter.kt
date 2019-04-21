@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistorydetails
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
@@ -45,7 +45,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Filing
 			val documentId = data.replace("https://frontend-doc-api.companieshouse.gov.uk/document/", "")
 			companiesRepository.getDocument(documentId)
 					.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-					.subscribeWith(object : ObserverWrapper<ResponseBody>(this) {
+					.subscribeWith(object : SingleObserverWrapper<ResponseBody>(this) {
 						override fun onSuccess(reply: ResponseBody) {
 							sendToViewModel {
 								it.apply {

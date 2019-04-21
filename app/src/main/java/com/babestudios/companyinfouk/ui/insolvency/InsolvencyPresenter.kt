@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.insolvency
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyVisitable
@@ -45,7 +45,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Insolv
 	override fun fetchInsolvencies(companyNumber: String) {
 		companiesRepository.getInsolvency(companyNumber)
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-				.subscribeWith(object : ObserverWrapper<Insolvency>(this) {
+				.subscribeWith(object : SingleObserverWrapper<Insolvency>(this) {
 					override fun onSuccess(reply: Insolvency) {
 						sendToViewModel {
 							it.apply {

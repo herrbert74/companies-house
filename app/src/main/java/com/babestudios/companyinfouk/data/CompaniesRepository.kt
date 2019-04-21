@@ -23,7 +23,7 @@ import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.utils.Base64Wrapper
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
@@ -44,16 +44,16 @@ interface CompaniesRepositoryContract {
 	fun filingHistoryLookup(filingHistory: String): String
 
 	//Companies House API
-	fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult>
+	fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult>
 	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
-	fun getCompany(companyNumber: String): Observable<Company>
-	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Observable<FilingHistoryList>
-	fun fetchCharges(companyNumber: String, startItem: String): Observable<Charges>
-	fun getInsolvency(companyNumber: String): Observable<Insolvency>
-	fun getOfficers(companyNumber: String, startItem: String): Observable<Officers>
-	fun getOfficerAppointments(officerId: String, startItem: String): Observable<Appointments>
-	fun getPersons(companyNumber: String, startItem: String): Observable<Persons>
-	fun getDocument(documentId: String): Observable<ResponseBody>
+	fun getCompany(companyNumber: String): Single<Company>
+	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistoryList>
+	fun fetchCharges(companyNumber: String, startItem: String): Single<Charges>
+	fun getInsolvency(companyNumber: String): Single<Insolvency>
+	fun getOfficers(companyNumber: String, startItem: String): Single<Officers>
+	fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments>
+	fun getPersons(companyNumber: String, startItem: String): Single<Persons>
+	fun getDocument(documentId: String): Single<ResponseBody>
 	fun writeDocumentPdf(responseBody: ResponseBody): Uri
 
 	//Preferences
@@ -95,7 +95,7 @@ constructor(
 		return filingHistoryDescriptionsHelper.filingHistoryLookUp(filingHistory)
 	}
 
-	override fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult> {
+	override fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult> {
 		return companiesHouseService.searchCompanies(authorization, queryText.toString(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
@@ -105,49 +105,49 @@ constructor(
 		return preferencesHelper.addRecentSearch(searchHistoryItem)
 	}
 
-	override fun getCompany(companyNumber: String): Observable<Company> {
+	override fun getCompany(companyNumber: String): Single<Company> {
 		return companiesHouseService.getCompany(authorization, companyNumber)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun getFilingHistory(companyNumber: String, category: String, startItem: String): Observable<FilingHistoryList> {
+	override fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistoryList> {
 		return companiesHouseService.getFilingHistory(authorization, companyNumber, category, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun fetchCharges(companyNumber: String, startItem: String): Observable<Charges> {
+	override fun fetchCharges(companyNumber: String, startItem: String): Single<Charges> {
 		return companiesHouseService.getCharges(authorization, companyNumber, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun getInsolvency(companyNumber: String): Observable<Insolvency> {
+	override fun getInsolvency(companyNumber: String): Single<Insolvency> {
 		return companiesHouseService.getInsolvency(authorization, companyNumber)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun getOfficers(companyNumber: String, startItem: String): Observable<Officers> {
+	override fun getOfficers(companyNumber: String, startItem: String): Single<Officers> {
 		return companiesHouseService.getOfficers(authorization, companyNumber, null, null, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun getOfficerAppointments(officerId: String, startItem: String): Observable<Appointments> {
+	override fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments> {
 		return companiesHouseService.getOfficerAppointments(authorization, officerId, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun getPersons(companyNumber: String, startItem: String): Observable<Persons> {
+	override fun getPersons(companyNumber: String, startItem: String): Single<Persons> {
 		return companiesHouseService.getPersons(authorization, companyNumber, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun getDocument(documentId: String): Observable<ResponseBody> {
+	override fun getDocument(documentId: String): Single<ResponseBody> {
 		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentId)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())

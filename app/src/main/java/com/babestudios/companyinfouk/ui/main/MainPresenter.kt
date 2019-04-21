@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.main
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
-import com.babestudios.base.rxjava.ObserverWrapper
+import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
@@ -69,7 +69,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 	override fun search(queryText: String) {
 		companiesRepository.searchCompanies(queryText, "0")
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-				.subscribeWith(object : ObserverWrapper<CompanySearchResult>(this) {
+				.subscribeWith(object : SingleObserverWrapper<CompanySearchResult>(this) {
 					override fun onSuccess(reply: CompanySearchResult) {
 						val searchVisitables = convertSearchResultsToVisitables(reply)
 						filterSearchResults(viewModel.state.value.filterState, searchVisitables)
@@ -95,7 +95,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 		if (viewModel.state.value?.searchVisitables == null || viewModel.state.value?.searchVisitables!!.size < viewModel.state.value?.totalCount!!) {
 			companiesRepository.searchCompanies(viewModel.state.value?.queryText
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
-					.subscribeWith(object : ObserverWrapper<CompanySearchResult>(this) {
+					.subscribeWith(object : SingleObserverWrapper<CompanySearchResult>(this) {
 						override fun onSuccess(reply: CompanySearchResult) {
 							val newSearchVisitables = viewModel.state.value.searchVisitables.toMutableList()
 							newSearchVisitables.addAll(convertSearchResultsToVisitables(reply))
