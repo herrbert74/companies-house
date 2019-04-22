@@ -12,6 +12,7 @@ import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.chargedetails.createChargeDetailsIntent
 import com.babestudios.companyinfouk.ui.charges.list.*
@@ -43,6 +44,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_charges)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabCharges.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabCharges.setNavigationOnClickListener { onBackPressed() }
@@ -100,6 +102,11 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 				chargesPresenter.loadMoreCharges(page)
 			}
 		})
+	}
+
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
 	}
 
 	//endregion

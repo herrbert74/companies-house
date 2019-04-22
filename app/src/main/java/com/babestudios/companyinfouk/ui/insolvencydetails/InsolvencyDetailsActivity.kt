@@ -11,6 +11,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsTypeFactory
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -43,6 +44,7 @@ class InsolvencyDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_insolvency_details)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabInsolvencyDetails.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabInsolvencyDetails.setNavigationOnClickListener { onBackPressed() }
@@ -90,6 +92,11 @@ class InsolvencyDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 		rvInsolvencyDetails?.layoutManager = linearLayoutManager
+	}
+
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
 	}
 
 	//endregion

@@ -11,6 +11,7 @@ import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 import com.babestudios.companyinfouk.data.model.charges.Transaction
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.chargedetails.list.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_charge_details.*
@@ -28,6 +29,7 @@ class ChargeDetailsActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_charge_details)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabChargeDetails.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabChargeDetails.setNavigationOnClickListener { onBackPressed() }
@@ -77,6 +79,11 @@ class ChargeDetailsActivity : AppCompatActivity() {
 		visitables.add(ChargeDetailsHeaderVisitable(ChargeDetailsHeaderItem(getString(R.string.transactions))))
 		visitables.addAll(transactions.map { item -> ChargeDetailsVisitable(item) })
 		return visitables
+	}
+
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
 	}
 
 	//endregion

@@ -20,6 +20,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -51,6 +52,7 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_filing_history_details)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabFilingHistoryDetails.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabFilingHistoryDetails.setNavigationOnClickListener { onBackPressed() }

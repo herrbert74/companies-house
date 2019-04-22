@@ -22,6 +22,7 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.favourites.list.*
@@ -54,6 +55,7 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_favourites)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabFavourites.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabFavourites.setNavigationOnClickListener { onBackPressed() }

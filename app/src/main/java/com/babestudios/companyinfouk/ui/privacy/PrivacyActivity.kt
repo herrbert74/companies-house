@@ -2,30 +2,23 @@ package com.babestudios.companyinfouk.ui.privacy
 
 import android.os.Bundle
 import android.webkit.WebView
-
+import androidx.appcompat.app.AppCompatActivity
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
+import com.babestudios.companyinfouk.ext.logScreenView
 
-class PrivacyActivity : CompositeActivity() {
-
-
-	internal var baseActivityPlugin = BaseActivityPlugin()
-
-	init {
-		addPlugin(baseActivityPlugin)
-	}
+class PrivacyActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		val view = WebView(this)
+		logScreenView(this.localClassName)
 		view.settings.javaScriptEnabled = true
 		view.loadUrl("file:///android_asset/privacy_policy.html")
 		setContentView(view)
 	}
 
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	override fun onBackPressed() {
+		super.onBackPressed()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
 	}
 }

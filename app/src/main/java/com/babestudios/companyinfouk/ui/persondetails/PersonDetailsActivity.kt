@@ -15,6 +15,7 @@ import io.reactivex.CompletableSource
 import androidx.lifecycle.ViewModelProviders
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.data.model.persons.Person
+import com.babestudios.companyinfouk.ext.logScreenView
 
 import io.reactivex.disposables.CompositeDisposable
 
@@ -36,6 +37,7 @@ class PersonDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_person_details)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabPersonDetails.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabPersonDetails.setNavigationOnClickListener { onBackPressed() }
@@ -79,6 +81,10 @@ class PersonDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 	}
 
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	}
 
 	//endregion
 

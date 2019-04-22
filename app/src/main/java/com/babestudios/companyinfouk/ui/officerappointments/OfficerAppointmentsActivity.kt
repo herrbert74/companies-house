@@ -20,6 +20,7 @@ import com.babestudios.companyinfouk.Injector
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.officerappointments.list.*
 
@@ -47,6 +48,7 @@ class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_officer_appointments)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabOfficerAppointments.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabOfficerAppointments.setNavigationOnClickListener { onBackPressed() }

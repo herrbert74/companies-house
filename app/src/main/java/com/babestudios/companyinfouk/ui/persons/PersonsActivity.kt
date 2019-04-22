@@ -12,6 +12,7 @@ import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.persondetails.createPersonDetailsIntent
 import com.babestudios.companyinfouk.ui.persons.list.*
@@ -44,6 +45,7 @@ class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_persons)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabPersons.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabPersons.setNavigationOnClickListener { onBackPressed() }
@@ -151,6 +153,11 @@ class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 					}
 				}
 				?.let { eventDisposables.add(it) }
+	}
+
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
 	}
 
 	//endregion

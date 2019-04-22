@@ -18,9 +18,6 @@ import com.babestudios.companyinfouk.ui.officers.OfficersPresenter
 import com.babestudios.companyinfouk.ui.persons.PersonsActivity
 import com.babestudios.companyinfouk.ui.persondetails.PersonDetailsPresenter
 import com.babestudios.companyinfouk.ui.persons.PersonsPresenter
-import com.babestudios.companyinfouk.ui.search.RecentSearchesResultsAdapter
-import com.babestudios.companyinfouk.ui.search.SearchActivity
-import com.babestudios.companyinfouk.ui.search.SearchPresenter
 import com.babestudios.companyinfouk.ui.main.Search2Presenter
 import dagger.Component
 import javax.inject.Singleton
@@ -28,25 +25,19 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
-	fun inject(searchPresenter: SearchPresenter)
-
-	fun inject(recentSearchesResultsAdapter: RecentSearchesResultsAdapter)
-
 	fun inject(companiesHouseApplication: CompaniesHouseApplication)
 
-	fun inject(searchActivity: SearchActivity)
-
-	fun inject(personsActivity: PersonsActivity)
+	/*fun inject(personsActivity: PersonsActivity)
 
 	fun inject(filingHistoryDetailsActivity: FilingHistoryDetailsActivity)
 
-	fun inject(favouritesActivity: FavouritesActivity)
+	fun inject(favouritesActivity: FavouritesActivity)*/
 
 	fun inject(filingHistoryAdapter: FilingHistoryAdapter)
 
 	fun inject(filingHistoryViewHolder: FilingHistoryViewHolder)
 
-	fun inject(filingHistoryPresenter: FilingHistoryPresenter)
+	//fun inject(filingHistoryPresenter: FilingHistoryPresenter)
 
 	fun filingHistoryPresenter(): FilingHistoryPresenter
 

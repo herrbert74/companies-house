@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.ui.main
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.SingleObserverWrapper
@@ -16,7 +17,7 @@ import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryHeaderVisitabl
 import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryVisitable
 import com.babestudios.companyinfouk.ui.main.search.AbstractSearchVisitable
 import com.babestudios.companyinfouk.ui.main.search.SearchVisitable
-import com.babestudios.companyinfouk.ui.search.SearchPresenter
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -67,6 +68,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 	}
 
 	override fun search(queryText: String) {
+		logSearch(queryText)
 		companiesRepository.searchCompanies(queryText, "0")
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
 				.subscribeWith(object : SingleObserverWrapper<CompanySearchResult>(this) {
@@ -183,7 +185,7 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 	}
 
 	override fun setFilterState(filterState: FilterState) {
-		if (filterState.ordinal > SearchPresenter.FilterState.FILTER_SHOW_ALL.ordinal) {
+		if (filterState.ordinal > FilterState.FILTER_SHOW_ALL.ordinal) {
 			filterSearchResults(filterState, viewModel.state.value.searchVisitables)
 					.subscribe { result ->
 						sendToViewModel {
@@ -213,5 +215,11 @@ constructor(var companiesRepository: CompaniesRepository) : BasePresenter<Search
 				}
 				.observeOn(Schedulers.trampoline())
 				.toList()
+	}
+
+	private fun logSearch(queryText: String) {
+		val bundle = Bundle()
+		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, queryText)
+		CompaniesHouseApplication.instance.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
 	}
 }

@@ -3,11 +3,13 @@ package com.babestudios.companyinfouk.ui.map
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import butterknife.BindView
+import butterknife.ButterKnife
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.uiplugins.BaseActivityPlugin
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,12 +18,8 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.pascalwelsch.compositeandroid.activity.CompositeActivity
 
-import butterknife.BindView
-import butterknife.ButterKnife
-
-class MapActivity : CompositeActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 	private var mMap: GoogleMap? = null
 
@@ -33,17 +31,10 @@ class MapActivity : CompositeActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 	internal lateinit var companyName: String
 	private var location: LatLng? = null
 
-	internal var baseActivityPlugin = BaseActivityPlugin()
-
-	init {
-		addPlugin(baseActivityPlugin)
-	}
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_map)
-		baseActivityPlugin.logScreenView(this.localClassName)
-
+		logScreenView(this.localClassName)
 		addressString = intent.getStringExtra("addressString")
 		companyName = intent.getStringExtra("companyName")
 		location = getLocationFromAddress(addressString)
@@ -109,8 +100,8 @@ class MapActivity : CompositeActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 		return true
 	}
 
-	override fun super_onBackPressed() {
-		super.super_finish()
-		super_overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	override fun onBackPressed() {
+		super.onBackPressed()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
 	}
 }

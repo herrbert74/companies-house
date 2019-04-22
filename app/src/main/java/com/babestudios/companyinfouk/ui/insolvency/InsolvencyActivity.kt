@@ -11,6 +11,7 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.insolvency.list.AbstractInsolvencyVisitable
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyAdapter
@@ -46,6 +47,7 @@ class InsolvencyActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_insolvency)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabInsolvency.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabInsolvency.setNavigationOnClickListener { onBackPressed() }
@@ -96,6 +98,10 @@ class InsolvencyActivity : RxAppCompatActivity(), ScopeProvider {
 		rvInsolvency.addItemDecoration(DividerItemDecoration(this))
 	}
 
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	}
 
 	//endregion
 

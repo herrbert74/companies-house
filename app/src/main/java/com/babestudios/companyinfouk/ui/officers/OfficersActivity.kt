@@ -12,6 +12,7 @@ import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.officerdetails.createOfficerDetailsIntent
 import com.babestudios.companyinfouk.ui.officers.list.*
@@ -44,6 +45,7 @@ class OfficersActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_officers)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabOfficers.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabOfficers.setNavigationOnClickListener { onBackPressed() }
@@ -99,6 +101,10 @@ class OfficersActivity : RxAppCompatActivity(), ScopeProvider {
 		})
 	}
 
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+	}
 
 	//endregion
 

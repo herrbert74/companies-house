@@ -11,6 +11,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.company.Company
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.charges.createChargesIntent
 import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
@@ -48,6 +49,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_company)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabCompany.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabCompany.setNavigationOnClickListener { onBackPressed() }

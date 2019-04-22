@@ -15,6 +15,7 @@ import io.reactivex.CompletableSource
 import androidx.lifecycle.ViewModelProviders
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem
+import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.officerappointments.createOfficerAppointmentsIntent
 import com.jakewharton.rxbinding2.view.RxView
@@ -39,6 +40,7 @@ class OfficerDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_officer_details)
+		logScreenView(this.localClassName)
 		setSupportActionBar(pabOfficerDetails.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabOfficerDetails.setNavigationOnClickListener { onBackPressed() }
