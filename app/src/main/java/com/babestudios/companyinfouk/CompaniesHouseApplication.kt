@@ -7,8 +7,10 @@ import com.babestudios.base.rxjava.companieshouse.CompaniesHouseErrorResolver
 import com.babestudios.companyinfouk.injection.ApplicationComponent
 import com.babestudios.companyinfouk.injection.ApplicationModule
 import com.babestudios.companyinfouk.injection.DaggerApplicationComponent
+import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
 import com.google.firebase.analytics.FirebaseAnalytics
+import io.fabric.sdk.android.Fabric
 
 open class CompaniesHouseApplication : BaseApplication() {
 
@@ -25,6 +27,11 @@ open class CompaniesHouseApplication : BaseApplication() {
 		Stetho.initializeWithDefaults(this)
 		firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 		logAppOpen()
+		val fabric = Fabric.Builder(this)
+				.kits(Crashlytics())
+				.debuggable(BuildConfig.DEBUG)
+				.build()
+		Fabric.with(fabric)
 		applicationComponent = DaggerApplicationComponent.builder()
 				.applicationModule(ApplicationModule(this))
 				.build()
