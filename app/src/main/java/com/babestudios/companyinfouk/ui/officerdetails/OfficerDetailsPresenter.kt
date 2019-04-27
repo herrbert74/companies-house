@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.officerdetails
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import io.reactivex.CompletableSource
 import java.util.regex.Pattern
@@ -14,7 +15,8 @@ interface OfficerDetailsPresenterContract : Presenter<OfficerDetailsState, Offic
 @SuppressLint("CheckResult")
 class OfficerDetailsPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository) : BasePresenter<OfficerDetailsState, OfficerDetailsViewModel>(), OfficerDetailsPresenterContract {
+constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+	: BasePresenter<OfficerDetailsState, OfficerDetailsViewModel>(schedulerProvider), OfficerDetailsPresenterContract {
 
 	override fun setViewModel(viewModel: OfficerDetailsViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

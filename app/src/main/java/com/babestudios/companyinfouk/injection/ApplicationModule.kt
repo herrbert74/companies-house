@@ -2,6 +2,8 @@ package com.babestudios.companyinfouk.injection
 
 import android.app.Application
 import android.content.Context
+import android.os.AsyncTask
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.CompaniesRepository
@@ -16,6 +18,8 @@ import com.babestudios.companyinfouk.utils.Base64Wrapper
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -124,6 +128,11 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 	@Provides
 	internal fun provideFilingHistoryDescriptionsHelper(): FilingHistoryDescriptionsHelper {
 		return FilingHistoryDescriptionsHelper()
+	}
+
+	@Provides
+	internal fun provideSchedulerProvider(): SchedulerProvider {
+		return SchedulerProvider(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR), AndroidSchedulers.mainThread())
 	}
 
 }

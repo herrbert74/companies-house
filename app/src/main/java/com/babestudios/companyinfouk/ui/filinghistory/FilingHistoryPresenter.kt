@@ -11,6 +11,7 @@ import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepository
@@ -29,7 +30,8 @@ interface FilingHistoryPresenterContract : Presenter<FilingHistoryState, FilingH
 
 class FilingHistoryPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository) : BasePresenter<FilingHistoryState, FilingHistoryViewModel>(), FilingHistoryPresenterContract {
+constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+	: BasePresenter<FilingHistoryState, FilingHistoryViewModel>(schedulerProvider), FilingHistoryPresenterContract {
 
 
 	override fun setViewModel(viewModel: FilingHistoryViewModel, lifeCycleCompletable: CompletableSource?) {

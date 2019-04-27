@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.company.Company
@@ -19,7 +20,7 @@ interface CompanyPresenterContract : Presenter<CompanyState, CompanyViewModel> {
 @SuppressLint("CheckResult")
 class CompanyPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository) : BasePresenter<CompanyState, CompanyViewModel>(), CompanyPresenterContract {
+constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider) : BasePresenter<CompanyState, CompanyViewModel>(schedulerProvider), CompanyPresenterContract {
 
 	override fun setViewModel(viewModel: CompanyViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

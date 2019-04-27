@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.charges
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepository
@@ -21,7 +22,8 @@ interface ChargesPresenterContract : Presenter<ChargesState, ChargesViewModel> {
 @SuppressLint("CheckResult")
 class ChargesPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository) : BasePresenter<ChargesState, ChargesViewModel>(), ChargesPresenterContract {
+constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+	: BasePresenter<ChargesState, ChargesViewModel>(schedulerProvider), ChargesPresenterContract {
 
 	override fun setViewModel(viewModel: ChargesViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

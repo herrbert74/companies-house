@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.insolvency
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
@@ -18,7 +19,8 @@ interface InsolvencyPresenterContract : Presenter<InsolvencyState, InsolvencyVie
 @SuppressLint("CheckResult")
 class InsolvencyPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository) : BasePresenter<InsolvencyState, InsolvencyViewModel>(), InsolvencyPresenterContract {
+constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+	: BasePresenter<InsolvencyState, InsolvencyViewModel>(schedulerProvider), InsolvencyPresenterContract {
 
 	override fun setViewModel(viewModel: InsolvencyViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

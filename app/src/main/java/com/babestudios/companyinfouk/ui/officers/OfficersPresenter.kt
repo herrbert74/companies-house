@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.officers
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepository
@@ -21,7 +22,8 @@ interface OfficersPresenterContract : Presenter<OfficersState, OfficersViewModel
 @SuppressLint("CheckResult")
 class OfficersPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository) : BasePresenter<OfficersState, OfficersViewModel>(), OfficersPresenterContract {
+constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+	: BasePresenter<OfficersState, OfficersViewModel>(schedulerProvider), OfficersPresenterContract {
 
 	override fun setViewModel(viewModel: OfficersViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
