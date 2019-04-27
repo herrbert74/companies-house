@@ -25,7 +25,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-interface Search2PresenterContract : Presenter<SearchState, MainViewModel> {
+interface MainPresenterContract : Presenter<MainState, MainViewModel> {
 	fun search(queryText: String)
 	fun loadMoreSearch(page: Int)
 	fun onSearchQueryChanged(queryText: String)
@@ -36,9 +36,9 @@ interface Search2PresenterContract : Presenter<SearchState, MainViewModel> {
 }
 
 @SuppressLint("CheckResult")
-class Search2Presenter
+class MainPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository) : BasePresenter<SearchState, MainViewModel>(), Search2PresenterContract {
+constructor(var companiesRepository: CompaniesRepository) : BasePresenter<MainState, MainViewModel>(), MainPresenterContract {
 
 	override fun setViewModel(viewModel: MainViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

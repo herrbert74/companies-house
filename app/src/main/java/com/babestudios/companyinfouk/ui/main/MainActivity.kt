@@ -69,7 +69,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private val viewModel by lazy { ViewModelProviders.of(this).get(MainViewModel::class.java) }
 
-	private lateinit var search2Presenter: Search2PresenterContract
+	private lateinit var mainPresenter: MainPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
@@ -93,7 +93,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<SearchState>("STATE")?.let {
+				savedInstanceState.getParcelable<MainState>("STATE")?.let {
 					with(viewModel.state.value) {
 						searchVisitables = it.searchVisitables
 						filterState = it.filterState
@@ -126,9 +126,9 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	private fun initPresenter(viewModel: MainViewModel) {
-		if (!::search2Presenter.isInitialized) {
-			search2Presenter = Injector.get().searchPresenter()
-			search2Presenter.setViewModel(viewModel, requestScope())
+		if (!::mainPresenter.isInitialized) {
+			mainPresenter = Injector.get().searchPresenter()
+			mainPresenter.setViewModel(viewModel, requestScope())
 		}
 	}
 
@@ -146,7 +146,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		rvMainSearch.addItemDecoration(DividerItemDecoration(this))
 		rvMainSearch.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
-				search2Presenter.loadMoreSearch(page)
+				mainPresenter.loadMoreSearch(page)
 			}
 		})
 	}
@@ -168,7 +168,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		spinner.adapter = adapter
 		spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 			override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-				search2Presenter.setFilterState(FilterState.values()[position])
+				mainPresenter.setFilterState(FilterState.values()[position])
 			}
 
 			override fun onNothingSelected(parent: AdapterView<*>) {
@@ -297,7 +297,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				.subscribe { render(it) }
 	}
 
-	private fun render(state: SearchState) {
+	private fun render(state: MainState) {
 		when {
 			state.isLoading -> msvMainSearch.viewState = VIEW_STATE_LOADING
 			state.errorType != ErrorType.NONE -> {
@@ -383,7 +383,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		AlertDialog.Builder(this)
 				.setTitle(R.string.delete_recent_searches)
 				.setMessage(R.string.are_you_sure_you_want_to_delete_all_recent_searches)
-				.setPositiveButton(android.R.string.yes) { _, _ -> search2Presenter.clearAllRecentSearches() }
+				.setPositiveButton(android.R.string.yes) { _, _ -> mainPresenter.clearAllRecentSearches() }
 				.setNegativeButton(android.R.string.no) { _, _ ->
 					// do nothing
 				}
@@ -403,7 +403,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					.subscribeOn(Schedulers.io())
 					.observeOn(AndroidSchedulers.mainThread())
 					.`as`(AutoDispose.autoDisposable(this))
-					.subscribe { search2Presenter.onSearchQueryChanged(lblSearch?.text.toString()) }
+					.subscribe { mainPresenter.onSearchQueryChanged(lblSearch?.text.toString()) }
 					?.let { queryTextChangeDisposable -> eventDisposables.add(queryTextChangeDisposable) }
 		}
 		searchHistoryAdapter?.getViewClickedObservable()
@@ -423,7 +423,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					viewModel.state.value.filteredSearchVisitables.let { searchItems ->
 						val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
 						(searchItem.companyNumber to searchItem.title).biLet { number, title ->
-							search2Presenter.searchItemClicked(number, title)
+							mainPresenter.searchItemClicked(number, title)
 							startActivityWithRightSlide(this.createCompanyIntent(number, title))
 						}
 					}
@@ -451,7 +451,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					.take(1)
 					.`as`(AutoDispose.autoDisposable(this))
 					.subscribe {
-						search2Presenter.fabMainClicked()
+						mainPresenter.fabMainClicked()
 					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}
