@@ -87,8 +87,6 @@
 		<!--item name="queryBackground">@color/colorAccent</item-->
 		<item name="commitIcon">@drawable/ic_commit</item>
 		<item name="colorControlNormal">@color/translucent_black</item>
-		<item name="android:colorAccent">@color/chuck_colorAccent</item>
-		<item name="android:colorActivatedHighlight">@color/cardview_dark_background</item>
 		<item name="suggestionRowLayout">@layout/row_search_view_suggestion</item>
 		<item name="android:maxWidth">9999dp</item>
 		<item name="closeIcon">@drawable/ic_close_black</item>

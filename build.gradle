@@ -10,9 +10,15 @@ buildscript {
 		maven {
 			url 'https://maven.fabric.io/public'
 		}
+		maven {
+			//TODO Remove this once this is fixed for R8 1.5.20-dev: https://github.com/square/okhttp/issues/4604#issuecomment-465592365
+			url 'http://storage.googleapis.com/r8-releases/raw'
+		}
 		jcenter()
 	}
 	dependencies {
+		//TODO Remove this once this is fixed for R8 1.5.20-dev: https://github.com/square/okhttp/issues/4604#issuecomment-465592365
+		classpath 'com.android.tools:r8:1.4.57'
 		classpath 'com.android.tools.build:gradle:3.5.0-alpha13'
 		classpath 'com.google.gms:google-services:4.2.0'
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

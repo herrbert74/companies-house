@@ -5,9 +5,6 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -18,14 +15,11 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_map.*
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 	private var mMap: GoogleMap? = null
-
-	@JvmField
-	@BindView(R.id.toolbar)
-	internal var toolbar: Toolbar? = null
 
 	private lateinit var addressString: String
 	internal lateinit var companyName: String
@@ -39,13 +33,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 		companyName = intent.getStringExtra("companyName")
 		location = getLocationFromAddress(addressString)
 
-		ButterKnife.bind(this)
-
-		if (toolbar != null) {
-			setSupportActionBar(toolbar)
+		if (tbMapActivity != null) {
+			setSupportActionBar(tbMapActivity)
 			supportActionBar?.setDisplayHomeAsUpEnabled(true)
 			supportActionBar?.title = companyName
-			toolbar?.setNavigationOnClickListener { onBackPressed() }
+			tbMapActivity.setNavigationOnClickListener { onBackPressed() }
 		}
 
 		val mapFragment = supportFragmentManager

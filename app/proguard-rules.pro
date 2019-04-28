@@ -28,26 +28,12 @@
     public <init>(android.content.Context);
 }
 
-# ButterKnife
-
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
-
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
-
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
-
 # okhttp3
-
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
 -dontwarn okio.**
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
 
 # rxjava
 -keep class rx.schedulers.Schedulers {
@@ -95,12 +81,7 @@
     @retrofit2.* <methods>;
 }
 
-#RetroLambda
-
--dontwarn java.lang.invoke.*
-
 # Dagger
-
 -dontwarn dagger.internal.codegen.**
 -keepclassmembers,allowobfuscation class * {
     @javax.inject.* *;

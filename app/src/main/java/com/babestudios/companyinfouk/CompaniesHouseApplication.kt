@@ -2,8 +2,6 @@ package com.babestudios.companyinfouk
 
 import android.content.Context
 import com.babestudios.base.BaseApplication
-import com.babestudios.base.ErrorComponent
-import com.babestudios.base.rxjava.companieshouse.CompaniesHouseErrorResolver
 import com.babestudios.companyinfouk.injection.ApplicationComponent
 import com.babestudios.companyinfouk.injection.ApplicationModule
 import com.babestudios.companyinfouk.injection.DaggerApplicationComponent

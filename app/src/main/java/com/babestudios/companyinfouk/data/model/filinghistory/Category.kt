@@ -1,7 +1,9 @@
 package com.babestudios.companyinfouk.data.model.filinghistory
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 enum class Category(val displayName: String) {
 	@SerializedName("")
 	CATEGORY_SHOW_ALL("all"),
