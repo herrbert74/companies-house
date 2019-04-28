@@ -5,7 +5,7 @@ import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import okhttp3.ResponseBody
@@ -19,7 +19,7 @@ interface FilingHistoryDetailsPresenterContract : Presenter<FilingHistoryDetails
 @SuppressLint("CheckResult")
 class FilingHistoryDetailsPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
 	: BasePresenter<FilingHistoryDetailsState, FilingHistoryDetailsViewModel>(schedulerProvider), FilingHistoryDetailsPresenterContract {
 
 	override fun setViewModel(viewModel: FilingHistoryDetailsViewModel, lifeCycleCompletable: CompletableSource?) {

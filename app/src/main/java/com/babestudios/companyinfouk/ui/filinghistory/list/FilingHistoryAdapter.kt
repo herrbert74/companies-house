@@ -1,16 +1,16 @@
 package com.babestudios.companyinfouk.ui.filinghistory.list
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import com.babestudios.base.mvp.list.BaseViewHolder
 import javax.inject.Inject
 
 class FilingHistoryAdapter internal constructor(private var visitables: List<FilingHistoryVisitable>,
@@ -23,7 +23,7 @@ class FilingHistoryAdapter internal constructor(private var visitables: List<Fil
 	}
 
 	@Inject
-	lateinit var companiesRepository: CompaniesRepository
+	lateinit var companiesRepository: CompaniesRepositoryContract
 
 	init {
 		CompaniesHouseApplication.instance.applicationComponent.inject(this)

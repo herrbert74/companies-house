@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.ui.main
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.SchedulerProvider
@@ -9,7 +8,7 @@ import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.ui.main.recents.AbstractSearchHistoryVisitable
@@ -18,7 +17,6 @@ import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryHeaderVisitabl
 import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryVisitable
 import com.babestudios.companyinfouk.ui.main.search.AbstractSearchVisitable
 import com.babestudios.companyinfouk.ui.main.search.SearchVisitable
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -30,7 +28,7 @@ interface MainPresenterContract : Presenter<MainState, MainViewModel> {
 	fun search(queryText: String)
 	fun loadMoreSearch(page: Int)
 	fun onSearchQueryChanged(queryText: String)
-	fun searchItemClicked(number: String, name: String)
+	fun searchItemClicked(name: String, number: String)
 	fun fabMainClicked()
 	fun clearAllRecentSearches()
 	fun setFilterState(filterState: FilterState)
@@ -39,7 +37,7 @@ interface MainPresenterContract : Presenter<MainState, MainViewModel> {
 @SuppressLint("CheckResult")
 class MainPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
 	: BasePresenter<MainState, MainViewModel>(schedulerProvider), MainPresenterContract {
 
 	override fun setViewModel(viewModel: MainViewModel, lifeCycleCompletable: CompletableSource?) {
@@ -70,7 +68,6 @@ constructor(var companiesRepository: CompaniesRepository, schedulerProvider: Sch
 	}
 
 	override fun search(queryText: String) {
-		logSearch(queryText)
 		companiesRepository.searchCompanies(queryText, "0")
 				.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
 				.subscribeWith(object : SingleObserverWrapper<CompanySearchResult>(this) {
@@ -93,7 +90,6 @@ constructor(var companiesRepository: CompaniesRepository, schedulerProvider: Sch
 					}
 				})
 	}
-
 
 	override fun loadMoreSearch(page: Int) {
 		if (viewModel.state.value?.searchVisitables == null || viewModel.state.value?.searchVisitables!!.size < viewModel.state.value?.totalCount!!) {
@@ -154,7 +150,7 @@ constructor(var companiesRepository: CompaniesRepository, schedulerProvider: Sch
 		}
 	}
 
-	override fun searchItemClicked(number: String, name: String) {
+	override fun searchItemClicked(name: String, number: String) {
 		val searchHistoryItems = companiesRepository.addRecentSearchItem(SearchHistoryItem(name, number, System.currentTimeMillis()))
 		sendToViewModel {
 			it.apply {
@@ -217,11 +213,5 @@ constructor(var companiesRepository: CompaniesRepository, schedulerProvider: Sch
 				}
 				.observeOn(Schedulers.trampoline())
 				.toList()
-	}
-
-	private fun logSearch(queryText: String) {
-		val bundle = Bundle()
-		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, queryText)
-		CompaniesHouseApplication.instance.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
 	}
 }

@@ -32,6 +32,7 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
@@ -42,6 +43,7 @@ import com.babestudios.companyinfouk.ui.main.recents.*
 import com.babestudios.companyinfouk.ui.main.search.*
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
 import com.babestudios.companyinfouk.views.FilterAdapter
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -127,7 +129,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: MainViewModel) {
 		if (!::mainPresenter.isInitialized) {
-			mainPresenter = Injector.get().searchPresenter()
+			mainPresenter = Injector.get().mainPresenter()
 			mainPresenter.setViewModel(viewModel, requestScope())
 		}
 	}
@@ -358,9 +360,10 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					observeActions()
 				} else {
 					msvMainSearch.viewState = VIEW_STATE_CONTENT
-					if (viewModel.state.value.queryText.let { it.length > 2 })
+					if (viewModel.state.value.queryText.let { it.length > 2 }) {
 						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
-					else
+						logSearch()
+					} else
 						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent_black))
 
 					state.filteredSearchVisitables.let {
@@ -390,6 +393,13 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				.show()
 		observeActions()
 	}
+
+	private fun logSearch() {
+		val bundle = Bundle()
+		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, viewModel.state.value.queryText)
+		CompaniesHouseApplication.instance.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
+	}
+
 	//endregion
 
 	//region events
@@ -422,8 +432,8 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				?.subscribe { view: BaseViewHolder<AbstractSearchVisitable> ->
 					viewModel.state.value.filteredSearchVisitables.let { searchItems ->
 						val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
-						(searchItem.companyNumber to searchItem.title).biLet { number, title ->
-							mainPresenter.searchItemClicked(number, title)
+						(searchItem.title to searchItem.companyNumber).biLet { title, number ->
+							mainPresenter.searchItemClicked(title, number)
 							startActivityWithRightSlide(this.createCompanyIntent(number, title))
 						}
 					}

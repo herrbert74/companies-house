@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -13,6 +14,11 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.injection.ApplicationContext
 import com.babestudios.companyinfouk.utils.Base64Wrapper
+import com.babestudios.companyinfouk.utils.RawResourceHelper
+import com.babestudios.companyinfouk.utils.RawResourceHelperContract
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.nhaarman.mockitokotlin2.mock
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
@@ -69,24 +75,30 @@ class TestApplicationModule(private val application: Application) {
 
 	@Provides
 	internal fun provideApplication(): Application {
-		return application
+		return Mockito.mock(CompaniesHouseApplication::class.java)
 	}
 
 	@Provides
 	@ApplicationContext
 	internal fun provideContext(): Context {
-		return application
+		return Mockito.mock(CompaniesHouseApplication::class.java)
+	}
+
+	@Provides
+	internal fun provideGson(): Gson {
+		return GsonBuilder()
+				.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
+				.create()
+	}
+
+	@Provides
+	internal fun provideSharedPreferences() : SharedPreferences {
+		return Mockito.mock(SharedPreferences::class.java)
 	}
 
 	@Provides
 	@Singleton
-	internal fun provideDataManager(companiesHouseService: CompaniesHouseService, preferencesHelper: PreferencesHelper): CompaniesRepository {
-		return Mockito.mock(CompaniesRepository::class.java)
-	}
-
-	@Provides
-	@Singleton
-	internal fun provideCompaniesRepository(
+	internal fun provideCompaniesRepositoryContract(
 			companiesHouseService: CompaniesHouseService,
 			companiesHouseDocumentService: CompaniesHouseDocumentService,
 			preferencesHelper: PreferencesHelper,
@@ -98,23 +110,14 @@ class TestApplicationModule(private val application: Application) {
 	}
 
 	@Provides
-	internal fun provideBase64Wrapper(): Base64Wrapper {
-		return Base64Wrapper()
-	}
-
-	@Provides
-	internal fun provideConstantsHelper(): ConstantsHelper {
-		return ConstantsHelper()
-	}
-
-	@Provides
-	internal fun provideFilingHistoryDescriptionsHelper(): FilingHistoryDescriptionsHelper {
-		return FilingHistoryDescriptionsHelper()
-	}
-
-	@Provides
+	@Singleton
 	internal fun provideSchedulerProvider(): SchedulerProvider {
 		return SchedulerProvider(Schedulers.trampoline(), Schedulers.trampoline())
 	}
 
+	@Provides
+	@Singleton
+	internal fun provideRawResourceHelperContract(): RawResourceHelperContract {
+		return Mockito.mock(RawResourceHelper::class.java)
+	}
 }

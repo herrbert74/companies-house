@@ -11,6 +11,7 @@ import com.babestudios.companyinfouk.data.model.persons.Persons
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import io.reactivex.Observable
+import io.reactivex.Single
 import okhttp3.ResponseBody
 import java.util.*
 import javax.inject.Singleton
@@ -35,7 +36,7 @@ class AndroidTestCompaniesRepository : CompaniesRepositoryContract {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun searchCompanies(queryText: CharSequence, startItem: String): Observable<CompanySearchResult> {
+	override fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
@@ -43,35 +44,35 @@ class AndroidTestCompaniesRepository : CompaniesRepositoryContract {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun getCompany(companyNumber: String): Observable<Company> {
+	override fun getCompany(companyNumber: String): Single<Company> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun getFilingHistory(companyNumber: String, category: String, startItem: String): Observable<FilingHistoryList> {
+	override fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistoryList> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun fetchCharges(companyNumber: String, startItem: String): Observable<Charges> {
+	override fun fetchCharges(companyNumber: String, startItem: String): Single<Charges> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun getInsolvency(companyNumber: String): Observable<Insolvency> {
+	override fun getInsolvency(companyNumber: String): Single<Insolvency> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun getOfficers(companyNumber: String, startItem: String): Observable<Officers> {
+	override fun getOfficers(companyNumber: String, startItem: String): Single<Officers> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun getOfficerAppointments(officerId: String, startItem: String): Observable<Appointments> {
+	override fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun getPersons(companyNumber: String, startItem: String): Observable<Persons> {
+	override fun getPersons(companyNumber: String, startItem: String): Single<Persons> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun getDocument(documentId: String): Observable<ResponseBody> {
+	override fun getDocument(documentId: String): Single<ResponseBody> {
 		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 

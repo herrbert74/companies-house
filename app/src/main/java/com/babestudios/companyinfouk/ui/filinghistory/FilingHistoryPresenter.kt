@@ -14,7 +14,7 @@ import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.filinghistory.Category
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
@@ -30,7 +30,7 @@ interface FilingHistoryPresenterContract : Presenter<FilingHistoryState, FilingH
 
 class FilingHistoryPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
 	: BasePresenter<FilingHistoryState, FilingHistoryViewModel>(schedulerProvider), FilingHistoryPresenterContract {
 
 

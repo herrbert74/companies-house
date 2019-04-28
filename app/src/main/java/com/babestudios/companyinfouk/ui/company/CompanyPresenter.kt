@@ -6,7 +6,7 @@ import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import io.reactivex.CompletableSource
@@ -20,7 +20,7 @@ interface CompanyPresenterContract : Presenter<CompanyState, CompanyViewModel> {
 @SuppressLint("CheckResult")
 class CompanyPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider) : BasePresenter<CompanyState, CompanyViewModel>(schedulerProvider), CompanyPresenterContract {
+constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider) : BasePresenter<CompanyState, CompanyViewModel>(schedulerProvider), CompanyPresenterContract {
 
 	override fun setViewModel(viewModel: CompanyViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

@@ -52,6 +52,6 @@ interface ApplicationComponent {
 
 	fun personsPresenter(): PersonsPresenter
 
-	fun searchPresenter(): MainPresenter
+	fun mainPresenter(): MainPresenter
 
 }

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import io.reactivex.CompletableSource
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -15,7 +15,7 @@ interface OfficerDetailsPresenterContract : Presenter<OfficerDetailsState, Offic
 @SuppressLint("CheckResult")
 class OfficerDetailsPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
 	: BasePresenter<OfficerDetailsState, OfficerDetailsViewModel>(schedulerProvider), OfficerDetailsPresenterContract {
 
 	override fun setViewModel(viewModel: OfficerDetailsViewModel, lifeCycleCompletable: CompletableSource?) {

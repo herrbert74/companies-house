@@ -33,18 +33,19 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface CompaniesRepositoryContract {
-	//var preferencesHelper: PreferencesHelper
 	val authorization: String
 	val recentSearches: List<SearchHistoryItem>
 	val favourites: Array<SearchHistoryItem>
 
 	//String mapping
 	fun sicLookup(code: String): String
+
 	fun accountTypeLookup(accountType: String): String
 	fun filingHistoryLookup(filingHistory: String): String
 
 	//Companies House API
 	fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult>
+
 	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
 	fun getCompany(companyNumber: String): Single<Company>
 	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistoryList>
@@ -58,14 +59,13 @@ interface CompaniesRepositoryContract {
 
 	//Preferences
 	fun clearAllRecentSearches()
+
 	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem)
 }
 
-@Singleton
-open class CompaniesRepository @Inject
-constructor(
+open class CompaniesRepository constructor(
 		private val companiesHouseService: CompaniesHouseService,
 		private val companiesHouseDocumentService: CompaniesHouseDocumentService,
 		private var preferencesHelper: PreferencesHelper,
@@ -75,7 +75,6 @@ constructor(
 ) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
-	//override val apiLookupHelper = ApiLookupHelper()
 
 	override val recentSearches: List<SearchHistoryItem>
 		get() = preferencesHelper.recentSearches

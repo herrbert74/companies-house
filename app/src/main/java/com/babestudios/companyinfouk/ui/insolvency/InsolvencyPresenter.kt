@@ -5,7 +5,7 @@ import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyVisitable
 import com.uber.autodispose.AutoDispose
@@ -19,7 +19,7 @@ interface InsolvencyPresenterContract : Presenter<InsolvencyState, InsolvencyVie
 @SuppressLint("CheckResult")
 class InsolvencyPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepository, schedulerProvider: SchedulerProvider)
+constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
 	: BasePresenter<InsolvencyState, InsolvencyViewModel>(schedulerProvider), InsolvencyPresenterContract {
 
 	override fun setViewModel(viewModel: InsolvencyViewModel, lifeCycleCompletable: CompletableSource?) {

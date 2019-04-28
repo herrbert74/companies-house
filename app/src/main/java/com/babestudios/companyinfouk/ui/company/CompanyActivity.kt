@@ -258,6 +258,6 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 
 fun Context.createCompanyIntent(companyNumber: String, companyName: String): Intent {
 	return Intent(this, CompanyActivity::class.java)
-			.putExtra(COMPANY_NUMBER, companyNumber)
 			.putExtra(COMPANY_NAME, companyName)
+			.putExtra(COMPANY_NUMBER, companyNumber)
 }

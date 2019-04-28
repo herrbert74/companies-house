@@ -2,12 +2,14 @@ package com.babestudios.companyinfouk.injection
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
@@ -15,6 +17,10 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.utils.Base64Wrapper
+import com.babestudios.companyinfouk.utils.RawResourceHelper
+import com.babestudios.companyinfouk.utils.RawResourceHelperContract
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
@@ -96,8 +102,20 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 	}
 
 	@Provides
+	internal fun provideGson(): Gson {
+		return GsonBuilder()
+				.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
+				.create()
+	}
+
+	@Provides
+	internal fun provideSharedPreferences() :SharedPreferences {
+		return application.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
+	}
+
+	@Provides
 	@Singleton
-	internal fun provideCompaniesRepository(
+	internal fun provideCompaniesRepositoryContract(
 			companiesHouseService: CompaniesHouseService,
 			companiesHouseDocumentService: CompaniesHouseDocumentService,
 			preferencesHelper: PreferencesHelper,
@@ -116,23 +134,15 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 	}
 
 	@Provides
-	internal fun provideBase64Wrapper(): Base64Wrapper {
-		return Base64Wrapper()
-	}
-
-	@Provides
-	internal fun provideConstantsHelper(): ConstantsHelper {
-		return ConstantsHelper()
-	}
-
-	@Provides
-	internal fun provideFilingHistoryDescriptionsHelper(): FilingHistoryDescriptionsHelper {
-		return FilingHistoryDescriptionsHelper()
-	}
-
-	@Provides
+	@Singleton
 	internal fun provideSchedulerProvider(): SchedulerProvider {
 		return SchedulerProvider(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR), AndroidSchedulers.mainThread())
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideRawResourceHelperContract(): RawResourceHelperContract {
+		return RawResourceHelper(application)
 	}
 
 }
