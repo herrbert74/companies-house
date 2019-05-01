@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.data.model.persons
 
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -28,6 +29,6 @@ class Person(
 		@SerializedName("natures_of_control")
 		var naturesOfControl: List<String> = ArrayList(),
 		var nationality: String? = null,
-		var name: String? = null,
+		@Keep var name: String? = null,
 		var identification: Identification? = null
 ) : Parcelable

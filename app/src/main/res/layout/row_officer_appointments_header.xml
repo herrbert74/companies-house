@@ -9,14 +9,15 @@
 	<TextView
 		android:id="@+id/textViewOfficerName"
 		style="@style/Text.Title"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
+		android:layout_marginEnd="@dimen/activity_horizontal_margin"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
 		android:textAllCaps="true"
-		tools:text="John Doe"/>
+		tools:text="John Doe serqre qer qerih q regqzger zqe r re"/>
 
 	<View
 		android:id="@+id/divOfficerAppointments"

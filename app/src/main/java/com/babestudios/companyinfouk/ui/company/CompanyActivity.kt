@@ -239,7 +239,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	fun onInsolvencyClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		startActivityWithRightSlide(createInsolvencyIntent("214584654848484"))
+		startActivityWithRightSlide(createInsolvencyIntent(viewModel.state.value.companyNumber))
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 	}
 
