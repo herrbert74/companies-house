@@ -29,8 +29,6 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 import java.io.*
 import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
 
 interface CompaniesRepositoryContract {
 	val authorization: String

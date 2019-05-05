@@ -95,6 +95,8 @@
 	<string name="no_search_result">Your search did not return any companies. Please try another one</string>
 	<string name="content_description_error_image">Error image</string>
 	<string name="content_description_empty_image">Empty image</string>
+	<string name="filing_history_details_no_pdf_reader">Couldn\'t find PDF reader. Please install one from Google Play.</string>
+	<string name="filing_history_details_wont_save_pdf">The PDF file won\'t be saved to the SD card.</string>
 	<string-array name="search_filter_options">
 		<item>All</item>
 		<item>Active</item>

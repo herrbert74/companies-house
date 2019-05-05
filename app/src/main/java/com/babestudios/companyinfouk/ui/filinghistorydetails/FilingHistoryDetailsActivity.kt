@@ -1,19 +1,19 @@
 package com.babestudios.companyinfouk.ui.filinghistorydetails
 
 import android.Manifest
-import androidx.lifecycle.ViewModelProviders
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
@@ -139,6 +139,7 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 				msvFilingHistoryDetails.viewState = VIEW_STATE_LOADING
 			}
 			state.contentChange == ContentChange.PDF_RECEIVED -> {
+				state.contentChange = ContentChange.NONE
 				checkPermissionAndWriteDocument()
 			}
 			state.contentChange == ContentChange.PDF_WRITTEN -> {
@@ -206,7 +207,7 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 			if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				filingHistoryDetailsPresenter.writeDocument()
 			} else {
-				Toast.makeText(this, "The logs won't be saved to the SD card.", Toast.LENGTH_LONG).show()
+				Toast.makeText(this, getString(R.string.filing_history_details_wont_save_pdf), Toast.LENGTH_LONG).show()
 			}
 		}
 	}
@@ -220,7 +221,7 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 		try {
 			startActivityWithRightSlide(intent)
 		} catch (e: ActivityNotFoundException) {
-			Toast.makeText(this, "Couldn't find PDF reader. Please install one from Google Play.", Toast.LENGTH_LONG).show()
+			Toast.makeText(this, getString(R.string.filing_history_details_no_pdf_reader), Toast.LENGTH_LONG).show()
 		}
 	}
 
