@@ -8,18 +8,22 @@
 												   android:background="@android:color/white">
 
 	<ImageView
-		android:id="@+id/ivEmptyView"
-		android:layout_width="match_parent"
+		android:id="@+id/ivErrorView"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="@dimen/view_margin"
 		android:layout_marginStart="@dimen/view_margin"
 		android:layout_marginEnd="@dimen/view_margin"
 		android:layout_marginBottom="@dimen/view_margin"
+		android:contentDescription="@string/content_description_error_image"
 		android:scaleType="fitCenter"
 		app:layout_constraintBottom_toTopOf="@+id/tvMsvError"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.2"
 		app:layout_constraintVertical_chainStyle="packed"
-		app:srcCompat="@drawable/ic_business_error_circle"/>
+		app:srcCompat="@drawable/ic_business_error"/>
 
 	<TextView
 		android:id="@+id/tvMsvError"
@@ -36,6 +40,6 @@
 		android:textColor="@color/text_primary"
 		android:textSize="@dimen/text_subheading"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/ivEmptyView"/>
+		app:layout_constraintTop_toBottomOf="@+id/ivErrorView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,6 +33,7 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_favourites.*
+import kotlinx.android.synthetic.main.multi_state_view_empty.view.*
 import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 import java.util.*
 
@@ -131,7 +132,10 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 				state.errorType = ErrorType.NONE
 				msvFavourites.tvMsvError.text = state.errorMessage
 			}
-			state.favouriteItems?.isEmpty() == true -> msvFavourites.viewState = VIEW_STATE_EMPTY
+			state.favouriteItems?.isEmpty() == true -> {
+				msvFavourites.viewState = VIEW_STATE_EMPTY
+				msvFavourites.ivEmptyView.setImageResource(R.drawable.ic_business_empty_favorites)
+			}
 			else -> {
 				state.favouriteItems?.let {
 					msvFavourites.viewState = VIEW_STATE_CONTENT
