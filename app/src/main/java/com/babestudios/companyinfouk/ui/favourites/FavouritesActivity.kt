@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.ui.favourites
 
-import androidx.lifecycle.ViewModelProviders
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
@@ -10,12 +10,13 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.ItemTouchHelper
 import android.util.TypedValue
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
@@ -23,7 +24,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
-import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.ext.startActivityForResultWithRightSlide
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.favourites.list.*
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -38,6 +39,7 @@ import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 import java.util.*
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
+private const val REQUEST_SHOW_FAVOURITE_COMPANY = 8028
 
 class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 
@@ -83,6 +85,13 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 		setUpAnimationDecoratorHelper()
 
 		observeState()
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		if (resultCode == Activity.RESULT_OK) {
+			favouritesPresenter.loadFavourites()
+		}
+		super.onActivityResult(requestCode, resultCode, data)
 	}
 
 	override fun onResume() {
@@ -164,7 +173,7 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
 					viewModel.state.value.favouriteItems?.let { favouriteItems ->
 						val item = favouriteItems[(view as FavouritesViewHolder).adapterPosition].favouritesItem.searchHistoryItem
-						startActivityWithRightSlide(this.createCompanyIntent(item.companyNumber, item.companyName))
+						startActivityForResultWithRightSlide(this.createCompanyIntent(item.companyNumber, item.companyName), REQUEST_SHOW_FAVOURITE_COMPANY)
 					}
 				}
 				?.let { eventDisposables.add(it) }

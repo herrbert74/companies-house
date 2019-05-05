@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 interface FavouritesPresenterContract : Presenter<FavouritesState, FavouritesViewModel> {
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem)
+	fun loadFavourites()
 }
 
 @SuppressLint("CheckResult")
@@ -24,6 +25,10 @@ constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvi
 	override fun setViewModel(viewModel: FavouritesViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel
 		this.lifeCycleCompletable = lifeCycleCompletable
+		loadFavourites()
+	}
+
+	override fun loadFavourites() {
 		sendToViewModel {
 			it.apply {
 				this.contentChange = ContentChange.FAVOURITES_RECEIVED

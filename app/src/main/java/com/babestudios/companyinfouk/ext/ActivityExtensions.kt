@@ -16,3 +16,8 @@ fun AppCompatActivity.startActivityWithRightSlide(intent: Intent) {
 	this.startActivity(intent)
 	this.overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 }
+
+fun AppCompatActivity.startActivityForResultWithRightSlide(intent: Intent, requestCode: Int) {
+	this.startActivityForResult(intent, requestCode)
+	this.overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+}
