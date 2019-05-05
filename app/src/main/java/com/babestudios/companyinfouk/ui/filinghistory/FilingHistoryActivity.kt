@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistory
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.widget.Spinner
 import androidx.lifecycle.ViewModelProviders
@@ -57,12 +58,12 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		setContentView(R.layout.activity_filing_history)
 		logScreenView(this.localClassName)
 
-		setSupportActionBar(tbFilingHistory)
+		setSupportActionBar(pabFilingHistory.getToolbar())
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		tbFilingHistory?.setNavigationOnClickListener { onBackPressed() }
+		pabFilingHistory?.setNavigationOnClickListener { onBackPressed() }
 		createFilingHistoryRecyclerView()
 
-		ctbFilingHistory?.title = getString(R.string.filing_history)
+		supportActionBar?.title = getString(R.string.filing_history)
 		when {
 			viewModel.state.value.filingHistoryList != null -> {
 				initPresenter(viewModel)
@@ -132,6 +133,7 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		spinner = item.actionView as Spinner
 		spinner.setBackgroundResource(0)
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
+		spinner.gravity = Gravity.END
 		val adapter = FilterAdapter(
 				this@FilingHistoryActivity,
 				resources.getStringArray(R.array.filing_history_categories),

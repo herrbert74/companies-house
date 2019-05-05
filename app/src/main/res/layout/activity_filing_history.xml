@@ -7,48 +7,12 @@
 													 android:fitsSystemWindows="true"
 													 tools:context="com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryActivity">
 
-	<com.google.android.material.appbar.AppBarLayout
+	<com.babestudios.base.view.ParallaxAppBarView
+		android:id="@+id/pabFilingHistory"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
-		android:theme="@style/AppTheme.AppBarOverlay">
-
-		<com.google.android.material.appbar.CollapsingToolbarLayout
-			android:id="@+id/ctbFilingHistory"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:fitsSystemWindows="true"
-			app:contentScrim="?attr/colorPrimary"
-			app:expandedTitleMarginEnd="64dp"
-			app:expandedTitleMarginStart="48dp"
-			app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-			<ImageView
-				android:id="@+id/image"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				android:scaleType="centerCrop"
-				android:src="@drawable/bg_filing_history"
-				app:layout_collapseMode="parallax"/>
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/transparent_black"
-				android:contentDescription="@null"
-				android:fitsSystemWindows="true"
-				app:layout_collapseMode="parallax"/>
-
-			<androidx.appcompat.widget.Toolbar
-				android:id="@+id/tbFilingHistory"
-				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"
-				android:background="@android:color/transparent"
-				app:layout_collapseMode="pin"
-				app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
-		</com.google.android.material.appbar.CollapsingToolbarLayout>
-	</com.google.android.material.appbar.AppBarLayout>
+		android:theme="@style/AppTheme.AppBarOverlay"
+		app:imageViewSrc="@drawable/bg_filing_history"/>
 
 	<com.babestudios.base.view.MultiStateView
 		android:id="@+id/msvFilingHistory"

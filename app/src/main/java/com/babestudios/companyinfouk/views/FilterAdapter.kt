@@ -56,8 +56,7 @@ class FilterAdapter(context: Context, private val mTexts: Array<String>, private
 			val inflater = LayoutInflater.from(parent.context)
 			convertViewCopy = inflater.inflate(R.layout.menu_spinner_item, parent, false)
 			holder = SpinnerItemViewHolder()
-			holder.llSpinnerItemRoot = convertViewCopy!!.findViewById(R.id.llSpinnerItemRoot)
-			holder.ivSpinnerItem = convertViewCopy.findViewById<View>(R.id.ivSpinnerItem) as ImageView
+			holder.ivSpinnerItem = convertViewCopy!!.findViewById<View>(R.id.ivSpinnerItem) as ImageView
 			holder.lblSpinnerItem = convertViewCopy.findViewById<View>(R.id.lblSpinnerItem) as TextView
 			holder.lblSpinnerItem?.setTextColor(ContextCompat.getColor(context, if (isToolbarDarkTheme) android.R.color.white else android.R.color.black))
 			val vector = VectorDrawableCompat.create(context.resources, R.drawable.ic_arrow_drop_down, context.theme)
@@ -80,7 +79,6 @@ class FilterAdapter(context: Context, private val mTexts: Array<String>, private
 	}
 
 	private class SpinnerItemViewHolder {
-		internal var llSpinnerItemRoot: View? = null
 		internal var ivSpinnerItem: ImageView? = null
 		internal var lblSpinnerItem: TextView? = null
 	}
