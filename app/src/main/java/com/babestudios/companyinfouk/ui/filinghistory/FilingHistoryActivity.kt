@@ -156,9 +156,10 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		eventDisposables.clear()
 		if (::spinner.isInitialized) {
 			RxAdapterView.itemSelections(spinner)
-					.skip(2)
+					.skip(1)
 					.`as`(AutoDispose.autoDisposable(this))
 					.subscribe { er -> filingHistoryPresenter.setCategoryFilter(er) }
+					?.let { eventDisposables.add(it) }
 		}
 		filingHistoryAdapter?.getViewClickedObservable()
 				?.`as`(AutoDispose.autoDisposable(this))
