@@ -8,7 +8,7 @@
 			  android:paddingBottom="@dimen/view_margin_small">
 
 	<TextView
-		android:id="@+id/lblCompanyName"
+		android:id="@+id/lblSearchResultsCompanyName"
 		style="@style/Text.Bold"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			android:id="@+id/lblIncorporated"
+			android:id="@+id/lblSearchResultsIncorporated"
 			style="@style/Text"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
 			tools:text="07620277 - Incorporated on  3 May 2011"/>
 
 		<TextView
-			android:id="@+id/lblActiveStatus"
+			android:id="@+id/lblSearchResultsActiveStatus"
 			style="@style/Text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 	</LinearLayout>
 
 	<TextView
-		android:id="@+id/lblAddress"
+		android:id="@+id/lblSearchResultsAddress"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

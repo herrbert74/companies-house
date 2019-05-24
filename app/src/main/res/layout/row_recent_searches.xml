@@ -8,7 +8,7 @@
 			  android:paddingBottom="@dimen/text_margin">
 
 	<TextView
-		android:id="@+id/lblCompanyName"
+		android:id="@+id/lblRecentSearchesCompanyName"
 		style="@style/Text.Title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
 		tools:text="ALPHABET ACCOUNTANTS LTD"/>
 
 	<TextView
-		android:id="@+id/lblCompanyNumber"
+		android:id="@+id/lblRecentSearchesCompanyNumber"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

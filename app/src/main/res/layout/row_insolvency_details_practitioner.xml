@@ -13,7 +13,7 @@
 		app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"/>
 
 	<TextView
-		android:id="@+id/textViewLabelAppointedOn"
+		android:id="@+id/cpnInsolvencyDetailsAppointedOn"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -24,19 +24,19 @@
 		app:layout_constraintTop_toTopOf="parent"/>
 
 	<TextView
-		android:id="@+id/textViewAppointedOn"
+		android:id="@+id/lblInsolvencyDetailsAppointedOn"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelAppointedOn"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsAppointedOn"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="Long text here 1"/>
 
 	<TextView
-		android:id="@+id/textViewLabelCeasedToActOn"
+		android:id="@+id/cpnInsolvencyDetailsCeasedToActOn"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -44,22 +44,22 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:text="@string/insolvency_details_ceased_to_act_on"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewAppointedOn"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsAppointedOn"/>
 
 	<TextView
-		android:id="@+id/textViewCeasedToActOn"
+		android:id="@+id/lblInsolvencyDetailsCeasedToActOn"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCeasedToActOn"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsCeasedToActOn"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="Long text here 2"/>
 
 	<TextView
-		android:id="@+id/textViewLabelName"
+		android:id="@+id/cpnInsolvencyDetailsPractitionerName"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -67,22 +67,22 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:text="@string/insolvency_details_name"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewCeasedToActOn"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsCeasedToActOn"/>
 
 	<TextView
-		android:id="@+id/textViewName"
+		android:id="@+id/lblInsolvencyDetailsPractitionerName"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelName"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsPractitionerName"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="Long text here 3"/>
 
 	<TextView
-		android:id="@+id/textViewLabelRole"
+		android:id="@+id/cpnInsolvencyDetailsPractitionerRole"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -90,22 +90,22 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:text="@string/insolvency_details_role"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewName"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerName"/>
 
 	<TextView
-		android:id="@+id/textViewRole"
+		android:id="@+id/lblInsolvencyDetailsPractitionerRole"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelRole"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsPractitionerRole"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="Practitioner"/>
 
 	<TextView
-		android:id="@+id/textViewLabelAddress"
+		android:id="@+id/cpnInsolvencyDetailsPractitionerAddress"
 		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
@@ -113,44 +113,45 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:paddingStart="@dimen/activity_horizontal_margin"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewRole"
-		android:text="@string/insolvency_details_address"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerRole"
+		android:text="@string/insolvency_details_address"
+		tools:ignore="RtlSymmetry"/>
 
 	<TextView
-		android:id="@+id/textViewAddressLine1"
+		android:id="@+id/lblInsolvencyDetailsPractitionerAddressLine1"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewLabelAddress"
+		app:layout_constraintTop_toBottomOf="@+id/cpnInsolvencyDetailsPractitionerAddress"
 		tools:text="14 Sample Street"/>
 
 	<TextView
-		android:id="@+id/textViewLocality"
+		android:id="@+id/lblInsolvencyDetailsPractitionerLocality"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewAddressLine1"
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerAddressLine1"
 		tools:text="Windsor"/>
 
 	<TextView
-		android:id="@+id/textViewPostalCode"
+		android:id="@+id/lblInsolvencyDetailsPractitionerPostalCode"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewLocality"
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerLocality"
 		tools:text="AA14 1AA"/>
 
 	<TextView
-		android:id="@+id/textViewRegion"
+		android:id="@+id/lblInsolvencyDetailsPractitionerRegion"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -158,11 +159,11 @@
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
 		android:visibility="gone"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewPostalCode"
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerPostalCode"
 		tools:text="Surrey"/>
 
 	<TextView
-		android:id="@+id/textViewCountry"
+		android:id="@+id/lblInsolvencyDetailsPractitionerCountry"
 		style="@style/Text"
 		android:visibility="gone"
 		android:layout_width="wrap_content"
@@ -170,7 +171,7 @@
 		android:layout_marginStart="@dimen/activity_horizontal_margin"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewRegion"
+		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerRegion"
 		tools:text="United Kingdom"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

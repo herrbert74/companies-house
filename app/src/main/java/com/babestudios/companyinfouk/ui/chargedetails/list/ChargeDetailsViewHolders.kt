@@ -16,6 +16,6 @@ class ChargeDetailsViewHolder(itemView: View) : BaseViewHolder<AbstractChargeDet
 class ChargeDetailsHeaderViewHolder(itemView: View) : BaseViewHolder<AbstractChargeDetailsVisitable>(itemView) {
 	override fun bind(visitable: AbstractChargeDetailsVisitable) {
 		val chargeDetailsHeaderItem = (visitable as ChargeDetailsHeaderVisitable).chargeDetailsHeaderItem
-		itemView.textViewTitle.text = chargeDetailsHeaderItem.title
+		itemView.cpnChargeDetailsHeaderTitle.text = chargeDetailsHeaderItem.title
 	}
 }

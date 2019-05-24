@@ -7,9 +7,9 @@ import kotlinx.android.synthetic.main.row_persons.view.*
 class Persons2ViewHolder(itemView: View) : BaseViewHolder<AbstractPersonsVisitable>(itemView) {
 	override fun bind(visitable: AbstractPersonsVisitable) {
 		val person = (visitable as PersonsVisitable).person
-		itemView.lblName?.text = person.name
-		itemView.lblNotifiedOn?.text = person.notifiedOn
-		itemView.lblNatureOfControl?.text = person.naturesOfControl[0]
-		itemView.lblLocality?.text = person.address?.locality
+		itemView.lblPersonsName?.text = person.name
+		itemView.lblPersonsNotifiedOn?.text = person.notifiedOn
+		itemView.lblPersonsNatureOfControl?.text = person.naturesOfControl[0]
+		itemView.lblPersonsLocality?.text = person.address?.locality
 	}
 }

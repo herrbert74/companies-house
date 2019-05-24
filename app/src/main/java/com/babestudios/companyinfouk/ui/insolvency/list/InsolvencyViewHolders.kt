@@ -7,11 +7,11 @@ import kotlinx.android.synthetic.main.row_insolvency.view.*
 class InsolvencyViewHolder(itemView: View) : BaseViewHolder<AbstractInsolvencyVisitable>(itemView) {
 	override fun bind(visitable: AbstractInsolvencyVisitable) {
 		val insolvencyCase = (visitable as InsolvencyVisitable).insolvencyCase
-		itemView.lblDate.text = insolvencyCase.dates[0].date
-		itemView.lblNumber?.text = insolvencyCase.number
-		itemView.lblType?.text = insolvencyCase.type
+		itemView.lblInsolvencyDate.text = insolvencyCase.dates[0].date
+		itemView.lblInsolvencyNumber?.text = insolvencyCase.number
+		itemView.lblInsolvencyType?.text = insolvencyCase.type
 		if (insolvencyCase.practitioners.isNotEmpty()) {
-			itemView.lblPractitioner?.text = insolvencyCase.practitioners[0].name
+			itemView.lblInsolvencyPractitioner?.text = insolvencyCase.practitioners[0].name
 		}
 	}
 }

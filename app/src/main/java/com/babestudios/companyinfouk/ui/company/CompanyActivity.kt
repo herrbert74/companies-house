@@ -143,35 +143,35 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun showCompany(company: Company, natureOfBusinessString: String) {
 		tvCompanyNumber?.text = company.companyNumber
-		tvCompanyNatureOfBusiness.text = natureOfBusinessString
+		lblCompanyNatureOfBusiness.text = natureOfBusinessString
 		tvCompanyIncorporated?.text = String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
-		tvCompanyAddressLine1?.text = company.registeredOfficeAddress?.addressLine1
+		lblCompanyAddressLine1?.text = company.registeredOfficeAddress?.addressLine1
 		if (company.registeredOfficeAddress?.addressLine2 != null) {
-			tvCompanyAddressLine2?.visibility = View.VISIBLE
-			tvCompanyAddressLine2?.text = company.registeredOfficeAddress?.addressLine2
+			lblCompanyAddressLine2?.visibility = View.VISIBLE
+			lblCompanyAddressLine2?.text = company.registeredOfficeAddress?.addressLine2
 		}
-		tvCompanyAddressPostalCode?.text = company.registeredOfficeAddress?.postalCode
-		tvCompanyAddressLocality?.text = company.registeredOfficeAddress?.locality
+		lblCompanyAddressPostalCode?.text = company.registeredOfficeAddress?.postalCode
+		lblCompanyAddressLocality?.text = company.registeredOfficeAddress?.locality
 		var formattedDate: String
 		company.accounts?.lastAccounts?.madeUpTo?.let {
 			val madeUpToDate = DateUtil.parseMySqlDate(it)
 			madeUpToDate?.let { date ->
 				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(date))
-				tvCompanyAccounts?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts?.lastAccounts?.type,
+				lblCompanyAccounts?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts?.lastAccounts?.type,
 						formattedDate)
 			}
 
 		} ?: run {
-			tvCompanyAccounts?.text = resources.getString(R.string.company_accounts_not_found)
+			lblCompanyAccounts?.text = resources.getString(R.string.company_accounts_not_found)
 		}
 		company.annualReturn?.lastMadeUpTo?.let {
 			val lastMadeUpToDate = DateUtil.parseMySqlDate(it)
 			lastMadeUpToDate?.let { date ->
 				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(date))
-				tvCompanyAnnualReturns?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
+				lblCompanyAnnualReturns?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
 			}
 		} ?: run {
-			tvCompanyAnnualReturns?.text = resources.getString(R.string.company_annual_returns_not_found)
+			lblCompanyAnnualReturns?.text = resources.getString(R.string.company_annual_returns_not_found)
 		}
 
 		if (!company.hasCharges) {
@@ -220,7 +220,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		RxView.clicks(fabCompanyFavorite)
 				.`as`(AutoDispose.autoDisposable(this))
 				.subscribe { companyPresenter.updateFavorites() }
-		RxView.clicks(buttonShowOnMap)
+		RxView.clicks(btnShowOnMap)
 				.`as`(AutoDispose.autoDisposable(this))
 				.subscribe {
 					val intent = Intent(this, MapActivity::class.java)

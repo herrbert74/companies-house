@@ -13,7 +13,7 @@
 		app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"/>
 
 	<TextView
-		android:id="@+id/textViewLabelAppointedOn"
+		android:id="@+id/cpnOfficerAppointmentsAppointedOn"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -24,19 +24,19 @@
 		app:layout_constraintTop_toTopOf="parent"/>
 
 	<TextView
-		android:id="@+id/textViewAppointedOn"
+		android:id="@+id/lblOfficerAppointmentsAppointedOn"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelAppointedOn"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerAppointmentsAppointedOn"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="2012-08-12"/>
 
 	<TextView
-		android:id="@+id/textViewLabelCompanyName"
+		android:id="@+id/cpnOfficerAppointmentsCompanyName"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -44,22 +44,22 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:text="@string/company_name"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewAppointedOn"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblOfficerAppointmentsAppointedOn"/>
 
 	<TextView
-		android:id="@+id/textViewCompanyName"
+		android:id="@+id/lblOfficerAppointmentsCompanyName"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCompanyName"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerAppointmentsCompanyName"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="ACME Holdings"/>
 
 	<TextView
-		android:id="@+id/textViewLabelCompanyStatus"
+		android:id="@+id/cpnOfficerAppointmentsCompanyStatus"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -67,22 +67,22 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:text="@string/company_status"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewCompanyName"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblOfficerAppointmentsCompanyName"/>
 
 	<TextView
-		android:id="@+id/textViewCompanyStatus"
+		android:id="@+id/lblOfficerAppointmentsCompanyStatus"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCompanyStatus"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerAppointmentsCompanyStatus"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="active"/>
 
 	<TextView
-		android:id="@+id/textViewLabelRole"
+		android:id="@+id/cpnOfficerAppointmentsRole"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -90,22 +90,22 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:text="@string/officer_appointments_role"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewCompanyStatus"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblOfficerAppointmentsCompanyStatus"/>
 
 	<TextView
-		android:id="@+id/textViewRole"
+		android:id="@+id/lblOfficerAppointmentsRole"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelRole"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerAppointmentsRole"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
 		tools:text="director"/>
 
 	<TextView
-		android:id="@+id/textViewLabelResignedOn"
+		android:id="@+id/cpnOfficerAppointmentsResignedOn"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -113,15 +113,15 @@
 		android:layout_marginTop="@dimen/activity_vertical_margin"
 		android:text="@string/officer_appointments_resigned_on"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewRole"/>
+		app:layout_constraintTop_toBottomOf="@+id/lblOfficerAppointmentsRole"/>
 
 	<TextView
-		android:id="@+id/textViewResignedOn"
+		android:id="@+id/lblOfficerAppointmentsResignedOn"
 		style="@style/Text.Title"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelResignedOn"
+		app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerAppointmentsResignedOn"
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"

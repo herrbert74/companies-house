@@ -54,7 +54,7 @@
 					app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"/>
 
 				<TextView
-					android:id="@+id/textViewLabelDate"
+					android:id="@+id/cpnFilingHistoryDetailsDate"
 					style="@style/Text"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -65,19 +65,19 @@
 					app:layout_constraintTop_toTopOf="parent"/>
 
 				<TextView
-					android:id="@+id/textViewDate"
+					android:id="@+id/lblFilingHistoryDetailsDate"
 					style="@style/Text.Title"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/activity_horizontal_margin"
-					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDate"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsDate"
 					app:layout_constraintHorizontal_bias="0.0"
 					app:layout_constraintLeft_toLeftOf="@+id/guideline"
 					app:layout_constraintRight_toRightOf="parent"
 					tools:text="2017-02-07"/>
 
 				<TextView
-					android:id="@+id/textViewLabelCategory"
+					android:id="@+id/cpnFilingHistoryDetailsCategory"
 					style="@style/Text"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -85,22 +85,22 @@
 					android:layout_marginTop="@dimen/activity_horizontal_margin"
 					android:text="@string/category"
 					app:layout_constraintLeft_toLeftOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/textViewDate"/>
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsDate"/>
 
 				<TextView
-					android:id="@+id/textViewCategory"
+					android:id="@+id/lblFilingHistoryDetailsCategory"
 					style="@style/Text.Title"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/activity_horizontal_margin"
-					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelCategory"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsCategory"
 					app:layout_constraintHorizontal_bias="0.0"
 					app:layout_constraintLeft_toLeftOf="@+id/guideline"
 					app:layout_constraintRight_toRightOf="parent"
 					tools:text="Officers two liners for for for"/>
 
 				<TextView
-					android:id="@+id/textViewLabelSubcategory"
+					android:id="@+id/cpnFilingHistoryDetailsSubcategory"
 					style="@style/Text"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -108,10 +108,10 @@
 					android:layout_marginTop="@dimen/activity_horizontal_margin"
 					android:text="@string/subcategory"
 					app:layout_constraintLeft_toLeftOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/textViewCategory"/>
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsCategory"/>
 
 				<TextView
-					android:id="@+id/textViewSubcategory"
+					android:id="@+id/lblFilingHistoryDetailsSubcategory"
 					style="@style/Text.Title"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -119,11 +119,11 @@
 					app:layout_constraintHorizontal_bias="0.0"
 					app:layout_constraintLeft_toLeftOf="@+id/guideline"
 					app:layout_constraintRight_toRightOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/textViewCategory"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsCategory"
 					tools:text="Appointment"/>
 
 				<TextView
-					android:id="@+id/textViewLabelDescription"
+					android:id="@+id/cpnFilingHistoryDetailsDescription"
 					style="@style/Text"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -131,23 +131,23 @@
 					android:layout_marginTop="@dimen/activity_horizontal_margin"
 					android:text="@string/description"
 					app:layout_constraintLeft_toLeftOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/textViewSubcategory"/>
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsSubcategory"/>
 
 				<TextView
-					android:id="@+id/textViewDescription"
+					android:id="@+id/lblFilingHistoryDetailsDescription"
 					style="@style/Text"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/activity_horizontal_margin"
 					android:textSize="@dimen/text_title"
-					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelDescription"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsDescription"
 					app:layout_constraintHorizontal_bias="0.0"
 					app:layout_constraintLeft_toLeftOf="@+id/guideline"
 					app:layout_constraintRight_toRightOf="parent"
 					tools:text="Long text here 3 long long long"/>
 
 				<TextView
-					android:id="@+id/textViewDescriptionValues"
+					android:id="@+id/lblFilingHistoryDetailsDescriptionValues"
 					style="@style/Text.Title"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -155,11 +155,11 @@
 					app:layout_constraintHorizontal_bias="0.0"
 					app:layout_constraintLeft_toLeftOf="@+id/guideline"
 					app:layout_constraintRight_toRightOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsDescription"
 					tools:text="Capital: 100 GBP"/>
 
 				<TextView
-					android:id="@+id/textViewLabelPages"
+					android:id="@+id/cpnFilingHistoryDetailsPages"
 					style="@style/Text"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -167,15 +167,15 @@
 					android:layout_marginTop="@dimen/activity_horizontal_margin"
 					android:text="@string/pages"
 					app:layout_constraintLeft_toLeftOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionValues"/>
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsDescriptionValues"/>
 
 				<TextView
-					android:id="@+id/textViewPages"
+					android:id="@+id/lblFilingHistoryDetailsPages"
 					style="@style/Text.Title"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/activity_horizontal_margin"
-					app:layout_constraintBaseline_toBaselineOf="@+id/textViewLabelPages"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsPages"
 					app:layout_constraintHorizontal_bias="0.0"
 					app:layout_constraintLeft_toLeftOf="@+id/guideline"
 					app:layout_constraintRight_toRightOf="parent"

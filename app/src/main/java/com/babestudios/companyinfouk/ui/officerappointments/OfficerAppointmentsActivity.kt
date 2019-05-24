@@ -131,7 +131,7 @@ class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 			else -> {
 				state.appointmentItems?.let {
 					msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
-					textViewOfficerName.text = state.officerName
+					lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
 					if (rvOfficerAppointments?.adapter == null) {
 						officerAppointmentsAdapter = OfficerAppointmentsAdapter(it, OfficerAppointmentsTypeFactory())
 						rvOfficerAppointments?.adapter = officerAppointmentsAdapter

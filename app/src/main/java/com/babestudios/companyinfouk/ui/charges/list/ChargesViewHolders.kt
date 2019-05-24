@@ -7,9 +7,9 @@ import kotlinx.android.synthetic.main.row_charges.view.*
 class ChargesViewHolder(itemView: View) : BaseViewHolder<AbstractChargesVisitable>(itemView) {
 	override fun bind(item: AbstractChargesVisitable) {
 		val chargesItem = (item as ChargesVisitable).chargesItem
-		itemView.lblCreatedOn.text = chargesItem.createdOn
-		itemView.lblChargeCode.text = chargesItem.chargeCode
-		itemView.lblStatus.text = chargesItem.status
-		itemView.lblPersonEntitled.text = chargesItem.personsEntitled[0].name
+		itemView.lblRowChargesCreatedOn.text = chargesItem.createdOn
+		itemView.lblRowChargesChargeCode.text = chargesItem.chargeCode
+		itemView.lblRowChargesStatus.text = chargesItem.status
+		itemView.lblRowChargesPersonEntitled.text = chargesItem.personsEntitled[0].name
 	}
 }

@@ -8,7 +8,7 @@
 			  android:paddingBottom="@dimen/view_margin_small">
 
 	<TextView
-		android:id="@+id/lblDate"
+		android:id="@+id/lblInsolvencyDate"
 		style="@style/Text.Bold"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			android:id="@+id/lblType"
+			android:id="@+id/lblInsolvencyType"
 			style="@style/Text"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
 			tools:text="12341234"/>
 
 		<TextView
-			android:id="@+id/lblNumber"
+			android:id="@+id/lblInsolvencyNumber"
 			style="@style/Text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 	</LinearLayout>
 
 	<TextView
-		android:id="@+id/lblPractitioner"
+		android:id="@+id/lblInsolvencyPractitioner"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

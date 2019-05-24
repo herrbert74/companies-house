@@ -110,30 +110,30 @@ class OfficerDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun showOfficerDetails() {
 		val officerItem = viewModel.state.value.officerItem
-		textViewName?.text = officerItem?.name
-		textViewAppointedOn?.text = officerItem?.appointedOn
-		textViewNationality?.text = officerItem?.nationality
-		textViewOccupation?.text = officerItem?.occupation
+		lblOfficerDetailsName?.text = officerItem?.name
+		lblOfficerDetailsAppointedOn?.text = officerItem?.appointedOn
+		lblOfficerDetailsNationality?.text = officerItem?.nationality
+		lblOfficerDetailsOccupation?.text = officerItem?.occupation
 		officerItem?.dateOfBirth?.let {
-			textViewDateOfBirth?.text = "${it.month.toString()} / ${it.year.toString()}"
+			lblOfficerDetailsDateOfBirth?.text = "${it.month.toString()} / ${it.year.toString()}"
 		} ?: run {
-			textViewDateOfBirth?.setText(R.string.officer_details_unknown)
+			lblOfficerDetailsDateOfBirth?.setText(R.string.officer_details_unknown)
 		}
-		textViewCountryOfResidence?.text = officerItem?.countryOfResidence
-		textViewAddressLine1?.text = officerItem?.address?.addressLine1
-		textViewLocality?.text = officerItem?.address?.locality
-		textViewPostalCode?.text = officerItem?.address?.postalCode
+		lblOfficerDetailsCountryOfResidence?.text = officerItem?.countryOfResidence
+		lblOfficerDetailsAddressLine1?.text = officerItem?.address?.addressLine1
+		lblOfficerDetailsLocality?.text = officerItem?.address?.locality
+		lblOfficerDetailsPostalCode?.text = officerItem?.address?.postalCode
 		officerItem?.address?.region?.let {
-			textViewRegion?.visibility = View.VISIBLE
-			textViewRegion?.text = it
+			lblOfficerDetailsRegion?.visibility = View.VISIBLE
+			lblOfficerDetailsRegion?.text = it
 		} ?: run {
-			textViewRegion?.visibility = View.GONE
+			lblOfficerDetailsRegion?.visibility = View.GONE
 		}
 		officerItem?.address?.country?.let {
-			textViewCountry?.text = it
-			textViewCountry?.visibility = View.VISIBLE
+			lblOfficerDetailsCountry?.text = it
+			lblOfficerDetailsCountry?.visibility = View.VISIBLE
 		} ?: run {
-			textViewCountry?.visibility = View.GONE
+			lblOfficerDetailsCountry?.visibility = View.GONE
 		}
 	}
 
@@ -143,7 +143,7 @@ class OfficerDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun observeActions() {
 		eventDisposables.clear()
-		RxView.clicks(buttonAppointments)
+		RxView.clicks(btnOfficerDetailsAppointments)
 				.`as`(AutoDispose.autoDisposable(this))
 				.subscribe { startActivityWithRightSlide(createOfficerAppointmentsIntent(viewModel.state.value.officerId)) }
 

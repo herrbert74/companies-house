@@ -20,15 +20,15 @@ class FilingHistoryViewHolder(itemView: View) : BaseViewHolder<FilingHistoryVisi
 	override fun bind(visitable: FilingHistoryVisitable) {
 		val filingHistoryItem = visitable.filingHistoryItem
 		if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
-			itemView.lblDescription?.text = filingHistoryItem.descriptionValues?.description
+			itemView.lblFilingHistoryDescription?.text = filingHistoryItem.descriptionValues?.description
 		} else {
 			filingHistoryItem.description?.let {
 				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(companiesRepository.filingHistoryLookup(it), filingHistoryItem)
-				itemView.lblDescription?.text = spannableDescription
+				itemView.lblFilingHistoryDescription?.text = spannableDescription
 			}
 		}
-		itemView.lblDate?.text = filingHistoryItem.date
-		itemView.lblCategory?.text = filingHistoryItem.category?.displayName
-		itemView.lblType?.text = filingHistoryItem.type
+		itemView.lblFilingHistoryDate?.text = filingHistoryItem.date
+		itemView.lblFilingHistoryCategory?.text = filingHistoryItem.category?.displayName
+		itemView.lblFilingHistoryType?.text = filingHistoryItem.type
 	}
 }

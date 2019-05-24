@@ -31,7 +31,7 @@ class SearchActivityTest {
 	@Rule
 	var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
-	internal var jsonString = "{\n" +
+	private var jsonString = "{\n" +
 			"  \"items\": [\n" +
 			"    {\n" +
 			"      \"snippet\": \"\",\n" +
@@ -109,10 +109,10 @@ class SearchActivityTest {
 		searchAutoComplete2.perform(pressImeActionButton())
 
 		val textView = onView(
-				allOf(withId(R.id.lblCompanyName), withText("YOU LIMITED"),
+				allOf(withId(R.id.lblSearchResultsCompanyName), withText("YOU LIMITED"),
 						childAtPosition(
 								childAtPosition(
-										withId(R.id.search_recycler_view),
+										withId(R.id.rvMainSearch),
 										0),
 								0),
 						isDisplayed()))

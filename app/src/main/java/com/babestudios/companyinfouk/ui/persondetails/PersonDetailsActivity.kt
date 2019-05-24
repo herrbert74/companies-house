@@ -103,28 +103,28 @@ class PersonDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	private fun showPersonDetails(person: Person) {
-		textViewName?.text = person.name
-		textViewNotifiedOn?.text = person.notifiedOn
+		lblPersonDetailsName?.text = person.name
+		lblPersonDetailsNotifiedOn?.text = person.notifiedOn
 		if (person.nationality == null) {
-			textViewNationality?.visibility = View.GONE
-			textViewLabelNationality?.visibility = View.GONE
+			lblPersonDetailsNationality?.visibility = View.GONE
+			cpnPersonDetailsNationality?.visibility = View.GONE
 		} else {
-			textViewNationality?.visibility = View.VISIBLE
-			textViewNationality?.text = person.nationality
+			lblPersonDetailsNationality?.visibility = View.VISIBLE
+			lblPersonDetailsNationality?.text = person.nationality
 		}
 		if (person.countryOfResidence == null) {
-			textViewCountryOfResidence?.visibility = View.GONE
-			textViewLabelCountryOfResidence?.visibility = View.GONE
+			lblPersonDetailsCountryOfResidence?.visibility = View.GONE
+			cpnPersonDetailsCountryOfResidence?.visibility = View.GONE
 		} else {
-			textViewCountryOfResidence?.visibility = View.VISIBLE
-			textViewCountryOfResidence?.text = person.countryOfResidence
+			lblPersonDetailsCountryOfResidence?.visibility = View.VISIBLE
+			lblPersonDetailsCountryOfResidence?.text = person.countryOfResidence
 		}
 		person.dateOfBirth?.let {
-			textViewDateOfBirth?.visibility = View.VISIBLE
-			textViewDateOfBirth?.text = "${it.month.toString()} / ${it.year.toString()}"
+			lblPersonDetailsDateOfBirth?.visibility = View.VISIBLE
+			lblPersonDetailsDateOfBirth?.text = "${it.month.toString()} / ${it.year.toString()}"
 		} ?: run {
-			textViewDateOfBirth?.visibility = View.GONE
-			textViewLabelDateOfBirth?.visibility = View.GONE
+			lblPersonDetailsDateOfBirth?.visibility = View.GONE
+			cpnPersonDetailsDateOfBirth?.visibility = View.GONE
 		}
 		val naturesOfControl = StringBuilder()
 		for (i in person.naturesOfControl.indices) {
@@ -133,36 +133,36 @@ class PersonDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 				naturesOfControl.append("; ")
 			}
 		}
-		textViewNaturesOfControl?.text = naturesOfControl.toString()
+		lblPersonDetailsNaturesOfControl?.text = naturesOfControl.toString()
 
-		textViewAddressLine1?.text = person.address?.addressLine1
-		textViewLocality?.text = person.address?.locality
-		textViewPostalCode?.text = person.address?.postalCode
+		lblPersonDetailsAddress?.text = person.address?.addressLine1
+		lblPersonDetailsLocality?.text = person.address?.locality
+		lblPersonDetailsPostalCode?.text = person.address?.postalCode
 		person.identification?.placeRegistered?.let {
-			textViewPlaceRegistered?.text = it
-			textViewPlaceRegistered?.visibility = View.VISIBLE
+			lblPersonDetailsPlaceRegistered?.text = it
+			lblPersonDetailsPlaceRegistered?.visibility = View.VISIBLE
 		} ?: run {
-			textViewPlaceRegistered?.visibility = View.GONE
-			textViewLabelPlaceRegistered?.visibility = View.GONE
+			lblPersonDetailsPlaceRegistered?.visibility = View.GONE
+			cpnPersonDetailsPlaceRegistered?.visibility = View.GONE
 		}
 		person.identification?.registrationNumber?.let {
-			textViewRegistrationNumber?.text = it
-			textViewRegistrationNumber?.visibility = View.VISIBLE
+			lblPersonDetailsRegistrationNumber?.text = it
+			lblPersonDetailsRegistrationNumber?.visibility = View.VISIBLE
 		} ?: run {
-			textViewLabelRegistrationNumber?.visibility = View.GONE
-			textViewRegistrationNumber?.visibility = View.GONE
+			cpnPersonDetailsRegistrationNumber?.visibility = View.GONE
+			lblPersonDetailsRegistrationNumber?.visibility = View.GONE
 		}
 		if (person.address?.region == null) {
-			textViewRegion?.visibility = View.GONE
+			lblPersonDetailsRegion?.visibility = View.GONE
 		} else {
-			textViewRegion?.visibility = View.VISIBLE
-			textViewRegion?.text = person.address?.region
+			lblPersonDetailsRegion?.visibility = View.VISIBLE
+			lblPersonDetailsRegion?.text = person.address?.region
 		}
 		person.address?.country?.let {
-			textViewCountry?.text = it
-			textViewCountry?.visibility = View.VISIBLE
+			lblPersonDetailsCountry?.text = it
+			lblPersonDetailsCountry?.visibility = View.VISIBLE
 		} ?: run {
-			textViewCountry?.visibility = View.GONE
+			lblPersonDetailsCountry?.visibility = View.GONE
 		}
 	}
 

@@ -8,7 +8,7 @@
 			  android:paddingBottom="@dimen/view_margin_small">
 
 	<TextView
-		android:id="@+id/lblName"
+		android:id="@+id/lblOfficersName"
 		style="@style/Text.Bold"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			android:id="@+id/lblAppointedOn"
+			android:id="@+id/lblOfficersAppointedOn"
 			style="@style/Text"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
 			tools:text="2016-10-16"/>
 
 		<TextView
-			android:id="@+id/lblRole"
+			android:id="@+id/lblOfficersRole"
 			style="@style/Text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 	</LinearLayout>
 
 	<TextView
-		android:id="@+id/lblResignedOn"
+		android:id="@+id/lblOfficersResignedOn"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

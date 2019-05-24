@@ -22,7 +22,7 @@
 		app:msv_emptyView="@layout/multi_state_view_empty"
 		app:msv_errorView="@layout/multi_state_view_error"
 		app:msv_loadingView="@layout/multi_state_view_progress"
-		app:msv_viewState="loading">
+		app:msv_viewState="content">
 
 		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/rvFilingHistory"

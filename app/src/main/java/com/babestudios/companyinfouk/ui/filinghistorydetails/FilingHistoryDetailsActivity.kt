@@ -161,36 +161,36 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	private fun showFilingHistoryItem(filingHistoryItem: FilingHistoryItem, filingHistoryItemDescription: String) {
-		textViewDate?.text = filingHistoryItem.date
-		textViewCategory?.text = filingHistoryItem.category?.displayName
+		lblFilingHistoryDetailsDate?.text = filingHistoryItem.date
+		lblFilingHistoryDetailsCategory?.text = filingHistoryItem.category?.displayName
 		if (filingHistoryItem.subcategory != null) {
-			textViewSubcategory?.text = filingHistoryItem.subcategory
+			lblFilingHistoryDetailsSubcategory?.text = filingHistoryItem.subcategory
 		} else {
-			textViewSubcategory?.visibility = View.GONE
-			textViewLabelSubcategory?.visibility = View.GONE
+			lblFilingHistoryDetailsSubcategory?.visibility = View.GONE
+			cpnFilingHistoryDetailsSubcategory?.visibility = View.GONE
 		}
-		textViewDescription?.text = filingHistoryItem.description
+		lblFilingHistoryDetailsDescription?.text = filingHistoryItem.description
 		if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
-			textViewDescription?.text = filingHistoryItem.descriptionValues?.description
+			lblFilingHistoryDetailsDescription?.text = filingHistoryItem.descriptionValues?.description
 		} else {
 			filingHistoryItem.description?.let {
 				val spannableDescription = FilingHistoryPresenter.createSpannableDescription(filingHistoryItemDescription, filingHistoryItem)
-				textViewDescription?.text = spannableDescription
+				lblFilingHistoryDetailsDescription?.text = spannableDescription
 			}
 		}
 
 		if (filingHistoryItem.pages != null) {
-			textViewPages?.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
+			lblFilingHistoryDetailsPages?.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
 		} else {
-			textViewLabelPages?.visibility = View.GONE
+			cpnFilingHistoryDetailsPages?.visibility = View.GONE
 		}
 
 		if (filingHistoryItem.category?.displayName == "capital" && filingHistoryItem.descriptionValues?.capital?.isNotEmpty() == true) {
 			filingHistoryItem.descriptionValues?.let {
-				textViewDescriptionValues?.text = "${it.capital[0].currency} ${it.capital[0].figure}"
+				lblFilingHistoryDetailsDescriptionValues?.text = "${it.capital[0].currency} ${it.capital[0].figure}"
 			}
 		} else {
-			textViewDescriptionValues?.visibility = View.GONE
+			lblFilingHistoryDetailsDescriptionValues?.visibility = View.GONE
 		}
 	}
 

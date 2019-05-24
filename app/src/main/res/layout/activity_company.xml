@@ -43,15 +43,6 @@
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
 
-				<ProgressBar
-					android:id="@+id/progressbar"
-					android:layout_width="100dp"
-					android:layout_height="100dp"
-					android:layout_gravity="center"
-					android:indeterminate="true"
-					android:indeterminateBehavior="cycle"
-					android:visibility="gone"/>
-
 				<TextView
 					android:id="@+id/tvCompanyNumber"
 					style="@style/Text"
@@ -84,9 +75,8 @@
 						android:text="@string/office_address"/>
 
 					<Button
-						android:id="@+id/buttonShowOnMap"
+						android:id="@+id/btnShowOnMap"
 						style="@style/ButtonPrimary"
-
 						android:layout_marginTop="16dp"
 						android:layout_marginEnd="@dimen/activity_horizontal_margin"
 						android:text="@string/company_address_show_on_map"/>
@@ -94,22 +84,22 @@
 				</LinearLayout>
 
 				<TextView
-					android:id="@+id/tvCompanyAddressLine1"
+					android:id="@+id/lblCompanyAddressLine1"
 					style="@style/Text"
 					tools:text="3 Hendon Place"/>
 
 				<TextView
-					android:id="@+id/tvCompanyAddressLine2"
+					android:id="@+id/lblCompanyAddressLine2"
 					style="@style/Text"
 					android:visibility="gone"/>
 
 				<TextView
-					android:id="@+id/tvCompanyAddressLocality"
+					android:id="@+id/lblCompanyAddressLocality"
 					style="@style/Text"
 					tools:text="Kingston"/>
 
 				<TextView
-					android:id="@+id/tvCompanyAddressPostalCode"
+					android:id="@+id/lblCompanyAddressPostalCode"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
 					tools:text="KT6 2LP"/>
@@ -122,7 +112,7 @@
 					android:text="@string/company_nature_of_business"/>
 
 				<TextView
-					android:id="@+id/tvCompanyNatureOfBusiness"
+					android:id="@+id/lblCompanyNatureOfBusiness"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
 					tools:text="Growing of rice"/>
@@ -135,7 +125,7 @@
 					android:text="@string/company_accounts"/>
 
 				<TextView
-					android:id="@+id/tvCompanyAccounts"
+					android:id="@+id/lblCompanyAccounts"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
 					tools:text="Last DORMANT account made up to 29 February 2016"/>
@@ -148,7 +138,7 @@
 					android:text="@string/company_annual_returns"/>
 
 				<TextView
-					android:id="@+id/tvCompanyAnnualReturns"
+					android:id="@+id/lblCompanyAnnualReturns"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
 					tools:text="Last made up to 13 February 2016"/>
@@ -222,7 +212,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:onClick="onOfficersClicked">
+					android:onClick="onOfficersClicked"
+					android:focusable="true">
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"
@@ -242,7 +233,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:onClick="onPersonsClicked">
+					android:onClick="onPersonsClicked"
+					android:focusable="true">
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"

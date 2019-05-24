@@ -8,7 +8,7 @@
 			  android:paddingBottom="@dimen/view_margin_small">
 
 	<TextView
-		android:id="@+id/lblDate"
+		android:id="@+id/lblFilingHistoryDate"
 		style="@style/Text.Bold"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			android:id="@+id/lblDescription"
+			android:id="@+id/lblFilingHistoryDescription"
 			style="@style/Text"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
 			tools:text="Resignation of a liquidator"/>
 
 		<TextView
-			android:id="@+id/lblCategory"
+			android:id="@+id/lblFilingHistoryCategory"
 			style="@style/Text"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 	</LinearLayout>
 
 	<TextView
-		android:id="@+id/lblType"
+		android:id="@+id/lblFilingHistoryType"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
