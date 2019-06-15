@@ -138,7 +138,7 @@ dependencies {
 	implementation 'com.google.android.gms:play-services-maps:16.1.0'
 
 	//Firebase
-	implementation 'com.google.firebase:firebase-core:16.0.8'
+	implementation 'com.google.firebase:firebase-core:16.0.9'
 
 	//Chuck
 	debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
@@ -149,8 +149,8 @@ dependencies {
 	implementation 'javax.annotation:javax.annotation-api:1.2'
 
 	//Debugging
-	implementation 'com.facebook.stetho:stetho:1.5.0'
-	implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+	implementation 'com.facebook.stetho:stetho:1.5.1'
+	implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
 	//Test
 	testImplementation "junit:junit:$jUnitVersion"
