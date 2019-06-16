@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data.model.officers.appointments
 
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.officers.Address
+import com.babestudios.companyinfouk.data.model.common.Address
 import com.babestudios.companyinfouk.data.model.officers.Identification
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -10,34 +10,34 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Appointment (
 
-	@SerializedName("address")
+		@SerializedName("address")
 	var address: Address? = null,
-	@SerializedName("appointed_before")
+		@SerializedName("appointed_before")
 	var appointedBefore: String? = null,
-	@SerializedName("appointed_on")
+		@SerializedName("appointed_on")
 	var appointedOn: String? = null,
-	@SerializedName("appointed_to")
+		@SerializedName("appointed_to")
 	var appointedTo: AppointedTo? = null,
-	@SerializedName("country_of_residence")
+		@SerializedName("country_of_residence")
 	var countryOfResidence: String? = null,
-	@SerializedName("former_names")
+		@SerializedName("former_names")
 	var formerNames: List<FormerName>? = null,
-	@SerializedName("identification")
+		@SerializedName("identification")
 	var identification: Identification? = null,
-	@SerializedName("is_pre_1992_appointment")
+		@SerializedName("is_pre_1992_appointment")
 	var isPre1992Appointment: String? = null,
-	@SerializedName("links")
-	var links: Links? = null,
-	@SerializedName("name")
+		@SerializedName("links")
+	var links: AppointmentLinks? = null,
+		@SerializedName("name")
 	var name: String? = null,
-	@SerializedName("name_elements")
+		@SerializedName("name_elements")
 	var nameElements: NameElements? = null,
-	@SerializedName("nationality")
+		@SerializedName("nationality")
 	var nationality: String? = null,
-	@SerializedName("occupation")
+		@SerializedName("occupation")
 	var occupation: String? = null,
-	@SerializedName("officer_role")
+		@SerializedName("officer_role")
 	var officerRole: String? = null,
-	@SerializedName("resigned_on")
+		@SerializedName("resigned_on")
 	var resignedOn: String? = null
 ):Parcelable

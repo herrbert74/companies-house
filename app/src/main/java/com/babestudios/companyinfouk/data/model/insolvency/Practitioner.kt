@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.data.model.insolvency
 
 
 import android.os.Parcelable
+import com.babestudios.companyinfouk.data.model.common.Address
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 

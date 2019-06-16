@@ -54,6 +54,7 @@ constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvi
 								this.isLoading = false
 								this.contentChange = ContentChange.COMPANY_RECEIVED
 								this.company = reply
+								this.company?.links?.self
 								this.addressString = getAddressString(reply)
 								if (reply.sicCodes.isNotEmpty()) {
 									this.natureOfBusinessString = "${reply.sicCodes[0]} ${companiesRepository.sicLookup(reply.sicCodes[0])}"

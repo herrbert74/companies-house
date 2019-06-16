@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.data.model.persons
+package com.babestudios.companyinfouk.data.model.common
 
 
 import android.os.Parcelable
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class DateOfBirth(
+class MonthYear(
 		@SerializedName("year")
 		var year: Long? = null,
 		@SerializedName("month")

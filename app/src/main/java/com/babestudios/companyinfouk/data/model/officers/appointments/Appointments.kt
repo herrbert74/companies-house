@@ -1,13 +1,13 @@
 package com.babestudios.companyinfouk.data.model.officers.appointments
 
 
-import com.babestudios.companyinfouk.data.model.officers.DateOfBirth
-import com.babestudios.companyinfouk.data.model.officers.OfficersLinks
+import com.babestudios.companyinfouk.data.model.common.MonthYear
+import com.babestudios.companyinfouk.data.model.common.SelfLinkData
 import com.google.gson.annotations.SerializedName
 
 class Appointments {
 	@SerializedName("date_of_birth")
-	var dateOfBirth: DateOfBirth? = null
+	var dateOfBirth: MonthYear? = null
 	@SerializedName("etag")
 	var etag: String? = null
 	@SerializedName("is_corporate_officer")
@@ -19,7 +19,7 @@ class Appointments {
 	@SerializedName("kind")
 	var kind: String? = null
 	@SerializedName("links")
-	var links: OfficersLinks? = null
+	var links: SelfLinkData? = null
 	@SerializedName("name")
 	var name: String? = null
 	@SerializedName("start_index")

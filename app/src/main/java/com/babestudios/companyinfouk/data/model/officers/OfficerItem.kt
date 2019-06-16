@@ -2,6 +2,8 @@ package com.babestudios.companyinfouk.data.model.officers
 
 
 import android.os.Parcelable
+import com.babestudios.companyinfouk.data.model.common.Address
+import com.babestudios.companyinfouk.data.model.common.MonthYear
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -20,7 +22,7 @@ class OfficerItem(
 		@SerializedName("officer_role")
 		var officerRole: String? = null,
 		@SerializedName("date_of_birth")
-		var dateOfBirth: DateOfBirth? = null,
+		var dateOfBirth: MonthYear? = null,
 		@SerializedName("occupation")
 		var occupation: String = "Unknown",
 		@SerializedName("country_of_residence")

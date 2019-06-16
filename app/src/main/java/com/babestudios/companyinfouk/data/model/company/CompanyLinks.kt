@@ -1,12 +1,11 @@
 package com.babestudios.companyinfouk.data.model.company
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.search.Links
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class CompanyLinks(
+data class CompanyLinks(
 
 		@SerializedName("charges")
 		var charges: String? = null,
@@ -27,6 +26,9 @@ class CompanyLinks(
 		var personsWithSignificantControlStatements: String? = null,
 
 		@SerializedName("registers")
-		var registers: String? = null
+		var registers: String? = null,
 
-) : Links(), Parcelable
+		@SerializedName("self")
+		var self: String? = null
+
+) : Parcelable

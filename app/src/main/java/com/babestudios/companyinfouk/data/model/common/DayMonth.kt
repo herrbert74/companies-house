@@ -1,11 +1,11 @@
-package com.babestudios.companyinfouk.data.model.company
+package com.babestudios.companyinfouk.data.model.common
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class AccountingReferenceDate(
+class DayMonth(
 
 		@SerializedName("day")
 		var day: String? = null,

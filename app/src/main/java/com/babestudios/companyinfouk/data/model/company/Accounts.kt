@@ -1,13 +1,14 @@
 package com.babestudios.companyinfouk.data.model.company
 
 import android.os.Parcelable
+import com.babestudios.companyinfouk.data.model.common.DayMonth
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Accounts(
 		@SerializedName("accounting_reference_date")
-		var accountingReferenceDate: AccountingReferenceDate? = null,
+		var accountingReferenceDate: DayMonth? = null,
 
 		@SerializedName("last_accounts")
 		var lastAccounts: LastAccounts? = null,
