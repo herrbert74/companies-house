@@ -49,7 +49,7 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private val viewModel by lazy { ViewModelProviders.of(this).get(FavouritesViewModel::class.java) }
 
-	private lateinit var favouritesPresenter: FavouritesPresenterContract
+	lateinit var favouritesPresenter: FavouritesPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 

@@ -71,7 +71,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private val viewModel by lazy { ViewModelProviders.of(this).get(MainViewModel::class.java) }
 
-	private lateinit var mainPresenter: MainPresenterContract
+	lateinit var mainPresenter: MainPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 

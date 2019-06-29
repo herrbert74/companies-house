@@ -1,23 +1,32 @@
 package com.babestudios.companyinfouk.injection
 
+//import com.babestudios.companyinfouk.data.CompaniesRepository
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.AndroidTestCompaniesRepository
-//import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.CompaniesHouseApplication
+import com.babestudios.companyinfouk.TestHelper
+import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
-import com.babestudios.companyinfouk.ui.favourites.FavouritesPresenter
 import com.babestudios.companyinfouk.utils.Base64Wrapper
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.babestudios.companyinfouk.utils.RawResourceHelper
+import com.babestudios.companyinfouk.utils.RawResourceHelperContract
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import org.mockito.Mock
+import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import org.mockito.Mockito
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Named
@@ -30,10 +39,27 @@ class AndroidTestApplicationModule(private val application: Application) {
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
 	internal fun provideCompaniesHouseRetrofit(): Retrofit {
+		return Retrofit.Builder()
+				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)
+				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+				.addConverterFactory(AdvancedGsonConverterFactory.create())
+				.build()
+	}
+
+	@Provides
+	@Singleton
+	@Named("CompaniesHouseDocumentRetrofit")
+	internal fun provideCompaniesHouseDocumentRetrofit(): Retrofit {
+		val logging = HttpLoggingInterceptor()
+		logging.level = HttpLoggingInterceptor.Level.BODY
+
+		val httpClient = OkHttpClient.Builder()
+		httpClient.addInterceptor(logging)
 		return Retrofit.Builder()//
-				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
+				.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)//
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
 				.addConverterFactory(AdvancedGsonConverterFactory.create())//
+				.client(httpClient.build())//
 				.build()
 	}
 
@@ -50,45 +76,56 @@ class AndroidTestApplicationModule(private val application: Application) {
 	}
 
 	@Provides
-	internal fun provideBase64Wrapper(): Base64Wrapper {
-		return Base64Wrapper()
-	}
-
-	@Provides
 	internal fun provideApplication(): Application {
-		return application
+		return Mockito.mock(CompaniesHouseApplication::class.java)
 	}
 
 	@Provides
 	@ApplicationContext
 	internal fun provideContext(): Context {
-		return application
+		return Mockito.mock(CompaniesHouseApplication::class.java)
 	}
 
-	/*@Provides
-	@Singleton
-	internal fun provideCompaniesRepository(companiesHouseService: CompaniesHouseService, companiesHouseDocumentService: CompaniesHouseDocumentService,
-									@Mock preferencesHelper: PreferencesHelper, base64Wrapper: Base64Wrapper): CompaniesRepository {
-		//val dataManager = Mockito.mock(CompaniesRepository::class.java)
-		CompaniesRepository(companiesHouseService, companiesHouseDocumentService, preferencesHelper, base64Wrapper)
-		val dataManager = mock<CompaniesRepository>()
-		val searchHistoryItem = SearchHistoryItem("Acme Painting", "12345678", 12)
-		val searchHistoryVisitables = arrayOf(searchHistoryItem)
+	@Provides
+	internal fun provideGson(): Gson {
+		return GsonBuilder()
+				.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
+				.create()
+	}
 
-		val preferencesHelper = mock<PreferencesHelper>()
-		dataManager.preferencesHelper = preferencesHelper
-		whenever(dataManager.favourites).thenReturn(searchHistoryVisitables)
-		return dataManager
-	}*/
+	@Provides
+	internal fun provideSharedPreferences() : SharedPreferences {
+		return Mockito.mock(SharedPreferences::class.java)
+	}
 
 	@Provides
 	@Singleton
-	internal fun provideDataManager(): CompaniesRepositoryContract {
-		return AndroidTestCompaniesRepository()
+	internal fun provideCompaniesRepositoryContract(
+			companiesHouseService: CompaniesHouseService,
+			companiesHouseDocumentService: CompaniesHouseDocumentService,
+			preferencesHelper: PreferencesHelper,
+			base64Wrapper: Base64Wrapper,
+			constantsHelper: ConstantsHelper,
+			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
+	): CompaniesRepositoryContract {
+		return Mockito.mock(CompaniesRepository::class.java)
 	}
 
-	/*@Provides
-	internal fun provideFavouritesPresenter(companiesRepository: CompaniesRepository): FavouritesPresenter {
-		return FavouritesPresenter(companiesRepository)
-	}*/
+	@Provides
+	@Singleton
+	internal fun provideSchedulerProvider(): SchedulerProvider {
+		return SchedulerProvider(Schedulers.trampoline(), Schedulers.trampoline())
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideRawResourceHelperContract(): RawResourceHelperContract {
+		return RawResourceHelper(application)
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideTestHelper(): TestHelper {
+		return TestHelper()
+	}
 }

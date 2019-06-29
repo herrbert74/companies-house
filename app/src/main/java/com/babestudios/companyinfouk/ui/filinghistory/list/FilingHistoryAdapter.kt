@@ -5,28 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import javax.inject.Inject
 
 class FilingHistoryAdapter internal constructor(private var visitables: List<FilingHistoryVisitable>,
 												private val filingHistoryTypeFactory: FilingHistoryTypeFactory) : RecyclerView.Adapter<BaseViewHolder<FilingHistoryVisitable>>() {
 
-
 	interface FilingHistoryTypeFactory {
 		fun type(filingHistoryItem: FilingHistoryItem): Int
 		fun holder(type: Int, view: View): BaseViewHolder<*>
-	}
-
-	@Inject
-	lateinit var companiesRepository: CompaniesRepositoryContract
-
-	init {
-		CompaniesHouseApplication.instance.applicationComponent.inject(this)
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FilingHistoryVisitable> {

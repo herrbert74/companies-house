@@ -12,6 +12,7 @@ import io.reactivex.CompletableSource
 import javax.inject.Inject
 
 interface FavouritesPresenterContract : Presenter<FavouritesState, FavouritesViewModel> {
+	var companiesRepository: CompaniesRepositoryContract
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem)
 	fun loadFavourites()
 }
@@ -19,7 +20,7 @@ interface FavouritesPresenterContract : Presenter<FavouritesState, FavouritesVie
 @SuppressLint("CheckResult")
 class FavouritesPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
+constructor(override var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
 	: BasePresenter<FavouritesState, FavouritesViewModel>(schedulerProvider), FavouritesPresenterContract {
 
 	override fun setViewModel(viewModel: FavouritesViewModel, lifeCycleCompletable: CompletableSource?) {

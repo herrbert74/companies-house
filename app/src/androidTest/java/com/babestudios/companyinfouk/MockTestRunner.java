@@ -8,6 +8,6 @@ public class MockTestRunner extends AndroidJUnitRunner {
 	@Override
 	public Application newApplication(ClassLoader cl, String className, Context context)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		return super.newApplication(cl, TestCompaniesHouseApplication.class.getName(), context);
+		return super.newApplication(cl, CompaniesHouseApplication.class.getName(), context);
 	}
 }

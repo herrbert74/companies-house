@@ -37,7 +37,7 @@ interface MainPresenterContract : Presenter<MainState, MainViewModel> {
 @SuppressLint("CheckResult")
 class MainPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
+constructor(val companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
 	: BasePresenter<MainState, MainViewModel>(schedulerProvider), MainPresenterContract {
 
 	override fun setViewModel(viewModel: MainViewModel, lifeCycleCompletable: CompletableSource?) {

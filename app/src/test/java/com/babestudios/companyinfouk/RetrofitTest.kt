@@ -44,8 +44,8 @@ class RetrofitTest {
 				.map<String> { e -> e.items[0].title }
 				.subscribe(testSubscriber)
 		val result = testSubscriber.events[0]
-		testSubscriber.assertValue("CELESTIAL GAMES & BOOKS  LTD")//GAMES AGENCY LIMITED");
-		assertThat(result[0] == "CELESTIAL GAMES & BOOKS  LTD", `is`(true))//GAMES AGENCY LIMITED")
+		testSubscriber.assertValue("CELESTIAL GAMES & BOOKS LTD")//GAMES AGENCY LIMITED");
+		assertThat(result[0] == "CELESTIAL GAMES & BOOKS LTD", `is`(true))//GAMES AGENCY LIMITED")
 		testSubscriber.assertNoErrors()
 
 	}

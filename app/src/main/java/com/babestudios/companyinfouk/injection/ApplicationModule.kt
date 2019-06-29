@@ -109,7 +109,7 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 	}
 
 	@Provides
-	internal fun provideSharedPreferences() :SharedPreferences {
+	internal fun provideSharedPreferences(): SharedPreferences {
 		return application.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
 	}
 

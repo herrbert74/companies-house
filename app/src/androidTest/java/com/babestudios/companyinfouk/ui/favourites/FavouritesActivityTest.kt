@@ -15,8 +15,10 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.injection.AndroidTestApplicationModule
 import com.babestudios.companyinfouk.injection.DaggerAndroidTestApplicationComponent
+import com.nhaarman.mockitokotlin2.whenever
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.junit.Before
@@ -45,15 +47,15 @@ class FavouritesActivityTest {
 		val testApplicationComponent = DaggerAndroidTestApplicationComponent.builder()
 				.androidTestApplicationModule(AndroidTestApplicationModule(app))
 				.build()
+		val favourites = Array(1){SearchHistoryItem("Acme Painting", "1", 111L)}
 		app.applicationComponent = testApplicationComponent
+		whenever(testApplicationComponent.companiesRepository().favourites).thenReturn(favourites)
 		activityTestRule.launchActivity(Intent())
 
 	}
 
 	@Test
-	fun whenComingFromRecentSearchesActivity_showsData() {
-		//Not sure why this is not working anymore
-		//onView(withRecyclerView(R.id.rvFavourites).atPositionOnView(0, R.id.lblCompanyName)).check(matches(withText("Acme Painting")))
+	fun whenComingFromRecentSearchesActivity_thenShowsData() {
 		onView(ViewMatchers.withId(R.id.rvFavourites)).check(matches(hasItem(hasDescendant(withText("Acme Painting")))))
 	}
 
