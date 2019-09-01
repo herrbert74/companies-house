@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistorydetails
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -19,8 +20,14 @@ interface FilingHistoryDetailsPresenterContract : Presenter<FilingHistoryDetails
 @SuppressLint("CheckResult")
 class FilingHistoryDetailsPresenter
 @Inject
-constructor(var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
-	: BasePresenter<FilingHistoryDetailsState, FilingHistoryDetailsViewModel>(schedulerProvider), FilingHistoryDetailsPresenterContract {
+constructor(
+		var companiesRepository: CompaniesRepositoryContract,
+		schedulerProvider: SchedulerProvider,
+		errorResolver: ErrorResolver
+) : BasePresenter<FilingHistoryDetailsState, FilingHistoryDetailsViewModel>(
+		schedulerProvider,
+		errorResolver
+), FilingHistoryDetailsPresenterContract {
 
 	override fun setViewModel(viewModel: FilingHistoryDetailsViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

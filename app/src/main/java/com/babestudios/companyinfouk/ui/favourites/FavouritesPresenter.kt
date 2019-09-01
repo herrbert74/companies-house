@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.ui.favourites
 import android.annotation.SuppressLint
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
+import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
@@ -20,8 +21,14 @@ interface FavouritesPresenterContract : Presenter<FavouritesState, FavouritesVie
 @SuppressLint("CheckResult")
 class FavouritesPresenter
 @Inject
-constructor(override var companiesRepository: CompaniesRepositoryContract, schedulerProvider: SchedulerProvider)
-	: BasePresenter<FavouritesState, FavouritesViewModel>(schedulerProvider), FavouritesPresenterContract {
+constructor(
+		override var companiesRepository: CompaniesRepositoryContract,
+		schedulerProvider: SchedulerProvider,
+		errorResolver: ErrorResolver
+) : BasePresenter<FavouritesState, FavouritesViewModel>(
+		schedulerProvider,
+		errorResolver
+), FavouritesPresenterContract {
 
 	override fun setViewModel(viewModel: FavouritesViewModel, lifeCycleCompletable: CompletableSource?) {
 		this.viewModel = viewModel

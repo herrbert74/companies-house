@@ -4,7 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.AsyncTask
+import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
+import com.babestudios.companyinfouk.utils.errors.CompaniesHouseErrorResolver
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.CompaniesRepository
@@ -145,4 +147,10 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 		return RawResourceHelper(application)
 	}
 
+
+	@Provides
+	@Singleton
+	internal fun provideErrorResolver(): ErrorResolver {
+		return CompaniesHouseErrorResolver()
+	}
 }

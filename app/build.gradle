@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
-apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 jacoco {
@@ -116,8 +116,8 @@ dependencies {
 
 	//Dagger
 	kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+	//annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 	implementation "com.google.dagger:dagger:$daggerVersion"
-	kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 	kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 	kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
