@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.utils.errors.apilookup
 
 import com.babestudios.base.BaseApplication
-import com.babestudios.base.R
+import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.utils.errors.apilookup.model.ErrorMappings
 import com.google.gson.Gson
 

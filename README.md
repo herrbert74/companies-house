@@ -29,7 +29,7 @@ https://play.google.com/store/apps/details?id=com.babestudios.companyinfouk
 
 ### Technical highlights ###
 
-* 100% Kotlin (not fully idiomatic, but getting there).
+* 100% Kotlin.
 * Retrofit 2 with RxJava is used for networking and events.
 * MVP architecture with Dagger 2 for easy testing.
 * ViewModel holds the state, AutoDispose from Uber and RxLifecycle from Trello guarantees correct lifecycle handling.

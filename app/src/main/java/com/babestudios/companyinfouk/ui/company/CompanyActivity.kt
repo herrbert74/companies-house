@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
+import com.babestudios.base.ext.convertToTimestamp
+import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
+import com.babestudios.base.ext.parseMySqlDate
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.Injector
@@ -20,7 +23,6 @@ import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
 import com.babestudios.companyinfouk.ui.officers.createOfficersIntent
 import com.babestudios.companyinfouk.ui.persons.createPersonsIntent
-import com.babestudios.companyinfouk.utils.DateUtil
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose
@@ -154,9 +156,9 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		lblCompanyAddressLocality?.text = company.registeredOfficeAddress?.locality
 		var formattedDate: String
 		company.accounts?.lastAccounts?.madeUpTo?.let {
-			val madeUpToDate = DateUtil.parseMySqlDate(it)
+			val madeUpToDate = it.parseMySqlDate()
 			madeUpToDate?.let { date ->
-				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(date))
+				formattedDate = (1000 * date.convertToTimestamp()).formatShortDateFromTimeStampMillis()
 				lblCompanyAccounts?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts?.lastAccounts?.type,
 						formattedDate)
 			}
@@ -165,9 +167,9 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 			lblCompanyAccounts?.text = resources.getString(R.string.company_accounts_not_found)
 		}
 		company.annualReturn?.lastMadeUpTo?.let {
-			val lastMadeUpToDate = DateUtil.parseMySqlDate(it)
+			val lastMadeUpToDate = it.parseMySqlDate()
 			lastMadeUpToDate?.let { date ->
-				formattedDate = DateUtil.formatShortDateFromTimeStampMillis(1000 * DateUtil.convertToTimestamp(date))
+				formattedDate = (1000 * date.convertToTimestamp()).formatShortDateFromTimeStampMillis()
 				lblCompanyAnnualReturns?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
 			}
 		} ?: run {

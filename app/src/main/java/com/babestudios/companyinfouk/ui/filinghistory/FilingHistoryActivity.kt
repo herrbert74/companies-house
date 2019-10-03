@@ -24,7 +24,7 @@ import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryTypeFact
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.ui.filinghistorydetails.createFilingHistoryDetailsIntent
-import com.babestudios.companyinfouk.views.FilterAdapter
+import com.babestudios.base.view.FilterAdapter
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose
