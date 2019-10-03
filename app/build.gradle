@@ -60,6 +60,7 @@ android {
 dependencies {
 	implementation project(':buildSrc')
 	implementation project(':base')
+	implementation project(':data')
 
 	implementation Libs.Kotlin.stdLibJdk8
 
@@ -155,7 +156,6 @@ dependencies {
 task f{
 	configurations.each { println it.name }
 }
-apply from: 'config.gradle'
 apply plugin: 'com.google.gms.google-services'
 repositories {
 	mavenCentral()
