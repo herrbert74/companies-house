@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="companies-house/app" />
       <module fileurl="file://$PROJECT_DIR$/../BaBeStudiosBase/base/base.iml" filepath="$PROJECT_DIR$/../BaBeStudiosBase/base/base.iml" group="companies-house/base" />
+      <module fileurl="file://$PROJECT_DIR$/buildSrc/buildSrc.iml" filepath="$PROJECT_DIR$/buildSrc/buildSrc.iml" group="companies-house/buildSrc" />
       <module fileurl="file://$PROJECT_DIR$/companies-house.iml" filepath="$PROJECT_DIR$/companies-house.iml" group="companies-house" />
     </modules>
   </component>

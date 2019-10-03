@@ -1,3 +1,5 @@
+import com.babestudios.companyinfo.buildsrc.Libs
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -9,12 +11,12 @@ jacoco {
 }
 
 android {
-	compileSdkVersion 28
+	compileSdkVersion 29
 
 	defaultConfig {
 		applicationId "com.babestudios.companyinfouk"
 		minSdkVersion 21
-		targetSdkVersion 28
+		targetSdkVersion 29
 		versionCode 9
 		versionName "1.2"
 		vectorDrawables.useSupportLibrary = true
@@ -56,47 +58,42 @@ android {
 }
 
 dependencies {
-	def retrofitVersion = '2.4.0'
-	def daggerVersion = '2.19'
-	def rxJavaVersion = '2.2.3'
-	def rxBindingVersion = '2.2.0'
-	def okHttp3Version = '3.10.0'
-	def chuckVersion = '1.1.0'
+	implementation project(':buildSrc')
+	implementation project(':base')
 
+	implementation Libs.Kotlin.stdLibJdk8
 
-	//AndroidX
-	implementation 'androidx.appcompat:appcompat:1.0.2'
-	implementation 'com.google.android.material:material:1.0.0'
-	implementation 'androidx.recyclerview:recyclerview:1.0.0'
-	implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+	implementation Libs.AndroidX.appcompat
+	implementation Libs.AndroidX.constraintLayout
+	implementation Libs.AndroidX.recyclerView
+	implementation Libs.AndroidX.coreKtx
+	implementation Libs.AndroidX.Navigation.ktx
+	implementation Libs.AndroidX.Navigation.fragment
+	implementation Libs.AndroidX.Lifecycle.ViewModel.ktx
+	implementation Libs.AndroidX.Lifecycle.extensions
+	testImplementation Libs.AndroidX.appcompat
+	testImplementation Libs.AndroidX.recyclerView
 
-	testImplementation 'androidx.appcompat:appcompat:1.0.2'
-	testImplementation 'com.google.android.material:material:1.0.0'
-	testImplementation 'androidx.recyclerview:recyclerview:1.0.0'
+	implementation Libs.Google.material
+	testImplementation Libs.Google.material
 
-	//Retrofit
-	implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-	implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-	implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-	testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+	implementation Libs.SquareUp.Retrofit2.retrofit
+	implementation Libs.SquareUp.Retrofit2.rxJava2Adapter
+	implementation Libs.SquareUp.Retrofit2.converterGson
+	testImplementation Libs.SquareUp.Retrofit2.retrofitMock
 
-	//OkHttp3
-	implementation "com.squareup.okhttp3:logging-interceptor:$okHttp3Version"
+	implementation Libs.SquareUp.OkHttp3.loggingInterceptor
 
-	//RxJava
-	implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-	implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
-	implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
-	implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+	implementation Libs.RxJava2.rxJava
+	implementation Libs.RxJava2.rxAndroid
+	implementation Libs.RxJava2.rxKotlin
 
-	//RxBinding
-	implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
-	implementation "com.jakewharton.rxbinding2:rxbinding-design:$rxBindingVersion"
-	implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion"
-	implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:$rxBindingVersion"
-	implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion"
-	implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxBindingVersion"
-	implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxBindingVersion"
+	implementation Libs.JakeWharton.rxRelay
+	implementation Libs.JakeWharton.RxBinding.core
+	implementation Libs.JakeWharton.RxBinding.design
+	implementation Libs.JakeWharton.RxBinding.kotlin
+	implementation Libs.JakeWharton.RxBinding.designKotlin
+	implementation Libs.JakeWharton.RxBinding.recyclerviewV7Kotlin
 
 	//AutoDispose
 	implementation 'com.uber.autodispose:autodispose-ktx:1.0.0-RC2'
@@ -110,76 +107,49 @@ dependencies {
 	implementation 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.2'
 	implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.2'
 
-	//implementation 'androidx.core:core-ktx:1.0.1'
-	implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
-	implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+	implementation Libs.Google.Dagger.dagger
+	implementation Libs.Google.PlayServices.maps
+	implementation Libs.Google.Firebase.analytics
+	implementation Libs.Google.crashlytics
+	kapt Libs.Google.Dagger.compiler
+	kaptTest Libs.Google.Dagger.compiler
+	kaptAndroidTest Libs.Google.Dagger.compiler
 
-	//Dagger
-	kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-	//annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-	implementation "com.google.dagger:dagger:$daggerVersion"
-	kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
-	kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+	debugImplementation Libs.Chucker.library
+	releaseImplementation Libs.Chucker.noop
 
-	//Google Play Services
-	implementation 'com.google.android.gms:play-services-maps:16.1.0'
+	implementation Libs.Javax.inject
+	implementation Libs.Javax.annotations
 
-	//Firebase
-	implementation 'com.google.firebase:firebase-core:16.0.9'
+	implementation Libs.Stetho.core
 
-	//Chuck
-	debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
-	releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
+	//debugImplementation Libs.debugDb
 
-	//Other java
-	implementation 'javax.inject:javax.inject:1'
-	implementation 'javax.annotation:javax.annotation-api:1.2'
+	testImplementation Libs.jUnit
+	testImplementation Libs.Mockito.core
+	testImplementation Libs.Mockito.inline
+	testImplementation Libs.Mockito.kotlin
+	testImplementation Libs.hamcrest
 
-	//Debugging
-	implementation 'com.facebook.stetho:stetho:1.5.1'
-	implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-
-	def jUnitVersion = '4.12'
-	def mockitoVersion = '2.28.2'
-	def mockitoKotlinVersion = '2.1.0'
-	def testRunnerversion = '1.2.0'
-	//Test
-	testImplementation "junit:junit:$jUnitVersion"
-	testImplementation "org.mockito:mockito-core:$mockitoVersion"
-	testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
-	testImplementation "org.mockito:mockito-inline:$mockitoVersion" //Needed for inlining final classes for mocking
-	testImplementation 'org.hamcrest:hamcrest-library:1.3'
-	//debugImplementation 'com.amitshekhar.android:debug-db:0.4.0'
-	compileOnly 'javax.annotation:jsr250-api:1.0'
-
-
-	//Espresso tests
-	androidTestImplementation "junit:junit:$jUnitVersion"
-	androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
-	androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
-	androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0', {
+	androidTestImplementation Libs.jUnit
+	androidTestImplementation Libs.Mockito.kotlin
+	androidTestImplementation Libs.Mockito.android
+	androidTestImplementation Libs.AndroidX.Test.Espresso.core, {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0', {
+	androidTestImplementation Libs.AndroidX.Test.Espresso.contrib, {
 		exclude group: 'com.android.support', module: 'support-annotations'
 		exclude group: 'com.android.support', module: 'support-v4'
 		exclude group: 'com.android.support', module: 'design'
 		exclude group: 'com.android.support', module: 'recyclerview-v7'
 	}
-	androidTestImplementation 'androidx.test.ext:junit:1.1.0', {
+	androidTestImplementation Libs.AndroidX.Test.Ext.jUnit, {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	androidTestImplementation 'androidx.test:rules:1.1.0', {
+	androidTestImplementation Libs.AndroidX.Test.rules, {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	androidTestImplementation "androidx.test:runner:$testRunnerversion"
-	androidTestImplementation "androidx.test:rules:$testRunnerversion"
-
-	//Kotlin
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-	//Base
-	implementation project(':base')
+	androidTestImplementation Libs.AndroidX.Test.runner
 }
 
 task f{

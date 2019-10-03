@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -16,6 +17,7 @@ import com.babestudios.companyinfouk.injection.ApplicationContext
 import com.babestudios.companyinfouk.utils.Base64Wrapper
 import com.babestudios.companyinfouk.utils.RawResourceHelper
 import com.babestudios.companyinfouk.utils.RawResourceHelperContract
+import com.babestudios.companyinfouk.utils.errors.CompaniesHouseErrorResolver
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.nhaarman.mockitokotlin2.mock
@@ -119,5 +121,11 @@ class TestApplicationModule(private val application: Application) {
 	@Singleton
 	internal fun provideRawResourceHelperContract(): RawResourceHelperContract {
 		return Mockito.mock(RawResourceHelper::class.java)
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideErrorResolver(): ErrorResolver {
+		return CompaniesHouseErrorResolver()
 	}
 }

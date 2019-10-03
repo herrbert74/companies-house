@@ -82,8 +82,8 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 		observeState()
 	}
 
-	override fun onSaveInstanceState(outState: Bundle?) {
-		outState?.putParcelable("STATE", viewModel.state.value)
+	override fun onSaveInstanceState(outState: Bundle) {
+		outState.putParcelable("STATE", viewModel.state.value)
 		super.onSaveInstanceState(outState)
 	}
 

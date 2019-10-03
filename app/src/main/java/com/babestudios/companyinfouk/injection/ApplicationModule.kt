@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.os.AsyncTask
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.utils.errors.CompaniesHouseErrorResolver
 import com.babestudios.companyinfouk.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.CompaniesRepository
@@ -21,9 +20,10 @@ import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConvert
 import com.babestudios.companyinfouk.utils.Base64Wrapper
 import com.babestudios.companyinfouk.utils.RawResourceHelper
 import com.babestudios.companyinfouk.utils.RawResourceHelperContract
+import com.babestudios.companyinfouk.utils.errors.CompaniesHouseErrorResolver
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,7 +44,6 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 		this.application = application
 	}
 
-
 	@Provides
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
@@ -54,7 +53,7 @@ class ApplicationModule(application: CompaniesHouseApplication) {
 
 		val httpClient = OkHttpClient.Builder()
 		httpClient.addInterceptor(logging)
-		httpClient.addInterceptor(ChuckInterceptor(CompaniesHouseApplication.context))
+		httpClient.addInterceptor(ChuckerInterceptor(CompaniesHouseApplication.context))
 		return Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//

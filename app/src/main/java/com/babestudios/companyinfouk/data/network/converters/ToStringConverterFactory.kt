@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.data.network.converters
 
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -23,7 +24,7 @@ class ToStringConverterFactory : Converter.Factory() {
 	}
 
 	companion object {
-		private val MEDIA_TYPE = MediaType.parse("text/plain")
+		private val MEDIA_TYPE = "text/plain".toMediaTypeOrNull()
 
 		fun create(): ToStringConverterFactory {
 			return ToStringConverterFactory()

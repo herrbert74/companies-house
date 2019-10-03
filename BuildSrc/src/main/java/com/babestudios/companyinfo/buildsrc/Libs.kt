@@ -1,0 +1,176 @@
+package com.babestudios.companyinfo.buildsrc
+
+@Suppress("unused")
+object Libs {
+
+	const val mvrx = "com.airbnb.android:mvrx:1.1.0"
+	const val debugDb = "com.amitshekhar.android:debug-db:0.4.0" //To debug preferences
+	const val jUnit = "junit:junit:4.12"
+	//const val jUnit = "org.junit.jupiter:junit-jupiter-api:5.5.2"
+	const val hamcrest = "org.hamcrest:hamcrest-library:1.3"
+	//const val assertJ = "org.assertj:assertj-core:3.13.2"
+
+	object AndroidX {
+		const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
+		const val appcompat = "androidx.appcompat:appcompat:1.1.0"
+		const val activityKtx = "androidx.activity:activity-ktx:1.1.0-alpha03"
+		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.1.0"
+		const val percentLayout = "androidx.percentlayout:percentlayout:1.0.0"
+		const val cardView = "androidx.cardview:cardview:1.0.0"
+		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3" //beta2 causes linking problems
+		const val multiDex = "androidx.multidex:multidex:2.0.1"
+		const val androidxAnnotations = "androidx.annotation:annotation:1.1.0"
+		const val coreKtx = "androidx.core:core-ktx:1.1.0"
+		const val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
+		const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0-beta04"
+		const val preferenceKtx = "androidx.preference:preference-ktx:1.1.0"
+
+
+		object Lifecycle {
+			private const val version = "2.1.0"
+			const val common = "androidx.lifecycle:lifecycle-common:$version"
+			const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
+			const val commonJava8 = "androidx.lifecycle:lifecycle-common-java8:$version"
+
+			object ViewModel {
+				const val ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+				const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha04"
+			}
+		}
+
+		object Navigation {
+			private const val version = "2.1.0"
+			const val ktx = "androidx.navigation:navigation-ui-ktx:$version"
+			const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
+		}
+
+		object WorkManager {
+			private const val version = "2.3.0-alpha01"
+			const val ktx = "androidx.work:work-runtime-ktx:$version"
+		}
+
+		object Test {
+			private const val version = "1.2.0"
+			const val runner = "androidx.test:runner:$version"
+			const val rules = "androidx.test:rules:$version"
+
+			object Espresso {
+				private const val version = "3.2.0"
+				const val core = "androidx.test.espresso:espresso-core:$version"
+				const val contrib = "androidx.test.espresso:espresso-contrib:$version"
+			}
+
+			object Ext {
+				const val jUnit = "androidx.test.ext:junit:1.1.0"
+			}
+		}
+	}
+
+	object Google {
+		const val material = "com.google.android.material:material:1.0.0"
+		const val crashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1"
+		const val gson = "com.google.code.gson:gson:2.8.5"
+
+
+		object PlayServices {
+			private const val version = "17.0.0"
+			const val gcm = "com.google.android.gms:play-services-gcm:$version"
+			const val analytics = "com.google.android.gms:play-services-analytics:$version"
+			const val location = "com.google.android.gms:play-services-location:$version"
+			const val maps = "com.google.android.gms:play-services-maps:$version"
+		}
+
+		object Dagger {
+			private const val version = "2.24"
+			const val dagger = "com.google.dagger:dagger:$version"
+			const val compiler = "com.google.dagger:dagger-compiler:$version"
+			//const val daggerAndroid = "com.google.dagger:dagger-android:$version"
+			//const val daggerAndroidSupport = "com.google.dagger:dagger-android-support:$version"
+			//const val processor = "com.google.dagger:dagger-android-processor:$version"
+		}
+
+		object Firebase {
+			const val analytics = "com.google.firebase:firebase-analytics:17.2.0"
+			const val database = "com.google.firebase:firebase-database:19.1.0"
+		}
+	}
+
+	object SquareUp {
+		object OkHttp3 {
+			private const val version = "4.1.0"
+			const val okHttp3 = "com.squareup.okhttp3:okhttp:$version"
+			const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
+		}
+
+		object Retrofit2 {
+			private const val version = "2.6.2"
+			const val retrofit = "com.squareup.retrofit2:retrofit:$version"
+			const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:$version"
+			const val converterGson = "com.squareup.retrofit2:converter-gson:$version"
+			const val rxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:$version"
+		}
+	}
+
+	object RxJava2 {
+		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.6"
+		const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
+		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.3.0"
+	}
+
+	object JakeWharton {
+		const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:2.0.0"
+
+		object RxBinding {
+			private const val version = "2.2.0"
+			const val core = "com.jakewharton.rxbinding2:rxbinding:$version"
+			const val design = "com.jakewharton.rxbinding2:rxbinding-design:$version"
+			const val kotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$version"
+			const val designKotlin = "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$version"
+			const val recyclerviewV7Kotlin = "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$version"
+		}
+	}
+
+	object Kotlin {
+		private const val version = "1.3.50"
+		const val stdLibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
+	}
+
+	object Stetho {
+		private const val version = "1.5.1"
+		const val core = "com.facebook.stetho:stetho:$version"
+		const val okHttp = "com.facebook.stetho:stetho-okhttp3:$version"
+	}
+
+	object Room {
+		private const val version = "2.1.0"
+		const val runtime = "android.arch.persistence.room:runtime:$version"
+		const val compiler = "android.arch.persistence.room:compiler:$version"
+	}
+
+	object Coroutines {
+		private const val version = "1.1.1"
+		const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
+		const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
+		//const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
+		//const val rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$version"
+	}
+
+	object Javax {
+		const val annotations = "javax.annotation:javax.annotation-api:1.3.2"
+		const val inject = "javax.inject:javax.inject:1"
+	}
+
+	object Chucker {
+		private const val version = "3.0.1"
+		const val library =  "com.github.ChuckerTeam.Chucker:library:$version"
+		const val noop =  "com.github.ChuckerTeam.Chucker:library-no-op:$version"
+	}
+
+	object Mockito {
+		private const val version = "2.28.2"
+		const val core = "org.mockito:mockito-core:$version"
+		const val android = "org.mockito:mockito-android:$version"
+		const val inline = "org.mockito:mockito-inline:$version" //Needed for inlining final classes for mocking
+		const val kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+	}
+}
