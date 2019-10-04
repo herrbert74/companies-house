@@ -8,7 +8,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.charges.ChargesItem
+import com.babestudios.companyinfo.data.model.charges.ChargesItem
 
 class ChargesAdapter(private var chargesVisitables: List<AbstractChargesVisitable>
 					 , private val chargesTypeFactory: ChargesTypeFactory)

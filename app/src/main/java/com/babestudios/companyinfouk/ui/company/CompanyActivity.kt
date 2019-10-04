@@ -12,9 +12,9 @@ import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.ext.parseMySqlDate
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfo.data.model.company.Company
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.charges.createChargesIntent
@@ -46,6 +46,8 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var companyPresenter: CompanyPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: CompanyComponent
 
 	//region life cycle
 
@@ -102,7 +104,11 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 
 		if (!::companyPresenter.isInitialized) {
-			companyPresenter = Injector.get().companyPresenter()
+			comp = DaggerCompanyComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			companyPresenter = comp.companyPresenter()
 			companyPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

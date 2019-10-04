@@ -3,8 +3,7 @@ package com.babestudios.companyinfouk.ui.persons
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
-import com.babestudios.companyinfouk.data.model.officers.Officers
-import com.babestudios.companyinfouk.data.model.persons.Persons
+import com.babestudios.companyinfo.data.model.persons.Persons
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.CompletableSource
 import io.reactivex.Single

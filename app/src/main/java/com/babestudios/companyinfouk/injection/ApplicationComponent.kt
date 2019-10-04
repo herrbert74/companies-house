@@ -1,5 +1,8 @@
 package com.babestudios.companyinfouk.injection
 
+import android.content.Context
+import com.babestudios.base.di.scope.ApplicationScope
+import com.babestudios.companyinfo.core.injection.CoreComponent
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.ui.charges.ChargesPresenter
 import com.babestudios.companyinfouk.ui.company.CompanyPresenter
@@ -17,22 +20,14 @@ import com.babestudios.companyinfouk.ui.persondetails.PersonDetailsPresenter
 import com.babestudios.companyinfouk.ui.persons.PersonsPresenter
 import com.babestudios.companyinfouk.ui.main.MainPresenter
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
-@Component(modules = [ApplicationModule::class])
+@ApplicationScope
+@Component(/*modules = [ApplicationModule::class]*/ dependencies = [CoreComponent::class])
 interface ApplicationComponent {
-	fun inject(companiesHouseApplication: CompaniesHouseApplication)
 
-	fun inject(filingHistoryAdapter: FilingHistoryAdapter)
+//	fun context(): Context
 
-	fun inject(filingHistoryViewHolder: FilingHistoryViewHolder)
-
-	fun filingHistoryPresenter(): FilingHistoryPresenter
-
-	fun chargesPresenter(): ChargesPresenter
-
-	fun companyPresenter(): CompanyPresenter
+	/*fun companyPresenter(): CompanyPresenter
 
 	fun favouritesPresenter(): FavouritesPresenter
 
@@ -52,6 +47,6 @@ interface ApplicationComponent {
 
 	fun personsPresenter(): PersonsPresenter
 
-	fun mainPresenter(): MainPresenter
+	fun mainPresenter(): MainPresenter*/
 
 }

@@ -9,7 +9,7 @@ import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
@@ -41,6 +41,8 @@ class InsolvencyActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var insolvencyPresenter: InsolvencyPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: InsolvencyComponent
 
 	//region life cycle
 
@@ -87,7 +89,11 @@ class InsolvencyActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: InsolvencyViewModel) {
 		if (!::insolvencyPresenter.isInitialized) {
-			insolvencyPresenter = Injector.get().insolvencyPresenter()
+			comp = DaggerInsolvencyComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			insolvencyPresenter = comp.insolvencyPresenter()
 			insolvencyPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

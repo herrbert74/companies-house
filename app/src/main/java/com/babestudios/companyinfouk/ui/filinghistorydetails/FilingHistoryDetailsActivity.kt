@@ -17,9 +17,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
@@ -46,6 +46,8 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var filingHistoryDetailsPresenter: FilingHistoryDetailsPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: FilingHistoryDetailsComponent
 
 	//region life cycle
 
@@ -89,7 +91,11 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: FilingHistoryDetailsViewModel) {
 		if (!::filingHistoryDetailsPresenter.isInitialized) {
-			filingHistoryDetailsPresenter = Injector.get().filingHistoryDetailsPresenter()
+			comp = DaggerFilingHistoryDetailsComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			filingHistoryDetailsPresenter = comp.filingHistoryDetailsPresenter()
 			filingHistoryDetailsPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

@@ -8,7 +8,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.officers.OfficerItem
+import com.babestudios.companyinfo.data.model.officers.OfficerItem
 
 class OfficersAdapter(private var officersVisitables: List<AbstractOfficersVisitable>
 					  , private val officersTypeFactory: OfficersTypeFactory)

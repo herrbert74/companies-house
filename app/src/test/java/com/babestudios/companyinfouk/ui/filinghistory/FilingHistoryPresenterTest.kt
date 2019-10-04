@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.ui.filinghistory
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
-import com.babestudios.companyinfouk.data.model.filinghistory.Category
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
+import com.babestudios.companyinfo.data.model.filinghistory.Category
+import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryList
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Single

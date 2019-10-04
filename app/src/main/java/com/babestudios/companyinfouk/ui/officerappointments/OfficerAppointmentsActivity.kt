@@ -16,10 +16,10 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.CompletableSource
 import androidx.lifecycle.ViewModelProviders
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.officerappointments.list.*
@@ -42,6 +42,8 @@ class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var officerAppointmentsPresenter: OfficerAppointmentsPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: OfficerAppointmentsComponent
 
 	//region life cycle
 
@@ -88,7 +90,11 @@ class OfficerAppointmentsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: OfficerAppointmentsViewModel) {
 		if (!::officerAppointmentsPresenter.isInitialized) {
-			officerAppointmentsPresenter = Injector.get().officerAppointmentsPresenter()
+			comp = DaggerOfficerAppointmentsComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			officerAppointmentsPresenter = comp.officerAppointmentsPresenter()
 			officerAppointmentsPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

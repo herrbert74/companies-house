@@ -1,27 +1,26 @@
 package com.babestudios.companyinfouk
 
+import android.app.Application
 import android.content.Context
-import com.babestudios.base.BaseApplication
-import com.babestudios.companyinfouk.injection.ApplicationComponent
-import com.babestudios.companyinfouk.injection.ApplicationModule
-import com.babestudios.companyinfouk.injection.DaggerApplicationComponent
+import com.babestudios.companyinfo.core.injection.CoreComponent
+import com.babestudios.companyinfo.core.injection.CoreComponentProvider
+import com.babestudios.companyinfo.core.injection.DaggerCoreComponent
+import com.babestudios.companyinfo.data.di.CoreModule
 import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.fabric.sdk.android.Fabric
 
-open class CompaniesHouseApplication : BaseApplication() {
+open class CompaniesHouseApplication : Application(), CoreComponentProvider {
+
+	private lateinit var coreComponent: CoreComponent
 
 	var firebaseAnalytics: FirebaseAnalytics? = null
 		private set
 
-	open lateinit var applicationComponent: ApplicationComponent
-		internal set
-
 	override fun onCreate() {
 		super.onCreate()
 		instance = this
-		initialize(instance)
 		Stetho.initializeWithDefaults(this)
 		firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 		logAppOpen()
@@ -30,9 +29,6 @@ open class CompaniesHouseApplication : BaseApplication() {
 				.debuggable(BuildConfig.DEBUG)
 				.build()
 		Fabric.with(fabric)
-		applicationComponent = DaggerApplicationComponent.builder()
-				.applicationModule(ApplicationModule(this))
-				.build()
 	}
 
 	private fun logAppOpen() {
@@ -51,13 +47,17 @@ open class CompaniesHouseApplication : BaseApplication() {
 		@JvmStatic
 		fun get(): CompaniesHouseApplication = instance
 	}
+	override fun provideCoreComponent(): CoreComponent {
 
+		if (!this::coreComponent.isInitialized) {
+			val navigator = Navigator()
+			coreComponent = DaggerCoreComponent
+					.builder()
+					.navigationComponent(navigator)
+					.coreModule(CoreModule(this))
 
-}
-
-class Injector private constructor() {
-	companion object {
-		fun get(): ApplicationComponent =
-				CompaniesHouseApplication.get().applicationComponent
+					.build()
+		}
+		return coreComponent
 	}
 }

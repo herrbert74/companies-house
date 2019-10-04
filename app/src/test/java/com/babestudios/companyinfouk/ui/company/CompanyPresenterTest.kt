@@ -4,9 +4,9 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
-import com.babestudios.companyinfouk.data.model.company.Accounts
-import com.babestudios.companyinfouk.data.model.company.Company
-import com.babestudios.companyinfouk.data.model.company.LastAccounts
+import com.babestudios.companyinfo.data.model.company.Accounts
+import com.babestudios.companyinfo.data.model.company.Company
+import com.babestudios.companyinfo.data.model.company.LastAccounts
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever

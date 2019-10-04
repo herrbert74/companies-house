@@ -7,8 +7,8 @@ import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfo.data.CompaniesRepositoryContract
+import com.babestudios.companyinfo.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.*
 import io.reactivex.CompletableSource
 import javax.inject.Inject

@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.insolvency
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
-import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
+import com.babestudios.companyinfo.data.model.insolvency.Insolvency
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.CompletableSource
 import io.reactivex.Single

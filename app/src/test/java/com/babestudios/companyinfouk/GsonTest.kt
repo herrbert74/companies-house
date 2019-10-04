@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk
 
-import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
+import com.babestudios.companyinfo.data.network.converters.AdvancedGsonConverterFactory
+import com.babestudios.companyinfo.data.model.search.CompanySearchResult
 import com.google.gson.Gson
 
 import org.junit.Test
@@ -17,7 +17,6 @@ import okhttp3.MediaType
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 
-import com.babestudios.companyinfouk.BuildConfig.*
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 

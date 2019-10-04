@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk
 
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
-import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
+import com.babestudios.companyinfo.data.network.CompaniesHouseService
+import com.babestudios.companyinfo.data.network.converters.AdvancedGsonConverterFactory
 
 import org.junit.Before
 import org.junit.Test

@@ -5,8 +5,8 @@ import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfo.data.CompaniesRepositoryContract
+import com.babestudios.companyinfo.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.ui.favourites.list.FavouritesItem
 import com.babestudios.companyinfouk.ui.favourites.list.FavouritesVisitable
 import io.reactivex.CompletableSource

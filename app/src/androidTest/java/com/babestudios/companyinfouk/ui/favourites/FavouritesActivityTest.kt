@@ -15,7 +15,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfo.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.injection.AndroidTestApplicationModule
 import com.babestudios.companyinfouk.injection.DaggerAndroidTestApplicationComponent
 import com.nhaarman.mockitokotlin2.whenever
@@ -47,7 +47,7 @@ class FavouritesActivityTest {
 		val testApplicationComponent = DaggerAndroidTestApplicationComponent.builder()
 				.androidTestApplicationModule(AndroidTestApplicationModule(app))
 				.build()
-		val favourites = Array(1){SearchHistoryItem("Acme Painting", "1", 111L)}
+		val favourites = Array(1){ SearchHistoryItem("Acme Painting", "1", 111L) }
 		app.applicationComponent = testApplicationComponent
 		whenever(testApplicationComponent.companiesRepository().favourites).thenReturn(favourites)
 		activityTestRule.launchActivity(Intent())

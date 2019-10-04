@@ -6,7 +6,7 @@ import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfo.data.CompaniesRepositoryContract
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource
 import okhttp3.ResponseBody

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.charges.Transaction
+import com.babestudios.companyinfo.data.model.charges.Transaction
 
 class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<AbstractChargeDetailsVisitable>
 						   , private val chargeDetailsTypeFactory: ChargeDetailsTypeFactory)

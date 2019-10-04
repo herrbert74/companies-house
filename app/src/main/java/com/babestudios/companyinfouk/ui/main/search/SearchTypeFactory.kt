@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.main.search
 import android.view.View
 import com.babestudios.companyinfouk.R
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
+import com.babestudios.companyinfo.data.model.search.CompanySearchResultItem
 
 class SearchTypeFactory : SearchAdapter.SearchTypeFactory {
 	override fun type(searchItem: CompanySearchResultItem): Int = R.layout.row_search_result

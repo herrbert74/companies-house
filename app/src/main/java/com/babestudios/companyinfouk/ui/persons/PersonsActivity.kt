@@ -10,7 +10,7 @@ import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
@@ -29,7 +29,6 @@ private const val COMPANY_NUMBER = "com.babestudios.companyinfouk.ui.company_num
 
 class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 
-
 	private var personsAdapter: PersonsAdapter? = null
 
 	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
@@ -39,6 +38,8 @@ class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var personsPresenter: PersonsPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: PersonsComponent
 
 	//region life cycle
 
@@ -85,7 +86,11 @@ class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: PersonsViewModel) {
 		if (!::personsPresenter.isInitialized) {
-			personsPresenter = Injector.get().personsPresenter()
+			comp = DaggerPersonsComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			personsPresenter = comp.personsPresenter()
 			personsPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

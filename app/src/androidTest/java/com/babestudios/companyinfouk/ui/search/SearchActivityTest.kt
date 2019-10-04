@@ -13,7 +13,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
+import com.babestudios.companyinfo.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.injection.AndroidTestApplicationModule
 import com.babestudios.companyinfouk.injection.DaggerAndroidTestApplicationComponent
 import com.babestudios.companyinfouk.ui.main.MainActivity

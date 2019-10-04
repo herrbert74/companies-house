@@ -2,6 +2,7 @@ import com.babestudios.companyinfo.buildsrc.Libs
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -40,10 +41,14 @@ dependencies {
 	implementation Libs.SquareUp.Retrofit2.rxJava2Adapter
 	implementation Libs.SquareUp.Retrofit2.converterGson
 
-	implementation Libs.SquareUp.OkHttp3.loggingInterceptor
+	api Libs.SquareUp.OkHttp3.loggingInterceptor
+
 	implementation Libs.RxJava2.rxJava
+	implementation Libs.RxJava2.rxAndroid
+	implementation Libs.RxJava2.rxKotlin
 
 	implementation Libs.Google.Dagger.dagger
+	kapt Libs.Google.Dagger.compiler
 
 	debugImplementation Libs.Chucker.library
 	releaseImplementation Libs.Chucker.noop

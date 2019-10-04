@@ -3,3 +3,5 @@ include ':base'
 project(':base').projectDir = new File('../BaBeStudiosBase/base/')
 include ':buildSrc'
 include ':data'
+include ':navigation'
+include ':core-injection'

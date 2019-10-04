@@ -1,15 +1,5 @@
 package com.babestudios.companyinfouk.ui.favourites
 
-import com.babestudios.companyinfouk.data.CompaniesRepository
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnitRunner
 /*
 @RunWith(MockitoJUnitRunner::class)
 class FavouritesPresenterTest {

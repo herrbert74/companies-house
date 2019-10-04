@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.filinghistorydetails
 import android.net.Uri
 import android.os.Parcelable
 import com.babestudios.base.mvp.BaseState
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue

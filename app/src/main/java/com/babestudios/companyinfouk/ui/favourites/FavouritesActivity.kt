@@ -21,7 +21,7 @@ import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityForResultWithRightSlide
@@ -52,6 +52,8 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 	lateinit var favouritesPresenter: FavouritesPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: FavouritesComponent
 
 	//region life cycle
 
@@ -107,7 +109,11 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: FavouritesViewModel) {
 		if (!::favouritesPresenter.isInitialized) {
-			favouritesPresenter = Injector.get().favouritesPresenter()
+			comp = DaggerFavouritesComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			favouritesPresenter = comp.favouritesPresenter()
 			favouritesPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

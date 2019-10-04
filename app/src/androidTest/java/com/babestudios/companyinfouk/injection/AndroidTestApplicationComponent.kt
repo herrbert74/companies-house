@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.injection
 
 import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.TestHelper
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfo.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivityTest
 import com.babestudios.companyinfouk.ui.search.SearchActivityTest

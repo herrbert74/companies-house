@@ -33,7 +33,6 @@ import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.Injector
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
@@ -43,6 +42,7 @@ import com.babestudios.companyinfouk.ui.main.recents.*
 import com.babestudios.companyinfouk.ui.main.search.*
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
 import com.babestudios.base.view.FilterAdapter
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
@@ -63,7 +63,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
-
 	private var searchHistoryAdapter: SearchHistoryAdapter? = null
 	private var searchAdapter: SearchAdapter? = null
 
@@ -74,6 +73,8 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 	lateinit var mainPresenter: MainPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: MainComponent
 
 	private var isSearchFromSaved = false
 	//Menu
@@ -129,7 +130,11 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: MainViewModel) {
 		if (!::mainPresenter.isInitialized) {
-			mainPresenter = Injector.get().mainPresenter()
+			comp = DaggerMainComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			mainPresenter = comp.mainPresenter()
 			mainPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

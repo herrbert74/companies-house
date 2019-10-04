@@ -6,9 +6,9 @@ import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.persons.Persons
+import com.babestudios.companyinfo.data.BuildConfig
+import com.babestudios.companyinfo.data.CompaniesRepositoryContract
+import com.babestudios.companyinfo.data.model.persons.Persons
 import com.babestudios.companyinfouk.ui.persons.list.AbstractPersonsVisitable
 import com.babestudios.companyinfouk.ui.persons.list.PersonsVisitable
 import com.uber.autodispose.AutoDispose

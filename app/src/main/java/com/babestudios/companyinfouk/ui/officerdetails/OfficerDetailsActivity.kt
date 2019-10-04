@@ -13,8 +13,8 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.CompletableSource
 import androidx.lifecycle.ViewModelProviders
-import com.babestudios.companyinfouk.Injector
-import com.babestudios.companyinfouk.data.model.officers.OfficerItem
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfo.data.model.officers.OfficerItem
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.officerappointments.createOfficerAppointmentsIntent
@@ -34,6 +34,8 @@ class OfficerDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var officerDetailsPresenter: OfficerDetailsPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: OfficerDetailsComponent
 
 	//region life cycle
 
@@ -79,7 +81,11 @@ class OfficerDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: OfficerDetailsViewModel) {
 		if (!::officerDetailsPresenter.isInitialized) {
-			officerDetailsPresenter = Injector.get().officerDetailsPresenter()
+			comp = DaggerOfficerDetailsComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			officerDetailsPresenter = comp.officerDetailsPresenter()
 			officerDetailsPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

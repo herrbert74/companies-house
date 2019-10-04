@@ -13,8 +13,8 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.CompletableSource
 import androidx.lifecycle.ViewModelProviders
-import com.babestudios.companyinfouk.Injector
-import com.babestudios.companyinfouk.data.model.persons.Person
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfo.data.model.persons.Person
 import com.babestudios.companyinfouk.ext.logScreenView
 
 import io.reactivex.disposables.CompositeDisposable
@@ -31,6 +31,8 @@ class PersonDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var personDetailsPresenter: PersonDetailsPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: PersonDetailsComponent
 
 	//region life cycle
 
@@ -76,7 +78,11 @@ class PersonDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: PersonDetailsViewModel) {
 		if (!::personDetailsPresenter.isInitialized) {
-			personDetailsPresenter = Injector.get().personDetailsPresenter()
+			comp = DaggerPersonDetailsComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			personDetailsPresenter = comp.personDetailsPresenter()
 			personDetailsPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

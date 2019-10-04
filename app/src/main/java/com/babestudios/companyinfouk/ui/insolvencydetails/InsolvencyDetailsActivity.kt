@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfo.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsTypeFactory
@@ -38,6 +38,8 @@ class InsolvencyDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var insolvencyDetailsPresenter: InsolvencyDetailsPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: InsolvencyDetailsComponent
 
 	//region life cycle
 
@@ -84,7 +86,11 @@ class InsolvencyDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: InsolvencyDetailsViewModel) {
 		if (!::insolvencyDetailsPresenter.isInitialized) {
-			insolvencyDetailsPresenter = Injector.get().insolvencyDetailsPresenter()
+			comp = DaggerInsolvencyDetailsComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			insolvencyDetailsPresenter = comp.insolvencyDetailsPresenter()
 			insolvencyDetailsPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

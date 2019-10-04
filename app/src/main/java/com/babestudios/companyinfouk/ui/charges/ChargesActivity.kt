@@ -1,16 +1,16 @@
 package com.babestudios.companyinfouk.ui.charges
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
@@ -38,6 +38,8 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var chargesPresenter: ChargesPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: ChargesComponent
 
 	//region life cycle
 
@@ -88,7 +90,11 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 
 		if (!::chargesPresenter.isInitialized) {
-			chargesPresenter = Injector.get().chargesPresenter()
+			comp = DaggerChargesComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			chargesPresenter = comp.chargesPresenter()
 			chargesPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

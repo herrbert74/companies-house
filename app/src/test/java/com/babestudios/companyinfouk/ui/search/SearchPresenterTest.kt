@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.ui.search
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfo.data.model.search.CompanySearchResult
+import com.babestudios.companyinfo.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.ui.main.ContentChange
 import com.babestudios.companyinfouk.ui.main.MainPresenter
 import com.babestudios.companyinfouk.ui.main.MainViewModel

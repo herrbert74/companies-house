@@ -60,6 +60,8 @@ android {
 dependencies {
 	implementation project(':buildSrc')
 	implementation project(':base')
+	implementation project(':core-injection')
+	implementation project(':navigation')
 	implementation project(':data')
 
 	implementation Libs.Kotlin.stdLibJdk8
@@ -82,12 +84,6 @@ dependencies {
 	implementation Libs.SquareUp.Retrofit2.rxJava2Adapter
 	implementation Libs.SquareUp.Retrofit2.converterGson
 	testImplementation Libs.SquareUp.Retrofit2.retrofitMock
-
-	implementation Libs.SquareUp.OkHttp3.loggingInterceptor
-
-	implementation Libs.RxJava2.rxJava
-	implementation Libs.RxJava2.rxAndroid
-	implementation Libs.RxJava2.rxKotlin
 
 	implementation Libs.JakeWharton.rxRelay
 	implementation Libs.JakeWharton.RxBinding.core

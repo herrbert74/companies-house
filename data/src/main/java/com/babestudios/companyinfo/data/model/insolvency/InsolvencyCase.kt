@@ -1,0 +1,24 @@
+package com.babestudios.companyinfo.data.model.insolvency
+
+import android.os.Parcelable
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+import java.util.*
+
+@Keep
+@Parcelize
+class InsolvencyCase (
+		@SerializedName("dates")
+	var dates: List<Date> = ArrayList(),
+		@SerializedName("links")
+	var links: InsolvencyCaseLinks? = null,
+		@SerializedName("notes")
+	var notes: List<String> = ArrayList(),
+		@SerializedName("number")
+	var number: String? = null,
+		@SerializedName("practitioners")
+	var practitioners: List<Practitioner> = ArrayList(),
+		@SerializedName("type")
+	var type: String? = null
+): Parcelable

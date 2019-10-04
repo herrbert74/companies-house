@@ -12,11 +12,12 @@ import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfo.data.model.filinghistory.Category
+import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.filinghistory.Category
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryAdapter
@@ -24,7 +25,6 @@ import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryTypeFact
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryViewHolder
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.ui.filinghistorydetails.createFilingHistoryDetailsIntent
-import com.babestudios.base.view.FilterAdapter
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose
@@ -49,9 +49,11 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	//region lifeCycle
+	private lateinit var comp: FilingHistoryComponent
 
 	private lateinit var spinner: Spinner
+
+	//region lifeCycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -105,7 +107,11 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 
 		if (!::filingHistoryPresenter.isInitialized) {
-			filingHistoryPresenter = Injector.get().filingHistoryPresenter()
+			comp = DaggerFilingHistoryComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			filingHistoryPresenter = comp.filingHistoryPresenter()
 			filingHistoryPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

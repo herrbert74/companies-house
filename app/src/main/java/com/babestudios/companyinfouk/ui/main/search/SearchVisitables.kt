@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.ui.main.search
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
+import com.babestudios.companyinfo.data.model.search.CompanySearchResultItem
 import kotlinx.android.parcel.Parcelize
 
 abstract class AbstractSearchVisitable : Parcelable {

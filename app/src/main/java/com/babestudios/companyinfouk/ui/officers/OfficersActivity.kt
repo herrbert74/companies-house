@@ -10,7 +10,7 @@ import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.Injector
+import com.babestudios.companyinfo.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
@@ -39,6 +39,8 @@ class OfficersActivity : RxAppCompatActivity(), ScopeProvider {
 	private lateinit var officersPresenter: OfficersPresenterContract
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private lateinit var comp: OfficersComponent
 
 	//region life cycle
 
@@ -85,7 +87,11 @@ class OfficersActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun initPresenter(viewModel: OfficersViewModel) {
 		if (!::officersPresenter.isInitialized) {
-			officersPresenter = Injector.get().officersPresenter()
+			comp = DaggerOfficersComponent
+					.builder()
+					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+					.build()
+			officersPresenter = comp.officersPresenter()
 			officersPresenter.setViewModel(viewModel, requestScope())
 		}
 	}

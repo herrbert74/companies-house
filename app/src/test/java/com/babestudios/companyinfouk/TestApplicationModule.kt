@@ -3,24 +3,23 @@ package com.babestudios.companyinfouk
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.data.CompaniesRepository
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.local.PreferencesHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
-import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
-import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
-import com.babestudios.companyinfouk.injection.ApplicationContext
-import com.babestudios.companyinfouk.utils.Base64Wrapper
-import com.babestudios.companyinfouk.utils.RawResourceHelper
-import com.babestudios.companyinfouk.utils.RawResourceHelperContract
-import com.babestudios.companyinfouk.utils.errors.CompaniesHouseErrorResolver
+import com.babestudios.companyinfo.data.CompaniesRepository
+import com.babestudios.companyinfo.data.CompaniesRepositoryContract
+import com.babestudios.companyinfo.data.local.PreferencesHelper
+import com.babestudios.companyinfo.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfo.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfo.data.network.CompaniesHouseDocumentService
+import com.babestudios.companyinfo.data.network.CompaniesHouseService
+import com.babestudios.companyinfo.data.network.converters.AdvancedGsonConverterFactory
+import com.babestudios.companyinfo.data.utils.Base64Wrapper
+import com.babestudios.companyinfo.data.utils.RawResourceHelper
+import com.babestudios.companyinfo.data.utils.RawResourceHelperContract
+import com.babestudios.companyinfo.data.utils.errors.CompaniesHouseErrorResolver
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.nhaarman.mockitokotlin2.mock
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
@@ -126,6 +125,6 @@ class TestApplicationModule(private val application: Application) {
 	@Provides
 	@Singleton
 	internal fun provideErrorResolver(): ErrorResolver {
-		return CompaniesHouseErrorResolver()
+		return CompaniesHouseErrorResolver(errorHelper)
 	}
 }

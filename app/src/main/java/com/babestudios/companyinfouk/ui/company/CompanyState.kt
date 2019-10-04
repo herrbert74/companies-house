@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.ui.company
 
 import android.os.Parcelable
 import com.babestudios.base.mvp.BaseState
-import com.babestudios.companyinfouk.data.model.company.Company
+import com.babestudios.companyinfo.data.model.company.Company
 import kotlinx.android.parcel.Parcelize
 
 enum class ContentChange {
