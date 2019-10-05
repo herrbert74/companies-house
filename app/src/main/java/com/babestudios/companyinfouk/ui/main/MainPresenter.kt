@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.ui.main
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
@@ -42,7 +43,7 @@ constructor(
 		val companiesRepository: CompaniesRepositoryContract,
 		schedulerProvider: SchedulerProvider,
 		errorResolver: ErrorResolver,
-		val context: Context
+		@ApplicationContext val context: Context
 ) : BasePresenter<MainState, MainViewModel>(
 		schedulerProvider,
 		errorResolver
