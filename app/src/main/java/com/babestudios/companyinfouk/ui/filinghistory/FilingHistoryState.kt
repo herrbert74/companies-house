@@ -2,8 +2,8 @@ package com.babestudios.companyinfouk.ui.filinghistory
 
 import android.os.Parcelable
 import com.babestudios.base.mvp.BaseState
-import com.babestudios.companyinfo.data.model.filinghistory.Category
-import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.data.model.filinghistory.Category
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.ui.filinghistory.list.FilingHistoryVisitable
 import kotlinx.android.parcel.Parcelize
 

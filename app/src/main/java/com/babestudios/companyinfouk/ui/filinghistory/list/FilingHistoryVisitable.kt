@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.ui.filinghistory.list
 
 import android.os.Parcelable
-import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import kotlinx.android.parcel.Parcelize
 
 abstract class AbstractFilingHistoryVisitable {

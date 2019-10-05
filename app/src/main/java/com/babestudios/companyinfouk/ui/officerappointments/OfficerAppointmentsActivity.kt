@@ -19,7 +19,7 @@ import com.babestudios.base.view.MultiStateView.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
-import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.officerappointments.list.*

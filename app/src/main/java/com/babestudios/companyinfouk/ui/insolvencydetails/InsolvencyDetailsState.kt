@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.ui.insolvencydetails
 
 import android.os.Parcelable
 import com.babestudios.base.mvp.BaseState
-import com.babestudios.companyinfo.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.AbstractInsolvencyDetailsVisitable
 import kotlinx.android.parcel.Parcelize
 

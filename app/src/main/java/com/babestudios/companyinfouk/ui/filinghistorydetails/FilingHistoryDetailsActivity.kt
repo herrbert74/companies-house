@@ -17,9 +17,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter

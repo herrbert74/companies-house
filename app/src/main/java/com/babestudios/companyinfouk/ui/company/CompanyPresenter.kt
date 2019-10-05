@@ -7,9 +7,9 @@ import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
-import com.babestudios.companyinfo.data.model.company.Company
-import com.babestudios.companyinfo.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.company.Company
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import io.reactivex.CompletableSource
 import javax.inject.Inject
 

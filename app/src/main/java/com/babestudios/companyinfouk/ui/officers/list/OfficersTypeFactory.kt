@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.officers.list
 import android.view.View
 import com.babestudios.companyinfouk.R
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfo.data.model.officers.OfficerItem
+import com.babestudios.companyinfouk.data.model.officers.OfficerItem
 
 class OfficersTypeFactory : OfficersAdapter.OfficersTypeFactory {
 	override fun type(officersItem: OfficerItem): Int = R.layout.row_officers

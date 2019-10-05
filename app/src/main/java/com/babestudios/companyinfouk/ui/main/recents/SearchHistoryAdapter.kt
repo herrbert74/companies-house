@@ -8,7 +8,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfo.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 
 class SearchHistoryAdapter(private var searchHistoryVisitables: List<AbstractSearchHistoryVisitable>
 						   , private val searchHistoryTypeFactory: SearchHistoryTypeFactory)

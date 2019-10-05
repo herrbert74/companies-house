@@ -12,8 +12,8 @@ import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.ext.parseMySqlDate
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfo.core.injection.CoreInjectHelper
-import com.babestudios.companyinfo.data.model.company.Company
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
+import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide

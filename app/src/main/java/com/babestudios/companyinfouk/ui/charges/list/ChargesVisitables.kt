@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.ui.charges.list
 
 import android.os.Parcelable
-import com.babestudios.companyinfo.data.model.charges.ChargesItem
+import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 import kotlinx.android.parcel.Parcelize
 
 abstract class AbstractChargesVisitable {

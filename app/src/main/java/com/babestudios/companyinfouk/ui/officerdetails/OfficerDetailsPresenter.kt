@@ -5,7 +5,7 @@ import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import io.reactivex.CompletableSource
 import java.util.regex.Pattern
 import javax.inject.Inject

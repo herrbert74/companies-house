@@ -1,13 +1,13 @@
 package com.babestudios.companyinfouk
 
-import com.babestudios.companyinfo.data.CompaniesRepository
-import com.babestudios.companyinfo.data.local.PreferencesHelper
-import com.babestudios.companyinfo.data.local.apilookup.ConstantsHelper
-import com.babestudios.companyinfo.data.local.apilookup.FilingHistoryDescriptionsHelper
-import com.babestudios.companyinfo.data.model.search.CompanySearchResult
-import com.babestudios.companyinfo.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfo.data.network.CompaniesHouseService
-import com.babestudios.companyinfo.data.utils.Base64Wrapper
+import com.babestudios.companyinfouk.data.CompaniesRepository
+import com.babestudios.companyinfouk.data.local.PreferencesHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseService
+import com.babestudios.companyinfouk.data.utils.Base64Wrapper
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins

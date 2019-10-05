@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.ui.persons.list
 
 import android.os.Parcelable
-import com.babestudios.companyinfo.data.model.persons.Person
+import com.babestudios.companyinfouk.data.model.persons.Person
 import kotlinx.android.parcel.Parcelize
 
 abstract class AbstractPersonsVisitable : Parcelable {

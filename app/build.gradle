@@ -1,4 +1,4 @@
-import com.babestudios.companyinfo.buildsrc.Libs
+import com.babestudios.companyinfouk.buildsrc.Libs
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'

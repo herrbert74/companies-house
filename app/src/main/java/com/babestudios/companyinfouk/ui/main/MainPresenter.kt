@@ -9,9 +9,9 @@ import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfo.data.BuildConfig
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
-import com.babestudios.companyinfo.data.model.search.CompanySearchResult
-import com.babestudios.companyinfo.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.ui.main.recents.AbstractSearchHistoryVisitable
 import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryHeaderItem
 import com.babestudios.companyinfouk.ui.main.recents.SearchHistoryHeaderVisitable

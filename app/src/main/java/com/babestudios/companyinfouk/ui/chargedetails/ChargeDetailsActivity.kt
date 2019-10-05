@@ -9,8 +9,8 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfo.data.model.charges.ChargesItem
-import com.babestudios.companyinfo.data.model.charges.Transaction
+import com.babestudios.companyinfouk.data.model.charges.ChargesItem
+import com.babestudios.companyinfouk.data.model.charges.Transaction
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.chargedetails.list.*
 import io.reactivex.disposables.CompositeDisposable

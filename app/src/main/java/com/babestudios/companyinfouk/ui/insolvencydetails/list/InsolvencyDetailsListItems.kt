@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.ui.insolvencydetails.list
 
 import android.os.Parcelable
-import com.babestudios.companyinfo.data.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.data.model.insolvency.Practitioner
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

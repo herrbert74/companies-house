@@ -6,8 +6,8 @@ import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
-import com.babestudios.companyinfo.data.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyVisitable
 import com.uber.autodispose.AutoDispose
 import io.reactivex.CompletableSource

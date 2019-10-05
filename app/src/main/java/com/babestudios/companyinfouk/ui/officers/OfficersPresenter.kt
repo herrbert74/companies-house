@@ -7,8 +7,8 @@ import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfo.data.BuildConfig
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
-import com.babestudios.companyinfo.data.model.officers.Officers
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.ui.officers.list.AbstractOfficersVisitable
 import com.babestudios.companyinfouk.ui.officers.list.OfficersVisitable
 import com.uber.autodispose.AutoDispose
@@ -52,7 +52,6 @@ constructor(
 				fetchOfficers(it)
 			}
 		}
-
 	}
 
 	override fun fetchOfficers(companyNumber: String) {

@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.ui.filinghistory.list
 
 import android.view.View
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.base.mvp.list.BaseViewHolder
 
 /**

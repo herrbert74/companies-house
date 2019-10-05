@@ -2,11 +2,7 @@ package com.babestudios.companyinfouk.ui.filinghistory.list
 
 import android.view.View
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.ui.filinghistory.FilingHistoryPresenter
 import kotlinx.android.synthetic.main.row_filing_history.view.*
-import javax.inject.Inject
 
 class FilingHistoryViewHolder(itemView: View) : BaseViewHolder<FilingHistoryVisitable>(itemView) {
 

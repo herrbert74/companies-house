@@ -42,7 +42,7 @@ import com.babestudios.companyinfouk.ui.main.recents.*
 import com.babestudios.companyinfouk.ui.main.search.*
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
 import com.babestudios.base.view.FilterAdapter
-import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView

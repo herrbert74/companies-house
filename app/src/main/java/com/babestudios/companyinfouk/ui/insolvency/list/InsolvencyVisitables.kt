@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.ui.insolvency.list
 
 import android.os.Parcelable
-import com.babestudios.companyinfo.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import kotlinx.android.parcel.Parcelize
 
 abstract class AbstractInsolvencyVisitable {

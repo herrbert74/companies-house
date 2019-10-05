@@ -14,9 +14,9 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfo.core.injection.CoreInjectHelper
-import com.babestudios.companyinfo.data.model.filinghistory.Category
-import com.babestudios.companyinfo.data.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
+import com.babestudios.companyinfouk.data.model.filinghistory.Category
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide

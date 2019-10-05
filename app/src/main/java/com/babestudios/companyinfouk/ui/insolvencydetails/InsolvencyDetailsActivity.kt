@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfo.core.injection.CoreInjectHelper
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfo.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsTypeFactory

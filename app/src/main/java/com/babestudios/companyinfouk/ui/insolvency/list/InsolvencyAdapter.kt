@@ -8,7 +8,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfo.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 
 class InsolvencyAdapter(private var insolvencyVisitables: List<AbstractInsolvencyVisitable>
 						, private val insolvencyTypeFactory: InsolvencyTypeFactory)

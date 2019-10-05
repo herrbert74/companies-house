@@ -13,8 +13,8 @@ import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.CompletableSource
 import androidx.lifecycle.ViewModelProviders
-import com.babestudios.companyinfo.core.injection.CoreInjectHelper
-import com.babestudios.companyinfo.data.model.officers.OfficerItem
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
+import com.babestudios.companyinfouk.data.model.officers.OfficerItem
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.officerappointments.createOfficerAppointmentsIntent

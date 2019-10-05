@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.ui.charges.list
 import android.view.View
 import com.babestudios.companyinfouk.R
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfo.data.model.charges.ChargesItem
+import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 
 class ChargesTypeFactory : ChargesAdapter.ChargesTypeFactory {
 	override fun type(chargesItem: ChargesItem): Int = R.layout.row_charges

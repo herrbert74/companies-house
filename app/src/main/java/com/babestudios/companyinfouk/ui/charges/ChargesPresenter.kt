@@ -7,8 +7,8 @@ import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
 import com.babestudios.companyinfo.data.BuildConfig
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
-import com.babestudios.companyinfo.data.model.charges.Charges
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.ui.charges.list.AbstractChargesVisitable
 import com.babestudios.companyinfouk.ui.charges.list.ChargesVisitable
 import com.uber.autodispose.AutoDispose

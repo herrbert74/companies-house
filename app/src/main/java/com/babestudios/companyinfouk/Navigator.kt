@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk
 
-import com.babestudios.companyinfo.navigation.base.BaseNavigator
-import com.babestudios.companyinfo.navigation.di.NavigationComponent
-import com.babestudios.companyinfo.navigation.features.OfficersNavigator
+import com.babestudios.companyinfouk.navigation.base.BaseNavigator
+import com.babestudios.companyinfouk.navigation.di.NavigationComponent
+import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 
 internal class Navigator : BaseNavigator(),
 		OfficersNavigator,

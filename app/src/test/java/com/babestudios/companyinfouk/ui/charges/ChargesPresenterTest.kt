@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.ui.charges
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
-import com.babestudios.companyinfo.data.CompaniesRepositoryContract
-import com.babestudios.companyinfo.data.model.charges.Charges
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Completable
 import io.reactivex.Single
