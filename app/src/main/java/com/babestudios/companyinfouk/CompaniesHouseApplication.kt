@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.babestudios.companyinfouk.core.injection.CoreComponent
 import com.babestudios.companyinfouk.core.injection.CoreComponentProvider
-import com.babestudios.companyinfo.core.injection.DaggerCoreComponent
+import com.babestudios.companyinfouk.core.injection.DaggerCoreComponent
 import com.babestudios.companyinfouk.data.di.CoreModule
 import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho

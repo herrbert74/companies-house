@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data.local.apilookup
 
-import com.babestudios.companyinfo.data.R
+import com.babestudios.companyinfouk.data.R
 import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
 import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDescriptions
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract

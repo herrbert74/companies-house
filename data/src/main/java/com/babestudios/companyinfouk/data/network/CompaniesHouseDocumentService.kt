@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data.network
 
-import com.babestudios.companyinfo.data.BuildConfig
+import com.babestudios.companyinfouk.data.BuildConfig
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.http.GET

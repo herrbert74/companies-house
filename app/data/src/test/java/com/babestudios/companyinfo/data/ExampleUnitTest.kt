@@ -1,4 +1,4 @@
-package com.babestudios.companyinfo.data
+package com.babestudios.companyinfouk.data
 
 import org.junit.Test
 

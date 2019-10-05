@@ -1,13 +1,13 @@
 package com.babestudios.companyinfouk.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import com.babestudios.base.mvp.BasePresenter
 import com.babestudios.base.mvp.Presenter
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.base.rxjava.SingleObserverWrapper
-import com.babestudios.companyinfo.data.BuildConfig
-import com.babestudios.companyinfouk.CompaniesHouseApplication
+import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
@@ -41,7 +41,8 @@ class MainPresenter
 constructor(
 		val companiesRepository: CompaniesRepositoryContract,
 		schedulerProvider: SchedulerProvider,
-		errorResolver: ErrorResolver
+		errorResolver: ErrorResolver,
+		val context: Context
 ) : BasePresenter<MainState, MainViewModel>(
 		schedulerProvider,
 		errorResolver
@@ -126,7 +127,7 @@ constructor(
 	private fun convertSearchHistoryToVisitables(reply: List<SearchHistoryItem>): List<AbstractSearchHistoryVisitable> {
 		val searchHistoryVisitables: MutableList<AbstractSearchHistoryVisitable> = reply.map { item -> SearchHistoryVisitable(SearchHistoryItem(item.companyName, item.companyNumber, System.currentTimeMillis())) }.toMutableList()
 		if (searchHistoryVisitables.size > 0)
-			searchHistoryVisitables.add(0, SearchHistoryHeaderVisitable(SearchHistoryHeaderItem(CompaniesHouseApplication.context.getString(R.string.recent_searches))))
+			searchHistoryVisitables.add(0, SearchHistoryHeaderVisitable(SearchHistoryHeaderItem(context.getString(R.string.recent_searches))))
 		return searchHistoryVisitables
 	}
 

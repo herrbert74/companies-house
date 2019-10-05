@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data.network
 
-import com.babestudios.companyinfo.data.BuildConfig
+import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
