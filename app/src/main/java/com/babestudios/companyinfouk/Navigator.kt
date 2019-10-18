@@ -15,4 +15,8 @@ internal class Navigator : BaseNavigator(),
 	override fun officersToOfficerDetails() {
 		navController?.navigate(R.id.action_officersFragment_to_officerDetailsFragment)
 	}
+
+	override fun officersDetailsToAppointments() {
+		navController?.navigate(R.id.action_officersFragment_to_officerDetailsFragment)
+	}
 }

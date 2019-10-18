@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.data
 import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Bundle
 import android.os.Environment
 import android.util.Base64
 import android.util.Log
@@ -22,6 +23,7 @@ import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.utils.Base64Wrapper
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -60,6 +62,10 @@ interface CompaniesRepositoryContract {
 	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem)
+
+	//Analytics
+	fun logAppOpen()
+	fun logScreenView(screenName: String)
 }
 
 open class CompaniesRepository constructor(
@@ -69,7 +75,8 @@ open class CompaniesRepository constructor(
 		private var preferencesHelper: PreferencesHelper,
 		base64Wrapper: Base64Wrapper,
 		private val constantsHelper: ConstantsHelper,
-		private val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
+		private val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper,
+		private val firebaseAnalytics: FirebaseAnalytics
 ) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
@@ -205,4 +212,18 @@ open class CompaniesRepository constructor(
 	override fun removeFavourite(favouriteToRemove: SearchHistoryItem) {
 		preferencesHelper.removeFavourite(favouriteToRemove)
 	}
+
+	//region analytics
+
+	override fun logAppOpen() {
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
+	}
+
+	override fun logScreenView(screenName: String) {
+		val bundle = Bundle()
+		bundle.putString("screen_name", screenName)
+		firebaseAnalytics.logEvent("screenView", bundle)
+	}
+
+	//endregion
 }

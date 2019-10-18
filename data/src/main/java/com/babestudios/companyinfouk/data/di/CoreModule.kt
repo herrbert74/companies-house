@@ -22,6 +22,7 @@ import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseErrorResolver
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -113,7 +114,8 @@ class CoreModule(private val context: Context) {
 			preferencesHelper: PreferencesHelper,
 			base64Wrapper: Base64Wrapper,
 			constantsHelper: ConstantsHelper,
-			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
+			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper,
+			firebaseAnalytics: FirebaseAnalytics
 	): CompaniesRepositoryContract {
 		return CompaniesRepository(
 				context,
@@ -122,7 +124,8 @@ class CoreModule(private val context: Context) {
 				preferencesHelper,
 				base64Wrapper,
 				constantsHelper,
-				filingHistoryDescriptionsHelper
+				filingHistoryDescriptionsHelper,
+				firebaseAnalytics
 		)
 	}
 
@@ -148,5 +151,11 @@ class CoreModule(private val context: Context) {
 	@Singleton
 	internal fun provideErrorResolver(errorHelper: ErrorHelper): ErrorResolver {
 		return CompaniesHouseErrorResolver(errorHelper)
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideFirebaseAnalytics(): FirebaseAnalytics {
+		return FirebaseAnalytics.getInstance(context)
 	}
 }

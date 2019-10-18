@@ -52,6 +52,7 @@ android {
 		sourceCompatibility JavaVersion.VERSION_1_8
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
+	buildToolsVersion = '29.0.2'
 	androidExtensions {
 		experimental = true
 	}
@@ -93,10 +94,10 @@ dependencies {
 	implementation Libs.JakeWharton.RxBinding.recyclerviewV7Kotlin
 
 	//AutoDispose
-	implementation 'com.uber.autodispose:autodispose-ktx:1.0.0-RC2'
-	implementation 'com.uber.autodispose:autodispose-lifecycle-ktx:1.0.0-RC2'
-	implementation 'com.uber.autodispose:autodispose-android-ktx:1.0.0-RC2'
-	implementation 'com.uber.autodispose:autodispose-rxlifecycle:1.0.0-RC2'
+	implementation 'com.uber.autodispose:autodispose-ktx:1.2.0'
+	implementation 'com.uber.autodispose:autodispose-lifecycle-ktx:1.2.0'
+	implementation 'com.uber.autodispose:autodispose-android-ktx:1.2.0'
+	implementation 'com.uber.autodispose:autodispose-rxlifecycle:1.4.0'
 
 	//RxLifeCycle
 	implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
