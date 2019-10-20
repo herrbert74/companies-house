@@ -41,6 +41,8 @@ dependencies {
 	implementation Libs.AndroidX.Navigation.fragment
 
 	implementation Libs.Google.Dagger.dagger
+	kapt Libs.Google.Dagger.compiler
+
 
 	implementation Libs.RxJava2.rxAndroid
 	implementation Libs.RxJava2.rxJava

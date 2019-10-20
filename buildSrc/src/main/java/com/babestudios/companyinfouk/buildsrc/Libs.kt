@@ -118,7 +118,7 @@ object Libs {
 	}
 
 	object JakeWharton {
-		const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:2.0.0"
+		const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:2.1.1"
 
 		object RxBinding {
 			private const val version = "2.2.0"

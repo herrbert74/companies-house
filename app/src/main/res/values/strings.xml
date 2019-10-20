@@ -1,7 +1,4 @@
 <resources>
-	<string name="empty_list">This list is empty</string>
-	<string name="error_happened_try_again">An error happened. Please try again.</string>
-
 	<string name="app_name">Company Info UK</string>
 	<string name="search">Search</string>
 	<string name="favourites">Favourites</string>
@@ -32,8 +29,6 @@
 	<string name="insolvency_details">Insolvency details</string>
 	<string name="charges">Charges</string>
 	<string name="charge_details_title">Charge details</string>
-	<string name="officers">Officers</string>
-	<string name="officer_details">Officer details</string>
 	<string name="person_details">Person details</string>
 	<string name="persons_with_significant_control">Persons with significant control</string>
 	<string name="company_details">Company details</string>
@@ -51,24 +46,12 @@
 	<string name="insolvency_details_ceased_to_act_on">Ceased to act on</string>
 	<string name="insolvency_details_name">Name</string>
 	<string name="insolvency_details_appointed_on">Appointed on</string>
-	<string name="officer_details_country_of_residence">Country of residence</string>
-	<string name="officer_details_name">Name</string>
-	<string name="officer_details_appointed_on">Appointed on</string>
-	<string name="officer_details_nationality">Nationality</string>
-	<string name="officer_details_occupation">Occupation</string>
-	<string name="officer_details_date_of_birth">Date of birth</string>
 	<string name="person_details_notified_on">Notified on</string>
 	<string name="person_details_registration_number">Registration number</string>
 	<string name="person_details_place_registered">Place registered</string>
 	<string name="person_details_natures_of_control">Natures of control</string>
-	<string name="officer_details_unknown">Unknown</string>
-	<string name="officer_details_appointments">Appointments</string>
 	<string name="company_name">Company name</string>
 	<string name="company_status">Company status</string>
-	<string name="officer_appointments_title">Officer appointments</string>
-	<string name="officer_appointments_resigned_on">Resigned on</string>
-	<string name="officer_appointments_role">Role</string>
-	<string name="officer_appointments_appointments">Appointments</string>
 	<string name="title_activity_maps">Map</string>
 	<string name="company_address_show_on_map">Show on map</string>
 	<string name="transactions">Transactions</string>
@@ -93,8 +76,6 @@
 	<string name="appbar_scrolling_view_behavior" translatable="false">	com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 	<string name="no_recent_searches">You have no recent searches. Start by searching for a company above!</string>
 	<string name="no_search_result">Your search did not return any companies. Please try another one</string>
-	<string name="content_description_error_image">Error image</string>
-	<string name="content_description_empty_image">Empty image</string>
 	<string name="filing_history_details_no_pdf_reader">Couldn\'t find PDF reader. Please install one from Google Play.</string>
 	<string name="filing_history_details_wont_save_pdf">The PDF file won\'t be saved to the SD card.</string>
 	<string-array name="search_filter_options">

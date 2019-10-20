@@ -62,6 +62,7 @@ dependencies {
 	implementation project(':buildSrc')
 	implementation project(':base')
 	implementation project(':core-injection')
+	implementation project(':feature-officers')
 	implementation project(':navigation')
 	implementation project(':data')
 

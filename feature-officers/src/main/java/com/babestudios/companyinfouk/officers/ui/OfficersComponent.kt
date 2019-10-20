@@ -10,14 +10,13 @@ import dagger.Component
 
 @ActivityScope
 @Component(
-		dependencies = [CoreComponent::class]
+		dependencies = [CoreComponent::class],
+		modules = [OfficersModule::class]
 )
 interface OfficersComponent {
 	@ApplicationContext
 	fun context(): Context
 	fun navigator(): OfficersNavigator
 	fun companiesRepository(): CompaniesRepositoryContract
-
-	fun injectActivity(activity: OfficersActivity)
 
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="officers">Officers</string>
+	<string name="officer_details">Officer details</string>
+
+	<string name="officer_details_country_of_residence">Country of residence</string>
+	<string name="officer_details_name">Name</string>
+	<string name="officer_details_appointed_on">Appointed on</string>
+	<string name="officer_details_nationality">Nationality</string>
+	<string name="officer_details_occupation">Occupation</string>
+	<string name="officer_details_date_of_birth">Date of birth</string>
+	<string name="officer_details_unknown">Unknown</string>
+	<string name="officer_details_appointments">Appointments</string>
+
+	<string name="officer_appointments_title">Officer appointments</string>
+	<string name="officer_appointments_resigned_on">Resigned on</string>
+	<string name="officer_appointments_role">Role</string>
+	<string name="officer_appointments_appointments">Appointments</string>
+
+</resources>

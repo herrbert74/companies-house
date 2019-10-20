@@ -18,7 +18,7 @@ class OfficersActivity : BaseActivity(), MvRxView {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_officers)
-		comp = DaggerOnboardingComponent
+		comp = DaggerOfficersComponent
 				.builder()
 				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
 				.build()
