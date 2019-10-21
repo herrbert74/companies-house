@@ -1,6 +1,8 @@
 package com.babestudios.companyinfouk.officers.ui
 
 import android.content.Context
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
@@ -15,13 +17,14 @@ import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppoin
 import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersVisitable
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitable
 import io.reactivex.observers.DisposableSingleObserver
+import java.util.regex.Pattern
 
 @Suppress("CheckResult")
 class OfficersViewModel(
 		officersState: OfficersState,
 		private val context: Context,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val officersNavigator: OfficersNavigator?
+		private val officersNavigator: OfficersNavigator
 ) : BaseViewModel<OfficersState>(officersState) {
 
 	companion object : MvRxViewModelFactory<OfficersViewModel, OfficersState> {
@@ -70,15 +73,14 @@ class OfficersViewModel(
 	fun loadMoreOfficers(page: Int) {
 		withState {
 			if (it.officerItems.size < it.totalOfficersCount) {
-				companiesRepository.getOfficers(it.companyNumber
-						?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+				companiesRepository.getOfficers(it.companyNumber, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 						.subscribeWith(object : DisposableSingleObserver<Officers>() {
 							override fun onError(e: Throwable) {
 								//TODO
 							}
 
 							override fun onSuccess(reply: Officers) {
-								val newList = it.officerItems.orEmpty().toMutableList()
+								val newList = it.officerItems.toMutableList()
 								newList.addAll(convertToVisitables(reply))
 								setState {
 									copy(
@@ -96,49 +98,67 @@ class OfficersViewModel(
 		return ArrayList(reply.items.map { item -> OfficersVisitable(item) })
 	}
 
-	//TODO Extract officer id from appointments field
-	/*
-	val pattern = Pattern.compile("officers/(.+)/appointments")
-		val matcher = pattern.matcher(viewModel.state.value?.officerItem?.links?.officer?.appointments)
-		var officerId = ""
-		if (matcher.find()) {
-			officerId = matcher.group(1)
-		}
-		sendToViewModel {
-			it.apply {
-				this.contentChange = ContentChange.OFFICER_ITEM_RECEIVED
-				this.officerId = officerId
+	fun officerItemClicked(adapterPosition: Int) {
+		withState { state ->
+
+			val newOfficerItem = (state.officerItems[adapterPosition] as OfficersVisitable).officerItem
+			val pattern = Pattern.compile("officers/(.+)/appointments")
+			val matcher = pattern.matcher(newOfficerItem.links?.officer?.appointments ?: "")
+			var officerId = ""
+			if (matcher.find()) {
+				officerId = matcher.group(1) ?: ""
+			}
+
+			setState {
+				copy(
+						officerItem = newOfficerItem,
+						officerId = officerId,
+						officerDetailsScreenState = ScreenState.Complete
+				)
 			}
 		}
-	 */
+		officersNavigator.officersToOfficerDetails()
+	}
+
 	//endregion
 
 	//region officer details
+
+	fun officerAppointmentsClicked(extras: Navigator.Extras) {
+		officersNavigator.officersDetailsToAppointments(extras)
+	}
 
 	//endregion
 
 	//region officer appointments
 
-	fun fetchAppointments(officerId: String) {
-		companiesRepository.getOfficerAppointments(officerId, "0")
-				//.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-				.subscribeWith(object : DisposableSingleObserver<Appointments>() {
+	fun fetchAppointments() {
+		setState {
+			copy(
+					officerAppointmentsScreenState = ScreenState.Loading
+			)
+		}
+		withState {
+			companiesRepository.getOfficerAppointments(it.officerId, "0")
+					//.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
+					.subscribeWith(object : DisposableSingleObserver<Appointments>() {
 
-					override fun onSuccess(reply: Appointments) {
-						setState {
-							copy(
-									officerName = reply.name ?: "",
-									officerAppointmentsScreenState = ScreenState.Complete,
-									appointmentItems = convertToVisitables(reply),
-									totalAppointmentsCount = reply.totalResults?.toInt() ?: 0
-							)
+						override fun onSuccess(reply: Appointments) {
+							setState {
+								copy(
+										officerName = reply.name ?: "",
+										officerAppointmentsScreenState = ScreenState.Complete,
+										appointmentItems = convertToVisitables(reply),
+										totalAppointmentsCount = reply.totalResults?.toInt() ?: 0
+								)
+							}
 						}
-					}
 
-					override fun onError(e: Throwable) {
-						//TODO
-					}
-				})
+						override fun onError(e: Throwable) {
+							//TODO
+						}
+					})
+		}
 	}
 
 	fun loadMoreAppointments(page: Int) {

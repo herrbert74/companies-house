@@ -5,20 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.base.mvrx.ScreenState
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
+import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_officer_details.*
 
 class OfficerDetailsFragment : BaseMvRxFragment() {
 
-
 	private val viewModel by activityViewModel(OfficersViewModel::class)
-
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
@@ -61,6 +61,7 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 				initPresenter(viewModel)
 			}
 		}*/
+		invalidate()
 	}
 
 	override fun onResume() {
@@ -94,11 +95,14 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 //region events
 
 	//TODO
+	@Suppress("CheckResult")
 	private fun observeActions() {
-		/*eventDisposables.clear()
+		eventDisposables.clear()
+		val extras = FragmentNavigatorExtras(
+				btnOfficerDetailsAppointments to "pabOfficerAppointments")
 		RxView.clicks(btnOfficerDetailsAppointments)
-				.`as`(AutoDispose.autoDisposable(this))
-				.subscribe { startActivityWithRightSlide(createOfficerAppointmentsIntent(viewModel.state.value.officerId)) }*/
+		//		.`as`(AutoDispose.autoDisposable(this))
+				.subscribe { viewModel.officerAppointmentsClicked(extras) }
 	}
 
 	//endregion

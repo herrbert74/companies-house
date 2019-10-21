@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.officers.ui
 
 import com.airbnb.mvrx.MvRxState
-import com.babestudios.base.mvp.BaseState
 import com.babestudios.base.mvrx.ScreenState
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem
 import com.babestudios.companyinfouk.officers.ui.appointments.list.AbstractOfficerAppointmentsVisitable

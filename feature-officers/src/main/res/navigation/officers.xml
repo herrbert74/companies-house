@@ -8,7 +8,7 @@
 	<fragment
 		android:id="@+id/officersFragment"
 		android:name="com.babestudios.companyinfouk.officers.ui.officers.OfficersFragment"
-		android:label="SplashFragment"
+		android:label="OfficersFragment"
 		tools:layout="@layout/fragment_officers">
 
 		<action
@@ -19,8 +19,8 @@
 	<fragment
 		android:id="@+id/officerDetailsFragment"
 		android:name="com.babestudios.companyinfouk.officers.ui.details.OfficerDetailsFragment"
-		android:label="SplashFragment"
-		tools:layout="@layout/activity_officers">
+		android:label="OfficerDetailsFragment"
+		tools:layout="@layout/fragment_officer_details">
 		<action
 			android:id="@+id/action_officerDetailsFragment_to_officerAppointmentFragment"
 			app:destination="@id/officerAppointmentsFragment" />
@@ -29,7 +29,7 @@
 	<fragment
 		android:id="@+id/officerAppointmentsFragment"
 		android:name="com.babestudios.companyinfouk.officers.ui.appointments.OfficerAppointmentsFragment"
-		android:label="SplashFragment"
-		tools:layout="@layout/activity_officers" />
+		android:label="OfficerAppointmentsFragment"
+		tools:layout="@layout/fragment_officer_appointments" />
 
 </navigation>

@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.mvrx.ScreenState
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
+import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersVisitable
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersAdapter
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersTypeFactory
 import io.reactivex.disposables.CompositeDisposable
@@ -116,17 +118,18 @@ class OfficersFragment : BaseMvRxFragment() {
 	private fun observeActions() {
 		eventDisposables.clear()
 		//TODO
-		/*officersAdapter?.getViewClickedObservable()
+		officersAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.`as`(AutoDispose.autoDisposable(this))
+				//?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractOfficersVisitable> ->
-					viewModel.state.value.officerItems?.let { officerItems ->
-						startActivityWithRightSlide(
-								this.createOfficerDetailsIntent(
-										(officerItems[(view as OfficersViewHolder).adapterPosition] as OfficersVisitable).officersItem))
-					}
+					viewModel.officerItemClicked(view.adapterPosition)
+					/*withState(viewModel) {
+							startActivityWithRightSlide(
+									this.createOfficerDetailsIntent(
+											(it.officerItems[(view as OfficersViewHolder).adapterPosition] as OfficersVisitable).officersItem))
+					}*/
 				}
-				?.let { eventDisposables.add(it) }*/
+				?.let { eventDisposables.add(it) }
 	}
 
 	//endregion

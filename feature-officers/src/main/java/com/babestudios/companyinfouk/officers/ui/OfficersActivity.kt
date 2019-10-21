@@ -3,7 +3,10 @@ package com.babestudios.companyinfouk.officers.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.airbnb.mvrx.MvRxView
+import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -17,7 +20,15 @@ class OfficersActivity : BaseActivity(), MvRxView {
 	override val mvrxViewId: String
 		get() = "OfficersActivity"
 
-	private lateinit var comp: OfficersComponent
+
+	private val comp by lazy {
+		DaggerOfficersComponent
+				.builder()
+				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
+				.build()
+	}
+
+	private lateinit var navController: NavController
 
 	private lateinit var companyNumber: String
 
@@ -25,10 +36,12 @@ class OfficersActivity : BaseActivity(), MvRxView {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_officers)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
-		comp = DaggerOfficersComponent
-				.builder()
-				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-				.build()
+		navController = findNavController(R.id.navHostFragmentOfficers)
+		if (::comp.isLazyInitialized) {
+			val nav = comp.navigator()
+			nav.bind(navController)
+		}
+
 	}
 
 	fun provideCompanyNumber(): String {
@@ -44,9 +57,13 @@ class OfficersActivity : BaseActivity(), MvRxView {
 	}
 
 	fun injectOfficersNavigator(): OfficersNavigator {
-		return comp.navigator()
+		val nav = comp.navigator()
+		if (::navController.isInitialized)
+			nav.bind(navController)
+		return nav
 	}
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 
 	}

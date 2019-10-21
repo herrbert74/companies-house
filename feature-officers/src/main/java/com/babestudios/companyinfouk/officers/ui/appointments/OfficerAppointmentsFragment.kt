@@ -4,18 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvrx.ScreenState
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsAdapter
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsTypeFactory
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_officer_appointments.*
+import kotlinx.android.synthetic.main.row_officer_appointments_header.*
 
 class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
@@ -71,6 +76,7 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 		}*/
 
 		createRecyclerView()
+		viewModel.fetchAppointments()
 	}
 
 	override fun onResume() {
@@ -140,28 +146,27 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
 	override fun invalidate() {
 		withState(viewModel) { state ->
-
 			when (state.officerAppointmentsScreenState) {
-				/*state.isLoading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
-				state.errorType != ErrorType.NONE -> {
+				is ScreenState.Loading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
+				is ScreenState.Error -> {
 					msvOfficerAppointments.viewState = VIEW_STATE_ERROR
-					state.errorType = ErrorType.NONE
-					msvOfficerAppointments.tvMsvError.text = state.errorMessage
+					val tvMsvError = msvOfficerAppointments.findViewById<TextView>(R.id.tvMsvError)
+					tvMsvError.text = state.officerAppointmentsScreenState.errorType.message
 				}
-				state.appointmentItems == null -> msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
-				else -> {
-					state.appointmentItems?.let {
+				is ScreenState.Empty -> msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
+				is ScreenState.Complete -> {
+					withState(viewModel) {
 						msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
 						lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
 						if (rvOfficerAppointments?.adapter == null) {
-							officerAppointmentsAdapter = OfficerAppointmentsAdapter(it, OfficerAppointmentsTypeFactory())
+							officerAppointmentsAdapter = OfficerAppointmentsAdapter(it.appointmentItems, OfficerAppointmentsTypeFactory())
 							rvOfficerAppointments?.adapter = officerAppointmentsAdapter
 						} else {
-							officerAppointmentsAdapter?.updateItems(it)
+							officerAppointmentsAdapter?.updateItems(it.appointmentItems)
 						}
 						observeActions()
 					}
-				}*/
+				}
 			}
 		}
 	}

@@ -35,9 +35,7 @@
 		<activity android:name=".ui.filinghistorydetails.FilingHistoryDetailsActivity"/>
 		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
 		<activity android:name=".ui.insolvencydetails.InsolvencyDetailsActivity"/>
-		<activity android:name=".ui.officers.OfficersActivity"/>
-		<activity android:name=".ui.officerdetails.OfficerDetailsActivity"/>
-		<activity android:name=".ui.officerappointments.OfficerAppointmentsActivity"/>
+		<activity android:name=".officers.ui.OfficersActivity"/>
 		<activity android:name=".ui.persons.PersonsActivity"/>
 		<activity android:name=".ui.persondetails.PersonDetailsActivity"/>
 		<activity android:name=".ui.map.MapActivity"/>

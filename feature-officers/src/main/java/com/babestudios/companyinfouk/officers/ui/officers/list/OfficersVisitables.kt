@@ -9,8 +9,8 @@ abstract class AbstractOfficersVisitable : Parcelable {
 }
 
 @Parcelize
-class OfficersVisitable(val officersItem: OfficerItem) : AbstractOfficersVisitable(), Parcelable {
+class OfficersVisitable(val officerItem: OfficerItem) : AbstractOfficersVisitable(), Parcelable {
 	override fun type(officersTypeFactory: OfficersAdapter.OfficersTypeFactory): Int {
-		return officersTypeFactory.type(officersItem)
+		return officersTypeFactory.type(officerItem)
 	}
 }

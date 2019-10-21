@@ -10,6 +10,7 @@
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabOfficerAppointments"
 		android:layout_width="match_parent"
+		android:transitionName="transtion_name_example"
 		android:layout_height="@dimen/appbar_height"
 		android:theme="@style/AppTheme.AppBarOverlay"
 		app:imageViewSrc="@drawable/bg_appointments"/>

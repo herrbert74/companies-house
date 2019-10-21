@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk
 
+import androidx.navigation.Navigator
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
@@ -16,7 +17,7 @@ internal class Navigator : BaseNavigator(),
 		navController?.navigate(R.id.action_officersFragment_to_officerDetailsFragment)
 	}
 
-	override fun officersDetailsToAppointments() {
-		navController?.navigate(R.id.action_officersFragment_to_officerDetailsFragment)
+	override fun officersDetailsToAppointments(extras: Navigator.Extras) {
+		navController?.navigate(R.id.action_officerDetailsFragment_to_officerAppointmentFragment, null, null, extras)
 	}
 }
