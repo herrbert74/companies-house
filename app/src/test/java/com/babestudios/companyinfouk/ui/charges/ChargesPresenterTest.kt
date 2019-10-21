@@ -28,7 +28,7 @@ class ChargesPresenterTest {
 		chargesPresenter = testApplicationComponent.chargesPresenter()
 		whenever(chargesPresenter.companiesRepository.fetchCharges("123", "0")).thenReturn(Single.just(Charges()))
 		val chargesViewModel = ChargesViewModel()
-		chargesViewModel.state.value.companyNumber = "123"
+		chargesviewModel.state.value?.companyNumber = "123"
 		chargesPresenter.setViewModel(chargesViewModel, Completable.fromCallable { false })
 	}
 

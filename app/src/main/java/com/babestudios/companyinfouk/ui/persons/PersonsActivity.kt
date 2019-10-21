@@ -5,13 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.persondetails.createPersonDetailsIntent
@@ -52,20 +53,19 @@ class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 		pabPersons.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.setTitle(R.string.persons_with_significant_control)
 		when {
-			viewModel.state.value.persons != null -> {
+			viewModel.state.value?.persons != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<PersonsState>("STATE")?.let {
-					with(viewModel.state.value) {
-						persons = it.persons
-						companyNumber = it.companyNumber
-					}
-				}
+				(savedInstanceState.getParcelable<PersonsState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+							state.persons = savedState.persons
+							state.companyNumber = savedState.companyNumber
+						}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
+				viewModel.state.value?.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
 				initPresenter(viewModel)
 			}
 		}
@@ -151,7 +151,7 @@ class PersonsActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractPersonsVisitable> ->
-					viewModel.state.value.persons?.let { personItems ->
+					viewModel.state.value?.persons?.let { personItems ->
 						startActivityWithRightSlide(
 								this.createPersonDetailsIntent(
 										(personItems[(view as Persons2ViewHolder).adapterPosition] as PersonsVisitable).person))

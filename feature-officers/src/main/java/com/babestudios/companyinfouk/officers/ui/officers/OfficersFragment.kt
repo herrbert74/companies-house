@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.BaseMvRxFragment
@@ -19,7 +20,6 @@ import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersAdapter
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersTypeFactory
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_officers.*
-//import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 
 class OfficersFragment : BaseMvRxFragment() {
 
@@ -73,6 +73,9 @@ class OfficersFragment : BaseMvRxFragment() {
 		}*/
 
 		createRecyclerView()
+		withState(viewModel) {
+			viewModel.fetchOfficers(it.companyNumber)
+		}
 		//observeState()
 	}
 
@@ -130,26 +133,26 @@ class OfficersFragment : BaseMvRxFragment() {
 
 	override fun invalidate() {
 		withState(viewModel) { state ->
-			when (state.officersScreenState){
+			when (state.officersScreenState) {
 				ScreenState.Loading -> msvOfficers.viewState = VIEW_STATE_LOADING
 				is ScreenState.Error -> {
 					msvOfficers.viewState = VIEW_STATE_ERROR
-					//msvOfficers.tvMsvError.text = state.officersScreenState.errorType.message
+					val tvMsvError = msvOfficers.findViewById<TextView>(R.id.tvMsvError)
+					tvMsvError.text = state.officersScreenState.errorType.message
 				}
 				ScreenState.Empty -> msvOfficers.viewState = VIEW_STATE_EMPTY
 				ScreenState.Complete -> {
-					state.officerItems?.let {
-						msvOfficers.viewState = VIEW_STATE_CONTENT
-						if (rvOfficers?.adapter == null) {
-							officersAdapter = OfficersAdapter(it, OfficersTypeFactory())
-							rvOfficers?.adapter = officersAdapter
-						} else {
-							officersAdapter?.updateItems(it)
-						}
-						observeActions()
+					msvOfficers.viewState = VIEW_STATE_CONTENT
+					if (rvOfficers?.adapter == null) {
+						officersAdapter = OfficersAdapter(state.officerItems, OfficersTypeFactory())
+						rvOfficers?.adapter = officersAdapter
+					} else {
+						officersAdapter?.updateItems(state.officerItems)
 					}
+					observeActions()
 				}
-				else -> {}
+				else -> {
+				}
 			}
 		}
 	}

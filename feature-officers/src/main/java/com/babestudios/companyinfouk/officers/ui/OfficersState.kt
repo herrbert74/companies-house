@@ -10,7 +10,7 @@ import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersV
 
 data class OfficersState(
 		//Officers
-		val officerItems: List<AbstractOfficersVisitable>?,
+		val officerItems: List<AbstractOfficersVisitable> = emptyList(),
 		val totalOfficersCount: Int = 0,
 		val companyNumber: String = "",
 		val officersScreenState: ScreenState = ScreenState.Initialized,
@@ -21,7 +21,7 @@ data class OfficersState(
 		val officerDetailsScreenState: ScreenState = ScreenState.Initialized,
 
 		//Officer appointments
-		val appointmentItems: List<AbstractOfficerAppointmentsVisitable>,
+		val appointmentItems: List<AbstractOfficerAppointmentsVisitable> = emptyList(),
 		val totalAppointmentsCount: Int = 0,
 		val officerName : String = "",
 		val officerAppointmentsScreenState: ScreenState = ScreenState.Initialized

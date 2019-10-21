@@ -82,7 +82,7 @@ constructor(
 				.subscribeWith(object : SingleObserverWrapper<CompanySearchResult>(this) {
 					override fun onSuccess(reply: CompanySearchResult) {
 						val searchVisitables = convertSearchResultsToVisitables(reply)
-						filterSearchResults(viewModel.state.value.filterState, searchVisitables)
+						filterSearchResults(viewModel.state.value?.filterState, searchVisitables)
 								.subscribe { filteredSearchResults ->
 									sendToViewModel {
 										it.apply {
@@ -106,9 +106,9 @@ constructor(
 					?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribeWith(object : SingleObserverWrapper<CompanySearchResult>(this) {
 						override fun onSuccess(reply: CompanySearchResult) {
-							val newSearchVisitables = viewModel.state.value.searchVisitables.toMutableList()
+							val newSearchVisitables = viewModel.state.value?.searchVisitables.orEmpty().toMutableList()
 							newSearchVisitables.addAll(convertSearchResultsToVisitables(reply))
-							filterSearchResults(viewModel.state.value.filterState, newSearchVisitables.toList())
+							filterSearchResults(viewModel.state.value?.filterState, newSearchVisitables.toList())
 									.subscribe { filteredSearchResults ->
 										sendToViewModel {
 											it.apply {
@@ -172,7 +172,7 @@ constructor(
 	//endregion
 
 	override fun fabMainClicked() {
-		if (viewModel.state.value.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED) {
+		if (viewModel.state.value?.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED) {
 			sendToViewModel {
 				it.apply {
 					this.contentChange = ContentChange.DELETE_SEARCH_HISTORY
@@ -193,7 +193,7 @@ constructor(
 
 	override fun setFilterState(filterState: FilterState) {
 		if (filterState.ordinal > FilterState.FILTER_SHOW_ALL.ordinal) {
-			filterSearchResults(filterState, viewModel.state.value.searchVisitables)
+			filterSearchResults(filterState, viewModel.state.value?.searchVisitables.orEmpty())
 					.subscribe { result ->
 						sendToViewModel {
 							it.apply {
@@ -214,7 +214,7 @@ constructor(
 		}
 	}
 
-	private fun filterSearchResults(filterState: FilterState, searchVisitables: List<AbstractSearchVisitable>): Single<List<AbstractSearchVisitable>> {
+	private fun filterSearchResults(filterState: FilterState?, searchVisitables: List<AbstractSearchVisitable>): Single<List<AbstractSearchVisitable>> {
 		return Observable.fromIterable(searchVisitables)
 				.filter { companySearchResultItem ->
 					val searchItem = (companySearchResultItem as SearchVisitable).searchItem

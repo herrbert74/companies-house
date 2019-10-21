@@ -17,8 +17,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
@@ -60,19 +60,18 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 		pabFilingHistoryDetails.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.setTitle(R.string.filing_history_details)
 		when {
-			viewModel.state.value.filingHistoryItem != null -> {
+			viewModel.state.value?.filingHistoryItem != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<FilingHistoryDetailsState>("STATE")?.let {
-					with(viewModel.state.value) {
-						filingHistoryItem = it.filingHistoryItem
-					}
-				}
+				(savedInstanceState.getParcelable<FilingHistoryDetailsState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+							state.filingHistoryItem = savedState.filingHistoryItem
+						}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.filingHistoryItem = intent.getParcelableExtra(FILING_HISTORY_ITEM)
+				viewModel.state.value?.filingHistoryItem = intent.getParcelableExtra(FILING_HISTORY_ITEM)
 				initPresenter(viewModel)
 			}
 		}
@@ -101,7 +100,7 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
-		viewModel.state.value.filingHistoryItem?.links?.documentMetadata?.let {
+		viewModel.state.value?.filingHistoryItem?.links?.documentMetadata?.let {
 			menuInflater.inflate(R.menu.filing_history_details_menu, menu)
 		}
 		return true
@@ -151,7 +150,7 @@ class FilingHistoryDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 			state.contentChange == ContentChange.PDF_WRITTEN -> {
 				state.contentChange = ContentChange.NONE
 				msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
-				viewModel.state.value.pdfUri?.let {
+				viewModel.state.value?.pdfUri?.let {
 					showDocument(it)
 				}
 			}

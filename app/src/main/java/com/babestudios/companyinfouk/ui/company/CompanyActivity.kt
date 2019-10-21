@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.convertToTimestamp
 import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.ext.parseMySqlDate
@@ -17,11 +18,11 @@ import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.officers.ui.createOfficersIntent
 import com.babestudios.companyinfouk.ui.charges.createChargesIntent
 import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
 import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
-import com.babestudios.companyinfouk.officers.ui.officers.createOfficersIntent
 import com.babestudios.companyinfouk.ui.persons.createPersonsIntent
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -60,25 +61,24 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 		pabCompany.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.title = intent.getStringExtra(COMPANY_NAME)
 		when {
-			viewModel.state.value.company != null -> {
+			viewModel.state.value?.company != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<CompanyState>("STATE")?.let {
-					with(viewModel.state.value) {
-						company = it.company
-						companyName = it.companyName
-						companyNumber = it.companyNumber
-						addressString = it.addressString
-						isFavorite = it.isFavorite
-						natureOfBusinessString = it.natureOfBusinessString
-					}
-				}
+				(savedInstanceState.getParcelable<CompanyState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+							state.company = savedState.company
+							state.companyName = savedState.companyName
+							state.companyNumber = savedState.companyNumber
+							state.addressString = savedState.addressString
+							state.isFavorite = savedState.isFavorite
+							state.natureOfBusinessString = savedState.natureOfBusinessString
+						}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
-				viewModel.state.value.companyName = intent.getStringExtra(COMPANY_NAME)
+				viewModel.state.value?.companyNumber = intent.getStringExtra(COMPANY_NUMBER) ?: ""
+				viewModel.state.value?.companyName = intent.getStringExtra(COMPANY_NAME) ?: ""
 				initPresenter(viewModel)
 			}
 		}
@@ -232,35 +232,45 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 				.`as`(AutoDispose.autoDisposable(this))
 				.subscribe {
 					val intent = Intent(this, MapActivity::class.java)
-					intent.putExtra("addressString", viewModel.state.value.addressString)
-					intent.putExtra("companyName", viewModel.state.value.companyName)
+					intent.putExtra("addressString", viewModel.state.value?.addressString)
+					intent.putExtra("companyName", viewModel.state.value?.companyName)
 					startActivityWithRightSlide(intent)
 				}
 	}
 
 	fun onFilingHistoryClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		startActivityWithRightSlide(createFilingHistoryIntent(viewModel.state.value.companyNumber))
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		viewModel.state.value?.companyNumber?.let {
+			startActivityWithRightSlide(createFilingHistoryIntent(it))
+			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		}
 	}
 
 	fun onChargesClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		startActivityWithRightSlide(createChargesIntent(viewModel.state.value.companyNumber))
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		viewModel.state.value?.companyNumber?.let {
+			startActivityWithRightSlide(createChargesIntent(it))
+			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		}
 	}
 
 	fun onInsolvencyClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		startActivityWithRightSlide(createInsolvencyIntent(viewModel.state.value.companyNumber))
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		viewModel.state.value?.companyNumber?.let {
+			startActivityWithRightSlide(createInsolvencyIntent(it))
+			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		}
 	}
 
 	fun onOfficersClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		startActivityWithRightSlide(createOfficersIntent(viewModel.state.value.companyNumber))
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		viewModel.state.value?.companyNumber?.let {
+			startActivityWithRightSlide(createOfficersIntent(it))
+			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		}
 	}
 
 	fun onPersonsClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		startActivityWithRightSlide(createPersonsIntent(viewModel.state.value.companyNumber))
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		viewModel.state.value?.companyNumber?.let {
+			startActivityWithRightSlide(createPersonsIntent(it))
+			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+		}
 	}
 
 	//endregion

@@ -34,8 +34,8 @@ class CompanyPresenterTest {
 		company.accounts?.lastAccounts?.type = "any"
 		whenever(companyPresenter.companiesRepository.getCompany(any())).thenReturn(Single.just(company))
 		val companyViewModel = CompanyViewModel()
-		companyViewModel.state.value.companyNumber = "123"
-		companyViewModel.state.value.companyName = "name"
+		companyviewModel.state.value?.companyNumber = "123"
+		companyviewModel.state.value?.companyName = "name"
 		companyPresenter.setViewModel(companyViewModel, null)
 	}
 

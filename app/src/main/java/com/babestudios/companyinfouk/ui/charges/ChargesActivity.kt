@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
@@ -53,19 +54,19 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 		supportActionBar?.setTitle(R.string.charges)
 		createRecyclerView()
 		when {
-			viewModel.state.value.chargeItems != null -> {
+			viewModel.state.value?.chargeItems != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<ChargesState>("STATE")?.let {
-					with(viewModel.state.value) {
-						companyNumber = it.companyNumber
-					}
+				(savedInstanceState.getParcelable<ChargesState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+						state.companyNumber = savedState.companyNumber
+
 				}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)!!
+				viewModel.state.value?.companyNumber = intent.getStringExtra(COMPANY_NUMBER)!!
 				initPresenter(viewModel)
 			}
 		}
@@ -160,7 +161,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractChargesVisitable> ->
-					viewModel.state.value.chargeItems?.let { chargeItems ->
+					viewModel.state.value?.chargeItems?.let { chargeItems ->
 						startActivityWithRightSlide(this.createChargeDetailsIntent(
 								(chargeItems[(view as ChargesViewHolder).adapterPosition] as ChargesVisitable).chargesItem))
 					}

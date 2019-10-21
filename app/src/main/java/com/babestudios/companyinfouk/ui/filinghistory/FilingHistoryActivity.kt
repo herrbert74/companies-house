@@ -8,6 +8,7 @@ import android.view.Menu
 import android.widget.Spinner
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
@@ -67,22 +68,21 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
 		supportActionBar?.title = getString(R.string.filing_history)
 		when {
-			viewModel.state.value.filingHistoryList != null -> {
+			viewModel.state.value?.filingHistoryList != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<FilingHistoryState>("STATE")?.let {
-					with(viewModel.state.value) {
-						companyNumber = it.companyNumber
-						filingHistoryList = it.filingHistoryList
-						filingCategoryFilter = it.filingCategoryFilter
-						clickedFilingHistoryItem = null
-					}
-				}
+				(savedInstanceState.getParcelable<FilingHistoryState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+							state.companyNumber = savedState.companyNumber
+							state.filingHistoryList = savedState.filingHistoryList
+							state.filingCategoryFilter = savedState.filingCategoryFilter
+							state.clickedFilingHistoryItem = null
+						}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
+				viewModel.state.value?.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
 				initPresenter(viewModel)
 			}
 		}
@@ -147,8 +147,10 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 				isToolbarDarkTheme = true
 		)
 		spinner.adapter = adapter
-		if (viewModel.state.value.filingCategoryFilter != Category.CATEGORY_SHOW_ALL) {
-			spinner.setSelection(viewModel.state.value.filingCategoryFilter.ordinal)
+		if (viewModel.state.value?.filingCategoryFilter != Category.CATEGORY_SHOW_ALL) {
+			viewModel.state.value?.filingCategoryFilter?.ordinal?.let {
+				spinner.setSelection(it)
+			}
 		}
 		observeActions()
 		return true
@@ -170,7 +172,7 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 		filingHistoryAdapter?.getViewClickedObservable()
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
-					viewModel.state.value.filingHistoryList?.let { filingHistoryList ->
+					viewModel.state.value?.filingHistoryList?.let { filingHistoryList ->
 						filingItemClicked(filingHistoryList[(view as FilingHistoryViewHolder).adapterPosition].filingHistoryItem)
 					}
 				}
@@ -221,7 +223,7 @@ class FilingHistoryActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun showFilingHistory() {
 		msvFilingHistory.viewState = VIEW_STATE_CONTENT
-		viewModel.state.value.filingHistoryList?.also { filingHistoryList ->
+		viewModel.state.value?.filingHistoryList?.also { filingHistoryList ->
 			if (rvFilingHistory?.adapter == null) {
 				filingHistoryAdapter = FilingHistoryAdapter(filingHistoryList, FilingHistoryTypeFactory())
 				rvFilingHistory?.adapter = filingHistoryAdapter

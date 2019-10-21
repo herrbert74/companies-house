@@ -38,6 +38,11 @@ class OfficersViewModel(
 					officersNavigator
 			)
 		}
+
+		override fun initialState(viewModelContext: ViewModelContext): OfficersState? {
+			val companyNumber = viewModelContext.activity<OfficersActivity>().provideCompanyNumber()
+			return OfficersState(companyNumber = companyNumber)
+		}
 	}
 
 	//region officers
@@ -64,7 +69,7 @@ class OfficersViewModel(
 
 	fun loadMoreOfficers(page: Int) {
 		withState {
-			if (it.officerItems == null || it.officerItems.size < it.totalOfficersCount) {
+			if (it.officerItems.size < it.totalOfficersCount) {
 				companiesRepository.getOfficers(it.companyNumber
 						?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 						.subscribeWith(object : DisposableSingleObserver<Officers>() {
@@ -137,7 +142,7 @@ class OfficersViewModel(
 	}
 
 	fun loadMoreAppointments(page: Int) {
-		withState {state->
+		withState { state ->
 			if (state.appointmentItems.size < state.totalAppointmentsCount) {
 				companiesRepository.getOfficerAppointments(state.officerId
 						?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
@@ -147,8 +152,8 @@ class OfficersViewModel(
 								newList.addAll(convertToVisitables(reply))
 								setState {
 									copy(
-										officerAppointmentsScreenState = ScreenState.Complete,
-										appointmentItems = newList
+											officerAppointmentsScreenState = ScreenState.Complete,
+											appointmentItems = newList
 									)
 								}
 							}

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.MultiStateView.*
@@ -12,6 +13,7 @@ import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.ext.logScreenView
+import com.babestudios.companyinfouk.ui.charges.ChargesState
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsTypeFactory
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -52,20 +54,19 @@ class InsolvencyDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 		pabInsolvencyDetails.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.setTitle(R.string.insolvency_details)
 		when {
-			viewModel.state.value.insolvencyDetailsItems != null -> {
+			viewModel.state.value?.insolvencyDetailsItems != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<InsolvencyDetailsState>("STATE")?.let {
-					with(viewModel.state.value) {
-						insolvencyDetailsItems = it.insolvencyDetailsItems
-						insolvencyCase = it.insolvencyCase
-					}
+				(savedInstanceState.getParcelable<InsolvencyDetailsState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+						state.insolvencyDetailsItems = savedState.insolvencyDetailsItems
+						state.insolvencyCase = savedState.insolvencyCase
 				}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.insolvencyCase = intent.getParcelableExtra(INSOLVENCY_CASE)
+				viewModel.state.value?.insolvencyCase = intent.getParcelableExtra(INSOLVENCY_CASE)
 				initPresenter(viewModel)
 			}
 		}
@@ -130,7 +131,7 @@ class InsolvencyDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 					if (rvInsolvencyDetails?.adapter == null) {
 						val titlePositions = ArrayList<Int>()
 						titlePositions.add(0)
-						titlePositions.add(viewModel.state.value.insolvencyCase?.dates?.size.let { it } ?: 0 + 1)
+						titlePositions.add(viewModel.state.value?.insolvencyCase?.dates?.size.let { it } ?: 0 + 1)
 						rvInsolvencyDetails.addItemDecoration(
 								DividerItemDecorationWithSubHeading(this, titlePositions))
 						insolvencyDetailsAdapter = InsolvencyDetailsAdapter(items, InsolvencyDetailsTypeFactory())

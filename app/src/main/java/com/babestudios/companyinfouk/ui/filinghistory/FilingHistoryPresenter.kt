@@ -83,7 +83,7 @@ constructor(
 		(viewModel to viewModel.state.value?.companyNumber).biLet { vm, companyNumber ->
 			companiesRepository.getFilingHistory(
 					companyNumber,
-					vm.state.value.filingCategoryFilter.getSerializedName(),
+					vm.state.value?.filingCategoryFilter?.getSerializedName() ?: "",
 					(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
 					.subscribe(object : SingleObserverWrapper<FilingHistoryList>(this) {
 						override fun onSuccess(reply: FilingHistoryList) {

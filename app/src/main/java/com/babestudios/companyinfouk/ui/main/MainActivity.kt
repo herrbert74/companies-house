@@ -31,9 +31,11 @@ import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
+import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
@@ -41,8 +43,6 @@ import com.babestudios.companyinfouk.ui.favourites.createFavouritesIntent
 import com.babestudios.companyinfouk.ui.main.recents.*
 import com.babestudios.companyinfouk.ui.main.search.*
 import com.babestudios.companyinfouk.ui.privacy.PrivacyActivity
-import com.babestudios.base.view.FilterAdapter
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
@@ -92,23 +92,21 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		logScreenView(this.localClassName)
 		setSupportActionBar(tbMain)
 		when {
-			viewModel.state.value.searchVisitables.isNotEmpty() -> {
+			viewModel.state.value?.searchVisitables != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<MainState>("STATE")?.let {
-					with(viewModel.state.value) {
-						searchVisitables = it.searchVisitables
-						filterState = it.filterState
-						queryText = it.queryText
-						totalCount = it.totalCount
-						filteredSearchVisitables = it.filteredSearchVisitables
-					}
-				}
+				(savedInstanceState.getParcelable<MainState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+							state.searchVisitables = savedState.searchVisitables
+							state.filterState = savedState.filterState
+							state.queryText = savedState.queryText
+							state.totalCount = savedState.totalCount
+							state.filteredSearchVisitables = savedState.filteredSearchVisitables
+						}
 				initPresenter(viewModel)
 			}
 			else -> {
-
 				initPresenter(viewModel)
 			}
 		}
@@ -213,8 +211,10 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		})
 		if (isSearchFromSaved) {
 			searchMenuItem.expandActionView()
-			(searchMenuItem.actionView as SearchView).setQuery(viewModel.state.value.queryText, false)
-			(filterMenuItem?.actionView as Spinner).setSelection(viewModel.state.value.filterState.ordinal)
+			(searchMenuItem.actionView as SearchView).setQuery(viewModel.state.value?.queryText, false)
+			viewModel.state.value?.filterState?.ordinal?.let {
+				(filterMenuItem?.actionView as Spinner).setSelection(it)
+			}
 			isSearchFromSaved = false
 		}
 		return true
@@ -245,9 +245,9 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 		} else {
 			msvMainSearch.visibility = View.GONE
 			fabMainSearch.show()
-			viewModel.state.value.queryText = ""
-			viewModel.state.value.searchVisitables = ArrayList()
-			viewModel.state.value.filteredSearchVisitables = ArrayList()
+			viewModel.state.value?.queryText = ""
+			viewModel.state.value?.searchVisitables = ArrayList()
+			viewModel.state.value?.filteredSearchVisitables = ArrayList()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = tbMain.width -
 						if (containsOverflow) resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) else 0 -
@@ -349,7 +349,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				}
 			}
 			state.contentChange == ContentChange.DELETE_SEARCH_HISTORY -> {
-				viewModel.state.value.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
+				viewModel.state.value?.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
 				showDeleteRecentSearchesDialog()
 			}
 			else -> {
@@ -365,7 +365,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 					observeActions()
 				} else {
 					msvMainSearch.viewState = VIEW_STATE_CONTENT
-					if (viewModel.state.value.queryText.let { it.length > 2 }) {
+					if (viewModel.state.value?.queryText.orEmpty().length > 2) {
 						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
 						logSearch()
 					} else
@@ -401,7 +401,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 
 	private fun logSearch() {
 		val bundle = Bundle()
-		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, viewModel.state.value.queryText)
+		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, viewModel.state.value?.queryText)
 		CompaniesHouseApplication.instance.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
 	}
 
@@ -425,7 +425,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractSearchHistoryVisitable> ->
-					viewModel.state.value.searchHistoryVisitables?.let { searchHistoryItems ->
+					viewModel.state.value?.searchHistoryVisitables?.let { searchHistoryItems ->
 						val searchHistoryItem = (searchHistoryItems[(view as SearchHistoryViewHolder).adapterPosition] as SearchHistoryVisitable).searchHistoryItem
 						startActivityWithRightSlide(this.createCompanyIntent(searchHistoryItem.companyNumber, searchHistoryItem.companyName))
 					}
@@ -435,7 +435,7 @@ class MainActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractSearchVisitable> ->
-					viewModel.state.value.filteredSearchVisitables.let { searchItems ->
+					viewModel.state.value?.filteredSearchVisitables?.let { searchItems ->
 						val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
 						(searchItem.title to searchItem.companyNumber).biLet { title, number ->
 							mainPresenter.searchItemClicked(title, number)

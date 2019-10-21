@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.insolvency.list.AbstractInsolvencyVisitable
@@ -55,20 +56,19 @@ class InsolvencyActivity : RxAppCompatActivity(), ScopeProvider {
 		pabInsolvency.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.setTitle(R.string.insolvency)
 		when {
-			viewModel.state.value.insolvencyItems != null -> {
+			viewModel.state.value?.insolvencyItems != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<InsolvencyState>("STATE")?.let {
-					with(viewModel.state.value) {
-						insolvencyItems = it.insolvencyItems
-						companyNumber = it.companyNumber
-					}
-				}
+				(savedInstanceState.getParcelable<InsolvencyState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+							state.insolvencyItems = savedState.insolvencyItems
+							state.companyNumber = savedState.companyNumber
+						}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY)
+				viewModel.state.value?.companyNumber = intent.getStringExtra(COMPANY)
 				initPresenter(viewModel)
 			}
 		}
@@ -153,7 +153,7 @@ class InsolvencyActivity : RxAppCompatActivity(), ScopeProvider {
 				?.take(1)
 				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractInsolvencyVisitable> ->
-					viewModel.state.value.insolvencyItems?.let { insolvencyItems ->
+					viewModel.state.value?.insolvencyItems?.let { insolvencyItems ->
 						startActivityWithRightSlide(
 								this.createInsolvencyDetailsIntent(insolvencyItems[(view as InsolvencyViewHolder).adapterPosition].insolvencyCase))
 					}

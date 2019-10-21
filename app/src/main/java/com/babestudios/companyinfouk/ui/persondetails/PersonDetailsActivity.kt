@@ -4,20 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-
-import kotlinx.android.synthetic.main.activity_person_details.*
-import com.babestudios.companyinfouk.R
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.ScopeProvider
-import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import io.reactivex.CompletableSource
 import androidx.lifecycle.ViewModelProviders
+import com.babestudios.base.ext.biLet
+import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.model.persons.Person
 import com.babestudios.companyinfouk.ext.logScreenView
-
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.ScopeProvider
+import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
+import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_person_details.*
 
 private const val PERSON_ITEM = "com.babestudios.companyinfouk.ui.person_item"
 
@@ -45,20 +44,18 @@ class PersonDetailsActivity : RxAppCompatActivity(), ScopeProvider {
 		pabPersonDetails.setNavigationOnClickListener { onBackPressed() }
 		supportActionBar?.setTitle(R.string.person_details)
 		when {
-			viewModel.state.value.person != null -> {
+			viewModel.state.value?.person != null -> {
 				initPresenter(viewModel)
 			}
 			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<PersonDetailsState>("STATE")?.let {
-					with(viewModel.state.value) {
-
-						person = it.person
-					}
+				(savedInstanceState.getParcelable<PersonDetailsState>("STATE") to viewModel.state.value)
+						.biLet { savedState, state ->
+							state.person = savedState.person
 				}
 				initPresenter(viewModel)
 			}
 			else -> {
-				viewModel.state.value.person = intent.getParcelableExtra(PERSON_ITEM)
+				viewModel.state.value?.person = intent.getParcelableExtra(PERSON_ITEM)
 				initPresenter(viewModel)
 			}
 		}
