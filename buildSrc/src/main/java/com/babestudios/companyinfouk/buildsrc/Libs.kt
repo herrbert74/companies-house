@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.buildsrc
 @Suppress("unused")
 object Libs {
 
-	const val mvrx = "com.airbnb.android:mvrx:1.1.0"
+	const val mvrx = "com.airbnb.android:mvrx:1.3.0"
 	const val debugDb = "com.amitshekhar.android:debug-db:0.4.0" //To debug preferences
 	const val jUnit = "junit:junit:4.12"
 	//const val jUnit = "org.junit.jupiter:junit-jupiter-api:5.5.2"

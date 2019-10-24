@@ -1,8 +1,6 @@
 package com.babestudios.companyinfouk.officers.ui
 
-import android.content.Context
 import androidx.navigation.Navigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
@@ -22,7 +20,6 @@ import java.util.regex.Pattern
 @Suppress("CheckResult")
 class OfficersViewModel(
 		officersState: OfficersState,
-		private val context: Context,
 		private val companiesRepository: CompaniesRepositoryContract,
 		private val officersNavigator: OfficersNavigator
 ) : BaseViewModel<OfficersState>(officersState) {
@@ -31,12 +28,10 @@ class OfficersViewModel(
 
 		@JvmStatic
 		override fun create(viewModelContext: ViewModelContext, state: OfficersState): OfficersViewModel? {
-			val context = viewModelContext.activity<OfficersActivity>().injectContext()
 			val companiesRepository = viewModelContext.activity<OfficersActivity>().injectCompaniesHouseRepository()
 			val officersNavigator = viewModelContext.activity<OfficersActivity>().injectOfficersNavigator()
 			return OfficersViewModel(
 					state,
-					context,
 					companiesRepository,
 					officersNavigator
 			)
@@ -164,8 +159,10 @@ class OfficersViewModel(
 	fun loadMoreAppointments(page: Int) {
 		withState { state ->
 			if (state.appointmentItems.size < state.totalAppointmentsCount) {
-				companiesRepository.getOfficerAppointments(state.officerId
-						?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+				companiesRepository.getOfficerAppointments(
+						state.officerId,
+						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
+				)
 						.subscribeWith(object : DisposableSingleObserver<Appointments>() {
 							override fun onSuccess(reply: Appointments) {
 								val newList = state.appointmentItems.toMutableList()

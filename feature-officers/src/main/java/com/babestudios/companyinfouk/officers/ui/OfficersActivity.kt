@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.airbnb.mvrx.MvRxView
 import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
@@ -15,11 +14,7 @@ import com.babestudios.companyinfouk.officers.R
 
 const val COMPANY_NUMBER: String = "COMPANY_NUMBER"
 
-class OfficersActivity : BaseActivity(), MvRxView {
-
-	override val mvrxViewId: String
-		get() = "OfficersActivity"
-
+class OfficersActivity : BaseActivity() {
 
 	private val comp by lazy {
 		DaggerOfficersComponent
@@ -41,15 +36,10 @@ class OfficersActivity : BaseActivity(), MvRxView {
 			val nav = comp.navigator()
 			nav.bind(navController)
 		}
-
 	}
 
 	fun provideCompanyNumber(): String {
 		return companyNumber
-	}
-
-	fun injectContext(): Context {
-		return comp.context()
 	}
 
 	fun injectCompaniesHouseRepository(): CompaniesRepositoryContract {
@@ -62,12 +52,6 @@ class OfficersActivity : BaseActivity(), MvRxView {
 			nav.bind(navController)
 		return nav
 	}
-
-	@Suppress("EmptyFunctionBlock")
-	override fun invalidate() {
-
-	}
-
 }
 
 fun Context.createOfficersIntent(companyNumber: String): Intent {

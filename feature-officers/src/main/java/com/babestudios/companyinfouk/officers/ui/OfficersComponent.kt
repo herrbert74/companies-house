@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.officers.ui
 
-import android.content.Context
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.di.scope.ActivityScope
 import com.babestudios.companyinfouk.core.injection.CoreComponent
@@ -14,8 +13,6 @@ import dagger.Component
 		modules = [OfficersModule::class]
 )
 interface OfficersComponent {
-	@ApplicationContext
-	fun context(): Context
 	fun navigator(): OfficersNavigator
 	fun companiesRepository(): CompaniesRepositoryContract
 
