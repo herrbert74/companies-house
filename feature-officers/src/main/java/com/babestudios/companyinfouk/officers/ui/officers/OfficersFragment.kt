@@ -117,17 +117,10 @@ class OfficersFragment : BaseMvRxFragment() {
 
 	private fun observeActions() {
 		eventDisposables.clear()
-		//TODO
 		officersAdapter?.getViewClickedObservable()
 				?.take(1)
-				//?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractOfficersVisitable> ->
 					viewModel.officerItemClicked(view.adapterPosition)
-					/*withState(viewModel) {
-							startActivityWithRightSlide(
-									this.createOfficerDetailsIntent(
-											(it.officerItems[(view as OfficersViewHolder).adapterPosition] as OfficersVisitable).officersItem))
-					}*/
 				}
 				?.let { eventDisposables.add(it) }
 	}

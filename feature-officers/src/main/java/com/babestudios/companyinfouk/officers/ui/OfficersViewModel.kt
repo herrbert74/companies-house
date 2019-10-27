@@ -4,7 +4,10 @@ import androidx.navigation.Navigator
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
+import com.babestudios.base.mvrx.ErrorType
 import com.babestudios.base.mvrx.ScreenState
+import com.babestudios.base.rxjava.ErrorResolver
+import com.babestudios.base.rxjava.SingleObserverWrapperVM
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.officers.Officers
@@ -14,14 +17,14 @@ import com.babestudios.companyinfouk.officers.ui.appointments.list.AbstractOffic
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
 import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersVisitable
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitable
-import io.reactivex.observers.DisposableSingleObserver
 import java.util.regex.Pattern
 
 @Suppress("CheckResult")
 class OfficersViewModel(
 		officersState: OfficersState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		private val officersNavigator: OfficersNavigator
+		private val officersNavigator: OfficersNavigator,
+		private val errorResolver: ErrorResolver
 ) : BaseViewModel<OfficersState>(officersState) {
 
 	companion object : MvRxViewModelFactory<OfficersViewModel, OfficersState> {
@@ -30,10 +33,12 @@ class OfficersViewModel(
 		override fun create(viewModelContext: ViewModelContext, state: OfficersState): OfficersViewModel? {
 			val companiesRepository = viewModelContext.activity<OfficersActivity>().injectCompaniesHouseRepository()
 			val officersNavigator = viewModelContext.activity<OfficersActivity>().injectOfficersNavigator()
+			val errorResolver = viewModelContext.activity<OfficersActivity>().injectErrorResolver()
 			return OfficersViewModel(
 					state,
 					companiesRepository,
-					officersNavigator
+					officersNavigator,
+					errorResolver
 			)
 		}
 
@@ -47,10 +52,7 @@ class OfficersViewModel(
 
 	fun fetchOfficers(companyNumber: String) {
 		companiesRepository.getOfficers(companyNumber, "0")
-				.subscribeWith(object : DisposableSingleObserver<Officers>() {
-					override fun onError(e: Throwable) {
-						//TODO
-					}
+				.subscribeWith(object : SingleObserverWrapperVM<Officers>(errorHandler) {
 
 					override fun onSuccess(reply: Officers) {
 						setState {
@@ -69,10 +71,7 @@ class OfficersViewModel(
 		withState {
 			if (it.officerItems.size < it.totalOfficersCount) {
 				companiesRepository.getOfficers(it.companyNumber, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
-						.subscribeWith(object : DisposableSingleObserver<Officers>() {
-							override fun onError(e: Throwable) {
-								//TODO
-							}
+						.subscribeWith(object : SingleObserverWrapperVM<Officers>(errorHandler) {
 
 							override fun onSuccess(reply: Officers) {
 								val newList = it.officerItems.toMutableList()
@@ -136,7 +135,7 @@ class OfficersViewModel(
 		withState {
 			companiesRepository.getOfficerAppointments(it.officerId, "0")
 					//.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-					.subscribeWith(object : DisposableSingleObserver<Appointments>() {
+					.subscribeWith(object : SingleObserverWrapperVM<Appointments>(errorHandler) {
 
 						override fun onSuccess(reply: Appointments) {
 							setState {
@@ -149,9 +148,6 @@ class OfficersViewModel(
 							}
 						}
 
-						override fun onError(e: Throwable) {
-							//TODO
-						}
 					})
 		}
 	}
@@ -163,7 +159,8 @@ class OfficersViewModel(
 						state.officerId,
 						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
 				)
-						.subscribeWith(object : DisposableSingleObserver<Appointments>() {
+						.subscribeWith(object : SingleObserverWrapperVM<Appointments>(errorHandler) {
+
 							override fun onSuccess(reply: Appointments) {
 								val newList = state.appointmentItems.toMutableList()
 								newList.addAll(convertToVisitables(reply))
@@ -173,10 +170,6 @@ class OfficersViewModel(
 											appointmentItems = newList
 									)
 								}
-							}
-
-							override fun onError(e: Throwable) {
-								//TODO
 							}
 						})
 			}
@@ -191,4 +184,14 @@ class OfficersViewModel(
 
 	//endregion
 
+	override var errorHandler = fun(errorType: ErrorType, errorMessage: String) {
+		val resolvedErrorMessage = errorResolver.getErrorMessageFromResponseBody(errorMessage)
+		errorType.message = resolvedErrorMessage ?: ""
+		setState {
+			copy(
+					officersScreenState = ScreenState.Error(errorType),
+					totalOfficersCount = 0
+			)
+		}
+	}
 }

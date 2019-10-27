@@ -6,7 +6,8 @@ import com.babestudios.companyinfouk.data.utils.errors.model.ErrorBody
 import com.google.gson.Gson
 
 /**
- * Sometimes errorBody will contain only one ErrorEntity (e.g. with wrong auth header), but usually it's a full ErrorBody with ErrorEntities array
+ * Sometimes errorBody will contain only one ErrorEntity (e.g. with wrong auth header),
+ * but usually it's a full ErrorBody with ErrorEntities array
  *
  */
 class CompaniesHouseErrorResolver(private val errorHelper: ErrorHelper) : ErrorResolver {
