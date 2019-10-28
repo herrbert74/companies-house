@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.BaseMvRxFragment
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
-import com.babestudios.base.mvrx.ScreenState
+import com.airbnb.mvrx.*
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
@@ -53,28 +50,8 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 		val toolbar = pabOfficerAppointments.getToolbar()
 		activity.setSupportActionBar(toolbar)
 		activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		//TODO
-		// pabOfficerAppointments.setNavigationOnClickListener { onBackPressed() }
+		pabOfficerAppointments.setNavigationOnClickListener { viewModel.officersNavigator.popBackStack() }
 		activity.supportActionBar?.setTitle(R.string.officer_appointments_title)
-		/*when {
-			viewModel.state.value.appointmentItems != null -> {
-				initPresenter(viewModel)
-			}
-			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<OfficerAppointmentsState>("STATE")?.let {
-					with(viewModel.state.value) {
-						appointmentItems = it.appointmentItems
-						officerId = it.officerId
-					}
-				}
-				initPresenter(viewModel)
-			}
-			else -> {
-				viewModel.state.value.officerId = intent.getStringExtra(OFFICER_ID)
-				initPresenter(viewModel)
-			}
-		}*/
-
 		createRecyclerView()
 		viewModel.fetchAppointments()
 	}
@@ -83,23 +60,6 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 		super.onResume()
 		observeActions()
 	}
-
-	//TODO
-	/*override fun onSaveInstanceState(outState: Bundle) {
-		outState.putParcelable("STATE", viewModel.state.value)
-		super.onSaveInstanceState(outState)
-	}*/
-
-	/*private fun initPresenter(viewModel: OfficerAppointmentsViewModel) {
-		if (!::officerAppointmentsPresenter.isInitialized) {
-			comp = DaggerOfficerAppointmentsComponent
-					.builder()
-					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-					.build()
-			officerAppointmentsPresenter = comp.officerAppointmentsPresenter()
-			officerAppointmentsPresenter.setViewModel(viewModel, requestScope())
-		}
-	}*/
 
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -146,23 +106,26 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
 	override fun invalidate() {
 		withState(viewModel) { state ->
-			when (state.officerAppointmentsScreenState) {
-				is ScreenState.Loading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
-				is ScreenState.Error -> {
+			when (state.officerAppointmentsRequest) {
+				is Loading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
+				is Fail -> {
 					msvOfficerAppointments.viewState = VIEW_STATE_ERROR
 					val tvMsvError = msvOfficerAppointments.findViewById<TextView>(R.id.tvMsvError)
-					tvMsvError.text = state.officerAppointmentsScreenState.errorType.message
+					tvMsvError.text = state.officerAppointmentsRequest.error.message
 				}
-				is ScreenState.Empty -> msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
-				is ScreenState.Complete -> {
+				is Success -> {
 					withState(viewModel) {
-						msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
-						lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
-						if (rvOfficerAppointments?.adapter == null) {
-							officerAppointmentsAdapter = OfficerAppointmentsAdapter(it.appointmentItems, OfficerAppointmentsTypeFactory())
-							rvOfficerAppointments?.adapter = officerAppointmentsAdapter
+						if (it.appointmentItems.isEmpty()) {
+							msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
 						} else {
-							officerAppointmentsAdapter?.updateItems(it.appointmentItems)
+							msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
+							lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
+							if (rvOfficerAppointments?.adapter == null) {
+								officerAppointmentsAdapter = OfficerAppointmentsAdapter(it.appointmentItems, OfficerAppointmentsTypeFactory())
+								rvOfficerAppointments?.adapter = officerAppointmentsAdapter
+							} else {
+								officerAppointmentsAdapter?.updateItems(it.appointmentItems)
+							}
 						}
 						observeActions()
 					}

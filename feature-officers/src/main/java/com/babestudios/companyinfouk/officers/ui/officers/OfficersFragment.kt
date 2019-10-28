@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.BaseMvRxFragment
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.base.mvrx.ScreenState
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
@@ -53,32 +50,12 @@ class OfficersFragment : BaseMvRxFragment() {
 		(activity as AppCompatActivity).setSupportActionBar(pabOfficers.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		//pabOfficers.setNavigationOnClickListener { onBackPressed() }
+		pabOfficers.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.officers)
-		/*when {
-			viewModel.state.value.officerItems != null -> {
-				initPresenter(viewModel)
-			}
-			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<OfficersState>("STATE")?.let {
-					with(viewModel.state.value) {
-						officerItems = it.officerItems
-						companyNumber = it.companyNumber
-					}
-				}
-				initPresenter(viewModel)
-			}
-			else -> {
-				viewModel.state.value.companyNumber = intent.getStringExtra(COMPANY_NUMBER)
-				initPresenter(viewModel)
-			}
-		}*/
-
 		createRecyclerView()
 		withState(viewModel) {
 			viewModel.fetchOfficers(it.companyNumber)
 		}
-		//observeState()
 	}
 
 	override fun onResume() {
@@ -129,21 +106,24 @@ class OfficersFragment : BaseMvRxFragment() {
 
 	override fun invalidate() {
 		withState(viewModel) { state ->
-			when (state.officersScreenState) {
-				ScreenState.Loading -> msvOfficers.viewState = VIEW_STATE_LOADING
-				is ScreenState.Error -> {
+			when (state.officersRequest) {
+				is Loading -> msvOfficers.viewState = VIEW_STATE_LOADING
+				is Fail -> {
 					msvOfficers.viewState = VIEW_STATE_ERROR
 					val tvMsvError = msvOfficers.findViewById<TextView>(R.id.tvMsvError)
-					tvMsvError.text = state.officersScreenState.errorType.message
+					tvMsvError.text = state.officersRequest.error.message
 				}
-				ScreenState.Empty -> msvOfficers.viewState = VIEW_STATE_EMPTY
-				ScreenState.Complete -> {
-					msvOfficers.viewState = VIEW_STATE_CONTENT
-					if (rvOfficers?.adapter == null) {
-						officersAdapter = OfficersAdapter(state.officerItems, OfficersTypeFactory())
-						rvOfficers?.adapter = officersAdapter
-					} else {
-						officersAdapter?.updateItems(state.officerItems)
+				is Success -> {
+					if(state.officerItems.isEmpty()){
+						msvOfficers.viewState = VIEW_STATE_EMPTY
+					}else {
+						msvOfficers.viewState = VIEW_STATE_CONTENT
+						if (rvOfficers?.adapter == null) {
+							officersAdapter = OfficersAdapter(state.officerItems, OfficersTypeFactory())
+							rvOfficers?.adapter = officersAdapter
+						} else {
+							officersAdapter?.updateItems(state.officerItems)
+						}
 					}
 					observeActions()
 				}

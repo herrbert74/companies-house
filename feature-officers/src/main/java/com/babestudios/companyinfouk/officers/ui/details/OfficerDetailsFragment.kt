@@ -9,7 +9,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
-import com.babestudios.base.mvrx.ScreenState
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import com.jakewharton.rxbinding2.view.RxView
@@ -40,8 +39,7 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 		val toolbar = pabOfficerDetails.getToolbar()
 		activity.setSupportActionBar(toolbar)
 		activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		//TODO
-		// pabOfficerDetails.setNavigationOnClickListener { onBackPressed() }
+		pabOfficerDetails.setNavigationOnClickListener { viewModel.officersNavigator.popBackStack() }
 		activity.supportActionBar?.setTitle(R.string.officer_details)
 		/*when {
 			viewModel.state.value.officerItem != null -> {
@@ -61,7 +59,7 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 				initPresenter(viewModel)
 			}
 		}*/
-		invalidate()
+		showOfficerDetails()
 	}
 
 	override fun onResume() {
@@ -101,7 +99,6 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 		val extras = FragmentNavigatorExtras(
 				btnOfficerDetailsAppointments to "pabOfficerAppointments")
 		RxView.clicks(btnOfficerDetailsAppointments)
-		//		.`as`(AutoDispose.autoDisposable(this))
 				.subscribe { viewModel.officerAppointmentsClicked(extras) }
 	}
 
@@ -110,13 +107,6 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 	//region render
 
 	override fun invalidate() {
-		withState(viewModel) { state ->
-			when (state.officerDetailsScreenState) {
-				is ScreenState.Complete -> {
-					showOfficerDetails()
-				}
-			}
-		}
 	}
 
 	private fun showOfficerDetails() {

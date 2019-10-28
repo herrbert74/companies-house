@@ -1,13 +1,13 @@
 package com.babestudios.companyinfouk.officers.ui
 
 import androidx.navigation.Navigator
+import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
+import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.base.mvrx.ErrorType
-import com.babestudios.base.mvrx.ScreenState
+import com.babestudios.base.mvrx.resolveErrorOrProceed
 import com.babestudios.base.rxjava.ErrorResolver
-import com.babestudios.base.rxjava.SingleObserverWrapperVM
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.officers.Officers
@@ -19,11 +19,10 @@ import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersV
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitable
 import java.util.regex.Pattern
 
-@Suppress("CheckResult")
 class OfficersViewModel(
 		officersState: OfficersState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		private val officersNavigator: OfficersNavigator,
+		val officersNavigator: OfficersNavigator,
 		private val errorResolver: ErrorResolver
 ) : BaseViewModel<OfficersState>(officersState) {
 
@@ -52,44 +51,38 @@ class OfficersViewModel(
 
 	fun fetchOfficers(companyNumber: String) {
 		companiesRepository.getOfficers(companyNumber, "0")
-				.subscribeWith(object : SingleObserverWrapperVM<Officers>(errorHandler) {
-
-					override fun onSuccess(reply: Officers) {
-						setState {
-							copy(
-									officersScreenState = ScreenState.Complete,
-									officerItems = convertToVisitables(reply),
-									totalOfficersCount = reply.totalResults
-							)
-						}
-					}
-				})
+				.doOnSubscribe { setState { copy(officersRequest = Loading()) } }
+				.execute {
+					copy(
+							officersRequest = it.resolveErrorOrProceed(errorResolver),
+							officerItems = convertToVisitables(it()),
+							totalOfficersCount = it()?.totalResults ?: 0
+					)
+				}
 	}
 
 
 	fun loadMoreOfficers(page: Int) {
-		withState {
-			if (it.officerItems.size < it.totalOfficersCount) {
-				companiesRepository.getOfficers(it.companyNumber, (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
-						.subscribeWith(object : SingleObserverWrapperVM<Officers>(errorHandler) {
-
-							override fun onSuccess(reply: Officers) {
-								val newList = it.officerItems.toMutableList()
-								newList.addAll(convertToVisitables(reply))
-								setState {
-									copy(
-											officersScreenState = ScreenState.Complete,
-											officerItems = newList.toList()
-									)
-								}
-							}
-						})
+		withState { state ->
+			if (state.officerItems.size < state.totalOfficersCount) {
+				companiesRepository.getOfficers(
+						state.companyNumber,
+						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
+				)
+						.doOnSubscribe { setState { copy(officersRequest = Loading()) } }
+						.execute {
+							copy(
+									officersRequest = it.resolveErrorOrProceed(errorResolver),
+									officerItems = officerItems.appendAt(convertToVisitables(it()), officerItems.size + 1),
+									totalOfficersCount = it()?.totalResults ?: 0
+							)
+						}
 			}
 		}
 	}
 
-	private fun convertToVisitables(reply: Officers): List<AbstractOfficersVisitable> {
-		return ArrayList(reply.items.map { item -> OfficersVisitable(item) })
+	private fun convertToVisitables(reply: Officers?): List<AbstractOfficersVisitable> {
+		return ArrayList(reply?.items?.map { item -> OfficersVisitable(item) } ?: emptyList())
 	}
 
 	fun officerItemClicked(adapterPosition: Int) {
@@ -107,7 +100,7 @@ class OfficersViewModel(
 				copy(
 						officerItem = newOfficerItem,
 						officerId = officerId,
-						officerDetailsScreenState = ScreenState.Complete
+						officerName = newOfficerItem.name ?: ""
 				)
 			}
 		}
@@ -127,28 +120,16 @@ class OfficersViewModel(
 	//region officer appointments
 
 	fun fetchAppointments() {
-		setState {
-			copy(
-					officerAppointmentsScreenState = ScreenState.Loading
-			)
-		}
-		withState {
-			companiesRepository.getOfficerAppointments(it.officerId, "0")
-					//.`as`(AutoDispose.autoDisposable(lifeCycleCompletable))
-					.subscribeWith(object : SingleObserverWrapperVM<Appointments>(errorHandler) {
-
-						override fun onSuccess(reply: Appointments) {
-							setState {
-								copy(
-										officerName = reply.name ?: "",
-										officerAppointmentsScreenState = ScreenState.Complete,
-										appointmentItems = convertToVisitables(reply),
-										totalAppointmentsCount = reply.totalResults?.toInt() ?: 0
-								)
-							}
-						}
-
-					})
+		withState { state ->
+			companiesRepository.getOfficerAppointments(state.officerId, "0")
+					.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
+					.execute {
+						copy(
+								officerAppointmentsRequest = it.resolveErrorOrProceed(errorResolver),
+								appointmentItems = convertToVisitables(it()),
+								totalAppointmentsCount = it()?.totalResults?.toInt() ?: 0
+						)
+					}
 		}
 	}
 
@@ -159,39 +140,24 @@ class OfficersViewModel(
 						state.officerId,
 						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
 				)
-						.subscribeWith(object : SingleObserverWrapperVM<Appointments>(errorHandler) {
-
-							override fun onSuccess(reply: Appointments) {
-								val newList = state.appointmentItems.toMutableList()
-								newList.addAll(convertToVisitables(reply))
-								setState {
-									copy(
-											officerAppointmentsScreenState = ScreenState.Complete,
-											appointmentItems = newList
-									)
-								}
-							}
-						})
+						.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
+						.execute {
+							copy(
+									officerAppointmentsRequest = it.resolveErrorOrProceed(errorResolver),
+									appointmentItems = appointmentItems.appendAt(convertToVisitables(it()), appointmentItems.size + 1),
+									totalAppointmentsCount = it()?.totalResults?.toInt() ?: 0
+							)
+						}
 			}
 		}
 	}
 
-	private fun convertToVisitables(reply: Appointments): List<AbstractOfficerAppointmentsVisitable> {
-		return reply.items?.let {
+	private fun convertToVisitables(reply: Appointments?): List<AbstractOfficerAppointmentsVisitable> {
+		return reply?.items?.let {
 			ArrayList(it.toMutableList().map { item -> OfficerAppointmentsVisitable(item) })
 		} ?: emptyList()
 	}
 
 	//endregion
 
-	override var errorHandler = fun(errorType: ErrorType, errorMessage: String) {
-		val resolvedErrorMessage = errorResolver.getErrorMessageFromResponseBody(errorMessage)
-		errorType.message = resolvedErrorMessage ?: ""
-		setState {
-			copy(
-					officersScreenState = ScreenState.Error(errorType),
-					totalOfficersCount = 0
-			)
-		}
-	}
 }

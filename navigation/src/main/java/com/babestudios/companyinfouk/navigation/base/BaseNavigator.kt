@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 interface Navigator {
 	fun bind(navController: NavController)
 	fun unbind()
+	fun popBackStack()
 }
 
 abstract class BaseNavigator : Navigator {

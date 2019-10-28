@@ -5,15 +5,15 @@ import com.babestudios.companyinfouk.data.R
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.model.ErrorMappings
 import com.google.gson.Gson
 
-class ErrorHelper(private val context: Context) {
+class ErrorHelper(context: Context) {
 	private val errorMapping: ErrorMappings
 
 	init {
 		val text = context.resources.openRawResource(R.raw.errors).bufferedReader().use { it.readText() }
-		errorMapping= Gson().fromJson<ErrorMappings>(text, ErrorMappings::class.java)
+		errorMapping = Gson().fromJson<ErrorMappings>(text, ErrorMappings::class.java)
 	}
 
-	fun errorLookUp(errorString: String):String {
+	fun errorLookUp(errorString: String): String {
 		return errorMapping.errors.service[errorString] ?: errorString
 	}
 }

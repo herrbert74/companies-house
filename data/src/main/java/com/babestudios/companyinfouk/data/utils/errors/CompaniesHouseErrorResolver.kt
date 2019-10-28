@@ -12,12 +12,18 @@ import com.google.gson.Gson
  */
 class CompaniesHouseErrorResolver(private val errorHelper: ErrorHelper) : ErrorResolver {
 	override fun getErrorMessageFromResponseBody(errorJson: String?): String? {
-		val errorBody = Gson().fromJson(errorJson, ErrorBody::class.java)
-		val errorString = errorBody.error?.let { it }
-				?: run { errorBody.errors?.get(0)?.error?.let { it2 -> it2 } }
-				?: run { errorJson }
-
+		val errorString = try {
+			val errorBody = Gson().fromJson(errorJson, ErrorBody::class.java)
+			errorBody.error?.let { it }
+					?: run { errorBody.errors?.get(0)?.error?.let { it2 -> it2 } }
+					?: run { errorJson }
+		} catch (e: Exception) {
+			when {
+				errorJson?.contains("HTTP 401") == true
+				-> "Authentication error. Please try again"
+				else -> "An error happened. Please try again"
+			}
+		}
 		return errorString?.let { errorHelper.errorLookUp(errorString) } ?: run { null }
 	}
-
 }
