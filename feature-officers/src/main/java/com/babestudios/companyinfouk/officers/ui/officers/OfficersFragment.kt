@@ -45,8 +45,7 @@ class OfficersFragment : BaseMvRxFragment() {
 	}
 
 	private fun initializeUI() {
-		//TODO
-		//logScreenView(this.localClassName)
+		viewModel.logScreenView(this::class.simpleName.orEmpty())
 		(activity as AppCompatActivity).setSupportActionBar(pabOfficers.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
@@ -63,13 +62,6 @@ class OfficersFragment : BaseMvRxFragment() {
 		observeActions()
 	}
 
-	/*
-	TODO
-	override fun onSaveInstanceState(outState: Bundle) {
-		outState.putParcelable("STATE", viewModel.state.value)
-		super.onSaveInstanceState(outState)
-	}*/
-
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 		rvOfficers?.layoutManager = linearLayoutManager
@@ -80,13 +72,6 @@ class OfficersFragment : BaseMvRxFragment() {
 			}
 		})
 	}
-
-	/*
-	//TODO With navigation
-	override fun onBackPressed() {
-		super.finish()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}*/
 
 	//endregion
 
@@ -114,9 +99,9 @@ class OfficersFragment : BaseMvRxFragment() {
 					tvMsvError.text = state.officersRequest.error.message
 				}
 				is Success -> {
-					if(state.officerItems.isEmpty()){
+					if (state.officerItems.isEmpty()) {
 						msvOfficers.viewState = VIEW_STATE_EMPTY
-					}else {
+					} else {
 						msvOfficers.viewState = VIEW_STATE_CONTENT
 						if (rvOfficers?.adapter == null) {
 							officersAdapter = OfficersAdapter(state.officerItems, OfficersTypeFactory())

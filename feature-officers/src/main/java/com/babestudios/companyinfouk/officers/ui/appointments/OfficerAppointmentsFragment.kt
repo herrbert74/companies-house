@@ -44,8 +44,7 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	}
 
 	private fun initializeUI() {
-		//TODO
-		//logScreenView(this.localClassName)
+		viewModel.logScreenView(this::class.simpleName.orEmpty())
 		val activity = (activity as AppCompatActivity)
 		val toolbar = pabOfficerAppointments.getToolbar()
 		activity.setSupportActionBar(toolbar)
@@ -71,11 +70,6 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 			}
 		})
 	}
-
-	/*override fun onBackPressed() {
-		super.onBackPressed()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}*/
 
 	//endregion
 

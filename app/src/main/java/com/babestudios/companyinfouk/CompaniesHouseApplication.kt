@@ -15,6 +15,7 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider {
 
 	private lateinit var coreComponent: CoreComponent
 
+	@Deprecated("Use the Repository instead")
 	var firebaseAnalytics: FirebaseAnalytics? = null
 		private set
 
@@ -32,8 +33,7 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider {
 	}
 
 	private fun logAppOpen() {
-		firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
-
+		provideCoreComponent().companiesRepository().logAppOpen()
 	}
 
 	companion object {
@@ -47,6 +47,7 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider {
 		@JvmStatic
 		fun get(): CompaniesHouseApplication = instance
 	}
+
 	override fun provideCoreComponent(): CoreComponent {
 
 		if (!this::coreComponent.isInitialized) {

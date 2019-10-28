@@ -39,6 +39,11 @@ class OfficersActivity : BaseActivity() {
 		}
 	}
 
+	override fun onBackPressed() {
+		super.finish()
+		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
+	}
+
 	fun provideCompanyNumber(): String {
 		return companyNumber
 	}

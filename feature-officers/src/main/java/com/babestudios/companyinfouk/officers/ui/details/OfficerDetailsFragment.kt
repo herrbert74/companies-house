@@ -33,32 +33,13 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		//TODO
-		//logScreenView(this.localClassName)
+		viewModel.logScreenView(this::class.simpleName.orEmpty())
 		val activity = (activity as AppCompatActivity)
 		val toolbar = pabOfficerDetails.getToolbar()
 		activity.setSupportActionBar(toolbar)
 		activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		pabOfficerDetails.setNavigationOnClickListener { viewModel.officersNavigator.popBackStack() }
 		activity.supportActionBar?.setTitle(R.string.officer_details)
-		/*when {
-			viewModel.state.value.officerItem != null -> {
-				initPresenter(viewModel)
-			}
-			savedInstanceState != null -> {
-				savedInstanceState.getParcelable<OfficerDetailsState>("STATE")?.let {
-					with(viewModel.state.value) {
-
-						officerItem = it.officerItem
-					}
-				}
-				initPresenter(viewModel)
-			}
-			else -> {
-				viewModel.state.value.officerItem = intent.getParcelableExtra(OFFICER_ITEM)
-				initPresenter(viewModel)
-			}
-		}*/
 		showOfficerDetails()
 	}
 
@@ -66,27 +47,6 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 		super.onResume()
 		observeActions()
 	}
-
-	/*override fun onSaveInstanceState(outState: Bundle) {
-		outState.putParcelable("STATE", viewModel.state.value)
-		super.onSaveInstanceState(outState)
-	}*/
-
-/*private fun initPresenter(viewModel: OfficerDetailsViewModel) {
-	if (!::officerDetailsPresenter.isInitialized) {
-		comp = DaggerOfficerDetailsComponent
-				.builder()
-				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-				.build()
-		officerDetailsPresenter = comp.officerDetailsPresenter()
-		officerDetailsPresenter.setViewModel(viewModel, requestScope())
-	}
-}*/
-
-	/*override fun onBackPressed() {
-		super.onBackPressed()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
-	}*/
 
 //endregion
 

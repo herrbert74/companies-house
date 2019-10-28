@@ -8,6 +8,7 @@ import android.os.Environment
 import android.util.Base64
 import android.util.Log
 import androidx.core.content.FileProvider
+import com.babestudios.base.data.AnalyticsContract
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
@@ -31,7 +32,7 @@ import okhttp3.ResponseBody
 import java.io.*
 import java.util.*
 
-interface CompaniesRepositoryContract {
+interface CompaniesRepositoryContract : AnalyticsContract {
 	val authorization: String
 	val recentSearches: List<SearchHistoryItem>
 	val favourites: Array<SearchHistoryItem>
@@ -62,10 +63,6 @@ interface CompaniesRepositoryContract {
 	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem)
-
-	//Analytics
-	fun logAppOpen()
-	fun logScreenView(screenName: String)
 }
 
 open class CompaniesRepository constructor(

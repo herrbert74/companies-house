@@ -216,7 +216,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 
 	override fun onBackPressed() {
 		super.onBackPressed()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
 	}
 
 	//endregion
@@ -241,35 +241,30 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 	fun onFilingHistoryClicked(@Suppress("UNUSED_PARAMETER") view: View) {
 		viewModel.state.value?.companyNumber?.let {
 			startActivityWithRightSlide(createFilingHistoryIntent(it))
-			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 		}
 	}
 
 	fun onChargesClicked(@Suppress("UNUSED_PARAMETER") view: View) {
 		viewModel.state.value?.companyNumber?.let {
 			startActivityWithRightSlide(createChargesIntent(it))
-			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 		}
 	}
 
 	fun onInsolvencyClicked(@Suppress("UNUSED_PARAMETER") view: View) {
 		viewModel.state.value?.companyNumber?.let {
 			startActivityWithRightSlide(createInsolvencyIntent(it))
-			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 		}
 	}
 
 	fun onOfficersClicked(@Suppress("UNUSED_PARAMETER") view: View) {
 		viewModel.state.value?.companyNumber?.let {
 			startActivityWithRightSlide(createOfficersIntent(it))
-			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 		}
 	}
 
 	fun onPersonsClicked(@Suppress("UNUSED_PARAMETER") view: View) {
 		viewModel.state.value?.companyNumber?.let {
 			startActivityWithRightSlide(createPersonsIntent(it))
-			overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
 		}
 	}
 

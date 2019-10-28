@@ -137,7 +137,7 @@ class CoreModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	internal fun provideRawResourceHelperContract(): RawResourceHelperContract {
+	internal fun provideRawResourceHelper(): RawResourceHelperContract {
 		return RawResourceHelper(context)
 	}
 

@@ -113,7 +113,7 @@ class ChargesActivity : RxAppCompatActivity(), ScopeProvider {
 
 	override fun onBackPressed() {
 		super.finish()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out)
+		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
 	}
 
 	//endregion

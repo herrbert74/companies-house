@@ -24,7 +24,7 @@ class OfficersViewModel(
 		private val companiesRepository: CompaniesRepositoryContract,
 		val officersNavigator: OfficersNavigator,
 		private val errorResolver: ErrorResolver
-) : BaseViewModel<OfficersState>(officersState) {
+) : BaseViewModel<OfficersState>(officersState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<OfficersViewModel, OfficersState> {
 
