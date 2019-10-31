@@ -17,7 +17,7 @@
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
 			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out"/>
+			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
 
 	<fragment
@@ -31,7 +31,7 @@
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
 			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out"/>
+			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
 
 	<fragment
@@ -40,4 +40,15 @@
 		android:label="OfficerAppointmentsFragment"
 		tools:layout="@layout/activity_officers" />
 
+	<action
+		android:id="@+id/action_global_companyActivity"
+		app:destination="@id/companyActivity"
+		app:enterAnim="@anim/right_slide_in"
+		app:exitAnim="@anim/left_slide_out"
+		app:popEnterAnim="@anim/left_slide_in"
+		app:popExitAnim="@anim/right_slide_out" />
+
+	<activity
+		android:id="@+id/companyActivity"
+		android:name="com.babestudios.companyinfouk.ui.company.CompanyActivity" />
 </navigation>

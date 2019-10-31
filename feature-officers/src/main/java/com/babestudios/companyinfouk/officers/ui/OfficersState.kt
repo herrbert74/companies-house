@@ -20,12 +20,10 @@ data class OfficersState(
 		//Officer details
 		val officerItem: OfficerItem? = null,
 		val officerId: String = "",
-		//val officerDetailsScreenState: ScreenState = ScreenState.Initialized,
 
 		//Officer appointments
 		val appointmentItems: List<AbstractOfficerAppointmentsVisitable> = emptyList(),
 		val totalAppointmentsCount: Int = 0,
 		val officerName : String = "",
-		//val officerAppointmentsScreenState: ScreenState = ScreenState.Initialized
 		val officerAppointmentsRequest: Async<Appointments> = Uninitialized
 ) : MvRxState

@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
+import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
-import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsAdapter
-import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsTypeFactory
+import com.babestudios.companyinfouk.officers.ui.appointments.list.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_officer_appointments.*
 import kotlinx.android.synthetic.main.row_officer_appointments_header.*
@@ -82,18 +82,25 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	private fun observeActions() {
 		eventDisposables.clear()
 		//TODO
-		/*officerAppointmentsAdapter?.getViewClickedObservable()
+		officerAppointmentsAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractOfficerAppointmentsVisitable> ->
-					viewModel.state.value.appointmentItems?.let { appointmentItems ->
-						val company = (appointmentItems[(view as OfficerAppointmentsViewHolder).adapterPosition] as OfficerAppointmentsVisitable).appointment.appointedTo
-						company?.let { appointedTo ->
-							startActivityWithRightSlide(this.createCompanyIntent(appointedTo.companyNumber!!, appointedTo.companyName!!))
+					withState(viewModel) {state->
+						state.appointmentItems.let { appointmentItems ->
+							val company = (appointmentItems[(view as OfficerAppointmentsViewHolder).adapterPosition] as OfficerAppointmentsVisitable).appointment.appointedTo
+							company?.let { appointedTo ->
+								/*(activity as AppCompatActivity).startActivityWithRightSlide(
+										activity.createCompanyIntent(appointedTo.companyNumber!!, appointedTo.companyName!!))*/
+								viewModel.officersNavigator
+										.officersAppointmentsToCompanyActivity(
+												appointedTo.companyNumber!!,
+												appointedTo.companyName!!
+										)
+							}
 						}
 					}
 				}
-				?.let { eventDisposables.add(it) }*/
+				?.let { eventDisposables.add(it) }
 	}
 
 	//endregion

@@ -1,10 +1,27 @@
 package com.babestudios.companyinfouk
 
+import android.os.Bundle
+import androidx.annotation.IdRes
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
+import com.babestudios.companyinfouk.navigation.COMPANY_NAME
+import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 
+/**
+ * This class holds the navController for any feature through [BaseNavigator]
+ * It is injected through [com.babestudios.companyinfouk.core.injection.CoreComponent],
+ * so no need to create it in every feature component.
+ *
+ * When injected, it can be referenced as any feature Navigator,
+ * because it contains all interfaces through [NavigationComponent],
+ * but it needs to be exposed from the component,
+ * like e.g. [com.babestudios.companyinfouk.officers.ui.OfficersComponent.navigator].
+ */
 internal class Navigator : BaseNavigator(),
 		OfficersNavigator,
 		NavigationComponent {
@@ -28,12 +45,39 @@ internal class Navigator : BaseNavigator(),
 	//region officers
 
 	override fun officersToOfficerDetails() {
-		navController?.navigate(R.id.action_officersFragment_to_officerDetailsFragment)
+		navController?.navigateSafe(R.id.action_officersFragment_to_officerDetailsFragment)
 	}
 
 	override fun officersDetailsToAppointments(extras: Navigator.Extras) {
-		navController?.navigate(R.id.action_officerDetailsFragment_to_officerAppointmentFragment, null, null, extras)
+		navController?.navigateSafe(
+				R.id.action_officerDetailsFragment_to_officerAppointmentFragment,
+				null,
+				null,
+				extras
+		)
+	}
+
+	override fun officersAppointmentsToCompanyActivity(companyNumber: String, companyName: String) {
+		val bundle = bundleOf(COMPANY_NUMBER to companyNumber,
+				COMPANY_NAME to companyName)
+		navController?.navigateSafe(R.id.action_global_companyActivity, bundle)
 	}
 
 	//endregion
+}
+
+@Suppress("MaxLineLength")
+		/**
+		 * https://stackoverflow.com/questions/51060762/java-lang-illegalargumentexception-navigation-destination-xxx-is-unknown-to-thi
+		 */
+fun NavController.navigateSafe(
+		@IdRes resId: Int,
+		args: Bundle? = null,
+		navOptions: NavOptions? = null,
+		navExtras: Navigator.Extras? = null
+) {
+	val action = currentDestination?.getAction(resId) ?: graph.getAction(resId)
+	if (action != null && currentDestination?.id != action.destinationId) {
+		navigate(resId, args, navOptions, navExtras)
+	}
 }

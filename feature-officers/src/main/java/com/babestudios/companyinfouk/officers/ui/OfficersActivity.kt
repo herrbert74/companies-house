@@ -10,10 +10,9 @@ import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.officers.R
-
-const val COMPANY_NUMBER: String = "COMPANY_NUMBER"
 
 class OfficersActivity : BaseActivity() {
 
