@@ -12,7 +12,7 @@
 		tools:layout="@layout/fragment_persons">
 
 		<action
-			android:id="@+id/action_personsFragment_to_officerDetailsFragment"
+			android:id="@+id/action_personsFragment_to_personDetailsFragment"
 			app:destination="@id/personDetailsFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
@@ -22,7 +22,7 @@
 
 	<fragment
 		android:id="@+id/personDetailsFragment"
-		android:name="com.babestudios.companyinfouk.persons.ui.details.PersonsDetailsFragment"
+		android:name="com.babestudios.companyinfouk.persons.ui.details.PersonDetailsFragment"
 		android:label="PersonDetailsFragment"
 		tools:layout="@layout/activity_persons">
 	</fragment>

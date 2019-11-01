@@ -70,7 +70,10 @@ class OfficersViewModel(
 				).execute {
 					copy(
 							officersRequest = it.resolveErrorOrProceed(errorResolver),
-							officerItems = officerItems.appendAt(convertToVisitables(it()), officerItems.size + 1),
+							officerItems = officerItems.appendAt(
+									convertToVisitables(it()),
+									officerItems.size + 1
+							),
 							totalOfficersCount = it()?.totalResults ?: 0
 					)
 				}
@@ -84,7 +87,6 @@ class OfficersViewModel(
 
 	fun officerItemClicked(adapterPosition: Int) {
 		withState { state ->
-
 			val newOfficerItem = (state.officerItems[adapterPosition] as OfficersVisitable).officerItem
 			val pattern = Pattern.compile("officers/(.+)/appointments")
 			val matcher = pattern.matcher(newOfficerItem.links?.officer?.appointments ?: "")
@@ -92,7 +94,6 @@ class OfficersViewModel(
 			if (matcher.find()) {
 				officerId = matcher.group(1) ?: ""
 			}
-
 			setState {
 				copy(
 						officerItem = newOfficerItem,
@@ -141,7 +142,10 @@ class OfficersViewModel(
 						.execute {
 							copy(
 									officerAppointmentsRequest = it.resolveErrorOrProceed(errorResolver),
-									appointmentItems = appointmentItems.appendAt(convertToVisitables(it()), appointmentItems.size + 1),
+									appointmentItems = appointmentItems.appendAt(
+											convertToVisitables(it()),
+											appointmentItems.size + 1
+									),
 									totalAppointmentsCount = it()?.totalResults?.toInt() ?: 0
 							)
 						}

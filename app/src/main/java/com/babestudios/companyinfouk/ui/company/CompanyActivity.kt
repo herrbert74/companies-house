@@ -19,11 +19,11 @@ import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.officers.ui.createOfficersIntent
+import com.babestudios.companyinfouk.persons.ui.createPersonsIntent
 import com.babestudios.companyinfouk.ui.charges.createChargesIntent
 import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
 import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
-import com.babestudios.companyinfouk.persons.persons.persons.createPersonsIntent
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose

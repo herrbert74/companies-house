@@ -4,7 +4,7 @@ import android.view.View
 import com.babestudios.base.mvp.list.BaseViewHolder
 import kotlinx.android.synthetic.main.row_persons.view.*
 
-class Persons2ViewHolder(itemView: View) : BaseViewHolder<AbstractPersonsVisitable>(itemView) {
+class PersonsViewHolder(itemView: View) : BaseViewHolder<AbstractPersonsVisitable>(itemView) {
 	override fun bind(visitable: AbstractPersonsVisitable) {
 		val person = (visitable as PersonsVisitable).person
 		itemView.lblPersonsName?.text = person.name

@@ -11,6 +11,7 @@ import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
+import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 
 /**
  * This class holds the navController for any feature through [BaseNavigator]
@@ -24,6 +25,7 @@ import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
  */
 internal class Navigator : BaseNavigator(),
 		OfficersNavigator,
+		PersonsNavigator,
 		NavigationComponent {
 
 	//region global
@@ -37,6 +39,10 @@ internal class Navigator : BaseNavigator(),
 	//region features
 
 	override fun provideOfficersNavigation(): OfficersNavigator {
+		return this
+	}
+
+	override fun providePersonsNavigation(): PersonsNavigator {
 		return this
 	}
 
@@ -61,6 +67,14 @@ internal class Navigator : BaseNavigator(),
 		val bundle = bundleOf(COMPANY_NUMBER to companyNumber,
 				COMPANY_NAME to companyName)
 		navController?.navigateSafe(R.id.action_global_companyActivity, bundle)
+	}
+
+	//endregion
+
+	//region officers
+
+	override fun personsToPersonDetails() {
+		navController?.navigateSafe(R.id.action_personsFragment_to_personDetailsFragment)
 	}
 
 	//endregion

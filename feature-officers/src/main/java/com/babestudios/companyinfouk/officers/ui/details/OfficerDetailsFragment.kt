@@ -52,7 +52,6 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 
 //region events
 
-	//TODO
 	@Suppress("CheckResult")
 	private fun observeActions() {
 		eventDisposables.clear()

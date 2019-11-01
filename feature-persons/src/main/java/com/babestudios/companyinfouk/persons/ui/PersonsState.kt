@@ -10,11 +10,11 @@ import com.babestudios.companyinfouk.persons.ui.persons.list.AbstractPersonsVisi
 data class PersonsState(
 		//Persons
 		val personsRequest: Async<Persons> = Uninitialized,
-		var persons: List<AbstractPersonsVisitable> = emptyList(),
-		var totalPersonCount: Long = 0,
-		var companyNumber: String = "",
+		val persons: List<AbstractPersonsVisitable> = emptyList(),
+		val totalPersonCount: Long = 0,
+		val companyNumber: String = "",
 
 		//Person details
 		val personItem: Person? = null
 
-		) : MvRxState
+) : MvRxState

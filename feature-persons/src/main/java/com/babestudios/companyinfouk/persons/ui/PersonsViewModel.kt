@@ -14,11 +14,11 @@ import com.babestudios.companyinfouk.persons.ui.persons.list.AbstractPersonsVisi
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 
 class PersonsViewModel(
-		officersState: PersonsState,
+		personsState: PersonsState,
 		private val companiesRepository: CompaniesRepositoryContract,
 		val personsNavigator: PersonsNavigator,
 		private val errorResolver: ErrorResolver
-) : BaseViewModel<PersonsState>(officersState, companiesRepository) {
+) : BaseViewModel<PersonsState>(personsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<PersonsViewModel, PersonsState> {
 
@@ -60,7 +60,10 @@ class PersonsViewModel(
 			if (state.persons.size < state.totalPersonCount) {
 				companiesRepository.getPersons(
 						state.companyNumber
-						?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
+								?: "",
+						(page * Integer
+								.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE))
+								.toString()
 				).execute {
 					copy(
 							personsRequest = it.resolveErrorOrProceed(errorResolver),
@@ -74,6 +77,17 @@ class PersonsViewModel(
 
 	private fun convertToVisitables(reply: Persons?): List<AbstractPersonsVisitable> {
 		return ArrayList(reply?.items?.map { item -> PersonsVisitable(item) } ?: emptyList())
+	}
+
+	fun personItemClicked(adapterPosition: Int) {
+		withState { state ->
+			setState {
+				copy(
+						personItem = (state.persons[adapterPosition] as PersonsVisitable).person
+				)
+			}
+		}
+		personsNavigator.personsToPersonDetails()
 	}
 
 	//endregion

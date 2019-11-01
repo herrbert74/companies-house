@@ -81,16 +81,17 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
 	private fun observeActions() {
 		eventDisposables.clear()
-		//TODO
 		officerAppointmentsAdapter?.getViewClickedObservable()
 				?.take(1)
 				?.subscribe { view: BaseViewHolder<AbstractOfficerAppointmentsVisitable> ->
-					withState(viewModel) {state->
+					withState(viewModel) { state ->
 						state.appointmentItems.let { appointmentItems ->
-							val company = (appointmentItems[(view as OfficerAppointmentsViewHolder).adapterPosition] as OfficerAppointmentsVisitable).appointment.appointedTo
+							val company =
+									(appointmentItems[(view as OfficerAppointmentsViewHolder).adapterPosition]
+											as OfficerAppointmentsVisitable)
+											.appointment
+											.appointedTo
 							company?.let { appointedTo ->
-								/*(activity as AppCompatActivity).startActivityWithRightSlide(
-										activity.createCompanyIntent(appointedTo.companyNumber!!, appointedTo.companyName!!))*/
 								viewModel.officersNavigator
 										.officersAppointmentsToCompanyActivity(
 												appointedTo.companyNumber!!,
