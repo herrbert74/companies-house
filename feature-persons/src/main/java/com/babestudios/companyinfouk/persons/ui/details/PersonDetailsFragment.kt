@@ -12,7 +12,6 @@ import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_person_details.*
-import kotlinx.android.synthetic.main.fragment_persons.*
 
 class PersonDetailsFragment : BaseMvRxFragment() {
 

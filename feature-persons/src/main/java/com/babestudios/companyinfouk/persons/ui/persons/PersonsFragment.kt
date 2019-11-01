@@ -56,8 +56,6 @@ class PersonsFragment : BaseMvRxFragment() {
 		withState(viewModel) {
 			viewModel.fetchPersons(it.companyNumber)
 		}
-
-		createRecyclerView()
 	}
 
 	override fun onResume() {

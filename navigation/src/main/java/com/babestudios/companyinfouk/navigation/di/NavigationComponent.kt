@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.navigation.di
 
+import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 
@@ -9,6 +10,7 @@ import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
  * and [Component dependencies](https://dagger.dev/api/2.14/dagger/Component.html#dependencies--)
  */
 interface NavigationComponent {
+	fun provideChargesNavigation(): ChargesNavigator
 	fun provideOfficersNavigation(): OfficersNavigator
 	fun providePersonsNavigation(): PersonsNavigator
 }

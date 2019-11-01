@@ -29,14 +29,13 @@
 		</activity>
 		<activity android:name=".ui.company.CompanyActivity"/>
 		<activity android:name=".ui.favourites.FavouritesActivity"/>
-		<activity android:name=".ui.charges.ChargesActivity"/>
-		<activity android:name=".ui.chargedetails.ChargeDetailsActivity"/>
+		<activity android:name=".charges.ui.ChargesActivity"/>
 		<activity android:name=".ui.filinghistory.FilingHistoryActivity"/>
 		<activity android:name=".ui.filinghistorydetails.FilingHistoryDetailsActivity"/>
 		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
 		<activity android:name=".ui.insolvencydetails.InsolvencyDetailsActivity"/>
 		<activity android:name=".officers.ui.OfficersActivity"/>
-		<activity android:name="com.babestudios.companyinfouk.persons.ui.PersonsActivity"/>
+		<activity android:name=".persons.ui.PersonsActivity"/>
 		<activity android:name=".ui.map.MapActivity"/>
 		<activity android:name=".ui.privacy.PrivacyActivity"/>
 

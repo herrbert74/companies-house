@@ -20,24 +20,11 @@
 	<string name="company_annual_returns_formatted_text">Last made up to %1$s</string>
 	<string name="company_accounts_not_found">Accounts not found</string>
 	<string name="company_annual_returns_not_found">Annual returns not found</string>
-	<string name="no_charges">No Charges</string>
 	<string name="no_insolvency">No insolvency</string>
 	<string name="filing_history">Filing history</string>
 	<string name="filing_history_details">Filing history details</string>
 	<string name="insolvency">Insolvency</string>
 	<string name="insolvency_details">Insolvency details</string>
-	<string name="charges">Charges</string>
-	<string name="charge_details_title">Charge details</string>
-	<string name="company_details">Company details</string>
-	<string name="charge_details_delivered_on">Delivered on</string>
-	<string name="charge_details_status">Status</string>
-	<string name="charge_details_contains_floating_charge">Contains floating charge</string>
-	<string name="charge_details_floating_charge_covers_all">Floating charge covers all</string>
-	<string name="charge_details_contains_negative_pledge">Contains negative pledge</string>
-	<string name="charge_details_contains_fixed_charge">Contains fixed charge</string>
-	<string name="charge_details_satisfied_on">Satisfied on</string>
-	<string name="charge_details_persons_entitled">Persons entitled</string>
-	<string name="charge_details_filing_type">Filing type</string>
 	<string name="insolvency_details_address">Address</string>
 	<string name="insolvency_details_role">Role</string>
 	<string name="insolvency_details_ceased_to_act_on">Ceased to act on</string>
@@ -47,7 +34,6 @@
 	<string name="company_status">Company status</string>
 	<string name="title_activity_maps">Map</string>
 	<string name="company_address_show_on_map">Show on map</string>
-	<string name="transactions">Transactions</string>
 	<string name="type">Type</string>
 	<string name="date">Date</string>
 	<string name="search_menu_filter">Filter</string>
@@ -59,11 +45,7 @@
 	<string name="could_not_retrieve_company_info">Could not retrieve company information. Check your network connection.</string>
 	<string name="could_not_retrieve_filing_history_info">Could not retrieve filing history information. Check your network connection.</string>
 	<string name="could_not_retrieve_filing_history_document_info">Could not retrieve filing history document. Check your network connection.</string>
-	<string name="could_not_retrieve_charges_info">Could not retrieve charges information. Check your network connection.</string>
-	<string name="could_not_retrieve_officer_info">Could not retrieve officer information. Check your network connection.</string>
-	<string name="could_not_retrieve_officer_appointments_info">Could not retrieve officer appointments information. Check your network connection.</string>
 	<string name="could_not_retrieve_insolvency_info">Could not retrieve insolvency information. Check your network connection.</string>
-	<string name="could_not_retrieve_persons_info">Could not retrieve significant persons information. Check your network connection.</string>
 	<string name="insolvency_dates">Dates</string>
 	<string name="insolvency_practitioners">Practitioners</string>
 	<string name="appbar_scrolling_view_behavior" translatable="false">	com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>

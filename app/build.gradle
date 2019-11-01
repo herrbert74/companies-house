@@ -59,6 +59,7 @@ android {
 }
 
 dependencies {
+	implementation project(':feature-charges')
 	implementation project(':feature-officers')
 	implementation project(':feature-persons')
 

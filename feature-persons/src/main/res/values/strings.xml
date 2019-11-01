@@ -7,4 +7,6 @@
 	<string name="person_details_registration_number">Registration number</string>
 	<string name="person_details_place_registered">Place registered</string>
 	<string name="person_details_natures_of_control">Natures of control</string>
+
+	<string name="could_not_retrieve_persons_info">Could not retrieve significant persons information. Check your network connection.</string>
 </resources>

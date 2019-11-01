@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/charges.xml"
+	app:startDestination="@id/chargesFragment">
+
+	<fragment
+		android:id="@+id/chargesFragment"
+		android:name="com.babestudios.companyinfouk.charges.ui.charges.ChargesFragment"
+		android:label="ChargesFragment"
+		tools:layout="@layout/fragment_charges">
+
+		<action
+			android:id="@+id/action_chargesFragment_to_chargesDetailsFragment"
+			app:destination="@id/chargesDetailsFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/chargesDetailsFragment"
+		android:name="com.babestudios.companyinfouk.charges.ui.details.ChargeDetailsFragment"
+		android:label="ChargesDetailsFragment"
+		tools:layout="@layout/fragment_charge_details">
+	</fragment>
+
+</navigation>

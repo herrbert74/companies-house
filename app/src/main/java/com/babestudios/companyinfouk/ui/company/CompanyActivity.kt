@@ -13,14 +13,14 @@ import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.ext.parseMySqlDate
 import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.charges.ui.createChargesIntent
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.model.company.Company
-import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.officers.ui.createOfficersIntent
 import com.babestudios.companyinfouk.persons.ui.createPersonsIntent
-import com.babestudios.companyinfouk.ui.charges.createChargesIntent
 import com.babestudios.companyinfouk.ui.filinghistory.createFilingHistoryIntent
 import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity

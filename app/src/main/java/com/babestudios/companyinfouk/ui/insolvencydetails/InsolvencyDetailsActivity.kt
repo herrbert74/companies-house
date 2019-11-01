@@ -13,7 +13,6 @@ import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.ext.logScreenView
-import com.babestudios.companyinfouk.ui.charges.ChargesState
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.ui.insolvencydetails.list.InsolvencyDetailsTypeFactory
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="no_charges">No Charges</string>
+	<string name="charges">Charges</string>
+	<string name="charge_details_title">Charge details</string>
+	<string name="company_details">Company details</string>
+	<string name="charge_details_delivered_on">Delivered on</string>
+	<string name="charge_details_status">Status</string>
+	<string name="charge_details_contains_floating_charge">Contains floating charge</string>
+	<string name="charge_details_floating_charge_covers_all">Floating charge covers all</string>
+	<string name="charge_details_contains_negative_pledge">Contains negative pledge</string>
+	<string name="charge_details_contains_fixed_charge">Contains fixed charge</string>
+	<string name="charge_details_satisfied_on">Satisfied on</string>
+	<string name="charge_details_persons_entitled">Persons entitled</string>
+	<string name="charge_details_filing_type">Filing type</string>
+	<string name="could_not_retrieve_charges_info">Could not retrieve charges information. Check your network connection.</string>
+	<string name="transactions">Transactions</string>
+
+</resources>

@@ -6,10 +6,12 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
+import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
+import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 
@@ -26,6 +28,7 @@ import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 internal class Navigator : BaseNavigator(),
 		OfficersNavigator,
 		PersonsNavigator,
+		ChargesNavigator,
 		NavigationComponent {
 
 	//region global
@@ -43,6 +46,10 @@ internal class Navigator : BaseNavigator(),
 	}
 
 	override fun providePersonsNavigation(): PersonsNavigator {
+		return this
+	}
+
+	override fun provideChargesNavigation(): ChargesNavigator {
 		return this
 	}
 
@@ -71,13 +78,22 @@ internal class Navigator : BaseNavigator(),
 
 	//endregion
 
-	//region officers
+	//region persons
 
 	override fun personsToPersonDetails() {
 		navController?.navigateSafe(R.id.action_personsFragment_to_personDetailsFragment)
 	}
 
 	//endregion
+
+	//region charges
+
+	override fun chargesToChargesDetails() {
+		navController?.navigateSafe(R.id.action_chargesFragment_to_chargesDetailsFragment)
+	}
+
+	//endregion
+
 }
 
 @Suppress("MaxLineLength")
