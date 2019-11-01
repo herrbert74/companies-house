@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.navigation.di
 
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
+import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 
 /**
  * This is not a real Dagger Component, only an interface to break circular dependency with navigation.
@@ -9,4 +10,5 @@ import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
  */
 interface NavigationComponent {
 	fun provideOfficersNavigation(): OfficersNavigator
+	fun providePersonsNavigation(): PersonsNavigator
 }

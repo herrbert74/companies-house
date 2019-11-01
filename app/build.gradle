@@ -59,13 +59,8 @@ android {
 }
 
 dependencies {
-	implementation project(':buildSrc')
-	implementation project(':base')
-	implementation project(':common')
-	implementation project(':core-injection')
-    implementation project(':feature-officers')
-	implementation project(':navigation')
-	implementation project(':data')
+	implementation project(':feature-officers')
+	implementation project(':feature-persons')
 
 	implementation Libs.Kotlin.stdLibJdk8
 
@@ -152,7 +147,7 @@ dependencies {
 	androidTestImplementation Libs.AndroidX.Test.runner
 }
 
-task f{
+task f {
 	configurations.each { println it.name }
 }
 apply plugin: 'com.google.gms.google-services'

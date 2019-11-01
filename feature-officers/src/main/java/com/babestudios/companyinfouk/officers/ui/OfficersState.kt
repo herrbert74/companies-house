@@ -12,10 +12,10 @@ import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersV
 
 data class OfficersState(
 		//Officers
+		val officersRequest: Async<Officers> = Uninitialized,
 		val officerItems: List<AbstractOfficersVisitable> = emptyList(),
 		val totalOfficersCount: Int = 0,
 		val companyNumber: String = "",
-		val officersRequest: Async<Officers> = Uninitialized,
 
 		//Officer details
 		val officerItem: OfficerItem? = null,

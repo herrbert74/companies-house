@@ -13,23 +13,42 @@
 
 		<action
 			android:id="@+id/action_officersFragment_to_officerDetailsFragment"
-			app:destination="@id/officerDetailsFragment" />
+			app:destination="@id/officerDetailsFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
 
 	<fragment
 		android:id="@+id/officerDetailsFragment"
 		android:name="com.babestudios.companyinfouk.officers.ui.details.OfficerDetailsFragment"
 		android:label="OfficerDetailsFragment"
-		tools:layout="@layout/fragment_officer_details">
+		tools:layout="@layout/activity_officers">
 		<action
 			android:id="@+id/action_officerDetailsFragment_to_officerAppointmentFragment"
-			app:destination="@id/officerAppointmentsFragment" />
+			app:destination="@id/officerAppointmentsFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
 
 	<fragment
 		android:id="@+id/officerAppointmentsFragment"
 		android:name="com.babestudios.companyinfouk.officers.ui.appointments.OfficerAppointmentsFragment"
 		android:label="OfficerAppointmentsFragment"
-		tools:layout="@layout/fragment_officer_appointments" />
+		tools:layout="@layout/activity_officers" />
 
+	<action
+		android:id="@+id/action_global_companyActivity"
+		app:destination="@id/companyActivity"
+		app:enterAnim="@anim/right_slide_in"
+		app:exitAnim="@anim/left_slide_out"
+		app:popEnterAnim="@anim/left_slide_in"
+		app:popExitAnim="@anim/right_slide_out" />
+
+	<activity
+		android:id="@+id/companyActivity"
+		android:name="com.babestudios.companyinfouk.ui.company.CompanyActivity" />
 </navigation>

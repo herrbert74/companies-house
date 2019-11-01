@@ -8,6 +8,7 @@ import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.di.CoreModule
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
+import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import dagger.Component
 import javax.inject.Singleton
 
@@ -27,4 +28,6 @@ interface CoreComponent {
 	fun context(): Context
 
 	fun officersNavigation(): OfficersNavigator
+
+	fun personsNavigation(): PersonsNavigator
 }

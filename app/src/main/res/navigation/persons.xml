@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/persons.xml"
+	app:startDestination="@id/personsFragment">
+
+	<fragment
+		android:id="@+id/personsFragment"
+		android:name="com.babestudios.companyinfouk.persons.ui.persons.PersonsFragment"
+		android:label="PersonsFragment"
+		tools:layout="@layout/fragment_persons">
+
+		<action
+			android:id="@+id/action_personsFragment_to_officerDetailsFragment"
+			app:destination="@id/personDetailsFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/personDetailsFragment"
+		android:name="com.babestudios.companyinfouk.persons.ui.details.PersonsDetailsFragment"
+		android:label="PersonDetailsFragment"
+		tools:layout="@layout/activity_persons">
+	</fragment>
+
+</navigation>

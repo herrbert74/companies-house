@@ -22,15 +22,12 @@
 	<string name="company_annual_returns_not_found">Annual returns not found</string>
 	<string name="no_charges">No Charges</string>
 	<string name="no_insolvency">No insolvency</string>
-	<string name="no_person_with_significant_control">No person with significant control</string>
 	<string name="filing_history">Filing history</string>
 	<string name="filing_history_details">Filing history details</string>
 	<string name="insolvency">Insolvency</string>
 	<string name="insolvency_details">Insolvency details</string>
 	<string name="charges">Charges</string>
 	<string name="charge_details_title">Charge details</string>
-	<string name="person_details">Person details</string>
-	<string name="persons_with_significant_control">Persons with significant control</string>
 	<string name="company_details">Company details</string>
 	<string name="charge_details_delivered_on">Delivered on</string>
 	<string name="charge_details_status">Status</string>
@@ -46,10 +43,6 @@
 	<string name="insolvency_details_ceased_to_act_on">Ceased to act on</string>
 	<string name="insolvency_details_name">Name</string>
 	<string name="insolvency_details_appointed_on">Appointed on</string>
-	<string name="person_details_notified_on">Notified on</string>
-	<string name="person_details_registration_number">Registration number</string>
-	<string name="person_details_place_registered">Place registered</string>
-	<string name="person_details_natures_of_control">Natures of control</string>
 	<string name="company_name">Company name</string>
 	<string name="company_status">Company status</string>
 	<string name="title_activity_maps">Map</string>

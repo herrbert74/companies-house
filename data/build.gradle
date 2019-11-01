@@ -31,8 +31,7 @@ android {
 }
 
 dependencies {
-	implementation project(':buildSrc')
-	implementation project(':base')
+	api project(':base')
 
 	implementation Libs.Kotlin.stdLibJdk8
 

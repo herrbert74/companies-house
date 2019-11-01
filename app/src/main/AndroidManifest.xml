@@ -36,8 +36,8 @@
 		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
 		<activity android:name=".ui.insolvencydetails.InsolvencyDetailsActivity"/>
 		<activity android:name=".officers.ui.OfficersActivity"/>
-		<activity android:name=".ui.persons.PersonsActivity"/>
-		<activity android:name=".ui.persondetails.PersonDetailsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.persons.persons.persons.PersonsActivity"/>
+		<activity android:name="com.babestudios.companyinfouk.persons.persons.persondetails.PersonDetailsActivity"/>
 		<activity android:name=".ui.map.MapActivity"/>
 		<activity android:name=".ui.privacy.PrivacyActivity"/>
 

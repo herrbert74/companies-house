@@ -29,10 +29,8 @@ android {
 }
 
 dependencies {
-	implementation project(":buildSrc")
-	implementation project(":base")
-	implementation project(":navigation")
-	implementation project(":data")
+	api project(":navigation")
+	api project(":data")
 
 	implementation Libs.Google.Dagger.dagger
 	kapt Libs.Google.Dagger.compiler

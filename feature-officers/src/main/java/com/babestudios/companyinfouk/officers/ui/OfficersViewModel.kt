@@ -51,7 +51,6 @@ class OfficersViewModel(
 
 	fun fetchOfficers(companyNumber: String) {
 		companiesRepository.getOfficers(companyNumber, "0")
-				.doOnSubscribe { setState { copy(officersRequest = Loading()) } }
 				.execute {
 					copy(
 							officersRequest = it.resolveErrorOrProceed(errorResolver),
@@ -68,15 +67,13 @@ class OfficersViewModel(
 				companiesRepository.getOfficers(
 						state.companyNumber,
 						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
-				)
-						.doOnSubscribe { setState { copy(officersRequest = Loading()) } }
-						.execute {
-							copy(
-									officersRequest = it.resolveErrorOrProceed(errorResolver),
-									officerItems = officerItems.appendAt(convertToVisitables(it()), officerItems.size + 1),
-									totalOfficersCount = it()?.totalResults ?: 0
-							)
-						}
+				).execute {
+					copy(
+							officersRequest = it.resolveErrorOrProceed(errorResolver),
+							officerItems = officerItems.appendAt(convertToVisitables(it()), officerItems.size + 1),
+							totalOfficersCount = it()?.totalResults ?: 0
+					)
+				}
 			}
 		}
 	}

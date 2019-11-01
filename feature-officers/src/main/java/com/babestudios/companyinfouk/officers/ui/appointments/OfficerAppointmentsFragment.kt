@@ -24,7 +24,7 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
 	private var officerAppointmentsAdapter: OfficerAppointmentsAdapter? = null
 
-	private val viewModel by activityViewModel(OfficersViewModel::class)
+	private val viewModel by existingViewModel(OfficersViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 

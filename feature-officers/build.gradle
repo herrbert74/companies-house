@@ -32,12 +32,8 @@ android {
 }
 
 dependencies {
-	implementation project(":buildSrc")
-	implementation project(":base")
 	implementation project(":common")
-	implementation project(":navigation")
-	implementation project(":data")
-	implementation project(":core-injection")
+	api project(":core-injection")
 
 	implementation Libs.mvrx
 

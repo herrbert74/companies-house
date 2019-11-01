@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_officers.*
 
 class OfficersFragment : BaseMvRxFragment() {
 
-
 	private var officersAdapter: OfficersAdapter? = null
 
 	private val viewModel by activityViewModel(OfficersViewModel::class)
