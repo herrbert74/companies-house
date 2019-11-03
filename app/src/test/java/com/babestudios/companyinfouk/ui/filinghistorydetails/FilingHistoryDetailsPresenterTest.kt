@@ -4,7 +4,7 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryLinks
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryLinksDto
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.CompletableSource
 import io.reactivex.Single
@@ -27,7 +27,7 @@ class FilingHistoryDetailsPresenterTest {
 				.testApplicationModule(TestApplicationModule(CompaniesHouseApplication()))
 				.build()
 		filingHistoryDetailsPresenter = testApplicationComponent.filingHistoryDetailsPresenter()
-		val historyLinks = FilingHistoryLinks()
+		val historyLinks = FilingHistoryLinksDto()
 		historyLinks.documentMetadata = "something"
 		val filingHistoryItem = FilingHistoryItem()
 		filingHistoryItem.links = historyLinks

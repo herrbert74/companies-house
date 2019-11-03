@@ -31,7 +31,7 @@ class PersonsActivity : BaseActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_persons)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
-		navController = findNavController(R.id.navHostFragmentCharges)
+		navController = findNavController(R.id.navHostFragmentPersons)
 		if (::comp.isLazyInitialized) {
 			val nav = comp.navigator()
 			nav.bind(navController)

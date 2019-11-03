@@ -22,10 +22,10 @@ import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.common.ext.startActivityForResultWithRightSlide
+import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
-import com.babestudios.companyinfouk.ext.startActivityForResultWithRightSlide
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.favourites.list.*
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity

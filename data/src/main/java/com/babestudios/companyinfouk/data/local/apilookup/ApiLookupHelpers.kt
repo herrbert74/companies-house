@@ -22,7 +22,8 @@ class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperCo
 
 @Singleton
 class FilingHistoryDescriptionsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) {
-	private val filingHistoryDescriptions: FilingHistoryDescriptions = rawResourceHelper.getFilingHistoryDescriptions(R.raw.filing_history_descriptions)
+	private val filingHistoryDescriptions: FilingHistoryDescriptions = rawResourceHelper
+			.getFilingHistoryDescriptions(R.raw.filing_history_descriptions)
 
 	fun filingHistoryLookUp(filingHistoryDescriptionString: String): String {
 		return filingHistoryDescriptions.description[filingHistoryDescriptionString] ?: filingHistoryDescriptionString

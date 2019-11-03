@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.airbnb.mvrx.BaseMvRxFragment
-import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_officer_details.*
 
 class OfficerDetailsFragment : BaseMvRxFragment() {
 
-	private val viewModel by activityViewModel(OfficersViewModel::class)
+	private val viewModel by existingViewModel(OfficersViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 

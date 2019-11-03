@@ -30,8 +30,7 @@
 		<activity android:name=".ui.company.CompanyActivity"/>
 		<activity android:name=".ui.favourites.FavouritesActivity"/>
 		<activity android:name=".charges.ui.ChargesActivity"/>
-		<activity android:name=".ui.filinghistory.FilingHistoryActivity"/>
-		<activity android:name=".ui.filinghistorydetails.FilingHistoryDetailsActivity"/>
+		<activity android:name=".filings.ui.FilingsActivity"/>
 		<activity android:name=".ui.insolvency.InsolvencyActivity"/>
 		<activity android:name=".ui.insolvencydetails.InsolvencyDetailsActivity"/>
 		<activity android:name=".officers.ui.OfficersActivity"/>

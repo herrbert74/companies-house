@@ -24,7 +24,7 @@
 		android:id="@+id/personDetailsFragment"
 		android:name="com.babestudios.companyinfouk.persons.ui.details.PersonDetailsFragment"
 		android:label="PersonDetailsFragment"
-		tools:layout="@layout/activity_persons">
+		tools:layout="@layout/fragment_person_details">
 	</fragment>
 
 </navigation>

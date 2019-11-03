@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="filing_history">Filing history</string>
+	<string name="filing_history_details">Filing history details</string>
+	<string name="could_not_retrieve_filing_history_info">Could not retrieve filing history information. Check your network connection.</string>
+	<string name="could_not_retrieve_filing_history_document_info">Could not retrieve filing history document. Check your network connection.</string>
+	<string name="filing_history_details_no_pdf_reader">Couldn\'t find PDF reader. Please install one from Google Play.</string>
+	<string name="filing_history_details_wont_save_pdf">The PDF file won\'t be saved to the SD card.</string>
+	<string-array name="filing_history_categories">
+		<item>All</item>
+		<item>gazette</item>
+		<item>confirmation-statement</item>
+		<item>accounts</item>
+		<item>annual returns</item>
+		<item>officers</item>
+		<item>address</item>
+		<item>capital</item>
+		<item>insolvency</item>
+		<item>other</item>
+		<item>incorporation</item>
+		<item>change of constitution</item>
+		<item>auditors</item>
+		<item>resolution</item>
+		<item>mortgage</item>
+	</string-array>
+</resources>

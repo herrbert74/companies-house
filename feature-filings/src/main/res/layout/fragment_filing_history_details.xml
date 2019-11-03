@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+													 xmlns:app="http://schemas.android.com/apk/res-auto"
+													 xmlns:tools="http://schemas.android.com/tools"
+													 android:layout_width="match_parent"
+													 android:layout_height="match_parent"
+													 android:fitsSystemWindows="true"
+													 tools:context=".ui.FilingsActivity">
+
+	<com.babestudios.base.view.ParallaxAppBarView
+		android:id="@+id/pabFilingHistoryDetails"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/appbar_height"
+		android:theme="@style/AppTheme.AppBarOverlay"
+		app:imageViewSrc="@drawable/bg_filing_history"/>
+
+	<com.babestudios.base.view.MultiStateView
+		android:id="@+id/msvFilingHistoryDetails"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		app:msv_emptyView="@layout/multi_state_view_empty"
+		app:msv_errorView="@layout/multi_state_view_error"
+		app:msv_loadingView="@layout/multi_state_view_progress"
+		app:msv_viewState="content">
+
+		<androidx.core.widget.NestedScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<ProgressBar
+					android:id="@+id/progressbar"
+					android:layout_width="0dp"
+					android:layout_height="0dp"
+					android:indeterminate="true"
+					android:indeterminateBehavior="cycle"
+					android:visibility="gone"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:layout_constraintLeft_creator="1"
+					tools:layout_constraintTop_creator="1"/>
+
+
+				<androidx.constraintlayout.widget.Guideline
+					android:id="@+id/guideline"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					app:layout_constraintGuide_begin="@dimen/constraint_guide_begin"/>
+
+				<TextView
+					android:id="@+id/cpnFilingHistoryDetailsDate"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/date"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent"/>
+
+				<TextView
+					android:id="@+id/lblFilingHistoryDetailsDate"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsDate"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="2017-02-07"/>
+
+				<TextView
+					android:id="@+id/cpnFilingHistoryDetailsCategory"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/category"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsDate"/>
+
+				<TextView
+					android:id="@+id/lblFilingHistoryDetailsCategory"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsCategory"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="Officers two liners for for for"/>
+
+				<TextView
+					android:id="@+id/cpnFilingHistoryDetailsSubcategory"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/subcategory"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsCategory"/>
+
+				<TextView
+					android:id="@+id/lblFilingHistoryDetailsSubcategory"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsCategory"
+					tools:text="Appointment"/>
+
+				<TextView
+					android:id="@+id/cpnFilingHistoryDetailsDescription"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/description"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsSubcategory"/>
+
+				<TextView
+					android:id="@+id/lblFilingHistoryDetailsDescription"
+					style="@style/Text"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					android:textSize="@dimen/text_title"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsDescription"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="Long text here 3 long long long"/>
+
+				<TextView
+					android:id="@+id/lblFilingHistoryDetailsDescriptionValues"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsDescription"
+					tools:text="Capital: 100 GBP"/>
+
+				<TextView
+					android:id="@+id/cpnFilingHistoryDetailsPages"
+					style="@style/Text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/activity_horizontal_margin"
+					android:layout_marginTop="@dimen/activity_horizontal_margin"
+					android:text="@string/pages"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/lblFilingHistoryDetailsDescriptionValues"/>
+
+				<TextView
+					android:id="@+id/lblFilingHistoryDetailsPages"
+					style="@style/Text.Title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="@dimen/activity_horizontal_margin"
+					app:layout_constraintBaseline_toBaselineOf="@+id/cpnFilingHistoryDetailsPages"
+					app:layout_constraintHorizontal_bias="0.0"
+					app:layout_constraintLeft_toLeftOf="@+id/guideline"
+					app:layout_constraintRight_toRightOf="parent"
+					tools:text="25"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</androidx.core.widget.NestedScrollView>
+	</com.babestudios.base.view.MultiStateView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

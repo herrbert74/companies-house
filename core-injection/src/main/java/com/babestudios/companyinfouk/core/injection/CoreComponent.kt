@@ -8,6 +8,7 @@ import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.di.CoreModule
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import dagger.Component
@@ -28,9 +29,11 @@ interface CoreComponent {
 	@ApplicationContext
 	fun context(): Context
 
-	fun officersNavigation(): OfficersNavigator
+	fun chargesNavigation(): ChargesNavigator
+
+	fun filingsNavigation(): FilingsNavigator
 
 	fun personsNavigation(): PersonsNavigator
 
-	fun chargesNavigation(): ChargesNavigator
+	fun officersNavigation(): OfficersNavigator
 }

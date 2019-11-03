@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.navigation.di
 
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 
@@ -11,6 +12,7 @@ import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
  */
 interface NavigationComponent {
 	fun provideChargesNavigation(): ChargesNavigator
+	fun provideFilingsNavigation(): FilingsNavigator
 	fun provideOfficersNavigation(): OfficersNavigator
 	fun providePersonsNavigation(): PersonsNavigator
 }

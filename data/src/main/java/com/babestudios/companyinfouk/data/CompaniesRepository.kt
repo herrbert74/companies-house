@@ -9,12 +9,13 @@ import android.util.Base64
 import android.util.Log
 import androidx.core.content.FileProvider
 import com.babestudios.base.data.AnalyticsContract
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.company.Company
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
+import com.babestudios.companyinfouk.data.model.filinghistory.convertToDto
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
@@ -41,21 +42,21 @@ interface CompaniesRepositoryContract : AnalyticsContract {
 	fun sicLookup(code: String): String
 
 	fun accountTypeLookup(accountType: String): String
-	fun filingHistoryLookup(filingHistory: String): String
+	fun filingHistoryLookup(filingHistoryDescription: String): String
 
 	//Companies House API
 	fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult>
 
 	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
 	fun getCompany(companyNumber: String): Single<Company>
-	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistoryList>
+	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistoryDto>
 	fun fetchCharges(companyNumber: String, startItem: String): Single<Charges>
 	fun getInsolvency(companyNumber: String): Single<Insolvency>
 	fun getOfficers(companyNumber: String, startItem: String): Single<Officers>
 	fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments>
 	fun getPersons(companyNumber: String, startItem: String): Single<Persons>
 	fun getDocument(documentId: String): Single<ResponseBody>
-	fun writeDocumentPdf(responseBody: ResponseBody): Uri
+	fun writeDocumentPdf(responseBody: ResponseBody): Single<Uri>
 
 	//Preferences
 	fun clearAllRecentSearches()
@@ -76,7 +77,10 @@ open class CompaniesRepository constructor(
 		private val firebaseAnalytics: FirebaseAnalytics
 ) : CompaniesRepositoryContract {
 
-	override val authorization: String = "Basic " + base64Wrapper.encodeToString(BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(), Base64.NO_WRAP)
+	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
+			BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(),
+			Base64.NO_WRAP
+	)
 
 	override val recentSearches: List<SearchHistoryItem>
 		get() = preferencesHelper.recentSearches
@@ -92,12 +96,17 @@ open class CompaniesRepository constructor(
 		return constantsHelper.accountTypeLookUp(accountType)
 	}
 
-	override fun filingHistoryLookup(filingHistory: String): String {
-		return filingHistoryDescriptionsHelper.filingHistoryLookUp(filingHistory)
+	override fun filingHistoryLookup(filingHistoryDescription: String): String {
+		return filingHistoryDescriptionsHelper.filingHistoryLookUp(filingHistoryDescription)
 	}
 
 	override fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult> {
-		return companiesHouseService.searchCompanies(authorization, queryText.toString(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+		return companiesHouseService.searchCompanies(
+				authorization,
+				queryText.toString(),
+				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+				startItem
+		)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 	}
@@ -112,14 +121,44 @@ open class CompaniesRepository constructor(
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistoryList> {
-		return companiesHouseService.getFilingHistory(authorization, companyNumber, category, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+	override fun getFilingHistory(
+			companyNumber: String,
+			category: String,
+			startItem: String
+	): Single<FilingHistoryDto> {
+		return companiesHouseService
+				.getFilingHistory(
+						authorization,
+						companyNumber,
+						category,
+						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+						startItem
+				)
+				.map { history ->
+					history.convertToDto()
+				}
+				.map { historyDto ->
+					val unformattedItems = historyDto.items.map { item ->
+						val descriptionKey = item.description
+						item.copy(
+								description = filingHistoryLookup(descriptionKey)
+						)
+					}
+					historyDto.copy(
+							items = unformattedItems
+					)
+				}
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
 	override fun fetchCharges(companyNumber: String, startItem: String): Single<Charges> {
-		return companiesHouseService.getCharges(authorization, companyNumber, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+		return companiesHouseService.getCharges(
+				authorization,
+				companyNumber,
+				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+				startItem
+		)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
@@ -131,19 +170,38 @@ open class CompaniesRepository constructor(
 	}
 
 	override fun getOfficers(companyNumber: String, startItem: String): Single<Officers> {
-		return companiesHouseService.getOfficers(authorization, companyNumber, null, null, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+		return companiesHouseService.getOfficers(
+				authorization,
+				companyNumber,
+				null,
+				null,
+				null,
+				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+				startItem
+		)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
 	override fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments> {
-		return companiesHouseService.getOfficerAppointments(authorization, officerId, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+		return companiesHouseService.getOfficerAppointments(
+				authorization,
+				officerId,
+				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+				startItem
+		)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
 	override fun getPersons(companyNumber: String, startItem: String): Single<Persons> {
-		return companiesHouseService.getPersons(authorization, companyNumber, null, BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE, startItem)
+		return companiesHouseService.getPersons(
+				authorization,
+				companyNumber,
+				null,
+				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+				startItem
+		)
 				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
 				.observeOn(AndroidSchedulers.mainThread())
 	}
@@ -154,7 +212,7 @@ open class CompaniesRepository constructor(
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
-	override fun writeDocumentPdf(responseBody: ResponseBody): Uri {
+	override fun writeDocumentPdf(responseBody: ResponseBody): Single<Uri> {
 		val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 		val pdfFile = File(dir, "doc.pdf")
 		var inputStream: InputStream? = null
@@ -185,7 +243,13 @@ open class CompaniesRepository constructor(
 			Log.d("test", "Error during closing input stream" + e.localizedMessage)
 		}
 
-		return FileProvider.getUriForFile(context, context.packageName + ".fileprovider", pdfFile)
+		return Single.create {
+			FileProvider.getUriForFile(
+					context,
+					context.packageName + ".fileprovider",
+					pdfFile
+			)
+		}
 	}
 
 	override fun clearAllRecentSearches() {
@@ -210,7 +274,7 @@ open class CompaniesRepository constructor(
 		preferencesHelper.removeFavourite(favouriteToRemove)
 	}
 
-	//region analytics
+//region analytics
 
 	override fun logAppOpen() {
 		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
@@ -222,5 +286,5 @@ open class CompaniesRepository constructor(
 		firebaseAnalytics.logEvent("screenView", bundle)
 	}
 
-	//endregion
+//endregion
 }

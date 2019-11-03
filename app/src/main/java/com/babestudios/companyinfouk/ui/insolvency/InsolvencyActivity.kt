@@ -13,7 +13,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
-import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.insolvency.list.AbstractInsolvencyVisitable
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyAdapter
 import com.babestudios.companyinfouk.ui.insolvency.list.InsolvencyTypeFactory

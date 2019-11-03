@@ -32,6 +32,7 @@ android {
 
 dependencies {
 	api project(':base')
+	api project(':common')
 
 	implementation Libs.Kotlin.stdLibJdk8
 

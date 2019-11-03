@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.data.model.filinghistory
 
 
 import android.os.Parcelable
+import com.babestudios.companyinfouk.common.model.filinghistory.*
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 

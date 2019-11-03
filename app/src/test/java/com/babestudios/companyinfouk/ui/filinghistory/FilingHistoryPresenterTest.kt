@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.ui.filinghistory
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.DaggerTestApplicationComponent
 import com.babestudios.companyinfouk.TestApplicationModule
-import com.babestudios.companyinfouk.data.model.filinghistory.Category
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
+import com.babestudios.companyinfouk.common.model.filinghistory.CategoryDto
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistory
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Single
@@ -28,12 +28,12 @@ class FilingHistoryPresenterTest {
 		val viewModel = FilingHistoryViewModel()
 		val completable: CompletableSource = Completable.fromCallable { "" }
 		filingHistoryPresenter.setViewModel(viewModel, completable)
-		`when`(filingHistoryPresenter.companiesRepository.getFilingHistory("23", "", "0")).thenReturn(Single.just(FilingHistoryList()))
+		`when`(filingHistoryPresenter.companiesRepository.getFilingHistory("23", "", "0")).thenReturn(Single.just(FilingHistory()))
 	}
 
 	@Test
 	fun whenGetFilingHistory_thenDataManagerGetFilingHistoryIsCalled() {
-		filingHistoryPresenter.getFilingHistory("23", Category.CATEGORY_SHOW_ALL)
+		filingHistoryPresenter.getFilingHistory("23", CategoryDto.CATEGORY_SHOW_ALL)
 		verify(filingHistoryPresenter.companiesRepository, times(1)).getFilingHistory("23", "", "0")
 	}
 

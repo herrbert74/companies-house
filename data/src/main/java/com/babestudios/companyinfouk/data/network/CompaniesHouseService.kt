@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.data.network
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.company.Company
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryList
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
@@ -32,7 +32,7 @@ interface CompaniesHouseService {
 						 @Path("companyNumber") companyNumber: String,
 						 @Query("category") category: String,
 						 @Query("items_per_page") itemsPerPage: String,
-						 @Query("start_index") startIndex: String): Single<FilingHistoryList>
+						 @Query("start_index") startIndex: String): Single<FilingHistory>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_CHARGES_ENDPOINT)
 	fun getCharges(@Header("Authorization") authorization: String,

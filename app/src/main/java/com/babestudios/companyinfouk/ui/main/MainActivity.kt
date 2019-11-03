@@ -37,7 +37,7 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.ext.logScreenView
-import com.babestudios.companyinfouk.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.ui.company.createCompanyIntent
 import com.babestudios.companyinfouk.ui.favourites.createFavouritesIntent
 import com.babestudios.companyinfouk.ui.main.recents.*

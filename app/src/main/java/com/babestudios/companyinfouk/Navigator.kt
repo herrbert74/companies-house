@@ -6,14 +6,15 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
+
 
 /**
  * This class holds the navController for any feature through [BaseNavigator]
@@ -26,6 +27,7 @@ import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
  * like e.g. [com.babestudios.companyinfouk.officers.ui.OfficersComponent.navigator].
  */
 internal class Navigator : BaseNavigator(),
+		FilingsNavigator,
 		OfficersNavigator,
 		PersonsNavigator,
 		ChargesNavigator,
@@ -40,6 +42,10 @@ internal class Navigator : BaseNavigator(),
 	//endregion
 
 	//region features
+
+	override fun provideFilingsNavigation(): FilingsNavigator {
+		return this
+	}
 
 	override fun provideOfficersNavigation(): OfficersNavigator {
 		return this
@@ -94,8 +100,15 @@ internal class Navigator : BaseNavigator(),
 
 	//endregion
 
-}
+	//region charges
 
+	override fun filingsToFilingsDetails() {
+		navController?.navigateSafe(R.id.action_filingsFragment_to_filingDetailsFragment)
+	}
+
+	//endregion
+
+}
 @Suppress("MaxLineLength")
 		/**
 		 * https://stackoverflow.com/questions/51060762/java-lang-illegalargumentexception-navigation-destination-xxx-is-unknown-to-thi
