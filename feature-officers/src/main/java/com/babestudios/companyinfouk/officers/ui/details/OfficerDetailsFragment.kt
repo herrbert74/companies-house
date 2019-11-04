@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.airbnb.mvrx.BaseMvRxFragment
@@ -21,13 +22,19 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+		override fun handleOnBackPressed() {
+			viewModel.officersNavigator.popBackStack()
+		}
+	})
+
 //region life cycle
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
+		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 		return inflater.inflate(R.layout.fragment_officer_details, container, false)
 	}
 
@@ -46,6 +53,11 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 	override fun onResume() {
 		super.onResume()
 		observeActions()
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		callback.remove()
 	}
 
 //endregion

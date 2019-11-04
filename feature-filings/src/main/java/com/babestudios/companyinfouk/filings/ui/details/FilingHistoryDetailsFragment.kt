@@ -35,6 +35,7 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 			viewModel.filingsNavigator.popBackStack()
 		}
 	})
+
 	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +93,7 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 		super.onDestroyView()
 		callback.remove()
 	}
+
 	//endregion
 
 	//region Render

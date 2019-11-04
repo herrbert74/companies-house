@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
@@ -19,13 +20,19 @@ class PersonDetailsFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+		override fun handleOnBackPressed() {
+			viewModel.personsNavigator.popBackStack()
+		}
+	})
+
 	//region life cycle
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
+		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 		return inflater.inflate(R.layout.fragment_person_details, container, false)
 	}
 
@@ -48,6 +55,11 @@ class PersonDetailsFragment : BaseMvRxFragment() {
 	override fun onResume() {
 		super.onResume()
 		observeActions()
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		callback.remove()
 	}
 
 	//endregion

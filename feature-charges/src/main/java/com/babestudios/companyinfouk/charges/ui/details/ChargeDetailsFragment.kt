@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.BaseMvRxFragment
@@ -27,13 +28,19 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+		override fun handleOnBackPressed() {
+			viewModel.chargesNavigator.popBackStack()
+		}
+	})
+
 	//region life cycle
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
+		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 		return inflater.inflate(R.layout.fragment_charge_details, container, false)
 	}
 
@@ -58,6 +65,15 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 		super.onResume()
 		observeActions()
 	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		callback.remove()
+	}
+
+	//endregion
+
+	//region render
 
 	private fun showChargesItem() {
 		withState(viewModel) { state ->

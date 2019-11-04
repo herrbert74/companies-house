@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
@@ -28,13 +29,19 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+		override fun handleOnBackPressed() {
+			viewModel.officersNavigator.popBackStack()
+		}
+	})
+
 	//region life cycle
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
+		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 		return inflater.inflate(R.layout.fragment_officer_appointments, container, false)
 	}
 
@@ -69,6 +76,11 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 				viewModel.loadMoreAppointments(page)
 			}
 		})
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		callback.remove()
 	}
 
 	//endregion
