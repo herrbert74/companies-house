@@ -69,6 +69,26 @@ fun Category.convertToDto(): CategoryDto {
 	}
 }
 
+fun CategoryDto.convertToDomainModel(): Category {
+	return when (this) {
+		CategoryDto.CATEGORY_SHOW_ALL -> Category.CATEGORY_SHOW_ALL
+		CategoryDto.CATEGORY_GAZETTE -> Category.CATEGORY_GAZETTE
+		CategoryDto.CATEGORY_CONFIRMATION_STATEMENT -> Category.CATEGORY_CONFIRMATION_STATEMENT
+		CategoryDto.CATEGORY_ACCOUNTS -> Category.CATEGORY_ACCOUNTS
+		CategoryDto.CATEGORY_ANNUAL_RETURN -> Category.CATEGORY_ANNUAL_RETURN
+		CategoryDto.CATEGORY_OFFICERS -> Category.CATEGORY_OFFICERS
+		CategoryDto.CATEGORY_ADDRESS -> Category.CATEGORY_ADDRESS
+		CategoryDto.CATEGORY_CAPITAL -> Category.CATEGORY_CAPITAL
+		CategoryDto.CATEGORY_INSOLVENCY -> Category.CATEGORY_INSOLVENCY
+		CategoryDto.CATEGORY_OTHER -> Category.CATEGORY_OTHER
+		CategoryDto.CATEGORY_INCORPORATION -> Category.CATEGORY_INCORPORATION
+		CategoryDto.CATEGORY_CONSTITUTION -> Category.CATEGORY_CONSTITUTION
+		CategoryDto.CATEGORY_AUDITORS -> Category.CATEGORY_AUDITORS
+		CategoryDto.CATEGORY_RESOLUTION -> Category.CATEGORY_RESOLUTION
+		CategoryDto.CATEGORY_MORTGAGE -> Category.CATEGORY_MORTGAGE
+	}
+}
+
 fun DescriptionValues.convertToDto(): DescriptionValuesDto {
 	return DescriptionValuesDto(
 			madeUpDate = this.madeUpDate ?: "",

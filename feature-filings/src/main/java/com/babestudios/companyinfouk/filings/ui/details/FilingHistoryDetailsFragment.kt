@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.airbnb.mvrx.*
@@ -29,13 +30,23 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+		override fun handleOnBackPressed() {
+			viewModel.filingsNavigator.popBackStack()
+		}
+	})
 	//region life cycle
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setHasOptionsMenu(true)
+	}
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
+		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 		return inflater.inflate(R.layout.fragment_filing_history_details, container, false)
 	}
 
@@ -77,6 +88,10 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 		}
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		callback.remove()
+	}
 	//endregion
 
 	//region Render
@@ -186,6 +201,7 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 						is Success -> {
 							msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
 							state.pdfUri?.let {
+								viewModel.resetState()
 								showDocument(it)
 							}
 						}
@@ -204,6 +220,7 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 			}
 		}
 	}
+
 
 	//endregion
 }

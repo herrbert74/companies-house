@@ -243,13 +243,17 @@ open class CompaniesRepository constructor(
 			Log.d("test", "Error during closing input stream" + e.localizedMessage)
 		}
 
-		return Single.create {
-			FileProvider.getUriForFile(
+		val single: Single<Uri> = Single.create {
+			val async = FileProvider.getUriForFile(
 					context,
 					context.packageName + ".fileprovider",
 					pdfFile
 			)
+			it.onSuccess(async)
 		}
+		return single
+				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread())
 	}
 
 	override fun clearAllRecentSearches() {

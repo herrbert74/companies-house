@@ -39,8 +39,12 @@ class FilingsActivity : BaseActivity() {
 	}
 
 	override fun onBackPressed() {
-		super.finish()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
+		if (onBackPressedDispatcher.hasEnabledCallbacks()) {
+			onBackPressedDispatcher.onBackPressed()
+		} else {
+			super.finish()
+			overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
+		}
 	}
 
 	fun provideCompanyNumber(): String {

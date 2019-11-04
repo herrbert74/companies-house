@@ -13,7 +13,7 @@ enum class Category(val displayName: String) {
 	CATEGORY_CONFIRMATION_STATEMENT("confirmation statement"),
 	@SerializedName("accounts")
 	CATEGORY_ACCOUNTS("accounts"),
-	@SerializedName("annual return")
+	@SerializedName("annual-return")
 	CATEGORY_ANNUAL_RETURN("annual return"),
 	@SerializedName("officers")
 	CATEGORY_OFFICERS("officers"),
