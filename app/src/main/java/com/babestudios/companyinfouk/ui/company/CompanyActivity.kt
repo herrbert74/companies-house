@@ -22,7 +22,7 @@ import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.filings.ui.createFilingsIntent
 import com.babestudios.companyinfouk.officers.ui.createOfficersIntent
 import com.babestudios.companyinfouk.persons.ui.createPersonsIntent
-import com.babestudios.companyinfouk.ui.insolvency.createInsolvencyIntent
+import com.babestudios.companyinfouk.insolvencies.insolvency.createInsolvencyIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity

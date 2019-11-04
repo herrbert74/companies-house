@@ -16,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class InsolvencyPresenterTest {
 
-	private lateinit var insolvencyPresenter: InsolvencyPresenter
+	private lateinit var insolvencyPresenter: com.babestudios.companyinfouk.insolvencies.insolvency.InsolvencyPresenter
 
 	@Before
 	fun setUp() {
@@ -25,7 +25,7 @@ class InsolvencyPresenterTest {
 				.build()
 		insolvencyPresenter = testApplicationComponent.insolvencyPresenter()
 		whenever(insolvencyPresenter.companiesRepository.getInsolvency("0")).thenReturn(Single.just(Insolvency()))
-		val insolvencyViewModel = InsolvencyViewModel()
+		val insolvencyViewModel = com.babestudios.companyinfouk.insolvencies.insolvency.InsolvencyViewModel()
 		insolvencyViewModel.state.value.companyNumber = "0"
 		insolvencyPresenter.setViewModel(insolvencyViewModel, CompletableSource { })
 	}
