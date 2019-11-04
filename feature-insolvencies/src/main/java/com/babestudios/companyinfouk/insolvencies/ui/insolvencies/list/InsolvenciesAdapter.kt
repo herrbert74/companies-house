@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.insolvencies.ui.insolvency.list
+package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import io.reactivex.subjects.PublishSubject
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 
-class InsolvencyAdapter(private var insolvencyVisitables: List<AbstractInsolvencyVisitable>
-						, private val insolvencyTypeFactory: InsolvencyTypeFactory)
+class InsolvenciesAdapter(private var insolvencyVisitables: List<AbstractInsolvencyVisitable>
+						  , private val insolvencyTypeFactory: InsolvencyTypeFactory)
 	: RecyclerView.Adapter<BaseViewHolder<AbstractInsolvencyVisitable>>() {
 
 	override fun getItemCount(): Int {

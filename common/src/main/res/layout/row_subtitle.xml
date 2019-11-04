@@ -6,11 +6,10 @@
 			  android:orientation="vertical">
 
 	<TextView
-		android:id="@+id/lblRecentSearchesTitle"
+		android:id="@+id/lblCommonSubtitle"
 		style="@style/Text.Bold"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="start"
-		android:text="@string/recent_searches"/>
+		android:gravity="start"/>
 
 </LinearLayout>

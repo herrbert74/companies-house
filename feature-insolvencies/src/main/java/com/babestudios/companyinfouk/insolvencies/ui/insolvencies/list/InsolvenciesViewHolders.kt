@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.insolvencies.ui.insolvency.list
+package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import android.view.View
 import com.babestudios.base.mvp.list.BaseViewHolder

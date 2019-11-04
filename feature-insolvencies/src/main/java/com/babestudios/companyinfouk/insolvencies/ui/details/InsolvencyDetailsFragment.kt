@@ -1,146 +1,106 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.babestudios.base.mvp.ErrorType
+import com.airbnb.mvrx.BaseMvRxFragment
+import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.withState
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
-import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
-import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.ext.logScreenView
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTypeFactory
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.ScopeProvider
-import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
-import io.reactivex.CompletableSource
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_insolvency_details.*
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.fragment_insolvency_details.*
+import java.util.*
 
-private const val INSOLVENCY_CASE = "com.babestudios.companyinfouk.ui.insolvency_case"
-
-class InsolvencyDetailsFragment : RxAppCompatActivity(), ScopeProvider {
-
+class InsolvencyDetailsFragment : BaseMvRxFragment() {
 
 	private var insolvencyDetailsAdapter: InsolvencyDetailsAdapter? = null
 
-	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
-
-	private val viewModel by lazy { ViewModelProviders.of(this).get(InsolvencyDetailsViewModel::class.java) }
-
-	private lateinit var insolvencyDetailsPresenter: InsolvencyDetailsPresenterContract
+	private val viewModel by existingViewModel(InsolvenciesViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	private lateinit var comp: InsolvencyDetailsComponent
+	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+		override fun handleOnBackPressed() {
+			viewModel.insolvenciesNavigator.popBackStack()
+		}
+	})
 
 	//region life cycle
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_insolvency_details)
-		logScreenView(this.localClassName)
-		setSupportActionBar(pabInsolvencyDetails.getToolbar())
-		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		pabInsolvencyDetails.setNavigationOnClickListener { onBackPressed() }
-		supportActionBar?.setTitle(R.string.insolvency_details)
-		when {
-			viewModel.state.value?.insolvencyDetailsItems != null -> {
-				initPresenter(viewModel)
-			}
-			savedInstanceState != null -> {
-				(savedInstanceState.getParcelable<InsolvencyDetailsState>("STATE") to viewModel.state.value)
-						.biLet { savedState, state ->
-						state.insolvencyDetailsItems = savedState.insolvencyDetailsItems
-						state.insolvencyCase = savedState.insolvencyCase
-				}
-				initPresenter(viewModel)
-			}
-			else -> {
-				viewModel.state.value?.insolvencyCase = intent.getParcelableExtra(INSOLVENCY_CASE)
-				initPresenter(viewModel)
-			}
-		}
+	override fun onCreateView(
+			inflater: LayoutInflater, container: ViewGroup?,
+			savedInstanceState: Bundle?
+	): View {
+		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+		return inflater.inflate(R.layout.fragment_insolvency_details, container, false)
+	}
 
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		initializeUI()
+	}
+
+	private fun initializeUI() {
+		viewModel.logScreenView(this::class.simpleName.orEmpty())
+		(activity as AppCompatActivity).setSupportActionBar(pabInsolvencyDetails.getToolbar())
+		val toolBar = (activity as AppCompatActivity).supportActionBar
+
+		toolBar?.setDisplayHomeAsUpEnabled(true)
+		pabInsolvencyDetails.setNavigationOnClickListener { viewModel.insolvenciesNavigator.popBackStack() }
+		toolBar?.setTitle(R.string.insolvency_details)
 		createRecyclerView()
+		showInsolvencyCase()
 	}
 
 	override fun onResume() {
 		super.onResume()
 		observeActions()
-		observeState()
-	}
-
-	override fun onSaveInstanceState(outState: Bundle) {
-		outState.putParcelable("STATE", viewModel.state.value)
-		super.onSaveInstanceState(outState)
-	}
-
-	private fun initPresenter(viewModel: InsolvencyDetailsViewModel) {
-		if (!::insolvencyDetailsPresenter.isInitialized) {
-			comp = DaggerInsolvencyDetailsComponent
-					.builder()
-					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-					.build()
-			insolvencyDetailsPresenter = comp.insolvencyDetailsPresenter()
-			insolvencyDetailsPresenter.setViewModel(viewModel, requestScope())
-		}
 	}
 
 	private fun createRecyclerView() {
-		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 		rvInsolvencyDetails?.layoutManager = linearLayoutManager
 	}
 
-	override fun onBackPressed() {
-		super.finish()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
+	override fun onDestroyView() {
+		super.onDestroyView()
+		callback.remove()
 	}
 
 	//endregion
 
 	//region render
 
-	private fun observeState() {
-		viewModel.state
-				.`as`(AutoDispose.autoDisposable(this))
-				.subscribe { render(it) }
-	}
-
-	private fun render(state: InsolvencyDetailsState) {
-		when {
-			state.isLoading -> msvInsolvencyDetails.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> {
-				msvInsolvencyDetails.viewState = VIEW_STATE_ERROR
-				state.errorType = ErrorType.NONE
-				msvInsolvencyDetails.tvMsvError.text = state.errorMessage
-			}
-			state.insolvencyDetailsItems?.isEmpty() == true -> msvInsolvencyDetails.viewState = VIEW_STATE_EMPTY
-			else -> {
-				state.insolvencyDetailsItems?.let { items ->
-					msvInsolvencyDetails.viewState = VIEW_STATE_CONTENT
-					if (rvInsolvencyDetails?.adapter == null) {
-						val titlePositions = ArrayList<Int>()
-						titlePositions.add(0)
-						titlePositions.add(viewModel.state.value?.insolvencyCase?.dates?.size.let { it } ?: 0 + 1)
-						rvInsolvencyDetails.addItemDecoration(
-								DividerItemDecorationWithSubHeading(this, titlePositions))
-						insolvencyDetailsAdapter = InsolvencyDetailsAdapter(items, InsolvencyDetailsTypeFactory())
-						rvInsolvencyDetails?.adapter = insolvencyDetailsAdapter
-						observeActions()
-					} else {
-						insolvencyDetailsAdapter?.updateItems(items)
-						observeActions()
-					}
-				}
+	private fun showInsolvencyCase() {
+		msvInsolvencyDetails.viewState = VIEW_STATE_CONTENT
+		withState(viewModel) {state->
+			if (rvInsolvencyDetails?.adapter == null) {
+				val titlePositions = ArrayList<Int>()
+				titlePositions.add(0)
+				titlePositions.add(state.insolvencyCase.dates.size.let { it } ?: 0 + 1)
+				rvInsolvencyDetails.addItemDecoration(
+						DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
+				insolvencyDetailsAdapter = InsolvencyDetailsAdapter(state.insolvencyDetailsItems, InsolvencyDetailsTypeFactory())
+				rvInsolvencyDetails?.adapter = insolvencyDetailsAdapter
+				observeActions()
+			} else {
+				insolvencyDetailsAdapter?.updateItems(state.insolvencyDetailsItems)
+				observeActions()
 			}
 		}
+	}
+
+	override fun invalidate() {
+
 	}
 
 	//endregion
@@ -152,9 +112,4 @@ class InsolvencyDetailsFragment : RxAppCompatActivity(), ScopeProvider {
 	}
 
 	//endregion
-}
-
-fun Context.createInsolvencyDetailsIntent(insolvencyCase: InsolvencyCase): Intent {
-	return Intent(this, InsolvencyDetailsFragment::class.java)
-			.putExtra(INSOLVENCY_CASE, insolvencyCase)
 }

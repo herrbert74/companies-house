@@ -31,8 +31,7 @@
 		<activity android:name=".ui.favourites.FavouritesActivity"/>
 		<activity android:name=".charges.ui.ChargesActivity"/>
 		<activity android:name=".filings.ui.FilingsActivity"/>
-		<activity android:name="com.babestudios.companyinfouk.insolvencies.ui.insolvency.InsolvencyFragment"/>
-		<activity android:name=".insolvencies.ui.details.insolvencydetails.InsolvencyDetailsActivity"/>
+		<activity android:name=".insolvencies.ui.InsolvenciesActivity"/>
 		<activity android:name=".officers.ui.OfficersActivity"/>
 		<activity android:name=".persons.ui.PersonsActivity"/>
 		<activity android:name=".ui.map.MapActivity"/>

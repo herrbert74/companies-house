@@ -8,17 +8,16 @@ import androidx.navigation.findNavController
 import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.base.rxjava.ErrorResolver
-import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
-import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
 
 class InsolvenciesActivity : BaseActivity() {
 
 	private val comp by lazy {
-		DaggerChargesComponent
+		DaggerInsolvenciesComponent
 				.builder()
 				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
 				.build()
@@ -30,7 +29,7 @@ class InsolvenciesActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_charges)
+		setContentView(R.layout.activity_insolvencies)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
 		navController = findNavController(R.id.navHostFragmentCharges)
 		if (::comp.isLazyInitialized) {
@@ -60,15 +59,23 @@ class InsolvenciesActivity : BaseActivity() {
 		return comp.companiesRepository()
 	}
 
-	fun injectChargesNavigator(): ChargesNavigator {
+	fun injectInsolvenciesNavigator(): InsolvenciesNavigator {
 		val nav = comp.navigator()
 		if (::navController.isInitialized)
 			nav.bind(navController)
 		return nav
 	}
+
+	fun injectDatesTitleString(): String {
+		return resources.getText(R.string.insolvency_dates).toString()
+	}
+
+	fun injectPractitionersTitleString(): String {
+		return resources.getText(R.string.insolvency_practitioners).toString()
+	}
 }
 
-fun Context.createChargesIntent(companyNumber: String): Intent {
-	return Intent(this, ChargesActivity::class.java)
+fun Context.createInsolvenciesIntent(companyNumber: String): Intent {
+	return Intent(this, InsolvenciesActivity::class.java)
 			.putExtra(COMPANY_NUMBER, companyNumber)
 }

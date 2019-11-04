@@ -7,10 +7,7 @@ import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.di.CoreModule
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
-import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
-import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
-import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
-import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
+import com.babestudios.companyinfouk.navigation.features.*
 import dagger.Component
 import javax.inject.Singleton
 
@@ -32,6 +29,8 @@ interface CoreComponent {
 	fun chargesNavigation(): ChargesNavigator
 
 	fun filingsNavigation(): FilingsNavigator
+
+	fun insolvenciesNavigation(): InsolvenciesNavigator
 
 	fun personsNavigation(): PersonsNavigator
 

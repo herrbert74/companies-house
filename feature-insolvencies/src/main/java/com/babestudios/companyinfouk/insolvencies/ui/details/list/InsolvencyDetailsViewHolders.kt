@@ -2,12 +2,14 @@ package com.babestudios.companyinfouk.insolvencies.ui.details.list
 
 import android.view.View
 import com.babestudios.base.mvp.list.BaseViewHolder
-import kotlinx.android.synthetic.main.row_recent_searches_title.view.*
+import kotlinx.android.synthetic.main.row_insolvency_details_date.view.*
+import kotlinx.android.synthetic.main.row_insolvency_details_practitioner.view.*
+import kotlinx.android.synthetic.main.row_subtitle.view.*
 
 class InsolvencyDetailsTitleViewHolder(itemView: View) : BaseViewHolder<AbstractInsolvencyDetailsVisitable>(itemView) {
 	override fun bind(visitable: AbstractInsolvencyDetailsVisitable) {
 		val insolvencyDetailsTitleItem = (visitable as InsolvencyDetailsTitleVisitable).insolvencyDetailsTitleItem
-		itemView.lblRecentSearchesTitle.text = insolvencyDetailsTitleItem.title
+		itemView.lblCommonSubtitle.text = insolvencyDetailsTitleItem.title
 	}
 }
 

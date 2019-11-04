@@ -9,7 +9,7 @@ import dagger.Component
 
 @ActivityScope
 @Component(dependencies = [CoreComponent::class])
-interface InsolvencyComponent {
+interface InsolvenciesComponent {
 	fun navigator(): InsolvenciesNavigator
 	fun companiesRepository(): CompaniesRepositoryContract
 	fun errorResolver(): ErrorResolver

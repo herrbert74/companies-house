@@ -6,13 +6,13 @@ import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 
 class SearchHistoryTypeFactory : SearchHistoryAdapter.SearchHistoryTypeFactory {
-	override fun type(searchHistoryItem: SearchHistoryItem): Int = R.layout.row_recent_searches
-	override fun type(searchHistoryHeaderItem: SearchHistoryHeaderItem): Int = R.layout.row_recent_searches_title
+	override fun type(searchHistoryItem: SearchHistoryItem): Int = R.layout.row_two_lines
+	override fun type(searchHistoryHeaderItem: SearchHistoryHeaderItem): Int = R.layout.row_subtitle
 
 	override fun holder(type: Int, view: View): BaseViewHolder<*> {
 		return when (type) {
-			R.layout.row_recent_searches -> SearchHistoryViewHolder(view)
-			R.layout.row_recent_searches_title -> SearchHistoryHeaderViewHolder(view)
+			R.layout.row_two_lines -> SearchHistoryViewHolder(view)
+			R.layout.row_subtitle -> SearchHistoryHeaderViewHolder(view)
 			else -> throw RuntimeException("Illegal view type")
 		}
 	}

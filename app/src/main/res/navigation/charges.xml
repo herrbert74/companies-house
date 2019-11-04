@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/charges.xml"
-	app:startDestination="@id/chargesFragment">
+	app:startDestination="@id/insolvenciesFragment">
 
 	<fragment
 		android:id="@+id/chargesFragment"
@@ -13,7 +13,7 @@
 
 		<action
 			android:id="@+id/action_chargesFragment_to_chargesDetailsFragment"
-			app:destination="@id/chargesDetailsFragment"
+			app:destination="@id/insolvencyDetailsFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
 			app:popEnterAnim="@anim/left_slide_in"

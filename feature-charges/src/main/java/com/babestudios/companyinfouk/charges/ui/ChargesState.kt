@@ -8,13 +8,13 @@ import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 
 data class ChargesState(
-		//Persons
+		//Charges
 		val chargesRequest: Async<Charges> = Uninitialized,
 		val charges: List<AbstractChargesVisitable> = emptyList(),
 		val totalChargesCount: Int = 0,
 		val companyNumber: String = "",
 
-		//Person details
+		//Charge details
 		val chargesItem: ChargesItem? = null
 
 ) : MvRxState

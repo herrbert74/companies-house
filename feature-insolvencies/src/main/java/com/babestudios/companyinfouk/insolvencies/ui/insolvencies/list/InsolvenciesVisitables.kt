@@ -1,16 +1,16 @@
-package com.babestudios.companyinfouk.insolvencies.ui.insolvency.list
+package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import kotlinx.android.parcel.Parcelize
 
 abstract class AbstractInsolvencyVisitable {
-	abstract fun type(insolvencyTypeFactory: InsolvencyAdapter.InsolvencyTypeFactory): Int
+	abstract fun type(insolvenciesTypeFactory: InsolvenciesAdapter.InsolvencyTypeFactory): Int
 }
 
 @Parcelize
 class InsolvencyVisitable(val insolvencyCase: InsolvencyCase) : AbstractInsolvencyVisitable(), Parcelable {
-	override fun type(insolvencyTypeFactory: InsolvencyAdapter.InsolvencyTypeFactory): Int {
-		return insolvencyTypeFactory.type(insolvencyCase)
+	override fun type(insolvenciesTypeFactory: InsolvenciesAdapter.InsolvencyTypeFactory): Int {
+		return insolvenciesTypeFactory.type(insolvencyCase)
 	}
 }
