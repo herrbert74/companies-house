@@ -20,7 +20,7 @@ import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.ext.logScreenView
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.filings.ui.createFilingsIntent
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.createInsolvencyIntent
+import com.babestudios.companyinfouk.insolvencies.ui.createInsolvenciesIntent
 import com.babestudios.companyinfouk.officers.ui.createOfficersIntent
 import com.babestudios.companyinfouk.persons.ui.createPersonsIntent
 import com.babestudios.companyinfouk.ui.map.MapActivity
@@ -252,7 +252,7 @@ class CompanyActivity : RxAppCompatActivity(), ScopeProvider {
 
 	fun onInsolvencyClicked(@Suppress("UNUSED_PARAMETER") view: View) {
 		viewModel.state.value?.companyNumber?.let {
-			startActivityWithRightSlide(createInsolvencyIntent(it))
+			startActivityWithRightSlide(createInsolvenciesIntent(it))
 		}
 	}
 

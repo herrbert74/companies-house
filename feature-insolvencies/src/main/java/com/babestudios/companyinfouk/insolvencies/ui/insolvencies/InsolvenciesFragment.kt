@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_insolvency.*
 
 private const val COMPANY = "com.babestudios.companyinfouk.ui.company"
 
-class InsolvencyFragment : BaseMvRxFragment() {
+class InsolvenciesFragment : BaseMvRxFragment() {
 
 	private var insolvenciesAdapter: InsolvenciesAdapter? = null
 
@@ -117,9 +117,4 @@ class InsolvencyFragment : BaseMvRxFragment() {
 	}
 
 	//endregion
-}
-
-fun Context.createInsolvencyIntent(company: String): Intent {
-	return Intent(this, InsolvencyFragment::class.java)
-			.putExtra(COMPANY, company)
 }

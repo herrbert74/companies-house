@@ -31,7 +31,7 @@ class InsolvenciesActivity : BaseActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_insolvencies)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
-		navController = findNavController(R.id.navHostFragmentCharges)
+		navController = findNavController(R.id.navHostFragmentInsolvencies)
 		if (::comp.isLazyInitialized) {
 			val nav = comp.navigator()
 			nav.bind(navController)

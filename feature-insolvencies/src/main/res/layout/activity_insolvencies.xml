@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ChargesActivity">
+    tools:context=".ui.InsolvenciesActivity">
 
     <fragment
-        android:id="@+id/navHostFragmentCharges"
+        android:id="@+id/navHostFragmentInsolvencies"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/charges" />
+        app:navGraph="@navigation/insolvencies" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"

@@ -7,7 +7,7 @@
 
 	<fragment
 		android:id="@+id/insolvenciesFragment"
-		android:name="com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsFragment"
+		android:name="com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesFragment"
 		android:label="InsolvenciesFragment"
 		tools:layout="@layout/fragment_insolvency">
 
