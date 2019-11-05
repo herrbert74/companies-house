@@ -1,6 +1,6 @@
 import com.babestudios.companyinfouk.buildsrc.Libs
 
-apply plugin: 'com.android.application'
+//apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'

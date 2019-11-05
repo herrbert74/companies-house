@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
@@ -20,7 +21,6 @@ import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.Insolvenc
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyViewHolder
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_insolvency.*
-import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 
 private const val COMPANY = "com.babestudios.companyinfouk.ui.company"
 
@@ -80,7 +80,8 @@ class InsolvencyFragment : BaseMvRxFragment() {
 				is Loading -> msvInsolvency.viewState = VIEW_STATE_LOADING
 				is Fail -> {
 					msvInsolvency.viewState = VIEW_STATE_ERROR
-					msvInsolvency.tvMsvError.text = state.insolvencyRequest.error.message
+					val tvMsvError = msvInsolvency.findViewById<TextView>(R.id.tvMsvError)
+					tvMsvError.text = state.insolvencyRequest.error.message
 				}
 				is Success -> {
 					if (state.insolvencies.isEmpty()) {

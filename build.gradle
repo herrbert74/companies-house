@@ -24,6 +24,8 @@ buildscript {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 		classpath 'io.fabric.tools:gradle:1.31.1'
 	}
+
+
 }
 
 allprojects {
@@ -31,6 +33,21 @@ allprojects {
 		google()
 		maven { url "https://jitpack.io" }
 		jcenter()
+	}
+}
+
+subprojects {
+	if (it.name == 'app') {
+		apply plugin: 'com.android.application'
+	} else if (it.name == 'buildSrc') {
+		apply plugin: 'java-library'
+	} else {
+		apply plugin: 'com.android.library'
+		/*android {
+			viewBinding {
+				enabled = true
+			}
+		}*/
 	}
 }
 

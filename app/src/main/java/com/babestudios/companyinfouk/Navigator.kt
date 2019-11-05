@@ -10,10 +10,7 @@ import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
-import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
-import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
-import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
-import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
+import com.babestudios.companyinfouk.navigation.features.*
 
 
 /**
@@ -31,6 +28,7 @@ internal class Navigator : BaseNavigator(),
 		OfficersNavigator,
 		PersonsNavigator,
 		ChargesNavigator,
+		InsolvenciesNavigator,
 		NavigationComponent {
 
 	//region global
@@ -44,6 +42,10 @@ internal class Navigator : BaseNavigator(),
 	//region features
 
 	override fun provideFilingsNavigation(): FilingsNavigator {
+		return this
+	}
+
+	override fun provideInsolvenciesNavigation(): InsolvenciesNavigator {
 		return this
 	}
 
@@ -84,6 +86,14 @@ internal class Navigator : BaseNavigator(),
 
 	//endregion
 
+	//region insolvencies
+
+	override fun insolvenciesToInsolvencyDetails() {
+		navController?.navigateSafe(R.id.action_insolvenciesFragment_to_insolvencyDetailsFragment)
+	}
+
+	//endregion
+
 	//region persons
 
 	override fun personsToPersonDetails() {
@@ -100,7 +110,7 @@ internal class Navigator : BaseNavigator(),
 
 	//endregion
 
-	//region charges
+	//region filings
 
 	override fun filingsToFilingsDetails() {
 		navController?.navigateSafe(R.id.action_filingsFragment_to_filingDetailsFragment)
