@@ -1,6 +1,5 @@
 import com.babestudios.companyinfouk.buildsrc.Libs
 
-//apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
@@ -60,6 +59,7 @@ android {
 
 dependencies {
 	implementation project(':feature-charges')
+	implementation project(':feature-companies')
 	implementation project(':feature-filings')
 	implementation project(':feature-insolvencies')
 	implementation project(':feature-officers')

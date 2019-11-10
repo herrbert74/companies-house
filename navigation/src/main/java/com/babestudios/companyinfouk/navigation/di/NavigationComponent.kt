@@ -9,6 +9,7 @@ import com.babestudios.companyinfouk.navigation.features.*
  */
 interface NavigationComponent {
 	fun provideChargesNavigation(): ChargesNavigator
+	fun provideCompaniesNavigation(): CompaniesNavigator
 	fun provideInsolvenciesNavigation(): InsolvenciesNavigator
 	fun provideFilingsNavigation(): FilingsNavigator
 	fun provideOfficersNavigation(): OfficersNavigator

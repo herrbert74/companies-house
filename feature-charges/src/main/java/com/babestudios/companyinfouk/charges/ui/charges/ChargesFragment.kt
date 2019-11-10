@@ -45,11 +45,9 @@ class ChargesFragment : BaseMvRxFragment() {
 	}
 
 	private fun initializeUI() {
-
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
 		(activity as AppCompatActivity).setSupportActionBar(pabCharges.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
-
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		pabCharges.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.charges)

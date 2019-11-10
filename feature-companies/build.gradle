@@ -1,7 +1,9 @@
 import com.babestudios.companyinfouk.buildsrc.Libs
 
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
 	compileSdkVersion 29
@@ -27,6 +29,17 @@ android {
 }
 
 dependencies {
-	implementation project(':base')
-	implementation Libs.AndroidX.appcompat
+	api project(":core-injection")
+
+	implementation Libs.mvrx
+	implementation Libs.AndroidX.coreKtx
+	implementation Libs.AndroidX.Navigation.ktx
+	implementation Libs.AndroidX.Navigation.fragment
+
+	implementation Libs.Google.Dagger.dagger
+	kapt Libs.Google.Dagger.compiler
+
+	implementation Libs.RxJava2.rxAndroid
+	implementation Libs.RxJava2.rxJava
+	implementation Libs.JakeWharton.RxBinding.core
 }

@@ -28,6 +28,8 @@ interface CoreComponent {
 
 	fun chargesNavigation(): ChargesNavigator
 
+	fun companiesNavigation(): CompaniesNavigator
+
 	fun filingsNavigation(): FilingsNavigator
 
 	fun insolvenciesNavigation(): InsolvenciesNavigator

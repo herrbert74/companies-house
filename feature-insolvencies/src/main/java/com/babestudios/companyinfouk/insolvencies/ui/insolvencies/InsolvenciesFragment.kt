@@ -1,7 +1,5 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +19,6 @@ import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.Insolvenc
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyViewHolder
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_insolvency.*
-
-private const val COMPANY = "com.babestudios.companyinfouk.ui.company"
 
 class InsolvenciesFragment : BaseMvRxFragment() {
 

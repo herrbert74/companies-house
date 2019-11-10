@@ -1,25 +1,4 @@
 <resources>
-	<string name="app_name">Company Info UK</string>
-	<string name="search">Search</string>
-	<string name="favourites">Favourites</string>
-	<string name="remove_favourites">Remove Favourites</string>
-	<string name="privacy_policy">Privacy policy</string>
-	<string name="company_number">Company number</string>
-	<string name="incorporated_on">Incorporated on %1$s</string>
-	<string name="office_address">Office address</string>
-	<string name="recent_searches">Recent Searches</string>
-	<string name="title_activity_main">MainActivity</string>
-	<string name="delete_recent_searches">Delete recent searches</string>
-	<string name="are_you_sure_you_want_to_delete_all_recent_searches">Are you sure you want to delete all recent searches?</string>
-	<string name="button_undo">undo</string>
-	<string name="company_nature_of_business">Nature of business</string>
-	<string name="no_data">No data</string>
-	<string name="company_accounts">Accounts</string>
-	<string name="company_accounts_formatted_text">Last %1$s account made up to %2$s</string>
-	<string name="company_annual_returns">Annual Returns</string>
-	<string name="company_annual_returns_formatted_text">Last made up to %1$s</string>
-	<string name="company_accounts_not_found">Accounts not found</string>
-	<string name="company_annual_returns_not_found">Annual returns not found</string>
 	<string name="no_insolvency">No insolvency</string>
 	<string name="insolvency">Insolvency</string>
 	<string name="insolvency_details">Insolvency details</string>
@@ -28,30 +7,7 @@
 	<string name="insolvency_details_ceased_to_act_on">Ceased to act on</string>
 	<string name="insolvency_details_name">Name</string>
 	<string name="insolvency_details_appointed_on">Appointed on</string>
-	<string name="company_name">Company name</string>
-	<string name="company_status">Company status</string>
-	<string name="title_activity_maps">Map</string>
-	<string name="company_address_show_on_map">Show on map</string>
-	<string name="type">Type</string>
-	<string name="date">Date</string>
-	<string name="search_menu_filter">Filter</string>
-	<string name="category">Category</string>
-	<string name="subcategory">Subcategory</string>
-	<string name="description">Description</string>
-	<string name="pages">Pages</string>
-	<string name="could_not_complete_search">Could not complete search. Check your network connection.</string>
-	<string name="could_not_retrieve_company_info">Could not retrieve company information. Check your network connection.</string>
-	<string name="could_not_retrieve_insolvency_info">Could not retrieve insolvency information. Check your network connection.</string>
 	<string name="insolvency_dates">Dates</string>
 	<string name="insolvency_practitioners">Practitioners</string>
-	<string name="appbar_scrolling_view_behavior" translatable="false">	com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
-	<string name="no_recent_searches">You have no recent searches. Start by searching for a company above!</string>
-	<string name="no_search_result">Your search did not return any companies. Please try another one</string>
-	<string-array name="search_filter_options">
-		<item>All</item>
-		<item>Active</item>
-		<item>Liquidation</item>
-		<item>Open</item>
-		<item>Dissolved</item>
-	</string-array>
+	<string name="could_not_retrieve_insolvency_info">Could not retrieve insolvency information. Check your network connection.</string>
 </resources>

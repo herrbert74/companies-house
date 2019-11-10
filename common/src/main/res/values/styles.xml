@@ -1,4 +1,62 @@
 <resources>
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<!--item name="android:searchViewStyle">@style/SearchViewTheme</item-->
+		<item name="android:windowContentTransitions">true</item>
+		<item name="android:spinnerDropDownItemStyle">@style/spinner_dropdown_item_style</item>
+		<item name="android:spinnerItemStyle">@style/spinner_item_style</item>
+	</style>
+
+	<style name="AppTheme.NoActionBar.AppBarOverlay"
+		parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+	<style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+	<style name="ButtonPrimary" parent="Widget.AppCompat.Button.Colored">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">48dp</item>
+		<item name="background">@color/colorPrimary</item>
+		<item name="android:textColor">@android:color/white</item>
+		<item name="android:minWidth">88dp</item>
+	</style>
+
+	<style name="spinner_item_style">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="android:paddingTop">@dimen/view_margin</item>
+		<item name="android:paddingBottom">@dimen/view_margin</item>
+		<item name="android:paddingLeft">0dp</item>
+		<item name="android:paddingRight">0dp</item>
+		<item name="android:textAppearance">@style/Text</item>
+	</style>
+
+	<style name="spinner_dropdown_item_style" parent="spinner_item_style">
+		<item name="android:paddingLeft">@dimen/view_margin</item>
+		<item name="android:paddingRight">@dimen/view_margin</item>
+		<item name="android:paddingTop">@dimen/view_margin_small</item>
+		<item name="android:paddingBottom">@dimen/view_margin_small</item>
+		<item name="android:layout_marginTop">0dp</item>
+		<item name="android:layout_marginLeft">0dp</item>
+		<item name="android:layout_marginBottom">0dp</item>
+	</style>
+
+	<style name="SearchViewTheme" parent="Widget.AppCompat.SearchView">
+		<!--item name="layout">@layout/view_toolbar_search</item-->
+		<!--item name="queryBackground">@color/colorAccent</item-->
+		<item name="commitIcon">@drawable/ic_commit</item>
+		<item name="colorControlNormal">@color/translucent_black</item>
+		<item name="suggestionRowLayout">@layout/row_search_view_suggestion</item>
+		<item name="android:maxWidth">9999dp</item>
+		<item name="closeIcon">@drawable/ic_close_black</item>
+	</style>
+
+	<style name="MyThemeOverlay.ActionBar" parent="ThemeOverlay.AppCompat">
+		<item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_black</item>
+		<item name="searchViewStyle">@style/SearchViewTheme</item>
+	</style>
 
 	<style name="Text">
 		<item name="android:layout_width">wrap_content</item>
