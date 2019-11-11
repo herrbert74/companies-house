@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.companies.ui.main.recents
 import android.view.View
 import android.widget.TextView
 import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.companies.R
 
 class SearchHistoryViewHolder(itemView: View) : BaseViewHolder<AbstractSearchHistoryVisitable>(itemView) {
 	override fun bind(visitable: AbstractSearchHistoryVisitable) {

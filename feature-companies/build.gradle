@@ -42,4 +42,7 @@ dependencies {
 	implementation Libs.RxJava2.rxAndroid
 	implementation Libs.RxJava2.rxJava
 	implementation Libs.JakeWharton.RxBinding.core
+
+	implementation Libs.Google.PlayServices.maps
+
 }

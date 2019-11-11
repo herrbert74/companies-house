@@ -55,4 +55,8 @@ class CompaniesActivity : BaseActivity() {
 			nav.bind(navController)
 		return nav
 	}
+
+	fun injectRecentSearchesString(): String {
+		return getString(R.string.recent_searches)
+	}
 }

@@ -3,17 +3,33 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/charges.xml"
-	app:startDestination="@id/insolvenciesFragment">
+	app:startDestination="@id/mainFragment">
 
 	<fragment
-		android:id="@+id/chargesFragment"
-		android:name="com.babestudios.companyinfouk.charges.ui.charges.ChargesFragment"
-		android:label="ChargesFragment"
-		tools:layout="@layout/fragment_charges">
+		android:id="@+id/mainFragment"
+		android:name="com.babestudios.companyinfouk.companies.ui.main.MainFragment"
+		android:label="MainFragment"
+		tools:layout="@layout/fragment_main">
 
 		<action
-			android:id="@+id/action_chargesFragment_to_chargesDetailsFragment"
-			app:destination="@id/insolvencyDetailsFragment"
+			android:id="@+id/action_mainFragment_to_companyFragment"
+			app:destination="@id/companyFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+
+		<action
+			android:id="@+id/action_mainFragment_to_favouritesFragment"
+			app:destination="@+id/favouritesFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+
+		<action
+			android:id="@+id/action_mainFragment_to_privacyFragment"
+			app:destination="@id/privacyFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
 			app:popEnterAnim="@anim/left_slide_in"
@@ -21,10 +37,93 @@
 	</fragment>
 
 	<fragment
-		android:id="@+id/chargesDetailsFragment"
-		android:name="com.babestudios.companyinfouk.charges.ui.details.ChargeDetailsFragment"
-		android:label="ChargesDetailsFragment"
-		tools:layout="@layout/fragment_charge_details">
+		android:id="@+id/companyFragment"
+		android:name="com.babestudios.companyinfouk.companies.ui.company.CompanyFragment"
+		android:label="CompanyFragment"
+		tools:layout="@layout/fragment_company">
+		<action
+			android:id="@+id/action_companyFragment_to_mapFragment"
+			app:destination="@id/mapFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+		<action
+			android:id="@+id/action_companyFragment_to_chargesActivity"
+			app:destination="@id/chargesActivity"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+		<action
+			android:id="@+id/action_companyFragment_to_filingsActivity"
+			app:destination="@id/filingsActivity"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+		<action
+			android:id="@+id/action_companyFragment_to_insolvenciesActivity"
+			app:destination="@id/insolvenciesActivity"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+		<action
+			android:id="@+id/action_companyFragment_to_officersActivity"
+			app:destination="@id/officersActivity"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
+		<action
+			android:id="@+id/action_companyFragment_to_personsActivity"
+			app:destination="@id/personsActivity"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
+
+	<fragment
+		android:id="@+id/favouritesFragment"
+		android:name="com.babestudios.companyinfouk.companies.ui.favourites.FavouritesFragment"
+		android:label="FavouritesFragment"
+		tools:layout="@layout/fragment_favourites">
+	</fragment>
+
+	<fragment
+		android:id="@+id/mapFragment"
+		android:name="com.babestudios.companyinfouk.companies.ui.map.MapFragment"
+		android:label="MapFragment"
+		tools:layout="@layout/fragment_map">
+	</fragment>
+
+	<fragment
+		android:id="@+id/privacyFragment"
+		android:name="com.babestudios.companyinfouk.companies.ui.privacy.PrivacyFragment"
+		android:label="PrivacyFragment"
+		tools:layout="@layout/fragment_privacy">
+	</fragment>
+
+	<activity
+		android:id="@+id/chargesActivity"
+		android:name="com.babestudios.companyinfouk.charges.ui.ChargesActivity" />
+
+	<activity
+		android:id="@+id/filingsActivity"
+		android:name="com.babestudios.companyinfouk.filings.ui.FilingsActivity" />
+
+	<activity
+		android:id="@+id/insolvenciesActivity"
+		android:name="com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity" />
+
+	<activity
+		android:id="@+id/officersActivity"
+		android:name="com.babestudios.companyinfouk.officers.ui.OfficersActivity" />
+
+	<activity
+		android:id="@+id/personsActivity"
+		android:name="com.babestudios.companyinfouk.persons.ui.PersonsActivity" />
 
 </navigation>

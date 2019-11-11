@@ -11,87 +11,76 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.babestudios.base.ext.biLet
-import com.babestudios.base.mvp.ErrorType
+import com.airbnb.mvrx.*
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.common.ext.startActivityForResultWithRightSlide
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
-import com.babestudios.companyinfouk.ext.logScreenView
-import com.babestudios.companyinfouk.ui.company.createCompanyIntent
-import com.babestudios.companyinfouk.ui.favourites.list.*
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.ScopeProvider
-import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
-import io.reactivex.CompletableSource
+import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
+import com.babestudios.companyinfouk.companies.ui.favourites.list.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_favourites.*
-import kotlinx.android.synthetic.main.multi_state_view_empty.view.*
-import kotlinx.android.synthetic.main.multi_state_view_error.view.*
 import java.util.*
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
 private const val REQUEST_SHOW_FAVOURITE_COMPANY = 8028
 
-class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
+class FavouritesFragment : BaseMvRxFragment() {
 
 	private var favouritesAdapter: FavouritesAdapter? = null
 
-	override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
-
-	private val viewModel by lazy { ViewModelProviders.of(this).get(FavouritesViewModel::class.java) }
-
-	lateinit var favouritesPresenter: FavouritesPresenterContract
+	private val viewModel by existingViewModel(CompaniesViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	private lateinit var comp: FavouritesComponent
+	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+		override fun handleOnBackPressed() {
+			viewModel.companiesNavigator.popBackStack()
+		}
+	})
 
 	//region life cycle
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_favourites)
-		logScreenView(this.localClassName)
-		setSupportActionBar(pabFavourites.getToolbar())
-		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		pabFavourites.setNavigationOnClickListener { onBackPressed() }
-		supportActionBar?.setTitle(R.string.favourites)
-		when {
-			viewModel.state.value?.favouriteItems != null -> {
-				initPresenter(viewModel)
-			}
-			savedInstanceState != null -> {
-				(savedInstanceState.getParcelable<FavouritesState>("STATE") to viewModel.state.value)
-						.biLet { savedState, state ->
-							state.favouriteItems = savedState.favouriteItems
-						}
-				initPresenter(viewModel)
-			}
-			else -> {
-				initPresenter(viewModel)
-			}
-		}
+	override fun onCreateView(
+			inflater: LayoutInflater, container: ViewGroup?,
+			savedInstanceState: Bundle?
+	): View {
+		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+		return inflater.inflate(R.layout.fragment_favourites, container, false)
+	}
 
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		initializeUI()
+	}
+
+	private fun initializeUI() {
+		viewModel.logScreenView(this::class.simpleName.orEmpty())
+		(activity as AppCompatActivity).setSupportActionBar(pabFavourites.getToolbar())
+		val toolBar = (activity as AppCompatActivity).supportActionBar
+		toolBar?.setDisplayHomeAsUpEnabled(true)
+		pabFavourites.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
+		toolBar?.setTitle(R.string.favourites)
 		createRecyclerView()
 		setUpItemTouchHelper()
 		setUpAnimationDecoratorHelper()
-
-		observeState()
+		viewModel.loadFavourites()
 	}
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		if (resultCode == Activity.RESULT_OK) {
-			favouritesPresenter.loadFavourites()
+			viewModel.loadFavourites()
 		}
 		super.onActivityResult(requestCode, resultCode, data)
 	}
@@ -101,65 +90,39 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 		observeActions()
 	}
 
-	override fun onSaveInstanceState(outState: Bundle) {
-		outState.putParcelable("STATE", viewModel.state.value)
-		super.onSaveInstanceState(outState)
-	}
-
-
-	private fun initPresenter(viewModel: FavouritesViewModel) {
-		if (!::favouritesPresenter.isInitialized) {
-			comp = DaggerFavouritesComponent
-					.builder()
-					.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-					.build()
-			favouritesPresenter = comp.favouritesPresenter()
-			favouritesPresenter.setViewModel(viewModel, requestScope())
-		}
-	}
-
 	private fun createRecyclerView() {
-		val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 		rvFavourites?.layoutManager = linearLayoutManager
-		rvFavourites.addItemDecoration(DividerItemDecoration(this))
-	}
-
-	override fun onBackPressed() {
-		super.onBackPressed()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
+		rvFavourites.addItemDecoration(DividerItemDecoration(requireContext()))
 	}
 
 	//endregion
 
 	//region render
 
-	private fun observeState() {
-		viewModel.state
-				.`as`(AutoDispose.autoDisposable(this))
-				.subscribe { render(it) }
-	}
+	override fun invalidate() {
+		val tvMsvError = msvFavourites.findViewById<TextView>(R.id.tvMsvError)
+		val ivEmptyView = msvFavourites.findViewById<ImageView>(R.id.ivEmptyView)
+		withState(viewModel) { state ->
 
-	private fun render(state: FavouritesState) {
-		when {
-			state.isLoading -> msvFavourites.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> {
-				msvFavourites.viewState = VIEW_STATE_ERROR
-				state.errorType = ErrorType.NONE
-				msvFavourites.tvMsvError.text = state.errorMessage
-			}
-			state.favouriteItems?.isEmpty() == true -> {
-				msvFavourites.viewState = VIEW_STATE_EMPTY
-				msvFavourites.ivEmptyView.setImageResource(R.drawable.ic_business_empty_favorites)
-			}
-			else -> {
-				state.favouriteItems?.let {
+			when (state.favouritesRequest) {
+				is Loading -> msvFavourites.viewState = VIEW_STATE_LOADING
+				is Fail -> {
+					msvFavourites.viewState = VIEW_STATE_ERROR
+					tvMsvError.text = state.favouritesRequest.error.message
+				}
+				is Success -> {
+					if (state.favouriteItems.isEmpty()) {
+						msvFavourites.viewState = VIEW_STATE_EMPTY
+						ivEmptyView.setImageResource(R.drawable.ic_business_empty_favorites)
+					}
 					msvFavourites.viewState = VIEW_STATE_CONTENT
 					if (rvFavourites?.adapter == null) {
-						favouritesAdapter = FavouritesAdapter(it, FavouritesTypeFactory())
+						favouritesAdapter = FavouritesAdapter(state.favouriteItems, FavouritesTypeFactory())
 						rvFavourites?.adapter = favouritesAdapter
 						observeActions()
 					} else {
-						favouritesAdapter?.updateItems(it)
+						favouritesAdapter?.updateItems(state.favouriteItems)
 						observeActions()
 					}
 				}
@@ -175,18 +138,19 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 		eventDisposables.clear()
 		favouritesAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
-					viewModel.state.value?.favouriteItems?.let { favouriteItems ->
-						val item = favouriteItems[(view as FavouritesViewHolder).adapterPosition].favouritesItem.searchHistoryItem
-						startActivityForResultWithRightSlide(this.createCompanyIntent(item.companyNumber, item.companyName), REQUEST_SHOW_FAVOURITE_COMPANY)
+					withState(viewModel) { state ->
+						state.favouriteItems.let { favouriteItems ->
+							val item = favouriteItems[(view as FavouritesViewHolder).adapterPosition].favouritesItem.searchHistoryItem
+							//TODO
+							// startActivityForResultWithRightSlide(this.createCompanyIntent(item.companyNumber, item.companyName), REQUEST_SHOW_FAVOURITE_COMPANY)
+						}
 					}
 				}
 				?.let { eventDisposables.add(it) }
 
 		favouritesAdapter?.getCancelClickedObservable()
 				?.take(1)
-				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
 					// user wants to undo the removal, let's cancel the pending task
 					val visitable = (view as FavouritesViewHolder).favouritesVisitable
@@ -195,9 +159,11 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 					if (pendingRemovalRunnable != null) handler.removeCallbacks(pendingRemovalRunnable)
 					searchHistoryItemsPendingRemoval.remove(visitable)
 					// this will rebind the row in "normal" state
-					viewModel.state.value?.favouriteItems?.let {
-						it[it.indexOf(visitable)].favouritesItem.isPendingRemoval = false
-						favouritesAdapter?.notifyItemChanged(it.indexOf(visitable))
+					withState(viewModel) { state ->
+						state.favouriteItems.let {
+							it[it.indexOf(visitable)].favouritesItem.isPendingRemoval = false
+							favouritesAdapter?.notifyItemChanged(it.indexOf(visitable))
+						}
 					}
 					observeActions()
 				}
@@ -213,8 +179,8 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 	private val pendingRunnables = HashMap<FavouritesVisitable, Runnable>()
 
 	fun pendingRemoval(position: Int) {
-		viewModel.state.value?.favouriteItems?.let {
-			val item = it[position]
+		withState(viewModel) { state ->
+			val item = state.favouriteItems[position]
 			if (!searchHistoryItemsPendingRemoval.contains(item)) {
 				item.favouritesItem.isPendingRemoval = true
 				searchHistoryItemsPendingRemoval.add(item)
@@ -222,8 +188,10 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 				favouritesAdapter?.notifyItemChanged(position)
 				// let's create, store and post a runnable to remove the item
 				val pendingRemovalRunnable = Runnable {
-					remove(it.indexOf(item))
-					favouritesPresenter.removeFavourite(item.favouritesItem.searchHistoryItem)
+					if (searchHistoryItemsPendingRemoval.contains(item)) {
+						searchHistoryItemsPendingRemoval.remove(item)
+					}
+					viewModel.removeFavourite(item.favouritesItem.searchHistoryItem)
 				}
 				handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT.toLong())
 				pendingRunnables[item] = pendingRemovalRunnable
@@ -231,26 +199,13 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 		}
 	}
 
-	private fun remove(position: Int) {
-		viewModel.state.value?.favouriteItems?.let {
-			val item = it[position]
-			if (searchHistoryItemsPendingRemoval.contains(item)) {
-				searchHistoryItemsPendingRemoval.remove(item)
-			}
-			if (it.contains(item)) {
-				val list = it.toMutableList()
-				list.removeAt(position)
-				viewModel.state.value?.favouriteItems = list.toList()
-				favouritesAdapter?.updateItems(viewModel.state.value?.favouriteItems!!)
+	fun isPendingRemoval(position: Int): Boolean {
+		return withState(viewModel) { state ->
+			state.favouriteItems.let {
+				val item = it[position]
+				searchHistoryItemsPendingRemoval.contains(item)
 			}
 		}
-	}
-
-	fun isPendingRemoval(position: Int): Boolean {
-		return viewModel.state.value?.favouriteItems?.let {
-			val item = it[position]
-			searchHistoryItemsPendingRemoval.contains(item)
-		} ?: false
 	}
 
 	private fun setUpItemTouchHelper() {
@@ -265,13 +220,13 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 
 			private fun init() {
 				background = ColorDrawable(Color.RED)
-				xMark = ContextCompat.getDrawable(this@FavouritesActivity, R.drawable.ic_close)!!
+				xMark = ContextCompat.getDrawable(requireContext(), R.drawable.ic_close)!!
 				//Set it to background color, because otherwise it will stay on top after half swipe
 				val a = TypedValue()
-				theme.resolveAttribute(android.R.attr.windowBackground, a, true)
+				requireActivity().theme.resolveAttribute(android.R.attr.windowBackground, a, true)
 				val color = a.data
 				xMark.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-				xMarkMargin = this@FavouritesActivity.resources.getDimension(R.dimen.view_margin_small).toInt()
+				xMarkMargin = this@FavouritesFragment.resources.getDimension(R.dimen.view_margin_small).toInt()
 				initiated = true
 			}
 
@@ -425,5 +380,5 @@ class FavouritesActivity : RxAppCompatActivity(), ScopeProvider {
 }
 
 fun Context.createFavouritesIntent(): Intent {
-	return Intent(this, FavouritesActivity::class.java)
+	return Intent(this, FavouritesFragment::class.java)
 }

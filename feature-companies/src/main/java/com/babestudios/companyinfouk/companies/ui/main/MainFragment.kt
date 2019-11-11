@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.companies.ui.main
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
@@ -21,10 +20,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.BaseMvRxFragment
-import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.*
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.textColor
-import com.babestudios.base.mvp.ErrorType
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
@@ -32,9 +30,11 @@ import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
-import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryAdapter
-import com.babestudios.companyinfouk.companies.ui.main.search.SearchAdapter
+import com.babestudios.companyinfouk.companies.ui.FilterState
+import com.babestudios.companyinfouk.companies.ui.main.recents.*
+import com.babestudios.companyinfouk.companies.ui.main.search.*
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -54,8 +54,6 @@ class MainFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	private lateinit var comp: MainComponent
-
 	private var isSearchFromSaved = false
 	//Menu
 	lateinit var searchMenuItem: MenuItem
@@ -65,6 +63,11 @@ class MainFragment : BaseMvRxFragment() {
 	private var lblSearch: TextView? = null
 
 	//region life cycle
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setHasOptionsMenu(true)
+	}
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
@@ -84,6 +87,8 @@ class MainFragment : BaseMvRxFragment() {
 		(activity as AppCompatActivity).setSupportActionBar(tbMain)
 		createSearchHistoryRecyclerView()
 		createSearchRecyclerView()
+		selectSubscribes()
+		viewModel.showRecentSearches()
 	}
 
 	override fun onResume() {
@@ -96,16 +101,16 @@ class MainFragment : BaseMvRxFragment() {
 		rvMainSearchHistory.layoutManager = linearLayoutManager
 		val titlePositions = java.util.ArrayList<Int>()
 		titlePositions.add(0)
-		rvMainSearchHistory.addItemDecoration(DividerItemDecorationWithSubHeading(this, titlePositions))
+		rvMainSearchHistory.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
 	}
 
 	private fun createSearchRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 		rvMainSearch?.layoutManager = linearLayoutManager
-		rvMainSearch.addItemDecoration(DividerItemDecoration(this))
+		rvMainSearch.addItemDecoration(DividerItemDecoration(requireContext()))
 		rvMainSearch.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
-				mainPresenter.loadMoreSearch(page)
+				viewModel.loadMoreSearch(page)
 			}
 		})
 	}
@@ -119,7 +124,7 @@ class MainFragment : BaseMvRxFragment() {
 		spinner.setBackgroundResource(0)
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
 		val adapter = FilterAdapter(
-				this@MainFragment,
+				requireContext(),
 				resources.getStringArray(R.array.search_filter_options),
 				isDropdownDarkTheme = true,
 				isToolbarDarkTheme = false
@@ -127,7 +132,7 @@ class MainFragment : BaseMvRxFragment() {
 		spinner.adapter = adapter
 		spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 			override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-				mainPresenter.setFilterState(FilterState.values()[position])
+				viewModel.setFilterState(FilterState.values()[position])
 			}
 
 			override fun onNothingSelected(parent: AdapterView<*>) {
@@ -141,7 +146,7 @@ class MainFragment : BaseMvRxFragment() {
 		lblSearch = searchView.findViewById<View>(androidx.appcompat.R.id.search_src_text) as TextView?
 		observeActions()
 		lblSearch?.hint = "Search"
-		lblSearch?.textColor = ContextCompat.getColor(this, android.R.color.black)
+		lblSearch?.textColor = ContextCompat.getColor(requireContext(), android.R.color.black)
 		searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
 			override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
 				if (searchMenuItem.isActionViewExpanded) {
@@ -165,18 +170,18 @@ class MainFragment : BaseMvRxFragment() {
 		})
 		if (isSearchFromSaved) {
 			searchMenuItem.expandActionView()
-			(searchMenuItem.actionView as SearchView).setQuery(viewModel.state.value?.queryText, false)
-			viewModel.state.value?.filterState?.ordinal?.let {
-				(filterMenuItem?.actionView as Spinner).setSelection(it)
+			withState(viewModel) { state ->
+				(searchMenuItem.actionView as SearchView).setQuery(state.queryText, false)
+				(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
+				isSearchFromSaved = false
 			}
-			isSearchFromSaved = false
 		}
 	}
 
 	@SuppressLint("PrivateResource")
 	fun animateSearchToolbar(numberOfMenuIcon: Int, containsOverflow: Boolean, show: Boolean) {
 
-		tbMain.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
+		tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
 
 		if (show) {
 			msvMainSearch.visibility = View.VISIBLE
@@ -198,9 +203,7 @@ class MainFragment : BaseMvRxFragment() {
 		} else {
 			msvMainSearch.visibility = View.GONE
 			fabMainSearch.show()
-			viewModel.state.value?.queryText = ""
-			viewModel.state.value?.searchVisitables = ArrayList()
-			viewModel.state.value?.filteredSearchVisitables = ArrayList()
+			viewModel.clearSearch()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = tbMain.width -
 						if (containsOverflow) resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) else 0 -
@@ -211,8 +214,8 @@ class MainFragment : BaseMvRxFragment() {
 				createCircularReveal.addListener(object : AnimatorListenerAdapter() {
 					override fun onAnimationEnd(animation: Animator) {
 						super.onAnimationEnd(animation)
-						tbMain.setBackgroundColor(ContextCompat.getColor(this@MainFragment, R.color.colorPrimary))
-						invalidateOptionsMenu()
+						tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+						activity?.invalidateOptionsMenu()
 					}
 				})
 				createCircularReveal.start()
@@ -229,8 +232,8 @@ class MainFragment : BaseMvRxFragment() {
 					}
 
 					override fun onAnimationEnd(animation: Animation) {
-						tbMain.setBackgroundColor(ContextCompat.getColor(this@MainFragment, R.color.colorPrimary))
-						invalidateOptionsMenu()
+						tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+						activity?.invalidateOptionsMenu()
 					}
 
 					override fun onAnimationRepeat(animation: Animation) {
@@ -252,88 +255,104 @@ class MainFragment : BaseMvRxFragment() {
 	//region render
 
 	override fun invalidate() {
-		viewModel.state
-				.`as`(AutoDispose.autoDisposable(this))
-				.subscribe { render(it) }
 	}
 
-	private fun render(state: MainState) {
-		when {
-			state.isLoading -> msvMainSearch.viewState = VIEW_STATE_LOADING
-			state.errorType != ErrorType.NONE -> {
-				msvMainSearch.viewState = VIEW_STATE_ERROR
-				state.errorType = ErrorType.NONE
-				msvMainSearch.tvMsvError.text = state.errorMessage
-			}
-			state.isSearchLoading -> {
-				msvMainSearch.viewState = VIEW_STATE_LOADING
-				observeActions()
-			}
-			state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED -> {
-				if (state.searchHistoryVisitables.isNullOrEmpty()) {
-					msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
-					msvMainSearchHistory.tvMsvEmpty.text = getString(R.string.no_recent_searches)
-					fabMainSearch.hide()
-				} else {
-					fabMainSearch.show()
-					state.searchHistoryVisitables?.let {
-						msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
-						if (rvMainSearchHistory?.adapter == null) {
-							searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
-							rvMainSearchHistory?.adapter = searchHistoryAdapter
-						} else {
-							searchHistoryAdapter?.updateItems(it)
-						}
+	private fun selectSubscribes() {
+		viewModel.selectSubscribe(CompaniesState::searchRequest) { searchRequest ->
+			val tvMsvSearchError = msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
+			val tvMsvSearchEmpty = msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
+			withState(viewModel) { state ->
+				when (searchRequest) {
+					is Loading -> {
+						msvMainSearch.viewState = VIEW_STATE_LOADING
 						observeActions()
 					}
-				}
-				invalidateOptionsMenu()
-			}
-			state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_UPDATED -> {
-				state.searchHistoryVisitables?.let {
-					msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
-					if (rvMainSearchHistory?.adapter == null) {
-						searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
-						rvMainSearchHistory?.adapter = searchHistoryAdapter
-					} else {
-						searchHistoryAdapter?.updateItems(it)
-					}
-					observeActions()
-				}
-			}
-			state.contentChange == ContentChange.DELETE_SEARCH_HISTORY -> {
-				viewModel.state.value?.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
-				showDeleteRecentSearchesDialog()
-			}
-			else -> {
-				if (state.contentChange == ContentChange.SEARCH_ITEMS_RECEIVED_FROM_SAVED_INSTANCE_STATE) {
-					msvMainSearch.visibility = View.VISIBLE
-					msvMainSearch.viewState = VIEW_STATE_CONTENT
-					isSearchFromSaved = true
-				}
-				fabMainSearch.hide()
-				if (state.queryText.length >= 3 && state.filteredSearchVisitables.isEmpty()) {
-					msvMainSearch.viewState = VIEW_STATE_EMPTY
-					msvMainSearch.tvMsvEmpty.text = getString(R.string.no_search_result)
-					observeActions()
-				} else {
-					msvMainSearch.viewState = VIEW_STATE_CONTENT
-					if (viewModel.state.value?.queryText.orEmpty().length > 2) {
-						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
-						logSearch()
-					} else
-						rvMainSearch.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent_black))
+					is Fail -> {
+						msvMainSearch.viewState = VIEW_STATE_ERROR
 
-					state.filteredSearchVisitables.let {
-						rvMainSearch.visibility = View.VISIBLE
-						msvMainSearch.viewState = VIEW_STATE_CONTENT
-						if (rvMainSearch?.adapter == null) {
-							searchAdapter = SearchAdapter(it, SearchTypeFactory())
-							rvMainSearch?.adapter = searchAdapter
+						tvMsvSearchError.text = searchRequest.error.message
+					}
+					is Success -> {
+						//TODO
+						/*if (state.contentChange == ContentChange.SEARCH_ITEMS_RECEIVED_FROM_SAVED_INSTANCE_STATE) {
+							msvMainSearch.visibility = View.VISIBLE
+							msvMainSearch.viewState = VIEW_STATE_CONTENT
+							isSearchFromSaved = true
+						}*/
+						fabMainSearch.hide()
+						if (state.queryText.length >= 3 && state.filteredSearchVisitables.isEmpty()) {
+							msvMainSearch.viewState = VIEW_STATE_EMPTY
+							tvMsvSearchEmpty.text = getString(R.string.no_search_result)
+							observeActions()
 						} else {
-							searchAdapter?.updateItems(it)
+							msvMainSearch.viewState = VIEW_STATE_CONTENT
+							if (state.queryText.length > 2) {
+								rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+								viewModel.logSearch()
+							} else
+								rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent_black))
+
+							state.filteredSearchVisitables.let {
+								rvMainSearch.visibility = View.VISIBLE
+								msvMainSearch.viewState = VIEW_STATE_CONTENT
+								if (rvMainSearch?.adapter == null) {
+									searchAdapter = SearchAdapter(it, SearchTypeFactory())
+									rvMainSearch?.adapter = searchAdapter
+								} else {
+									searchAdapter?.updateItems(it)
+								}
+								observeActions()
+							}
 						}
-						observeActions()
+
+					}
+				}
+			}
+			viewModel.selectSubscribe(CompaniesState::searchHistoryRequest) { searchHistoryRequest ->
+				val tvMsvSearchHistoryError = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
+				val tvMsvSearchHistoryEmpty = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
+				withState(viewModel) { state ->
+					when (searchHistoryRequest) {
+						is Success -> {
+							if (state.searchHistoryVisitables.isNullOrEmpty()) {
+								msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
+								tvMsvSearchHistoryEmpty.text = getString(R.string.no_recent_searches)
+								fabMainSearch.hide()
+							} else {
+								fabMainSearch.show()
+								state.searchHistoryVisitables?.let {
+									msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
+									if (rvMainSearchHistory?.adapter == null) {
+										searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
+										rvMainSearchHistory?.adapter = searchHistoryAdapter
+									} else {
+										searchHistoryAdapter?.updateItems(it)
+									}
+									observeActions()
+								}
+							}
+							activity?.invalidateOptionsMenu()
+						}
+
+						/*state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_UPDATED -> {
+							state.searchHistoryVisitables?.let {
+								msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
+								if (rvMainSearchHistory?.adapter == null) {
+									searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
+									rvMainSearchHistory?.adapter = searchHistoryAdapter
+								} else {
+									searchHistoryAdapter?.updateItems(it)
+								}
+								observeActions()
+							}
+						}
+						state.contentChange == ContentChange.DELETE_SEARCH_HISTORY -> {
+							viewModel.state.value?.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
+							showDeleteRecentSearchesDialog()
+						}*/
+						else -> {
+
+						}
 					}
 				}
 			}
@@ -341,21 +360,15 @@ class MainFragment : BaseMvRxFragment() {
 	}
 
 	private fun showDeleteRecentSearchesDialog() {
-		AlertDialog.Builder(this)
+		AlertDialog.Builder(requireContext())
 				.setTitle(R.string.delete_recent_searches)
 				.setMessage(R.string.are_you_sure_you_want_to_delete_all_recent_searches)
-				.setPositiveButton(android.R.string.yes) { _, _ -> mainPresenter.clearAllRecentSearches() }
+				.setPositiveButton(android.R.string.yes) { _, _ -> viewModel.clearAllRecentSearches() }
 				.setNegativeButton(android.R.string.no) { _, _ ->
 					// do nothing
 				}
 				.show()
 		observeActions()
-	}
-
-	private fun logSearch() {
-		val bundle = Bundle()
-		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, viewModel.state.value?.queryText)
-		CompaniesHouseApplication.instance.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
 	}
 
 	//endregion
@@ -370,29 +383,35 @@ class MainFragment : BaseMvRxFragment() {
 					.debounce(500, TimeUnit.MILLISECONDS)
 					.subscribeOn(Schedulers.io())
 					.observeOn(AndroidSchedulers.mainThread())
-					.`as`(AutoDispose.autoDisposable(this))
-					.subscribe { mainPresenter.onSearchQueryChanged(lblSearch?.text.toString()) }
+					.subscribe { viewModel.onSearchQueryChanged(lblSearch?.text.toString()) }
 					?.let { queryTextChangeDisposable -> eventDisposables.add(queryTextChangeDisposable) }
 		}
 		searchHistoryAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractSearchHistoryVisitable> ->
-					viewModel.state.value?.searchHistoryVisitables?.let { searchHistoryItems ->
-						val searchHistoryItem = (searchHistoryItems[(view as SearchHistoryViewHolder).adapterPosition] as SearchHistoryVisitable).searchHistoryItem
-						startActivityWithRightSlide(this.createCompanyIntent(searchHistoryItem.companyNumber, searchHistoryItem.companyName))
+					withState(viewModel) { state ->
+						state.searchHistoryVisitables.let { searchHistoryItems ->
+							val searchHistoryItem =
+									(searchHistoryItems[(view as SearchHistoryViewHolder).adapterPosition]
+											as SearchHistoryVisitable)
+											.searchHistoryItem
+							//TODO
+							viewModel.searchHistoryItemClicked(view.adapterPosition)
+							//startActivityWithRightSlide(this.createCompanyIntent(searchHistoryItem.companyNumber, searchHistoryItem.companyName))
+						}
 					}
 				}
 				?.let { eventDisposables.add(it) }
 		searchAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.`as`(AutoDispose.autoDisposable(this))
 				?.subscribe { view: BaseViewHolder<AbstractSearchVisitable> ->
-					viewModel.state.value?.filteredSearchVisitables?.let { searchItems ->
-						val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
-						(searchItem.title to searchItem.companyNumber).biLet { title, number ->
-							mainPresenter.searchItemClicked(title, number)
-							startActivityWithRightSlide(this.createCompanyIntent(number, title))
+					withState(viewModel) { state ->
+						state.filteredSearchVisitables.let { searchItems ->
+							val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
+							(searchItem.title to searchItem.companyNumber).biLet { title, number ->
+								viewModel.searchItemClicked(title, number)
+								//startActivityWithRightSlide(this.createCompanyIntent(number, title))
+							}
 						}
 					}
 				}
@@ -400,26 +419,24 @@ class MainFragment : BaseMvRxFragment() {
 		favouritesMenuItem?.let {
 			RxMenuItem.clicks(it)
 					.take(1)
-					.`as`(AutoDispose.autoDisposable(this))
-					.subscribe { startActivityWithRightSlide(createFavouritesIntent()) }
+					.subscribe {
+						viewModel.companiesNavigator.mainToFavourites()
+					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}
 		privacyMenuItem?.let {
 			RxMenuItem.clicks(it)
 					.take(1)
-					.`as`(AutoDispose.autoDisposable(this))
 					.subscribe {
-						intent = Intent(this, PrivacyActivity::class.java)
-						startActivityWithRightSlide(intent)
+						viewModel.companiesNavigator.mainToFavourites()
 					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}
 		fabMainSearch?.let {
 			RxView.clicks(it)
 					.take(1)
-					.`as`(AutoDispose.autoDisposable(this))
 					.subscribe {
-						mainPresenter.fabMainClicked()
+						viewModel.fabMainClicked()
 					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.companies.ui.main.search
 
 import android.view.View
-import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.companies.R
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
 

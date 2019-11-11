@@ -5,7 +5,7 @@
 													 android:layout_width="match_parent"
 													 android:layout_height="match_parent"
 													 android:fitsSystemWindows="true"
-													 tools:context="com.babestudios.companyinfouk.ui.company.CompanyActivity">
+													 tools:context="com.babestudios.companyinfouk.companies.ui.CompaniesActivity">
 
 	<com.google.android.material.appbar.AppBarLayout
 		android:id="@+id/appbar"
@@ -14,7 +14,7 @@
 		android:theme="@style/AppTheme.AppBarOverlay">
 
 		<androidx.appcompat.widget.Toolbar
-			android:id="@+id/tbMapActivity"
+			android:id="@+id/tbMap"
 			android:layout_width="match_parent"
 			android:layout_height="?attr/actionBarSize"
 			android:background="?attr/colorPrimary"

@@ -4,7 +4,7 @@ import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.TestHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.ui.favourites.FavouritesActivity
-import com.babestudios.companyinfouk.ui.favourites.FavouritesActivityTest
+import com.babestudios.companyinfouk.ui.favourites.FavouritesFragmentTest
 import com.babestudios.companyinfouk.ui.search.SearchActivityTest
 import com.google.gson.Gson
 import dagger.Component
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Component(modules = [AndroidTestApplicationModule::class])
 interface AndroidTestApplicationComponent : ApplicationComponent {
 
-	fun inject(favouritesActivityTest: FavouritesActivityTest)
+	fun inject(favouritesActivityTest: FavouritesFragmentTest)
 
 	fun inject(searchActivityTest: SearchActivityTest)
 

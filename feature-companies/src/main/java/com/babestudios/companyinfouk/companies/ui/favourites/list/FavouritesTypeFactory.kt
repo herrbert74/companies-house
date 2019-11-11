@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.companies.ui.favourites.list
 
 import android.view.View
-import com.babestudios.companyinfouk.R
+import com.babestudios.companyinfouk.companies.R
 import com.babestudios.base.mvp.list.BaseViewHolder
 
 class FavouritesTypeFactory : FavouritesAdapter.FavouritesTypeFactory {

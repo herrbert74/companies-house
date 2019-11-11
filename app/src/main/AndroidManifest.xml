@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		  package="com.babestudios.companyinfouk">
+	package="com.babestudios.companyinfouk">
 
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-	<uses-permission android:name="android.permission.WAKE_LOCK"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.INTERNET" />
 
 	<application
 		android:name=".CompaniesHouseApplication"
@@ -15,27 +15,23 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 
-		<uses-library android:name="com.google.android.maps"/>
+		<uses-library android:name="com.google.android.maps" />
 
 		<activity
-			android:name=".ui.main.MainActivity"
+			android:name=".companies.ui.CompaniesActivity"
 			android:windowSoftInputMode="stateHidden">
 			<intent-filter>
-				<action android:name="android.intent.action.VIEW"/>
-				<action android:name="android.intent.action.MAIN"/>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER"/>
+				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ui.company.CompanyActivity"/>
-		<activity android:name=".ui.favourites.FavouritesActivity"/>
-		<activity android:name=".charges.ui.ChargesActivity"/>
-		<activity android:name=".filings.ui.FilingsActivity"/>
-		<activity android:name=".insolvencies.ui.InsolvenciesActivity"/>
-		<activity android:name=".officers.ui.OfficersActivity"/>
-		<activity android:name=".persons.ui.PersonsActivity"/>
-		<activity android:name=".ui.map.MapActivity"/>
-		<activity android:name=".ui.privacy.PrivacyActivity"/>
+		<activity android:name=".charges.ui.ChargesActivity" />
+		<activity android:name=".filings.ui.FilingsActivity" />
+		<activity android:name=".insolvencies.ui.InsolvenciesActivity" />
+		<activity android:name=".officers.ui.OfficersActivity" />
+		<activity android:name=".persons.ui.PersonsActivity" />
 
 		<provider
 			android:name="androidx.core.content.FileProvider"
@@ -44,12 +40,12 @@
 			android:grantUriPermissions="true">
 			<meta-data
 				android:name="android.support.FILE_PROVIDER_PATHS"
-				android:resource="@xml/provider_paths"/>
+				android:resource="@xml/provider_paths" />
 		</provider>
 
 		<meta-data
 			android:name="com.google.android.geo.API_KEY"
-			android:value="AIzaSyDL491tNFSzvEl4Z0EuIejDli0caJVWdcA"/>
+			android:value="AIzaSyDL491tNFSzvEl4Z0EuIejDli0caJVWdcA" />
 		<meta-data
 			android:name="firebase_crashlytics_collection_enabled"
 			android:value="false" />

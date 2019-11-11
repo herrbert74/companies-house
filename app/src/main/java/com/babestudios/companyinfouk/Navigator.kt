@@ -25,6 +25,7 @@ import com.babestudios.companyinfouk.navigation.features.*
  */
 internal class Navigator : BaseNavigator(),
 		FilingsNavigator,
+		CompaniesNavigator,
 		OfficersNavigator,
 		PersonsNavigator,
 		ChargesNavigator,
@@ -42,6 +43,10 @@ internal class Navigator : BaseNavigator(),
 	//region features
 
 	override fun provideFilingsNavigation(): FilingsNavigator {
+		return this
+	}
+
+	override fun provideCompaniesNavigation(): CompaniesNavigator {
 		return this
 	}
 
@@ -114,6 +119,46 @@ internal class Navigator : BaseNavigator(),
 
 	override fun filingsToFilingsDetails() {
 		navController?.navigateSafe(R.id.action_filingsFragment_to_filingDetailsFragment)
+	}
+
+	//endregion
+
+	//region companies
+
+	override fun mainToCompany() {
+		navController?.navigateSafe(R.id.action_mainFragment_to_companyFragment)
+	}
+
+	override fun mainToFavourites() {
+		navController?.navigateSafe(R.id.action_mainFragment_to_favouritesFragment)
+	}
+
+	override fun mainToPrivacy() {
+		navController?.navigateSafe(R.id.action_mainFragment_to_privacyFragment)
+	}
+
+	override fun companyToMap() {
+		navController?.navigateSafe(R.id.action_companyFragment_to_mapFragment)
+	}
+
+	override fun companyToCharges() {
+		navController?.navigateSafe(R.id.action_companyFragment_to_chargesActivity)
+	}
+
+	override fun companyToFilings() {
+		navController?.navigateSafe(R.id.action_companyFragment_to_filingsActivity)
+	}
+
+	override fun companyToInsolvencies() {
+		navController?.navigateSafe(R.id.action_companyFragment_to_insolvenciesActivity)
+	}
+
+	override fun companyToOfficers() {
+		navController?.navigateSafe(R.id.action_companyFragment_to_officersActivity)
+	}
+
+	override fun companyToPersons() {
+		navController?.navigateSafe(R.id.action_companyFragment_to_personsActivity)
 	}
 
 	//endregion

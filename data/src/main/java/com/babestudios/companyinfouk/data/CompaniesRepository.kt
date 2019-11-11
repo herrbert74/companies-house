@@ -35,8 +35,8 @@ import java.util.*
 
 interface CompaniesRepositoryContract : AnalyticsContract {
 	val authorization: String
-	val recentSearches: List<SearchHistoryItem>
-	val favourites: Array<SearchHistoryItem>
+	fun recentSearches(): Single<List<SearchHistoryItem>>
+	fun favourites(): Single<List<SearchHistoryItem>>
 
 	//String mapping
 	fun sicLookup(code: String): String
@@ -82,11 +82,22 @@ open class CompaniesRepository constructor(
 			Base64.NO_WRAP
 	)
 
-	override val recentSearches: List<SearchHistoryItem>
-		get() = preferencesHelper.recentSearches
+	override fun recentSearches(): Single<List<SearchHistoryItem>> {
+		val single: Single<List<SearchHistoryItem>> = Single.create {
+			it.onSuccess(preferencesHelper.recentSearches)
+		}
+		return single.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread())
+	}
 
-	override val favourites: Array<SearchHistoryItem>
-		get() = preferencesHelper.favourites
+
+	override fun favourites(): Single<List<SearchHistoryItem>> {
+		val single: Single<List<SearchHistoryItem>> = Single.create {
+			it.onSuccess(preferencesHelper.favourites.toList())
+		}
+		return single.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+				.observeOn(AndroidSchedulers.mainThread())
+	}
 
 	override fun sicLookup(code: String): String {
 		return constantsHelper.sicLookUp(code)
@@ -290,5 +301,12 @@ open class CompaniesRepository constructor(
 		firebaseAnalytics.logEvent("screenView", bundle)
 	}
 
+	override fun logSearch(queryText: String) {
+		val bundle = Bundle()
+		bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, queryText)
+		firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle)
+	}
+
 //endregion
+
 }

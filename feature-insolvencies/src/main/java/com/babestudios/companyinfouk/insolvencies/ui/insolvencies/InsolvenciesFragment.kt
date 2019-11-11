@@ -81,7 +81,6 @@ class InsolvenciesFragment : BaseMvRxFragment() {
 				}
 				is Success -> {
 					if (state.insolvencies.isEmpty()) {
-
 						msvInsolvency.viewState = VIEW_STATE_EMPTY
 					} else {
 						msvInsolvency.viewState = VIEW_STATE_CONTENT

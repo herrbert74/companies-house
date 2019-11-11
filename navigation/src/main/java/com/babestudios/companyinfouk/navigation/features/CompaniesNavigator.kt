@@ -6,6 +6,7 @@ interface CompaniesNavigator: Navigator {
     fun mainToCompany()
     fun mainToFavourites()
     fun mainToPrivacy()
+    fun companyToMap()
     fun companyToCharges()
     fun companyToFilings()
     fun companyToInsolvencies()

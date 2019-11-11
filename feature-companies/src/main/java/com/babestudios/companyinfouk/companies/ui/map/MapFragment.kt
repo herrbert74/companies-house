@@ -4,9 +4,16 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.babestudios.companyinfouk.R
-import com.babestudios.companyinfouk.ext.logScreenView
+import com.airbnb.mvrx.BaseMvRxFragment
+import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.withState
+import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,33 +24,42 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 	private var mMap: GoogleMap? = null
 
-	private lateinit var addressString: String
-	internal lateinit var companyName: String
 	private var location: LatLng? = null
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_map)
-		logScreenView(this.localClassName)
-		addressString = intent.getStringExtra("addressString")
-		companyName = intent.getStringExtra("companyName")
-		location = getLocationFromAddress(addressString)
+	private val viewModel by existingViewModel(CompaniesViewModel::class)
 
-		if (tbMapActivity != null) {
-			setSupportActionBar(tbMapActivity)
-			supportActionBar?.setDisplayHomeAsUpEnabled(true)
-			supportActionBar?.title = companyName
-			tbMapActivity.setNavigationOnClickListener { onBackPressed() }
+	var toolBar: ActionBar? = null
+
+	override fun onCreateView(
+			inflater: LayoutInflater, container: ViewGroup?,
+			savedInstanceState: Bundle?
+	): View {
+		//requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+		return inflater.inflate(R.layout.fragment_map, container, false)
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		initializeUI()
+	}
+
+	private fun initializeUI() {
+		viewModel.logScreenView(this::class.simpleName.orEmpty())
+		(activity as AppCompatActivity).setSupportActionBar(tbMap)
+		toolBar = (activity as AppCompatActivity).supportActionBar
+		toolBar?.setDisplayHomeAsUpEnabled(true)
+		withState(viewModel) { state ->
+			toolBar?.setTitle(state.companyName)
+			location = getLocationFromAddress(state.addressString)
+			tbMap.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
+			val mapFragment = requireActivity().supportFragmentManager
+					.findFragmentById(R.id.map) as SupportMapFragment?
+			mapFragment?.getMapAsync(this)
 		}
-
-		val mapFragment = supportFragmentManager
-				.findFragmentById(R.id.map) as SupportMapFragment?
-
-		mapFragment?.getMapAsync(this)
 	}
 
 	override fun onMapReady(googleMap: GoogleMap) {
@@ -53,7 +69,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 			setLocationInMap(it)
 		} ?: run {
 			location = LatLng(51.5033635, -0.1276248)
-			supportActionBar?.title = "Could not find address!"
+			toolBar?.title = "Could not find address!"
 			setLocationInMap(location!!)
 		}
 	}
@@ -62,12 +78,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 		mMap?.uiSettings?.isMapToolbarEnabled = true
 		val cameraPosition = CameraPosition.Builder().target(location).zoom(15f).build()
 		mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-		mMap?.addMarker(MarkerOptions().position(location).title(addressString))
+		withState(viewModel) {
+			mMap?.addMarker(MarkerOptions().position(location).title(it.addressString))
+		}
 		mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 	}
 
 	private fun getLocationFromAddress(strAddress: String): LatLng? {
-		val coder = Geocoder(this)
+		val coder = Geocoder(requireContext())
 		val address: List<Address>?
 		try {
 			address = coder.getFromLocationName(strAddress, 5)
@@ -92,8 +110,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 		return true
 	}
 
-	override fun onBackPressed() {
+	//TODO
+	/*override fun onBackPressed() {
 		super.onBackPressed()
 		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
+	}*/
+
+	override fun invalidate() {
+
 	}
 }

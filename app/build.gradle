@@ -106,7 +106,6 @@ dependencies {
 	implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.2'
 
 	implementation Libs.Google.Dagger.dagger
-	implementation Libs.Google.PlayServices.maps
 	implementation Libs.Google.Firebase.analytics
 	implementation Libs.Google.crashlytics
 	kapt Libs.Google.Dagger.compiler
