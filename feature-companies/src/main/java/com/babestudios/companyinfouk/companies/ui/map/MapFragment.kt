@@ -26,19 +26,18 @@ import kotlinx.android.synthetic.main.fragment_map.*
 
 class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-	private var mMap: GoogleMap? = null
+	private var googleMap: GoogleMap? = null
 
 	private var location: LatLng? = null
 
 	private val viewModel by existingViewModel(CompaniesViewModel::class)
 
-	var toolBar: ActionBar? = null
+	private var toolBar: ActionBar? = null
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-		//requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 		return inflater.inflate(R.layout.fragment_map, container, false)
 	}
 
@@ -53,18 +52,18 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		withState(viewModel) { state ->
-			toolBar?.setTitle(state.companyName)
+			toolBar?.title = state.companyName
 			location = getLocationFromAddress(state.addressString)
 			tbMap.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
-			val mapFragment = requireActivity().supportFragmentManager
-					.findFragmentById(R.id.map) as SupportMapFragment?
+			val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 			mapFragment?.getMapAsync(this)
 		}
 	}
 
-	override fun onMapReady(googleMap: GoogleMap) {
-		mMap = googleMap
-		mMap?.setOnMarkerClickListener(this)
+	override fun onMapReady(map: GoogleMap) {
+		googleMap = map
+		googleMap?.setOnMarkerClickListener(this)
+		googleMap?.uiSettings?.isZoomControlsEnabled = true
 		location?.also {
 			setLocationInMap(it)
 		} ?: run {
@@ -75,13 +74,13 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 	}
 
 	private fun setLocationInMap(location: LatLng) {
-		mMap?.uiSettings?.isMapToolbarEnabled = true
+		googleMap?.uiSettings?.isMapToolbarEnabled = true
 		val cameraPosition = CameraPosition.Builder().target(location).zoom(15f).build()
-		mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+		googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 		withState(viewModel) {
-			mMap?.addMarker(MarkerOptions().position(location).title(it.addressString))
+			googleMap?.addMarker(MarkerOptions().position(location).title(it.addressString))
 		}
-		mMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+		googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 	}
 
 	private fun getLocationFromAddress(strAddress: String): LatLng? {
@@ -98,7 +97,6 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 			Log.e("Map", e.localizedMessage, e)
 			return null
 		}
-
 	}
 
 	override fun onMarkerClick(marker: Marker): Boolean {
@@ -109,12 +107,6 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		}
 		return true
 	}
-
-	//TODO
-	/*override fun onBackPressed() {
-		super.onBackPressed()
-		overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out)
-	}*/
 
 	override fun invalidate() {
 
