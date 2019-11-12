@@ -51,10 +51,9 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider {
 	override fun provideCoreComponent(): CoreComponent {
 
 		if (!this::coreComponent.isInitialized) {
-			val navigator = Navigator()
 			coreComponent = DaggerCoreComponent
 					.builder()
-					.navigationComponent(navigator)
+					.navigationComponent(CompaniesHouseNavigation())
 					.coreModule(CoreModule(this))
 
 					.build()
