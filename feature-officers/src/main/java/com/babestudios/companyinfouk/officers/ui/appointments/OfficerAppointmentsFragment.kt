@@ -87,6 +87,36 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
 	//region render
 
+	override fun invalidate() {
+		withState(viewModel) { state ->
+			when (state.officerAppointmentsRequest) {
+				is Loading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
+				is Fail -> {
+					msvOfficerAppointments.viewState = VIEW_STATE_ERROR
+					val tvMsvError = msvOfficerAppointments.findViewById<TextView>(R.id.tvMsvError)
+					tvMsvError.text = state.officerAppointmentsRequest.error.message
+				}
+				is Success -> {
+					withState(viewModel) {
+						if (it.appointmentItems.isEmpty()) {
+							msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
+						} else {
+							msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
+							lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
+							if (rvOfficerAppointments?.adapter == null) {
+								officerAppointmentsAdapter = OfficerAppointmentsAdapter(it.appointmentItems, OfficerAppointmentsTypeFactory())
+								rvOfficerAppointments?.adapter = officerAppointmentsAdapter
+							} else {
+								officerAppointmentsAdapter?.updateItems(it.appointmentItems)
+							}
+						}
+						observeActions()
+					}
+				}
+			}
+		}
+	}
+
 	//endregion
 
 	//region events
@@ -117,34 +147,4 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	}
 
 	//endregion
-
-	override fun invalidate() {
-		withState(viewModel) { state ->
-			when (state.officerAppointmentsRequest) {
-				is Loading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
-				is Fail -> {
-					msvOfficerAppointments.viewState = VIEW_STATE_ERROR
-					val tvMsvError = msvOfficerAppointments.findViewById<TextView>(R.id.tvMsvError)
-					tvMsvError.text = state.officerAppointmentsRequest.error.message
-				}
-				is Success -> {
-					withState(viewModel) {
-						if (it.appointmentItems.isEmpty()) {
-							msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
-						} else {
-							msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
-							lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
-							if (rvOfficerAppointments?.adapter == null) {
-								officerAppointmentsAdapter = OfficerAppointmentsAdapter(it.appointmentItems, OfficerAppointmentsTypeFactory())
-								rvOfficerAppointments?.adapter = officerAppointmentsAdapter
-							} else {
-								officerAppointmentsAdapter?.updateItems(it.appointmentItems)
-							}
-						}
-						observeActions()
-					}
-				}
-			}
-		}
-	}
 }

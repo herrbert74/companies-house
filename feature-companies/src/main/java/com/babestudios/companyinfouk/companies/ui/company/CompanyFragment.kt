@@ -173,19 +173,39 @@ class CompanyFragment : BaseMvRxFragment() {
 				.subscribe { viewModel.companiesNavigator.companyToMap() }
 				.also { disposable -> eventDisposables.add(disposable) }
 		RxView.clicks(llCompanyFilings)
-				.subscribe { viewModel.companiesNavigator.companyToFilings() }
+				.subscribe {
+					withState(viewModel) { state ->
+						viewModel.companiesNavigator.companyToFilings(state.companyNumber)
+					}
+				}
 				.also { disposable -> eventDisposables.add(disposable) }
 		RxView.clicks(llCompanyCharges)
-				.subscribe { viewModel.companiesNavigator.companyToCharges() }
+				.subscribe {
+					withState(viewModel) { state ->
+						viewModel.companiesNavigator.companyToCharges(state.companyNumber)
+					}
+				}
 				.also { disposable -> eventDisposables.add(disposable) }
 		RxView.clicks(llCompanyInsolvency)
-				.subscribe { viewModel.companiesNavigator.companyToInsolvencies() }
+				.subscribe {
+					withState(viewModel) { state ->
+						viewModel.companiesNavigator.companyToInsolvencies(state.companyNumber)
+					}
+				}
 				.also { disposable -> eventDisposables.add(disposable) }
 		RxView.clicks(llCompanyOfficers)
-				.subscribe { viewModel.companiesNavigator.companyToOfficers() }
+				.subscribe {
+					withState(viewModel) { state ->
+						viewModel.companiesNavigator.companyToOfficers(state.companyNumber)
+					}
+				}
 				.also { disposable -> eventDisposables.add(disposable) }
 		RxView.clicks(llCompanyPersons)
-				.subscribe { viewModel.companiesNavigator.companyToPersons() }
+				.subscribe {
+					withState(viewModel) { state ->
+						viewModel.companiesNavigator.companyToPersons(state.companyNumber)
+					}
+				}
 				.also { disposable -> eventDisposables.add(disposable) }
 
 	}

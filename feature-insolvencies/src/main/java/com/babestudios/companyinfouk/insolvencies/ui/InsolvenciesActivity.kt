@@ -1,7 +1,5 @@
 package com.babestudios.companyinfouk.insolvencies.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -73,9 +71,4 @@ class InsolvenciesActivity : BaseActivity() {
 	fun injectPractitionersTitleString(): String {
 		return resources.getText(R.string.insolvency_practitioners).toString()
 	}
-}
-
-fun Context.createInsolvenciesIntent(companyNumber: String): Intent {
-	return Intent(this, InsolvenciesActivity::class.java)
-			.putExtra(COMPANY_NUMBER, companyNumber)
 }

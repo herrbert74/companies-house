@@ -1,7 +1,5 @@
 package com.babestudios.companyinfouk.filings.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.NavUtils
 import androidx.navigation.NavController
@@ -43,7 +41,6 @@ class FilingsActivity : BaseActivity() {
 		if (onBackPressedDispatcher.hasEnabledCallbacks()) {
 			onBackPressedDispatcher.onBackPressed()
 		} else {
-			//super.finish()
 			NavUtils.navigateUpFromSameTask(this)
 			overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
 		}
@@ -67,9 +64,4 @@ class FilingsActivity : BaseActivity() {
 			nav.bind(navController)
 		return nav
 	}
-}
-
-fun Context.createFilingsIntent(companyNumber: String): Intent {
-	return Intent(this, FilingsActivity::class.java)
-			.putExtra(COMPANY_NUMBER, companyNumber)
 }

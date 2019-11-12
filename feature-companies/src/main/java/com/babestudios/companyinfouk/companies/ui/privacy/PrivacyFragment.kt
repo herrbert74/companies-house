@@ -25,11 +25,6 @@ class PrivacyFragment : BaseMvRxFragment() {
 
 	}
 
-	/*override fun onBackPressed() {
-		super.onBackPressed()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
-	}*/
-
 	override fun invalidate() {
 
 	}

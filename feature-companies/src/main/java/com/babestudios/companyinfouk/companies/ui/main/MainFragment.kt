@@ -402,7 +402,7 @@ class MainFragment : BaseMvRxFragment() {
 			RxMenuItem.clicks(it)
 					.take(1)
 					.subscribe {
-						viewModel.companiesNavigator.mainToFavourites()
+						viewModel.companiesNavigator.mainToPrivacy()
 					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}

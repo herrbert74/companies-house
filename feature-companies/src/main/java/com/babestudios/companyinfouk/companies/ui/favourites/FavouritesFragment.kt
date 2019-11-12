@@ -1,8 +1,5 @@
 package com.babestudios.companyinfouk.companies.ui.favourites
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -34,7 +31,6 @@ import kotlinx.android.synthetic.main.fragment_favourites.*
 import java.util.*
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
-private const val REQUEST_SHOW_FAVOURITE_COMPANY = 8028
 
 class FavouritesFragment : BaseMvRxFragment() {
 
@@ -78,13 +74,6 @@ class FavouritesFragment : BaseMvRxFragment() {
 		viewModel.loadFavourites()
 	}
 
-	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-		if (resultCode == Activity.RESULT_OK) {
-			viewModel.loadFavourites()
-		}
-		super.onActivityResult(requestCode, resultCode, data)
-	}
-
 	override fun onResume() {
 		super.onResume()
 		observeActions()
@@ -115,15 +104,16 @@ class FavouritesFragment : BaseMvRxFragment() {
 					if (state.favouriteItems.isEmpty()) {
 						msvFavourites.viewState = VIEW_STATE_EMPTY
 						ivEmptyView.setImageResource(R.drawable.ic_business_empty_favorites)
-					}
-					msvFavourites.viewState = VIEW_STATE_CONTENT
-					if (rvFavourites?.adapter == null) {
-						favouritesAdapter = FavouritesAdapter(state.favouriteItems, FavouritesTypeFactory())
-						rvFavourites?.adapter = favouritesAdapter
-						observeActions()
 					} else {
-						favouritesAdapter?.updateItems(state.favouriteItems)
-						observeActions()
+						msvFavourites.viewState = VIEW_STATE_CONTENT
+						if (rvFavourites?.adapter == null) {
+							favouritesAdapter = FavouritesAdapter(state.favouriteItems, FavouritesTypeFactory())
+							rvFavourites?.adapter = favouritesAdapter
+							observeActions()
+						} else {
+							favouritesAdapter?.updateItems(state.favouriteItems)
+							observeActions()
+						}
 					}
 				}
 			}
@@ -141,9 +131,10 @@ class FavouritesFragment : BaseMvRxFragment() {
 				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
 					withState(viewModel) { state ->
 						state.favouriteItems.let { favouriteItems ->
-							val item = favouriteItems[(view as FavouritesViewHolder).adapterPosition].favouritesItem.searchHistoryItem
-							//TODO
-							// startActivityForResultWithRightSlide(this.createCompanyIntent(item.companyNumber, item.companyName), REQUEST_SHOW_FAVOURITE_COMPANY)
+							val item = favouriteItems[(view as FavouritesViewHolder).adapterPosition]
+									.favouritesItem
+									.searchHistoryItem
+							viewModel.companiesNavigator.favouritesToCompany(item.companyNumber, item.companyName)
 						}
 					}
 				}
@@ -377,8 +368,4 @@ class FavouritesFragment : BaseMvRxFragment() {
 	}
 
 	//endregion
-}
-
-fun Context.createFavouritesIntent(): Intent {
-	return Intent(this, FavouritesFragment::class.java)
 }

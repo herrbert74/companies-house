@@ -90,6 +90,13 @@
 		android:name="com.babestudios.companyinfouk.companies.ui.favourites.FavouritesFragment"
 		android:label="FavouritesFragment"
 		tools:layout="@layout/fragment_favourites">
+		<action
+			android:id="@+id/action_favouritesFragment_to_companyFragment"
+			app:destination="@id/companyFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
 
 	<fragment

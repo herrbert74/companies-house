@@ -52,28 +52,39 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 				navController?.navigateSafe(R.id.action_mainFragment_to_privacyFragment)
 			}
 
+			override fun favouritesToCompany(companyNumber: String, companyName: String) {
+				val bundle = bundleOf(COMPANY_NUMBER to companyNumber,
+						COMPANY_NAME to companyName)
+				navController?.navigateSafe(R.id.action_favouritesFragment_to_companyFragment)
+			}
+
 			override fun companyToMap() {
 				navController?.navigateSafe(R.id.action_companyFragment_to_mapFragment)
 			}
 
-			override fun companyToCharges() {
-				navController?.navigateSafe(R.id.action_companyFragment_to_chargesActivity)
+			override fun companyToCharges(companyNumber: String) {
+				val bundle = bundleOf(COMPANY_NUMBER to companyNumber)
+				navController?.navigateSafe(R.id.action_companyFragment_to_chargesActivity, bundle)
 			}
 
-			override fun companyToFilings() {
-				navController?.navigateSafe(R.id.action_companyFragment_to_filingsActivity)
+			override fun companyToFilings(companyNumber: String) {
+				val bundle = bundleOf(COMPANY_NUMBER to companyNumber)
+				navController?.navigateSafe(R.id.action_companyFragment_to_filingsActivity, bundle)
 			}
 
-			override fun companyToInsolvencies() {
-				navController?.navigateSafe(R.id.action_companyFragment_to_insolvenciesActivity)
+			override fun companyToInsolvencies(companyNumber: String) {
+				val bundle = bundleOf(COMPANY_NUMBER to companyNumber)
+				navController?.navigateSafe(R.id.action_companyFragment_to_insolvenciesActivity, bundle)
 			}
 
-			override fun companyToOfficers() {
-				navController?.navigateSafe(R.id.action_companyFragment_to_officersActivity)
+			override fun companyToOfficers(companyNumber: String) {
+				val bundle = bundleOf(COMPANY_NUMBER to companyNumber)
+				navController?.navigateSafe(R.id.action_companyFragment_to_officersActivity, bundle)
 			}
 
-			override fun companyToPersons() {
-				navController?.navigateSafe(R.id.action_companyFragment_to_personsActivity)
+			override fun companyToPersons(companyNumber: String) {
+				val bundle = bundleOf(COMPANY_NUMBER to companyNumber)
+				navController?.navigateSafe(R.id.action_companyFragment_to_personsActivity, bundle)
 			}
 		}
 	}
@@ -137,11 +148,6 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 	}
 
 	//endregion
-
-
-
-
-
 
 
 }

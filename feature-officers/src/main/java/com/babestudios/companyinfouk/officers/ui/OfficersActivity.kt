@@ -1,7 +1,5 @@
 package com.babestudios.companyinfouk.officers.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -65,9 +63,4 @@ class OfficersActivity : BaseActivity() {
 			nav.bind(navController)
 		return nav
 	}
-}
-
-fun Context.createOfficersIntent(companyNumber: String): Intent {
-	return Intent(this, OfficersActivity::class.java)
-			.putExtra(COMPANY_NUMBER, companyNumber)
 }

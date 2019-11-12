@@ -1,7 +1,5 @@
 package com.babestudios.companyinfouk.persons.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -65,9 +63,4 @@ class PersonsActivity : BaseActivity() {
 			nav.bind(navController)
 		return nav
 	}
-}
-
-fun Context.createPersonsIntent(companyNumber: String): Intent {
-	return Intent(this, PersonsActivity::class.java)
-			.putExtra(COMPANY_NUMBER, companyNumber)
 }
