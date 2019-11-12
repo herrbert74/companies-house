@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.filings.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.app.NavUtils
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.ext.isLazyInitialized
@@ -42,7 +43,8 @@ class FilingsActivity : BaseActivity() {
 		if (onBackPressedDispatcher.hasEnabledCallbacks()) {
 			onBackPressedDispatcher.onBackPressed()
 		} else {
-			super.finish()
+			//super.finish()
+			NavUtils.navigateUpFromSameTask(this)
 			overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
 		}
 	}

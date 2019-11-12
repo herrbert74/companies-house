@@ -31,14 +31,7 @@ internal class Navigator : BaseNavigator(),
 		ChargesNavigator,
 		InsolvenciesNavigator,
 		NavigationComponent {
-
-	//region global
-
-	override fun popBackStack() {
-		navController?.popBackStack()
-	}
-
-	//endregion
+	override var navController: NavController? = null
 
 	//region features
 

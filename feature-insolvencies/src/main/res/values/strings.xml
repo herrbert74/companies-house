@@ -1,6 +1,5 @@
 <resources>
 	<string name="no_insolvency">No insolvency</string>
-	<string name="insolvency">Insolvency</string>
 	<string name="insolvency_details">Insolvency details</string>
 	<string name="insolvency_details_address">Address</string>
 	<string name="insolvency_details_role">Role</string>

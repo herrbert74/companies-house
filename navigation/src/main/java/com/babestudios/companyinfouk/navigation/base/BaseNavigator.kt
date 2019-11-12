@@ -10,6 +10,7 @@ import androidx.navigation.NavController
  * To avoid crashes use something like "::comp.isLazyInitialized" and "::navController.isInitialized".
  */
 interface Navigator {
+	var navController: NavController?
 	fun bind(navController: NavController)
 	fun unbind()
 	fun popBackStack()
@@ -17,13 +18,15 @@ interface Navigator {
 
 abstract class BaseNavigator : Navigator {
 
-	protected var navController: NavController? = null
-
 	override fun bind(navController: NavController) {
 		this.navController = navController
 	}
 
 	override fun unbind() {
 		navController = null
+	}
+
+	override fun popBackStack() {
+		navController?.popBackStack()
 	}
 }

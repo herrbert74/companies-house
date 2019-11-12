@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="no_charges">No Charges</string>
-	<string name="charges">Charges</string>
 	<string name="charge_details_title">Charge details</string>
 	<string name="company_details">Company details</string>
 	<string name="charge_details_delivered_on">Delivered on</string>

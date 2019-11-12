@@ -5,7 +5,7 @@
 													 android:layout_width="match_parent"
 													 android:layout_height="match_parent"
 													 android:fitsSystemWindows="true"
-													 tools:context="com.babestudios.companyinfouk.ui.company.CompanyActivity">
+													 tools:context="com.babestudios.companyinfouk.companies.ui.CompaniesActivity">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabCompany"
@@ -39,6 +39,7 @@
 			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 			<LinearLayout
+				tools:ignore="UseCompoundDrawables"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
@@ -147,14 +148,16 @@
 					layout="@layout/divider"/>
 
 				<LinearLayout
+					android:id="@+id/llCompanyFilings"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:onClick="onFilingHistoryClicked">
+					android:focusable="true"					>
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"
 						android:layout_height="@dimen/icon_size"
+						android:contentDescription="@string/filing_history"
 						android:layout_margin="@dimen/view_margin"
 						app:srcCompat="@drawable/ic_company_filing_history"/>
 
@@ -171,13 +174,14 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:onClick="onInsolvencyClicked">
+					android:focusable="true">
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"
 						android:layout_height="@dimen/icon_size"
 						android:layout_margin="@dimen/view_margin"
-						app:srcCompat="@drawable/ic_company_insolvency"/>
+						android:contentDescription="@string/insolvency"
+						app:srcCompat="@drawable/ic_company_insolvency" />
 
 					<TextView
 						style="@style/Text"
@@ -192,12 +196,13 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:onClick="onChargesClicked">
+					android:focusable="true">
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"
 						android:layout_height="@dimen/icon_size"
 						android:layout_margin="@dimen/view_margin"
+						android:contentDescription="@string/charges"
 						app:srcCompat="@drawable/ic_company_charges"/>
 
 					<TextView
@@ -209,16 +214,17 @@
 				</LinearLayout>
 
 				<LinearLayout
+					android:id="@+id/llCompanyOfficers"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:onClick="onOfficersClicked"
 					android:focusable="true">
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"
 						android:layout_height="@dimen/icon_size"
 						android:layout_margin="@dimen/view_margin"
+						android:contentDescription="@string/officers"
 						app:srcCompat="@drawable/ic_company_officers"/>
 
 					<TextView
@@ -230,16 +236,17 @@
 				</LinearLayout>
 
 				<LinearLayout
+					android:id="@+id/llCompanyPersons"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:onClick="onPersonsClicked"
 					android:focusable="true">
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"
 						android:layout_height="@dimen/icon_size"
 						android:layout_margin="@dimen/view_margin"
+						android:contentDescription="@string/persons_with_significant_control"
 						app:srcCompat="@drawable/ic_company_persons_with_control"/>
 
 					<TextView

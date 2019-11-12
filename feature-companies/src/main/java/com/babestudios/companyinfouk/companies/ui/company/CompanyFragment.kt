@@ -168,43 +168,26 @@ class CompanyFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 		RxView.clicks(fabCompanyFavorite)
 				.subscribe { viewModel.flipCompanyFavoriteState() }
-		/*RxView.clicks(btnShowOnMap)
-				.subscribe {
-					val intent = Intent(this, MapActivity::class.java)
-					intent.putExtra("addressString", viewModel.state.value?.addressString)
-					intent.putExtra("companyName", viewModel.state.value?.companyName)
-					startActivityWithRightSlide(intent)
-				}*/
-	}
+				.also { disposable -> eventDisposables.add(disposable) }
+		RxView.clicks(btnShowOnMap)
+				.subscribe { viewModel.companiesNavigator.companyToMap() }
+				.also { disposable -> eventDisposables.add(disposable) }
+		RxView.clicks(llCompanyFilings)
+				.subscribe { viewModel.companiesNavigator.companyToFilings() }
+				.also { disposable -> eventDisposables.add(disposable) }
+		RxView.clicks(llCompanyCharges)
+				.subscribe { viewModel.companiesNavigator.companyToCharges() }
+				.also { disposable -> eventDisposables.add(disposable) }
+		RxView.clicks(llCompanyInsolvency)
+				.subscribe { viewModel.companiesNavigator.companyToInsolvencies() }
+				.also { disposable -> eventDisposables.add(disposable) }
+		RxView.clicks(llCompanyOfficers)
+				.subscribe { viewModel.companiesNavigator.companyToOfficers() }
+				.also { disposable -> eventDisposables.add(disposable) }
+		RxView.clicks(llCompanyPersons)
+				.subscribe { viewModel.companiesNavigator.companyToPersons() }
+				.also { disposable -> eventDisposables.add(disposable) }
 
-	fun onFilingHistoryClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		/*viewModel.state.value?.companyNumber?.let {
-			//startActivityWithRightSlide(createFilingsIntent(it))
-		}*/
-	}
-
-	fun onChargesClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		/*viewModel.state.value?.companyNumber?.let {
-			//startActivityWithRightSlide(createChargesIntent(it))
-		}*/
-	}
-
-	fun onInsolvencyClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		/*viewModel.state.value?.companyNumber?.let {
-			//startActivityWithRightSlide(createInsolvenciesIntent(it))
-		}*/
-	}
-
-	fun onOfficersClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		/*viewModel.state.value?.companyNumber?.let {
-			//startActivityWithRightSlide(createOfficersIntent(it))
-		}*/
-	}
-
-	fun onPersonsClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-		/*viewModel.state.value?.companyNumber?.let {
-			//startActivityWithRightSlide(createPersonsIntent(it))
-		}*/
 	}
 
 	//endregion

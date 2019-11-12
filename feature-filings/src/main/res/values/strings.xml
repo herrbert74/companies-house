@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="filing_history">Filing history</string>
 	<string name="filing_history_details">Filing history details</string>
 	<string name="could_not_retrieve_filing_history_info">Could not retrieve filing history information. Check your network connection.</string>
 	<string name="could_not_retrieve_filing_history_document_info">Could not retrieve filing history document. Check your network connection.</string>

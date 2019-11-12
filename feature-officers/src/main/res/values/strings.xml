@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="officers">Officers</string>
 	<string name="officer_details">Officer details</string>
 
 	<string name="officer_details_country_of_residence">Country of residence</string>

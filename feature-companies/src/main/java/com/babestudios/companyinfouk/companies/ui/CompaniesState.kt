@@ -18,6 +18,7 @@ data class CompaniesState(
 		val totalCount: Int = 0,
 		val queryText: String = "",
 		val isSearchLoading: Boolean = false,
+		val isSearchMenuItemExpanded: Boolean = false,
 		val filterState: FilterState = FilterState.FILTER_SHOW_ALL,
 
 		//Main/Search history

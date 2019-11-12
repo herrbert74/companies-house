@@ -6,6 +6,7 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
+import com.babestudios.base.mvrx.resolveErrorOrProceed
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
@@ -54,11 +55,10 @@ class CompaniesViewModel(
 	//region Recent searches
 
 	fun showRecentSearches() {
-		val searchHistoryItems = companiesRepository.recentSearches()
 		companiesRepository.recentSearches()
 				.execute {
 					copy(
-							searchHistoryRequest = it,
+							searchHistoryRequest = it.resolveErrorOrProceed(errorResolver),
 							searchHistoryVisitables = convertSearchHistoryToVisitables(it() ?: emptyList())
 					)
 				}
@@ -109,6 +109,14 @@ class CompaniesViewModel(
 
 	//region Search
 
+	fun setSearchMenuItemExpanded(expanded: Boolean) {
+		setState {
+			copy(
+					isSearchMenuItemExpanded = expanded
+			)
+		}
+	}
+
 	fun onSearchQueryChanged(queryText: String) {
 		if (queryText.length > 2) {
 			search(queryText)
@@ -125,15 +133,12 @@ class CompaniesViewModel(
 	}
 
 	fun search(queryText: String) {
-		withState {
-			val filterState = it.filterState
-		}
 		companiesRepository.searchCompanies(queryText, "0")
 				.execute {
 					copy(
 							queryText = queryText,
 							totalCount = it()?.totalResults ?: 0,
-							searchRequest = it,
+							searchRequest = it.resolveErrorOrProceed(errorResolver),
 							searchVisitables =
 							convertSearchResultsToVisitables(it() ?: CompanySearchResult()),
 							filteredSearchVisitables = filterSearchResults(filterState,
@@ -146,13 +151,15 @@ class CompaniesViewModel(
 	fun loadMoreSearch(page: Int) {
 		withState { state ->
 			if (state.searchVisitables.size < state.totalCount) {
-				companiesRepository.searchCompanies(state.queryText
-						?: "", (page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString())
+				companiesRepository.searchCompanies(
+						state.queryText,
+						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
+				)
 						.execute {
 							copy(
 									queryText = queryText,
 									totalCount = it()?.totalResults ?: 0,
-									searchRequest = it,
+									searchRequest = it.resolveErrorOrProceed(errorResolver),
 									searchVisitables = convertLoadMoreSearchResultsToVisitables(
 											state.searchVisitables,
 											it() ?: CompanySearchResult()
@@ -206,13 +213,16 @@ class CompaniesViewModel(
 	//region main actions
 
 	fun searchItemClicked(name: String, number: String) {
+		//TODO Simply pass the adapter position, so it can be tested?
 		val searchHistoryItems = companiesRepository.addRecentSearchItem(SearchHistoryItem(name, number, System.currentTimeMillis()))
 		setState {
 			copy(
+					companyName = name,
+					companyNumber = number,
 					searchHistoryVisitables = convertSearchHistoryToVisitables(searchHistoryItems)
-					//this.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_UPDATED
 			)
 		}
+		companiesNavigator.mainToCompany()
 	}
 
 	fun clearSearch() {
@@ -223,18 +233,6 @@ class CompaniesViewModel(
 					filteredSearchVisitables = emptyList()
 			)
 		}
-	}
-
-	fun fabMainClicked() {
-		withState { state ->
-			//if (state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED) {
-			setState {
-				copy(
-						//this.contentChange = ContentChange.DELETE_SEARCH_HISTORY
-				)
-			}
-		}
-		//}
 	}
 
 	fun setFilterState(filterState: FilterState) {
@@ -307,6 +305,7 @@ class CompaniesViewModel(
 				}
 				setState {
 					copy(
+							//TODO
 							//this.contentChange = ContentChange.HIDE_FAB
 							isFavorite = companiesRepository.isFavourite(SearchHistoryItem(
 									this.companyName,

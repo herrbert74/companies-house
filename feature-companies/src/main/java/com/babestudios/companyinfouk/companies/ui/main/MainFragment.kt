@@ -54,14 +54,13 @@ class MainFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
-	private var isSearchFromSaved = false
 	//Menu
 	lateinit var searchMenuItem: MenuItem
 	private var favouritesMenuItem: MenuItem? = null
 	private var privacyMenuItem: MenuItem? = null
 	private var filterMenuItem: MenuItem? = null
 	private var lblSearch: TextView? = null
-
+	private var flagDoNotAnimateSearchMenuItem = false
 	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -156,24 +155,29 @@ class MainFragment : BaseMvRxFragment() {
 				searchMenuItem.isVisible = true
 				privacyMenuItem?.isVisible = true
 				favouritesMenuItem?.isVisible = true
+				viewModel.setSearchMenuItemExpanded(false)
 				return true
 			}
 
-
 			override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-				animateSearchToolbar(1, containsOverflow = true, show = true)
+				if (!flagDoNotAnimateSearchMenuItem) {
+					animateSearchToolbar(1, containsOverflow = true, show = true)
+					viewModel.setSearchMenuItemExpanded(true)
+				} else {
+					flagDoNotAnimateSearchMenuItem = false
+				}
 				favouritesMenuItem?.isVisible = false
 				privacyMenuItem?.isVisible = false
 				filterMenuItem?.isVisible = true
 				return true
 			}
 		})
-		if (isSearchFromSaved) {
-			searchMenuItem.expandActionView()
-			withState(viewModel) { state ->
+		withState(viewModel) { state ->
+			if (state.isSearchMenuItemExpanded /*&& !flagDoNotAnimateSearchMenuItem*/) {
+				searchMenuItem.expandActionView()
 				(searchMenuItem.actionView as SearchView).setQuery(state.queryText, false)
 				(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
-				isSearchFromSaved = false
+				flagDoNotAnimateSearchMenuItem = true
 			}
 		}
 	}
@@ -269,16 +273,9 @@ class MainFragment : BaseMvRxFragment() {
 					}
 					is Fail -> {
 						msvMainSearch.viewState = VIEW_STATE_ERROR
-
 						tvMsvSearchError.text = searchRequest.error.message
 					}
 					is Success -> {
-						//TODO
-						/*if (state.contentChange == ContentChange.SEARCH_ITEMS_RECEIVED_FROM_SAVED_INSTANCE_STATE) {
-							msvMainSearch.visibility = View.VISIBLE
-							msvMainSearch.viewState = VIEW_STATE_CONTENT
-							isSearchFromSaved = true
-						}*/
 						fabMainSearch.hide()
 						if (state.queryText.length >= 3 && state.filteredSearchVisitables.isEmpty()) {
 							msvMainSearch.viewState = VIEW_STATE_EMPTY
@@ -320,7 +317,7 @@ class MainFragment : BaseMvRxFragment() {
 								fabMainSearch.hide()
 							} else {
 								fabMainSearch.show()
-								state.searchHistoryVisitables?.let {
+								state.searchHistoryVisitables.let {
 									msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
 									if (rvMainSearchHistory?.adapter == null) {
 										searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
@@ -331,28 +328,16 @@ class MainFragment : BaseMvRxFragment() {
 									observeActions()
 								}
 							}
-							activity?.invalidateOptionsMenu()
+							//TODO When we need this? Causing to reload menu endlessly
+							//activity?.invalidateOptionsMenu()
 						}
+						is Fail -> {
+							msvMainSearch.viewState = VIEW_STATE_ERROR
+							tvMsvSearchHistoryError.text = searchHistoryRequest.error.message
+						}
+						/*else -> {
 
-						/*state.contentChange == ContentChange.SEARCH_HISTORY_ITEMS_UPDATED -> {
-							state.searchHistoryVisitables?.let {
-								msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
-								if (rvMainSearchHistory?.adapter == null) {
-									searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
-									rvMainSearchHistory?.adapter = searchHistoryAdapter
-								} else {
-									searchHistoryAdapter?.updateItems(it)
-								}
-								observeActions()
-							}
-						}
-						state.contentChange == ContentChange.DELETE_SEARCH_HISTORY -> {
-							viewModel.state.value?.contentChange = ContentChange.SEARCH_HISTORY_ITEMS_RECEIVED
-							showDeleteRecentSearchesDialog()
 						}*/
-						else -> {
-
-						}
 					}
 				}
 			}
@@ -389,17 +374,7 @@ class MainFragment : BaseMvRxFragment() {
 		searchHistoryAdapter?.getViewClickedObservable()
 				?.take(1)
 				?.subscribe { view: BaseViewHolder<AbstractSearchHistoryVisitable> ->
-					withState(viewModel) { state ->
-						state.searchHistoryVisitables.let { searchHistoryItems ->
-							val searchHistoryItem =
-									(searchHistoryItems[(view as SearchHistoryViewHolder).adapterPosition]
-											as SearchHistoryVisitable)
-											.searchHistoryItem
-							//TODO
-							viewModel.searchHistoryItemClicked(view.adapterPosition)
-							//startActivityWithRightSlide(this.createCompanyIntent(searchHistoryItem.companyNumber, searchHistoryItem.companyName))
-						}
-					}
+					viewModel.searchHistoryItemClicked(view.adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }
 		searchAdapter?.getViewClickedObservable()
@@ -410,7 +385,6 @@ class MainFragment : BaseMvRxFragment() {
 							val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
 							(searchItem.title to searchItem.companyNumber).biLet { title, number ->
 								viewModel.searchItemClicked(title, number)
-								//startActivityWithRightSlide(this.createCompanyIntent(number, title))
 							}
 						}
 					}
@@ -436,7 +410,11 @@ class MainFragment : BaseMvRxFragment() {
 			RxView.clicks(it)
 					.take(1)
 					.subscribe {
-						viewModel.fabMainClicked()
+						withState(viewModel) { state ->
+							if (state.searchHistoryRequest is Success) {
+								showDeleteRecentSearchesDialog()
+							}
+						}
 					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}
