@@ -268,6 +268,11 @@ class CompaniesViewModel(
 		companiesRepository.getCompany(companyNumber)
 				.execute {
 					copy(
+							isFavorite = companiesRepository.isFavourite(SearchHistoryItem(
+									this.companyName,
+									this.companyNumber,
+									0
+							)),
 							companyRequest = it,
 							company = it() ?: Company(),
 							addressString = getAddressString(it()),
@@ -305,8 +310,6 @@ class CompaniesViewModel(
 				}
 				setState {
 					copy(
-							//TODO
-							//this.contentChange = ContentChange.HIDE_FAB
 							isFavorite = companiesRepository.isFavourite(SearchHistoryItem(
 									this.companyName,
 									this.companyNumber,

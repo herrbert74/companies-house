@@ -13,6 +13,7 @@ import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.ext.parseMySqlDate
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.jakewharton.rxbinding2.view.RxView
@@ -50,6 +51,7 @@ class CompanyFragment : BaseMvRxFragment() {
 			toolBar?.title = it.companyName
 			viewModel.fetchCompany(it.companyNumber)
 		}
+		selectSubscribes()
 	}
 
 	override fun onResume() {
@@ -60,6 +62,12 @@ class CompanyFragment : BaseMvRxFragment() {
 	//endregion
 
 	//region render
+
+	private fun selectSubscribes() {
+		viewModel.selectSubscribe(CompaniesState::isFavorite) {
+			hideFabToShowFavoriteState(it)
+		}
+	}
 
 	override fun invalidate() {
 		val tvMsvError = msvCompany.findViewById<TextView>(R.id.tvMsvError)
@@ -76,11 +84,6 @@ class CompanyFragment : BaseMvRxFragment() {
 					pabCompany.setExpanded(false)
 					tvMsvError.text = state.companyRequest.error.message
 				}
-				//TODO SelectSubscribe?
-				/*state.contentChange == ContentChange.HIDE_FAB -> {
-					setResult(Activity.RESULT_OK)
-					hideFabToShowFavoriteState(state.isFavorite)
-				}*/
 				is Success -> {
 					msvCompany.viewState = VIEW_STATE_CONTENT
 					showCompany(state.company, state.natureOfBusinessString)
@@ -151,14 +154,7 @@ class CompanyFragment : BaseMvRxFragment() {
 			it.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(0f).scaleY(0f).alpha(0f)
 					.setInterpolator(LinearOutSlowInInterpolator()).withEndAction { this.showFab(favorite) }
 		}
-
 	}
-
-	//TODO Callback from ChargesDetails?
-	/*override fun onBackPressed() {
-		super.onBackPressed()
-		overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
-	}*/
 
 	//endregion
 
