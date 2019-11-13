@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.persons.ui
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
+import com.babestudios.base.annotation.Mockable
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.base.mvrx.resolveErrorOrProceed
 import com.babestudios.base.rxjava.ErrorResolver
@@ -13,6 +14,7 @@ import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import com.babestudios.companyinfouk.persons.ui.persons.list.AbstractPersonsVisitable
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 
+@Mockable
 class PersonsViewModel(
 		personsState: PersonsState,
 		private val companiesRepository: CompaniesRepositoryContract,

@@ -15,7 +15,7 @@ import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 
 class ChargesViewModel(
 		chargesState: ChargesState,
-		private val companiesRepository: CompaniesRepositoryContract,
+		val companiesRepository: CompaniesRepositoryContract,
 		val chargesNavigator: ChargesNavigator,
 		private val errorResolver: ErrorResolver
 ) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {

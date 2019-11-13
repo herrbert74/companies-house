@@ -40,4 +40,8 @@ dependencies {
 	implementation Libs.RxJava2.rxAndroid
 	implementation Libs.RxJava2.rxJava
 	implementation Libs.JakeWharton.RxBinding.core
+
+	implementation Libs.MvRx.testing
+	testImplementation Libs.AndroidX.Test.Ext.jUnit
+	testImplementation Libs.Test.mockK
 }

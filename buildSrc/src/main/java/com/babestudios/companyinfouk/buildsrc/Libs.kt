@@ -51,6 +51,7 @@ object Libs {
 
 		object Test {
 			private const val version = "1.2.0"
+			const val core = "androidx.test:core:$version"
 			const val runner = "androidx.test:runner:$version"
 			const val rules = "androidx.test:rules:$version"
 
@@ -172,5 +173,19 @@ object Libs {
 		const val android = "org.mockito:mockito-android:$version"
 		const val inline = "org.mockito:mockito-inline:$version" //Needed for inlining final classes for mocking
 		const val kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+	}
+
+	object MvRx {
+		private const val version = "1.3.0"
+		const val mvrx = "com.airbnb.android:mvrx:$version"
+		const val testing = "com.airbnb.android:mvrx-testing:$version"
+	}
+
+	object Test {
+		const val mockK = "io.mockk:mockk:1.9"
+		const val robolectric = "org.robolectric:robolectric:4.3.1"
+		//This is an alternative to Espresso IdlingResource
+		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"
+
 	}
 }

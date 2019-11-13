@@ -1,0 +1,67 @@
+package com.babestudios.companyinfouk.persons
+
+import com.airbnb.mvrx.test.MvRxTestRule
+import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.rxjava.ErrorResolver
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.persons.Persons
+import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
+import com.babestudios.companyinfouk.persons.ui.PersonsState
+import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import io.reactivex.Single
+import org.junit.Before
+import org.junit.ClassRule
+import org.junit.Test
+
+class PersonsTest {
+
+	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
+
+	private val personsNavigator = mockk<PersonsNavigator>()
+
+	private val errorResolver = mockk<ErrorResolver>()
+
+
+	@Before
+	fun setUp() {
+		every {
+			companiesHouseRepository.getPersons("123", "0")
+		} answers
+				{
+					Single.create { Persons() }
+				}
+	}
+
+	@Test
+	fun whenGetPersons_thenRepoGetPersonsIsCalled() {
+		val viewModel = personsViewModel()
+		viewModel.fetchPersons("123")
+		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
+		verify(exactly = 1) { repo.getPersons("123", "0") }
+	}
+
+	@Test
+	fun whenLoadMorePersons_thenRepoLoadMorePersonsIsCalled() {
+		val viewModel = personsViewModel()
+		viewModel.loadMorePersons(0)
+		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
+		verify(exactly = 1) { repo.getPersons("123", "0") }
+	}
+
+	private fun personsViewModel(): PersonsViewModel {
+		return PersonsViewModel(
+				PersonsState(companyNumber = "123", totalPersonCount = 100),
+				companiesHouseRepository,
+				personsNavigator,
+				errorResolver)
+	}
+
+	companion object {
+		@JvmField
+		@ClassRule
+		val mvrxTestRule = MvRxTestRule()
+	}
+}
