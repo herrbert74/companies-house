@@ -238,7 +238,6 @@ class CompaniesViewModel(
 	fun setFilterState(filterState: FilterState) {
 		withState { state ->
 			if (filterState.ordinal > FilterState.FILTER_SHOW_ALL.ordinal) {
-
 				filterSearchResults(filterState, state.searchVisitables)
 						.subscribe { result ->
 							setState {
@@ -247,7 +246,6 @@ class CompaniesViewModel(
 										filterState = filterState
 								)
 							}
-
 						}
 			} else {
 				setState {

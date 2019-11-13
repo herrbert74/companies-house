@@ -264,81 +264,86 @@ class MainFragment : BaseMvRxFragment() {
 	private fun selectSubscribes() {
 		viewModel.selectSubscribe(CompaniesState::searchRequest) { searchRequest ->
 			val tvMsvSearchError = msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
-			val tvMsvSearchEmpty = msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
-			withState(viewModel) { state ->
-				when (searchRequest) {
-					is Loading -> {
-						msvMainSearch.viewState = VIEW_STATE_LOADING
-						observeActions()
-					}
-					is Fail -> {
-						msvMainSearch.viewState = VIEW_STATE_ERROR
-						tvMsvSearchError.text = searchRequest.error.message
-					}
-					is Success -> {
-						fabMainSearch.hide()
-						if (state.queryText.length >= 3 && state.filteredSearchVisitables.isEmpty()) {
-							msvMainSearch.viewState = VIEW_STATE_EMPTY
-							tvMsvSearchEmpty.text = getString(R.string.no_search_result)
-							observeActions()
-						} else {
-							msvMainSearch.viewState = VIEW_STATE_CONTENT
-							if (state.queryText.length > 2) {
-								rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
-								viewModel.logSearch()
-							} else
-								rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent_black))
+			when (searchRequest) {
+				is Loading -> {
+					msvMainSearch.viewState = VIEW_STATE_LOADING
+					observeActions()
+				}
+				is Fail -> {
+					msvMainSearch.viewState = VIEW_STATE_ERROR
+					tvMsvSearchError.text = searchRequest.error.message
+				}
+				is Success -> {
+					//FilteredSearchVisitables will deal with this
+				}
+			}
+		}
 
-							state.filteredSearchVisitables.let {
-								rvMainSearch.visibility = View.VISIBLE
-								msvMainSearch.viewState = VIEW_STATE_CONTENT
-								if (rvMainSearch?.adapter == null) {
-									searchAdapter = SearchAdapter(it, SearchTypeFactory())
-									rvMainSearch?.adapter = searchAdapter
+		viewModel.selectSubscribe(CompaniesState::filteredSearchVisitables) {
+			showFilteredSearch()
+		}
+
+		viewModel.selectSubscribe(CompaniesState::searchHistoryRequest) { searchHistoryRequest ->
+			val tvMsvSearchHistoryError = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
+			val tvMsvSearchHistoryEmpty = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
+			withState(viewModel) { state ->
+				when (searchHistoryRequest) {
+					is Success -> {
+						if (state.searchHistoryVisitables.isNullOrEmpty()) {
+							msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
+							tvMsvSearchHistoryEmpty.text = getString(R.string.no_recent_searches)
+							fabMainSearch.hide()
+						} else {
+							fabMainSearch.show()
+							state.searchHistoryVisitables.let {
+								msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
+								if (rvMainSearchHistory?.adapter == null) {
+									searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
+									rvMainSearchHistory?.adapter = searchHistoryAdapter
 								} else {
-									searchAdapter?.updateItems(it)
+									searchHistoryAdapter?.updateItems(it)
 								}
 								observeActions()
 							}
 						}
-
+						//TODO When we need this? Causing to reload menu endlessly
+						//activity?.invalidateOptionsMenu()
+					}
+					is Fail -> {
+						msvMainSearch.viewState = VIEW_STATE_ERROR
+						tvMsvSearchHistoryError.text = searchHistoryRequest.error.message
 					}
 				}
 			}
-			viewModel.selectSubscribe(CompaniesState::searchHistoryRequest) { searchHistoryRequest ->
-				val tvMsvSearchHistoryError = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
-				val tvMsvSearchHistoryEmpty = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
-				withState(viewModel) { state ->
-					when (searchHistoryRequest) {
-						is Success -> {
-							if (state.searchHistoryVisitables.isNullOrEmpty()) {
-								msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
-								tvMsvSearchHistoryEmpty.text = getString(R.string.no_recent_searches)
-								fabMainSearch.hide()
-							} else {
-								fabMainSearch.show()
-								state.searchHistoryVisitables.let {
-									msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
-									if (rvMainSearchHistory?.adapter == null) {
-										searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
-										rvMainSearchHistory?.adapter = searchHistoryAdapter
-									} else {
-										searchHistoryAdapter?.updateItems(it)
-									}
-									observeActions()
-								}
-							}
-							//TODO When we need this? Causing to reload menu endlessly
-							//activity?.invalidateOptionsMenu()
-						}
-						is Fail -> {
-							msvMainSearch.viewState = VIEW_STATE_ERROR
-							tvMsvSearchHistoryError.text = searchHistoryRequest.error.message
-						}
-						/*else -> {
+		}
+	}
 
-						}*/
+	private fun showFilteredSearch() {
+		val tvMsvSearchEmpty = msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
+		fabMainSearch.hide()
+		withState(viewModel) { state ->
+			if (state.queryText.length >= 3 && state.filteredSearchVisitables.isEmpty()) {
+				msvMainSearch.viewState = VIEW_STATE_EMPTY
+				tvMsvSearchEmpty.text = getString(R.string.no_search_result)
+				observeActions()
+			} else {
+				msvMainSearch.viewState = VIEW_STATE_CONTENT
+				if (state.queryText.length > 2) {
+					rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+					viewModel.logSearch()
+				} else
+					rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent_black))
+
+				state.filteredSearchVisitables.let {
+					rvMainSearch.visibility = View.VISIBLE
+					msvMainSearch.viewState = VIEW_STATE_CONTENT
+					if (rvMainSearch?.adapter == null) {
+						searchAdapter = SearchAdapter(it, SearchTypeFactory())
+						rvMainSearch?.adapter = searchAdapter
+					} else {
+						searchAdapter?.updateItems(it)
 					}
+					observeActions()
 				}
 			}
 		}
@@ -356,9 +361,9 @@ class MainFragment : BaseMvRxFragment() {
 		observeActions()
 	}
 
-	//endregion
+//endregion
 
-	//region events
+//region events
 
 	private fun observeActions() {
 		eventDisposables.clear()
@@ -420,5 +425,5 @@ class MainFragment : BaseMvRxFragment() {
 		}
 	}
 
-	//endregion
+//endregion
 }
