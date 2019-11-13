@@ -8,5 +8,10 @@
 	<string name="insolvency">Insolvency</string>
 	<string name="officers">Officers</string>
 	<string name="persons_with_significant_control">Persons with significant control</string>
-
+	<string name="search_menu_filter">Filter</string>
+	<string name="category">Category</string>
+	<string name="subcategory">Subcategory</string>
+	<string name="description">Description</string>
+	<string name="pages">Pages</string>
+	<string name="search">Search</string>
 </resources>
