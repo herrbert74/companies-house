@@ -109,8 +109,7 @@
 	<fragment
 		android:id="@+id/privacyFragment"
 		android:name="com.babestudios.companyinfouk.companies.ui.privacy.PrivacyFragment"
-		android:label="PrivacyFragment"
-		tools:layout="@layout/fragment_privacy">
+		android:label="PrivacyFragment">
 	</fragment>
 
 	<activity

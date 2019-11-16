@@ -13,8 +13,8 @@ import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
 
-import okhttp3.MediaType
-import okhttp3.ResponseBody
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Retrofit
 
 import org.hamcrest.CoreMatchers.`is`
@@ -60,7 +60,7 @@ class GsonTest {
 	@Test
 	fun advancedGsonConverter_searchCompanies_converts() {
 		val c = AdvancedGsonConverterFactory.create()
-		val r = ResponseBody.create(MediaType.parse("application/json; charset=utf-8"), "{\n" +
+		val r = ("{\n" +
 				"  \"total_results\": 4706,\n" +
 				"  \"items_per_page\": 1,\n" +
 				"  \"page_number\": 2,\n" +
@@ -99,7 +99,7 @@ class GsonTest {
 				"      ]\n" +
 				"    }\n" +
 				"  ]\n" +
-				"}")
+				"}").toResponseBody("application/json; charset=utf-8".toMediaType())
 
 		val retrofit = Retrofit.Builder()//
 				.baseUrl(COMPANIES_HOUSE_BASE_URL)//

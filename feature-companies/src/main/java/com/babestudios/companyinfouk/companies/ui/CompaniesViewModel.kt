@@ -9,6 +9,7 @@ import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.base.mvrx.resolveErrorOrProceed
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesItem
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesViewHolder
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
@@ -335,6 +336,23 @@ class CompaniesViewModel(
 
 	private fun convertToVisitables(favourites: List<SearchHistoryItem>): List<FavouritesVisitable> {
 		return ArrayList(favourites.map { item -> FavouritesVisitable(FavouritesItem(item)) })
+	}
+
+	fun favouritesItemClicked(adapterPosition: Int) {
+		withState { state ->
+			state.favouriteItems.let { favouriteItems ->
+				val item = favouriteItems[adapterPosition]
+						.favouritesItem
+						.searchHistoryItem
+				setState {
+					copy(
+							companyName = item.companyName,
+							companyNumber = item.companyNumber
+					)
+				}
+				companiesNavigator.favouritesToCompany(item.companyNumber, item.companyName)
+			}
+		}
 	}
 
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem) {

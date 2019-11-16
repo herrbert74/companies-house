@@ -129,14 +129,7 @@ class FavouritesFragment : BaseMvRxFragment() {
 		favouritesAdapter?.getViewClickedObservable()
 				?.take(1)
 				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
-					withState(viewModel) { state ->
-						state.favouriteItems.let { favouriteItems ->
-							val item = favouriteItems[(view as FavouritesViewHolder).adapterPosition]
-									.favouritesItem
-									.searchHistoryItem
-							viewModel.companiesNavigator.favouritesToCompany(item.companyNumber, item.companyName)
-						}
-					}
+					viewModel.favouritesItemClicked((view as FavouritesViewHolder).adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }
 
