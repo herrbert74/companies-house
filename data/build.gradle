@@ -59,5 +59,8 @@ dependencies {
 	implementation Libs.Javax.inject
 	implementation Libs.Javax.annotations
 
+	testImplementation Libs.AndroidX.Test.Ext.jUnit
+	testImplementation Libs.Test.mockK
+
 	apply from: 'config.gradle'
 }

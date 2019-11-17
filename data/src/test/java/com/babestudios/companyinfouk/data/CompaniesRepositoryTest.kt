@@ -1,13 +1,17 @@
-package com.babestudios.companyinfouk
+package com.babestudios.companyinfouk.data
 
-import com.babestudios.companyinfouk.data.CompaniesRepository
+import android.content.Context
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.utils.Base64Wrapper
+import com.google.firebase.analytics.FirebaseAnalytics
+import io.mockk.every
+import io.mockk.mockk
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -17,37 +21,30 @@ import io.reactivex.observers.TestObserver
 import io.reactivex.plugins.RxJavaPlugins
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mock
-import org.mockito.Mockito.doReturn
-import org.mockito.junit.MockitoJUnitRunner
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
-@RunWith(MockitoJUnitRunner::class)
 class CompaniesRepositoryTest {
 
-	@Mock
-	internal var mockCompaniesHouseService: CompaniesHouseService? = null
+	private val context = mockk<Context>()
 
-	@Mock
-	internal var mockCompaniesHouseDocumentService: CompaniesHouseDocumentService? = null
+	private val mockCompaniesHouseService = mockk<CompaniesHouseService>()
 
-	@Mock
-	internal var mockPreferencesHelper: PreferencesHelper? = null
+	private val mockCompaniesHouseDocumentService = mockk<CompaniesHouseDocumentService>()
 
-	@Mock
-	internal var base64Wrapper: Base64Wrapper? = null
+	private val mockPreferencesHelper = mockk<PreferencesHelper>()
 
-	@Mock
-	internal  var constantsHelper: ConstantsHelper? = null
-	@Mock
-	internal var filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper? = null
+	private val base64Wrapper = mockk<Base64Wrapper>()
 
-	private var companiesRepository: CompaniesRepository? = null
+	private val firebaseAnalytics = mockk<FirebaseAnalytics>()
 
-	private lateinit var companySearchResult: CompanySearchResult
+	private val constantsHelper = mockk<ConstantsHelper>()
+
+	private val filingHistoryDescriptionsHelper = mockk<FilingHistoryDescriptionsHelper>()
+
+	private val companiesRepository = mockk<CompaniesRepository>()
+
+	private val companySearchResult = mockk<CompanySearchResult>()
 
 	private val immediate = object : Scheduler() {
 		override fun scheduleDirect(run: Runnable, delay: Long, unit: TimeUnit): Disposable {
@@ -56,19 +53,30 @@ class CompaniesRepositoryTest {
 		}
 
 		override fun createWorker(): Worker {
-			return ExecutorScheduler.ExecutorWorker(Executor { it.run() })
+			return ExecutorScheduler.ExecutorWorker(Executor { it.run() }, true)
 		}
 	}
 
 	@Before
 	fun setUp() {
-		companiesRepository = CompaniesRepository(mockCompaniesHouseService!!, mockCompaniesHouseDocumentService!!, mockPreferencesHelper!!, base64Wrapper!!, constantsHelper!!, filingHistoryDescriptionsHelper!!)
+		/*companiesRepository = CompaniesRepository(
+				context!!,
+				mockCompaniesHouseService!!,
+				mockCompaniesHouseDocumentService!!,
+				mockPreferencesHelper!!,
+				base64Wrapper!!,
+				constantsHelper!!,
+				filingHistoryDescriptionsHelper!!,
+				firebaseAnalytics!!
+		)*/
 		//authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ==";
-		companySearchResult = CompanySearchResult()
-		doReturn(Single.just(companySearchResult))
-				.`when`<CompaniesHouseService>(mockCompaniesHouseService)
-				.searchCompanies(anyString(), anyString(), anyString(), anyString())
-
+		//companySearchResult = CompanySearchResult()
+		every {
+			companiesRepository.searchCompanies(any(), any())
+		} answers
+				{
+					Single.create { companySearchResult }
+				}
 		RxJavaPlugins.setInitIoSchedulerHandler { immediate }
 		RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
 		RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
@@ -79,7 +87,7 @@ class CompaniesRepositoryTest {
 	@Test
 	fun test_searchCompanies_successful() {
 		val testSubscriber = TestObserver<CompanySearchResult>()
-		companiesRepository?.searchCompanies("Games", "0")?.subscribe(testSubscriber)
+		companiesRepository.searchCompanies("Games", "0").subscribe(testSubscriber)
 		//testSubscriber.assertTerminated()
 		//testSubscriber.assertValue(companySearchResult)
 		//testSubscriber.assertComplete()

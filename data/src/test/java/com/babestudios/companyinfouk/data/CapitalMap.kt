@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk
+package com.babestudios.companyinfouk.data
 
 import com.babestudios.companyinfouk.data.model.filinghistory.Capital
 
