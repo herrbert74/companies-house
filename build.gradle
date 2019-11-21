@@ -14,12 +14,13 @@ buildscript {
 			//TODO Remove this once this is fixed for R8 1.5.20-dev: https://github.com/square/okhttp/issues/4604#issuecomment-465592365
 			url 'http://storage.googleapis.com/r8-releases/raw'
 		}
+		maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' } //TODO Remove when possible
 		jcenter()
 	}
 	dependencies {
 		//TODO Remove this once this is fixed for R8 1.5.20-dev: https://github.com/square/okhttp/issues/4604#issuecomment-465592365
 		//classpath 'com.android.tools:r8:1.4.57'
-		classpath 'com.android.tools.build:gradle:3.6.0-beta04'
+		classpath 'com.android.tools.build:gradle:4.0.0-alpha04'
 		classpath 'com.google.gms:google-services:4.3.2'
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 		classpath 'io.fabric.tools:gradle:1.31.1'
@@ -31,6 +32,7 @@ allprojects {
 	repositories {
 		google()
 		maven { url "https://jitpack.io" }
+		maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' } //TODO Remove when possible
 		jcenter()
 	}
 }
