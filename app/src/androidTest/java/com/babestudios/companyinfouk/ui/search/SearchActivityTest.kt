@@ -34,6 +34,8 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SearchActivityTest {
 
+	//TODO When bad query text returns empty results, empty message is shown
+
 	@get:Rule
 	var activityTestRule = ActivityTestRule(MainActivity::class.java, true, false)
 

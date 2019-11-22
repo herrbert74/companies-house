@@ -274,7 +274,10 @@ class MainFragment : BaseMvRxFragment() {
 					tvMsvSearchError.text = searchRequest.error.message
 				}
 				is Success -> {
-					//FilteredSearchVisitables will deal with this
+					//FilteredSearchVisitables will deal with non empty states
+					if (searchRequest.invoke().items.isEmpty()) {
+						showFilteredSearch()
+					}
 				}
 			}
 		}
