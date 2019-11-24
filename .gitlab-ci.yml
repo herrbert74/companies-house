@@ -33,7 +33,7 @@ lintDebug:
 assembleDebug:
   stage: build
   script:
-    - ./gradlew assembleDebug
+    - ./gradlew assembleDebug -PCH_API_KEY=$CH_API_KEY
   artifacts:
     paths:
     - app/build/outputs/
