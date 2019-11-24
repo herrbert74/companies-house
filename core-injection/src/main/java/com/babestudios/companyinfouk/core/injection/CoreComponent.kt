@@ -5,7 +5,7 @@ import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.di.CoreModule
+import com.babestudios.companyinfouk.data.di.DataModule
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.*
 import dagger.Component
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = [CoreModule::class],
+@Component(modules = [DataModule::class],
 		dependencies = [NavigationComponent::class])
 interface CoreComponent {
 

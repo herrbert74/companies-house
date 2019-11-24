@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.companies.ui
 
+import android.util.Log
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
@@ -325,8 +326,10 @@ class CompaniesViewModel(
 	//region Favourites
 
 	fun loadFavourites() {
+		Log.d("logCatText", "loadFavourites: ")
 		companiesRepository.favourites()
 				.execute {
+					Log.d("logCatText", "loadFavourites: $this")
 					copy(
 							favouritesRequest = it,
 							favouriteItems = convertToVisitables(it() ?: emptyList())

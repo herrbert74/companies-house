@@ -182,7 +182,8 @@ object Libs {
 	}
 
 	object Test {
-		const val mockK = "io.mockk:mockk:1.9"
+		const val mockK = "io.mockk:mockk:1.9.3"
+		const val mockKAndroidTest = "io.mockk:mockk-android:1.9.3"
 		const val robolectric = "org.robolectric:robolectric:4.3.1"
 		//This is an alternative to Espresso IdlingResource
 		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"

@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk
+package com.babestudios.companyinfouk.testhelpers
 
 import java.io.IOException
 import java.io.InputStream

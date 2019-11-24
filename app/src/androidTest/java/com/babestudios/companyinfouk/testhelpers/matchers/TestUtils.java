@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk;
+package com.babestudios.companyinfouk.testhelpers.matchers;
 
 
 import androidx.annotation.IdRes;
@@ -9,6 +9,9 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+
+import com.babestudios.companyinfouk.testhelpers.matchers.RecyclerViewMatcher;
+
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 

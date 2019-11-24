@@ -1,29 +1,25 @@
 package com.babestudios.companyinfouk
 
 import android.app.Application
-import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import com.babestudios.base.mvrx.LifeCycleApp
 import com.babestudios.companyinfouk.core.injection.CoreComponent
 import com.babestudios.companyinfouk.core.injection.CoreComponentProvider
 import com.babestudios.companyinfouk.core.injection.DaggerCoreComponent
-import com.babestudios.companyinfouk.data.di.CoreModule
+import com.babestudios.companyinfouk.data.di.DataModule
 import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
-import com.google.firebase.analytics.FirebaseAnalytics
 import io.fabric.sdk.android.Fabric
 
-open class CompaniesHouseApplication : Application(), CoreComponentProvider {
+open class CompaniesHouseApplication : Application(), CoreComponentProvider, LifeCycleApp {
+
+	private var currentActivity: AppCompatActivity? = null
 
 	private lateinit var coreComponent: CoreComponent
 
-	@Deprecated("Use the Repository instead")
-	var firebaseAnalytics: FirebaseAnalytics? = null
-		private set
-
 	override fun onCreate() {
 		super.onCreate()
-		instance = this
 		Stetho.initializeWithDefaults(this)
-		firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 		logAppOpen()
 		val fabric = Fabric.Builder(this)
 				.kits(Crashlytics())
@@ -36,28 +32,23 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider {
 		provideCoreComponent().companiesRepository().logAppOpen()
 	}
 
-	companion object {
-
-		lateinit var instance: CompaniesHouseApplication
-			private set
-
-		val context: Context
-			get() = instance
-
-		@JvmStatic
-		fun get(): CompaniesHouseApplication = instance
-	}
-
 	override fun provideCoreComponent(): CoreComponent {
 
 		if (!this::coreComponent.isInitialized) {
 			coreComponent = DaggerCoreComponent
 					.builder()
 					.navigationComponent(CompaniesHouseNavigation())
-					.coreModule(CoreModule(this))
-
+					.dataModule(DataModule(this))
 					.build()
 		}
 		return coreComponent
+	}
+
+	override fun getCurrentActivity(): AppCompatActivity? {
+		return currentActivity
+	}
+
+	override fun setCurrentActivity(mCurrentActivity: AppCompatActivity) {
+		this.currentActivity = mCurrentActivity
 	}
 }

@@ -1,16 +1,15 @@
-package com.babestudios.companyinfouk.injection
+package com.babestudios.companyinfouk.data.di
 
-//import com.babestudios.companyinfouk.CompaniesRepository
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import com.babestudios.base.di.qualifier.ApplicationContext
+import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.BuildConfig
-import com.babestudios.companyinfouk.CompaniesHouseApplication
-import com.babestudios.companyinfouk.TestHelper
+import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
@@ -20,30 +19,42 @@ import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConvert
 import com.babestudios.companyinfouk.data.utils.Base64Wrapper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
+import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseErrorResolver
+import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.mockito.Mockito
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class AndroidTestApplicationModule(private val application: Application) {
+@Suppress("unused")
+class DataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
 	internal fun provideCompaniesHouseRetrofit(): Retrofit {
-		return Retrofit.Builder()
-				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)
-				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-				.addConverterFactory(AdvancedGsonConverterFactory.create())
+		val logging = HttpLoggingInterceptor()
+		logging.level = HttpLoggingInterceptor.Level.BODY
+
+		val httpClient = OkHttpClient.Builder()
+		httpClient.addInterceptor(logging)
+		httpClient.addInterceptor(ChuckerInterceptor(context))
+		return Retrofit.Builder()//
+				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
+				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
+				.addConverterFactory(AdvancedGsonConverterFactory.create())//
+				.client(httpClient.build())//
 				.build()
 	}
 
@@ -72,19 +83,15 @@ class AndroidTestApplicationModule(private val application: Application) {
 
 	@Provides
 	@Singleton
-	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit): CompaniesHouseDocumentService {
+	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit): CompaniesHouseDocumentService {
 		return retroFit.create(CompaniesHouseDocumentService::class.java)
 	}
 
 	@Provides
-	internal fun provideApplication(): Application {
-		return Mockito.mock(CompaniesHouseApplication::class.java)
-	}
-
-	@Provides
+	@Singleton
 	@ApplicationContext
 	internal fun provideContext(): Context {
-		return Mockito.mock(CompaniesHouseApplication::class.java)
+		return context
 	}
 
 	@Provides
@@ -95,8 +102,8 @@ class AndroidTestApplicationModule(private val application: Application) {
 	}
 
 	@Provides
-	internal fun provideSharedPreferences() : SharedPreferences {
-		return Mockito.mock(SharedPreferences::class.java)
+	internal fun provideSharedPreferences(): SharedPreferences {
+		return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
 	}
 
 	@Provides
@@ -107,26 +114,48 @@ class AndroidTestApplicationModule(private val application: Application) {
 			preferencesHelper: PreferencesHelper,
 			base64Wrapper: Base64Wrapper,
 			constantsHelper: ConstantsHelper,
-			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
+			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper,
+			firebaseAnalytics: FirebaseAnalytics
 	): CompaniesRepositoryContract {
-		return Mockito.mock(CompaniesRepository::class.java)
+		return CompaniesRepository(
+				context,
+				companiesHouseService,
+				companiesHouseDocumentService,
+				preferencesHelper,
+				base64Wrapper,
+				constantsHelper,
+				filingHistoryDescriptionsHelper,
+				firebaseAnalytics
+		)
 	}
 
 	@Provides
 	@Singleton
 	internal fun provideSchedulerProvider(): SchedulerProvider {
-		return SchedulerProvider(Schedulers.trampoline(), Schedulers.trampoline())
+		return SchedulerProvider(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR), AndroidSchedulers.mainThread())
 	}
 
 	@Provides
 	@Singleton
-	internal fun provideRawResourceHelperContract(): RawResourceHelperContract {
-		return RawResourceHelper(application)
+	internal fun provideRawResourceHelper(): RawResourceHelperContract {
+		return RawResourceHelper(context)
 	}
 
 	@Provides
 	@Singleton
-	internal fun provideTestHelper(): TestHelper {
-		return TestHelper()
+	internal fun provideErrorHelper(): ErrorHelper {
+		return ErrorHelper(context)
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideErrorResolver(errorHelper: ErrorHelper): ErrorResolver {
+		return CompaniesHouseErrorResolver(errorHelper)
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideFirebaseAnalytics(): FirebaseAnalytics {
+		return FirebaseAnalytics.getInstance(context)
 	}
 }

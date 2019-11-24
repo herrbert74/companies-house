@@ -19,7 +19,7 @@ android {
 		versionCode 9
 		versionName "1.2"
 		vectorDrawables.useSupportLibrary = true
-		testInstrumentationRunner 'com.babestudios.companyinfouk.MockTestRunner'
+		testInstrumentationRunner 'com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner'
 	}
 	signingConfigs {
 
@@ -46,6 +46,7 @@ android {
 	}
 	testOptions {
 		//unitTests.returnDefaultValues = true
+		unitTests { includeAndroidResources = true }
 	}
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_1_8
@@ -74,6 +75,7 @@ dependencies {
 	implementation project(':feature-insolvencies')
 	implementation project(':feature-officers')
 	implementation project(':feature-persons')
+	androidTestImplementation project(':data')
 
 	implementation Libs.Kotlin.stdLibJdk8
 
@@ -141,6 +143,8 @@ dependencies {
 	androidTestImplementation Libs.jUnit
 	androidTestImplementation Libs.Mockito.kotlin
 	androidTestImplementation Libs.Mockito.android
+	androidTestImplementation Libs.Test.mockKAndroidTest
+	androidTestImplementation Libs.Test.conditionWatcher
 	androidTestImplementation Libs.AndroidX.Test.Espresso.core, {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}

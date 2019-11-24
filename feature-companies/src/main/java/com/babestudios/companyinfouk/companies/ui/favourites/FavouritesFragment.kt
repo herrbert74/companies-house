@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -93,7 +94,7 @@ class FavouritesFragment : BaseMvRxFragment() {
 		val tvMsvError = msvFavourites.findViewById<TextView>(R.id.tvMsvError)
 		val ivEmptyView = msvFavourites.findViewById<ImageView>(R.id.ivEmptyView)
 		withState(viewModel) { state ->
-
+			Log.d("logCatText", "invalidate: ${state.favouritesRequest}")
 			when (state.favouritesRequest) {
 				is Loading -> msvFavourites.viewState = VIEW_STATE_LOADING
 				is Fail -> {

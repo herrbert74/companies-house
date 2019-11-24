@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk;
+package com.babestudios.companyinfouk.testhelpers.matchers;
 
 
 import android.content.res.Resources;
