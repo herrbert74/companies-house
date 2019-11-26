@@ -1,6 +1,4 @@
 include ':app'
-include ':base'
-project(':base').projectDir = new File('../BaBeStudiosBase/base/')
 include ':data'
 include ':navigation'
 include ':feature-officers'

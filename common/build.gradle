@@ -27,6 +27,6 @@ android {
 }
 
 dependencies {
-	implementation project(':base')
+	implementation 'org.bitbucket.herrbert74:babestudiosbase:1.0.0'
 	implementation Libs.AndroidX.appcompat
 }
