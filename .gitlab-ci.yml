@@ -41,4 +41,4 @@ assembleDebug:
 debugTests:
   stage: test
   script:
-    - ./gradlew -Pci --console=plain :app:testDebug
+    - ./gradlew -Pci --console=plain :app:testDebug -PCH_API_KEY=$CH_API_KEY -PCH_RELEASE_STORE_FILE=$CH_RELEASE_STORE_FILE -PCH_RELEASE_STORE_PASSWORD=$CH_RELEASE_STORE_PASSWORD -PCH_RELEASE_KEY_ALIAS=$CH_RELEASE_KEY_ALIAS -PCH_RELEASE_KEY_PASSWORD=$CH_RELEASE_KEY_PASSWORD
