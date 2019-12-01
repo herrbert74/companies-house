@@ -36,10 +36,8 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider, Lif
 
 		if (!this::coreComponent.isInitialized) {
 			coreComponent = DaggerCoreComponent
-					.builder()
-					.navigationComponent(CompaniesHouseNavigation())
-					.dataModule(DataModule(this))
-					.build()
+					.factory()
+					.create(DataModule(this), CompaniesHouseNavigation(), this)
 		}
 		return coreComponent
 	}

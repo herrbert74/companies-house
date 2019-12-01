@@ -9,6 +9,7 @@ import android.util.Base64
 import android.util.Log
 import androidx.core.content.FileProvider
 import com.babestudios.base.data.AnalyticsContract
+import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
@@ -32,6 +33,8 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
 import java.io.*
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface CompaniesRepositoryContract : AnalyticsContract {
 	val authorization: String
@@ -66,8 +69,9 @@ interface CompaniesRepositoryContract : AnalyticsContract {
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem)
 }
 
-open class CompaniesRepository constructor(
-		private val context: Context,
+@Singleton
+open class CompaniesRepository @Inject constructor(
+		@ApplicationContext private val context: Context,
 		private val companiesHouseService: CompaniesHouseService,
 		private val companiesHouseDocumentService: CompaniesHouseDocumentService,
 		private var preferencesHelper: PreferencesHelper,
