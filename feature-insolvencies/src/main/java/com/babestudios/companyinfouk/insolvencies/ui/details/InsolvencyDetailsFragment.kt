@@ -13,6 +13,7 @@ import com.airbnb.mvrx.withState
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTypeFactory
@@ -58,7 +59,10 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 		pabInsolvencyDetails.setNavigationOnClickListener { viewModel.insolvenciesNavigator.popBackStack() }
 		toolBar?.setTitle(R.string.insolvency_details)
 		createRecyclerView()
-		showInsolvencyCase()
+		viewModel.selectSubscribe(InsolvenciesState::insolvencyDetailsItems) {
+			showInsolvencyCaseDetails()
+		}
+		viewModel.convertCaseToDetailsVisitables()
 	}
 
 	override fun onResume() {
@@ -80,7 +84,7 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 
 	//region render
 
-	private fun showInsolvencyCase() {
+	private fun showInsolvencyCaseDetails() {
 		msvInsolvencyDetails.viewState = VIEW_STATE_CONTENT
 		withState(viewModel) {state->
 			if (rvInsolvencyDetails?.adapter == null) {

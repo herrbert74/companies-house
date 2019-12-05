@@ -21,6 +21,8 @@ class ChargesActivity : BaseActivity() {
 				.build()
 	}
 
+	private lateinit var chargesNavigator: ChargesNavigator
+
 	private lateinit var navController: NavController
 
 	private lateinit var companyNumber: String
@@ -31,8 +33,7 @@ class ChargesActivity : BaseActivity() {
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
 		navController = findNavController(R.id.navHostFragmentCharges)
 		if (::comp.isLazyInitialized) {
-			val nav = comp.navigator()
-			nav.bind(navController)
+			chargesNavigator.bind(navController)
 		}
 	}
 
@@ -46,7 +47,7 @@ class ChargesActivity : BaseActivity() {
 	}
 
 	fun provideCompanyNumber(): String {
-		return companyNumber
+		return if (::companyNumber.isInitialized) companyNumber else ""
 	}
 
 	fun injectErrorResolver(): ErrorResolver {
@@ -58,9 +59,9 @@ class ChargesActivity : BaseActivity() {
 	}
 
 	fun injectChargesNavigator(): ChargesNavigator {
-		val nav = comp.navigator()
+		chargesNavigator = comp.navigator()
 		if (::navController.isInitialized)
-			nav.bind(navController)
-		return nav
+			chargesNavigator.bind(navController)
+		return chargesNavigator
 	}
 }

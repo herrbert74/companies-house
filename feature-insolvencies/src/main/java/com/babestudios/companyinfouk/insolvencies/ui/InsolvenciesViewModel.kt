@@ -7,7 +7,6 @@ import com.babestudios.base.mvrx.resolveErrorOrProceed
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.*
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.AbstractInsolvencyVisitable
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitable
@@ -18,8 +17,8 @@ class InsolvenciesViewModel(
 		private val companiesRepository: CompaniesRepositoryContract,
 		val insolvenciesNavigator: InsolvenciesNavigator,
 		private val errorResolver: ErrorResolver,
-		private val datesTitleString:String,
-		private val practitionersTitleString:String
+		private val datesTitleString: String,
+		private val practitionersTitleString: String
 ) : BaseViewModel<InsolvenciesState>(insolvenciesState, companiesRepository) {
 
 	init {
@@ -27,6 +26,7 @@ class InsolvenciesViewModel(
 			fetchInsolvencies(it.companyNumber)
 		}
 	}
+
 	companion object : MvRxViewModelFactory<InsolvenciesViewModel, InsolvenciesState> {
 
 		@JvmStatic
@@ -49,7 +49,10 @@ class InsolvenciesViewModel(
 
 		override fun initialState(viewModelContext: ViewModelContext): InsolvenciesState? {
 			val companyNumber = viewModelContext.activity<InsolvenciesActivity>().provideCompanyNumber()
-			return InsolvenciesState(companyNumber = companyNumber)
+			return if (companyNumber.isNotEmpty())
+				InsolvenciesState(companyNumber = companyNumber)
+			else
+				null
 		}
 	}
 
@@ -60,12 +63,12 @@ class InsolvenciesViewModel(
 				.execute {
 					copy(
 							insolvencyRequest = it.resolveErrorOrProceed(errorResolver),
-							insolvencies = convertToVisitables(it())
+							insolvencies = convertCaseToDetailsVisitables(it())
 					)
 				}
 	}
 
-	private fun convertToVisitables(reply: Insolvency?): List<AbstractInsolvencyVisitable> {
+	private fun convertCaseToDetailsVisitables(reply: Insolvency?): List<AbstractInsolvencyVisitable> {
 		return ArrayList(reply?.cases?.map { item -> InsolvencyVisitable(item) } ?: emptyList())
 	}
 
@@ -74,25 +77,34 @@ class InsolvenciesViewModel(
 			val newCase = (state.insolvencies[adapterPosition] as InsolvencyVisitable).insolvencyCase
 			setState {
 				copy(
-						insolvencyCase = newCase,
-						insolvencyDetailsItems = convertToVisitables(newCase)
+						insolvencyCase = newCase
 				)
 			}
 		}
 		insolvenciesNavigator.insolvenciesToInsolvencyDetails()
 	}
 
-	private fun convertToVisitables(insolvencyCase: InsolvencyCase): List<AbstractInsolvencyDetailsVisitable> {
+	/**
+	/ The list of insolvency cases is shown on the main screen, and dates/practitioners are shown on the details screen
+	 **/
+	fun convertCaseToDetailsVisitables() {
 		val list = ArrayList<AbstractInsolvencyDetailsVisitable>()
-		list.add(InsolvencyDetailsTitleVisitable(InsolvencyDetailsTitleItem(datesTitleString)))
-		for (item in insolvencyCase.dates) {
-			list.add(InsolvencyDetailsDateVisitable(InsolvencyDetailsDateItem(item.date, item.type)))
+		withState {
+			list.add(InsolvencyDetailsTitleVisitable(InsolvencyDetailsTitleItem(datesTitleString)))
+			for (item in it.insolvencyCase.dates) {
+				list.add(InsolvencyDetailsDateVisitable(InsolvencyDetailsDateItem(item.date, item.type)))
+			}
+			list.add(InsolvencyDetailsTitleVisitable(InsolvencyDetailsTitleItem(practitionersTitleString)))
+			for (item in it.insolvencyCase.practitioners) {
+				list.add(InsolvencyDetailsPractitionerVisitable(InsolvencyDetailsPractitionerItem(item)))
+			}
+			setState {
+				copy(
+						insolvencyDetailsItems = list.toList()
+				)
+			}
 		}
-		list.add(InsolvencyDetailsTitleVisitable(InsolvencyDetailsTitleItem(practitionersTitleString)))
-		for (item in insolvencyCase.practitioners) {
-			list.add(InsolvencyDetailsPractitionerVisitable(InsolvencyDetailsPractitionerItem(item)))
-		}
-		return list
+		//return list
 	}
 
 	//endregion

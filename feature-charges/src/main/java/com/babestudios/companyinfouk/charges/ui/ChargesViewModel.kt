@@ -15,7 +15,7 @@ import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 
 class ChargesViewModel(
 		chargesState: ChargesState,
-		val companiesRepository: CompaniesRepositoryContract,
+		private val companiesRepository: CompaniesRepositoryContract,
 		val chargesNavigator: ChargesNavigator,
 		private val errorResolver: ErrorResolver
 ) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {
@@ -37,7 +37,10 @@ class ChargesViewModel(
 
 		override fun initialState(viewModelContext: ViewModelContext): ChargesState? {
 			val companyNumber = viewModelContext.activity<ChargesActivity>().provideCompanyNumber()
-			return ChargesState(companyNumber = companyNumber)
+			return if (companyNumber.isNotEmpty())
+				ChargesState(companyNumber = companyNumber)
+			else
+				null
 		}
 	}
 

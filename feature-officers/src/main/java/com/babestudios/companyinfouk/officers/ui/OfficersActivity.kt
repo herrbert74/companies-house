@@ -21,6 +21,7 @@ class OfficersActivity : BaseActivity() {
 				.build()
 	}
 
+	private lateinit var officersNavigator: OfficersNavigator
 	private lateinit var navController: NavController
 
 	private lateinit var companyNumber: String
@@ -31,8 +32,7 @@ class OfficersActivity : BaseActivity() {
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
 		navController = findNavController(R.id.navHostFragmentOfficers)
 		if (::comp.isLazyInitialized) {
-			val nav = comp.navigator()
-			nav.bind(navController)
+			officersNavigator.bind(navController)
 		}
 	}
 
@@ -46,7 +46,7 @@ class OfficersActivity : BaseActivity() {
 	}
 
 	fun provideCompanyNumber(): String {
-		return companyNumber
+		return if (::companyNumber.isInitialized) companyNumber else ""
 	}
 
 	fun injectErrorResolver(): ErrorResolver {
@@ -58,9 +58,9 @@ class OfficersActivity : BaseActivity() {
 	}
 
 	fun injectOfficersNavigator(): OfficersNavigator {
-		val nav = comp.navigator()
+		officersNavigator = comp.navigator()
 		if (::navController.isInitialized)
-			nav.bind(navController)
-		return nav
+			officersNavigator.bind(navController)
+		return officersNavigator
 	}
 }

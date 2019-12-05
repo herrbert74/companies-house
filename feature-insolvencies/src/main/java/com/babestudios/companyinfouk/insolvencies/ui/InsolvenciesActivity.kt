@@ -21,6 +21,8 @@ class InsolvenciesActivity : BaseActivity() {
 				.build()
 	}
 
+	private lateinit var insolvenciesNavigator: InsolvenciesNavigator
+
 	private lateinit var navController: NavController
 
 	private lateinit var companyNumber: String
@@ -31,8 +33,7 @@ class InsolvenciesActivity : BaseActivity() {
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
 		navController = findNavController(R.id.navHostFragmentInsolvencies)
 		if (::comp.isLazyInitialized) {
-			val nav = comp.navigator()
-			nav.bind(navController)
+			insolvenciesNavigator.bind(navController)
 		}
 	}
 
@@ -46,7 +47,7 @@ class InsolvenciesActivity : BaseActivity() {
 	}
 
 	fun provideCompanyNumber(): String {
-		return companyNumber
+		return if (::companyNumber.isInitialized) companyNumber else ""
 	}
 
 	fun injectErrorResolver(): ErrorResolver {
@@ -58,10 +59,10 @@ class InsolvenciesActivity : BaseActivity() {
 	}
 
 	fun injectInsolvenciesNavigator(): InsolvenciesNavigator {
-		val nav = comp.navigator()
+		insolvenciesNavigator = comp.navigator()
 		if (::navController.isInitialized)
-			nav.bind(navController)
-		return nav
+			insolvenciesNavigator.bind(navController)
+		return insolvenciesNavigator
 	}
 
 	fun injectDatesTitleString(): String {

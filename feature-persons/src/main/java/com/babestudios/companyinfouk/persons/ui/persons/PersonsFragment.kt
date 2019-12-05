@@ -50,7 +50,7 @@ class PersonsFragment : BaseMvRxFragment() {
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabPersons.setNavigationOnClickListener { viewModel.personsNavigator.popBackStack() }
+		pabPersons.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.persons_with_significant_control)
 		createRecyclerView()
 		withState(viewModel) {

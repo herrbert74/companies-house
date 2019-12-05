@@ -39,7 +39,10 @@ class PersonsViewModel(
 
 		override fun initialState(viewModelContext: ViewModelContext): PersonsState? {
 			val companyNumber = viewModelContext.activity<PersonsActivity>().provideCompanyNumber()
-			return PersonsState(companyNumber = companyNumber)
+			return if (companyNumber.isNotEmpty())
+				PersonsState(companyNumber = companyNumber)
+			else
+				null
 		}
 	}
 
