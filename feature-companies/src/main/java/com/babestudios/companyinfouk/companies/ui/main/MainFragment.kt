@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -33,7 +34,9 @@ import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.FilterState
-import com.babestudios.companyinfouk.companies.ui.main.recents.*
+import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryAdapter
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryTypeFactory
 import com.babestudios.companyinfouk.companies.ui.main.search.*
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
@@ -173,11 +176,20 @@ class MainFragment : BaseMvRxFragment() {
 			}
 		})
 		withState(viewModel) { state ->
-			if (state.isSearchMenuItemExpanded /*&& !flagDoNotAnimateSearchMenuItem*/) {
+			//For when invalidateOptionsMenu called
+			if (state.isSearchMenuItemExpanded) {
 				searchMenuItem.expandActionView()
 				(searchMenuItem.actionView as SearchView).setQuery(state.queryText, false)
 				(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
 				flagDoNotAnimateSearchMenuItem = true
+			}
+			//For when we are recovering after a process death
+			if (state.queryText.isNotEmpty()) {
+				Handler().postDelayed({ //To avoid skipping initial state in this case : we want to reload it
+					searchMenuItem.expandActionView()
+					(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
+					lblSearch?.text = state.queryText
+				}, 300)
 			}
 		}
 	}
@@ -309,8 +321,6 @@ class MainFragment : BaseMvRxFragment() {
 								observeActions()
 							}
 						}
-						//TODO When we need this? Causing to reload menu endlessly
-						//activity?.invalidateOptionsMenu()
 					}
 					is Fail -> {
 						msvMainSearch.viewState = VIEW_STATE_ERROR
@@ -376,7 +386,9 @@ class MainFragment : BaseMvRxFragment() {
 					.debounce(500, TimeUnit.MILLISECONDS)
 					.subscribeOn(Schedulers.io())
 					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe { viewModel.onSearchQueryChanged(lblSearch?.text.toString()) }
+					.subscribe {
+						viewModel.onSearchQueryChanged(lblSearch?.text.toString())
+					}
 					?.let { queryTextChangeDisposable -> eventDisposables.add(queryTextChangeDisposable) }
 		}
 		searchHistoryAdapter?.getViewClickedObservable()

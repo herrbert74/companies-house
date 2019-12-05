@@ -7,7 +7,12 @@ import androidx.navigation.NavController
  * This is because both the Dagger Component and the NavigationController needs to be initialized,
  * but the order of init is different in a normal case and when the Activity is recreated after a configuration change.
  * In the latter case the ViewModel is created and injected before onCreate() finishes.
- * To avoid crashes use something like "::comp.isLazyInitialized" and "::navController.isInitialized".
+ *
+ * To avoid crashes use something like "::comp.isLazyInitialized" in OnCreate
+ * and "::navController.isInitialized" in the provider.
+ *
+ * Also important is to save lateinit references to the [Navigator] and the [navController],
+ * so these are not null in the ViewModel.
  */
 interface Navigator {
 	var navController: NavController?

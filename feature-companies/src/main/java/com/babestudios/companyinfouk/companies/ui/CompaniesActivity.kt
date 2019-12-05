@@ -20,6 +20,8 @@ class CompaniesActivity : BaseActivity() {
 				.build()
 	}
 
+	private lateinit var companiesNavigator: CompaniesNavigator
+
 	private lateinit var navController: NavController
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +29,7 @@ class CompaniesActivity : BaseActivity() {
 		setContentView(R.layout.activity_companies)
 		navController = findNavController(R.id.navHostFragmentCompanies)
 		if (::comp.isLazyInitialized) {
-			val nav = comp.navigator()
-			nav.bind(navController)
+			companiesNavigator.bind(navController)
 		}
 	}
 
@@ -50,10 +51,10 @@ class CompaniesActivity : BaseActivity() {
 	}
 
 	fun injectCompaniesNavigator(): CompaniesNavigator {
-		val nav = comp.navigator()
+		companiesNavigator = comp.navigator()
 		if (::navController.isInitialized)
-			nav.bind(navController)
-		return nav
+			companiesNavigator.bind(navController)
+		return companiesNavigator
 	}
 
 	fun injectRecentSearchesString(): String {

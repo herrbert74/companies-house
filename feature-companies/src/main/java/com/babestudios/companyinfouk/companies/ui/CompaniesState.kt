@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.companies.ui
 
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MvRxState
+import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
@@ -16,9 +17,11 @@ data class CompaniesState(
 		val searchVisitables: List<AbstractSearchVisitable> = emptyList(),
 		val filteredSearchVisitables: List<AbstractSearchVisitable> = ArrayList(),
 		val totalCount: Int = 0,
+		@PersistState
 		val queryText: String = "",
 		val isSearchLoading: Boolean = false,
 		val isSearchMenuItemExpanded: Boolean = false,
+		@PersistState
 		val filterState: FilterState = FilterState.FILTER_SHOW_ALL,
 
 		//Main/Search history
@@ -27,8 +30,11 @@ data class CompaniesState(
 
 		//Company
 		val companyRequest: Async<Company> = Uninitialized,
+		@PersistState
 		var company: Company = Company(),
+		@PersistState
 		val companyNumber: String = "",
+		@PersistState
 		val companyName: String = "",
 		val natureOfBusinessString: String = "",
 		val isFavorite: Boolean = false,
