@@ -62,9 +62,7 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 		pabFilingHistory.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.filing_history)
 		createFilingHistoryRecyclerView()
-		withState(viewModel) {
-			viewModel.getFilingHistory()
-		}
+		viewModel.getFilingHistory()
 	}
 
 	private fun createFilingHistoryRecyclerView() {

@@ -1,7 +1,9 @@
 package com.babestudios.companyinfouk.common.model.filinghistory
 
-import java.util.*
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class DescriptionValuesDto(
 		val madeUpDate: String = "",
 		val officerName: String = "",
@@ -17,4 +19,4 @@ data class DescriptionValuesDto(
 		val date: String = "",
 		val capital: List<CapitalDto> = emptyList(),
 		val description: String? = null
-)
+) : Parcelable

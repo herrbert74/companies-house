@@ -22,18 +22,20 @@ class FilingsActivity : BaseActivity() {
 				.build()
 	}
 
+	private lateinit var filingsNavigator: FilingsNavigator
+
 	private lateinit var navController: NavController
 
-	private lateinit var companyNumber: String
+	lateinit var companyNumber: String
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_filings)
-		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+		companyNumber = intent.getStringExtra(COMPANY_NUMBER) ?: ""
+
 		navController = findNavController(R.id.navHostFragmentFilings)
 		if (::comp.isLazyInitialized) {
-			val nav = comp.navigator()
-			nav.bind(navController)
+			filingsNavigator.bind(navController)
 		}
 	}
 
@@ -47,7 +49,7 @@ class FilingsActivity : BaseActivity() {
 	}
 
 	fun provideCompanyNumber(): String {
-		return companyNumber
+		return if (::companyNumber.isInitialized) companyNumber else ""
 	}
 
 	fun injectErrorResolver(): ErrorResolver {
@@ -59,9 +61,10 @@ class FilingsActivity : BaseActivity() {
 	}
 
 	fun injectFilingsNavigator(): FilingsNavigator {
-		val nav = comp.navigator()
-		if (::navController.isInitialized)
-			nav.bind(navController)
-		return nav
+		filingsNavigator = comp.navigator()
+		if (::navController.isInitialized) {
+			filingsNavigator.bind(navController)
+		}
+		return filingsNavigator
 	}
 }

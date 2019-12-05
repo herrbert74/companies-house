@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.filings.ui
 import android.net.Uri
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MvRxState
+import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
 import com.babestudios.companyinfouk.common.model.filinghistory.CategoryDto
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryDto
@@ -16,10 +17,12 @@ data class FilingsState(
 		val filingsRequest: Async<FilingHistoryDto> = Uninitialized,
 		val filingsHistory: List<FilingHistoryVisitable> = emptyList(),
 		val totalFilingsCount: Int = 0,
+		@PersistState
 		val companyNumber: String = "",
 		val filingCategoryFilter: CategoryDto = CategoryDto.CATEGORY_SHOW_ALL,
 
 		//Filing details
+		@PersistState
 		val filingHistoryItem: FilingHistoryItemDto = FilingHistoryItemDto(),
 		val documentRequest: Async<ResponseBody> = Uninitialized,
 		var pdfResponseBody : ResponseBody? = null,

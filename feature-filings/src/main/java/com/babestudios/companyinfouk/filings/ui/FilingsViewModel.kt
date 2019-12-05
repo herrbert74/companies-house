@@ -46,7 +46,10 @@ class FilingsViewModel(
 
 		override fun initialState(viewModelContext: ViewModelContext): FilingsState? {
 			val companyNumber = viewModelContext.activity<FilingsActivity>().provideCompanyNumber()
-			return FilingsState(companyNumber = companyNumber)
+			return if (companyNumber.isNotEmpty())
+				FilingsState(companyNumber = companyNumber)
+			else
+				null
 		}
 	}
 
