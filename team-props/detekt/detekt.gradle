@@ -1,0 +1,18 @@
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+detekt {
+    reports {
+        xml {
+            enabled = false
+        }
+        txt {
+            enabled = false
+        }
+    }
+    //project(":core-detekt")
+    toolVersion = "1.2.2"
+    config = files("$rootDir/team-props/detekt/default-detekt-config.yml")
+    input = files("src/main/java")
+    filters = ".*/resources/.*,.*/build/.*"
+    //baseline = file("my-detekt-baseline.xml") // Just if you want to create a baseline file.
+}

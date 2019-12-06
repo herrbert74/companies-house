@@ -20,12 +20,17 @@ buildscript {
 	dependencies {
 		//TODO Remove this once this is fixed for R8 1.5.20-dev: https://github.com/square/okhttp/issues/4604#issuecomment-465592365
 		//classpath 'com.android.tools:r8:1.4.57'
-		classpath 'com.android.tools.build:gradle:4.0.0-alpha04'
+		classpath 'com.android.tools.build:gradle:4.0.0-alpha05'
 		classpath 'com.google.gms:google-services:4.3.3'
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 		classpath 'io.fabric.tools:gradle:1.31.2'
+		classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.2.2"
 		classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
 	}
+}
+
+plugins {
+	id("io.gitlab.arturbosch.detekt").version("1.2.2")
 }
 
 allprojects {
@@ -35,6 +40,7 @@ allprojects {
 		maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' } //TODO Remove when possible
 		jcenter()
 	}
+	apply from: "$rootDir/team-props/detekt/detekt.gradle"
 }
 
 subprojects {
@@ -54,6 +60,11 @@ subprojects {
 
 }
 
-task clean(type: Delete) {
-	delete rootProject.buildDir
+def teamPropsFile(propsFile) {
+	def teamPropsDir = file('team-props')
+	return new File(teamPropsDir, propsFile)
 }
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
+apply from: teamPropsFile('git-hooks.gradle')
+apply from: teamPropsFile('setup-root-tasks.gradle')
