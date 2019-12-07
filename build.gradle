@@ -46,18 +46,24 @@ allprojects {
 subprojects {
 	if (it.name == 'app') {
 		apply plugin: 'com.android.application'
-	} else if (it.name == 'buildSrc') {
-		apply plugin: 'java-library'
+		dependencies {
+			detekt "io.gitlab.arturbosch.detekt:detekt-cli:1.2.2"
+			detektPlugins project(":core-detekt")
+		}
+	} else if (it.name == 'core-detekt') {
+		apply plugin: 'kotlin'
 	} else {
 		apply plugin: 'com.android.library'
+		dependencies {
+			detekt "io.gitlab.arturbosch.detekt:detekt-cli:1.2.2"
+			detektPlugins project(":core-detekt")
+		}
 		/*android {
 			viewBinding {
 				enabled = true
 			}
 		}*/
 	}
-
-
 }
 
 def teamPropsFile(propsFile) {
@@ -65,6 +71,9 @@ def teamPropsFile(propsFile) {
 	return new File(teamPropsDir, propsFile)
 }
 
-apply plugin: 'io.gitlab.arturbosch.detekt'
+afterEvaluate {
+	tasks['detekt'].dependsOn(":core-detekt:assemble")
+}
+
 apply from: teamPropsFile('git-hooks.gradle')
 apply from: teamPropsFile('setup-root-tasks.gradle')

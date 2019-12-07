@@ -182,11 +182,18 @@ object Libs {
 	}
 
 	object Test {
+		const val assertJ = "org.assertj:assertj-core:3.13.2"
+		const val jUnit5 = "org.junit.jupiter:junit-jupiter-api:5.5.2"
 		const val mockK = "io.mockk:mockk:1.9.3"
 		const val mockKAndroidTest = "io.mockk:mockk-android:1.9.3"
 		const val robolectric = "org.robolectric:robolectric:4.3.1"
 		//This is an alternative to Espresso IdlingResource
 		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"
+	}
 
+	object Detekt {
+		private const val version = "1.2.2"
+		const val api = "io.gitlab.arturbosch.detekt:detekt-api:$version"
+		const val test = "io.gitlab.arturbosch.detekt:detekt-test:$version"
 	}
 }

@@ -164,7 +164,7 @@ dependencies {
 }
 
 task f {
-	configurations.each { println it.name }
+	//configurations.each { println it.name }
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {
