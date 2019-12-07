@@ -4,6 +4,7 @@ import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
 import com.babestudios.companyinfouk.data.utils.errors.model.ErrorBody
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +21,7 @@ class CompaniesHouseErrorResolver @Inject constructor(private val errorHelper: E
 			errorBody.error?.let { it }
 					?: run { errorBody.errors?.get(0)?.error?.let { it2 -> it2 } }
 					?: run { errorJson }
-		} catch (e: Exception) {
+		} catch (e: JsonParseException) {
 			when {
 				errorJson?.contains("HTTP 401") == true
 				-> "Authentication error. Please try again"

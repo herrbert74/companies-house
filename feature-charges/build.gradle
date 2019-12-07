@@ -44,4 +44,5 @@ dependencies {
 	implementation Libs.MvRx.testing
 	testImplementation Libs.AndroidX.Test.Ext.jUnit
 	testImplementation Libs.Test.mockK
+
 }

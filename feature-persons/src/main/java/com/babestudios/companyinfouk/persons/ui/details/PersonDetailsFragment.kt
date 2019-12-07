@@ -66,6 +66,7 @@ class PersonDetailsFragment : BaseMvRxFragment() {
 
 	//region render
 
+	@Suppress("ComplexMethod")
 	private fun showPersonDetails() {
 		withState(viewModel) { state ->
 			state.personItem?.let { person ->
@@ -142,6 +143,7 @@ class PersonDetailsFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 	}
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 
 	}

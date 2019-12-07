@@ -146,7 +146,7 @@ class FavouritesFragment : BaseMvRxFragment() {
 					// this will rebind the row in "normal" state
 					withState(viewModel) { state ->
 						state.favouriteItems.let {
-							it[it.indexOf(visitable)].favouritesItem.isPendingRemoval = false
+							it[it.indexOf(visitable)].favouritesListItem.isPendingRemoval = false
 							favouritesAdapter?.notifyItemChanged(it.indexOf(visitable))
 						}
 					}
@@ -167,7 +167,7 @@ class FavouritesFragment : BaseMvRxFragment() {
 		withState(viewModel) { state ->
 			val item = state.favouriteItems[position]
 			if (!searchHistoryItemsPendingRemoval.contains(item)) {
-				item.favouritesItem.isPendingRemoval = true
+				item.favouritesListItem.isPendingRemoval = true
 				searchHistoryItemsPendingRemoval.add(item)
 				// this will redraw row in "undo" state
 				favouritesAdapter?.notifyItemChanged(position)
@@ -176,7 +176,7 @@ class FavouritesFragment : BaseMvRxFragment() {
 					if (searchHistoryItemsPendingRemoval.contains(item)) {
 						searchHistoryItemsPendingRemoval.remove(item)
 					}
-					viewModel.removeFavourite(item.favouritesItem.searchHistoryItem)
+					viewModel.removeFavourite(item.favouritesListItem.searchHistoryItem)
 				}
 				handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT.toLong())
 				pendingRunnables[item] = pendingRemovalRunnable
@@ -216,7 +216,11 @@ class FavouritesFragment : BaseMvRxFragment() {
 			}
 
 			// not important, we don't want drag & drop
-			override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+			override fun onMove(
+					recyclerView: RecyclerView,
+					viewHolder: RecyclerView.ViewHolder,
+					target: RecyclerView.ViewHolder
+			): Boolean {
 				return false
 			}
 
@@ -232,7 +236,15 @@ class FavouritesFragment : BaseMvRxFragment() {
 				pendingRemoval(swipedPosition)
 			}
 
-			override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+			override fun onChildDraw(
+					c: Canvas,
+					recyclerView: RecyclerView,
+					viewHolder: RecyclerView.ViewHolder,
+					dX: Float,
+					dY: Float,
+					actionState: Int,
+					isCurrentlyActive: Boolean
+			) {
 				val itemView = viewHolder.itemView
 
 				// not sure why, but this method get's called for viewholder that are already swiped away
@@ -291,9 +303,11 @@ class FavouritesFragment : BaseMvRxFragment() {
 				// only if animation is in progress
 				if (parent.itemAnimator?.isRunning == true) {
 
-					// some items might be animating down and some items might be animating up to close the gap left by the removed item
+					// some items might be animating down and
+					// some items might be animating up to close the gap left by the removed item
 					// this is not exclusive, both movement can be happening at the same time
-					// to reproduce this leave just enough items so the first one and the last one would be just a little off screen
+					// to reproduce this leave just enough items so the first one
+					// and the last one would be just a little off screen
 					// then remove one from the middle
 
 					// find first child with translationY > 0

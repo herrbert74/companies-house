@@ -9,7 +9,7 @@ class FavouritesViewHolder(itemView: View) : BaseViewHolder<AbstractFavouritesVi
 	var favouritesVisitable: FavouritesVisitable? = null
 	override fun bind(visitable: AbstractFavouritesVisitable) {
 		favouritesVisitable = (visitable as FavouritesVisitable)
-		val favouritesItem = favouritesVisitable!!.favouritesItem
+		val favouritesItem = favouritesVisitable!!.favouritesListItem
 		if (favouritesItem.isPendingRemoval) {
 			itemView.setBackgroundColor(Color.RED)
 			itemView.llFavourites?.visibility = View.INVISIBLE

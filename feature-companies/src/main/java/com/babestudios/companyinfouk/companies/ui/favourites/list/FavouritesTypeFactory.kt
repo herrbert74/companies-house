@@ -5,12 +5,12 @@ import com.babestudios.companyinfouk.companies.R
 import com.babestudios.base.mvp.list.BaseViewHolder
 
 class FavouritesTypeFactory : FavouritesAdapter.FavouritesTypeFactory {
-	override fun type(favouritesItem: FavouritesItem): Int = R.layout.row_favourites
+	override fun type(favouritesListItem: FavouritesListItem): Int = R.layout.row_favourites
 
 	override fun holder(type: Int, view: View): BaseViewHolder<*> {
 		return when (type) {
 			R.layout.row_favourites -> FavouritesViewHolder(view)
-			else -> throw RuntimeException("Illegal view type")
+			else -> throw IllegalStateException("Illegal view type")
 		}
 	}
 }

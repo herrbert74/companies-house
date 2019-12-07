@@ -19,7 +19,7 @@ internal class DateSerializer : JsonDeserializer<Date> {
 		for (format in dateFormats) {
 			try {
 				return SimpleDateFormat(format, Locale.US).parse(jsonElement.asString)
-			} catch (e: ParseException) {
+			} catch (ignored: ParseException) {
 			}
 
 		}

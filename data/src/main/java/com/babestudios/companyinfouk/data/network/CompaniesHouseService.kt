@@ -45,6 +45,7 @@ interface CompaniesHouseService {
 					  @Path("companyNumber") companyNumber: String): Single<Insolvency>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT)
+	@Suppress("LongParameterList")
 	fun getOfficers(@Header("Authorization") authorization: String,
 					@Path("companyNumber") companyNumber: String,
 					@Query("registerView") registerView: String?,

@@ -4,6 +4,7 @@ import android.view.View
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import java.lang.IllegalStateException
 
 class SearchHistoryTypeFactory : SearchHistoryAdapter.SearchHistoryTypeFactory {
 	override fun type(searchHistoryItem: SearchHistoryItem): Int = R.layout.row_two_lines
@@ -13,7 +14,7 @@ class SearchHistoryTypeFactory : SearchHistoryAdapter.SearchHistoryTypeFactory {
 		return when (type) {
 			R.layout.row_two_lines -> SearchHistoryViewHolder(view)
 			R.layout.row_subtitle -> SearchHistoryHeaderViewHolder(view)
-			else -> throw RuntimeException("Illegal view type")
+			else -> throw IllegalStateException("Illegal view type")
 		}
 	}
 }

@@ -4,6 +4,7 @@ import android.view.View
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
+import java.lang.IllegalStateException
 
 class InsolvenciesTypeFactory : InsolvenciesAdapter.InsolvencyTypeFactory {
 	override fun type(insolvencyCase: InsolvencyCase): Int = R.layout.row_insolvency
@@ -11,7 +12,7 @@ class InsolvenciesTypeFactory : InsolvenciesAdapter.InsolvencyTypeFactory {
 	override fun holder(type: Int, view: View): BaseViewHolder<*> {
 		return when (type) {
 			R.layout.row_insolvency -> InsolvencyViewHolder(view)
-			else -> throw RuntimeException("Illegal view type")
+			else -> throw IllegalStateException("Illegal view type")
 		}
 	}
 }

@@ -49,6 +49,7 @@ fun FilingHistoryLinks.convertToDto(): FilingHistoryLinksDto {
 	)
 }
 
+@Suppress("ComplexMethod")
 fun Category.convertToDto(): CategoryDto {
 	return when (this) {
 		Category.CATEGORY_SHOW_ALL -> CategoryDto.CATEGORY_SHOW_ALL
@@ -69,6 +70,7 @@ fun Category.convertToDto(): CategoryDto {
 	}
 }
 
+@Suppress("ComplexMethod")
 fun CategoryDto.convertToDomainModel(): Category {
 	return when (this) {
 		CategoryDto.CATEGORY_SHOW_ALL -> Category.CATEGORY_SHOW_ALL

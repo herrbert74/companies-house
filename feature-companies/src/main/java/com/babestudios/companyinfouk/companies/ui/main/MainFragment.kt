@@ -47,6 +47,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.util.concurrent.TimeUnit
 
+const val SEARCH_QUERY_MIN_LENGTH = 3
 
 class MainFragment : BaseMvRxFragment() {
 
@@ -64,6 +65,10 @@ class MainFragment : BaseMvRxFragment() {
 	private var filterMenuItem: MenuItem? = null
 	private var lblSearch: TextView? = null
 	private var flagDoNotAnimateSearchMenuItem = false
+
+	private val searchToolbarAnimationDuration =
+			resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
+
 	//region life cycle
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,6 +142,7 @@ class MainFragment : BaseMvRxFragment() {
 				viewModel.setFilterState(FilterState.values()[position])
 			}
 
+			@Suppress("EmptyFunctionBlock")
 			override fun onNothingSelected(parent: AdapterView<*>) {
 
 			}
@@ -185,11 +191,12 @@ class MainFragment : BaseMvRxFragment() {
 			}
 			//For when we are recovering after a process death
 			if (state.queryText.isNotEmpty()) {
-				Handler().postDelayed({ //To avoid skipping initial state in this case : we want to reload it
+				Handler().postDelayed({
+					//To avoid skipping initial state in this case : we want to reload it
 					searchMenuItem.expandActionView()
 					(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
 					lblSearch?.text = state.queryText
-				}, 300)
+				}, searchToolbarAnimationDuration)
 			}
 		}
 	}
@@ -204,15 +211,30 @@ class MainFragment : BaseMvRxFragment() {
 			msvMainSearch.viewState = VIEW_STATE_CONTENT
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = tbMain.width -
-						if (containsOverflow) resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) else (0) -
-								((resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2)
-				val createCircularReveal = ViewAnimationUtils.createCircularReveal(tbMain,
-						if (isRtl(resources)) tbMain.width - width else width, tbMain.height / 2, 0.0f, width.toFloat())
-				createCircularReveal.duration = 250
+						if (containsOverflow)
+							resources.getDimensionPixelSize(
+									R.dimen.abc_action_button_min_width_overflow_material
+							)
+						else
+							(0) - ((resources.getDimensionPixelSize(
+									R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2)
+				val createCircularReveal = ViewAnimationUtils.createCircularReveal(
+						tbMain,
+						if (isRtl(resources)) tbMain.width - width else width,
+						tbMain.height / 2,
+						0.0f,
+						width.toFloat()
+				)
+				createCircularReveal.duration = searchToolbarAnimationDuration
 				createCircularReveal.start()
 			} else {
-				val translateAnimation = TranslateAnimation(0.0f, 0.0f, ((-tbMain.height).toFloat()), 0.0f)
-				translateAnimation.duration = 220
+				val translateAnimation = TranslateAnimation(
+						0.0f,
+						0.0f,
+						((-tbMain.height).toFloat()),
+						0.0f
+				)
+				translateAnimation.duration = searchToolbarAnimationDuration
 				tbMain.clearAnimation()
 				tbMain.startAnimation(translateAnimation)
 			}
@@ -222,11 +244,19 @@ class MainFragment : BaseMvRxFragment() {
 			viewModel.clearSearch()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = tbMain.width -
-						if (containsOverflow) resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) else 0 -
-								((resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2)
-				val createCircularReveal = ViewAnimationUtils.createCircularReveal(tbMain,
-						if (isRtl(resources)) tbMain.width - width else width, tbMain.height / 2, width.toFloat(), 0.0f)
-				createCircularReveal.duration = 250
+						if (containsOverflow)
+							resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material)
+						else
+							0 - ((resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)
+									* numberOfMenuIcon) / 2)
+				val createCircularReveal = ViewAnimationUtils.createCircularReveal(
+						tbMain,
+						if (isRtl(resources)) tbMain.width - width else width,
+						tbMain.height / 2,
+						width.toFloat(),
+						0.0f
+				)
+				createCircularReveal.duration = searchToolbarAnimationDuration
 				createCircularReveal.addListener(object : AnimatorListenerAdapter() {
 					override fun onAnimationEnd(animation: Animator) {
 						super.onAnimationEnd(animation)
@@ -241,8 +271,9 @@ class MainFragment : BaseMvRxFragment() {
 				val animationSet = AnimationSet(true)
 				animationSet.addAnimation(alphaAnimation)
 				animationSet.addAnimation(translateAnimation)
-				animationSet.duration = 220
+				animationSet.duration = searchToolbarAnimationDuration
 				animationSet.setAnimationListener(object : Animation.AnimationListener {
+					@Suppress("EmptyFunctionBlock")
 					override fun onAnimationStart(animation: Animation) {
 
 					}
@@ -252,6 +283,7 @@ class MainFragment : BaseMvRxFragment() {
 						activity?.invalidateOptionsMenu()
 					}
 
+					@Suppress("EmptyFunctionBlock")
 					override fun onAnimationRepeat(animation: Animation) {
 
 					}
@@ -270,6 +302,7 @@ class MainFragment : BaseMvRxFragment() {
 
 	//region render
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 	}
 
@@ -335,7 +368,7 @@ class MainFragment : BaseMvRxFragment() {
 		val tvMsvSearchEmpty = msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
 		fabMainSearch.hide()
 		withState(viewModel) { state ->
-			if (state.queryText.length >= 3 && state.filteredSearchVisitables.isEmpty()) {
+			if (state.queryText.length >= SEARCH_QUERY_MIN_LENGTH && state.filteredSearchVisitables.isEmpty()) {
 				msvMainSearch.viewState = VIEW_STATE_EMPTY
 				tvMsvSearchEmpty.text = getString(R.string.no_search_result)
 				observeActions()
@@ -378,12 +411,16 @@ class MainFragment : BaseMvRxFragment() {
 
 //region events
 
+	@Suppress("LongMethod")
 	private fun observeActions() {
 		eventDisposables.clear()
 		lblSearch?.let {
 			RxTextView.textChanges(it)
 					.skipInitialValue()
-					.debounce(500, TimeUnit.MILLISECONDS)
+					.debounce(
+							resources.getInteger(R.integer.search_input_field_debounce).toLong(),
+							TimeUnit.MILLISECONDS
+					)
 					.subscribeOn(Schedulers.io())
 					.observeOn(AndroidSchedulers.mainThread())
 					.subscribe {
@@ -441,4 +478,5 @@ class MainFragment : BaseMvRxFragment() {
 	}
 
 //endregion
+
 }

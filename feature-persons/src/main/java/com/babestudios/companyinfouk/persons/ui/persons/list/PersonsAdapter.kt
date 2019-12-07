@@ -10,7 +10,10 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class PersonsAdapter(private var personsVisitables: List<AbstractPersonsVisitable>, private val personsTypeFactory: PersonsTypeFactory)
+class PersonsAdapter(
+		private var personsVisitables: List<AbstractPersonsVisitable>,
+		private val personsTypeFactory: PersonsTypeFactory
+)
 	: RecyclerView.Adapter<BaseViewHolder<AbstractPersonsVisitable>>() {
 
 	override fun getItemCount(): Int {

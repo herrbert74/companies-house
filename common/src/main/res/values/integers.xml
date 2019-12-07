@@ -2,4 +2,6 @@
 <resources>
 	<integer name="fab_move_in_start_delay">500</integer>
 	<integer name="fab_move_in_duration">500</integer>
+	<integer name="search_toolbar_animation_duration">250</integer>
+	<integer name="search_input_field_debounce">500</integer>
 </resources>

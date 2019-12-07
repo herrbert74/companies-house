@@ -107,9 +107,13 @@ class CompanyFragment : BaseMvRxFragment() {
 		company.accounts?.lastAccounts?.madeUpTo?.let {
 			val madeUpToDate = it.parseMySqlDate()
 			madeUpToDate?.let { date ->
+				@Suppress("MagicNumber")
 				formattedDate = (1000 * date.convertToTimestamp()).formatShortDateFromTimeStampMillis()
-				lblCompanyAccounts?.text = String.format(resources.getString(R.string.company_accounts_formatted_text), company.accounts?.lastAccounts?.type,
-						formattedDate)
+				lblCompanyAccounts?.text = String.format(
+						resources.getString(R.string.company_accounts_formatted_text),
+						company.accounts?.lastAccounts?.type,
+						formattedDate
+				)
 			}
 
 		} ?: run {
@@ -118,8 +122,12 @@ class CompanyFragment : BaseMvRxFragment() {
 		company.annualReturn?.lastMadeUpTo?.let {
 			val lastMadeUpToDate = it.parseMySqlDate()
 			lastMadeUpToDate?.let { date ->
+				@Suppress("MagicNumber")
 				formattedDate = (1000 * date.convertToTimestamp()).formatShortDateFromTimeStampMillis()
-				lblCompanyAnnualReturns?.text = String.format(resources.getString(R.string.company_annual_returns_formatted_text), formattedDate)
+				lblCompanyAnnualReturns?.text = String.format(
+						resources.getString(R.string.company_annual_returns_formatted_text),
+						formattedDate
+				)
 			}
 		} ?: run {
 			lblCompanyAnnualReturns?.text = resources.getString(R.string.company_annual_returns_not_found)
@@ -144,15 +152,25 @@ class CompanyFragment : BaseMvRxFragment() {
 			it.scaleY = 0f
 			it.alpha = 0f
 			it.show()
-			it.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(1f).scaleY(1f).alpha(1f).interpolator = LinearOutSlowInInterpolator()
+			it.animate()
+					.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
+					.scaleX(1f)
+					.scaleY(1f)
+					.alpha(1f)
+					.interpolator = LinearOutSlowInInterpolator()
 		}
 	}
 
 	private fun hideFabToShowFavoriteState(favorite: Boolean) {
 		fabCompanyFavorite?.also {
 			it.animate().cancel()
-			it.animate().setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong()).scaleX(0f).scaleY(0f).alpha(0f)
-					.setInterpolator(LinearOutSlowInInterpolator()).withEndAction { this.showFab(favorite) }
+			it.animate()
+					.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
+					.scaleX(0f)
+					.scaleY(0f)
+					.alpha(0f)
+					.setInterpolator(LinearOutSlowInInterpolator())
+					.withEndAction { this.showFab(favorite) }
 		}
 	}
 

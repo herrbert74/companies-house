@@ -4,6 +4,7 @@ import android.view.View
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
+import java.lang.IllegalStateException
 
 class SearchTypeFactory : SearchAdapter.SearchTypeFactory {
 	override fun type(searchItem: CompanySearchResultItem): Int = R.layout.row_search_result
@@ -11,7 +12,7 @@ class SearchTypeFactory : SearchAdapter.SearchTypeFactory {
 	override fun holder(type: Int, view: View): BaseViewHolder<*> {
 		return when (type) {
 			R.layout.row_search_result -> SearchViewHolder(view)
-			else -> throw RuntimeException("Illegal view type")
+			else -> throw IllegalStateException("Illegal view type")
 		}
 	}
 }

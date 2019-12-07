@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 interface RawResourceHelperContract {
 	fun getConstants(id: Int): Constants
-	fun getFilingHistoryDescriptions(filing_history_descriptions: Int): FilingHistoryDescriptions
+	fun getFilingHistoryDescriptions(filingHistoryDescriptions: Int): FilingHistoryDescriptions
 }
 
 class RawResourceHelper @Inject constructor(@ApplicationContext val context: Context) : RawResourceHelperContract {
@@ -18,10 +18,10 @@ class RawResourceHelper @Inject constructor(@ApplicationContext val context: Con
 		return Gson().fromJson<Constants>(constantsJsonString, Constants::class.java)
 	}
 
-	override fun getFilingHistoryDescriptions(filing_history_descriptions: Int): FilingHistoryDescriptions {
+	override fun getFilingHistoryDescriptions(filingHistoryDescriptions: Int): FilingHistoryDescriptions {
 		val constantsJsonString = context
 				.resources
-				.openRawResource(filing_history_descriptions)
+				.openRawResource(filingHistoryDescriptions)
 				.bufferedReader()
 				.use { it.readText() }
 		return Gson().fromJson<FilingHistoryDescriptions>(constantsJsonString, FilingHistoryDescriptions::class.java)

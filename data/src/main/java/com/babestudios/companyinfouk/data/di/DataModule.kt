@@ -65,13 +65,15 @@ class DataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	internal fun provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit): CompaniesHouseService {
+	internal fun provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit)
+			: CompaniesHouseService {
 		return retroFit.create(CompaniesHouseService::class.java)
 	}
 
 	@Provides
 	@Singleton
-	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit): CompaniesHouseDocumentService {
+	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit)
+			: CompaniesHouseDocumentService {
 		return retroFit.create(CompaniesHouseDocumentService::class.java)
 	}
 
@@ -92,7 +94,6 @@ class DataModule(private val context: Context) {
 	internal fun provideSchedulerProvider(): SchedulerProvider {
 		return SchedulerProvider(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR), AndroidSchedulers.mainThread())
 	}
-
 
 
 	@Provides

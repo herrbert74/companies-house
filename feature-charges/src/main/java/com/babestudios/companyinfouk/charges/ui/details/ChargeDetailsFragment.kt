@@ -104,12 +104,19 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 	private fun createRecyclerView() {
 		withState(viewModel) { state ->
 			state.chargesItem?.let { chargesItem ->
-				val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+				val linearLayoutManager = LinearLayoutManager(
+						requireContext(),
+						LinearLayoutManager.VERTICAL,
+						false
+				)
 				rvChargeDetails.layoutManager = linearLayoutManager
 				val titlePositions = java.util.ArrayList<Int>()
 				titlePositions.add(0)
 				rvChargeDetails.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
-				chargeDetailsAdapter = ChargeDetailsAdapter(convertToVisitables(chargesItem.transactions), ChargeDetailsTypeFactory())
+				chargeDetailsAdapter = ChargeDetailsAdapter(
+						convertToVisitables(chargesItem.transactions),
+						ChargeDetailsTypeFactory()
+				)
 				rvChargeDetails.adapter = chargeDetailsAdapter
 			}
 		}
@@ -130,6 +137,7 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 	}
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 
 	}

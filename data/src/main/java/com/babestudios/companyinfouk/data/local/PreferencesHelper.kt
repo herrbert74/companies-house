@@ -2,19 +2,17 @@ package com.babestudios.companyinfouk.data.local
 
 import android.content.SharedPreferences
 import android.util.Log
-
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.google.gson.Gson
-
-import java.util.ArrayList
-import java.util.Arrays
-
+import com.google.gson.JsonParseException
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 const val PREF_FILE_NAME = "companies_house_pref_file"
 const val PREF_FAVOURITES = "companies_house_favourites"
 const val PREF_LATEST_SEARCHES = "companies_house_latest_searches"
+const val PREF_LATEST_SEARCHES_SIZE = 10
 
 @Singleton
 class PreferencesHelper @Inject
@@ -26,11 +24,10 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			var searchItems: Array<SearchHistoryItem>? = null
 			try {
 				searchItems = gson.fromJson(latestSearches, Array<SearchHistoryItem>::class.java)
-			} catch (e: Exception) {
+			} catch (e: JsonParseException) {
 				Log.d("test", "getRecentSearches error: " + e.localizedMessage)
 			}
-
-			return Arrays.asList(*searchItems ?: arrayOfNulls(0))
+			return searchItems.orEmpty().toList()
 		}
 
 	val favourites: Array<SearchHistoryItem>
@@ -39,7 +36,7 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			var favouritesArray: Array<SearchHistoryItem> = arrayOf()
 			try {
 				favouritesArray = gson.fromJson(favourites, Array<SearchHistoryItem>::class.java)
-			} catch (e: Exception) {
+			} catch (e: JsonParseException) {
 				Log.d("test", "getFavourites error: " + e.localizedMessage)
 			}
 
@@ -52,7 +49,7 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			latestSearches.remove(searchItem)
 		}
 		latestSearches.add(0, searchItem)
-		if (latestSearches.size > 10) {
+		if (latestSearches.size > PREF_LATEST_SEARCHES_SIZE) {
 			latestSearches.removeAt(latestSearches.lastIndex)
 		}
 		val latestSearchesString = gson.toJson(latestSearches)
@@ -65,18 +62,12 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 	}
 
 	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
-		val favouritesArray = favourites
-		val favourites: ArrayList<SearchHistoryItem>
-		favourites = if (favouritesArray.isNotEmpty()) {
-			ArrayList(Arrays.asList(*favouritesArray))
-		} else {
-			ArrayList()
-		}
-		return if (favourites.contains(searchHistoryItem)) {
+		val favouritesList = favourites.toMutableList()
+		return if (favouritesList.contains(searchHistoryItem)) {
 			false
 		} else {
-			favourites.add(searchHistoryItem)
-			val favouritesString = gson.toJson(favourites.toTypedArray())
+			favouritesList.add(searchHistoryItem)
+			val favouritesString = gson.toJson(favouritesList.toTypedArray())
 			sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply()
 			true
 		}
@@ -87,17 +78,11 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 	}
 
 	fun removeFavourite(favouriteToDelete: SearchHistoryItem) {
-		val favouritesArray = favourites
-		val favourites: ArrayList<SearchHistoryItem>
-		if (favouritesArray.isNotEmpty()) {
-			favourites = ArrayList(Arrays.asList(*favouritesArray))
-		} else {
-			return
+		val favouritesList = favourites.toMutableList()
+		if (favouritesList.contains(favouriteToDelete)) {
+			favouritesList.remove(favouriteToDelete)
 		}
-		if (favourites.contains(favouriteToDelete)) {
-			favourites.remove(favouriteToDelete)
-		}
-		val favouritesString = gson.toJson(favourites.toTypedArray())
+		val favouritesString = gson.toJson(favouritesList.toTypedArray())
 		sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply()
 	}
 

@@ -5,4 +5,7 @@ import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class FavouritesItem(val searchHistoryItem: SearchHistoryItem, var isPendingRemoval: Boolean = false) : Parcelable
+data class FavouritesListItem(
+		val searchHistoryItem: SearchHistoryItem,
+		var isPendingRemoval: Boolean = false
+) : Parcelable

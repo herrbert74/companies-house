@@ -33,9 +33,11 @@ class OfficerAppointmentsAdapter(private var officerAppointmentsVisitables: List
 		fun holder(type: Int, view: View): BaseViewHolder<*>
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractOfficerAppointmentsVisitable> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+			: BaseViewHolder<AbstractOfficerAppointmentsVisitable> {
 		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v = officerAppointmentsTypeFactory.holder(viewType, view) as BaseViewHolder<AbstractOfficerAppointmentsVisitable>
+		val v = officerAppointmentsTypeFactory.holder(viewType, view)
+				as BaseViewHolder<AbstractOfficerAppointmentsVisitable>
 		RxView.clicks(view)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }

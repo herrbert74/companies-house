@@ -8,7 +8,7 @@ import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.base.mvrx.resolveErrorOrProceed
 import com.babestudios.base.rxjava.ErrorResolver
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesItem
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
@@ -214,7 +214,13 @@ class CompaniesViewModel(
 
 	fun searchItemClicked(name: String, number: String) {
 		//TODO Simply pass the adapter position, so it can be tested?
-		val searchHistoryItems = companiesRepository.addRecentSearchItem(SearchHistoryItem(name, number, System.currentTimeMillis()))
+		val searchHistoryItems = companiesRepository.addRecentSearchItem(
+				SearchHistoryItem(
+						name,
+						number,
+						System.currentTimeMillis()
+				)
+		)
 		setState {
 			copy(
 					companyName = name,
@@ -334,14 +340,14 @@ class CompaniesViewModel(
 	}
 
 	private fun convertToVisitables(favourites: List<SearchHistoryItem>): List<FavouritesVisitable> {
-		return ArrayList(favourites.map { item -> FavouritesVisitable(FavouritesItem(item)) })
+		return ArrayList(favourites.map { item -> FavouritesVisitable(FavouritesListItem(item)) })
 	}
 
 	fun favouritesItemClicked(adapterPosition: Int) {
 		withState { state ->
 			state.favouriteItems.let { favouriteItems ->
 				val item = favouriteItems[adapterPosition]
-						.favouritesItem
+						.favouritesListItem
 						.searchHistoryItem
 				setState {
 					copy(

@@ -103,6 +103,7 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 		}
 	}
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 
 	}

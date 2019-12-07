@@ -16,7 +16,8 @@ class SearchHistoryVisitable(val searchHistoryItem: SearchHistoryItem) : Abstrac
 }
 
 @Parcelize
-class SearchHistoryHeaderVisitable(val searchHistoryHeaderItem: SearchHistoryHeaderItem) : AbstractSearchHistoryVisitable(), Parcelable {
+class SearchHistoryHeaderVisitable(val searchHistoryHeaderItem: SearchHistoryHeaderItem)
+	: AbstractSearchHistoryVisitable(), Parcelable {
 	override fun type(searchHistoryTypeFactory: SearchHistoryAdapter.SearchHistoryTypeFactory): Int {
 		return searchHistoryTypeFactory.type(searchHistoryHeaderItem)
 	}

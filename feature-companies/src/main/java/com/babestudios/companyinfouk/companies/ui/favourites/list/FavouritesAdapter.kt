@@ -35,7 +35,7 @@ class FavouritesAdapter(private var favouritesVisitables: List<AbstractFavourite
 	}
 
 	interface FavouritesTypeFactory {
-		fun type(favouritesItem: FavouritesItem): Int
+		fun type(favouritesListItem: FavouritesListItem): Int
 		fun holder(type: Int, view: View): BaseViewHolder<*>
 	}
 

@@ -9,14 +9,23 @@ import java.lang.reflect.Type
 
 class ToStringConverterFactory : Converter.Factory() {
 
-	override fun responseBodyConverter(type: Type?, annotations: Array<Annotation>?, retrofit: Retrofit?): Converter<ResponseBody, String>? {
+	override fun responseBodyConverter(
+			type: Type?,
+			annotations: Array<Annotation>?,
+			retrofit: Retrofit?
+	): Converter<ResponseBody, String>? {
 		if (String::class.java == type) {
 			return Converter { value -> value.string() }
 		}
 		return null
 	}
 
-	override fun requestBodyConverter(type: Type?, parameterAnnotations: Array<Annotation>?, methodAnnotations: Array<Annotation>?, retrofit: Retrofit?): Converter<*, RequestBody>? {
+	override fun requestBodyConverter(
+			type: Type?,
+			parameterAnnotations: Array<Annotation>?,
+			methodAnnotations: Array<Annotation>?,
+			retrofit: Retrofit?
+	): Converter<*, RequestBody>? {
 		return if (String::class.java == type) {
 			Converter<String, RequestBody> { value -> RequestBody.create(MEDIA_TYPE, value) }
 		} else null

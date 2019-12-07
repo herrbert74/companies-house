@@ -10,7 +10,7 @@ class InsolvencyLinks : Parcelable {
 	inner class Links {
 
 		@SerializedName("case")
-		var _case: String? = null
+		var case: String? = null
 
 	}
 }

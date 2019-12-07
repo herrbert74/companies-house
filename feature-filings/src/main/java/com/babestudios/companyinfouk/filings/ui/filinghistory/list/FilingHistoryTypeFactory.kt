@@ -19,7 +19,7 @@ class FilingHistoryTypeFactory : FilingHistoryAdapter.FilingHistoryTypeFactory {
 	override fun holder(type: Int, view: View): BaseViewHolder<*> {
 		return when(type) {
 			R.layout.row_filing_history -> FilingHistoryViewHolder(view)
-			else -> throw RuntimeException("Illegal view type")
+			else -> throw IllegalStateException("Illegal view type")
 		}
 	}
 }

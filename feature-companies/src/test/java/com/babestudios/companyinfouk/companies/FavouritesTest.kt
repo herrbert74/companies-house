@@ -5,7 +5,7 @@ import com.babestudios.base.ext.getPrivateFieldWithReflection
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesItem
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
@@ -28,7 +28,7 @@ class FavouritesTest {
 
 	private val searchHistoryItem = SearchHistoryItem("TUI", "12344", 12L)
 
-	private val favouriteItems = listOf(FavouritesVisitable(FavouritesItem(searchHistoryItem, false)))
+	private val favouriteItems = listOf(FavouritesVisitable(FavouritesListItem(searchHistoryItem, false)))
 
 	@Before
 	fun setUp() {

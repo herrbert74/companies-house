@@ -18,13 +18,12 @@ class BooleanSerializer : JsonSerializer<Boolean>, JsonDeserializer<Boolean> {
 
 	@Throws(JsonParseException::class)
 	override fun deserialize(arg0: JsonElement, arg1: Type, arg2: JsonDeserializationContext): Boolean? {
-		if (arg0.isJsonPrimitive) {
-			if (arg0.asJsonPrimitive.isBoolean) {
-				return arg0.asBoolean
-			} else if (arg0.asJsonPrimitive.isString) {
-				return arg0.asString == "1"
+		return if (arg0.isJsonPrimitive) {
+			when {
+				arg0.asJsonPrimitive.isBoolean -> arg0.asBoolean
+				arg0.asJsonPrimitive.isString -> arg0.asString == "1"
+				else -> false
 			}
-		}
-		return false
+		} else false
 	}
 }

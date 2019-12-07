@@ -23,6 +23,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
+import java.io.IOException
+
+const val STARTING_LATITUDE: Double = 51.5033635
+const val STARTING_LONGITUDE: Double = -0.1276248
+const val STARTING_ZOOM = 15f
 
 class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -67,7 +72,7 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		location?.also {
 			setLocationInMap(it)
 		} ?: run {
-			location = LatLng(51.5033635, -0.1276248)
+			location = LatLng(STARTING_LATITUDE, STARTING_LONGITUDE)
 			toolBar?.title = "Could not find address!"
 			setLocationInMap(location!!)
 		}
@@ -75,7 +80,7 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 
 	private fun setLocationInMap(location: LatLng) {
 		googleMap?.uiSettings?.isMapToolbarEnabled = true
-		val cameraPosition = CameraPosition.Builder().target(location).zoom(15f).build()
+		val cameraPosition = CameraPosition.Builder().target(location).zoom(STARTING_ZOOM).build()
 		googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 		withState(viewModel) {
 			googleMap?.addMarker(MarkerOptions().position(location).title(it.addressString))
@@ -83,17 +88,18 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 	}
 
+	@Suppress("ReturnCount")
 	private fun getLocationFromAddress(strAddress: String): LatLng? {
 		val coder = Geocoder(requireContext())
 		val address: List<Address>?
 		try {
-			address = coder.getFromLocationName(strAddress, 5)
+			address = coder.getFromLocationName(strAddress, 1)
 			if (address == null) {
 				return null
 			}
 			val location = address[0]
 			return LatLng(location.latitude, location.longitude)
-		} catch (e: Exception) {
+		} catch (e: IOException) {
 			Log.e("Map", e.localizedMessage, e)
 			return null
 		}
@@ -108,6 +114,7 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		return true
 	}
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 
 	}

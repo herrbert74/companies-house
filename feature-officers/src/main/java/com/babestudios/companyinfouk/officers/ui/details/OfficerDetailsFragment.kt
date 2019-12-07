@@ -77,6 +77,7 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 
 	//region render
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 	}
 

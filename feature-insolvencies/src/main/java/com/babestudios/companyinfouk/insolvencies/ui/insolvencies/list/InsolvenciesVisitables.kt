@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 import kotlinx.android.parcel.Parcelize
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class AbstractInsolvencyVisitable {
 	abstract fun type(insolvenciesTypeFactory: InsolvenciesAdapter.InsolvencyTypeFactory): Int
 }

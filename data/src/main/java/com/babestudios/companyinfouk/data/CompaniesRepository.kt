@@ -227,18 +227,20 @@ open class CompaniesRepository @Inject constructor(
 				.observeOn(AndroidSchedulers.mainThread())
 	}
 
+	@Suppress("NestedBlockDepth")
 	override fun writeDocumentPdf(responseBody: ResponseBody): Single<Uri> {
 		val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 		val pdfFile = File(dir, "doc.pdf")
 		var inputStream: InputStream? = null
 		var outputStream: OutputStream? = null
 		try {
+			@Suppress("MagicNumber")
 			val fileReader = ByteArray(4096)
 			try {
 				inputStream = responseBody.byteStream()
 				outputStream = FileOutputStream(pdfFile)
 				while (true) {
-					val read = inputStream!!.read(fileReader)
+					val read = inputStream.read(fileReader)
 					if (read == -1) {
 						break
 					}
@@ -280,13 +282,7 @@ open class CompaniesRepository @Inject constructor(
 	}
 
 	override fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean {
-		val items = preferencesHelper.favourites
-		return if (items.isNotEmpty()) {
-			val favourites = ArrayList(listOf(*items))
-			favourites.contains(searchHistoryItem)
-		} else {
-			false
-		}
+		return preferencesHelper.favourites.contains(searchHistoryItem)
 	}
 
 	override fun removeFavourite(favouriteToRemove: SearchHistoryItem) {

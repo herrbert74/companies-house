@@ -9,7 +9,6 @@ detekt {
             enabled = false
         }
     }
-    //project(":core-detekt")
     toolVersion = "1.2.2"
     config = files("$rootDir/team-props/detekt/default-detekt-config.yml")
     input = files("src/main/java")

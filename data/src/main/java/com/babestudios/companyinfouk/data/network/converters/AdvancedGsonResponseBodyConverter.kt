@@ -16,6 +16,7 @@
 package com.babestudios.companyinfouk.data.network.converters
 
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import com.google.gson.TypeAdapter
 
 import java.io.IOException
@@ -23,18 +24,21 @@ import java.io.IOException
 import okhttp3.ResponseBody
 import retrofit2.Converter
 
-internal class AdvancedGsonResponseBodyConverter<T>(private val gson: Gson, private val adapter: TypeAdapter<T>) : Converter<ResponseBody, T> {
+internal class AdvancedGsonResponseBodyConverter<T>(
+		private val gson: Gson,
+		private val adapter: TypeAdapter<T>
+) : Converter<ResponseBody, T> {
 
 	@Throws(IOException::class)
 	override fun convert(body: ResponseBody): T? {
 		val dirty = body.string()
 		var clean = dirty.replace("finance_charts_json_callback\\(".toRegex(), "")
 		clean = clean.replace("\\)$".toRegex(), "")
-		try {
-			return adapter.fromJson(clean)
-		} catch (e: Exception) {
+		return try {
+			adapter.fromJson(clean)
+		} catch (e: JsonParseException) {
 			e.printStackTrace()
-			return null
+			null
 		} finally {
 			body.close()
 		}

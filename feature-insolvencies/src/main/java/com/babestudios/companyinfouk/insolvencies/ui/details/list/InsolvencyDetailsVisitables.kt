@@ -8,21 +8,24 @@ abstract class AbstractInsolvencyDetailsVisitable : Parcelable {
 }
 
 @Parcelize
-class InsolvencyDetailsTitleVisitable(val insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem) : AbstractInsolvencyDetailsVisitable(), Parcelable {
+class InsolvencyDetailsTitleVisitable(val insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem)
+	: AbstractInsolvencyDetailsVisitable(), Parcelable {
 	override fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int {
 		return insolvencyDetailsTypeFactory.type(insolvencyDetailsTitleItem)
 	}
 }
 
 @Parcelize
-class InsolvencyDetailsDateVisitable(val insolvencyDetailsDateItem: InsolvencyDetailsDateItem) : AbstractInsolvencyDetailsVisitable(), Parcelable {
+class InsolvencyDetailsDateVisitable(val insolvencyDetailsDateItem: InsolvencyDetailsDateItem)
+	: AbstractInsolvencyDetailsVisitable(), Parcelable {
 	override fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int {
 		return insolvencyDetailsTypeFactory.type(insolvencyDetailsDateItem)
 	}
 }
 
 @Parcelize
-class InsolvencyDetailsPractitionerVisitable(val insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem) : AbstractInsolvencyDetailsVisitable(), Parcelable {
+class InsolvencyDetailsPractitionerVisitable(val insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem)
+	: AbstractInsolvencyDetailsVisitable(), Parcelable {
 	override fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int {
 		return insolvencyDetailsTypeFactory.type(insolvencyDetailsPractitionerItem)
 	}

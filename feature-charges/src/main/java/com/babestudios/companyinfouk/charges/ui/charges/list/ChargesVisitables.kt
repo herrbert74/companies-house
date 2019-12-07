@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 import kotlinx.android.parcel.Parcelize
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class AbstractChargesVisitable {
 	abstract fun type(chargesTypeFactory: ChargesAdapter.ChargesTypeFactory): Int
 }

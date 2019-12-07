@@ -25,6 +25,7 @@ class PrivacyFragment : BaseMvRxFragment() {
 
 	}
 
+	@Suppress("EmptyFunctionBlock")
 	override fun invalidate() {
 
 	}

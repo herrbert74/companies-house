@@ -169,6 +169,7 @@ class FilingsViewModel(
 	//endregion
 }
 
+@Suppress("NestedBlockDepth")
 fun String?.createSpannableDescription(filingHistoryItem: FilingHistoryItemDto): Spannable? {
 	var s = this
 	if (s != null) {

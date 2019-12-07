@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.persons.ui.persons.list
 
 import com.babestudios.companyinfouk.data.model.persons.Person
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class AbstractPersonsVisitable {
 	abstract fun type(personsTypeFactory: PersonsAdapter.PersonsTypeFactory): Int
 }
