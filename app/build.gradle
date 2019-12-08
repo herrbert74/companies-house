@@ -1,21 +1,14 @@
 import com.babestudios.companyinfouk.buildsrc.Libs
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 jacoco {
 	version "0.7.1.201405082137"
 }
 
 android {
-	compileSdkVersion 29
-
 	defaultConfig {
 		applicationId "com.babestudios.companyinfouk"
-		minSdkVersion 21
-		targetSdkVersion 29
 		versionCode 9
 		versionName "1.2"
 		vectorDrawables.useSupportLibrary = true
@@ -52,7 +45,6 @@ android {
 		sourceCompatibility JavaVersion.VERSION_1_8
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
-	buildToolsVersion = '29.0.2'
 	androidExtensions {
 		experimental = true
 	}
@@ -77,96 +69,30 @@ dependencies {
 	implementation project(':feature-persons')
 	androidTestImplementation project(':data')
 
-	implementation Libs.Kotlin.stdLibJdk8
-
-	implementation Libs.AndroidX.appcompat
-	implementation Libs.AndroidX.constraintLayout
-	implementation Libs.AndroidX.recyclerView
-	implementation Libs.AndroidX.coreKtx
-	implementation Libs.AndroidX.Navigation.ktx
-	implementation Libs.AndroidX.Navigation.fragment
-	implementation Libs.AndroidX.Lifecycle.ViewModel.ktx
-	implementation Libs.AndroidX.Lifecycle.extensions
-	testImplementation Libs.AndroidX.appcompat
-	testImplementation Libs.AndroidX.recyclerView
-
-	implementation Libs.Google.material
-	testImplementation Libs.Google.material
-
-	implementation Libs.SquareUp.Retrofit2.retrofit
-	implementation Libs.SquareUp.Retrofit2.rxJava2Adapter
-	implementation Libs.SquareUp.Retrofit2.converterGson
-	testImplementation Libs.SquareUp.Retrofit2.retrofitMock
-
-	implementation Libs.JakeWharton.rxRelay
-	implementation Libs.JakeWharton.RxBinding.core
-	implementation Libs.JakeWharton.RxBinding.design
-	implementation Libs.JakeWharton.RxBinding.kotlin
-	implementation Libs.JakeWharton.RxBinding.designKotlin
-	implementation Libs.JakeWharton.RxBinding.recyclerviewV7Kotlin
-
-	//AutoDispose
-	implementation 'com.uber.autodispose:autodispose-ktx:1.2.0'
-	implementation 'com.uber.autodispose:autodispose-lifecycle-ktx:1.2.0'
-	implementation 'com.uber.autodispose:autodispose-android-ktx:1.2.0'
-	implementation 'com.uber.autodispose:autodispose-rxlifecycle:1.4.0'
-
-	//RxLifeCycle
-	implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
-	implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
-	implementation 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.2'
-	implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.2'
-
-	implementation Libs.Google.Dagger.dagger
-	implementation Libs.Google.Firebase.analytics
 	implementation Libs.Google.crashlytics
+	implementation Libs.AndroidX.appcompat
+	implementation Libs.Stetho.core
+	//debugImplementation Libs.debugDb
+	implementation Libs.AndroidX.Navigation.ktx
+	implementation Libs.AndroidX.coreKtx
+	implementation Libs.Google.Dagger.dagger
+
+	androidTestImplementation Libs.Google.gson
+	androidTestImplementation Libs.SquareUp.Retrofit2.retrofit
+	androidTestImplementation Libs.SquareUp.Retrofit2.rxJava2Adapter
+	androidTestImplementation Libs.Google.Firebase.analytics
+	androidTestImplementation Libs.SquareUp.OkHttp3.loggingInterceptor
 	kapt Libs.Google.Dagger.compiler
-	kaptTest Libs.Google.Dagger.compiler
 	kaptAndroidTest Libs.Google.Dagger.compiler
 
-	debugImplementation Libs.Chucker.library
-	releaseImplementation Libs.Chucker.noop
-
-	implementation Libs.Javax.inject
-	implementation Libs.Javax.annotations
-
-	implementation Libs.Stetho.core
-
-	//debugImplementation Libs.debugDb
-
-	testImplementation Libs.jUnit
-	testImplementation Libs.Mockito.core
-	testImplementation Libs.Mockito.inline
-	testImplementation Libs.Mockito.kotlin
-	testImplementation Libs.hamcrest
-
-	androidTestImplementation Libs.jUnit
-	androidTestImplementation Libs.Mockito.kotlin
-	androidTestImplementation Libs.Mockito.android
 	androidTestImplementation Libs.Test.mockKAndroidTest
 	androidTestImplementation Libs.Test.conditionWatcher
-	androidTestImplementation Libs.AndroidX.Test.Espresso.core, {
-		exclude group: 'com.android.support', module: 'support-annotations'
-	}
-	androidTestImplementation Libs.AndroidX.Test.Espresso.contrib, {
-		exclude group: 'com.android.support', module: 'support-annotations'
-		exclude group: 'com.android.support', module: 'support-v4'
-		exclude group: 'com.android.support', module: 'design'
-		exclude group: 'com.android.support', module: 'recyclerview-v7'
-	}
-	androidTestImplementation Libs.AndroidX.Test.Ext.jUnit, {
-		exclude group: 'com.android.support', module: 'support-annotations'
-	}
-	androidTestImplementation Libs.AndroidX.Test.rules, {
-		exclude group: 'com.android.support', module: 'support-annotations'
-	}
+	androidTestImplementation Libs.AndroidX.Test.Espresso.core
+	//RecyclerView, ViewPager, NavigationViewActions: unused for now
+	//androidTestImplementation Libs.AndroidX.Test.Espresso.contrib
+	androidTestImplementation Libs.AndroidX.Test.Ext.jUnit
+	androidTestImplementation Libs.AndroidX.Test.rules
 	androidTestImplementation Libs.AndroidX.Test.runner
 }
 
-task f {
-	//configurations.each { println it.name }
-}
 apply plugin: 'com.google.gms.google-services'
-repositories {
-	mavenCentral()
-}

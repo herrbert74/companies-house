@@ -581,9 +581,9 @@ style:
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
     excludeImports: 'java.util.*,kotlinx.android.synthetic.*'
 
-babe:
-  active: true
-  NonExhaustiveWhen:
-    active: true
-  FunctionNameLength:
-    active: true
+#babe:
+ # active: true
+  #NonExhaustiveWhen:
+   # active: true
+  #FunctionNameLength:
+   # active: true

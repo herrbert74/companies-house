@@ -1,3 +1,5 @@
+import com.babestudios.companyinfouk.buildsrc.Libs
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -22,6 +24,7 @@ buildscript {
 		//classpath 'com.android.tools:r8:1.4.57'
 		classpath 'com.android.tools.build:gradle:4.0.0-alpha05'
 		classpath 'com.google.gms:google-services:4.3.3'
+		//noinspection DifferentKotlinGradleVersion
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 		classpath 'io.fabric.tools:gradle:1.31.2'
 		classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.2.2"
@@ -44,25 +47,64 @@ allprojects {
 }
 
 subprojects {
-	if (it.name == 'app') {
-		apply plugin: 'com.android.application'
-		dependencies {
-			detekt "io.gitlab.arturbosch.detekt:detekt-cli:1.2.2"
-			detektPlugins project(":core-detekt")
-		}
-	} else if (it.name == 'core-detekt') {
+	if (it.name == 'core-detekt') {
 		apply plugin: 'kotlin'
 	} else {
-		apply plugin: 'com.android.library'
+		if (it.name == 'app') {
+			apply plugin: 'com.android.application'
+		} else {
+			apply plugin: 'com.android.library'
+		}
+
+		apply plugin: 'kotlin-android'
+		apply plugin: 'kotlin-android-extensions'
+		if (it.name != 'navigation' && it.name != 'common') {
+			apply plugin: 'kotlin-kapt'
+		}
+
+		android {
+			compileSdkVersion 29
+			buildToolsVersion "29.0.2"
+
+			defaultConfig {
+				minSdkVersion 21
+				targetSdkVersion 29
+				consumerProguardFiles 'consumer-rules.pro'
+			}
+
+			buildTypes {
+				release {
+					minifyEnabled false
+					proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+				}
+			}
+		}
+
 		dependencies {
 			detekt "io.gitlab.arturbosch.detekt:detekt-cli:1.2.2"
 			detektPlugins project(":core-detekt")
 		}
-		/*android {
-			viewBinding {
-				enabled = true
+
+		if (it.name.startsWith("feature")) {
+			dependencies {
+				api project(":core-injection")
+
+				implementation Libs.mvrx
+				implementation Libs.AndroidX.constraintLayout
+				implementation Libs.AndroidX.Navigation.ktx
+				implementation Libs.AndroidX.Navigation.fragment
+				implementation Libs.Google.Dagger.dagger
+				implementation Libs.RxJava2.rxAndroid
+				implementation Libs.RxJava2.rxJava
+				implementation Libs.JakeWharton.RxBinding.core
+				implementation Libs.MvRx.testing
+
+				kapt Libs.Google.Dagger.compiler
+
+				testImplementation Libs.AndroidX.Test.Ext.jUnit
+				testImplementation Libs.Test.mockK
 			}
-		}*/
+		}
 	}
 }
 

@@ -3,22 +3,16 @@ package com.babestudios.companyinfouk.buildsrc
 @Suppress("unused")
 object Libs {
 
+	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.0.0"
 	const val mvrx = "com.airbnb.android:mvrx:1.3.0"
 	const val debugDb = "com.amitshekhar.android:debug-db:0.4.0" //To debug preferences
-	const val jUnit = "junit:junit:4.12"
-	//const val jUnit = "org.junit.jupiter:junit-jupiter-api:5.5.2"
-	const val hamcrest = "org.hamcrest:hamcrest-library:1.3"
-	//const val assertJ = "org.assertj:assertj-core:3.13.2"
 
 	object AndroidX {
-		const val legacy = "androidx.legacy:legacy-support-v4:1.0.0"
 		const val appcompat = "androidx.appcompat:appcompat:1.1.0"
 		const val activityKtx = "androidx.activity:activity-ktx:1.1.0-alpha03"
 		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.1.0"
-		const val percentLayout = "androidx.percentlayout:percentlayout:1.0.0"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
 		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3" //beta2 causes linking problems
-		const val multiDex = "androidx.multidex:multidex:2.0.1"
 		const val androidxAnnotations = "androidx.annotation:annotation:1.1.0"
 		const val coreKtx = "androidx.core:core-ktx:1.1.0"
 		const val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
@@ -167,14 +161,6 @@ object Libs {
 		const val noop =  "com.github.ChuckerTeam.Chucker:library-no-op:$version"
 	}
 
-	object Mockito {
-		private const val version = "2.28.2"
-		const val core = "org.mockito:mockito-core:$version"
-		const val android = "org.mockito:mockito-android:$version"
-		const val inline = "org.mockito:mockito-inline:$version" //Needed for inlining final classes for mocking
-		const val kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-	}
-
 	object MvRx {
 		private const val version = "1.3.0"
 		const val mvrx = "com.airbnb.android:mvrx:$version"
@@ -182,7 +168,10 @@ object Libs {
 	}
 
 	object Test {
+		//Provided by AndroidX!
+		//const val jUnit = "junit:junit:4.12"
 		const val assertJ = "org.assertj:assertj-core:3.13.2"
+		//const val hamcrest = "org.hamcrest:hamcrest-library:1.3" //Not used anymore?!
 		const val jUnit5 = "org.junit.jupiter:junit-jupiter-api:5.5.2"
 		const val mockK = "io.mockk:mockk:1.9.3"
 		const val mockKAndroidTest = "io.mockk:mockk-android:1.9.3"

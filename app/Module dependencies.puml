@@ -1,0 +1,11 @@
+@startuml
+
+app <|-- features
+features <|-- "core-injection"
+"core-injection" <|-- navigation
+"core-injection" <|-- data
+data <|-- common
+data <|-- babestudiosbase
+common <|-- babestudiosbase
+
+@enduml

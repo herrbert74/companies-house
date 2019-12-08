@@ -33,7 +33,6 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.mockito.Mockito
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Named
@@ -84,13 +83,13 @@ class AndroidTestDataModule(private val context: Context) {
 
 	@Provides
 	internal fun provideApplication(): Application {
-		return Mockito.mock(CompaniesHouseApplication::class.java)
+		return mockk<CompaniesHouseApplication>()
 	}
 
 	@Provides
 	@ApplicationContext
 	internal fun provideContext(): Context {
-		return Mockito.mock(CompaniesHouseApplication::class.java)
+		return mockk<CompaniesHouseApplication>()
 	}
 
 	@Provides
