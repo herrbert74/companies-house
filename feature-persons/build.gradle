@@ -27,7 +27,6 @@ android {
 }
 
 dependencies {
-	api project(":common")
 	api project(":core-injection")
 
 	implementation Libs.mvrx

@@ -66,8 +66,7 @@ class MainFragment : BaseMvRxFragment() {
 	private var lblSearch: TextView? = null
 	private var flagDoNotAnimateSearchMenuItem = false
 
-	private val searchToolbarAnimationDuration =
-			resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
+	private var searchToolbarAnimationDuration : Long = 0
 
 	//region life cycle
 
@@ -86,6 +85,8 @@ class MainFragment : BaseMvRxFragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		searchToolbarAnimationDuration =
+		resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
 		initializeUI()
 	}
 
