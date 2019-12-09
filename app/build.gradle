@@ -41,10 +41,7 @@ android {
 		//unitTests.returnDefaultValues = true
 		unitTests { includeAndroidResources = true }
 	}
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
-	}
+
 	androidExtensions {
 		experimental = true
 	}

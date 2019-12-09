@@ -2,7 +2,7 @@
 apply plugin: 'kotlin'
 
 buildscript {
-	ext.kotlin_version = '1.3.60'
+	ext.kotlin_version = '1.3.61'
 	repositories {
 		mavenCentral()
 	}
@@ -20,6 +20,3 @@ dependencies {
 	//noinspection DifferentStdlibGradleVersion
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
-
-sourceCompatibility = "8"
-targetCompatibility = "8"
