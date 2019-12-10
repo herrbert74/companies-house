@@ -1,6 +1,8 @@
 package com.babestudios.companyinfouk.buildsrc
 
-@Suppress("unused")
+import org.gradle.api.artifacts.dsl.DependencyHandler
+
+@Suppress("unused", "SpellCheckingInspection")
 object Libs {
 
 	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.0.0"
@@ -110,6 +112,12 @@ object Libs {
 		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.6"
 		const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
 		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.3.0"
+
+		fun DependencyHandler.implementRx() {
+			add("implementation", rxJava)
+			add("implementation", rxAndroid)
+			add("implementation", rxKotlin)
+		}
 	}
 
 	object JakeWharton {
