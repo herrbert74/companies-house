@@ -5,6 +5,7 @@ import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
 import com.babestudios.companyinfouk.data.utils.errors.model.ErrorBody
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
+import java.lang.IllegalStateException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,6 +28,8 @@ class CompaniesHouseErrorResolver @Inject constructor(private val errorHelper: E
 				-> "Authentication error. Please try again"
 				else -> "An error happened. Please try again"
 			}
+		} catch (e: IllegalStateException) {
+			"An error happened. Please try again"
 		}
 		return errorString?.let { errorHelper.errorLookUp(errorString) } ?: run { null }
 	}

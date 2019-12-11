@@ -22,10 +22,12 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 		get() {
 			val latestSearches = sharedPreferences.getString(PREF_LATEST_SEARCHES, "")
 			var searchItems: Array<SearchHistoryItem>? = null
-			try {
-				searchItems = gson.fromJson(latestSearches, Array<SearchHistoryItem>::class.java)
-			} catch (e: JsonParseException) {
-				Log.d("test", "getRecentSearches error: " + e.localizedMessage)
+			if (latestSearches?.isEmpty() == false) {
+				try {
+					searchItems = gson.fromJson(latestSearches, Array<SearchHistoryItem>::class.java)
+				} catch (e: JsonParseException) {
+					Log.d("test", "getRecentSearches error: " + e.localizedMessage)
+				}
 			}
 			return searchItems.orEmpty().toList()
 		}
@@ -34,12 +36,13 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 		get() {
 			val favourites = sharedPreferences.getString(PREF_FAVOURITES, "")
 			var favouritesArray: Array<SearchHistoryItem> = arrayOf()
-			try {
-				favouritesArray = gson.fromJson(favourites, Array<SearchHistoryItem>::class.java)
-			} catch (e: JsonParseException) {
-				Log.d("test", "getFavourites error: " + e.localizedMessage)
+			if (favourites?.isEmpty() == false) {
+				try {
+					favouritesArray = gson.fromJson(favourites, Array<SearchHistoryItem>::class.java)
+				} catch (e: JsonParseException) {
+					Log.d("test", "getFavourites error: " + e.localizedMessage)
+				}
 			}
-
 			return favouritesArray
 		}
 
