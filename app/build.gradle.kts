@@ -5,7 +5,7 @@ plugins {
 	id("jacoco")
 	id("io.fabric")
 	id("com.google.gms.google-services")
-	id( "org.jetbrains.kotlin.plugin.allopen")
+	id("org.jetbrains.kotlin.plugin.allopen")
 }
 
 android {
@@ -46,10 +46,10 @@ android {
 		isExperimental = true
 	}
 
-	applicationVariants.all { //variant ->
-		val isTest :Boolean = gradle.startParameter.taskNames.find {it.contains("test") || it.contains("Test")} != null
+	applicationVariants.all {
+		val isTest: Boolean = gradle.startParameter.taskNames.find { it.contains("test") || it.contains("Test") } != null
 		if (isTest) {
-			apply("kotlin-allopen")
+			apply(plugin = "kotlin-allopen")
 			allOpen {
 				annotation("com.babestudios.base.annotation.Mockable")
 			}
