@@ -18,14 +18,15 @@ object Plugins {
 object Libs {
 	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.0.0"
 	const val mvrx = "com.airbnb.android:mvrx:1.3.0"
-	const val debugDb = "com.amitshekhar.android:debug-db:0.4.0" //To debug preferences
+	const val debugDb = "com.amitshekhar.android:debug-db:1.0.6" //To debug preferences
 
 	object AndroidX {
 		const val appcompat = "androidx.appcompat:appcompat:1.1.0"
 		const val activityKtx = "androidx.activity:activity-ktx:1.1.0-alpha03"
 		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.1.0"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
-		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3" //beta2 causes linking problems
+		//beta2 causes linking problems
+		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
 		const val androidxAnnotations = "androidx.annotation:annotation:1.1.0"
 		const val coreKtx = "androidx.core:core-ktx:1.1.0"
 		const val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
@@ -77,7 +78,7 @@ object Libs {
 	object Google {
 		const val material = "com.google.android.material:material:1.0.0"
 		const val crashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1"
-		const val gson = "com.google.code.gson:gson:2.8.5"
+		const val gson = "com.google.code.gson:gson:2.8.6"
 
 
 		object PlayServices {
@@ -95,20 +96,20 @@ object Libs {
 		}
 
 		object Firebase {
-			const val analytics = "com.google.firebase:firebase-analytics:17.2.0"
+			const val analytics = "com.google.firebase:firebase-analytics:17.2.1"
 			const val database = "com.google.firebase:firebase-database:19.1.0"
 		}
 	}
 
 	object SquareUp {
 		object OkHttp3 {
-			private const val version = "4.1.0"
+			private const val version = "4.2.2"
 			const val okHttp3 = "com.squareup.okhttp3:okhttp:$version"
 			const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
 		}
 
 		object Retrofit2 {
-			private const val version = "2.6.2"
+			private const val version = "2.7.0"
 			const val retrofit = "com.squareup.retrofit2:retrofit:$version"
 			const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:$version"
 			const val converterGson = "com.squareup.retrofit2:converter-gson:$version"
@@ -117,9 +118,9 @@ object Libs {
 	}
 
 	object RxJava2 {
-		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.6"
+		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.15"
 		const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
-		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.3.0"
+		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
 		fun DependencyHandler.implementRx() {
 			add("implementation", rxJava)
@@ -142,7 +143,7 @@ object Libs {
 	}
 
 	object Kotlin {
-		private const val version = "1.3.50"
+		private const val version = "1.3.61"
 		const val stdLibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 	}
 
@@ -186,7 +187,7 @@ object Libs {
 	object Test {
 		//Provided by AndroidX!
 		//const val jUnit = "junit:junit:4.12"
-		const val assertJ = "org.assertj:assertj-core:3.13.2"
+		const val assertJ = "org.assertj:assertj-core:3.14.0"
 		//const val hamcrest = "org.hamcrest:hamcrest-library:1.3" //Not used anymore?!
 		const val jUnit5 = "org.junit.jupiter:junit-jupiter-api:5.5.2"
 		const val mockK = "io.mockk:mockk:1.9.3"

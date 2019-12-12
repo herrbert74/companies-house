@@ -2,10 +2,10 @@ import com.babestudios.companyinfouk.buildsrc.Libs
 
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
-	id("jacoco") //version "0.7.1.201405082137" apply false
+	id("jacoco")
 	id("io.fabric")
 	id("com.google.gms.google-services")
-	id( "org.jetbrains.kotlin.plugin.allopen") //version "1.3.61"
+	id( "org.jetbrains.kotlin.plugin.allopen")
 }
 
 android {
@@ -73,7 +73,6 @@ dependencies {
 	implementation(Libs.Google.crashlytics)
 	implementation(Libs.AndroidX.appcompat)
 	implementation(Libs.Stetho.core)
-	//debugImplementation Libs.debugDb
 	implementation(Libs.AndroidX.Navigation.ktx)
 	implementation(Libs.AndroidX.coreKtx)
 	implementation(Libs.Google.Dagger.dagger)

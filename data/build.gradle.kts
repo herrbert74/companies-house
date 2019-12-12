@@ -53,6 +53,7 @@ dependencies {
 
 	kapt(Libs.Google.Dagger.compiler)
 
+	debugImplementation(Libs.debugDb)
 	debugImplementation(Libs.Chucker.library)
 	releaseImplementation(Libs.Chucker.noop)
 
