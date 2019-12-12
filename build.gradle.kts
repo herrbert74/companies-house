@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
@@ -45,6 +46,37 @@ fun teamPropsFile(propsFile: String): File {
 afterEvaluate {
 	tasks["detekt"].dependsOn(":core-detekt:assemble")
 }
+
+// region Gradle Versions Plugin
+
+fun isNonStable(version: String): Boolean {
+	val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+	val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+	val isStable = stableKeyword || regex.matches(version)
+	return isStable.not()
+}
+
+/**
+// Exclude updates where candidate version is not stable but current version is stable,
+// or candidate is not under our control.
+**/
+tasks.withType<DependencyUpdatesTask> {
+	resolutionStrategy {
+		componentSelection {
+			all {
+				if ((isNonStable(candidate.version)
+						&& !isNonStable(currentVersion))
+						|| this.candidate.displayName.contains("desugar")
+						|| this.candidate.displayName.contains("aapt2")
+						|| this.candidate.displayName.contains("jacoco")) {
+					reject("Release candidate")
+				}
+			}
+		}
+	}
+}
+
+// endregion
 
 apply(teamPropsFile ("git-hooks.gradle"))
 apply(teamPropsFile ("setup-root-tasks.gradle"))
