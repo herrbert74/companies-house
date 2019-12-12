@@ -2,9 +2,20 @@ package com.babestudios.companyinfouk.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
+//Sadly this doesn't work in root gradle file, probably chicken and egg problem
+@Suppress("unused", "SpellCheckingInspection")
+object Plugins {
+	private const val kotlinVersion = "1.3.61"
+	const val androidTools = "com.android.tools.build:gradle:4.0.0-alpha05"
+	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+	const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+	const val googleServices = "com.google.gms:google-services:4.3.3"
+	const val fabric = "io.fabric.tools:gradle:1.31.2"
+	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.2.2"
+}
+
 @Suppress("unused", "SpellCheckingInspection")
 object Libs {
-
 	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.0.0"
 	const val mvrx = "com.airbnb.android:mvrx:1.3.0"
 	const val debugDb = "com.amitshekhar.android:debug-db:0.4.0" //To debug preferences
@@ -81,9 +92,6 @@ object Libs {
 			private const val version = "2.25.2"
 			const val dagger = "com.google.dagger:dagger:$version"
 			const val compiler = "com.google.dagger:dagger-compiler:$version"
-			//const val daggerAndroid = "com.google.dagger:dagger-android:$version"
-			//const val daggerAndroidSupport = "com.google.dagger:dagger-android-support:$version"
-			//const val processor = "com.google.dagger:dagger-android-processor:$version"
 		}
 
 		object Firebase {

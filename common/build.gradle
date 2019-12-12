@@ -1,6 +1,0 @@
-import com.babestudios.companyinfouk.buildsrc.Libs
-
-dependencies {
-	implementation Libs.baBeStudiosBase
-	implementation Libs.AndroidX.appcompat
-}
