@@ -42,6 +42,7 @@ You can drill down from the main screen to the following:
 * Large part of the ViewModels are unit tested.
 * ConstraintLayout is used on Details screens.
 * Architecture Components Navigation.
+* Kotlin Gradle DSL with Feature and Android plugins in buildSrc to avoid duplicate declarations.
 * Modularized with the following modules:
     * **_BuidSrc directory_** is the standard Gradle way to separate links to third party libraries.
     * **_Base module_** in a separate project to maintain reusability.
