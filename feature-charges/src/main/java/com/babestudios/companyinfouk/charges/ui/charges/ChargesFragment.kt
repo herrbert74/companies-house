@@ -13,13 +13,13 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.charges.R
+import com.babestudios.companyinfouk.charges.databinding.FragmentChargesBinding
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.charges.ui.charges.list.AbstractChargesVisitable
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesAdapter
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesTypeFactory
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesViewHolder
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_charges.*
 
 class ChargesFragment : BaseMvRxFragment() {
 
@@ -29,14 +29,17 @@ class ChargesFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private var _binding: FragmentChargesBinding? = null
+	private val binding get() = _binding!!
+
 	//region life cycle
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
-		return inflater.inflate(R.layout.fragment_charges, container, false)
+		_binding = FragmentChargesBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,10 +49,10 @@ class ChargesFragment : BaseMvRxFragment() {
 
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(pabCharges.getToolbar())
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabCharges.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabCharges.setNavigationOnClickListener { activity?.onBackPressed() }
+		binding.pabCharges.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.charges)
 		createRecyclerView()
 		withState(viewModel) {
@@ -64,13 +67,18 @@ class ChargesFragment : BaseMvRxFragment() {
 
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		rvCharges?.layoutManager = linearLayoutManager
-		rvCharges?.addItemDecoration(DividerItemDecoration(requireContext()))
-		rvCharges?.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		binding.rvCharges.layoutManager = linearLayoutManager
+		binding.rvCharges.addItemDecoration(DividerItemDecoration(requireContext()))
+		binding.rvCharges.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
 				viewModel.loadMoreCharges(page)
 			}
 		})
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
 	}
 
 	//endregion
@@ -94,20 +102,20 @@ class ChargesFragment : BaseMvRxFragment() {
 	override fun invalidate() {
 		withState(viewModel) { state ->
 			when (state.chargesRequest) {
-				is Loading -> msvCharges.viewState = VIEW_STATE_LOADING
+				is Loading -> binding.msvCharges.viewState = VIEW_STATE_LOADING
 				is Fail -> {
-					msvCharges.viewState = VIEW_STATE_ERROR
-					val tvMsvError = msvCharges.findViewById<TextView>(R.id.tvMsvError)
+					binding.msvCharges.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvCharges.findViewById<TextView>(R.id.tvMsvError)
 					tvMsvError.text = state.chargesRequest.error.message
 				}
 				is Success -> {
 					if (state.charges.isEmpty()) {
-						msvCharges.viewState = VIEW_STATE_EMPTY
+						binding.msvCharges.viewState = VIEW_STATE_EMPTY
 					} else {
-						msvCharges.viewState = VIEW_STATE_CONTENT
-						if (rvCharges?.adapter == null) {
+						binding.msvCharges.viewState = VIEW_STATE_CONTENT
+						if (binding.rvCharges.adapter == null) {
 							chargesAdapter = ChargesAdapter(state.charges, ChargesTypeFactory())
-							rvCharges?.adapter = chargesAdapter
+							binding.rvCharges.adapter = chargesAdapter
 						} else {
 							chargesAdapter?.updateItems(state.charges)
 						}
