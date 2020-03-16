@@ -1,55 +1,65 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details.list
 
 import android.view.View
-import android.widget.TextView
-import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.insolvencies.R
-import kotlinx.android.synthetic.main.row_insolvency_details_date.view.*
-import kotlinx.android.synthetic.main.row_insolvency_details_practitioner.view.*
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.common.databinding.RowSubtitleBinding
+import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsDateBinding
+import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsPractitionerBinding
 
-class InsolvencyDetailsTitleViewHolder(itemView: View) : BaseViewHolder<AbstractInsolvencyDetailsVisitable>(itemView) {
+class InsolvencyDetailsTitleViewHolder(_binding: ViewBinding)
+	: BaseViewHolder<AbstractInsolvencyDetailsVisitable>(_binding) {
 	override fun bind(visitable: AbstractInsolvencyDetailsVisitable) {
+		val binding = _binding as RowSubtitleBinding
 		val insolvencyDetailsTitleItem = (visitable as InsolvencyDetailsTitleVisitable).insolvencyDetailsTitleItem
-		val lblCommonSubtitle = itemView.findViewById<TextView>(R.id.lblCommonSubtitle)
-		lblCommonSubtitle.text = insolvencyDetailsTitleItem.title
+		binding.lblCommonSubtitle.text = insolvencyDetailsTitleItem.title
 	}
 }
 
-class InsolvencyDetailsDateViewHolder(itemView: View) : BaseViewHolder<AbstractInsolvencyDetailsVisitable>(itemView) {
+class InsolvencyDetailsDateViewHolder(_binding: ViewBinding) 
+	: BaseViewHolder<AbstractInsolvencyDetailsVisitable>(_binding) {
 	override fun bind(visitable: AbstractInsolvencyDetailsVisitable) {
-		val insolvencyDetailsDateItem = (visitable as InsolvencyDetailsDateVisitable).insolvencyDetailsDateItem
-		itemView.lblInsolvencyDetailsDate.text = insolvencyDetailsDateItem.date
-		itemView.lblInsolvencyDetailsType.text = insolvencyDetailsDateItem.type
+		val binding = _binding as RowInsolvencyDetailsDateBinding
+		val insolvencyDetailsDateItem = 
+				(visitable as InsolvencyDetailsDateVisitable).insolvencyDetailsDateItem
+		binding.lblInsolvencyDetailsDate.text = insolvencyDetailsDateItem.date
+		binding.lblInsolvencyDetailsType.text = insolvencyDetailsDateItem.type
 	}
 }
 
-class InsolvencyDetailsPractitionerViewHolder(itemView: View)
-	: BaseViewHolder<AbstractInsolvencyDetailsVisitable>(itemView) {
+class InsolvencyDetailsPractitionerViewHolder(_binding: ViewBinding)
+	: BaseViewHolder<AbstractInsolvencyDetailsVisitable>(_binding) {
 	override fun bind(visitable: AbstractInsolvencyDetailsVisitable) {
+		val binding = _binding as RowInsolvencyDetailsPractitionerBinding
 		val insolvencyDetailsPractitionerItem =
-				(visitable as InsolvencyDetailsPractitionerVisitable).insolvencyDetailsPractitionerItem
-		itemView.lblInsolvencyDetailsAppointedOn.text = insolvencyDetailsPractitionerItem.practitioner.appointedOn
-		itemView.lblInsolvencyDetailsCeasedToActOn.text = insolvencyDetailsPractitionerItem.practitioner.ceasedToActOn
-		itemView.lblInsolvencyDetailsPractitionerName.text = insolvencyDetailsPractitionerItem.practitioner.name
-		itemView.lblInsolvencyDetailsPractitionerRole.text = insolvencyDetailsPractitionerItem.practitioner.role
-		itemView.lblInsolvencyDetailsPractitionerAddressLine1.text =
+				(visitable as InsolvencyDetailsPractitionerVisitable)
+						.insolvencyDetailsPractitionerItem
+		binding.lblInsolvencyDetailsAppointedOn.text =
+				insolvencyDetailsPractitionerItem.practitioner.appointedOn
+		binding.lblInsolvencyDetailsCeasedToActOn.text =
+				insolvencyDetailsPractitionerItem.practitioner.ceasedToActOn
+		binding.lblInsolvencyDetailsPractitionerName.text =
+				insolvencyDetailsPractitionerItem.practitioner.name
+		binding.lblInsolvencyDetailsPractitionerRole.text =
+				insolvencyDetailsPractitionerItem.practitioner.role
+		binding.lblInsolvencyDetailsPractitionerAddressLine1.text =
 				insolvencyDetailsPractitionerItem.practitioner.address?.addressLine1
-		itemView.lblInsolvencyDetailsPractitionerLocality.text =
+		binding.lblInsolvencyDetailsPractitionerLocality.text =
 				insolvencyDetailsPractitionerItem.practitioner.address?.locality
-		itemView.lblInsolvencyDetailsPractitionerPostalCode.text =
+		binding.lblInsolvencyDetailsPractitionerPostalCode.text =
 				insolvencyDetailsPractitionerItem.practitioner.address?.postalCode
 		if (insolvencyDetailsPractitionerItem.practitioner.address?.region == null) {
-			itemView.lblInsolvencyDetailsPractitionerRegion?.visibility = View.GONE
+			binding.lblInsolvencyDetailsPractitionerRegion.visibility = View.GONE
 		} else {
-			itemView.lblInsolvencyDetailsPractitionerRegion?.visibility = View.VISIBLE
-			itemView.lblInsolvencyDetailsPractitionerRegion?.text =
+			binding.lblInsolvencyDetailsPractitionerRegion.visibility = View.VISIBLE
+			binding.lblInsolvencyDetailsPractitionerRegion.text =
 					insolvencyDetailsPractitionerItem.practitioner.address?.region
 		}
 		if (insolvencyDetailsPractitionerItem.practitioner.address?.country == null) {
-			itemView.lblInsolvencyDetailsPractitionerCountry?.visibility = View.GONE
+			binding.lblInsolvencyDetailsPractitionerCountry.visibility = View.GONE
 		} else {
-			itemView.lblInsolvencyDetailsPractitionerCountry?.visibility = View.VISIBLE
-			itemView.lblInsolvencyDetailsPractitionerCountry?.text =
+			binding.lblInsolvencyDetailsPractitionerCountry.visibility = View.VISIBLE
+			binding.lblInsolvencyDetailsPractitionerCountry.text =
 					insolvencyDetailsPractitionerItem.practitioner.address?.country
 		}
 	}

@@ -74,7 +74,7 @@
 				android:paddingEnd="8dp"
 				android:paddingRight="8dp"
 				android:textColor="@android:color/black"
-				android:textColorHint="@color/transparent_black"
+				android:textColorHint="@color/semiTransparentBlack"
 				android:textSize="20sp"/>
 
 			<ImageView
@@ -82,7 +82,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
 				android:layout_gravity="center_vertical"
-				android:tint="@color/transparent_black"
+				android:tint="@color/semiTransparentBlack"
 				android:background="?attr/selectableItemBackgroundBorderless"
 				android:contentDescription="@string/abc_searchview_description_clear"
 				android:focusable="true"
@@ -106,7 +106,7 @@
 				android:focusable="true"
 				android:paddingEnd="8dp"
 				android:paddingStart="8dp"
-				android:tint="@color/transparent_black"
+				android:tint="@color/semiTransparentBlack"
 				android:visibility="gone"/>
 
 			<ImageView
@@ -119,7 +119,7 @@
 				android:focusable="true"
 				android:paddingEnd="8dp"
 				android:paddingStart="8dp"
-				android:tint="@color/transparent_black"
+				android:tint="@color/semiTransparentBlack"
 				android:visibility="gone"/>
 		</LinearLayout>
 	</LinearLayout>

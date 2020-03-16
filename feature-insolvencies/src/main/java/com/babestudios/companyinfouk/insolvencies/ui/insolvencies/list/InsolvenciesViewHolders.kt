@@ -1,17 +1,19 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
-import android.view.View
-import com.babestudios.base.mvp.list.BaseViewHolder
-import kotlinx.android.synthetic.main.row_insolvency.view.*
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyBinding
 
-class InsolvencyViewHolder(itemView: View) : BaseViewHolder<AbstractInsolvencyVisitable>(itemView) {
+class InsolvencyViewHolder(_binding: ViewBinding) 
+	: BaseViewHolder<AbstractInsolvencyVisitable>(_binding) {
 	override fun bind(visitable: AbstractInsolvencyVisitable) {
+		val binding = _binding as RowInsolvencyBinding
 		val insolvencyCase = (visitable as InsolvencyVisitable).insolvencyCase
-		itemView.lblInsolvencyDate.text = insolvencyCase.dates[0].date
-		itemView.lblInsolvencyNumber?.text = insolvencyCase.number
-		itemView.lblInsolvencyType?.text = insolvencyCase.type
+		binding.lblInsolvencyDate.text = insolvencyCase.dates[0].date
+		binding.lblInsolvencyNumber.text = insolvencyCase.number
+		binding.lblInsolvencyType.text = insolvencyCase.type
 		if (insolvencyCase.practitioners.isNotEmpty()) {
-			itemView.lblInsolvencyPractitioner?.text = insolvencyCase.practitioners[0].name
+			binding.lblInsolvencyPractitioner.text = insolvencyCase.practitioners[0].name
 		}
 	}
 }

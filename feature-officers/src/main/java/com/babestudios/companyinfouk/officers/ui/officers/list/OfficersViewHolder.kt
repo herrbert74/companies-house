@@ -1,15 +1,16 @@
 package com.babestudios.companyinfouk.officers.ui.officers.list
 
-import android.view.View
-import com.babestudios.base.mvp.list.BaseViewHolder
-import kotlinx.android.synthetic.main.row_officers.view.*
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.officers.databinding.RowOfficersBinding
 
-class OfficersViewHolder(itemView: View) : BaseViewHolder<AbstractOfficersVisitable>(itemView) {
+class OfficersViewHolder(_binding: ViewBinding) : BaseViewHolder<AbstractOfficersVisitable>(_binding) {
 	override fun bind(visitable: AbstractOfficersVisitable) {
+		val binding = _binding as RowOfficersBinding
 		val officers = (visitable as OfficersVisitable).officerItem
-		itemView.lblOfficersName?.text = officers.name
-		itemView.lblOfficersAppointedOn?.text = officers.appointedOn
-		itemView.lblOfficersRole?.text = officers.officerRole
-		itemView.lblOfficersResignedOn?.text = officers.resignedOn
+		binding.lblOfficersName.text = officers.name
+		binding.lblOfficersAppointedOn.text = officers.appointedOn
+		binding.lblOfficersRole.text = officers.officerRole
+		binding.lblOfficersResignedOn.text = officers.resignedOn
 	}
 }

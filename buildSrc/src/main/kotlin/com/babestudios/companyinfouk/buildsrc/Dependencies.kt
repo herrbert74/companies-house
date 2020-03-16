@@ -16,7 +16,7 @@ object Plugins {
 
 @Suppress("unused", "SpellCheckingInspection")
 object Libs {
-	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.0.0"
+	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.1.1"
 	const val mvrx = "com.airbnb.android:mvrx:1.3.0"
 	const val debugDb = "com.amitshekhar.android:debug-db:1.0.6" //To debug preferences
 

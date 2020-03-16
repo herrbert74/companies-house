@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.babestudios.base.mvp.list.BaseViewHolder
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.companies.databinding.RowSearchResultBinding
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -30,13 +32,16 @@ class SearchAdapter(private var searchVisitables: List<AbstractSearchVisitable>
 
 	interface SearchTypeFactory {
 		fun type(searchItem: CompanySearchResultItem): Int
-		fun holder(type: Int, view: View): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractSearchVisitable> {
-		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v = searchTypeFactory.holder(viewType, view) as BaseViewHolder<AbstractSearchVisitable>
-		RxView.clicks(view)
+		val binding = RowSearchResultBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false)
+		val v = searchTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractSearchVisitable>
+		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
 				.subscribe(itemClickSubject)

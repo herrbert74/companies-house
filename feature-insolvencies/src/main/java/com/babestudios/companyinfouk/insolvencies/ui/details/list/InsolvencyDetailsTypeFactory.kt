@@ -1,21 +1,24 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details.list
 
-import android.view.View
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.insolvencies.R
-import com.babestudios.base.mvp.list.BaseViewHolder
-import java.lang.IllegalStateException
 
 class InsolvencyDetailsTypeFactory : InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory {
-	override fun type(insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem): Int = R.layout.row_subtitle
-	override fun type(insolvencyDetailsDateItem: InsolvencyDetailsDateItem): Int = R.layout.row_insolvency_details_date
+	override fun type(insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem): Int =
+			R.layout.row_subtitle
+	override fun type(insolvencyDetailsDateItem: InsolvencyDetailsDateItem): Int =
+			R.layout.row_insolvency_details_date
 	override fun type(insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem): Int =
 			R.layout.row_insolvency_details_practitioner
 
-	override fun holder(type: Int, view: View): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
 		return when (type) {
-			R.layout.row_subtitle -> InsolvencyDetailsTitleViewHolder(view)
-			R.layout.row_insolvency_details_date -> InsolvencyDetailsDateViewHolder(view)
-			R.layout.row_insolvency_details_practitioner -> InsolvencyDetailsPractitionerViewHolder(view)
+			R.layout.row_subtitle -> InsolvencyDetailsTitleViewHolder(binding)
+			R.layout.row_insolvency_details_date ->
+				InsolvencyDetailsDateViewHolder(binding)
+			R.layout.row_insolvency_details_practitioner ->
+				InsolvencyDetailsPractitionerViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")
 		}
 	}

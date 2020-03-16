@@ -1,24 +1,26 @@
 package com.babestudios.companyinfouk.companies.ui.main.recents
 
-import android.view.View
-import android.widget.TextView
-import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.companies.R
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.common.databinding.RowSubtitleBinding
+import com.babestudios.companyinfouk.common.databinding.RowTwoLinesBinding
 
-class SearchHistoryViewHolder(itemView: View) : BaseViewHolder<AbstractSearchHistoryVisitable>(itemView) {
+class SearchHistoryViewHolder(_binding: ViewBinding)
+	: BaseViewHolder<AbstractSearchHistoryVisitable>(_binding) {
 	override fun bind(visitable: AbstractSearchHistoryVisitable) {
+		val binding = _binding as RowTwoLinesBinding
 		val searchHistoryItem = (visitable as SearchHistoryVisitable).searchHistoryItem
-		val lblCommonTwoLinesTitle = itemView.findViewById<TextView>(R.id.lblCommonTwoLinesTitle)
-		lblCommonTwoLinesTitle.text = searchHistoryItem.companyName
-		val lblCommonTwoLinesText = itemView.findViewById<TextView>(R.id.lblCommonTwoLinesText)
-		lblCommonTwoLinesText.text = searchHistoryItem.companyNumber
+		binding.lblCommonTwoLinesTitle.text = searchHistoryItem.companyName
+		binding.lblCommonTwoLinesText.text = searchHistoryItem.companyNumber
 	}
 }
 
-class SearchHistoryHeaderViewHolder(itemView: View) : BaseViewHolder<AbstractSearchHistoryVisitable>(itemView) {
+class SearchHistoryHeaderViewHolder(_binding: ViewBinding)
+	: BaseViewHolder<AbstractSearchHistoryVisitable>(_binding) {
 	override fun bind(visitable: AbstractSearchHistoryVisitable) {
-		val searchHistoryHeaderItem = (visitable as SearchHistoryHeaderVisitable).searchHistoryHeaderItem
-		val lblCommonSubtitle = itemView.findViewById<TextView>(R.id.lblCommonSubtitle)
-		lblCommonSubtitle.text = searchHistoryHeaderItem.title
+		val binding = _binding as RowSubtitleBinding
+		val searchHistoryHeaderItem =
+				(visitable as SearchHistoryHeaderVisitable).searchHistoryHeaderItem
+		binding.lblCommonSubtitle.text = searchHistoryHeaderItem.title
 	}
 }

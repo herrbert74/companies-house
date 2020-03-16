@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.persons.ui.persons.list
 
-import android.view.View
-import com.babestudios.base.mvp.list.BaseViewHolder
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.data.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
 import java.lang.IllegalStateException
@@ -9,9 +9,9 @@ import java.lang.IllegalStateException
 class PersonsTypeFactory : PersonsAdapter.PersonsTypeFactory {
 	override fun type(persons: Person): Int = R.layout.row_persons
 
-	override fun holder(type: Int, view: View): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
 		return when (type) {
-			R.layout.row_persons -> PersonsViewHolder(view)
+			R.layout.row_persons -> PersonsViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")
 		}
 	}

@@ -1,14 +1,15 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
 
 class InsolvenciesAdapter(private var insolvencyVisitables: List<AbstractInsolvencyVisitable>
 						  , private val insolvencyTypeFactory: InsolvencyTypeFactory)
@@ -30,13 +31,16 @@ class InsolvenciesAdapter(private var insolvencyVisitables: List<AbstractInsolve
 
 	interface InsolvencyTypeFactory {
 		fun type(insolvencyCase: InsolvencyCase): Int
-		fun holder(type: Int, view: View): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractInsolvencyVisitable> {
-		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v = insolvencyTypeFactory.holder(viewType, view) as BaseViewHolder<AbstractInsolvencyVisitable>
-		RxView.clicks(view)
+		val binding = RowInsolvencyBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false)
+		val v = insolvencyTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractInsolvencyVisitable>
+		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
 				.subscribe(itemClickSubject)

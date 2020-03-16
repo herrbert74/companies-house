@@ -1,14 +1,15 @@
 package com.babestudios.companyinfouk.officers.ui.officers.list
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.data.model.officers.OfficerItem
+import com.babestudios.companyinfouk.officers.databinding.RowOfficersBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.officers.OfficerItem
 
 class OfficersAdapter(private var officersVisitables: List<AbstractOfficersVisitable>
 					  , private val officersTypeFactory: OfficersTypeFactory)
@@ -30,13 +31,16 @@ class OfficersAdapter(private var officersVisitables: List<AbstractOfficersVisit
 
 	interface OfficersTypeFactory {
 		fun type(officersItem: OfficerItem): Int
-		fun holder(type: Int, view: View): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractOfficersVisitable> {
-		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v = officersTypeFactory.holder(viewType, view) as BaseViewHolder<AbstractOfficersVisitable>
-		RxView.clicks(view)
+		val binding = RowOfficersBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false)
+		val v = officersTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractOfficersVisitable>
+		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
 				.subscribe(itemClickSubject)

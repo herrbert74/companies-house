@@ -1,14 +1,17 @@
 package com.babestudios.companyinfouk.companies.ui.main.recents
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.common.databinding.RowSubtitleBinding
+import com.babestudios.companyinfouk.common.databinding.RowTwoLinesBinding
+import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import com.babestudios.base.mvp.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 
 class SearchHistoryAdapter(private var searchHistoryVisitables: List<AbstractSearchHistoryVisitable>
 						   , private val searchHistoryTypeFactory: SearchHistoryTypeFactory)
@@ -31,13 +34,23 @@ class SearchHistoryAdapter(private var searchHistoryVisitables: List<AbstractSea
 	interface SearchHistoryTypeFactory {
 		fun type(searchHistoryItem: SearchHistoryItem): Int
 		fun type(searchHistoryHeaderItem: SearchHistoryHeaderItem): Int
-		fun holder(type: Int, view: View): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractSearchHistoryVisitable> {
-		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v = searchHistoryTypeFactory.holder(viewType, view) as BaseViewHolder<AbstractSearchHistoryVisitable>
-		RxView.clicks(view)
+		val binding = when (viewType) {
+			R.layout.row_two_lines -> RowTwoLinesBinding.inflate(
+					LayoutInflater.from(parent.context),
+					parent,
+					false)
+			else -> RowSubtitleBinding.inflate(
+					LayoutInflater.from(parent.context),
+					parent,
+					false)
+
+		}
+		val v = searchHistoryTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractSearchHistoryVisitable>
+		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
 				.subscribe(itemClickSubject)

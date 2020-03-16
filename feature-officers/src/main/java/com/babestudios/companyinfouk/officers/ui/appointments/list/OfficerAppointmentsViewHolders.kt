@@ -1,23 +1,26 @@
 package com.babestudios.companyinfouk.officers.ui.appointments.list
 
 import android.view.View
-import com.babestudios.base.mvp.list.BaseViewHolder
-import kotlinx.android.synthetic.main.row_officer_appointments.view.*
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.officers.databinding.RowOfficerAppointmentsBinding
 
-class OfficerAppointmentsViewHolder(itemView: View) : BaseViewHolder<AbstractOfficerAppointmentsVisitable>(itemView) {
+class OfficerAppointmentsViewHolder(_binding: ViewBinding) 
+	: BaseViewHolder<AbstractOfficerAppointmentsVisitable>(_binding) {
 	override fun bind(visitable: AbstractOfficerAppointmentsVisitable) {
+		val binding = _binding as RowOfficerAppointmentsBinding
 		val appointment = (visitable as OfficerAppointmentsVisitable).appointment
-		itemView.lblOfficerAppointmentsAppointedOn?.text = appointment.appointedOn
-		itemView.lblOfficerAppointmentsCompanyName?.text = appointment.appointedTo?.companyName
-		itemView.lblOfficerAppointmentsCompanyStatus?.text = appointment.appointedTo?.companyStatus
-		itemView.lblOfficerAppointmentsRole?.text = appointment.officerRole
+		binding.lblOfficerAppointmentsAppointedOn.text = appointment.appointedOn
+		binding.lblOfficerAppointmentsCompanyName.text = appointment.appointedTo?.companyName
+		binding.lblOfficerAppointmentsCompanyStatus.text = appointment.appointedTo?.companyStatus
+		binding.lblOfficerAppointmentsRole.text = appointment.officerRole
 		if (appointment.resignedOn != null) {
-			itemView.lblOfficerAppointmentsResignedOn?.visibility = View.VISIBLE
-			itemView.cpnOfficerAppointmentsResignedOn?.visibility = View.VISIBLE
-			itemView.lblOfficerAppointmentsResignedOn?.text = appointment.resignedOn
+			binding.lblOfficerAppointmentsResignedOn.visibility = View.VISIBLE
+			binding.cpnOfficerAppointmentsResignedOn.visibility = View.VISIBLE
+			binding.lblOfficerAppointmentsResignedOn.text = appointment.resignedOn
 		} else {
-			itemView.lblOfficerAppointmentsResignedOn?.visibility = View.GONE
-			itemView.cpnOfficerAppointmentsResignedOn?.visibility = View.GONE
+			binding.lblOfficerAppointmentsResignedOn.visibility = View.GONE
+			binding.cpnOfficerAppointmentsResignedOn.visibility = View.GONE
 		}
 	}
 }

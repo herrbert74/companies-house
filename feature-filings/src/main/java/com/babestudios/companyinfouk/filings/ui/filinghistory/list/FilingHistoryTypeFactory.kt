@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.filings.ui.filinghistory.list
 
-import android.view.View
-import com.babestudios.base.mvp.list.BaseViewHolder
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItemDto
 import com.babestudios.companyinfouk.filings.R
 
@@ -16,9 +16,9 @@ import com.babestudios.companyinfouk.filings.R
 class FilingHistoryTypeFactory : FilingHistoryAdapter.FilingHistoryTypeFactory {
 	override fun type(filingHistoryItem: FilingHistoryItemDto): Int = R.layout.row_filing_history
 
-	override fun holder(type: Int, view: View): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
 		return when(type) {
-			R.layout.row_filing_history -> FilingHistoryViewHolder(view)
+			R.layout.row_filing_history -> FilingHistoryViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")
 		}
 	}

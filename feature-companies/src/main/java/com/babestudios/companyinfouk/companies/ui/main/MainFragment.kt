@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.textColor
-import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
@@ -379,7 +379,7 @@ class MainFragment : BaseMvRxFragment() {
 					rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
 					viewModel.logSearch()
 				} else
-					rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent_black))
+					rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.semiTransparentBlack))
 
 				state.filteredSearchVisitables.let {
 					rvMainSearch.visibility = View.VISIBLE

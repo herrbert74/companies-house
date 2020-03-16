@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.mvrx.*
-import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.companies.R

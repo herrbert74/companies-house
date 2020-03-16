@@ -1,10 +1,14 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details.list
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.babestudios.base.mvp.list.BaseViewHolder
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.common.databinding.RowSubtitleBinding
+import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsDateBinding
+import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsPractitionerBinding
 
 class InsolvencyDetailsAdapter(private var insolvencyDetailsVisitables: List<AbstractInsolvencyDetailsVisitable>
 							   , private val insolvencyDetailsTypeFactory: InsolvencyDetailsTypeFactory)
@@ -22,12 +26,26 @@ class InsolvencyDetailsAdapter(private var insolvencyDetailsVisitables: List<Abs
 		fun type(insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem): Int
 		fun type(insolvencyDetailsDateItem: InsolvencyDetailsDateItem): Int
 		fun type(insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem): Int
-		fun holder(type: Int, view: View): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractInsolvencyDetailsVisitable> {
-		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		return insolvencyDetailsTypeFactory.holder(viewType, view) as BaseViewHolder<AbstractInsolvencyDetailsVisitable>
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+			: BaseViewHolder<AbstractInsolvencyDetailsVisitable> {
+		val binding = when (viewType) {
+			R.layout.row_subtitle -> RowSubtitleBinding.inflate(
+					LayoutInflater.from(parent.context),
+					parent,
+					false)
+			R.layout.row_insolvency_details_date -> RowInsolvencyDetailsDateBinding.inflate(
+					LayoutInflater.from(parent.context),
+					parent,
+					false)
+			else -> RowInsolvencyDetailsPractitionerBinding.inflate(
+					LayoutInflater.from(parent.context),
+					parent,
+					false)
+		}
+		return insolvencyDetailsTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractInsolvencyDetailsVisitable>
 	}
 
 	override fun onBindViewHolder(holder: BaseViewHolder<AbstractInsolvencyDetailsVisitable>, position: Int) {

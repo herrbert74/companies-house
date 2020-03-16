@@ -1,15 +1,16 @@
 package com.babestudios.companyinfouk.companies.ui.main.search
 
-import android.view.View
-import com.babestudios.base.mvp.list.BaseViewHolder
-import kotlinx.android.synthetic.main.row_search_result.view.*
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.companies.databinding.RowSearchResultBinding
 
-class SearchViewHolder(itemView: View) : BaseViewHolder<AbstractSearchVisitable>(itemView) {
+class SearchViewHolder(_binding: ViewBinding) : BaseViewHolder<AbstractSearchVisitable>(_binding) {
 	override fun bind(visitable: AbstractSearchVisitable) {
+		val binding = _binding as RowSearchResultBinding
 		val searchItem = (visitable as SearchVisitable).searchItem
-		itemView.lblSearchResultsCompanyName?.text = searchItem.title
-		itemView.lblSearchResultsAddress?.text = searchItem.addressSnippet
-		itemView.lblSearchResultsActiveStatus?.text = searchItem.companyStatus
-		itemView.lblSearchResultsIncorporated?.text = searchItem.description
+		binding.lblSearchResultsCompanyName.text = searchItem.title
+		binding.lblSearchResultsAddress.text = searchItem.addressSnippet
+		binding.lblSearchResultsActiveStatus.text = searchItem.companyStatus
+		binding.lblSearchResultsIncorporated.text = searchItem.description
 	}
 }

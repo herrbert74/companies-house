@@ -2,12 +2,13 @@ package com.babestudios.companyinfouk.charges.ui.charges.list
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import com.babestudios.base.mvp.list.BaseViewHolder
+import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.charges.databinding.RowChargesBinding
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 
 class ChargesAdapter(private var chargesVisitables: List<AbstractChargesVisitable>
@@ -30,13 +31,16 @@ class ChargesAdapter(private var chargesVisitables: List<AbstractChargesVisitabl
 
 	interface ChargesTypeFactory {
 		fun type(chargesItem: ChargesItem): Int
-		fun holder(type: Int, view: View): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractChargesVisitable> {
-		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v = chargesTypeFactory.holder(viewType, view) as BaseViewHolder<AbstractChargesVisitable>
-		RxView.clicks(view)
+		val binding = RowChargesBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false)
+		val v = chargesTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractChargesVisitable>
+		RxView.clicks(v.itemView)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
 				.subscribe(itemClickSubject)

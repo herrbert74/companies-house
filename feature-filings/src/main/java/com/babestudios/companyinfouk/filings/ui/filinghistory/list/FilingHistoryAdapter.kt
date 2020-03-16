@@ -1,11 +1,12 @@
 package com.babestudios.companyinfouk.filings.ui.filinghistory.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.babestudios.base.mvp.list.BaseViewHolder
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItemDto
+import com.babestudios.companyinfouk.filings.databinding.RowFilingHistoryBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -17,13 +18,16 @@ class FilingHistoryAdapter internal constructor(
 
 	interface FilingHistoryTypeFactory {
 		fun type(filingHistoryItem: FilingHistoryItemDto): Int
-		fun holder(type: Int, view: View): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FilingHistoryVisitable> {
-		val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-		val v = filingHistoryTypeFactory.holder(viewType, view) as BaseViewHolder<FilingHistoryVisitable>
-		RxView.clicks(view)
+		val binding = RowFilingHistoryBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false)
+		val v = filingHistoryTypeFactory.holder(viewType, binding) as BaseViewHolder<FilingHistoryVisitable>
+		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
 				.subscribe(itemClickSubject)

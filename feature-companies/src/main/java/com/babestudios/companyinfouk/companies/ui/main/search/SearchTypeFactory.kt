@@ -1,17 +1,16 @@
 package com.babestudios.companyinfouk.companies.ui.main.search
 
-import android.view.View
+import androidx.viewbinding.ViewBinding
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.companies.R
-import com.babestudios.base.mvp.list.BaseViewHolder
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
-import java.lang.IllegalStateException
 
 class SearchTypeFactory : SearchAdapter.SearchTypeFactory {
 	override fun type(searchItem: CompanySearchResultItem): Int = R.layout.row_search_result
 
-	override fun holder(type: Int, view: View): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
 		return when (type) {
-			R.layout.row_search_result -> SearchViewHolder(view)
+			R.layout.row_search_result -> SearchViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")
 		}
 	}

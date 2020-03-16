@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.plugins.feature
 
+import com.android.build.gradle.BaseExtension
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -30,6 +31,16 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 
 			add("testImplementation", Libs.AndroidX.Test.Ext.jUnit)
 			add("testImplementation", Libs.Test.mockK)
+		}
+
+		val androidExtension = project.extensions.getByName("android")
+
+		if (androidExtension is BaseExtension) {
+
+			androidExtension.apply {
+				@Suppress("UnstableApiUsage")
+				buildFeatures.viewBinding = true
+			}
 		}
 	}
 }
