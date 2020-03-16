@@ -4,8 +4,8 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-	extra["kotlin_version"] = "1.3.61"
-	val kotlinVersion = "1.3.61"
+	extra["kotlin_version"] = "1.3.70"
+	val kotlinVersion = "1.3.70"
 	repositories {
 		google()
 		maven { url = uri("https://maven.fabric.io/public") }
@@ -13,7 +13,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:4.0.0-alpha07")
+		classpath("com.android.tools.build:gradle:4.0.0-beta02")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
 		classpath("com.google.gms:google-services:4.3.3")
 		classpath("io.fabric.tools:gradle:1.31.2")

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-													 xmlns:app="http://schemas.android.com/apk/res-auto"
-													 xmlns:tools="http://schemas.android.com/tools"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent"
-													 android:fitsSystemWindows="true"
-													 tools:context="com.babestudios.companyinfouk.companies.ui.CompaniesActivity">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	tools:context="com.babestudios.companyinfouk.companies.ui.CompaniesActivity">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabCompany"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appbar_height"
 		android:theme="@style/AppTheme.AppBarOverlay"
-		app:imageViewSrc="@drawable/bg_company"/>
+		app:imageViewSrc="@drawable/bg_company" />
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:id="@+id/fabCompanyFavorite"
@@ -20,7 +20,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
 		android:layout_margin="@dimen/fab_margin"
-		app:srcCompat="@drawable/ic_favorite"/>
+		app:srcCompat="@drawable/ic_favorite" />
 
 	<com.babestudios.base.view.MultiStateView
 		android:id="@+id/msvCompany"
@@ -39,30 +39,28 @@
 			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 			<LinearLayout
-				tools:ignore="UseCompoundDrawables"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical">
+				android:orientation="vertical"
+				tools:ignore="UseCompoundDrawables">
 
 				<TextView
 					android:id="@+id/tvCompanyNumber"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
 					android:transitionName="companyNumber"
-					tools:text="08762819"/>
+					tools:text="08762819" />
 
-				<include
-					layout="@layout/divider"/>
+				<include layout="@layout/divider" />
 
 				<TextView
 					android:id="@+id/tvCompanyIncorporated"
 					style="@style/Text"
 					android:layout_marginTop="@dimen/view_margin_small"
 					android:layout_marginBottom="@dimen/view_margin_small"
-					tools:text="Incorporated on 2016 August 3"/>
+					tools:text="Incorporated on 2016 August 3" />
 
-				<include
-					layout="@layout/divider"/>
+				<include layout="@layout/divider" />
 
 				<LinearLayout
 					android:layout_width="match_parent"
@@ -73,100 +71,96 @@
 						style="@style/Text.Title"
 						android:layout_width="0dp"
 						android:layout_weight="1"
-						android:text="@string/office_address"/>
+						android:text="@string/office_address" />
 
 					<Button
 						android:id="@+id/btnShowOnMap"
 						style="@style/ButtonPrimary"
 						android:layout_marginTop="16dp"
 						android:layout_marginEnd="@dimen/activity_horizontal_margin"
-						android:text="@string/company_address_show_on_map"/>
+						android:text="@string/company_address_show_on_map" />
 
 				</LinearLayout>
 
 				<TextView
 					android:id="@+id/lblCompanyAddressLine1"
 					style="@style/Text"
-					tools:text="3 Hendon Place"/>
+					tools:text="3 Hendon Place" />
 
 				<TextView
 					android:id="@+id/lblCompanyAddressLine2"
 					style="@style/Text"
-					android:visibility="gone"/>
+					android:visibility="gone" />
 
 				<TextView
 					android:id="@+id/lblCompanyAddressLocality"
 					style="@style/Text"
-					tools:text="Kingston"/>
+					tools:text="Kingston" />
 
 				<TextView
 					android:id="@+id/lblCompanyAddressPostalCode"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
-					tools:text="KT6 2LP"/>
+					tools:text="KT6 2LP" />
 
-				<include
-					layout="@layout/divider"/>
+				<include layout="@layout/divider" />
 
 				<TextView
 					style="@style/Text.Title"
-					android:text="@string/company_nature_of_business"/>
+					android:text="@string/company_nature_of_business" />
 
 				<TextView
 					android:id="@+id/lblCompanyNatureOfBusiness"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
-					tools:text="Growing of rice"/>
+					tools:text="Growing of rice" />
 
-				<include
-					layout="@layout/divider"/>
+				<include layout="@layout/divider" />
 
 				<TextView
 					style="@style/Text.Title"
-					android:text="@string/company_accounts"/>
+					android:text="@string/company_accounts" />
 
 				<TextView
 					android:id="@+id/lblCompanyAccounts"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
-					tools:text="Last DORMANT account made up to 29 February 2016"/>
+					tools:text="Last DORMANT account made up to 29 February 2016" />
 
-				<include
-					layout="@layout/divider"/>
+				<include layout="@layout/divider" />
 
 				<TextView
 					style="@style/Text.Title"
-					android:text="@string/company_annual_returns"/>
+					android:text="@string/company_annual_returns" />
 
 				<TextView
 					android:id="@+id/lblCompanyAnnualReturns"
 					style="@style/Text"
 					android:layout_marginBottom="@dimen/view_margin_small"
-					tools:text="Last made up to 13 February 2016"/>
+					tools:text="Last made up to 13 February 2016" />
 
-				<include
-					layout="@layout/divider"/>
+				<include layout="@layout/divider" />
 
 				<LinearLayout
 					android:id="@+id/llCompanyFilings"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:focusable="true"					>
+					android:focusable="true">
 
 					<ImageView
 						android:layout_width="@dimen/icon_size"
 						android:layout_height="@dimen/icon_size"
-						android:contentDescription="@string/filing_history"
 						android:layout_margin="@dimen/view_margin"
-						app:srcCompat="@drawable/ic_company_filing_history"/>
+						android:contentDescription="@string/filing_history"
+						app:srcCompat="@drawable/ic_company_filing_history" />
 
 					<TextView
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_margin="@dimen/view_margin"
-						android:text="@string/filing_history"/>
+						android:text="@string/filing_history" />
 				</LinearLayout>
 
 				<LinearLayout
@@ -188,7 +182,7 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_margin="@dimen/view_margin"
-						android:text="@string/insolvency"/>
+						android:text="@string/insolvency" />
 				</LinearLayout>
 
 				<LinearLayout
@@ -203,14 +197,14 @@
 						android:layout_height="@dimen/icon_size"
 						android:layout_margin="@dimen/view_margin"
 						android:contentDescription="@string/charges"
-						app:srcCompat="@drawable/ic_company_charges"/>
+						app:srcCompat="@drawable/ic_company_charges" />
 
 					<TextView
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_margin="@dimen/view_margin"
-						android:text="@string/charges"/>
+						android:text="@string/charges" />
 				</LinearLayout>
 
 				<LinearLayout
@@ -225,14 +219,14 @@
 						android:layout_height="@dimen/icon_size"
 						android:layout_margin="@dimen/view_margin"
 						android:contentDescription="@string/officers"
-						app:srcCompat="@drawable/ic_company_officers"/>
+						app:srcCompat="@drawable/ic_company_officers" />
 
 					<TextView
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_margin="@dimen/view_margin"
-						android:text="@string/officers"/>
+						android:text="@string/officers" />
 				</LinearLayout>
 
 				<LinearLayout
@@ -247,14 +241,14 @@
 						android:layout_height="@dimen/icon_size"
 						android:layout_margin="@dimen/view_margin"
 						android:contentDescription="@string/persons_with_significant_control"
-						app:srcCompat="@drawable/ic_company_persons_with_control"/>
+						app:srcCompat="@drawable/ic_company_persons_with_control" />
 
 					<TextView
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_margin="@dimen/view_margin"
-						android:text="@string/persons_with_significant_control"/>
+						android:text="@string/persons_with_significant_control" />
 				</LinearLayout>
 			</LinearLayout>
 		</androidx.core.widget.NestedScrollView>
