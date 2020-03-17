@@ -13,6 +13,7 @@ import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.companies.databinding.FragmentMapBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,7 +23,6 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_map.*
 import java.io.IOException
 
 const val STARTING_LATITUDE: Double = 51.5033635
@@ -39,11 +39,15 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 
 	private var toolBar: ActionBar? = null
 
+	private var _binding: FragmentMapBinding? = null
+	private val binding get() = _binding!!
+
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-		return inflater.inflate(R.layout.fragment_map, container, false)
+		_binding = FragmentMapBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,15 +55,20 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		initializeUI()
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
+
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(tbMap)
+		(activity as AppCompatActivity).setSupportActionBar(binding.tbMap)
 		toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		withState(viewModel) { state ->
 			toolBar?.title = state.companyName
 			location = getLocationFromAddress(state.addressString)
-			tbMap.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
+			binding.tbMap.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
 			val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 			mapFragment?.getMapAsync(this)
 		}

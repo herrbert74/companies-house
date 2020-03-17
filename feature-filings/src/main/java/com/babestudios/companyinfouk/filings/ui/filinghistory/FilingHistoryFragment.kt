@@ -14,6 +14,7 @@ import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.common.model.filinghistory.CategoryDto
 import com.babestudios.companyinfouk.filings.R
+import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryBinding
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryAdapter
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryTypeFactory
@@ -21,7 +22,6 @@ import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistory
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryVisitable
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_filing_history.*
 
 class FilingHistoryFragment : BaseMvRxFragment() {
 
@@ -31,6 +31,9 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private var _binding: FragmentFilingHistoryBinding? = null
+	private val binding get() = _binding!!
+	
 	private lateinit var spinner: Spinner
 
 	//region lifeCycle
@@ -44,8 +47,8 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
-		return inflater.inflate(R.layout.fragment_filing_history, container, false)
+		_binding = FragmentFilingHistoryBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,13 +56,18 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 		initializeUI()
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
+
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(pabFilingHistory.getToolbar())
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabFilingHistory.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabFilingHistory.setNavigationOnClickListener { activity?.onBackPressed() }
+		binding.pabFilingHistory.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.filing_history)
 		createFilingHistoryRecyclerView()
 		viewModel.getFilingHistory()
@@ -67,11 +75,11 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 
 	private fun createFilingHistoryRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		rvFilingHistory?.layoutManager = linearLayoutManager
-		rvFilingHistory?.addItemDecoration(
+		binding.rvFilingHistory.layoutManager = linearLayoutManager
+		binding.rvFilingHistory.addItemDecoration(
 				DividerItemDecoration(requireContext()))
 
-		rvFilingHistory?.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		binding.rvFilingHistory.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
 				viewModel.loadMoreFilingHistory(page)
 			}
@@ -127,19 +135,19 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 			when (state.filingsRequest) {
 				is Success -> {
 					if(state.filingsHistory.isEmpty()) {
-						msvFilingHistory.viewState = VIEW_STATE_EMPTY
+						binding.msvFilingHistory.viewState = VIEW_STATE_EMPTY
 					} else {
-						msvFilingHistory.viewState = VIEW_STATE_CONTENT
+						binding.msvFilingHistory.viewState = VIEW_STATE_CONTENT
 						showFilingHistory()
 						observeActions()
 					}
 				}
 				is Loading -> {
-					msvFilingHistory.viewState = VIEW_STATE_LOADING
+					binding.msvFilingHistory.viewState = VIEW_STATE_LOADING
 				}
 				is Fail -> {
-					msvFilingHistory.viewState = VIEW_STATE_ERROR
-					val tvMsvError = msvFilingHistory.findViewById<TextView>(R.id.tvMsvError)
+					binding.msvFilingHistory.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvFilingHistory.findViewById<TextView>(R.id.tvMsvError)
 					tvMsvError.text = state.filingsRequest.error.message
 				}
 			}
@@ -147,11 +155,11 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 	}
 
 	private fun showFilingHistory() {
-		msvFilingHistory.viewState = VIEW_STATE_CONTENT
+		binding.msvFilingHistory.viewState = VIEW_STATE_CONTENT
 		withState(viewModel) { state ->
-			if (rvFilingHistory?.adapter == null) {
+			if (binding.rvFilingHistory.adapter == null) {
 				filingHistoryAdapter = FilingHistoryAdapter(state.filingsHistory, FilingHistoryTypeFactory())
-				rvFilingHistory?.adapter = filingHistoryAdapter
+				binding.rvFilingHistory.adapter = filingHistoryAdapter
 			} else {
 				filingHistoryAdapter?.updateItems(state.filingsHistory)
 			}

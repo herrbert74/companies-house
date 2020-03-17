@@ -16,10 +16,10 @@ import com.airbnb.mvrx.*
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.filings.R
+import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryDetailsBinding
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.filings.ui.createSpannableDescription
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_filing_history_details.*
 import java.util.*
 
 private const val REQUEST_WRITE_STORAGE = 1687
@@ -30,6 +30,9 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private var _binding: FragmentFilingHistoryDetailsBinding? = null
+	private val binding get() = _binding!!
+	
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
 			viewModel.filingsNavigator.popBackStack()
@@ -48,7 +51,8 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 			savedInstanceState: Bundle?
 	): View {
 		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-		return inflater.inflate(R.layout.fragment_filing_history_details, container, false)
+		_binding = FragmentFilingHistoryDetailsBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,13 +60,19 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 		initializeUI()
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		callback.remove()
+		_binding = null
+	}
+
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(pabFilingHistoryDetails.getToolbar())
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabFilingHistoryDetails.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabFilingHistoryDetails.setNavigationOnClickListener { viewModel.filingsNavigator.popBackStack() }
+		binding.pabFilingHistoryDetails.setNavigationOnClickListener { viewModel.filingsNavigator.popBackStack() }
 		toolBar?.setTitle(R.string.filing_history_details)
 	}
 
@@ -89,11 +99,6 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 		}
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		callback.remove()
-	}
-
 	//endregion
 
 	//region Render
@@ -101,30 +106,30 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 	private fun showFilingHistoryItem() {
 		withState(viewModel) { state ->
 			val filingHistoryItem = state.filingHistoryItem
-			lblFilingHistoryDetailsDate?.text = filingHistoryItem.date
-			lblFilingHistoryDetailsCategory?.text = filingHistoryItem.category.displayName
-			lblFilingHistoryDetailsSubcategory?.text = filingHistoryItem.subcategory
-			lblFilingHistoryDetailsDescription?.text = filingHistoryItem.description
+			binding.lblFilingHistoryDetailsDate.text = filingHistoryItem.date
+			binding.lblFilingHistoryDetailsCategory.text = filingHistoryItem.category.displayName
+			binding.lblFilingHistoryDetailsSubcategory.text = filingHistoryItem.subcategory
+			binding.lblFilingHistoryDetailsDescription.text = filingHistoryItem.description
 			if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
-				lblFilingHistoryDetailsDescription?.text = filingHistoryItem.descriptionValues.description
+				binding.lblFilingHistoryDetailsDescription.text = filingHistoryItem.descriptionValues.description
 			} else {
 				filingHistoryItem.description.let {
 					val spannableDescription = filingHistoryItem
 							.description
 							.createSpannableDescription(filingHistoryItem)
-					lblFilingHistoryDetailsDescription?.text = spannableDescription
+					binding.lblFilingHistoryDetailsDescription.text = spannableDescription
 				}
 			}
 
-			lblFilingHistoryDetailsPages?.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
+			binding.lblFilingHistoryDetailsPages.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
 
 			if (filingHistoryItem.category.displayName == "capital"
 					&& filingHistoryItem.descriptionValues.capital.isNotEmpty()) {
 				filingHistoryItem.descriptionValues.let {
-					lblFilingHistoryDetailsDescriptionValues?.text = "${it.capital[0].currency} ${it.capital[0].figure}"
+					binding.lblFilingHistoryDetailsDescriptionValues.text = "${it.capital[0].currency} ${it.capital[0].figure}"
 				}
 			} else {
-				lblFilingHistoryDetailsDescriptionValues?.visibility = View.GONE
+				binding.lblFilingHistoryDetailsDescriptionValues.visibility = View.GONE
 			}
 		}
 	}
@@ -186,11 +191,11 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 		withState(viewModel) { state ->
 			when (state.documentRequest) {
 				is Uninitialized -> {
-					msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
+					binding.msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
 					showFilingHistoryItem()
 				}
 				is Loading -> {
-					msvFilingHistoryDetails.viewState = VIEW_STATE_LOADING
+					binding.msvFilingHistoryDetails.viewState = VIEW_STATE_LOADING
 				}
 				is Success -> {
 					when (state.writeDocumentRequest) {
@@ -198,25 +203,25 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 							checkPermissionAndWriteDocument()
 						}
 						is Loading -> {
-							msvFilingHistoryDetails.viewState = VIEW_STATE_LOADING
+							binding.msvFilingHistoryDetails.viewState = VIEW_STATE_LOADING
 						}
 						is Success -> {
-							msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
+							binding.msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
 							state.pdfUri?.let {
 								viewModel.resetState()
 								showDocument(it)
 							}
 						}
 						is Fail -> {
-							msvFilingHistoryDetails.viewState = VIEW_STATE_ERROR
-							val tvMsvError = msvFilingHistoryDetails.findViewById<TextView>(R.id.tvMsvError)
+							binding.msvFilingHistoryDetails.viewState = VIEW_STATE_ERROR
+							val tvMsvError = binding.msvFilingHistoryDetails.findViewById<TextView>(R.id.tvMsvError)
 							tvMsvError.text = state.writeDocumentRequest.error.message
 						}
 					}
 				}
 				is Fail -> {
-					msvFilingHistoryDetails.viewState = VIEW_STATE_ERROR
-					val tvMsvError = msvFilingHistoryDetails.findViewById<TextView>(R.id.tvMsvError)
+					binding.msvFilingHistoryDetails.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvFilingHistoryDetails.findViewById<TextView>(R.id.tvMsvError)
 					tvMsvError.text = state.documentRequest.error.message
 				}
 			}

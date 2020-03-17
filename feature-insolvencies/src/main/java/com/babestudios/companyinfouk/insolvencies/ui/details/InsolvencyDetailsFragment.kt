@@ -13,12 +13,12 @@ import com.airbnb.mvrx.withState
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvencyDetailsBinding
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTypeFactory
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_insolvency_details.*
 import java.util.*
 
 class InsolvencyDetailsFragment : BaseMvRxFragment() {
@@ -28,6 +28,9 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 	private val viewModel by existingViewModel(InsolvenciesViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private var _binding: FragmentInsolvencyDetailsBinding? = null
+	private val binding get() = _binding!!
 
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
@@ -42,7 +45,8 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 			savedInstanceState: Bundle?
 	): View {
 		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-		return inflater.inflate(R.layout.fragment_insolvency_details, container, false)
+		_binding = FragmentInsolvencyDetailsBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,11 +56,11 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(pabInsolvencyDetails.getToolbar())
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabInsolvencyDetails.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabInsolvencyDetails.setNavigationOnClickListener { viewModel.insolvenciesNavigator.popBackStack() }
+		binding.pabInsolvencyDetails.setNavigationOnClickListener { viewModel.insolvenciesNavigator.popBackStack() }
 		toolBar?.setTitle(R.string.insolvency_details)
 		createRecyclerView()
 		viewModel.selectSubscribe(InsolvenciesState::insolvencyDetailsItems) {
@@ -72,12 +76,13 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		rvInsolvencyDetails?.layoutManager = linearLayoutManager
+		binding.rvInsolvencyDetails.layoutManager = linearLayoutManager
 	}
 
 	override fun onDestroyView() {
 		super.onDestroyView()
 		callback.remove()
+		_binding = null
 	}
 
 	//endregion
@@ -85,16 +90,16 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 	//region render
 
 	private fun showInsolvencyCaseDetails() {
-		msvInsolvencyDetails.viewState = VIEW_STATE_CONTENT
+		binding.msvInsolvencyDetails.viewState = VIEW_STATE_CONTENT
 		withState(viewModel) {state->
-			if (rvInsolvencyDetails?.adapter == null) {
+			if (binding.rvInsolvencyDetails.adapter == null) {
 				val titlePositions = ArrayList<Int>()
 				titlePositions.add(0)
-				titlePositions.add(state.insolvencyCase.dates.size.let { it } ?: 0 + 1)
-				rvInsolvencyDetails.addItemDecoration(
+				titlePositions.add(state.insolvencyCase.dates.size)
+				binding.rvInsolvencyDetails.addItemDecoration(
 						DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
 				insolvencyDetailsAdapter = InsolvencyDetailsAdapter(state.insolvencyDetailsItems, InsolvencyDetailsTypeFactory())
-				rvInsolvencyDetails?.adapter = insolvencyDetailsAdapter
+				binding.rvInsolvencyDetails.adapter = insolvencyDetailsAdapter
 				observeActions()
 			} else {
 				insolvencyDetailsAdapter?.updateItems(state.insolvencyDetailsItems)

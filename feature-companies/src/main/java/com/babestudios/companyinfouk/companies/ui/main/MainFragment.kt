@@ -31,6 +31,7 @@ import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.companies.databinding.FragmentMainBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.FilterState
@@ -44,7 +45,6 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_main.*
 import java.util.concurrent.TimeUnit
 
 const val SEARCH_QUERY_MIN_LENGTH = 3
@@ -58,6 +58,9 @@ class MainFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private var _binding: FragmentMainBinding? = null
+	private val binding get() = _binding!!
+	
 	//Menu
 	lateinit var searchMenuItem: MenuItem
 	private var favouritesMenuItem: MenuItem? = null
@@ -79,8 +82,8 @@ class MainFragment : BaseMvRxFragment() {
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
-		return inflater.inflate(R.layout.fragment_main, container, false)
+		_binding = FragmentMainBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,7 +95,7 @@ class MainFragment : BaseMvRxFragment() {
 
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(tbMain)
+		(activity as AppCompatActivity).setSupportActionBar(binding.tbMain)
 		createSearchHistoryRecyclerView()
 		createSearchRecyclerView()
 		selectSubscribes()
@@ -104,19 +107,24 @@ class MainFragment : BaseMvRxFragment() {
 		observeActions()
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
+
 	private fun createSearchHistoryRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		rvMainSearchHistory.layoutManager = linearLayoutManager
+		binding.rvMainSearchHistory.layoutManager = linearLayoutManager
 		val titlePositions = java.util.ArrayList<Int>()
 		titlePositions.add(0)
-		rvMainSearchHistory.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
+		binding.rvMainSearchHistory.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
 	}
 
 	private fun createSearchRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		rvMainSearch?.layoutManager = linearLayoutManager
-		rvMainSearch.addItemDecoration(DividerItemDecoration(requireContext()))
-		rvMainSearch.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		binding.rvMainSearch.layoutManager = linearLayoutManager
+		binding.rvMainSearch.addItemDecoration(DividerItemDecoration(requireContext()))
+		binding.rvMainSearch.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
 				viewModel.loadMoreSearch(page)
 			}
@@ -205,13 +213,13 @@ class MainFragment : BaseMvRxFragment() {
 	@SuppressLint("PrivateResource")
 	fun animateSearchToolbar(numberOfMenuIcon: Int, containsOverflow: Boolean, show: Boolean) {
 
-		tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+		binding.tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
 
 		if (show) {
-			msvMainSearch.visibility = View.VISIBLE
-			msvMainSearch.viewState = VIEW_STATE_CONTENT
+			binding.msvMainSearch.visibility = View.VISIBLE
+			binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-				val width = tbMain.width -
+				val width = binding.tbMain.width -
 						if (containsOverflow)
 							resources.getDimensionPixelSize(
 									R.dimen.abc_action_button_min_width_overflow_material
@@ -220,9 +228,9 @@ class MainFragment : BaseMvRxFragment() {
 							(0) - ((resources.getDimensionPixelSize(
 									R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2)
 				val createCircularReveal = ViewAnimationUtils.createCircularReveal(
-						tbMain,
-						if (isRtl(resources)) tbMain.width - width else width,
-						tbMain.height / 2,
+						binding.tbMain,
+						if (isRtl(resources)) binding.tbMain.width - width else width,
+						binding.tbMain.height / 2,
 						0.0f,
 						width.toFloat()
 				)
@@ -232,28 +240,28 @@ class MainFragment : BaseMvRxFragment() {
 				val translateAnimation = TranslateAnimation(
 						0.0f,
 						0.0f,
-						((-tbMain.height).toFloat()),
+						((-binding.tbMain.height).toFloat()),
 						0.0f
 				)
 				translateAnimation.duration = searchToolbarAnimationDuration
-				tbMain.clearAnimation()
-				tbMain.startAnimation(translateAnimation)
+				binding.tbMain.clearAnimation()
+				binding.tbMain.startAnimation(translateAnimation)
 			}
 		} else {
-			msvMainSearch.visibility = View.GONE
-			fabMainSearch.show()
+			binding.msvMainSearch.visibility = View.GONE
+			binding.fabMainSearch.show()
 			viewModel.clearSearch()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-				val width = tbMain.width -
+				val width = binding.tbMain.width -
 						if (containsOverflow)
 							resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material)
 						else
 							0 - ((resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)
 									* numberOfMenuIcon) / 2)
 				val createCircularReveal = ViewAnimationUtils.createCircularReveal(
-						tbMain,
-						if (isRtl(resources)) tbMain.width - width else width,
-						tbMain.height / 2,
+						binding.tbMain,
+						if (isRtl(resources)) binding.tbMain.width - width else width,
+						binding.tbMain.height / 2,
 						width.toFloat(),
 						0.0f
 				)
@@ -261,14 +269,14 @@ class MainFragment : BaseMvRxFragment() {
 				createCircularReveal.addListener(object : AnimatorListenerAdapter() {
 					override fun onAnimationEnd(animation: Animator) {
 						super.onAnimationEnd(animation)
-						tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+						binding.tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 						activity?.invalidateOptionsMenu()
 					}
 				})
 				createCircularReveal.start()
 			} else {
 				val alphaAnimation = AlphaAnimation(1.0f, 0.0f)
-				val translateAnimation = TranslateAnimation(0.0f, 0.0f, 0.0f, -tbMain.height.toFloat())
+				val translateAnimation = TranslateAnimation(0.0f, 0.0f, 0.0f, -binding.tbMain.height.toFloat())
 				val animationSet = AnimationSet(true)
 				animationSet.addAnimation(alphaAnimation)
 				animationSet.addAnimation(translateAnimation)
@@ -280,7 +288,7 @@ class MainFragment : BaseMvRxFragment() {
 					}
 
 					override fun onAnimationEnd(animation: Animation) {
-						tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+						binding.tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 						activity?.invalidateOptionsMenu()
 					}
 
@@ -289,7 +297,7 @@ class MainFragment : BaseMvRxFragment() {
 
 					}
 				})
-				tbMain.startAnimation(animationSet)
+				binding.tbMain.startAnimation(animationSet)
 			}
 		}
 	}
@@ -309,14 +317,14 @@ class MainFragment : BaseMvRxFragment() {
 
 	private fun selectSubscribes() {
 		viewModel.selectSubscribe(CompaniesState::searchRequest) { searchRequest ->
-			val tvMsvSearchError = msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
+			val tvMsvSearchError = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
 			when (searchRequest) {
 				is Loading -> {
-					msvMainSearch.viewState = VIEW_STATE_LOADING
+					binding.msvMainSearch.viewState = VIEW_STATE_LOADING
 					observeActions()
 				}
 				is Fail -> {
-					msvMainSearch.viewState = VIEW_STATE_ERROR
+					binding.msvMainSearch.viewState = VIEW_STATE_ERROR
 					tvMsvSearchError.text = searchRequest.error.message
 				}
 				is Success -> {
@@ -333,22 +341,22 @@ class MainFragment : BaseMvRxFragment() {
 		}
 
 		viewModel.selectSubscribe(CompaniesState::searchHistoryRequest) { searchHistoryRequest ->
-			val tvMsvSearchHistoryError = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
-			val tvMsvSearchHistoryEmpty = msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
+			val tvMsvSearchHistoryError = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
+			val tvMsvSearchHistoryEmpty = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
 			withState(viewModel) { state ->
 				when (searchHistoryRequest) {
 					is Success -> {
 						if (state.searchHistoryVisitables.isNullOrEmpty()) {
-							msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
+							binding.msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
 							tvMsvSearchHistoryEmpty.text = getString(R.string.no_recent_searches)
-							fabMainSearch.hide()
+							binding.fabMainSearch.hide()
 						} else {
-							fabMainSearch.show()
+							binding.fabMainSearch.show()
 							state.searchHistoryVisitables.let {
-								msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
-								if (rvMainSearchHistory?.adapter == null) {
+								binding.msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
+								if (binding.rvMainSearchHistory.adapter == null) {
 									searchHistoryAdapter = SearchHistoryAdapter(it, SearchHistoryTypeFactory())
-									rvMainSearchHistory?.adapter = searchHistoryAdapter
+									binding.rvMainSearchHistory.adapter = searchHistoryAdapter
 								} else {
 									searchHistoryAdapter?.updateItems(it)
 								}
@@ -357,7 +365,7 @@ class MainFragment : BaseMvRxFragment() {
 						}
 					}
 					is Fail -> {
-						msvMainSearch.viewState = VIEW_STATE_ERROR
+						binding.msvMainSearch.viewState = VIEW_STATE_ERROR
 						tvMsvSearchHistoryError.text = searchHistoryRequest.error.message
 					}
 				}
@@ -366,27 +374,27 @@ class MainFragment : BaseMvRxFragment() {
 	}
 
 	private fun showFilteredSearch() {
-		val tvMsvSearchEmpty = msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
-		fabMainSearch.hide()
+		val tvMsvSearchEmpty = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
+		binding.fabMainSearch.hide()
 		withState(viewModel) { state ->
 			if (state.queryText.length >= SEARCH_QUERY_MIN_LENGTH && state.filteredSearchVisitables.isEmpty()) {
-				msvMainSearch.viewState = VIEW_STATE_EMPTY
+				binding.msvMainSearch.viewState = VIEW_STATE_EMPTY
 				tvMsvSearchEmpty.text = getString(R.string.no_search_result)
 				observeActions()
 			} else {
-				msvMainSearch.viewState = VIEW_STATE_CONTENT
+				binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
 				if (state.queryText.length > 2) {
-					rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+					binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
 					viewModel.logSearch()
 				} else
-					rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.semiTransparentBlack))
+					binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.semiTransparentBlack))
 
 				state.filteredSearchVisitables.let {
-					rvMainSearch.visibility = View.VISIBLE
-					msvMainSearch.viewState = VIEW_STATE_CONTENT
-					if (rvMainSearch?.adapter == null) {
+					binding.rvMainSearch.visibility = View.VISIBLE
+					binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
+					if (binding.rvMainSearch.adapter == null) {
 						searchAdapter = SearchAdapter(it, SearchTypeFactory())
-						rvMainSearch?.adapter = searchAdapter
+						binding.rvMainSearch.adapter = searchAdapter
 					} else {
 						searchAdapter?.updateItems(it)
 					}
@@ -464,7 +472,7 @@ class MainFragment : BaseMvRxFragment() {
 					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}
-		fabMainSearch?.let {
+		binding.fabMainSearch.let {
 			RxView.clicks(it)
 					.take(1)
 					.subscribe {

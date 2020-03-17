@@ -13,13 +13,13 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.persons.R
+import com.babestudios.companyinfouk.persons.databinding.FragmentPersonsBinding
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
 import com.babestudios.companyinfouk.persons.ui.persons.list.AbstractPersonsVisitable
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsAdapter
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsTypeFactory
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsViewHolder
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_persons.*
 
 class PersonsFragment : BaseMvRxFragment() {
 
@@ -29,14 +29,17 @@ class PersonsFragment : BaseMvRxFragment() {
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
+	private var _binding: FragmentPersonsBinding? = null
+	private val binding get() = _binding!!
+
 	//region life cycle
 
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-
-		return inflater.inflate(R.layout.fragment_persons, container, false)
+		_binding = FragmentPersonsBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,11 +49,11 @@ class PersonsFragment : BaseMvRxFragment() {
 
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(pabPersons.getToolbar())
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabPersons.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabPersons.setNavigationOnClickListener { activity?.onBackPressed() }
+		binding.pabPersons.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.persons_with_significant_control)
 		createRecyclerView()
 		withState(viewModel) {
@@ -63,11 +66,16 @@ class PersonsFragment : BaseMvRxFragment() {
 		observeActions()
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
+
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		rvPersons?.layoutManager = linearLayoutManager
-		rvPersons.addItemDecoration(DividerItemDecoration(requireContext()))
-		rvPersons.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		binding.rvPersons.layoutManager = linearLayoutManager
+		binding.rvPersons.addItemDecoration(DividerItemDecoration(requireContext()))
+		binding.rvPersons.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
 				viewModel.loadMorePersons(page)
 			}
@@ -94,20 +102,20 @@ class PersonsFragment : BaseMvRxFragment() {
 	override fun invalidate() {
 		withState(viewModel) { state ->
 			when (state.personsRequest) {
-				is Loading -> msvPersons.viewState = VIEW_STATE_LOADING
+				is Loading -> binding.msvPersons.viewState = VIEW_STATE_LOADING
 				is Fail -> {
-					msvPersons.viewState = VIEW_STATE_ERROR
-					val tvMsvError = msvPersons.findViewById<TextView>(R.id.tvMsvError)
+					binding.msvPersons.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvPersons.findViewById<TextView>(R.id.tvMsvError)
 					tvMsvError.text = state.personsRequest.error.message
 				}
 				is Success -> {
 					if (state.persons.isEmpty()) {
-						msvPersons.viewState = VIEW_STATE_EMPTY
+						binding.msvPersons.viewState = VIEW_STATE_EMPTY
 					} else {
-						msvPersons.viewState = VIEW_STATE_CONTENT
-						if (rvPersons?.adapter == null) {
+						binding.msvPersons.viewState = VIEW_STATE_CONTENT
+						if (binding.rvPersons.adapter == null) {
 							personsAdapter = PersonsAdapter(state.persons, PersonsTypeFactory())
-							rvPersons?.adapter = personsAdapter
+							binding.rvPersons.adapter = personsAdapter
 						} else {
 							personsAdapter?.updateItems(state.persons)
 						}

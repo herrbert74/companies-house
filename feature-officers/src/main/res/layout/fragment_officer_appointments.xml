@@ -22,6 +22,7 @@
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 		<include
+			android:id="@+id/rowOfficerAppointmentsHeader"
 			layout="@layout/row_officer_appointments_header"
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"/>

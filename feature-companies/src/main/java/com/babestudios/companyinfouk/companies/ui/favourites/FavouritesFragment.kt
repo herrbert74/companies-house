@@ -25,10 +25,10 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.companies.databinding.FragmentFavouritesBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.favourites.list.*
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_favourites.*
 import java.util.*
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
@@ -40,6 +40,9 @@ class FavouritesFragment : BaseMvRxFragment() {
 	private val viewModel by existingViewModel(CompaniesViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private var _binding: FragmentFavouritesBinding? = null
+	private val binding get() = _binding!!
 
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
@@ -54,7 +57,8 @@ class FavouritesFragment : BaseMvRxFragment() {
 			savedInstanceState: Bundle?
 	): View {
 		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-		return inflater.inflate(R.layout.fragment_favourites, container, false)
+		_binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,10 +68,10 @@ class FavouritesFragment : BaseMvRxFragment() {
 
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(pabFavourites.getToolbar())
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabFavourites.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabFavourites.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
+		binding.pabFavourites.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
 		toolBar?.setTitle(R.string.favourites)
 		createRecyclerView()
 		setUpItemTouchHelper()
@@ -80,10 +84,15 @@ class FavouritesFragment : BaseMvRxFragment() {
 		observeActions()
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
+
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-		rvFavourites?.layoutManager = linearLayoutManager
-		rvFavourites.addItemDecoration(DividerItemDecoration(requireContext()))
+		binding.rvFavourites.layoutManager = linearLayoutManager
+		binding.rvFavourites.addItemDecoration(DividerItemDecoration(requireContext()))
 	}
 
 	//endregion
@@ -91,25 +100,25 @@ class FavouritesFragment : BaseMvRxFragment() {
 	//region render
 
 	override fun invalidate() {
-		val tvMsvError = msvFavourites.findViewById<TextView>(R.id.tvMsvError)
-		val ivEmptyView = msvFavourites.findViewById<ImageView>(R.id.ivEmptyView)
+		val tvMsvError = binding.msvFavourites.findViewById<TextView>(R.id.tvMsvError)
+		val ivEmptyView = binding.msvFavourites.findViewById<ImageView>(R.id.ivEmptyView)
 		withState(viewModel) { state ->
 			Log.d("logCatText", "invalidate: ${state.favouritesRequest}")
 			when (state.favouritesRequest) {
-				is Loading -> msvFavourites.viewState = VIEW_STATE_LOADING
+				is Loading -> binding.msvFavourites.viewState = VIEW_STATE_LOADING
 				is Fail -> {
-					msvFavourites.viewState = VIEW_STATE_ERROR
+					binding.msvFavourites.viewState = VIEW_STATE_ERROR
 					tvMsvError.text = state.favouritesRequest.error.message
 				}
 				is Success -> {
 					if (state.favouriteItems.isEmpty()) {
-						msvFavourites.viewState = VIEW_STATE_EMPTY
+						binding.msvFavourites.viewState = VIEW_STATE_EMPTY
 						ivEmptyView.setImageResource(R.drawable.ic_business_empty_favorites)
 					} else {
-						msvFavourites.viewState = VIEW_STATE_CONTENT
-						if (rvFavourites?.adapter == null) {
+						binding.msvFavourites.viewState = VIEW_STATE_CONTENT
+						if (binding.rvFavourites.adapter == null) {
 							favouritesAdapter = FavouritesAdapter(state.favouriteItems, FavouritesTypeFactory())
-							rvFavourites?.adapter = favouritesAdapter
+							binding.rvFavourites.adapter = favouritesAdapter
 							observeActions()
 						} else {
 							favouritesAdapter?.updateItems(state.favouriteItems)
@@ -279,11 +288,11 @@ class FavouritesFragment : BaseMvRxFragment() {
 
 		}
 		val mItemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-		mItemTouchHelper.attachToRecyclerView(rvFavourites)
+		mItemTouchHelper.attachToRecyclerView(binding.rvFavourites)
 	}
 
 	private fun setUpAnimationDecoratorHelper() {
-		rvFavourites?.addItemDecoration(object : RecyclerView.ItemDecoration() {
+		binding.rvFavourites.addItemDecoration(object : RecyclerView.ItemDecoration() {
 
 			// we want to cache this and not allocate anything repeatedly in the onDraw method
 			lateinit var background: Drawable

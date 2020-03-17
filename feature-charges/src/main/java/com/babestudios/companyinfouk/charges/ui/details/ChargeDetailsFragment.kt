@@ -14,17 +14,20 @@ import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.companyinfouk.charges.R
+import com.babestudios.companyinfouk.charges.databinding.FragmentChargeDetailsBinding
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.charges.ui.details.list.*
 import com.babestudios.companyinfouk.data.model.charges.Transaction
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_charge_details.*
 
 class ChargeDetailsFragment : BaseMvRxFragment() {
 
 	private val viewModel by existingViewModel(ChargesViewModel::class)
 
 	private var chargeDetailsAdapter: ChargeDetailsAdapter? = null
+
+	private var _binding: FragmentChargeDetailsBinding? = null
+	private val binding get() = _binding!!
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
 
@@ -41,7 +44,8 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 			savedInstanceState: Bundle?
 	): View {
 		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-		return inflater.inflate(R.layout.fragment_charge_details, container, false)
+		_binding = FragmentChargeDetailsBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,11 +55,11 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(pabChargeDetails.getToolbar())
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabChargeDetails.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		pabChargeDetails.setNavigationOnClickListener { viewModel.chargesNavigator.popBackStack() }
+		binding.pabChargeDetails.setNavigationOnClickListener { viewModel.chargesNavigator.popBackStack() }
 		toolBar?.setTitle(R.string.charge_details_title)
 		createRecyclerView()
 		showChargesItem()
@@ -69,7 +73,9 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		callback.remove()
+		_binding = null
 	}
+
 
 	//endregion
 
@@ -78,25 +84,25 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 	private fun showChargesItem() {
 		withState(viewModel) { state ->
 			state.chargesItem?.let { chargesItem ->
-				tvChargeDetailsDeliveredOn?.text = chargesItem.deliveredOn
-				tvChargeDetailsStatus?.text = chargesItem.status
-				tvChargeDetailsContainsFloatingCharge?.text =
+				binding.tvChargeDetailsDeliveredOn.text = chargesItem.deliveredOn
+				binding.tvChargeDetailsStatus.text = chargesItem.status
+				binding.tvChargeDetailsContainsFloatingCharge.text =
 						if (chargesItem.particulars?.containsFloatingCharge == true) "YES" else "NO"
-				tvChargeDetailsFloatingChargeCoversAll?.text =
+				binding.tvChargeDetailsFloatingChargeCoversAll.text =
 						if (chargesItem.particulars?.floatingChargeCoversAll == true) "YES" else "NO"
-				tvChargeDetailsContainsNegativePledge?.text =
+				binding.tvChargeDetailsContainsNegativePledge.text =
 						if (chargesItem.particulars?.containsNegativePledge == true) "YES" else "NO"
-				tvChargeDetailsContainsFixedCharge?.text =
+				binding.tvChargeDetailsContainsFixedCharge.text =
 						if (chargesItem.particulars?.containsFixedCharge == true) "YES" else "NO"
 				if (chargesItem.satisfiedOn == null) {
-					lblChargeDetailsSatisfiedOn?.visibility = GONE
-					tvChargeDetailsSatisfiedOn?.visibility = GONE
+					binding.lblChargeDetailsSatisfiedOn.visibility = GONE
+					binding.tvChargeDetailsSatisfiedOn.visibility = GONE
 				} else {
-					tvChargeDetailsSatisfiedOn?.visibility = VISIBLE
-					lblChargeDetailsSatisfiedOn?.visibility = VISIBLE
-					tvChargeDetailsSatisfiedOn?.text = chargesItem.satisfiedOn
+					binding.tvChargeDetailsSatisfiedOn.visibility = VISIBLE
+					binding.lblChargeDetailsSatisfiedOn.visibility = VISIBLE
+					binding.tvChargeDetailsSatisfiedOn.text = chargesItem.satisfiedOn
 				}
-				tvChargeDetailsPersonsEntitled?.text = chargesItem.personsEntitled[0].name
+				binding.tvChargeDetailsPersonsEntitled.text = chargesItem.personsEntitled[0].name
 			}
 		}
 	}
@@ -109,15 +115,15 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 						LinearLayoutManager.VERTICAL,
 						false
 				)
-				rvChargeDetails.layoutManager = linearLayoutManager
+				binding.rvChargeDetails.layoutManager = linearLayoutManager
 				val titlePositions = java.util.ArrayList<Int>()
 				titlePositions.add(0)
-				rvChargeDetails.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
+				binding.rvChargeDetails.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
 				chargeDetailsAdapter = ChargeDetailsAdapter(
 						convertToVisitables(chargesItem.transactions),
 						ChargeDetailsTypeFactory()
 				)
-				rvChargeDetails.adapter = chargeDetailsAdapter
+				binding.rvChargeDetails.adapter = chargeDetailsAdapter
 			}
 		}
 	}

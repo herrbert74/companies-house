@@ -14,11 +14,10 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
+import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerAppointmentsBinding
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import com.babestudios.companyinfouk.officers.ui.appointments.list.*
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_officer_appointments.*
-import kotlinx.android.synthetic.main.row_officer_appointments_header.*
 
 class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
@@ -28,6 +27,9 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	private val viewModel by existingViewModel(OfficersViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+
+	private var _binding: FragmentOfficerAppointmentsBinding? = null
+	private val binding get() = _binding!!
 
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
@@ -42,7 +44,8 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 			savedInstanceState: Bundle?
 	): View {
 		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-		return inflater.inflate(R.layout.fragment_officer_appointments, container, false)
+		_binding = FragmentOfficerAppointmentsBinding.inflate(inflater, container, false)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,10 +56,10 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	private fun initializeUI() {
 		viewModel.logScreenView(this::class.simpleName.orEmpty())
 		val activity = (activity as AppCompatActivity)
-		val toolbar = pabOfficerAppointments.getToolbar()
+		val toolbar = binding.pabOfficerAppointments.getToolbar()
 		activity.setSupportActionBar(toolbar)
 		activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		pabOfficerAppointments.setNavigationOnClickListener { viewModel.officersNavigator.popBackStack() }
+		binding.pabOfficerAppointments.setNavigationOnClickListener { viewModel.officersNavigator.popBackStack() }
 		activity.supportActionBar?.setTitle(R.string.officer_appointments_title)
 		createRecyclerView()
 		viewModel.fetchAppointments()
@@ -69,9 +72,9 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 
 	private fun createRecyclerView() {
 		val linearLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-		rvOfficerAppointments?.layoutManager = linearLayoutManager
-		rvOfficerAppointments.addItemDecoration(DividerItemDecoration(requireContext()))
-		rvOfficerAppointments.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		binding.rvOfficerAppointments.layoutManager = linearLayoutManager
+		binding.rvOfficerAppointments.addItemDecoration(DividerItemDecoration(requireContext()))
+		binding.rvOfficerAppointments.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
 				viewModel.loadMoreAppointments(page)
 			}
@@ -81,6 +84,7 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		callback.remove()
+		_binding = null
 	}
 
 	//endregion
@@ -90,22 +94,23 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	override fun invalidate() {
 		withState(viewModel) { state ->
 			when (state.officerAppointmentsRequest) {
-				is Loading -> msvOfficerAppointments.viewState = VIEW_STATE_LOADING
+				is Loading -> binding.msvOfficerAppointments.viewState = VIEW_STATE_LOADING
 				is Fail -> {
-					msvOfficerAppointments.viewState = VIEW_STATE_ERROR
-					val tvMsvError = msvOfficerAppointments.findViewById<TextView>(R.id.tvMsvError)
+					binding.msvOfficerAppointments.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvOfficerAppointments.findViewById<TextView>(R.id.tvMsvError)
 					tvMsvError.text = state.officerAppointmentsRequest.error.message
 				}
 				is Success -> {
 					withState(viewModel) {
 						if (it.appointmentItems.isEmpty()) {
-							msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
+							binding.msvOfficerAppointments.viewState = VIEW_STATE_EMPTY
 						} else {
-							msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
-							lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
-							if (rvOfficerAppointments?.adapter == null) {
+							binding.msvOfficerAppointments.viewState = VIEW_STATE_CONTENT
+							binding.rowOfficerAppointmentsHeader
+									.lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
+							if (binding.rvOfficerAppointments.adapter == null) {
 								officerAppointmentsAdapter = OfficerAppointmentsAdapter(it.appointmentItems, OfficerAppointmentsTypeFactory())
-								rvOfficerAppointments?.adapter = officerAppointmentsAdapter
+								binding.rvOfficerAppointments.adapter = officerAppointmentsAdapter
 							} else {
 								officerAppointmentsAdapter?.updateItems(it.appointmentItems)
 							}
