@@ -32,6 +32,7 @@ class CompanyFragment : BaseMvRxFragment() {
 	//region life cycle
 
 	override fun onCreateView(
+
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {

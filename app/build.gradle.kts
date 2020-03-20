@@ -72,7 +72,9 @@ dependencies {
 
 	implementation(Libs.Google.crashlytics)
 	implementation(Libs.AndroidX.appcompat)
-	implementation(Libs.Stetho.core)
+	debugImplementation(Libs.Facebook.Flipper.debug)
+	releaseImplementation(Libs.Facebook.Flipper.release)
+	implementation(Libs.Facebook.soloader)
 	implementation(Libs.AndroidX.Navigation.ktx)
 	implementation(Libs.AndroidX.coreKtx)
 	implementation(Libs.Google.Dagger.dagger)

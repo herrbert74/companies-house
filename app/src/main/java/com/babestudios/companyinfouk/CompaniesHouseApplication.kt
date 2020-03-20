@@ -8,7 +8,11 @@ import com.babestudios.companyinfouk.core.injection.CoreComponentProvider
 import com.babestudios.companyinfouk.core.injection.DaggerCoreComponent
 import com.babestudios.companyinfouk.data.di.DataModule
 import com.crashlytics.android.Crashlytics
-import com.facebook.stetho.Stetho
+import com.facebook.flipper.android.AndroidFlipperClient
+import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.flipper.plugins.inspector.DescriptorMapping
+import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
+import com.facebook.soloader.SoLoader
 import io.fabric.sdk.android.Fabric
 
 open class CompaniesHouseApplication : Application(), CoreComponentProvider, LifeCycleApp {
@@ -19,7 +23,13 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider, Lif
 
 	override fun onCreate() {
 		super.onCreate()
-		Stetho.initializeWithDefaults(this)
+		SoLoader.init(this, false);
+
+		if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
+			val client = AndroidFlipperClient.getInstance(this);
+			client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
+			client.start();
+		}
 		logAppOpen()
 		val fabric = Fabric.Builder(this)
 				.kits(Crashlytics())

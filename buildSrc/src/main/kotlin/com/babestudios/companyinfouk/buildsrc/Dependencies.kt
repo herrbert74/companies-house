@@ -147,10 +147,13 @@ object Libs {
 		const val stdLibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 	}
 
-	object Stetho {
-		private const val version = "1.5.1"
-		const val core = "com.facebook.stetho:stetho:$version"
-		const val okHttp = "com.facebook.stetho:stetho-okhttp3:$version"
+	object Facebook {
+		const val soloader = "com.facebook.soloader:soloader:0.8.2"
+		object Flipper {
+			private const val version = "0.34.0"
+			const val debug = "com.facebook.flipper:flipper:$version"
+			const val release = "com.facebook.flipper:flipper-noop:$version"
+		}
 	}
 
 	object Room {
