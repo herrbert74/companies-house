@@ -9,9 +9,9 @@ detekt {
             enabled = false
         }
     }
-    toolVersion = "1.2.2"
+    toolVersion = "1.6.0"
     config = files("$rootDir/team-props/detekt/default-detekt-config.yml")
     input = files("src/main/java")
-    filters = ".*/resources/.*,.*/build/.*"
+    //filters = ".*/resources/.*,.*/build/.*"
     //baseline = file("my-detekt-baseline.xml") // Just if you want to create a baseline file.
 }

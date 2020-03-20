@@ -13,17 +13,17 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:4.0.0-beta02")
+		classpath("com.android.tools.build:gradle:4.0.0-beta03")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
 		classpath("com.google.gms:google-services:4.3.3")
 		classpath("io.fabric.tools:gradle:1.31.2")
-		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.2.2")
+		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.6.0")
 	}
 }
 
 plugins {
-	id("io.gitlab.arturbosch.detekt").version("1.2.2")
-	id("com.github.ben-manes.versions").version("0.27.0")
+	id("io.gitlab.arturbosch.detekt").version("1.6.0")
+	id("com.github.ben-manes.versions").version("0.28.0")
 }
 
 allprojects {

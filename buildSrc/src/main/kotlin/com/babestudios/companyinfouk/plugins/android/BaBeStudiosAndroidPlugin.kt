@@ -53,7 +53,7 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		}
 
 		project.dependencies {
-			add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.2.2")
+			add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.6.0")
 			add("detektPlugins", project.project(":core-detekt"))
 		}
 	}

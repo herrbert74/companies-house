@@ -17,7 +17,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 		project.dependencies {
 			add("api", project.project(":core-injection"))
 
-			add("implementation", Libs.mvrx)
+			add("implementation", Libs.MvRx.mvrx)
 			add("implementation", Libs.AndroidX.constraintLayout)
 			add("implementation", Libs.AndroidX.Navigation.ktx)
 			add("implementation", Libs.AndroidX.Navigation.fragment)

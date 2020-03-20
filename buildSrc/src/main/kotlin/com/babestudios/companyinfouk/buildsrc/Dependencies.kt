@@ -5,19 +5,18 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 //Sadly this doesn't work in root gradle file, probably chicken and egg problem
 @Suppress("unused", "SpellCheckingInspection")
 object Plugins {
-	private const val kotlinVersion = "1.3.61"
+	private const val kotlinVersion = "1.3.70"
 	const val androidTools = "com.android.tools.build:gradle:4.0.0-alpha05"
 	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
 	const val googleServices = "com.google.gms:google-services:4.3.3"
 	const val fabric = "io.fabric.tools:gradle:1.31.2"
-	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.2.2"
+	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.6.0"
 }
 
 @Suppress("unused", "SpellCheckingInspection")
 object Libs {
 	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.1.1"
-	const val mvrx = "com.airbnb.android:mvrx:1.3.0"
 	const val debugDb = "com.amitshekhar.android:debug-db:1.0.6" //To debug preferences
 
 	object AndroidX {
@@ -26,9 +25,9 @@ object Libs {
 		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.1.0"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
 		//beta2 causes linking problems
-		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta3"
+		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
 		const val androidxAnnotations = "androidx.annotation:annotation:1.1.0"
-		const val coreKtx = "androidx.core:core-ktx:1.1.0"
+		const val coreKtx = "androidx.core:core-ktx:1.2.0"
 		const val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
 		const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0-beta04"
 		const val preferenceKtx = "androidx.preference:preference-ktx:1.1.0"
@@ -47,7 +46,7 @@ object Libs {
 		}
 
 		object Navigation {
-			private const val version = "2.1.0"
+			private const val version = "2.2.1"
 			const val ktx = "androidx.navigation:navigation-ui-ktx:$version"
 			const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
 		}
@@ -90,26 +89,26 @@ object Libs {
 		}
 
 		object Dagger {
-			private const val version = "2.25.2"
+			private const val version = "2.27"
 			const val dagger = "com.google.dagger:dagger:$version"
 			const val compiler = "com.google.dagger:dagger-compiler:$version"
 		}
 
 		object Firebase {
-			const val analytics = "com.google.firebase:firebase-analytics:17.2.1"
+			const val analytics = "com.google.firebase:firebase-analytics:17.2.3"
 			const val database = "com.google.firebase:firebase-database:19.1.0"
 		}
 	}
 
 	object SquareUp {
 		object OkHttp3 {
-			private const val version = "4.2.2"
+			private const val version = "4.4.1"
 			const val okHttp3 = "com.squareup.okhttp3:okhttp:$version"
 			const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
 		}
 
 		object Retrofit2 {
-			private const val version = "2.7.0"
+			private const val version = "2.7.2"
 			const val retrofit = "com.squareup.retrofit2:retrofit:$version"
 			const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:$version"
 			const val converterGson = "com.squareup.retrofit2:converter-gson:$version"
@@ -118,7 +117,7 @@ object Libs {
 	}
 
 	object RxJava2 {
-		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.15"
+		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.19"
 		const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
 		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
@@ -143,7 +142,7 @@ object Libs {
 	}
 
 	object Kotlin {
-		private const val version = "1.3.61"
+		private const val version = "1.3.70"
 		const val stdLibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 	}
 
@@ -176,13 +175,13 @@ object Libs {
 	}
 
 	object Chucker {
-		private const val version = "3.0.1"
+		private const val version = "3.1.2"
 		const val library =  "com.github.ChuckerTeam.Chucker:library:$version"
 		const val noop =  "com.github.ChuckerTeam.Chucker:library-no-op:$version"
 	}
 
 	object MvRx {
-		private const val version = "1.3.0"
+		private const val version = "1.4.0"
 		const val mvrx = "com.airbnb.android:mvrx:$version"
 		const val testing = "com.airbnb.android:mvrx-testing:$version"
 	}
@@ -190,9 +189,9 @@ object Libs {
 	object Test {
 		//Provided by AndroidX!
 		//const val jUnit = "junit:junit:4.12"
-		const val assertJ = "org.assertj:assertj-core:3.14.0"
+		const val assertJ = "org.assertj:assertj-core:3.15.0"
 		//const val hamcrest = "org.hamcrest:hamcrest-library:1.3" //Not used anymore?!
-		const val jUnit5 = "org.junit.jupiter:junit-jupiter-api:5.5.2"
+		const val jUnit5 = "org.junit.jupiter:junit-jupiter-api:5.6.0"
 		const val mockK = "io.mockk:mockk:1.9.3"
 		const val mockKAndroidTest = "io.mockk:mockk-android:1.9.3"
 		const val robolectric = "org.robolectric:robolectric:4.3.1"
@@ -201,7 +200,7 @@ object Libs {
 	}
 
 	object Detekt {
-		private const val version = "1.2.2"
+		private const val version = "1.6.0"
 		const val api = "io.gitlab.arturbosch.detekt:detekt-api:$version"
 		const val test = "io.gitlab.arturbosch.detekt:detekt-test:$version"
 	}
