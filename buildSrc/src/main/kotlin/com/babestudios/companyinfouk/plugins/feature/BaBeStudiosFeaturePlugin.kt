@@ -18,6 +18,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("api", project.project(":core-injection"))
 
 			add("implementation", Libs.MvRx.mvrx)
+			add("implementation", Libs.MvRx.testing)
 			add("implementation", Libs.AndroidX.constraintLayout)
 			add("implementation", Libs.AndroidX.Navigation.ktx)
 			add("implementation", Libs.AndroidX.Navigation.fragment)
@@ -25,7 +26,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("implementation", Libs.RxJava2.rxAndroid)
 			add("implementation", Libs.RxJava2.rxJava)
 			add("implementation", Libs.JakeWharton.RxBinding.core)
-			add("implementation", Libs.MvRx.testing)
+			add("implementation", Libs.Views.multiStateView)
 
 			add("kapt", Libs.Google.Dagger.compiler)
 

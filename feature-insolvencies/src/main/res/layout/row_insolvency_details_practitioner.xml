@@ -25,7 +25,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsAppointedOn"
-		style="@style/Text.Title"
+		style="@style/Text.H6"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -48,7 +48,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsCeasedToActOn"
-		style="@style/Text.Title"
+		style="@style/Text.H6"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -71,7 +71,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsPractitionerName"
-		style="@style/Text.Title"
+		style="@style/Text.H6"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -94,7 +94,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsPractitionerRole"
-		style="@style/Text.Title"
+		style="@style/Text.H6"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/activity_horizontal_margin"

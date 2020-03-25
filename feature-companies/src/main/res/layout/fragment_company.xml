@@ -68,14 +68,14 @@
 					android:orientation="horizontal">
 
 					<TextView
-						style="@style/Text.Title"
+						style="@style/Text.H6"
 						android:layout_width="0dp"
 						android:layout_weight="1"
 						android:text="@string/office_address" />
 
-					<Button
+					<com.google.android.material.button.MaterialButton
 						android:id="@+id/btnShowOnMap"
-						style="@style/ButtonPrimary"
+						style="@style/Button"
 						android:layout_marginTop="16dp"
 						android:layout_marginEnd="@dimen/activity_horizontal_margin"
 						android:text="@string/company_address_show_on_map" />
@@ -106,7 +106,7 @@
 				<include layout="@layout/divider" />
 
 				<TextView
-					style="@style/Text.Title"
+					style="@style/Text.H6"
 					android:text="@string/company_nature_of_business" />
 
 				<TextView
@@ -118,7 +118,7 @@
 				<include layout="@layout/divider" />
 
 				<TextView
-					style="@style/Text.Title"
+					style="@style/Text.H6"
 					android:text="@string/company_accounts" />
 
 				<TextView
@@ -130,7 +130,7 @@
 				<include layout="@layout/divider" />
 
 				<TextView
-					style="@style/Text.Title"
+					style="@style/Text.H6"
 					android:text="@string/company_annual_returns" />
 
 				<TextView

@@ -7,6 +7,7 @@ plugins{
 dependencies {
 	implementation(Libs.baBeStudiosBase)
 	implementation(Libs.AndroidX.appcompat)
+	implementation(Libs.Google.material)
 }
 
 android {

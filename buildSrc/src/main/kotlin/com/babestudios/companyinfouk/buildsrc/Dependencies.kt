@@ -75,7 +75,7 @@ object Libs {
 	}
 
 	object Google {
-		const val material = "com.google.android.material:material:1.0.0"
+		const val material = "com.google.android.material:material:1.2.0-alpha05"
 		const val crashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1"
 		const val gson = "com.google.code.gson:gson:2.8.6"
 
@@ -203,5 +203,9 @@ object Libs {
 		private const val version = "1.6.0"
 		const val api = "io.gitlab.arturbosch.detekt:detekt-api:$version"
 		const val test = "io.gitlab.arturbosch.detekt:detekt-test:$version"
+	}
+
+	object Views {
+		const val multiStateView = "com.github.Kennyc1012:MultiStateView:2.1.1"
 	}
 }
