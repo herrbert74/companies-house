@@ -11,7 +11,7 @@
 		android:layout_height="wrap_content"
 		android:gravity="center"
 		android:orientation="vertical"
-		android:paddingBottom="@dimen/text_margin">
+		android:paddingBottom="@dimen/viewMargin">
 
 		<TextView
 			android:id="@+id/lblFavouritesCompanyName"

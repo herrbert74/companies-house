@@ -5,7 +5,7 @@
 			  android:layout_height="wrap_content"
 			  android:gravity="center"
 			  android:orientation="vertical"
-			  android:paddingBottom="@dimen/view_margin_small">
+			  android:paddingBottom="@dimen/viewMargin">
 
 	<TextView
 		android:id="@+id/lblInsolvencyDate"

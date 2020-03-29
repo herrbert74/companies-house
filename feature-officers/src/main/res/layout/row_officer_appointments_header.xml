@@ -3,7 +3,7 @@
 												   xmlns:tools="http://schemas.android.com/tools"
 												   android:layout_width="match_parent"
 												   android:layout_height="wrap_content"
-												   android:paddingBottom="@dimen/activity_horizontal_margin">
+												   android:paddingBottom="@dimen/screenMargin">
 
 
 	<TextView
@@ -11,8 +11,8 @@
 		style="@style/Text.H6"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/activity_horizontal_margin"
-		android:layout_marginEnd="@dimen/activity_horizontal_margin"
+		android:layout_marginStart="@dimen/screenMargin"
+		android:layout_marginEnd="@dimen/screenMargin"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
@@ -23,7 +23,7 @@
 		android:id="@+id/divOfficerAppointments"
 		android:layout_width="0dp"
 		android:layout_height="1dp"
-		android:layout_marginTop="@dimen/activity_vertical_margin"
+		android:layout_marginTop="@dimen/screenMargin"
 		android:background="@color/translucentBlack"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
@@ -34,8 +34,8 @@
 		style="@style/Text.Bold"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/activity_horizontal_margin"
-		android:layout_marginTop="@dimen/activity_vertical_margin"
+		android:layout_marginStart="@dimen/screenMargin"
+		android:layout_marginTop="@dimen/screenMargin"
 		android:gravity="start"
 		android:text="@string/officer_appointments_appointments"
 		app:layout_constraintLeft_toLeftOf="parent"

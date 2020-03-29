@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -104,6 +105,7 @@ class MainFragment : BaseMvRxFragment() {
 
 	override fun onResume() {
 		super.onResume()
+		Log.d("logCatText", "onResume: ")
 		observeActions()
 	}
 
@@ -138,7 +140,7 @@ class MainFragment : BaseMvRxFragment() {
 		filterMenuItem?.isVisible = false
 		val spinner = filterMenuItem?.actionView as Spinner
 		spinner.setBackgroundResource(0)
-		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
+		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.screenMargin), 0)
 		val adapter = FilterAdapter(
 				requireContext(),
 				resources.getStringArray(R.array.search_filter_options),
@@ -438,13 +440,14 @@ class MainFragment : BaseMvRxFragment() {
 					?.let { queryTextChangeDisposable -> eventDisposables.add(queryTextChangeDisposable) }
 		}
 		searchHistoryAdapter?.getViewClickedObservable()
-				?.take(1)
+				//?.skip(1)
 				?.subscribe { view: BaseViewHolder<AbstractSearchHistoryVisitable> ->
+					Log.d("logCatText", "observeActions: searchHistoryAdapter clicked ${view.adapterPosition}")
 					viewModel.searchHistoryItemClicked(view.adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }
 		searchAdapter?.getViewClickedObservable()
-				?.take(1)
+				//?.take(1)
 				?.subscribe { view: BaseViewHolder<AbstractSearchVisitable> ->
 					withState(viewModel) { state ->
 						state.filteredSearchVisitables.let { searchItems ->
@@ -458,7 +461,7 @@ class MainFragment : BaseMvRxFragment() {
 				?.let { eventDisposables.add(it) }
 		favouritesMenuItem?.let {
 			RxMenuItem.clicks(it)
-					.take(1)
+					//.skip(1)
 					.subscribe {
 						viewModel.companiesNavigator.mainToFavourites()
 					}
@@ -466,7 +469,7 @@ class MainFragment : BaseMvRxFragment() {
 		}
 		privacyMenuItem?.let {
 			RxMenuItem.clicks(it)
-					.take(1)
+					//.take(1)
 					.subscribe {
 						viewModel.companiesNavigator.mainToPrivacy()
 					}
@@ -474,7 +477,7 @@ class MainFragment : BaseMvRxFragment() {
 		}
 		binding.fabMainSearch.let {
 			RxView.clicks(it)
-					.take(1)
+					//.take(1)
 					.subscribe {
 						withState(viewModel) { state ->
 							if (state.searchHistoryRequest is Success) {

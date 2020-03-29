@@ -11,7 +11,7 @@
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabCharges"
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/appbar_height"
+		android:layout_height="@dimen/appBarHeight"
 		android:theme="@style/AppTheme.AppBarOverlay"
 		app:imageViewSrc="@drawable/bg_charges" />
 
@@ -29,7 +29,7 @@
 			android:id="@+id/rvCharges"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:paddingBottom="@dimen/view_margin_small"
+			android:paddingBottom="@dimen/viewMargin"
 			android:scrollbars="vertical" />
 	</com.babestudios.base.view.MultiStateView>
 

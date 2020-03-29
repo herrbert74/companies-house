@@ -10,7 +10,7 @@
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabCompany"
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/appbar_height"
+		android:layout_height="@dimen/appBarHeight"
 		android:theme="@style/AppTheme.AppBarOverlay"
 		app:imageViewSrc="@drawable/bg_company" />
 
@@ -19,7 +19,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
-		android:layout_margin="@dimen/fab_margin"
+		android:layout_margin="@dimen/screenMargin"
 		app:srcCompat="@drawable/ic_favorite" />
 
 	<com.babestudios.base.view.MultiStateView
@@ -47,7 +47,7 @@
 				<TextView
 					android:id="@+id/tvCompanyNumber"
 					style="@style/Text"
-					android:layout_marginBottom="@dimen/view_margin_small"
+					android:layout_marginBottom="@dimen/viewMargin"
 					android:transitionName="companyNumber"
 					tools:text="08762819" />
 
@@ -56,8 +56,8 @@
 				<TextView
 					android:id="@+id/tvCompanyIncorporated"
 					style="@style/Text"
-					android:layout_marginTop="@dimen/view_margin_small"
-					android:layout_marginBottom="@dimen/view_margin_small"
+					android:layout_marginTop="@dimen/viewMargin"
+					android:layout_marginBottom="@dimen/viewMargin"
 					tools:text="Incorporated on 2016 August 3" />
 
 				<include layout="@layout/divider" />
@@ -77,7 +77,7 @@
 						android:id="@+id/btnShowOnMap"
 						style="@style/Button"
 						android:layout_marginTop="16dp"
-						android:layout_marginEnd="@dimen/activity_horizontal_margin"
+						android:layout_marginEnd="@dimen/screenMargin"
 						android:text="@string/company_address_show_on_map" />
 
 				</LinearLayout>
@@ -100,7 +100,7 @@
 				<TextView
 					android:id="@+id/lblCompanyAddressPostalCode"
 					style="@style/Text"
-					android:layout_marginBottom="@dimen/view_margin_small"
+					android:layout_marginBottom="@dimen/viewMargin"
 					tools:text="KT6 2LP" />
 
 				<include layout="@layout/divider" />
@@ -112,7 +112,7 @@
 				<TextView
 					android:id="@+id/lblCompanyNatureOfBusiness"
 					style="@style/Text"
-					android:layout_marginBottom="@dimen/view_margin_small"
+					android:layout_marginBottom="@dimen/viewMargin"
 					tools:text="Growing of rice" />
 
 				<include layout="@layout/divider" />
@@ -124,7 +124,7 @@
 				<TextView
 					android:id="@+id/lblCompanyAccounts"
 					style="@style/Text"
-					android:layout_marginBottom="@dimen/view_margin_small"
+					android:layout_marginBottom="@dimen/viewMargin"
 					tools:text="Last DORMANT account made up to 29 February 2016" />
 
 				<include layout="@layout/divider" />
@@ -136,7 +136,7 @@
 				<TextView
 					android:id="@+id/lblCompanyAnnualReturns"
 					style="@style/Text"
-					android:layout_marginBottom="@dimen/view_margin_small"
+					android:layout_marginBottom="@dimen/viewMargin"
 					tools:text="Last made up to 13 February 2016" />
 
 				<include layout="@layout/divider" />
@@ -149,9 +149,9 @@
 					android:focusable="true">
 
 					<ImageView
-						android:layout_width="@dimen/icon_size"
-						android:layout_height="@dimen/icon_size"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_width="@dimen/iconSize"
+						android:layout_height="@dimen/iconSize"
+						android:layout_margin="@dimen/screenMargin"
 						android:contentDescription="@string/filing_history"
 						app:srcCompat="@drawable/ic_company_filing_history" />
 
@@ -159,7 +159,7 @@
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_margin="@dimen/screenMargin"
 						android:text="@string/filing_history" />
 				</LinearLayout>
 
@@ -171,9 +171,9 @@
 					android:focusable="true">
 
 					<ImageView
-						android:layout_width="@dimen/icon_size"
-						android:layout_height="@dimen/icon_size"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_width="@dimen/iconSize"
+						android:layout_height="@dimen/iconSize"
+						android:layout_margin="@dimen/screenMargin"
 						android:contentDescription="@string/insolvency"
 						app:srcCompat="@drawable/ic_company_insolvency" />
 
@@ -181,7 +181,7 @@
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_margin="@dimen/screenMargin"
 						android:text="@string/insolvency" />
 				</LinearLayout>
 
@@ -193,9 +193,9 @@
 					android:focusable="true">
 
 					<ImageView
-						android:layout_width="@dimen/icon_size"
-						android:layout_height="@dimen/icon_size"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_width="@dimen/iconSize"
+						android:layout_height="@dimen/iconSize"
+						android:layout_margin="@dimen/screenMargin"
 						android:contentDescription="@string/charges"
 						app:srcCompat="@drawable/ic_company_charges" />
 
@@ -203,7 +203,7 @@
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_margin="@dimen/screenMargin"
 						android:text="@string/charges" />
 				</LinearLayout>
 
@@ -215,9 +215,9 @@
 					android:focusable="true">
 
 					<ImageView
-						android:layout_width="@dimen/icon_size"
-						android:layout_height="@dimen/icon_size"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_width="@dimen/iconSize"
+						android:layout_height="@dimen/iconSize"
+						android:layout_margin="@dimen/screenMargin"
 						android:contentDescription="@string/officers"
 						app:srcCompat="@drawable/ic_company_officers" />
 
@@ -225,7 +225,7 @@
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_margin="@dimen/screenMargin"
 						android:text="@string/officers" />
 				</LinearLayout>
 
@@ -237,9 +237,9 @@
 					android:focusable="true">
 
 					<ImageView
-						android:layout_width="@dimen/icon_size"
-						android:layout_height="@dimen/icon_size"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_width="@dimen/iconSize"
+						android:layout_height="@dimen/iconSize"
+						android:layout_margin="@dimen/screenMargin"
 						android:contentDescription="@string/persons_with_significant_control"
 						app:srcCompat="@drawable/ic_company_persons_with_control" />
 
@@ -247,7 +247,7 @@
 						style="@style/Text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/view_margin"
+						android:layout_margin="@dimen/screenMargin"
 						android:text="@string/persons_with_significant_control" />
 				</LinearLayout>
 			</LinearLayout>

@@ -220,7 +220,7 @@ class FavouritesFragment : BaseMvRxFragment() {
 				requireActivity().theme.resolveAttribute(android.R.attr.windowBackground, a, true)
 				val color = a.data
 				xMark.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-				xMarkMargin = this@FavouritesFragment.resources.getDimension(R.dimen.view_margin_small).toInt()
+				xMarkMargin = this@FavouritesFragment.resources.getDimension(R.dimen.viewMargin).toInt()
 				initiated = true
 			}
 

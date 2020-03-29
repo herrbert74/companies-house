@@ -91,7 +91,7 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 		val item = menu.findItem(R.id.action_filter)
 		spinner = item.actionView as Spinner
 		spinner.setBackgroundResource(0)
-		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.view_margin), 0)
+		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.screenMargin), 0)
 		spinner.gravity = Gravity.END
 		val adapter = FilterAdapter(
 				requireContext(),
