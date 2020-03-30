@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.data
 
 import android.content.Context
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
 import android.util.Base64
@@ -10,6 +9,7 @@ import android.util.Log
 import androidx.core.content.FileProvider
 import com.babestudios.base.data.AnalyticsContract
 import com.babestudios.base.di.qualifier.ApplicationContext
+import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
@@ -28,8 +28,7 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.utils.Base64Wrapper
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.SingleEmitter
 import okhttp3.ResponseBody
 import java.io.*
 import java.util.*
@@ -78,7 +77,8 @@ open class CompaniesRepository @Inject constructor(
 		base64Wrapper: Base64Wrapper,
 		private val constantsHelper: ConstantsHelper,
 		private val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper,
-		private val firebaseAnalytics: FirebaseAnalytics
+		private val firebaseAnalytics: FirebaseAnalytics,
+		private val schedulerProvider: SchedulerProvider
 ) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
@@ -87,20 +87,17 @@ open class CompaniesRepository @Inject constructor(
 	)
 
 	override fun recentSearches(): Single<List<SearchHistoryItem>> {
-		val single: Single<List<SearchHistoryItem>> = Single.create {
-			it.onSuccess(preferencesHelper.recentSearches)
-		}
-		return single.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+		return Single.create { singleEmitter: SingleEmitter<List<SearchHistoryItem>> ->
+			singleEmitter.onSuccess(preferencesHelper.recentSearches)
+		}.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 
 	override fun favourites(): Single<List<SearchHistoryItem>> {
-		val single: Single<List<SearchHistoryItem>> = Single.create {
-			it.onSuccess(preferencesHelper.favourites.toList())
-		}
-		return single.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+		return Single.create { singleEmitter: SingleEmitter<List<SearchHistoryItem>> ->
+			singleEmitter.onSuccess(preferencesHelper.favourites.toList())
+
+		}.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun sicLookup(code: String): String {
@@ -121,9 +118,7 @@ open class CompaniesRepository @Inject constructor(
 				queryText.toString(),
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
-		)
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
+		).compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem> {
@@ -132,8 +127,7 @@ open class CompaniesRepository @Inject constructor(
 
 	override fun getCompany(companyNumber: String): Single<Company> {
 		return companiesHouseService.getCompany(authorization, companyNumber)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getFilingHistory(
@@ -163,8 +157,7 @@ open class CompaniesRepository @Inject constructor(
 							items = unformattedItems
 					)
 				}
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun fetchCharges(companyNumber: String, startItem: String): Single<Charges> {
@@ -173,15 +166,12 @@ open class CompaniesRepository @Inject constructor(
 				companyNumber,
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
-		)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+		).compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getInsolvency(companyNumber: String): Single<Insolvency> {
 		return companiesHouseService.getInsolvency(authorization, companyNumber)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getOfficers(companyNumber: String, startItem: String): Single<Officers> {
@@ -193,9 +183,7 @@ open class CompaniesRepository @Inject constructor(
 				null,
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
-		)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+		).compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments> {
@@ -204,9 +192,7 @@ open class CompaniesRepository @Inject constructor(
 				officerId,
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
-		)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+		).compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getPersons(companyNumber: String, startItem: String): Single<Persons> {
@@ -216,15 +202,12 @@ open class CompaniesRepository @Inject constructor(
 				null,
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
-		)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+		).compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getDocument(documentId: String): Single<ResponseBody> {
 		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentId)
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	@Suppress("NestedBlockDepth")
@@ -248,7 +231,7 @@ open class CompaniesRepository @Inject constructor(
 				}
 				outputStream.flush()
 			} catch (e: IOException) {
-				Log.d("test", e.localizedMessage)
+				Log.d("test", e.localizedMessage ?: "")
 			} finally {
 				inputStream?.close()
 
@@ -260,17 +243,14 @@ open class CompaniesRepository @Inject constructor(
 			Log.d("test", "Error during closing input stream" + e.localizedMessage)
 		}
 
-		val single: Single<Uri> = Single.create {
+		return Single.create { singleEmitter: SingleEmitter<Uri> ->
 			val async = FileProvider.getUriForFile(
 					context,
 					context.packageName + ".fileprovider",
 					pdfFile
 			)
-			it.onSuccess(async)
-		}
-		return single
-				.subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-				.observeOn(AndroidSchedulers.mainThread())
+			singleEmitter.onSuccess(async)
+		}.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun clearAllRecentSearches() {
