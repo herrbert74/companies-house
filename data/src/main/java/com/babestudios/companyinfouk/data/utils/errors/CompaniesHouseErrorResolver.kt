@@ -19,8 +19,8 @@ class CompaniesHouseErrorResolver @Inject constructor(private val errorHelper: E
 	override fun getErrorMessageFromResponseBody(errorJson: String?): String? {
 		val errorString = try {
 			val errorBody = Gson().fromJson(errorJson, ErrorBody::class.java)
-			errorBody.error?.let { it }
-					?: run { errorBody.errors?.get(0)?.error?.let { it2 -> it2 } }
+			errorBody.error
+					?: run { errorBody.errors?.get(0)?.error }
 					?: run { errorJson }
 		} catch (e: JsonParseException) {
 			when {
