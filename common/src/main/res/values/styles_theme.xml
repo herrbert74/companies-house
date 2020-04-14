@@ -55,9 +55,12 @@
 		<item name="closeIcon">@drawable/ic_close_black</item>
 	</style>
 
-	<style name="MyThemeOverlay.ActionBar" parent="ThemeOverlay.AppCompat">
+	<!-- Text color can be changed with textColorPrimary, the background with colorSurface
+	Light version is in Base library, this could be moved there. -->
+	<style name="AppTheme.PopupOverlay.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
 		<item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_black</item>
 		<item name="searchViewStyle">@style/SearchViewTheme</item>
+		<item name="colorSurface">@color/colorPrimaryDark</item>
 	</style>
 
 </resources>

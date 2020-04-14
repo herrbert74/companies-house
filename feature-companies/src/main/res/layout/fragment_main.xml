@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-													 xmlns:app="http://schemas.android.com/apk/res-auto"
-													 xmlns:tools="http://schemas.android.com/tools"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent"
-													 android:background="@color/grey_1"
-													 android:fitsSystemWindows="true"
-													 tools:context=".ui.main.MainFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/grey_1"
+	android:fitsSystemWindows="true"
+	tools:context=".ui.main.MainFragment">
 
 	<com.babestudios.base.view.MultiStateView
 		android:id="@+id/msvMainSearchHistory"
@@ -23,7 +23,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:paddingBottom="@dimen/viewMargin"
-			android:scrollbars="vertical"/>
+			android:scrollbars="vertical" />
 	</com.babestudios.base.view.MultiStateView>
 
 	<com.babestudios.base.view.MultiStateView
@@ -43,7 +43,7 @@
 			android:layout_height="match_parent"
 			android:background="@color/grey_1"
 			android:paddingBottom="@dimen/viewMargin"
-			android:scrollbars="vertical"/>
+			android:scrollbars="vertical" />
 	</com.babestudios.base.view.MultiStateView>
 
 	<com.google.android.material.appbar.AppBarLayout
@@ -51,13 +51,12 @@
 		android:layout_height="wrap_content"
 		android:theme="@style/AppTheme.AppBarOverlay">
 
-		<androidx.appcompat.widget.Toolbar
+		<com.google.android.material.appbar.MaterialToolbar
 			android:id="@+id/tbMain"
 			android:layout_width="match_parent"
 			android:layout_height="?attr/actionBarSize"
 			android:background="?attr/colorPrimary"
-			app:popupTheme="@style/MyThemeOverlay.ActionBar"
-			android:theme="@style/MyThemeOverlay.ActionBar"/>
+			app:popupTheme="@style/AppTheme.PopupOverlay.Dark" />
 	</com.google.android.material.appbar.AppBarLayout>
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -66,6 +65,6 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
 		android:layout_margin="@dimen/screenMargin"
-		app:srcCompat="@drawable/ic_delete"/>
+		app:srcCompat="@drawable/ic_delete" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

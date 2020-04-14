@@ -97,7 +97,7 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 	}
 
-	@Suppress("ReturnCount")
+	@Suppress("ReturnCount", "TooGenericExceptionCaught")
 	private fun getLocationFromAddress(strAddress: String): LatLng? {
 		val coder = Geocoder(requireContext())
 		val address: List<Address>?
@@ -108,9 +108,15 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 			}
 			val location = address[0]
 			return LatLng(location.latitude, location.longitude)
-		} catch (e: IOException) {
-			Log.e("Map", e.localizedMessage, e)
-			return null
+		} catch (e: Exception) {
+			when (e) {
+				is IOException, is IndexOutOfBoundsException -> {
+					Log.e("Map", e.localizedMessage, e)
+					return null
+				}
+				else -> throw e
+			}
+
 		}
 	}
 
