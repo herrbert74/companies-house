@@ -1,16 +1,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-												   xmlns:app="http://schemas.android.com/apk/res-auto"
-												   xmlns:tools="http://schemas.android.com/tools"
-												   android:layout_width="match_parent"
-												   android:layout_height="wrap_content"
-												   android:paddingBottom="@dimen/screenMargin">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingBottom="@dimen/screenMargin">
 
 	<androidx.constraintlayout.widget.Guideline
 		android:id="@+id/guideline"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-		app:layout_constraintGuide_begin="@dimen/constraintGuideBegin"/>
+		app:layout_constraintGuide_percent="0.6" />
 
 	<TextView
 		android:id="@+id/lblChargeDetailsHeaderFilingType"
@@ -21,11 +21,11 @@
 		android:layout_marginTop="@dimen/screenMargin"
 		android:text="@string/charge_details_filing_type"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toTopOf="parent"/>
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
 		android:id="@+id/tvChargeDetailsHeaderFilingType"
-		style="@style/Text.H6"
+		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"
@@ -33,7 +33,7 @@
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 1"/>
+		tools:text="Long text here 1" />
 
 	<TextView
 		android:id="@+id/lblChargeDetailsHeaderDeliveredOn"
@@ -44,11 +44,11 @@
 		android:layout_marginTop="@dimen/screenMargin"
 		android:text="@string/charge_details_delivered_on"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsHeaderFilingType"/>
+		app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsHeaderFilingType" />
 
 	<TextView
 		android:id="@+id/tvChargeDetailsTransactionDeliveredOn"
-		style="@style/Text.H6"
+		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"
@@ -56,6 +56,6 @@
 		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintLeft_toLeftOf="@+id/guideline"
 		app:layout_constraintRight_toRightOf="parent"
-		tools:text="Long text here 2"/>
+		tools:text="Long text here 2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

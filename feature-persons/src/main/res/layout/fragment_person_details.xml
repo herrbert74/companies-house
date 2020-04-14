@@ -30,7 +30,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				app:layout_constraintGuide_begin="@dimen/constraintGuideBegin"/>
+				app:layout_constraintGuide_percent="0.6"/>
 
 			<TextView
 				android:id="@+id/cpnPersonDetailsName"
@@ -45,7 +45,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsName"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -68,7 +68,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsNotifiedOn"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -91,7 +91,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsNaturesOfControl"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -114,7 +114,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsNationality"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -137,7 +137,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsDateOfBirth"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -160,7 +160,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsCountryOfResidence"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -183,7 +183,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsPlaceRegistered"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -206,7 +206,7 @@
 
 			<TextView
 				android:id="@+id/lblPersonDetailsRegistrationNumber"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"

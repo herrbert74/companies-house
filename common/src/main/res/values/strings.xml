@@ -14,4 +14,12 @@
 	<string name="description">Description</string>
 	<string name="pages">Pages</string>
 	<string name="search">Search</string>
+	<string name="officer_details_nationality">Nationality</string>
+	<string name="officer_details_date_of_birth">Date of birth</string>
+	<string name="officer_details_country_of_residence">Country of residence</string>
+	<string name="officer_details_name">Name</string>
+	<string name="insolvency_details_address">Address</string>
+	<string name="company_name">Company name</string>
+	<string name="company_status">Company status</string>
+
 </resources>

@@ -10,7 +10,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-		app:layout_constraintGuide_begin="@dimen/constraintGuideBegin"/>
+		app:layout_constraintGuide_percent="0.6"/>
 
 	<TextView
 		android:id="@+id/cpnInsolvencyDetailsAppointedOn"
@@ -25,7 +25,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsAppointedOn"
-		style="@style/Text.H6"
+		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"
@@ -48,7 +48,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsCeasedToActOn"
-		style="@style/Text.H6"
+		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"
@@ -71,7 +71,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsPractitionerName"
-		style="@style/Text.H6"
+		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"
@@ -94,7 +94,7 @@
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsPractitionerRole"
-		style="@style/Text.H6"
+		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"

@@ -51,7 +51,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
-					app:layout_constraintGuide_begin="@dimen/constraintGuideBegin"/>
+					app:layout_constraintGuide_percent="0.6"/>
 
 				<TextView
 					android:id="@+id/cpnFilingHistoryDetailsDate"
@@ -66,7 +66,7 @@
 
 				<TextView
 					android:id="@+id/lblFilingHistoryDetailsDate"
-					style="@style/Text.H6"
+					style="@style/Text.Bold"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/screenMargin"
@@ -89,7 +89,7 @@
 
 				<TextView
 					android:id="@+id/lblFilingHistoryDetailsCategory"
-					style="@style/Text.H6"
+					style="@style/Text.Bold"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/screenMargin"
@@ -112,7 +112,7 @@
 
 				<TextView
 					android:id="@+id/lblFilingHistoryDetailsSubcategory"
-					style="@style/Text.H6"
+					style="@style/Text.Bold"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/screenMargin"
@@ -135,7 +135,7 @@
 
 				<TextView
 					android:id="@+id/lblFilingHistoryDetailsDescription"
-					style="@style/Text.H6"
+					style="@style/Text.Bold"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/screenMargin"
@@ -147,7 +147,7 @@
 
 				<TextView
 					android:id="@+id/lblFilingHistoryDetailsDescriptionValues"
-					style="@style/Text.H6"
+					style="@style/Text.Bold"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/screenMargin"
@@ -170,7 +170,7 @@
 
 				<TextView
 					android:id="@+id/lblFilingHistoryDetailsPages"
-					style="@style/Text.H6"
+					style="@style/Text.Bold"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="@dimen/screenMargin"

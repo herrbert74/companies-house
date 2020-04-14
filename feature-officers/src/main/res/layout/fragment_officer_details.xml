@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
-	tools:context=".ui.officerdetails.OfficerDetailsActivity">
+	tools:context=".ui.OfficersActivity">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabOfficerDetails"
@@ -28,7 +28,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				app:layout_constraintGuide_begin="@dimen/constraintGuideBegin" />
+				app:layout_constraintGuide_percent="0.6" />
 
 			<TextView
 				android:id="@+id/cpnOfficerDetailsName"
@@ -43,7 +43,7 @@
 
 			<TextView
 				android:id="@+id/lblOfficerDetailsName"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -66,7 +66,7 @@
 
 			<TextView
 				android:id="@+id/lblOfficerDetailsAppointedOn"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -89,7 +89,7 @@
 
 			<TextView
 				android:id="@+id/lblOfficerDetailsNationality"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -112,7 +112,7 @@
 
 			<TextView
 				android:id="@+id/lblOfficerDetailsOccupation"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -135,7 +135,7 @@
 
 			<TextView
 				android:id="@+id/lblOfficerDetailsDateOfBirth"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
@@ -158,7 +158,7 @@
 
 			<TextView
 				android:id="@+id/lblOfficerDetailsCountryOfResidence"
-				style="@style/Text.H6"
+				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"

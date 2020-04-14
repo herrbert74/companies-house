@@ -2,12 +2,8 @@
 <resources>
 	<string name="officer_details">Officer details</string>
 
-	<string name="officer_details_country_of_residence">Country of residence</string>
-	<string name="officer_details_name">Name</string>
 	<string name="officer_details_appointed_on">Appointed on</string>
-	<string name="officer_details_nationality">Nationality</string>
 	<string name="officer_details_occupation">Occupation</string>
-	<string name="officer_details_date_of_birth">Date of birth</string>
 	<string name="officer_details_unknown">Unknown</string>
 	<string name="officer_details_appointments">Appointments</string>
 
