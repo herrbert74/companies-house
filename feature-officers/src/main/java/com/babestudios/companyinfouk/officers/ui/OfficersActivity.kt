@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
@@ -47,10 +46,6 @@ class OfficersActivity : BaseActivity() {
 
 	fun provideCompanyNumber(): String {
 		return if (::companyNumber.isInitialized) companyNumber else ""
-	}
-
-	fun injectErrorResolver(): ErrorResolver {
-		return comp.errorResolver()
 	}
 
 	fun injectCompaniesHouseRepository(): CompaniesRepositoryContract {

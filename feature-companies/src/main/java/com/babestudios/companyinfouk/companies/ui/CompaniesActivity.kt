@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -40,10 +39,6 @@ class CompaniesActivity : BaseActivity() {
 			super.finish()
 			overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
 		}
-	}
-
-	fun injectErrorResolver(): ErrorResolver {
-		return comp.errorResolver()
 	}
 
 	fun injectCompaniesHouseRepository(): CompaniesRepositoryContract {

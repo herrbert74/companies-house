@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.insolvencies
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateFieldWithReflection
 import com.babestudios.base.ext.getPrivateFunctionWithReflection
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
@@ -22,9 +21,6 @@ class InsolvenciesTest {
 	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
 
 	private val insolvenciesNavigator = mockk<InsolvenciesNavigator>()
-
-	private val errorResolver = mockk<ErrorResolver>()
-
 
 	@Before
 	fun setUp() {
@@ -51,7 +47,6 @@ class InsolvenciesTest {
 				InsolvenciesState(companyNumber = "123", totalInsolvenciesCount = 100),
 				companiesHouseRepository,
 				insolvenciesNavigator,
-				errorResolver,
 				"dates",
 				"practitioners")
 	}

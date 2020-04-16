@@ -4,8 +4,6 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.base.mvrx.resolveErrorOrProceed
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.charges.ui.charges.list.AbstractChargesVisitable
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitable
 import com.babestudios.companyinfouk.data.BuildConfig
@@ -16,8 +14,7 @@ import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 class ChargesViewModel(
 		chargesState: ChargesState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val chargesNavigator: ChargesNavigator,
-		private val errorResolver: ErrorResolver
+		val chargesNavigator: ChargesNavigator
 ) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<ChargesViewModel, ChargesState> {
@@ -26,12 +23,10 @@ class ChargesViewModel(
 		override fun create(viewModelContext: ViewModelContext, state: ChargesState): ChargesViewModel? {
 			val companiesRepository = viewModelContext.activity<ChargesActivity>().injectCompaniesHouseRepository()
 			val chargesNavigator = viewModelContext.activity<ChargesActivity>().injectChargesNavigator()
-			val errorResolver = viewModelContext.activity<ChargesActivity>().injectErrorResolver()
 			return ChargesViewModel(
 					state,
 					companiesRepository,
-					chargesNavigator,
-					errorResolver
+					chargesNavigator
 			)
 		}
 
@@ -50,7 +45,7 @@ class ChargesViewModel(
 		companiesRepository.fetchCharges(companyNumber, "0")
 				.execute {
 					copy(
-							chargesRequest = it.resolveErrorOrProceed(errorResolver),
+							chargesRequest = it,
 							charges = convertToVisitables(it()),
 							totalChargesCount = it()?.totalCount?.toInt()?: 0
 					)
@@ -68,7 +63,7 @@ class ChargesViewModel(
 								.toString()
 				).execute {
 					copy(
-							chargesRequest = it.resolveErrorOrProceed(errorResolver),
+							chargesRequest = it,
 							charges = charges.appendAt(convertToVisitables(it()), charges.size + 1),
 							totalChargesCount = it()?.totalCount?.toInt() ?: 0
 					)

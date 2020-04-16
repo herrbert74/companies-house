@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.charges
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateFieldWithReflection
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.charges.ui.ChargesState
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -21,8 +20,6 @@ class ChargesTest {
 	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
 
 	private val chargesNavigator = mockk<ChargesNavigator>()
-
-	private val errorResolver = mockk<ErrorResolver>()
 
 	@Before
 	fun setUp() {
@@ -54,8 +51,7 @@ class ChargesTest {
 		return ChargesViewModel(
 				ChargesState(companyNumber = "123", totalChargesCount = 100),
 				companiesHouseRepository,
-				chargesNavigator,
-				errorResolver)
+				chargesNavigator)
 	}
 
 	companion object {

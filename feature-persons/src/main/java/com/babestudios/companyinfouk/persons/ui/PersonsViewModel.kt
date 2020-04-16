@@ -5,8 +5,6 @@ import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.annotation.Mockable
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.base.mvrx.resolveErrorOrProceed
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.persons.Persons
@@ -18,8 +16,7 @@ import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 class PersonsViewModel(
 		personsState: PersonsState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val personsNavigator: PersonsNavigator,
-		private val errorResolver: ErrorResolver
+		val personsNavigator: PersonsNavigator
 ) : BaseViewModel<PersonsState>(personsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<PersonsViewModel, PersonsState> {
@@ -28,12 +25,10 @@ class PersonsViewModel(
 		override fun create(viewModelContext: ViewModelContext, state: PersonsState): PersonsViewModel? {
 			val companiesRepository = viewModelContext.activity<PersonsActivity>().injectCompaniesHouseRepository()
 			val personsNavigator = viewModelContext.activity<PersonsActivity>().injectPersonsNavigator()
-			val errorResolver = viewModelContext.activity<PersonsActivity>().injectErrorResolver()
 			return PersonsViewModel(
 					state,
 					companiesRepository,
-					personsNavigator,
-					errorResolver
+					personsNavigator
 			)
 		}
 
@@ -52,7 +47,7 @@ class PersonsViewModel(
 		companiesRepository.getPersons(companyNumber, "0")
 				.execute {
 					copy(
-							personsRequest = it.resolveErrorOrProceed(errorResolver),
+							personsRequest = it,
 							persons = convertToVisitables(it()),
 							totalPersonCount = it()?.totalResults ?: 0
 					)
@@ -71,7 +66,7 @@ class PersonsViewModel(
 								.toString()
 				).execute {
 					copy(
-							personsRequest = it.resolveErrorOrProceed(errorResolver),
+							personsRequest = it,
 							persons = persons.appendAt(convertToVisitables(it()), persons.size + 1),
 							totalPersonCount = it()?.totalResults ?: 0
 					)

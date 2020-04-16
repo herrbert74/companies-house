@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.officers
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateFieldWithReflection
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
@@ -22,9 +21,6 @@ class OfficersTest {
 	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
 
 	private val officersNavigator = mockk<OfficersNavigator>()
-
-	private val errorResolver = mockk<ErrorResolver>()
-
 
 	@Before
 	fun setUp() {
@@ -84,8 +80,7 @@ class OfficersTest {
 						totalAppointmentsCount = 200
 				),
 				companiesHouseRepository,
-				officersNavigator,
-				errorResolver)
+				officersNavigator)
 	}
 
 	companion object {

@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.persons
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateFieldWithReflection
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.persons.Persons
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
@@ -22,7 +21,6 @@ class PersonsTest {
 
 	private val personsNavigator = mockk<PersonsNavigator>()
 
-	private val errorResolver = mockk<ErrorResolver>()
 
 
 	@Before
@@ -55,8 +53,7 @@ class PersonsTest {
 		return PersonsViewModel(
 				PersonsState(companyNumber = "123", totalPersonCount = 100),
 				companiesHouseRepository,
-				personsNavigator,
-				errorResolver)
+				personsNavigator)
 	}
 
 	companion object {

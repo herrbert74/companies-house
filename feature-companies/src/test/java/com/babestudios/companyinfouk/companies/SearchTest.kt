@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.companies
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateFieldWithReflection
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -22,8 +21,6 @@ class SearchTest {
 	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
 
 	private val companiesNavigator = mockk<CompaniesNavigator>()
-
-	private val errorResolver = mockk<ErrorResolver>()
 
 	private val searchHistoryItem = SearchHistoryItem("TUI", "12344", 12L)
 
@@ -95,7 +92,6 @@ class SearchTest {
 				CompaniesState(companyNumber = "123", totalCount = 50),
 				companiesHouseRepository,
 				companiesNavigator,
-				errorResolver,
 				recentSearchesString = "")
 	}
 

@@ -115,12 +115,15 @@ open class CompaniesRepository @Inject constructor(
 	}
 
 	override fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult> {
-		return companiesHouseService.searchCompanies(
-				authorization,
-				queryText.toString(),
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-		).compose(schedulerProvider.getSchedulersForSingle())
+		return companiesHouseService
+				.searchCompanies(
+						authorization,
+						queryText.toString(),
+						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+						startItem
+				)
+				.compose(errorResolver.resolveErrorForSingle())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem> {
@@ -128,7 +131,9 @@ open class CompaniesRepository @Inject constructor(
 	}
 
 	override fun getCompany(companyNumber: String): Single<Company> {
-		return companiesHouseService.getCompany(authorization, companyNumber)
+		return companiesHouseService
+				.getCompany(authorization, companyNumber)
+				.compose(errorResolver.resolveErrorForSingle())
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
@@ -164,48 +169,61 @@ open class CompaniesRepository @Inject constructor(
 	}
 
 	override fun fetchCharges(companyNumber: String, startItem: String): Single<Charges> {
-		return companiesHouseService.getCharges(
-				authorization,
-				companyNumber,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-		).compose(schedulerProvider.getSchedulersForSingle())
+		return companiesHouseService
+				.getCharges(
+						authorization,
+						companyNumber,
+						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+						startItem
+				)
+				.compose(errorResolver.resolveErrorForSingle())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getInsolvency(companyNumber: String): Single<Insolvency> {
-		return companiesHouseService.getInsolvency(authorization, companyNumber)
+		return companiesHouseService
+				.getInsolvency(authorization, companyNumber)
+				.compose(errorResolver.resolveErrorForSingle())
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getOfficers(companyNumber: String, startItem: String): Single<Officers> {
-		return companiesHouseService.getOfficers(
-				authorization,
-				companyNumber,
-				null,
-				null,
-				null,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-		).compose(schedulerProvider.getSchedulersForSingle())
+		return companiesHouseService
+				.getOfficers(
+						authorization,
+						companyNumber,
+						null,
+						null,
+						null,
+						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+						startItem
+				)
+				.compose(errorResolver.resolveErrorForSingle())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments> {
-		return companiesHouseService.getOfficerAppointments(
-				authorization,
-				officerId,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-		).compose(schedulerProvider.getSchedulersForSingle())
+		return companiesHouseService
+				.getOfficerAppointments(
+						authorization,
+						officerId,
+						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+						startItem
+				)
+				.compose(errorResolver.resolveErrorForSingle())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getPersons(companyNumber: String, startItem: String): Single<Persons> {
-		return companiesHouseService.getPersons(
-				authorization,
-				companyNumber,
-				null,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-		).compose(schedulerProvider.getSchedulersForSingle())
+		return companiesHouseService
+				.getPersons(
+						authorization,
+						companyNumber,
+						null,
+						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+						startItem
+				).compose(errorResolver.resolveErrorForSingle())
+				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
 	override fun getDocument(documentId: String): Single<ResponseBody> {

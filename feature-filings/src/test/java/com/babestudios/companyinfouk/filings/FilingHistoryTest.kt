@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.filings
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateFieldWithReflection
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -21,8 +20,6 @@ class FilingHistoryTest {
 	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
 
 	private val filingsNavigator = mockk<FilingsNavigator>()
-
-	private val errorResolver = mockk<ErrorResolver>()
 
 	@Before
 	fun setUp() {
@@ -54,8 +51,7 @@ class FilingHistoryTest {
 		return FilingsViewModel(
 				FilingsState(companyNumber = "123", totalFilingsCount = 100),
 				companiesHouseRepository,
-				filingsNavigator,
-				errorResolver)
+				filingsNavigator)
 	}
 
 	companion object {

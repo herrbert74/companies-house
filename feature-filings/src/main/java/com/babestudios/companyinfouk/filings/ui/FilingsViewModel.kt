@@ -11,8 +11,6 @@ import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.base.mvrx.resolveErrorOrProceed
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
@@ -25,8 +23,7 @@ import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 class FilingsViewModel(
 		filingsState: FilingsState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val filingsNavigator: FilingsNavigator,
-		private val errorResolver: ErrorResolver
+		val filingsNavigator: FilingsNavigator
 ) : BaseViewModel<FilingsState>(filingsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<FilingsViewModel, FilingsState> {
@@ -35,12 +32,10 @@ class FilingsViewModel(
 		override fun create(viewModelContext: ViewModelContext, state: FilingsState): FilingsViewModel? {
 			val companiesRepository = viewModelContext.activity<FilingsActivity>().injectCompaniesHouseRepository()
 			val filingsNavigator = viewModelContext.activity<FilingsActivity>().injectFilingsNavigator()
-			val errorResolver = viewModelContext.activity<FilingsActivity>().injectErrorResolver()
 			return FilingsViewModel(
 					state,
 					companiesRepository,
-					filingsNavigator,
-					errorResolver
+					filingsNavigator
 			)
 		}
 
@@ -64,7 +59,7 @@ class FilingsViewModel(
 			)
 					.execute {
 						copy(
-								filingsRequest = it,//.resolveErrorOrProceed(errorResolver),
+								filingsRequest = it,
 								filingsHistory = convertToVisitables(it()),
 								totalFilingsCount = it()?.totalCount ?: 0
 						)
@@ -84,7 +79,7 @@ class FilingsViewModel(
 								.toString()
 				).execute {
 					copy(
-							filingsRequest = it.resolveErrorOrProceed(errorResolver),
+							filingsRequest = it,
 							filingsHistory = filingsHistory.appendAt(
 									convertToVisitables(it()),
 									filingsHistory.size + 1
@@ -135,7 +130,7 @@ class FilingsViewModel(
 				companiesRepository.getDocument(documentId)
 						.execute {
 							copy(
-									documentRequest = it.resolveErrorOrProceed(errorResolver),
+									documentRequest = it,
 									pdfResponseBody = it()
 							)
 						}
@@ -149,7 +144,7 @@ class FilingsViewModel(
 				companiesRepository.writeDocumentPdf(pdfResponseBody)
 						.execute {
 							copy(
-									writeDocumentRequest = it.resolveErrorOrProceed(errorResolver),
+									writeDocumentRequest = it,
 									pdfUri = it()
 							)
 						}

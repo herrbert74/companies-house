@@ -3,8 +3,6 @@ package com.babestudios.companyinfouk.insolvencies.ui
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.base.mvrx.resolveErrorOrProceed
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.*
@@ -16,7 +14,6 @@ class InsolvenciesViewModel(
 		insolvenciesState: InsolvenciesState,
 		private val companiesRepository: CompaniesRepositoryContract,
 		val insolvenciesNavigator: InsolvenciesNavigator,
-		private val errorResolver: ErrorResolver,
 		private val datesTitleString: String,
 		private val practitionersTitleString: String
 ) : BaseViewModel<InsolvenciesState>(insolvenciesState, companiesRepository) {
@@ -33,7 +30,6 @@ class InsolvenciesViewModel(
 		override fun create(viewModelContext: ViewModelContext, state: InsolvenciesState): InsolvenciesViewModel? {
 			val companiesRepository = viewModelContext.activity<InsolvenciesActivity>().injectCompaniesHouseRepository()
 			val insolvenciesNavigator = viewModelContext.activity<InsolvenciesActivity>().injectInsolvenciesNavigator()
-			val errorResolver = viewModelContext.activity<InsolvenciesActivity>().injectErrorResolver()
 			val datesTitleString = viewModelContext.activity<InsolvenciesActivity>().injectDatesTitleString()
 			val practitionersTitleString = viewModelContext.activity<InsolvenciesActivity>()
 					.injectPractitionersTitleString()
@@ -41,7 +37,6 @@ class InsolvenciesViewModel(
 					state,
 					companiesRepository,
 					insolvenciesNavigator,
-					errorResolver,
 					datesTitleString,
 					practitionersTitleString
 			)
@@ -62,7 +57,7 @@ class InsolvenciesViewModel(
 		companiesRepository.getInsolvency(companyNumber)
 				.execute {
 					copy(
-							insolvencyRequest = it.resolveErrorOrProceed(errorResolver),
+							insolvencyRequest = it,
 							insolvencies = convertCaseToDetailsVisitables(it())
 					)
 				}

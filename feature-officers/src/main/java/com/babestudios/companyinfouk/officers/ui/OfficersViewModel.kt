@@ -6,8 +6,6 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.base.mvrx.resolveErrorOrProceed
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.officers.Officers
@@ -22,8 +20,7 @@ import java.util.regex.Pattern
 class OfficersViewModel(
 		officersState: OfficersState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val officersNavigator: OfficersNavigator,
-		private val errorResolver: ErrorResolver
+		val officersNavigator: OfficersNavigator
 ) : BaseViewModel<OfficersState>(officersState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<OfficersViewModel, OfficersState> {
@@ -32,12 +29,10 @@ class OfficersViewModel(
 		override fun create(viewModelContext: ViewModelContext, state: OfficersState): OfficersViewModel? {
 			val companiesRepository = viewModelContext.activity<OfficersActivity>().injectCompaniesHouseRepository()
 			val officersNavigator = viewModelContext.activity<OfficersActivity>().injectOfficersNavigator()
-			val errorResolver = viewModelContext.activity<OfficersActivity>().injectErrorResolver()
 			return OfficersViewModel(
 					state,
 					companiesRepository,
-					officersNavigator,
-					errorResolver
+					officersNavigator
 			)
 		}
 
@@ -56,7 +51,7 @@ class OfficersViewModel(
 		companiesRepository.getOfficers(companyNumber, "0")
 				.execute {
 					copy(
-							officersRequest = it.resolveErrorOrProceed(errorResolver),
+							officersRequest = it,
 							officerItems = convertToVisitables(it()),
 							totalOfficersCount = it()?.totalResults ?: 0
 					)
@@ -72,7 +67,7 @@ class OfficersViewModel(
 						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
 				).execute {
 					copy(
-							officersRequest = it.resolveErrorOrProceed(errorResolver),
+							officersRequest = it,
 							officerItems = officerItems.appendAt(
 									convertToVisitables(it()),
 									officerItems.size + 1
@@ -126,7 +121,7 @@ class OfficersViewModel(
 					.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
 					.execute {
 						copy(
-								officerAppointmentsRequest = it.resolveErrorOrProceed(errorResolver),
+								officerAppointmentsRequest = it,
 								appointmentItems = convertToVisitables(it()),
 								totalAppointmentsCount = it()?.totalResults?.toInt() ?: 0
 						)
@@ -144,7 +139,7 @@ class OfficersViewModel(
 						.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
 						.execute {
 							copy(
-									officerAppointmentsRequest = it.resolveErrorOrProceed(errorResolver),
+									officerAppointmentsRequest = it,
 									appointmentItems = appointmentItems.appendAt(
 											convertToVisitables(it()),
 											appointmentItems.size + 1

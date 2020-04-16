@@ -6,8 +6,6 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.base.mvrx.resolveErrorOrProceed
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
@@ -30,7 +28,6 @@ class CompaniesViewModel(
 		companiesState: CompaniesState,
 		private val companiesRepository: CompaniesRepositoryContract,
 		val companiesNavigator: CompaniesNavigator,
-		private val errorResolver: ErrorResolver,
 		private val recentSearchesString: String
 ) : BaseViewModel<CompaniesState>(companiesState, companiesRepository) {
 
@@ -40,13 +37,11 @@ class CompaniesViewModel(
 		override fun create(viewModelContext: ViewModelContext, state: CompaniesState): CompaniesViewModel? {
 			val companiesRepository = viewModelContext.activity<CompaniesActivity>().injectCompaniesHouseRepository()
 			val companiesNavigator = viewModelContext.activity<CompaniesActivity>().injectCompaniesNavigator()
-			val errorResolver = viewModelContext.activity<CompaniesActivity>().injectErrorResolver()
 			val recentSearchesString = viewModelContext.activity<CompaniesActivity>().injectRecentSearchesString()
 			return CompaniesViewModel(
 					state,
 					companiesRepository,
 					companiesNavigator,
-					errorResolver,
 					recentSearchesString
 			)
 		}
@@ -58,7 +53,7 @@ class CompaniesViewModel(
 		companiesRepository.recentSearches()
 				.execute {
 					copy(
-							searchHistoryRequest = it.resolveErrorOrProceed(errorResolver),
+							searchHistoryRequest = it,
 							searchHistoryVisitables = convertSearchHistoryToVisitables(it() ?: emptyList())
 					)
 				}
@@ -138,7 +133,7 @@ class CompaniesViewModel(
 					copy(
 							queryText = queryText,
 							totalCount = it()?.totalResults ?: 0,
-							searchRequest = it.resolveErrorOrProceed(errorResolver),
+							searchRequest = it,
 							searchVisitables =
 							convertSearchResultsToVisitables(it() ?: CompanySearchResult()),
 							filteredSearchVisitables = filterSearchResults(filterState,
@@ -159,7 +154,7 @@ class CompaniesViewModel(
 							copy(
 									queryText = queryText,
 									totalCount = it()?.totalResults ?: 0,
-									searchRequest = it.resolveErrorOrProceed(errorResolver),
+									searchRequest = it,
 									searchVisitables = convertLoadMoreSearchResultsToVisitables(
 											state.searchVisitables,
 											it() ?: CompanySearchResult()
@@ -293,9 +288,7 @@ class CompaniesViewModel(
 	}
 
 	private fun getAddressString(company: Company?): String {
-		return company?.registeredOfficeAddress?.addressLine2?.let { line2 ->
-			line2
-		} ?: run {
+		return company?.registeredOfficeAddress?.addressLine2 ?: run {
 			(company?.registeredOfficeAddress?.addressLine1
 					+ ", "
 					+ company?.registeredOfficeAddress?.locality
