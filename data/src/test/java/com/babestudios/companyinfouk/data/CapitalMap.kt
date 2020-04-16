@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.data
 
-import com.babestudios.companyinfouk.data.model.filinghistory.Capital
+import com.babestudios.companyinfouk.data.model.filinghistory.CapitalDto
 
 class CapitalMap (
 	var pages: Int,
-	var capital: Map<String, Capital>
+	var capital: Map<String, CapitalDto>
 )

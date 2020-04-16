@@ -12,7 +12,7 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
-import com.babestudios.companyinfouk.common.model.filinghistory.CategoryDto
+import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryBinding
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
@@ -101,7 +101,7 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 		)
 		spinner.adapter = adapter
 		withState(viewModel) { state ->
-			if (state.filingCategoryFilter != CategoryDto.CATEGORY_SHOW_ALL) {
+			if (state.filingCategoryFilter != Category.CATEGORY_SHOW_ALL) {
 				spinner.setSelection(state.filingCategoryFilter.ordinal)
 			}
 		}

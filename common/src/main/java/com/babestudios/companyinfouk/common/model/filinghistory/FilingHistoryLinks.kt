@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CapitalDto(
-		var figure: String = "",
-		var currency: String = ""
-): Parcelable
+data class FilingHistoryLinks(
+		val documentMetadata: String = "",
+		val self: String = ""
+) : Parcelable

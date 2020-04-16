@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.ArrayList
 
 @Parcelize
-class DescriptionValues(
+class DescriptionValuesDto(
 		@SerializedName("made_up_date")
 		var madeUpDate: String? = null,
 
@@ -45,7 +45,7 @@ class DescriptionValues(
 		var date: String? = null,
 
 		@SerializedName("capital")
-		var capital: List<Capital> = ArrayList(),
+		var capital: List<CapitalDto> = ArrayList(),
 
 		var description: String? = null
 ) : Parcelable

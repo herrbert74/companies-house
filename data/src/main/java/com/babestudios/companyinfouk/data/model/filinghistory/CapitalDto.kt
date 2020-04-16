@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Capital(
+class CapitalDto(
 		@SerializedName("figure")
 		var figure: String? = null,
 		@SerializedName("currency")

@@ -5,6 +5,8 @@
         <option name="USE_TAB_CHARACTER" value="true" />
       </value>
     </option>
+    <option name="RIGHT_MARGIN" value="120" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
     <codeStyleSettings language="XML">
       <indentOptions>
         <option name="CONTINUATION_INDENT_SIZE" value="4" />

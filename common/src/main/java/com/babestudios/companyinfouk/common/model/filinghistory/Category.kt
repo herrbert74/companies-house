@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.common.model.filinghistory
 import androidx.annotation.Keep
 
 @Keep
-enum class CategoryDto(val displayName: String) {
+enum class Category(val displayName: String) {
 	CATEGORY_SHOW_ALL("all"),
 	CATEGORY_GAZETTE("gazette"),
 	CATEGORY_CONFIRMATION_STATEMENT("confirmation statement"),

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItemDto
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.databinding.RowFilingHistoryBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -17,7 +17,7 @@ class FilingHistoryAdapter internal constructor(
 ) : RecyclerView.Adapter<BaseViewHolder<FilingHistoryVisitable>>() {
 
 	interface FilingHistoryTypeFactory {
-		fun type(filingHistoryItem: FilingHistoryItemDto): Int
+		fun type(filingHistoryItem: FilingHistoryItem): Int
 		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
 	}
 

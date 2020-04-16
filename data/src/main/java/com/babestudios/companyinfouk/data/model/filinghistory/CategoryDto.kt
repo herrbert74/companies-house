@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 @Keep
-enum class Category(val displayName: String) {
+enum class CategoryDto(val displayName: String) {
 	@SerializedName("")
 	CATEGORY_SHOW_ALL("all"),
 	@SerializedName("gazette")

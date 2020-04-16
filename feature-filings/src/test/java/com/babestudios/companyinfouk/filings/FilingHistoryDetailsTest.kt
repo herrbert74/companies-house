@@ -3,12 +3,11 @@ package com.babestudios.companyinfouk.filings
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateFieldWithReflection
 import com.babestudios.base.rxjava.ErrorResolver
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItemDto
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryLinksDto
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryLinks
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import io.mockk.every
 import okhttp3.MediaType.Companion.toMediaType
@@ -55,8 +54,8 @@ class FilingHistoryDetailsTest {
 	}*/
 
 	private fun filingsViewModel(): FilingsViewModel {
-		val historyLinks = FilingHistoryLinksDto().copy(documentMetadata = "something")
-		val historyItem = FilingHistoryItemDto().copy(links = historyLinks)
+		val historyLinks = FilingHistoryLinks().copy(documentMetadata = "something")
+		val historyItem = FilingHistoryItem().copy(links = historyLinks)
 		return FilingsViewModel(
 				FilingsState(companyNumber = "123", totalFilingsCount = 100, filingHistoryItem = historyItem),
 				companiesHouseRepository,

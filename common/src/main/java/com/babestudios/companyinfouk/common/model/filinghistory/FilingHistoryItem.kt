@@ -4,12 +4,12 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class FilingHistoryItemDto(
+data class FilingHistoryItem(
 		val date: String = "",
 		val type: String = "",
-		val links: FilingHistoryLinksDto = FilingHistoryLinksDto(),
-		val category: CategoryDto = CategoryDto.CATEGORY_SHOW_ALL,
+		val links: FilingHistoryLinks = FilingHistoryLinks(),
+		val category: Category = Category.CATEGORY_SHOW_ALL,
 		val subcategory: String = "",
 		val description: String = "",
-		val descriptionValues: DescriptionValuesDto = DescriptionValuesDto(),
+		val descriptionValues: DescriptionValues = DescriptionValues(),
 		val pages: Int = 0) :Parcelable

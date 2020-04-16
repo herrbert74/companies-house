@@ -6,7 +6,7 @@ import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import io.mockk.every
 import io.mockk.mockk
@@ -30,7 +30,7 @@ class FilingHistoryTest {
 			companiesHouseRepository.getFilingHistory("123", any(), any())
 		} answers
 				{
-					Single.create { FilingHistory() }
+					Single.create { FilingHistoryDto() }
 				}
 	}
 

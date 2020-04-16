@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class FilingHistoryLinks(
+class FilingHistoryLinksDto(
 		@SerializedName("document_metadata")
 		var documentMetadata: String? = null,
 		@SerializedName("self")

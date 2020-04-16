@@ -13,9 +13,9 @@ import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.base.mvrx.resolveErrorOrProceed
 import com.babestudios.base.rxjava.ErrorResolver
-import com.babestudios.companyinfouk.common.model.filinghistory.CategoryDto
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryDto
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItemDto
+import com.babestudios.companyinfouk.common.model.filinghistory.Category
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.filinghistory.convertToDomainModel
@@ -64,7 +64,7 @@ class FilingsViewModel(
 			)
 					.execute {
 						copy(
-								filingsRequest = it.resolveErrorOrProceed(errorResolver),
+								filingsRequest = it,//.resolveErrorOrProceed(errorResolver),
 								filingsHistory = convertToVisitables(it()),
 								totalFilingsCount = it()?.totalCount ?: 0
 						)
@@ -96,14 +96,14 @@ class FilingsViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: FilingHistoryDto?): List<FilingHistoryVisitable> {
+	private fun convertToVisitables(reply: FilingHistory?): List<FilingHistoryVisitable> {
 		return ArrayList(reply?.items?.map { item -> FilingHistoryVisitable(item) } ?: emptyList())
 	}
 
 	fun setCategoryFilter(category: Int) {
 		setState {
 			copy(
-					filingCategoryFilter = CategoryDto.values()[category],
+					filingCategoryFilter = Category.values()[category],
 					filingsHistory = emptyList()
 			)
 		}
@@ -170,7 +170,7 @@ class FilingsViewModel(
 }
 
 @Suppress("NestedBlockDepth")
-fun String?.createSpannableDescription(filingHistoryItem: FilingHistoryItemDto): Spannable? {
+fun String?.createSpannableDescription(filingHistoryItem: FilingHistoryItem): Spannable? {
 	var s = this
 	if (s != null) {
 		val first = s.indexOf("**")

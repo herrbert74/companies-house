@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
 @Parcelize
-class AssociatedFiling(
+class AssociatedFilingDto(
 		@SerializedName("description_values")
-		var descriptionValues: DescriptionValues? = null,
+		var descriptionValues: DescriptionValuesDto? = null,
 		@SerializedName("type")
 		var type: String? = null,
 		@SerializedName("description")

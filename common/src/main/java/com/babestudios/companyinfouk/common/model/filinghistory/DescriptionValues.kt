@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class DescriptionValuesDto(
+data class DescriptionValues(
 		val madeUpDate: String = "",
 		val officerName: String = "",
 		val appointmentDate: String = "",
@@ -17,6 +17,6 @@ data class DescriptionValuesDto(
 		val chargeNumber: String = "",
 		val chargeCreationDate: String = "",
 		val date: String = "",
-		val capital: List<CapitalDto> = emptyList(),
+		val capital: List<Capital> = emptyList(),
 		val description: String? = null
 ) : Parcelable
