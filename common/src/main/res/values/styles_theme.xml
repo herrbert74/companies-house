@@ -10,6 +10,7 @@
 		<item name="editTextStyle">@style/EditText</item>
 		<item name="materialButtonStyle">@style/Button</item>
 
+		<item name="colorOnPrimary">@color/colorOnPrimary</item>
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorSecondary">@color/colorAccent</item>

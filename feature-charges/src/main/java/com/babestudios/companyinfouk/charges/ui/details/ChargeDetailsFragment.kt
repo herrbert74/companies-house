@@ -118,7 +118,8 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 				binding.rvChargeDetails.layoutManager = linearLayoutManager
 				val titlePositions = java.util.ArrayList<Int>()
 				titlePositions.add(0)
-				binding.rvChargeDetails.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
+				binding.rvChargeDetails
+						.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
 				chargeDetailsAdapter = ChargeDetailsAdapter(
 						convertToVisitables(chargesItem.transactions),
 						ChargeDetailsTypeFactory()
@@ -128,10 +129,11 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 		}
 	}
 
-	private fun convertToVisitables(transactions: List<Transaction>): List<AbstractChargeDetailsVisitable> {
-		val visitables = ArrayList<AbstractChargeDetailsVisitable>()
-		visitables.add(ChargeDetailsHeaderVisitable(ChargeDetailsHeaderItem(getString(R.string.transactions))))
-		visitables.addAll(transactions.map { item -> ChargeDetailsVisitable(item) })
+	private fun convertToVisitables(transactions: List<Transaction>): List<ChargeDetailsVisitableBase> {
+		val visitables = ArrayList<ChargeDetailsVisitableBase>()
+		visitables.add(ChargeDetailsVisitableBase.ChargeDetailsHeaderVisitable(
+				ChargeDetailsHeaderItem(getString(R.string.transactions))))
+		visitables.addAll(transactions.map { item -> ChargeDetailsVisitableBase.ChargeDetailsVisitable(item) })
 		return visitables
 	}
 

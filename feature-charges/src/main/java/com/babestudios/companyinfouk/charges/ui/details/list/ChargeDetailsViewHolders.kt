@@ -6,20 +6,20 @@ import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsHeaderB
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsTransactionBinding
 
 class ChargeDetailsViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<AbstractChargeDetailsVisitable>(_binding) {
-	override fun bind(visitable: AbstractChargeDetailsVisitable) {
+	: BaseViewHolder<ChargeDetailsVisitableBase>(_binding) {
+	override fun bind(visitable: ChargeDetailsVisitableBase) {
 		val binding = _binding as RowChargeDetailsTransactionBinding
-		val chargeDetailsItem = (visitable as ChargeDetailsVisitable).transaction
+		val chargeDetailsItem = (visitable as ChargeDetailsVisitableBase.ChargeDetailsVisitable).transaction
 		binding.tvChargeDetailsHeaderFilingType.text = chargeDetailsItem.filingType
 		binding.tvChargeDetailsTransactionDeliveredOn.text = chargeDetailsItem.deliveredOn
 	}
 }
 
 class ChargeDetailsHeaderViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<AbstractChargeDetailsVisitable>(_binding) {
-	override fun bind(visitable: AbstractChargeDetailsVisitable) {
+	: BaseViewHolder<ChargeDetailsVisitableBase>(_binding) {
+	override fun bind(visitable: ChargeDetailsVisitableBase) {
 		val binding = _binding as RowChargeDetailsHeaderBinding
-		val chargeDetailsHeaderItem = (visitable as ChargeDetailsHeaderVisitable)
+		val chargeDetailsHeaderItem = (visitable as ChargeDetailsVisitableBase.ChargeDetailsHeaderVisitable)
 				.chargeDetailsHeaderItem
 		binding.cpnChargeDetailsHeaderTitle.text = chargeDetailsHeaderItem.title
 	}

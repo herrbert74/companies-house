@@ -10,9 +10,9 @@ import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsHeaderB
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsTransactionBinding
 import com.babestudios.companyinfouk.data.model.charges.Transaction
 
-class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<AbstractChargeDetailsVisitable>
+class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<ChargeDetailsVisitableBase>
 						   , private val chargeDetailsTypeFactory: ChargeDetailsTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<AbstractChargeDetailsVisitable>>() {
+	: RecyclerView.Adapter<BaseViewHolder<ChargeDetailsVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return chargeDetailsVisitables.size
@@ -29,7 +29,7 @@ class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<AbstractCha
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-			: BaseViewHolder<AbstractChargeDetailsVisitable> {
+			: BaseViewHolder<ChargeDetailsVisitableBase> {
 		val binding = when (viewType) {
 			R.layout.row_charge_details_header -> RowChargeDetailsHeaderBinding.inflate(
 					LayoutInflater.from(parent.context),
@@ -40,14 +40,14 @@ class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<AbstractCha
 					parent,
 					false)
 		}
-		return chargeDetailsTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractChargeDetailsVisitable>
+		return chargeDetailsTypeFactory.holder(viewType, binding) as BaseViewHolder<ChargeDetailsVisitableBase>
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<AbstractChargeDetailsVisitable>, position: Int) {
+	override fun onBindViewHolder(holder: BaseViewHolder<ChargeDetailsVisitableBase>, position: Int) {
 		holder.bind(chargeDetailsVisitables[position])
 	}
 
-	fun updateItems(visitables: List<AbstractChargeDetailsVisitable>) {
+	fun updateItems(visitables: List<ChargeDetailsVisitableBase>) {
 		chargeDetailsVisitables = visitables
 		notifyDataSetChanged()
 	}
