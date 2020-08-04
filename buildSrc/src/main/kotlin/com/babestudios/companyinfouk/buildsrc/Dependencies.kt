@@ -5,12 +5,12 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 //Sadly this doesn't work in root gradle file, probably chicken and egg problem
 @Suppress("unused", "SpellCheckingInspection")
 object Plugins {
-	private const val kotlinVersion = "1.3.70"
-	const val androidTools = "com.android.tools.build:gradle:4.0.0-alpha05"
+	private const val kotlinVersion = "1.3.72"
+	const val androidTools = "com.android.tools.build:gradle:4.2.0-alpha07"
 	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
 	const val googleServices = "com.google.gms:google-services:4.3.3"
-	const val fabric = "io.fabric.tools:gradle:1.31.2"
+	//const val fabric = "io.fabric.tools:gradle:1.31.2"
 	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.6.0"
 }
 
@@ -76,7 +76,6 @@ object Libs {
 
 	object Google {
 		const val material = "com.google.android.material:material:1.2.0-alpha05"
-		const val crashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1"
 		const val gson = "com.google.code.gson:gson:2.8.6"
 
 
@@ -95,7 +94,8 @@ object Libs {
 		}
 
 		object Firebase {
-			const val analytics = "com.google.firebase:firebase-analytics:17.2.3"
+			const val analytics = "com.google.firebase:firebase-analytics-ktx:17.4.4"
+			const val crashlytics = "com.google.firebase:firebase-crashlytics:17.1.1"
 			const val database = "com.google.firebase:firebase-database:19.1.0"
 		}
 	}
@@ -142,7 +142,7 @@ object Libs {
 	}
 
 	object Kotlin {
-		private const val version = "1.3.70"
+		private const val version = "1.3.72"
 		const val stdLibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 	}
 

@@ -3,7 +3,7 @@ import com.babestudios.companyinfouk.buildsrc.Libs
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("jacoco")
-	id("io.fabric")
+	id("com.google.firebase.crashlytics")
 	id("com.google.gms.google-services")
 	id("org.jetbrains.kotlin.plugin.allopen")
 }
@@ -70,7 +70,7 @@ dependencies {
 	implementation(project(":feature-persons"))
 	androidTestImplementation(project(":data"))
 
-	implementation(Libs.Google.crashlytics)
+	implementation(Libs.Google.Firebase.crashlytics)
 	implementation(Libs.AndroidX.appcompat)
 	debugImplementation(Libs.Facebook.Flipper.debug)
 	releaseImplementation(Libs.Facebook.Flipper.release)

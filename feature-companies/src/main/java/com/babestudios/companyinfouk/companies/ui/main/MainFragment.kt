@@ -7,7 +7,6 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -105,7 +104,6 @@ class MainFragment : BaseMvRxFragment() {
 
 	override fun onResume() {
 		super.onResume()
-		Log.d("logCatText", "onResume: ")
 		observeActions()
 	}
 
@@ -442,7 +440,6 @@ class MainFragment : BaseMvRxFragment() {
 		searchHistoryAdapter?.getViewClickedObservable()
 				//?.skip(1)
 				?.subscribe { view: BaseViewHolder<AbstractSearchHistoryVisitable> ->
-					Log.d("logCatText", "observeActions: searchHistoryAdapter clicked ${view.adapterPosition}")
 					viewModel.searchHistoryItemClicked(view.adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }
