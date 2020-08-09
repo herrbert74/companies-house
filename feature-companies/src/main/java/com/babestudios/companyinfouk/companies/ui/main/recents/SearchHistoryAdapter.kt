@@ -13,9 +13,9 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class SearchHistoryAdapter(private var searchHistoryVisitables: List<AbstractSearchHistoryVisitable>
+class SearchHistoryAdapter(private var searchHistoryVisitables: List<SearchHistoryVisitableBase>
 						   , private val searchHistoryTypeFactory: SearchHistoryTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<AbstractSearchHistoryVisitable>>() {
+	: RecyclerView.Adapter<BaseViewHolder<SearchHistoryVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return searchHistoryVisitables.size
@@ -25,19 +25,19 @@ class SearchHistoryAdapter(private var searchHistoryVisitables: List<AbstractSea
 		return searchHistoryVisitables[position].type(searchHistoryTypeFactory)
 	}
 
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<AbstractSearchHistoryVisitable>>()
+	private val itemClickSubject = PublishSubject.create<BaseViewHolder<SearchHistoryVisitableBase>>()
 
-	fun getViewClickedObservable(): Observable<BaseViewHolder<AbstractSearchHistoryVisitable>> {
+	fun getViewClickedObservable(): Observable<BaseViewHolder<SearchHistoryVisitableBase>> {
 		return itemClickSubject
 	}
 
 	interface SearchHistoryTypeFactory {
 		fun type(searchHistoryItem: SearchHistoryItem): Int
 		fun type(searchHistoryHeaderItem: SearchHistoryHeaderItem): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<SearchHistoryVisitableBase>
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractSearchHistoryVisitable> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<SearchHistoryVisitableBase> {
 		val binding = when (viewType) {
 			R.layout.row_two_lines -> RowTwoLinesBinding.inflate(
 					LayoutInflater.from(parent.context),
@@ -49,7 +49,7 @@ class SearchHistoryAdapter(private var searchHistoryVisitables: List<AbstractSea
 					false)
 
 		}
-		val v = searchHistoryTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractSearchHistoryVisitable>
+		val v = searchHistoryTypeFactory.holder(viewType, binding)
 		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
@@ -57,11 +57,11 @@ class SearchHistoryAdapter(private var searchHistoryVisitables: List<AbstractSea
 		return v
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<AbstractSearchHistoryVisitable>, position: Int) {
+	override fun onBindViewHolder(holder: BaseViewHolder<SearchHistoryVisitableBase>, position: Int) {
 		holder.bind(searchHistoryVisitables[position])
 	}
 
-	fun updateItems(visitables: List<AbstractSearchHistoryVisitable>) {
+	fun updateItems(visitables: List<SearchHistoryVisitableBase>) {
 		searchHistoryVisitables = visitables
 		notifyDataSetChanged()
 	}

@@ -35,7 +35,7 @@ import com.babestudios.companyinfouk.companies.databinding.FragmentMainBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.FilterState
-import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryAdapter
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryTypeFactory
 import com.babestudios.companyinfouk.companies.ui.main.search.*
@@ -439,13 +439,13 @@ class MainFragment : BaseMvRxFragment() {
 		}
 		searchHistoryAdapter?.getViewClickedObservable()
 				//?.skip(1)
-				?.subscribe { view: BaseViewHolder<AbstractSearchHistoryVisitable> ->
+				?.subscribe { view: BaseViewHolder<SearchHistoryVisitableBase> ->
 					viewModel.searchHistoryItemClicked(view.adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }
 		searchAdapter?.getViewClickedObservable()
 				//?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractSearchVisitable> ->
+				?.subscribe { view: BaseViewHolder<SearchVisitableBase> ->
 					withState(viewModel) { state ->
 						state.filteredSearchVisitables.let { searchItems ->
 							val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem

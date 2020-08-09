@@ -5,8 +5,8 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
-import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
-import com.babestudios.companyinfouk.companies.ui.main.search.AbstractSearchVisitable
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
@@ -14,8 +14,8 @@ import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 data class CompaniesState(
 		//Main/Search
 		val searchRequest: Async<CompanySearchResult> = Uninitialized,
-		val searchVisitables: List<AbstractSearchVisitable> = emptyList(),
-		val filteredSearchVisitables: List<AbstractSearchVisitable> = ArrayList(),
+		val searchVisitables: List<SearchVisitableBase> = emptyList(),
+		val filteredSearchVisitables: List<SearchVisitableBase> = ArrayList(),
 		val totalCount: Int = 0,
 		@PersistState
 		val queryText: String = "",
@@ -26,7 +26,7 @@ data class CompaniesState(
 
 		//Main/Search history
 		val searchHistoryRequest: Async<List<SearchHistoryItem>> = Uninitialized,
-		val searchHistoryVisitables: List<AbstractSearchHistoryVisitable> = emptyList(),
+		val searchHistoryVisitables: List<SearchHistoryVisitableBase> = emptyList(),
 
 		//Company
 		val companyRequest: Async<Company> = Uninitialized,

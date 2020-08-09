@@ -6,8 +6,8 @@ import com.babestudios.companyinfouk.common.databinding.RowSubtitleBinding
 import com.babestudios.companyinfouk.common.databinding.RowTwoLinesBinding
 
 class SearchHistoryViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<AbstractSearchHistoryVisitable>(_binding) {
-	override fun bind(visitable: AbstractSearchHistoryVisitable) {
+	: BaseViewHolder<SearchHistoryVisitableBase>(_binding) {
+	override fun bind(visitable: SearchHistoryVisitableBase) {
 		val binding = _binding as RowTwoLinesBinding
 		val searchHistoryItem = (visitable as SearchHistoryVisitable).searchHistoryItem
 		binding.lblCommonTwoLinesTitle.text = searchHistoryItem.companyName
@@ -16,8 +16,8 @@ class SearchHistoryViewHolder(_binding: ViewBinding)
 }
 
 class SearchHistoryHeaderViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<AbstractSearchHistoryVisitable>(_binding) {
-	override fun bind(visitable: AbstractSearchHistoryVisitable) {
+	: BaseViewHolder<SearchHistoryVisitableBase>(_binding) {
+	override fun bind(visitable: SearchHistoryVisitableBase) {
 		val binding = _binding as RowSubtitleBinding
 		val searchHistoryHeaderItem =
 				(visitable as SearchHistoryHeaderVisitable).searchHistoryHeaderItem

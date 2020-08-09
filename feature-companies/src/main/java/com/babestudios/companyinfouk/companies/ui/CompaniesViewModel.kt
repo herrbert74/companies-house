@@ -8,11 +8,11 @@ import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
-import com.babestudios.companyinfouk.companies.ui.main.recents.AbstractSearchHistoryVisitable
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitable
-import com.babestudios.companyinfouk.companies.ui.main.search.AbstractSearchVisitable
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -60,8 +60,8 @@ class CompaniesViewModel(
 	}
 
 	private fun convertSearchHistoryToVisitables(reply: List<SearchHistoryItem>):
-			List<AbstractSearchHistoryVisitable> {
-		val searchHistoryVisitables: MutableList<AbstractSearchHistoryVisitable> =
+			List<SearchHistoryVisitableBase> {
+		val searchHistoryVisitables: MutableList<SearchHistoryVisitableBase> =
 				reply.map { item ->
 					SearchHistoryVisitable(SearchHistoryItem(
 							item.companyName,
@@ -171,14 +171,14 @@ class CompaniesViewModel(
 		}
 	}
 
-	private fun convertSearchResultsToVisitables(reply: CompanySearchResult): List<AbstractSearchVisitable> {
+	private fun convertSearchResultsToVisitables(reply: CompanySearchResult): List<SearchVisitableBase> {
 		return ArrayList(reply.items.map { item -> SearchVisitable(item) })
 	}
 
 	private fun convertLoadMoreSearchResultsToVisitables(
-			currentSearchVisitables: List<AbstractSearchVisitable>,
+			currentSearchVisitables: List<SearchVisitableBase>,
 			reply: CompanySearchResult
-	): List<AbstractSearchVisitable> {
+	): List<SearchVisitableBase> {
 		val updatedList = currentSearchVisitables.toMutableList()
 		updatedList.addAll(reply.items.map { item -> SearchVisitable(item) })
 		return updatedList
@@ -186,8 +186,8 @@ class CompaniesViewModel(
 
 	private fun filterSearchResults(
 			filterState: FilterState?,
-			searchVisitables: List<AbstractSearchVisitable>)
-			: Single<List<AbstractSearchVisitable>> {
+			searchVisitables: List<SearchVisitableBase>)
+			: Single<List<SearchVisitableBase>> {
 		return Observable.fromIterable(searchVisitables)
 				.filter { companySearchResultItem ->
 					val searchItem = (companySearchResultItem as SearchVisitable).searchItem

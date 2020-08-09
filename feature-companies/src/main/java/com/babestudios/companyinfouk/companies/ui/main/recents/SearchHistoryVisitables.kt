@@ -4,12 +4,12 @@ import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import kotlinx.android.parcel.Parcelize
 
-abstract class AbstractSearchHistoryVisitable : Parcelable {
+sealed class SearchHistoryVisitableBase : Parcelable {
 	abstract fun type(searchHistoryTypeFactory: SearchHistoryAdapter.SearchHistoryTypeFactory): Int
 }
 
 @Parcelize
-class SearchHistoryVisitable(val searchHistoryItem: SearchHistoryItem) : AbstractSearchHistoryVisitable(), Parcelable {
+class SearchHistoryVisitable(val searchHistoryItem: SearchHistoryItem) : SearchHistoryVisitableBase(), Parcelable {
 	override fun type(searchHistoryTypeFactory: SearchHistoryAdapter.SearchHistoryTypeFactory): Int {
 		return searchHistoryTypeFactory.type(searchHistoryItem)
 	}
@@ -17,7 +17,7 @@ class SearchHistoryVisitable(val searchHistoryItem: SearchHistoryItem) : Abstrac
 
 @Parcelize
 class SearchHistoryHeaderVisitable(val searchHistoryHeaderItem: SearchHistoryHeaderItem)
-	: AbstractSearchHistoryVisitable(), Parcelable {
+	: SearchHistoryVisitableBase(), Parcelable {
 	override fun type(searchHistoryTypeFactory: SearchHistoryAdapter.SearchHistoryTypeFactory): Int {
 		return searchHistoryTypeFactory.type(searchHistoryHeaderItem)
 	}

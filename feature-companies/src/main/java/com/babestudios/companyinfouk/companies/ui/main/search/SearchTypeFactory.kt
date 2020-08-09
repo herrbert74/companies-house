@@ -8,7 +8,7 @@ import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
 class SearchTypeFactory : SearchAdapter.SearchTypeFactory {
 	override fun type(searchItem: CompanySearchResultItem): Int = R.layout.row_search_result
 
-	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<SearchVisitableBase> {
 		return when (type) {
 			R.layout.row_search_result -> SearchViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")
