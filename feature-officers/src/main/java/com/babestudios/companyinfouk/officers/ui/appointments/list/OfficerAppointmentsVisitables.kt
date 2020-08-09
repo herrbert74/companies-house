@@ -4,12 +4,12 @@ import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointment
 import kotlinx.android.parcel.Parcelize
 
-abstract class AbstractOfficerAppointmentsVisitable : Parcelable {
+sealed class OfficerAppointmentsVisitableBase : Parcelable {
 	abstract fun type(officerAppointmentsTypeFactory: OfficerAppointmentsAdapter.OfficerAppointmentsTypeFactory): Int
 }
 
 @Parcelize
-class OfficerAppointmentsVisitable(val appointment: Appointment) : AbstractOfficerAppointmentsVisitable(), Parcelable {
+class OfficerAppointmentsVisitable(val appointment: Appointment) : OfficerAppointmentsVisitableBase(), Parcelable {
 	override fun type(officerAppointmentsTypeFactory: OfficerAppointmentsAdapter.OfficerAppointmentsTypeFactory): Int {
 		return officerAppointmentsTypeFactory.type(appointment)
 	}

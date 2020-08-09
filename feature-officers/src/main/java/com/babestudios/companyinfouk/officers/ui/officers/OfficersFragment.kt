@@ -15,7 +15,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficersBinding
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
-import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersVisitable
+import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitableBase
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersAdapter
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersTypeFactory
 import io.reactivex.disposables.CompositeDisposable
@@ -88,7 +88,7 @@ class OfficersFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 		officersAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractOfficersVisitable> ->
+				?.subscribe { view: BaseViewHolder<OfficersVisitableBase> ->
 					viewModel.officerItemClicked(view.adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }

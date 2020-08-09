@@ -7,14 +7,14 @@ import com.airbnb.mvrx.Uninitialized
 import com.babestudios.companyinfouk.data.model.officers.OfficerItem
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
-import com.babestudios.companyinfouk.officers.ui.appointments.list.AbstractOfficerAppointmentsVisitable
-import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersVisitable
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
+import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitableBase
 
 
 data class OfficersState(
 		//Officers
 		val officersRequest: Async<Officers> = Uninitialized,
-		val officerItems: List<AbstractOfficersVisitable> = emptyList(),
+		val officerItems: List<OfficersVisitableBase> = emptyList(),
 		val totalOfficersCount: Int = 0,
 		@PersistState
 		val companyNumber: String = "",
@@ -27,7 +27,7 @@ data class OfficersState(
 
 		//Officer appointments
 		@PersistState
-		val appointmentItems: List<AbstractOfficerAppointmentsVisitable> = emptyList(),
+		val appointmentItems: List<OfficerAppointmentsVisitableBase> = emptyList(),
 		val totalAppointmentsCount: Int = 0,
 		@PersistState
 		val officerName : String = "",

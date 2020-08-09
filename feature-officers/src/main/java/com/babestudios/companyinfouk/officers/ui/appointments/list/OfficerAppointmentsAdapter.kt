@@ -11,9 +11,9 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class OfficerAppointmentsAdapter(private var officerAppointmentsVisitables: List<AbstractOfficerAppointmentsVisitable>
+class OfficerAppointmentsAdapter(private var officerAppointmentsVisitables: List<OfficerAppointmentsVisitableBase>
 								 , private val officerAppointmentsTypeFactory: OfficerAppointmentsTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<AbstractOfficerAppointmentsVisitable>>() {
+	: RecyclerView.Adapter<BaseViewHolder<OfficerAppointmentsVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return officerAppointmentsVisitables.size
@@ -23,25 +23,24 @@ class OfficerAppointmentsAdapter(private var officerAppointmentsVisitables: List
 		return officerAppointmentsVisitables[position].type(officerAppointmentsTypeFactory)
 	}
 
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<AbstractOfficerAppointmentsVisitable>>()
+	private val itemClickSubject = PublishSubject.create<BaseViewHolder<OfficerAppointmentsVisitableBase>>()
 
-	fun getViewClickedObservable(): Observable<BaseViewHolder<AbstractOfficerAppointmentsVisitable>> {
+	fun getViewClickedObservable(): Observable<BaseViewHolder<OfficerAppointmentsVisitableBase>> {
 		return itemClickSubject
 	}
 
 	interface OfficerAppointmentsTypeFactory {
 		fun type(appointment: Appointment): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<OfficerAppointmentsVisitableBase>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-			: BaseViewHolder<AbstractOfficerAppointmentsVisitable> {
+			: BaseViewHolder<OfficerAppointmentsVisitableBase> {
 		val binding = RowOfficerAppointmentsBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false)
 		val v = officerAppointmentsTypeFactory.holder(viewType, binding)
-				as BaseViewHolder<AbstractOfficerAppointmentsVisitable>
 		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
@@ -49,11 +48,11 @@ class OfficerAppointmentsAdapter(private var officerAppointmentsVisitables: List
 		return v
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<AbstractOfficerAppointmentsVisitable>, position: Int) {
+	override fun onBindViewHolder(holder: BaseViewHolder<OfficerAppointmentsVisitableBase>, position: Int) {
 		holder.bind(officerAppointmentsVisitables[position])
 	}
 
-	fun updateItems(visitables: List<AbstractOfficerAppointmentsVisitable>) {
+	fun updateItems(visitables: List<OfficerAppointmentsVisitableBase>) {
 		officerAppointmentsVisitables = visitables
 		notifyDataSetChanged()
 	}

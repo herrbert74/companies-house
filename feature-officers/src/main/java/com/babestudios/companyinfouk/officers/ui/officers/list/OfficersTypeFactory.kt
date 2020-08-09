@@ -8,7 +8,7 @@ import com.babestudios.companyinfouk.officers.R
 class OfficersTypeFactory : OfficersAdapter.OfficersTypeFactory {
 	override fun type(officersItem: OfficerItem): Int = R.layout.row_officers
 
-	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<OfficersVisitableBase> {
 		return when (type) {
 			R.layout.row_officers -> OfficersViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")

@@ -130,7 +130,7 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 		officerAppointmentsAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractOfficerAppointmentsVisitable> ->
+				?.subscribe { view: BaseViewHolder<OfficerAppointmentsVisitableBase> ->
 					withState(viewModel) { state ->
 						state.appointmentItems.let { appointmentItems ->
 							val company =

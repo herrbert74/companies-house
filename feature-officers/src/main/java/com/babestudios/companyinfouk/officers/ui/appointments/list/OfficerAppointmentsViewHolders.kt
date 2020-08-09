@@ -6,8 +6,8 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.officers.databinding.RowOfficerAppointmentsBinding
 
 class OfficerAppointmentsViewHolder(_binding: ViewBinding) 
-	: BaseViewHolder<AbstractOfficerAppointmentsVisitable>(_binding) {
-	override fun bind(visitable: AbstractOfficerAppointmentsVisitable) {
+	: BaseViewHolder<OfficerAppointmentsVisitableBase>(_binding) {
+	override fun bind(visitable: OfficerAppointmentsVisitableBase) {
 		val binding = _binding as RowOfficerAppointmentsBinding
 		val appointment = (visitable as OfficerAppointmentsVisitable).appointment
 		binding.lblOfficerAppointmentsAppointedOn.text = appointment.appointedOn

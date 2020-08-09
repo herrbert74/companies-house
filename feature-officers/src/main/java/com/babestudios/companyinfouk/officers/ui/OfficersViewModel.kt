@@ -11,9 +11,9 @@ import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
-import com.babestudios.companyinfouk.officers.ui.appointments.list.AbstractOfficerAppointmentsVisitable
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
-import com.babestudios.companyinfouk.officers.ui.officers.list.AbstractOfficersVisitable
+import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitableBase
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitable
 import java.util.regex.Pattern
 
@@ -79,7 +79,7 @@ class OfficersViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: Officers?): List<AbstractOfficersVisitable> {
+	private fun convertToVisitables(reply: Officers?): List<OfficersVisitableBase> {
 		return ArrayList(reply?.items?.map { item -> OfficersVisitable(item) } ?: emptyList())
 	}
 
@@ -151,7 +151,7 @@ class OfficersViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: Appointments?): List<AbstractOfficerAppointmentsVisitable> {
+	private fun convertToVisitables(reply: Appointments?): List<OfficerAppointmentsVisitableBase> {
 		return reply?.items?.let {
 			ArrayList(it.toMutableList().map { item -> OfficerAppointmentsVisitable(item) })
 		} ?: emptyList()
