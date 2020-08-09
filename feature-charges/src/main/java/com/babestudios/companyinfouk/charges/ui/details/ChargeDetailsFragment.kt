@@ -131,9 +131,9 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 
 	private fun convertToVisitables(transactions: List<Transaction>): List<ChargeDetailsVisitableBase> {
 		val visitables = ArrayList<ChargeDetailsVisitableBase>()
-		visitables.add(ChargeDetailsVisitableBase.ChargeDetailsHeaderVisitable(
+		visitables.add(ChargeDetailsHeaderVisitable(
 				ChargeDetailsHeaderItem(getString(R.string.transactions))))
-		visitables.addAll(transactions.map { item -> ChargeDetailsVisitableBase.ChargeDetailsVisitable(item) })
+		visitables.addAll(transactions.map { item -> ChargeDetailsVisitable(item) })
 		return visitables
 	}
 

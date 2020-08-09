@@ -6,10 +6,10 @@ import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.companies.databinding.RowFavouritesBinding
 
-class FavouritesViewHolder(_binding: ViewBinding) : BaseViewHolder<AbstractFavouritesVisitable>(_binding) {
+class FavouritesViewHolder(_binding: ViewBinding) : BaseViewHolder<FavouritesVisitableBase>(_binding) {
 
 	var favouritesVisitable: FavouritesVisitable? = null
-	override fun bind(visitable: AbstractFavouritesVisitable) {
+	override fun bind(visitable: FavouritesVisitableBase) {
 		val binding = _binding as RowFavouritesBinding
 				favouritesVisitable = (visitable as FavouritesVisitable)
 		val favouritesItem = favouritesVisitable!!.favouritesListItem

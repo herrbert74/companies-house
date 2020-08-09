@@ -136,14 +136,14 @@ class FavouritesFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 		favouritesAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
+				?.subscribe { view: BaseViewHolder<FavouritesVisitableBase> ->
 					viewModel.favouritesItemClicked((view as FavouritesViewHolder).adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }
 
 		favouritesAdapter?.getCancelClickedObservable()
 				?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractFavouritesVisitable> ->
+				?.subscribe { view: BaseViewHolder<FavouritesVisitableBase> ->
 					// user wants to undo the removal, let's cancel the pending task
 					val visitable = (view as FavouritesViewHolder).favouritesVisitable
 					val pendingRemovalRunnable = pendingRunnables[visitable]

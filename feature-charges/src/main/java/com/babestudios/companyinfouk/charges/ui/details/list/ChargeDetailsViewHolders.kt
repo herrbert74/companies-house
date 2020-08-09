@@ -4,7 +4,6 @@ import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsHeaderBinding
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsTransactionBinding
-import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsVisitableBase.*
 
 class ChargeDetailsViewHolder(_binding: ViewBinding)
 	: BaseViewHolder<ChargeDetailsVisitableBase>(_binding) {

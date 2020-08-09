@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.charges.ui.charges.list
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.charges.databinding.RowChargesBinding
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase.*
 
 class ChargesViewHolder(_binding: ViewBinding)
 	: BaseViewHolder<ChargesVisitableBase>(_binding) {

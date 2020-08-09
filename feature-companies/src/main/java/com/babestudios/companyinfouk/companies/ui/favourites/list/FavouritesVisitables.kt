@@ -3,14 +3,14 @@ package com.babestudios.companyinfouk.companies.ui.favourites.list
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-@Suppress("UnnecessaryAbstractClass")
-abstract class AbstractFavouritesVisitable {
+sealed class FavouritesVisitableBase {
 	abstract fun type(favouritesTypeFactory: FavouritesAdapter.FavouritesTypeFactory): Int
+
 }
 
 @Parcelize
 data class FavouritesVisitable(val favouritesListItem: FavouritesListItem)
-	: AbstractFavouritesVisitable(), Parcelable, Comparable<FavouritesVisitable> {
+	: FavouritesVisitableBase(), Parcelable, Comparable<FavouritesVisitable> {
 	override fun compareTo(other: FavouritesVisitable): Int {
 		return favouritesListItem
 				.searchHistoryItem
