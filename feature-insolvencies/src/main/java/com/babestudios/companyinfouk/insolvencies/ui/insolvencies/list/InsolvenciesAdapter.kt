@@ -11,9 +11,9 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class InsolvenciesAdapter(private var insolvencyVisitables: List<AbstractInsolvencyVisitable>
+class InsolvenciesAdapter(private var insolvencyVisitables: List<InsolvencyVisitableBase>
 						  , private val insolvencyTypeFactory: InsolvencyTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<AbstractInsolvencyVisitable>>() {
+	: RecyclerView.Adapter<BaseViewHolder<InsolvencyVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return insolvencyVisitables.size
@@ -23,23 +23,23 @@ class InsolvenciesAdapter(private var insolvencyVisitables: List<AbstractInsolve
 		return insolvencyVisitables[position].type(insolvencyTypeFactory)
 	}
 
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<AbstractInsolvencyVisitable>>()
+	private val itemClickSubject = PublishSubject.create<BaseViewHolder<InsolvencyVisitableBase>>()
 
-	fun getViewClickedObservable(): Observable<BaseViewHolder<AbstractInsolvencyVisitable>> {
+	fun getViewClickedObservable(): Observable<BaseViewHolder<InsolvencyVisitableBase>> {
 		return itemClickSubject
 	}
 
 	interface InsolvencyTypeFactory {
 		fun type(insolvencyCase: InsolvencyCase): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<InsolvencyVisitableBase>
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractInsolvencyVisitable> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<InsolvencyVisitableBase> {
 		val binding = RowInsolvencyBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false)
-		val v = insolvencyTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractInsolvencyVisitable>
+		val v = insolvencyTypeFactory.holder(viewType, binding)
 		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
@@ -47,11 +47,11 @@ class InsolvenciesAdapter(private var insolvencyVisitables: List<AbstractInsolve
 		return v
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<AbstractInsolvencyVisitable>, position: Int) {
+	override fun onBindViewHolder(holder: BaseViewHolder<InsolvencyVisitableBase>, position: Int) {
 		holder.bind(insolvencyVisitables[position])
 	}
 
-	fun updateItems(visitables: List<AbstractInsolvencyVisitable>) {
+	fun updateItems(visitables: List<InsolvencyVisitableBase>) {
 		insolvencyVisitables = visitables
 		notifyDataSetChanged()
 	}

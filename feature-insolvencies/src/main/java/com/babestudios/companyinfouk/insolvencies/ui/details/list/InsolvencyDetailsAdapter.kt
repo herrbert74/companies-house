@@ -10,9 +10,9 @@ import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsDateBinding
 import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsPractitionerBinding
 
-class InsolvencyDetailsAdapter(private var insolvencyDetailsVisitables: List<AbstractInsolvencyDetailsVisitable>
+class InsolvencyDetailsAdapter(private var insolvencyDetailsVisitables: List<InsolvencyDetailsVisitableBase>
 							   , private val insolvencyDetailsTypeFactory: InsolvencyDetailsTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<AbstractInsolvencyDetailsVisitable>>() {
+	: RecyclerView.Adapter<BaseViewHolder<InsolvencyDetailsVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return insolvencyDetailsVisitables.size
@@ -26,11 +26,11 @@ class InsolvencyDetailsAdapter(private var insolvencyDetailsVisitables: List<Abs
 		fun type(insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem): Int
 		fun type(insolvencyDetailsDateItem: InsolvencyDetailsDateItem): Int
 		fun type(insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<InsolvencyDetailsVisitableBase>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-			: BaseViewHolder<AbstractInsolvencyDetailsVisitable> {
+			: BaseViewHolder<InsolvencyDetailsVisitableBase> {
 		val binding = when (viewType) {
 			R.layout.row_subtitle -> RowSubtitleBinding.inflate(
 					LayoutInflater.from(parent.context),
@@ -45,14 +45,14 @@ class InsolvencyDetailsAdapter(private var insolvencyDetailsVisitables: List<Abs
 					parent,
 					false)
 		}
-		return insolvencyDetailsTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractInsolvencyDetailsVisitable>
+		return insolvencyDetailsTypeFactory.holder(viewType, binding)
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<AbstractInsolvencyDetailsVisitable>, position: Int) {
+	override fun onBindViewHolder(holder: BaseViewHolder<InsolvencyDetailsVisitableBase>, position: Int) {
 		holder.bind(insolvencyDetailsVisitables[position])
 	}
 
-	fun updateItems(visitables: List<AbstractInsolvencyDetailsVisitable>) {
+	fun updateItems(visitables: List<InsolvencyDetailsVisitableBase>) {
 		insolvencyDetailsVisitables = visitables
 		notifyDataSetChanged()
 	}

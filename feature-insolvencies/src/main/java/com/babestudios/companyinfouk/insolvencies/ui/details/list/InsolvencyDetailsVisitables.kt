@@ -3,13 +3,13 @@ package com.babestudios.companyinfouk.insolvencies.ui.details.list
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-abstract class AbstractInsolvencyDetailsVisitable : Parcelable {
+sealed class InsolvencyDetailsVisitableBase : Parcelable {
 	abstract fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int
 }
 
 @Parcelize
 class InsolvencyDetailsTitleVisitable(val insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem)
-	: AbstractInsolvencyDetailsVisitable(), Parcelable {
+	: InsolvencyDetailsVisitableBase(), Parcelable {
 	override fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int {
 		return insolvencyDetailsTypeFactory.type(insolvencyDetailsTitleItem)
 	}
@@ -17,7 +17,7 @@ class InsolvencyDetailsTitleVisitable(val insolvencyDetailsTitleItem: Insolvency
 
 @Parcelize
 class InsolvencyDetailsDateVisitable(val insolvencyDetailsDateItem: InsolvencyDetailsDateItem)
-	: AbstractInsolvencyDetailsVisitable(), Parcelable {
+	: InsolvencyDetailsVisitableBase(), Parcelable {
 	override fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int {
 		return insolvencyDetailsTypeFactory.type(insolvencyDetailsDateItem)
 	}
@@ -25,7 +25,7 @@ class InsolvencyDetailsDateVisitable(val insolvencyDetailsDateItem: InsolvencyDe
 
 @Parcelize
 class InsolvencyDetailsPractitionerVisitable(val insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem)
-	: AbstractInsolvencyDetailsVisitable(), Parcelable {
+	: InsolvencyDetailsVisitableBase(), Parcelable {
 	override fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int {
 		return insolvencyDetailsTypeFactory.type(insolvencyDetailsPractitionerItem)
 	}

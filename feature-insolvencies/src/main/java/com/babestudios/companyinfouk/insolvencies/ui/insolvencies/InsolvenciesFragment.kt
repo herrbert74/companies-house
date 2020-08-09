@@ -14,7 +14,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvencyBinding
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.AbstractInsolvencyVisitable
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvenciesAdapter
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvenciesTypeFactory
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyViewHolder
@@ -113,7 +113,7 @@ class InsolvenciesFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 		insolvenciesAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractInsolvencyVisitable> ->
+				?.subscribe { view: BaseViewHolder<InsolvencyVisitableBase> ->
 					viewModel.insolvencyItemClicked((view as InsolvencyViewHolder).adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }

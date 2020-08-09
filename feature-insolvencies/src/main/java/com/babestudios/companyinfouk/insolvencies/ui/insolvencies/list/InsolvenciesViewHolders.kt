@@ -5,8 +5,8 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyBinding
 
 class InsolvencyViewHolder(_binding: ViewBinding) 
-	: BaseViewHolder<AbstractInsolvencyVisitable>(_binding) {
-	override fun bind(visitable: AbstractInsolvencyVisitable) {
+	: BaseViewHolder<InsolvencyVisitableBase>(_binding) {
+	override fun bind(visitable: InsolvencyVisitableBase) {
 		val binding = _binding as RowInsolvencyBinding
 		val insolvencyCase = (visitable as InsolvencyVisitable).insolvencyCase
 		binding.lblInsolvencyDate.text = insolvencyCase.dates[0].date

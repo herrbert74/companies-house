@@ -8,8 +8,8 @@ import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetai
 import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsPractitionerBinding
 
 class InsolvencyDetailsTitleViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<AbstractInsolvencyDetailsVisitable>(_binding) {
-	override fun bind(visitable: AbstractInsolvencyDetailsVisitable) {
+	: BaseViewHolder<InsolvencyDetailsVisitableBase>(_binding) {
+	override fun bind(visitable: InsolvencyDetailsVisitableBase) {
 		val binding = _binding as RowSubtitleBinding
 		val insolvencyDetailsTitleItem = (visitable as InsolvencyDetailsTitleVisitable).insolvencyDetailsTitleItem
 		binding.lblCommonSubtitle.text = insolvencyDetailsTitleItem.title
@@ -17,8 +17,8 @@ class InsolvencyDetailsTitleViewHolder(_binding: ViewBinding)
 }
 
 class InsolvencyDetailsDateViewHolder(_binding: ViewBinding) 
-	: BaseViewHolder<AbstractInsolvencyDetailsVisitable>(_binding) {
-	override fun bind(visitable: AbstractInsolvencyDetailsVisitable) {
+	: BaseViewHolder<InsolvencyDetailsVisitableBase>(_binding) {
+	override fun bind(visitable: InsolvencyDetailsVisitableBase) {
 		val binding = _binding as RowInsolvencyDetailsDateBinding
 		val insolvencyDetailsDateItem = 
 				(visitable as InsolvencyDetailsDateVisitable).insolvencyDetailsDateItem
@@ -28,8 +28,8 @@ class InsolvencyDetailsDateViewHolder(_binding: ViewBinding)
 }
 
 class InsolvencyDetailsPractitionerViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<AbstractInsolvencyDetailsVisitable>(_binding) {
-	override fun bind(visitable: AbstractInsolvencyDetailsVisitable) {
+	: BaseViewHolder<InsolvencyDetailsVisitableBase>(_binding) {
+	override fun bind(visitable: InsolvencyDetailsVisitableBase) {
 		val binding = _binding as RowInsolvencyDetailsPractitionerBinding
 		val insolvencyDetailsPractitionerItem =
 				(visitable as InsolvencyDetailsPractitionerVisitable)

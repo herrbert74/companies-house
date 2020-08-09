@@ -6,7 +6,7 @@ import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.*
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.AbstractInsolvencyVisitable
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitable
 import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
 
@@ -63,7 +63,7 @@ class InsolvenciesViewModel(
 				}
 	}
 
-	private fun convertCaseToDetailsVisitables(reply: Insolvency?): List<AbstractInsolvencyVisitable> {
+	private fun convertCaseToDetailsVisitables(reply: Insolvency?): List<InsolvencyVisitableBase> {
 		return ArrayList(reply?.cases?.map { item -> InsolvencyVisitable(item) } ?: emptyList())
 	}
 
@@ -83,7 +83,7 @@ class InsolvenciesViewModel(
 	/ The list of insolvency cases is shown on the main screen, and dates/practitioners are shown on the details screen
 	 **/
 	fun convertCaseToDetailsVisitables() {
-		val list = ArrayList<AbstractInsolvencyDetailsVisitable>()
+		val list = ArrayList<InsolvencyDetailsVisitableBase>()
 		withState {
 			list.add(InsolvencyDetailsTitleVisitable(InsolvencyDetailsTitleItem(datesTitleString)))
 			for (item in it.insolvencyCase.dates) {
