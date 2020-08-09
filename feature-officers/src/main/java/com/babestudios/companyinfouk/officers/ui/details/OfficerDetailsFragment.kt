@@ -37,7 +37,7 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 		_binding = FragmentOfficerDetailsBinding.inflate(inflater, container, false)
 		return binding.root
 	}

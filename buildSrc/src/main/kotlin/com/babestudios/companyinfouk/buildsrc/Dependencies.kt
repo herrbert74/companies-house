@@ -20,33 +20,33 @@ object Libs {
 	const val debugDb = "com.amitshekhar.android:debug-db:1.0.6" //To debug preferences
 
 	object AndroidX {
-		const val appcompat = "androidx.appcompat:appcompat:1.1.0"
-		const val activityKtx = "androidx.activity:activity-ktx:1.1.0-alpha03"
-		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.1.0"
+		const val appcompat = "androidx.appcompat:appcompat:1.2.0"
+		const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
+		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
 		//beta2 causes linking problems
-		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-rc1"
 		const val androidxAnnotations = "androidx.annotation:annotation:1.1.0"
-		const val coreKtx = "androidx.core:core-ktx:1.2.0"
+		const val coreKtx = "androidx.core:core-ktx:1.3.1"
 		const val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
 		const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0-beta04"
 		const val preferenceKtx = "androidx.preference:preference-ktx:1.1.0"
 
 
 		object Lifecycle {
-			private const val version = "2.1.0"
+			private const val version = "2.2.0"
 			const val common = "androidx.lifecycle:lifecycle-common:$version"
 			const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
 			const val commonJava8 = "androidx.lifecycle:lifecycle-common-java8:$version"
 
 			object ViewModel {
 				const val ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
-				const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha04"
+				const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$version"
 			}
 		}
 
 		object Navigation {
-			private const val version = "2.2.1"
+			private const val version = "2.3.0"
 			const val ktx = "androidx.navigation:navigation-ui-ktx:$version"
 			const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
 		}
@@ -75,7 +75,7 @@ object Libs {
 	}
 
 	object Google {
-		const val material = "com.google.android.material:material:1.2.0-alpha05"
+		const val material = "com.google.android.material:material:1.3.0-alpha02"
 		const val gson = "com.google.code.gson:gson:2.8.6"
 
 

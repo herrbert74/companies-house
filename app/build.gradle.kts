@@ -70,14 +70,13 @@ dependencies {
 	implementation(project(":feature-persons"))
 	androidTestImplementation(project(":data"))
 
-	implementation(Libs.Google.Firebase.crashlytics)
 	implementation(Libs.AndroidX.appcompat)
+	implementation(Libs.AndroidX.Navigation.ktx)
+	implementation(Libs.Google.Dagger.dagger)
+	implementation(Libs.Google.Firebase.crashlytics)
 	debugImplementation(Libs.Facebook.Flipper.debug)
 	releaseImplementation(Libs.Facebook.Flipper.release)
 	implementation(Libs.Facebook.soloader)
-	implementation(Libs.AndroidX.Navigation.ktx)
-	implementation(Libs.AndroidX.coreKtx)
-	implementation(Libs.Google.Dagger.dagger)
 
 	androidTestImplementation(Libs.Google.gson)
 	androidTestImplementation(Libs.SquareUp.Retrofit2.retrofit)

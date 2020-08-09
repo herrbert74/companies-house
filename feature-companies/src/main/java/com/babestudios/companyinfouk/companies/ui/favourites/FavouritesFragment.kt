@@ -55,7 +55,7 @@ class FavouritesFragment : BaseMvRxFragment() {
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-		requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 		_binding = FragmentFavouritesBinding.inflate(inflater, container, false)
 		return binding.root
 	}
