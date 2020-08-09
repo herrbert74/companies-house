@@ -15,7 +15,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonsBinding
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
-import com.babestudios.companyinfouk.persons.ui.persons.list.AbstractPersonsVisitable
+import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsAdapter
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsTypeFactory
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsViewHolder
@@ -93,7 +93,7 @@ class PersonsFragment : BaseMvRxFragment() {
 	private fun observeActions() {
 		personsAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractPersonsVisitable> ->
+				?.subscribe { view: BaseViewHolder<PersonsVisitableBase> ->
 					viewModel.personItemClicked((view as PersonsViewHolder).adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }

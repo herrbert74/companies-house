@@ -2,12 +2,11 @@ package com.babestudios.companyinfouk.persons.ui.persons.list
 
 import com.babestudios.companyinfouk.data.model.persons.Person
 
-@Suppress("UnnecessaryAbstractClass")
-abstract class AbstractPersonsVisitable {
+sealed class PersonsVisitableBase {
 	abstract fun type(personsTypeFactory: PersonsAdapter.PersonsTypeFactory): Int
 }
 
-class PersonsVisitable(val person: Person) : AbstractPersonsVisitable() {
+class PersonsVisitable(val person: Person) : PersonsVisitableBase() {
 	override fun type(personsTypeFactory: PersonsAdapter.PersonsTypeFactory): Int {
 		return personsTypeFactory.type(person)
 	}

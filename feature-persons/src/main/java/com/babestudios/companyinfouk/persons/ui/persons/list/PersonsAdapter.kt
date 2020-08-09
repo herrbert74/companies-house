@@ -12,10 +12,10 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 class PersonsAdapter(
-		private var personsVisitables: List<AbstractPersonsVisitable>,
+		private var personsVisitables: List<PersonsVisitableBase>,
 		private val personsTypeFactory: PersonsTypeFactory
 )
-	: RecyclerView.Adapter<BaseViewHolder<AbstractPersonsVisitable>>() {
+	: RecyclerView.Adapter<BaseViewHolder<PersonsVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return personsVisitables.size
@@ -25,23 +25,23 @@ class PersonsAdapter(
 		return personsVisitables[position].type(personsTypeFactory)
 	}
 
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<AbstractPersonsVisitable>>()
+	private val itemClickSubject = PublishSubject.create<BaseViewHolder<PersonsVisitableBase>>()
 
-	fun getViewClickedObservable(): Observable<BaseViewHolder<AbstractPersonsVisitable>> {
+	fun getViewClickedObservable(): Observable<BaseViewHolder<PersonsVisitableBase>> {
 		return itemClickSubject
 	}
 
 	interface PersonsTypeFactory {
 		fun type(persons: Person): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<PersonsVisitableBase>
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractPersonsVisitable> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<PersonsVisitableBase> {
 		val binding = RowPersonsBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false)
-		val v = personsTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractPersonsVisitable>
+		val v = personsTypeFactory.holder(viewType, binding)
 		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
@@ -49,11 +49,11 @@ class PersonsAdapter(
 		return v
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<AbstractPersonsVisitable>, position: Int) {
+	override fun onBindViewHolder(holder: BaseViewHolder<PersonsVisitableBase>, position: Int) {
 		holder.bind(personsVisitables[position])
 	}
 
-	fun updateItems(visitables: List<AbstractPersonsVisitable>) {
+	fun updateItems(visitables: List<PersonsVisitableBase>) {
 		personsVisitables = visitables
 		notifyDataSetChanged()
 	}
