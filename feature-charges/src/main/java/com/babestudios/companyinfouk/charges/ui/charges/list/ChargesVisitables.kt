@@ -4,14 +4,13 @@ import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 import kotlinx.android.parcel.Parcelize
 
-@Suppress("UnnecessaryAbstractClass")
-abstract class AbstractChargesVisitable {
+sealed class ChargesVisitableBase {
 	abstract fun type(chargesTypeFactory: ChargesAdapter.ChargesTypeFactory): Int
-}
 
-@Parcelize
-class ChargesVisitable(val chargesItem: ChargesItem) : AbstractChargesVisitable(), Parcelable {
-	override fun type(chargesTypeFactory: ChargesAdapter.ChargesTypeFactory): Int {
-		return chargesTypeFactory.type(chargesItem)
+	@Parcelize
+	class ChargesVisitable(val chargesItem: ChargesItem) : ChargesVisitableBase(), Parcelable {
+		override fun type(chargesTypeFactory: ChargesAdapter.ChargesTypeFactory): Int {
+			return chargesTypeFactory.type(chargesItem)
+		}
 	}
 }

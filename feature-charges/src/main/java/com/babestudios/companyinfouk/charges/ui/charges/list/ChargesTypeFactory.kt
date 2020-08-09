@@ -8,7 +8,7 @@ import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 class ChargesTypeFactory : ChargesAdapter.ChargesTypeFactory {
 	override fun type(chargesItem: ChargesItem): Int = R.layout.row_charges
 
-	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<ChargesVisitableBase> {
 		return when (type) {
 			R.layout.row_charges -> ChargesViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")

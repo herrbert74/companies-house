@@ -9,7 +9,7 @@ class ChargeDetailsTypeFactory : ChargeDetailsAdapter.ChargeDetailsTypeFactory {
 	override fun type(chargesItem: Transaction): Int = R.layout.row_charge_details_transaction
 	override fun type(chargeDetailsHeaderItem: ChargeDetailsHeaderItem): Int = R.layout.row_charge_details_header
 
-	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<ChargeDetailsVisitableBase> {
 		return when (type) {
 			R.layout.row_charge_details_transaction -> ChargeDetailsViewHolder(binding)
 			R.layout.row_charge_details_header -> ChargeDetailsHeaderViewHolder(binding)

@@ -4,8 +4,8 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.charges.ui.charges.list.AbstractChargesVisitable
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitable
+import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
+import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase.*
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.charges.Charges
@@ -47,7 +47,7 @@ class ChargesViewModel(
 					copy(
 							chargesRequest = it,
 							charges = convertToVisitables(it()),
-							totalChargesCount = it()?.totalCount?.toInt()?: 0
+							totalChargesCount = it()?.totalCount?.toInt() ?: 0
 					)
 				}
 	}
@@ -72,16 +72,14 @@ class ChargesViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: Charges?): List<AbstractChargesVisitable> {
+	private fun convertToVisitables(reply: Charges?): List<ChargesVisitableBase> {
 		return ArrayList(reply?.items?.map { item -> ChargesVisitable(item) } ?: emptyList())
 	}
 
 	fun chargesItemClicked(adapterPosition: Int) {
 		withState { state ->
 			setState {
-				copy(
-						chargesItem = (state.charges[adapterPosition] as ChargesVisitable).chargesItem
-				)
+				copy(chargesItem = (state.charges[adapterPosition] as ChargesVisitable).chargesItem)
 			}
 		}
 		chargesNavigator.chargesToChargesDetails()

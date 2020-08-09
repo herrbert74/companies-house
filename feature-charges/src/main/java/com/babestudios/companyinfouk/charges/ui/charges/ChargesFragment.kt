@@ -15,7 +15,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.FragmentChargesBinding
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
-import com.babestudios.companyinfouk.charges.ui.charges.list.AbstractChargesVisitable
+import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesAdapter
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesTypeFactory
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesViewHolder
@@ -93,7 +93,7 @@ class ChargesFragment : BaseMvRxFragment() {
 		eventDisposables.clear()
 		chargesAdapter?.getViewClickedObservable()
 				?.take(1)
-				?.subscribe { view: BaseViewHolder<AbstractChargesVisitable> ->
+				?.subscribe { view: BaseViewHolder<ChargesVisitableBase> ->
 					viewModel.chargesItemClicked((view as ChargesViewHolder).adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }

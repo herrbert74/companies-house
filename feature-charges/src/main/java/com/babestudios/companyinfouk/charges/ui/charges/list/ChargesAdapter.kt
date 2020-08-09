@@ -11,9 +11,9 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.charges.databinding.RowChargesBinding
 import com.babestudios.companyinfouk.data.model.charges.ChargesItem
 
-class ChargesAdapter(private var chargesVisitables: List<AbstractChargesVisitable>
+class ChargesAdapter(private var chargesVisitables: List<ChargesVisitableBase>
 					 , private val chargesTypeFactory: ChargesTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<AbstractChargesVisitable>>() {
+	: RecyclerView.Adapter<BaseViewHolder<ChargesVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return chargesVisitables.size
@@ -23,23 +23,23 @@ class ChargesAdapter(private var chargesVisitables: List<AbstractChargesVisitabl
 		return chargesVisitables[position].type(chargesTypeFactory)
 	}
 
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<AbstractChargesVisitable>>()
+	private val itemClickSubject = PublishSubject.create<BaseViewHolder<ChargesVisitableBase>>()
 
-	fun getViewClickedObservable(): Observable<BaseViewHolder<AbstractChargesVisitable>> {
+	fun getViewClickedObservable(): Observable<BaseViewHolder<ChargesVisitableBase>> {
 		return itemClickSubject
 	}
 
 	interface ChargesTypeFactory {
 		fun type(chargesItem: ChargesItem): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<ChargesVisitableBase>
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<AbstractChargesVisitable> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ChargesVisitableBase> {
 		val binding = RowChargesBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false)
-		val v = chargesTypeFactory.holder(viewType, binding) as BaseViewHolder<AbstractChargesVisitable>
+		val v = chargesTypeFactory.holder(viewType, binding)
 		RxView.clicks(v.itemView)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
@@ -47,11 +47,11 @@ class ChargesAdapter(private var chargesVisitables: List<AbstractChargesVisitabl
 		return v
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<AbstractChargesVisitable>, position: Int) {
+	override fun onBindViewHolder(holder: BaseViewHolder<ChargesVisitableBase>, position: Int) {
 		holder.bind(chargesVisitables[position])
 	}
 
-	fun updateItems(visitables: List<AbstractChargesVisitable>) {
+	fun updateItems(visitables: List<ChargesVisitableBase>) {
 		chargesVisitables = visitables
 		notifyDataSetChanged()
 	}

@@ -25,7 +25,7 @@ class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<ChargeDetai
 	interface ChargeDetailsTypeFactory {
 		fun type(chargeDetailsHeaderItem: ChargeDetailsHeaderItem): Int
 		fun type(chargesItem: Transaction): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<ChargeDetailsVisitableBase>
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
@@ -40,7 +40,7 @@ class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<ChargeDetai
 					parent,
 					false)
 		}
-		return chargeDetailsTypeFactory.holder(viewType, binding) as BaseViewHolder<ChargeDetailsVisitableBase>
+		return chargeDetailsTypeFactory.holder(viewType, binding)
 	}
 
 	override fun onBindViewHolder(holder: BaseViewHolder<ChargeDetailsVisitableBase>, position: Int) {
