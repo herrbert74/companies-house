@@ -5,11 +5,11 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.filings.databinding.RowFilingHistoryBinding
 import com.babestudios.companyinfouk.filings.ui.createSpannableDescription
 
-class FilingHistoryViewHolder(_binding: ViewBinding) : BaseViewHolder<FilingHistoryVisitable>(_binding) {
+class FilingHistoryViewHolder(_binding: ViewBinding) : BaseViewHolder<FilingHistoryVisitableBase>(_binding) {
 
-	override fun bind(visitable: FilingHistoryVisitable) {
+	override fun bind(visitable: FilingHistoryVisitableBase) {
 		val binding = _binding as RowFilingHistoryBinding
-		val filingHistoryItem = visitable.filingHistoryItem
+		val filingHistoryItem = (visitable as FilingHistoryVisitable).filingHistoryItem
 		if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
 			binding.lblFilingHistoryDescription.text = filingHistoryItem.descriptionValues.description
 		} else {

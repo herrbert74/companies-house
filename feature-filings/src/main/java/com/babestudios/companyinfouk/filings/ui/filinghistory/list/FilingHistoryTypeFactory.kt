@@ -16,7 +16,7 @@ import com.babestudios.companyinfouk.filings.R
 class FilingHistoryTypeFactory : FilingHistoryAdapter.FilingHistoryTypeFactory {
 	override fun type(filingHistoryItem: FilingHistoryItem): Int = R.layout.row_filing_history
 
-	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*> {
+	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<FilingHistoryVisitableBase> {
 		return when(type) {
 			R.layout.row_filing_history -> FilingHistoryViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")

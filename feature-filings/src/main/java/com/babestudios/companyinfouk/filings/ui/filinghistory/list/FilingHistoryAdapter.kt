@@ -18,15 +18,15 @@ class FilingHistoryAdapter internal constructor(
 
 	interface FilingHistoryTypeFactory {
 		fun type(filingHistoryItem: FilingHistoryItem): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<*>
+		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<FilingHistoryVisitableBase>
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FilingHistoryVisitable> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FilingHistoryVisitableBase> {
 		val binding = RowFilingHistoryBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false)
-		val v = filingHistoryTypeFactory.holder(viewType, binding) as BaseViewHolder<FilingHistoryVisitable>
+		val v = filingHistoryTypeFactory.holder(viewType, binding)
 		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
