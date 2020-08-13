@@ -4,8 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.AsyncTask
 import com.babestudios.base.rxjava.SchedulerProvider
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategoryDto
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryDto
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryItemDto
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryLinks
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
@@ -95,10 +103,33 @@ class DataModule(private val context: Context) {
 		return SchedulerProvider(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR), AndroidSchedulers.mainThread())
 	}
 
-
 	@Provides
 	@Singleton
 	internal fun provideFirebaseAnalytics(): FirebaseAnalytics {
 		return FirebaseAnalytics.getInstance(context)
 	}
+
+	//region FilingHistoryMappers
+
+	@Provides
+	fun provideMapFilingHistoryDto(filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper)
+			: (FilingHistoryDto) -> FilingHistory =
+			{ filingHistoryDto ->
+				mapFilingHistoryDto(filingHistoryDto) { items ->
+					mapNullInputList(items) {
+						mapFilingHistoryItemDto(
+								it,
+								filingHistoryDescriptionsHelper,
+								{ linksDto ->
+									mapFilingHistoryLinks(linksDto)
+								}
+								, { categoryDto ->
+							mapFilingHistoryCategoryDto(categoryDto)
+						})
+					}
+				}
+			}
+
+	//endregion
+
 }

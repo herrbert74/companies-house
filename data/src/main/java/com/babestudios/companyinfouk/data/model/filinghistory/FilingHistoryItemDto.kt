@@ -1,13 +1,10 @@
 package com.babestudios.companyinfouk.data.model.filinghistory
 
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
 import java.util.ArrayList
 
-@Parcelize
 class FilingHistoryItemDto(
 		@SerializedName("date")
 		var date: String? = null,
@@ -31,7 +28,7 @@ class FilingHistoryItemDto(
 		var description: String? = null,
 
 		@SerializedName("description_values")
-		var descriptionValues: DescriptionValuesDto? = null,
+		var descriptionValues: Map<String, Any>? = null,
 
 		@SerializedName("pages")
 		var pages: Int? = null,
@@ -46,4 +43,4 @@ class FilingHistoryItemDto(
 		var associatedFilings: List<AssociatedFilingDto> = ArrayList(),
 
 		@SerializedName("paper_filed")
-		var paperFiled: Boolean? = null) : Parcelable
+		var paperFiled: Boolean? = null)

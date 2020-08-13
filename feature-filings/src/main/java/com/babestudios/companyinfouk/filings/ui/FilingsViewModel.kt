@@ -4,19 +4,15 @@ import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import androidx.core.util.Pair
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
-import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.filinghistory.convertToDomainModel
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 
@@ -54,7 +50,7 @@ class FilingsViewModel(
 		withState { state ->
 			companiesRepository.getFilingHistory(
 					state.companyNumber,
-					state.filingCategoryFilter.convertToDomainModel().getSerializedName(),
+					state.filingCategoryFilter,
 					"0"
 			)
 					.execute {
@@ -73,7 +69,7 @@ class FilingsViewModel(
 			if (state.filingsHistory.size < state.totalFilingsCount) {
 				companiesRepository.getFilingHistory(
 						state.companyNumber,
-						state.filingCategoryFilter.displayName,
+						state.filingCategoryFilter,
 						(page * Integer
 								.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE))
 								.toString()
@@ -164,75 +160,23 @@ class FilingsViewModel(
 	//endregion
 }
 
-@Suppress("NestedBlockDepth")
-fun String?.createSpannableDescription(filingHistoryItem: FilingHistoryItem): Spannable? {
+fun String?.createSpannableDescription(): Spannable? {
 	var s = this
 	if (s != null) {
-		val first = s.indexOf("**")
-		val second = s.indexOf("**", first + 1) - 2
-
-		s = s.replace("**", "")
-
-		val spanPairs = ArrayList<Pair<*, *>>()
-		var spanFirst: Int
-		val officerName = filingHistoryItem.descriptionValues.officerName
-		s = s.replace("**", "").replace("{officer_name}", officerName)
-		spanFirst = s.indexOf(officerName)
-		spanPairs.add(Pair(spanFirst, spanFirst + officerName.length))
-		val appointmentDate = filingHistoryItem.descriptionValues.appointmentDate
-		s = s.replace("{appointment_date}", appointmentDate)
-		spanFirst = s.indexOf(appointmentDate)
-		spanPairs.add(Pair(spanFirst, spanFirst + appointmentDate.length))
-		val madeUpDate = filingHistoryItem.descriptionValues.madeUpDate
-		s = s.replace("{made_up_date}", madeUpDate)
-		spanFirst = s.indexOf(madeUpDate)
-		spanPairs.add(Pair(spanFirst, spanFirst + madeUpDate.length))
-		val terminationDate = filingHistoryItem.descriptionValues.terminationDate
-		s = s.replace("{termination_date}", terminationDate)
-		spanFirst = s.indexOf(terminationDate)
-		spanPairs.add(Pair(spanFirst, spanFirst + terminationDate.length))
-		val newDate = filingHistoryItem.descriptionValues.newDate
-		s = s.replace("{new_date}", newDate)
-		spanFirst = s.indexOf(newDate)
-		spanPairs.add(Pair(spanFirst, spanFirst + newDate.length))
-		val changeDate = filingHistoryItem.descriptionValues.changeDate
-		s = s.replace("{change_date}", changeDate)
-		spanFirst = s.indexOf(changeDate)
-		spanPairs.add(Pair(spanFirst, spanFirst + changeDate.length))
-		val oldAddress = filingHistoryItem.descriptionValues.oldAddress
-		s = s.replace("{old_address}", oldAddress)
-		spanFirst = s.indexOf(oldAddress)
-		spanPairs.add(Pair(spanFirst, spanFirst + oldAddress.length))
-		val newAddress = filingHistoryItem.descriptionValues.newAddress
-		s = s.replace("{new_address}", newAddress)
-		spanFirst = s.indexOf(newAddress)
-		spanPairs.add(Pair(spanFirst, spanFirst + newAddress.length))
-		val formAttached = filingHistoryItem.descriptionValues.formAttached
-		s = s.replace("{form_attached}", formAttached)
-		spanFirst = s.indexOf(formAttached)
-		spanPairs.add(Pair(spanFirst, spanFirst + formAttached.length))
-		val chargeNumber = filingHistoryItem.descriptionValues.chargeNumber
-		s = s.replace("{charge_number}", chargeNumber)
-		spanFirst = s.indexOf(chargeNumber)
-		spanPairs.add(Pair(spanFirst, spanFirst + chargeNumber.length))
-		val chargeCreationDate = filingHistoryItem.descriptionValues.chargeCreationDate
-		s = s.replace("{charge_creation_date}", chargeCreationDate)
-		spanFirst = s.indexOf(chargeCreationDate)
-		spanPairs.add(Pair(spanFirst, spanFirst + chargeCreationDate.length))
-		val date = filingHistoryItem.descriptionValues.date
-		s = s.replace("{date}", date)
-		spanFirst = s.indexOf(date)
-		spanPairs.add(Pair(spanFirst, spanFirst + date.length))
-
+		val firstOpen = s.indexOf("**")
+		s = s.replaceFirst("**", "")
+		val firstClose = s.indexOf("**", firstOpen + 1)
+		s = s.replaceFirst("**", "")
+		val secondOpen = s.indexOf("**")
+		s = s.replaceFirst("**", "")
+		val secondClose = s.indexOf("**", firstOpen + 1)
+		s = s.replaceFirst("**", "")
 		val spannable = SpannableString(s)
-		val boldSpan = StyleSpan(Typeface.BOLD)
-		if (first > -1) {
-			spannable.setSpan(boldSpan, first, second, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-			for (pair in spanPairs) {
-				val boldSpan2 = StyleSpan(Typeface.BOLD)
-				if (pair.first as Int > -1 && pair.second as Int > -1) {
-					spannable.setSpan(boldSpan2, pair.first as Int, pair.second as Int, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-				}
+		if (firstOpen > -1) {
+			val boldSpan = StyleSpan(Typeface.BOLD)
+			spannable.setSpan(boldSpan, firstOpen, firstClose, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+			if (secondOpen > -1) {
+				spannable.setSpan(boldSpan, secondOpen, secondClose, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 			}
 		}
 		return spannable

@@ -10,12 +10,8 @@ class FilingHistoryViewHolder(_binding: ViewBinding) : BaseViewHolder<FilingHist
 	override fun bind(visitable: FilingHistoryVisitableBase) {
 		val binding = _binding as RowFilingHistoryBinding
 		val filingHistoryItem = (visitable as FilingHistoryVisitable).filingHistoryItem
-		if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
-			binding.lblFilingHistoryDescription.text = filingHistoryItem.descriptionValues.description
-		} else {
-			val spannableDescription = filingHistoryItem.description.createSpannableDescription(filingHistoryItem)
-			binding.lblFilingHistoryDescription.text = spannableDescription
-		}
+		val spannableDescription = filingHistoryItem.description.createSpannableDescription()
+		binding.lblFilingHistoryDescription.text = spannableDescription
 		binding.lblFilingHistoryDate.text = filingHistoryItem.date
 		binding.lblFilingHistoryCategory.text = filingHistoryItem.category.displayName
 		binding.lblFilingHistoryType.text = filingHistoryItem.type

@@ -32,7 +32,7 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 
 	private var _binding: FragmentFilingHistoryDetailsBinding? = null
 	private val binding get() = _binding!!
-	
+
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
 			viewModel.filingsNavigator.popBackStack()
@@ -110,27 +110,14 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 			binding.lblFilingHistoryDetailsCategory.text = filingHistoryItem.category.displayName
 			binding.lblFilingHistoryDetailsSubcategory.text = filingHistoryItem.subcategory
 			binding.lblFilingHistoryDetailsDescription.text = filingHistoryItem.description
-			if (filingHistoryItem.description == "legacy" || filingHistoryItem.description == "miscellaneous") {
-				binding.lblFilingHistoryDetailsDescription.text = filingHistoryItem.descriptionValues.description
-			} else {
-				filingHistoryItem.description.let {
-					val spannableDescription = filingHistoryItem
-							.description
-							.createSpannableDescription(filingHistoryItem)
-					binding.lblFilingHistoryDetailsDescription.text = spannableDescription
-				}
+			filingHistoryItem.description.let {
+				val spannableDescription = filingHistoryItem
+						.description
+						.createSpannableDescription()
+				binding.lblFilingHistoryDetailsDescription.text = spannableDescription
 			}
-
 			binding.lblFilingHistoryDetailsPages.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
-
-			if (filingHistoryItem.category.displayName == "capital"
-					&& filingHistoryItem.descriptionValues.capital.isNotEmpty()) {
-				filingHistoryItem.descriptionValues.let {
-					binding.lblFilingHistoryDetailsDescriptionValues.text = "${it.capital[0].currency} ${it.capital[0].figure}"
-				}
-			} else {
-				binding.lblFilingHistoryDetailsDescriptionValues.visibility = View.GONE
-			}
+			binding.lblFilingHistoryDetailsDescriptionValues.visibility = View.GONE
 		}
 	}
 

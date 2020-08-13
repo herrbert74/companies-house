@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:tools="http://schemas.android.com/tools"
-			  android:layout_width="match_parent"
-			  android:layout_height="wrap_content"
-			  android:gravity="center"
-			  android:orientation="vertical"
-			  android:paddingBottom="@dimen/viewMargin">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/lblFilingHistoryDate"
 		style="@style/Text.Bold"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
-		tools:text="2016-01-31"/>
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-
-		<TextView
-			android:id="@+id/lblFilingHistoryDescription"
-			style="@style/Text"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			tools:text="Resignation of a liquidator"/>
-
-		<TextView
-			android:id="@+id/lblFilingHistoryCategory"
-			style="@style/Text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			tools:text="accounts"/>
-	</LinearLayout>
+		app:layout_constraintEnd_toStartOf="@id/lblFilingHistoryCategory"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="2016-01-31" />
 
 	<TextView
-		android:id="@+id/lblFilingHistoryType"
+		android:id="@+id/lblFilingHistoryCategory"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@id/lblFilingHistoryDate"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="accounts" />
+
+	<TextView
+		android:id="@+id/lblFilingHistoryDescription"
+		style="@style/Text"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:maxLines="3"
+		app:autoSizeTextType="uniform"
+		app:layout_constraintBottom_toTopOf="@+id/lblFilingHistoryType"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblFilingHistoryDate"
+		tools:text="Termination of appointment of Abdul Gafoor Kannathody Kunjumuihhamed as a director on 2020-04-02" />
+
+	<TextView
+		android:id="@id/lblFilingHistoryType"
 		style="@style/Text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
-		tools:text="AA"/>
+		android:layout_marginBottom="@dimen/viewMargin"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblFilingHistoryDescription"
+		tools:text="AA" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

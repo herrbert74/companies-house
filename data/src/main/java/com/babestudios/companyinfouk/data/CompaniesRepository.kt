@@ -9,15 +9,18 @@ import android.util.Log
 import androidx.core.content.FileProvider
 import com.babestudios.base.data.AnalyticsContract
 import com.babestudios.base.di.qualifier.ApplicationContext
+import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
+import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
 import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.company.Company
-import com.babestudios.companyinfouk.data.model.filinghistory.convertToModel
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
@@ -52,7 +55,7 @@ interface CompaniesRepositoryContract : AnalyticsContract {
 
 	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
 	fun getCompany(companyNumber: String): Single<Company>
-	fun getFilingHistory(companyNumber: String, category: String, startItem: String): Single<FilingHistory>
+	fun getFilingHistory(companyNumber: String, category: Category, startItem: String): Single<FilingHistory>
 	fun fetchCharges(companyNumber: String, startItem: String): Single<Charges>
 	fun getInsolvency(companyNumber: String): Single<Insolvency>
 	fun getOfficers(companyNumber: String, startItem: String): Single<Officers>
@@ -80,7 +83,8 @@ open class CompaniesRepository @Inject constructor(
 		private val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper,
 		private val firebaseAnalytics: FirebaseAnalytics,
 		private val schedulerProvider: SchedulerProvider,
-		private val errorResolver: ErrorResolver
+		private val errorResolver: ErrorResolver,
+		private val mapFilingHistoryDto: (@JvmSuppressWildcards FilingHistoryDto) -> @JvmSuppressWildcards FilingHistory
 ) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
@@ -139,31 +143,20 @@ open class CompaniesRepository @Inject constructor(
 
 	override fun getFilingHistory(
 			companyNumber: String,
-			category: String,
+			category: Category,
 			startItem: String
 	): Single<FilingHistory> {
 		return companiesHouseService
 				.getFilingHistory(
 						authorization,
 						companyNumber,
-						category,
+						mapFilingHistoryCategory(category).getSerializedName(),
 						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 						startItem
 				)
 				.compose(errorResolver.resolveErrorForSingle())
-				.map { history ->
-					history.convertToModel()
-				}
 				.map { historyDto ->
-					val unformattedItems = historyDto.items.map { item ->
-						val descriptionKey = item.description
-						item.copy(
-								description = filingHistoryLookup(descriptionKey)
-						)
-					}
-					historyDto.copy(
-							items = unformattedItems
-					)
+					mapFilingHistoryDto(historyDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
