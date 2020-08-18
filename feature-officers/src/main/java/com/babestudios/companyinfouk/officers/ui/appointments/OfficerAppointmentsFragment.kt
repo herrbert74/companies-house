@@ -31,11 +31,11 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 	private var _binding: FragmentOfficerAppointmentsBinding? = null
 	private val binding get() = _binding!!
 
-	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+	private val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
 			viewModel.officersNavigator.popBackStack()
 		}
-	})
+	}
 
 	//region life cycle
 

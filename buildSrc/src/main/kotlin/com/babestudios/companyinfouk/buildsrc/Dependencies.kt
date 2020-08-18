@@ -5,7 +5,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 //Sadly this doesn't work in root gradle file, probably chicken and egg problem
 @Suppress("unused", "SpellCheckingInspection")
 object Plugins {
-	private const val kotlinVersion = "1.3.72"
+	private const val kotlinVersion = "1.4.0"
 	const val androidTools = "com.android.tools.build:gradle:4.2.0-alpha07"
 	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
@@ -142,7 +142,7 @@ object Libs {
 	}
 
 	object Kotlin {
-		private const val version = "1.3.72"
+		private const val version = "1.4.0"
 		const val stdLibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 	}
 

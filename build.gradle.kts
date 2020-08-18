@@ -4,8 +4,8 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-	extra["kotlin_version"] = "1.3.72"
-	val kotlinVersion = "1.3.72"
+	extra["kotlin_version"] = "1.4.0"
+	val kotlinVersion = "1.4.0"
 	repositories {
 		google()
 		jcenter()

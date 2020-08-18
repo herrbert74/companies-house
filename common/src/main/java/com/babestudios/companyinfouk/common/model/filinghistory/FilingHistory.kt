@@ -6,5 +6,5 @@ data class FilingHistory(
 		var itemsPerPage: Int = 0,
 		var items: List<FilingHistoryItem> = emptyList(),
 		var totalCount: Int = 0,
-		var filingHistoryStatus: String = ""
+		var filingHistoryStatus: String = "",
 )

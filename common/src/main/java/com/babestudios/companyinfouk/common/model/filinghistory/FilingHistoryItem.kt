@@ -7,4 +7,5 @@ data class FilingHistoryItem(
 		val category: Category = Category.CATEGORY_SHOW_ALL,
 		val subcategory: String = "",
 		val description: String = "",
-		val pages: Int = 0)
+		val pages: Int = 0,
+)
