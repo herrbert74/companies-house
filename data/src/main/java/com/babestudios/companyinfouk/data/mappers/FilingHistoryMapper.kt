@@ -90,9 +90,7 @@ fun mapFilingHistoryCategory(input: Category): CategoryDto {
 
 fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: Map<String, Any>?): String {
 	@Suppress("RegExpRedundantEscape")
-	val m = "\\{.*?\\}"
-	val l = m.toRegex()
-	val matchResult = l.findAll(description) //Search anything within braces
+	val matchResult = "\\{.*?\\}".toRegex().findAll(description) //Search anything within braces
 	var result = description
 	matchResult.iterator().forEach {
 		val key = it.groupValues[0].replace("""[{}]""".toRegex(), "") //Remove braces from key
@@ -100,9 +98,14 @@ fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: Ma
 		result = result.replace(it.groupValues[0], descriptionValues?.get(key) as? String ?: "")
 	}
 	//Simply replace "legacy" and "miscellaneous" descriptions with the descriptionValue.description
-	result = result.replace(
-			"(legacy|miscellaneous)".toRegex(RegexOption.IGNORE_CASE),
-			descriptionValues?.get("description") as? String ?: ""
-	)
+	result = try {
+		result.replace(
+				"(legacy|miscellaneous)".toRegex(RegexOption.IGNORE_CASE),
+				descriptionValues?.get("description") as? String ?: ""
+		)
+	} catch (e: IllegalArgumentException) {
+		//Above replace calls through to replaceAll, which uses regexes, but some legacy strings are invalid
+		descriptionValues?.get("description") as? String ?: ""
+	}
 	return result
 }
