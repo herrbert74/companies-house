@@ -5,7 +5,7 @@ plugins{
 }
 
 dependencies {
-	implementation(Libs.Kotlin.stdLibJdk8)
+	implementation(Libs.Kotlin.stdLib)
 	api(Libs.Detekt.api)
 	testImplementation(Libs.Detekt.api)
 	testImplementation(Libs.Detekt.test)

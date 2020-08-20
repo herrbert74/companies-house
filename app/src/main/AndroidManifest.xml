@@ -38,6 +38,9 @@
 		<activity android:name=".officers.ui.OfficersActivity" />
 		<activity android:name=".persons.ui.PersonsActivity" />
 
+		<activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
+			android:exported="true"/>
+
 		<provider
 			android:name="androidx.core.content.FileProvider"
 			android:authorities="${applicationId}.fileprovider"

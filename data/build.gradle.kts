@@ -33,7 +33,7 @@ dependencies {
 	api(Libs.baBeStudiosBase)
 	api(project(":common"))
 
-	implementation(Libs.Kotlin.stdLibJdk8)
+	implementation(Libs.Kotlin.stdLib)
 
 	implementation(Libs.AndroidX.appcompat)
 	implementation(Libs.AndroidX.coreKtx)
@@ -53,7 +53,6 @@ dependencies {
 
 	kapt(Libs.Google.Dagger.compiler)
 
-	debugImplementation(Libs.debugDb)
 	debugImplementation(Libs.Chucker.library)
 	releaseImplementation(Libs.Chucker.noop)
 

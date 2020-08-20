@@ -21,12 +21,12 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider, Lif
 
 	override fun onCreate() {
 		super.onCreate()
-		SoLoader.init(this, false);
+		SoLoader.init(this, false)
 
 		if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
-			val client = AndroidFlipperClient.getInstance(this);
+			val client = AndroidFlipperClient.getInstance(this)
 			client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
-			client.start();
+			client.start()
 		}
 		logAppOpen()
 	}

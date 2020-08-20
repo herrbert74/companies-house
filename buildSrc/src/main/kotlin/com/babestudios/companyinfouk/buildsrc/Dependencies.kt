@@ -16,8 +16,7 @@ object Plugins {
 
 @Suppress("unused", "SpellCheckingInspection")
 object Libs {
-	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.2.8"
-	const val debugDb = "com.amitshekhar.android:debug-db:1.0.6" //To debug preferences
+	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.2.13"
 
 	object AndroidX {
 		const val appcompat = "androidx.appcompat:appcompat:1.2.0"
@@ -143,15 +142,16 @@ object Libs {
 
 	object Kotlin {
 		private const val version = "1.4.0"
-		const val stdLibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
+		const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
 	}
 
 	object Facebook {
-		const val soloader = "com.facebook.soloader:soloader:0.8.2"
+		const val soloader = "com.facebook.soloader:soloader:0.9.0"
 		object Flipper {
-			private const val version = "0.34.0"
+			private const val version = "0.52.0"
 			const val debug = "com.facebook.flipper:flipper:$version"
 			const val release = "com.facebook.flipper:flipper-noop:$version"
+			const val networkPlugin = "com.facebook.flipper:flipper-network-plugin:$version"
 		}
 	}
 
@@ -175,13 +175,13 @@ object Libs {
 	}
 
 	object Chucker {
-		private const val version = "3.1.2"
+		private const val version = "3.2.0"
 		const val library =  "com.github.ChuckerTeam.Chucker:library:$version"
 		const val noop =  "com.github.ChuckerTeam.Chucker:library-no-op:$version"
 	}
 
 	object MvRx {
-		private const val version = "1.4.0"
+		private const val version = "1.5.1"
 		const val mvrx = "com.airbnb.android:mvrx:$version"
 		const val testing = "com.airbnb.android:mvrx-testing:$version"
 	}
