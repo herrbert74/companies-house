@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.companies.ui.favourites
 
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -16,6 +15,8 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -103,6 +104,8 @@ class FavouritesFragment : BaseMvRxFragment() {
 		val ivEmptyView = binding.msvFavourites.findViewById<ImageView>(R.id.ivEmptyView)
 		withState(viewModel) { state ->
 			when (state.favouritesRequest) {
+				is Uninitialized -> {
+				}
 				is Loading -> binding.msvFavourites.viewState = VIEW_STATE_LOADING
 				is Fail -> {
 					binding.msvFavourites.viewState = VIEW_STATE_ERROR
@@ -217,7 +220,8 @@ class FavouritesFragment : BaseMvRxFragment() {
 				val a = TypedValue()
 				requireActivity().theme.resolveAttribute(android.R.attr.windowBackground, a, true)
 				val color = a.data
-				xMark.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+				xMark.colorFilter = BlendModeColorFilterCompat
+						.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
 				xMarkMargin = this@FavouritesFragment.resources.getDimension(R.dimen.viewMargin).toInt()
 				initiated = true
 			}

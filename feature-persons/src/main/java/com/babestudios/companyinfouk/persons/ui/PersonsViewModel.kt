@@ -59,8 +59,7 @@ class PersonsViewModel(
 		withState { state ->
 			if (state.persons.size < state.totalPersonCount) {
 				companiesRepository.getPersons(
-						state.companyNumber
-								?: "",
+						state.companyNumber,
 						(page * Integer
 								.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE))
 								.toString()

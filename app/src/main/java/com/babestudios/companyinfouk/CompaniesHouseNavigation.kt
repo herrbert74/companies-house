@@ -53,8 +53,6 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 			}
 
 			override fun favouritesToCompany(companyNumber: String, companyName: String) {
-				val bundle = bundleOf(COMPANY_NUMBER to companyNumber,
-						COMPANY_NAME to companyName)
 				navController?.navigateSafe(R.id.action_favouritesFragment_to_companyFragment)
 			}
 

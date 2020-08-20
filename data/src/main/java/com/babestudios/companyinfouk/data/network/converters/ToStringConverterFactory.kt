@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.data.network.converters
 
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -27,7 +28,7 @@ class ToStringConverterFactory : Converter.Factory() {
 			retrofit: Retrofit?
 	): Converter<*, RequestBody>? {
 		return if (String::class.java == type) {
-			Converter<String, RequestBody> { value -> RequestBody.create(MEDIA_TYPE, value) }
+			Converter<String, RequestBody> { value -> value.toRequestBody(MEDIA_TYPE) }
 		} else null
 	}
 
