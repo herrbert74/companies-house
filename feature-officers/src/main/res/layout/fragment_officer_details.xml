@@ -38,7 +38,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/officer_details_name"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent" />
 
 			<TextView
@@ -49,8 +49,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsName"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="PATEL, Ashish Nalin" />
 
 			<TextView
@@ -61,7 +61,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/officer_details_appointed_on"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsName" />
 
 			<TextView
@@ -72,8 +72,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsAppointedOn"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="2011-08-11" />
 
 			<TextView
@@ -84,7 +84,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/officer_details_nationality"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsAppointedOn" />
 
 			<TextView
@@ -95,8 +95,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsNationality"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="British" />
 
 			<TextView
@@ -107,7 +107,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/officer_details_occupation"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsNationality" />
 
 			<TextView
@@ -118,8 +118,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsOccupation"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Director" />
 
 			<TextView
@@ -130,7 +130,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/officer_details_date_of_birth"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsOccupation" />
 
 			<TextView
@@ -141,8 +141,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsDateOfBirth"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="25/1980" />
 
 			<TextView
@@ -153,7 +153,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/officer_details_country_of_residence"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsDateOfBirth" />
 
 			<TextView
@@ -164,8 +164,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsCountryOfResidence"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="United Kingdom" />
 
 			<TextView
@@ -177,7 +177,7 @@
 				android:layout_marginTop="@dimen/screenMargin"
 				android:paddingStart="@dimen/screenMargin"
 				android:text="@string/insolvency_details_address"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsCountryOfResidence"
 				tools:ignore="RtlSymmetry" />
 
@@ -188,7 +188,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/cpnOfficerDetailsAddress"
 				tools:text="14 Sample Street" />
 
@@ -199,7 +199,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsAddressLine1"
 				tools:text="Windsor" />
 
@@ -210,7 +210,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsLocality"
 				tools:text="AA14 1AA" />
 
@@ -221,7 +221,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsPostalCode"
 				tools:text="Surrey" />
 
@@ -232,7 +232,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsRegion"
 				tools:text="United Kingdom" />
 
@@ -244,7 +244,7 @@
 				android:layout_marginTop="16dp"
 				android:text="@string/officer_details_appointments"
 				android:transitionName="transtion_name_example"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/lblOfficerDetailsCountry"
 				tools:layout_editor_absoluteX="0dp" />
 

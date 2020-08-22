@@ -108,7 +108,12 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 			val filingHistoryItem = state.filingHistoryItem
 			binding.lblFilingHistoryDetailsDate.text = filingHistoryItem.date
 			binding.lblFilingHistoryDetailsCategory.text = filingHistoryItem.category.displayName
-			binding.lblFilingHistoryDetailsSubcategory.text = filingHistoryItem.subcategory
+			if (filingHistoryItem.subcategory.isEmpty()) {
+				binding.lblFilingHistoryDetailsSubcategory.visibility = GONE
+				binding.cpnFilingHistoryDetailsSubcategory.visibility = GONE
+			} else {
+				binding.lblFilingHistoryDetailsSubcategory.text = filingHistoryItem.subcategory
+			}
 			binding.lblFilingHistoryDetailsDescription.text = filingHistoryItem.description
 			filingHistoryItem.description.let {
 				val spannableDescription = filingHistoryItem

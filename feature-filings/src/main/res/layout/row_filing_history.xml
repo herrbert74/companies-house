@@ -12,6 +12,9 @@
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
+		android:maxLines="1"
+		app:autoSizeMinTextSize="6sp"
+		app:autoSizeTextType="uniform"
 		app:layout_constraintEnd_toStartOf="@id/lblFilingHistoryCategory"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
@@ -20,12 +23,16 @@
 	<TextView
 		android:id="@+id/lblFilingHistoryCategory"
 		style="@style/Text"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:gravity="bottom|end"
+		android:maxLines="1"
+		app:autoSizeMinTextSize="6sp"
+		app:autoSizeTextType="uniform"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toEndOf="@id/lblFilingHistoryDate"
-		app:layout_constraintTop_toTopOf="parent"
-		tools:text="accounts" />
+		app:layout_constraintBottom_toBottomOf="@id/lblFilingHistoryDate"
+		tools:text="confirmation statement" />
 
 	<TextView
 		android:id="@+id/lblFilingHistoryDescription"

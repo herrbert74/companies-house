@@ -14,8 +14,8 @@
 		android:layout_marginStart="@dimen/screenMargin"
 		android:layout_marginEnd="@dimen/screenMargin"
 		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
 		android:textAllCaps="true"
 		tools:text="John Doe serqre qer qerih q regqzger zqe r re"/>
 
@@ -25,8 +25,8 @@
 		android:layout_height="1dp"
 		android:layout_marginTop="@dimen/screenMargin"
 		android:background="@color/translucentBlack"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/lblOfficerAppointmentsHeaderOfficerName"/>
 
 	<TextView
@@ -38,7 +38,7 @@
 		android:layout_marginTop="@dimen/screenMargin"
 		android:gravity="start"
 		android:text="@string/officer_appointments_appointments"
-		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/divOfficerAppointments"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

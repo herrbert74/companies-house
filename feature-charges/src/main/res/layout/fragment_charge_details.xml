@@ -40,7 +40,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_delivered_on"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent" />
 
 			<TextView
@@ -51,8 +51,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsDeliveredOn"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="2016-11-08" />
 
 			<TextView
@@ -63,7 +63,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_status"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/lblChargeDetailsDeliveredOn" />
 
 			<TextView
@@ -74,8 +74,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsStatus"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Outstanding" />
 
 			<TextView
@@ -86,7 +86,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_contains_floating_charge"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsStatus" />
 
 			<TextView
@@ -97,8 +97,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsContainsFloatingCharge"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
 
 			<TextView
@@ -109,7 +109,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_floating_charge_covers_all"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsFloatingCharge" />
 
 			<TextView
@@ -120,8 +120,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsFloatingChargeCoversAll"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
 
 			<TextView
@@ -132,7 +132,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_contains_negative_pledge"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsFloatingChargeCoversAll" />
 
 			<TextView
@@ -143,8 +143,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsContainsNegativePledge"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
 
 			<TextView
@@ -155,7 +155,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_contains_fixed_charge"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsNegativePledge" />
 
 			<TextView
@@ -166,8 +166,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsContainsFixedCharge"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
 
 			<TextView
@@ -178,7 +178,7 @@
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_satisfied_on"
 				android:visibility="gone"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsFixedCharge" />
 
 			<TextView
@@ -187,8 +187,8 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsFixedCharge"
 				tools:text="2016-12-18" />
 
@@ -200,7 +200,7 @@
 				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:text="@string/charge_details_persons_entitled"
-				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsSatisfiedOn" />
 
 			<TextView
@@ -211,8 +211,8 @@
 				android:layout_marginEnd="@dimen/screenMargin"
 				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsPersonsEntitled"
 				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintLeft_toLeftOf="@+id/guideline"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Barclays Bank PLC" />
 
 			<View
@@ -221,8 +221,8 @@
 				android:layout_height="1dp"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:background="@color/translucentBlack"
-				app:layout_constraintLeft_toLeftOf="parent"
-				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsPersonsEntitled" />
 
 			<androidx.recyclerview.widget.RecyclerView
