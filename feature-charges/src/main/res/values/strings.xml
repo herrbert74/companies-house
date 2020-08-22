@@ -14,4 +14,5 @@
 	<string name="charge_details_filing_type">Filing type</string>
 	<string name="could_not_retrieve_charges_info">Could not retrieve charges information. Check your network connection.</string>
 	<string name="transactions">Transactions</string>
+	<string name="chargesStatus">Charges status</string>
 </resources>

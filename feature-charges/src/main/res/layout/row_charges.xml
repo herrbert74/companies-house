@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/llRowCharges"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:gravity="center"
-	android:orientation="vertical"
-	android:paddingBottom="@dimen/viewMargin">
+	android:orientation="vertical">
+
+	<ImageView
+		android:id="@+id/ivRowChargesStatus"
+		style="@style/Text"
+		android:layout_width="@dimen/listAvatarWidth"
+		android:layout_height="wrap_content"
+		android:contentDescription="@string/chargesStatus"
+		app:autoSizeMinTextSize="6sp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:srcCompat="@drawable/ic_baseline_sentiment_satisfied"
+		tools:tint="@color/green" />
 
 	<TextView
 		android:id="@+id/lblRowChargesCreatedOn"
 		style="@style/Text.Bold"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
+		android:maxLines="1"
+		app:autoSizeMinTextSize="6sp"
+		app:autoSizeTextType="uniform"
+		app:layout_constraintBottom_toTopOf="@+id/lblRowChargesChargeCode"
+		app:layout_constraintEnd_toStartOf="@+id/ivRowChargesStatus"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
 		tools:text="2016-01-31" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
+	<TextView
+		android:id="@id/lblRowChargesChargeCode"
+		style="@style/Text"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-
-		<TextView
-			android:id="@+id/lblRowChargesChargeCode"
-			style="@style/Text"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			tools:text="12341234" />
-
-		<TextView
-			android:id="@+id/lblRowChargesStatus"
-			style="@style/Text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			tools:text="Satisfied" />
-	</LinearLayout>
+		app:autoSizeTextType="uniform"
+		app:layout_constraintBottom_toTopOf="@+id/lblRowChargesPersonEntitled"
+		app:layout_constraintEnd_toStartOf="@id/ivRowChargesStatus"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblRowChargesCreatedOn"
+		tools:text="12341234" />
 
 	<TextView
-		android:id="@+id/lblRowChargesPersonEntitled"
+		android:id="@id/lblRowChargesPersonEntitled"
 		style="@style/Text"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
+		android:layout_marginBottom="@dimen/viewMargin"
+		android:gravity="start|bottom"
+		android:maxLines="3"
+		app:autoSizeMinTextSize="8sp"
+		app:autoSizeTextType="uniform"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@id/ivRowChargesStatus"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblRowChargesChargeCode"
 		tools:text="Ameuri Limited" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
