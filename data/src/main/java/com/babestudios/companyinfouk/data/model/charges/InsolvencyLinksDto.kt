@@ -6,9 +6,11 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class SecuredDetails(
-		@SerializedName("description")
-		var description: String? = null,
-		@SerializedName("type")
-		var type: String? = null
-) : Parcelable
+class InsolvencyLinksDto : Parcelable {
+	inner class Links {
+
+		@SerializedName("case")
+		var case: String? = null
+
+	}
+}

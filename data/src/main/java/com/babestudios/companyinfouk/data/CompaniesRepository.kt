@@ -12,13 +12,14 @@ import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
+import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
-import com.babestudios.companyinfouk.data.model.charges.Charges
+import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
@@ -84,7 +85,10 @@ open class CompaniesRepository @Inject constructor(
 		private val firebaseAnalytics: FirebaseAnalytics,
 		private val schedulerProvider: SchedulerProvider,
 		private val errorResolver: ErrorResolver,
-		private val mapFilingHistoryDto: (@JvmSuppressWildcards FilingHistoryDto) -> @JvmSuppressWildcards FilingHistory
+		private val mapFilingHistoryDto: (@JvmSuppressWildcards FilingHistoryDto) -> @JvmSuppressWildcards
+		FilingHistory,
+		private val mapChargesDto: (@JvmSuppressWildcards ChargesDto) -> @JvmSuppressWildcards
+		Charges,
 ) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
@@ -170,6 +174,9 @@ open class CompaniesRepository @Inject constructor(
 						startItem
 				)
 				.compose(errorResolver.resolveErrorForSingle())
+				.map { chargesDto ->
+					mapChargesDto(chargesDto)
+				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 

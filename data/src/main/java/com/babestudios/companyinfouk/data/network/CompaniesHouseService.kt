@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.data.network
 
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.model.charges.Charges
+import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.Company
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
@@ -46,7 +46,7 @@ interface CompaniesHouseService {
 			@Path("companyNumber") companyNumber: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): Single<Charges>
+	): Single<ChargesDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT)
 	fun getInsolvency(

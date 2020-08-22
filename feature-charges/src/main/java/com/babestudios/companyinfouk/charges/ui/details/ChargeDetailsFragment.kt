@@ -17,7 +17,7 @@ import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.FragmentChargeDetailsBinding
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.charges.ui.details.list.*
-import com.babestudios.companyinfouk.data.model.charges.Transaction
+import com.babestudios.companyinfouk.common.model.charges.Transaction
 import io.reactivex.disposables.CompositeDisposable
 
 class ChargeDetailsFragment : BaseMvRxFragment() {
@@ -86,14 +86,14 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 			state.chargesItem?.let { chargesItem ->
 				binding.tvChargeDetailsDeliveredOn.text = chargesItem.deliveredOn
 				binding.tvChargeDetailsStatus.text = chargesItem.status
-				binding.tvChargeDetailsContainsFloatingCharge.text =
+				/*binding.tvChargeDetailsContainsFloatingCharge.text =
 						if (chargesItem.particulars?.containsFloatingCharge == true) "YES" else "NO"
 				binding.tvChargeDetailsFloatingChargeCoversAll.text =
 						if (chargesItem.particulars?.floatingChargeCoversAll == true) "YES" else "NO"
 				binding.tvChargeDetailsContainsNegativePledge.text =
 						if (chargesItem.particulars?.containsNegativePledge == true) "YES" else "NO"
 				binding.tvChargeDetailsContainsFixedCharge.text =
-						if (chargesItem.particulars?.containsFixedCharge == true) "YES" else "NO"
+						if (chargesItem.particulars?.containsFixedCharge == true) "YES" else "NO"*/
 				if (chargesItem.satisfiedOn == null) {
 					binding.lblChargeDetailsSatisfiedOn.visibility = GONE
 					binding.tvChargeDetailsSatisfiedOn.visibility = GONE
@@ -102,7 +102,7 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 					binding.lblChargeDetailsSatisfiedOn.visibility = VISIBLE
 					binding.tvChargeDetailsSatisfiedOn.text = chargesItem.satisfiedOn
 				}
-				binding.tvChargeDetailsPersonsEntitled.text = chargesItem.personsEntitled[0].name
+				binding.tvChargeDetailsPersonsEntitled.text = chargesItem.personsEntitled
 			}
 		}
 	}

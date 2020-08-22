@@ -4,15 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.AsyncTask
 import com.babestudios.base.rxjava.SchedulerProvider
+import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
+import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
-import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategoryDto
+import com.babestudios.companyinfouk.data.mappers.*
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryDto
-import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryItemDto
-import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryLinks
+import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
@@ -109,7 +110,7 @@ class DataModule(private val context: Context) {
 		return FirebaseAnalytics.getInstance(context)
 	}
 
-	//region FilingHistoryMappers
+	//region Mappers
 
 	@Provides
 	fun provideMapFilingHistoryDto(filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper)
@@ -122,10 +123,28 @@ class DataModule(private val context: Context) {
 								filingHistoryDescriptionsHelper,
 								{ linksDto ->
 									mapFilingHistoryLinks(linksDto)
-								}
-								, { categoryDto ->
+								}, { categoryDto ->
 							mapFilingHistoryCategoryDto(categoryDto)
 						})
+					}
+				}
+			}
+
+	@Provides
+	fun provideMapChargesDto(chargesHelper: ChargesHelper)
+			: (ChargesDto) -> Charges =
+			{ chargesDto ->
+				mapChargesDto(chargesDto) { items ->
+					mapNullInputList(items) {
+						mapChargesItemDto(it) { transactionDtoList ->
+							mapNullInputList(transactionDtoList) { transactionsDto ->
+								transactionsDto.deliveredOn.orEmpty()
+								mapTransactionDto(
+										transactionsDto,
+										chargesHelper
+								)
+							}
+						}
 					}
 				}
 			}

@@ -5,7 +5,7 @@ import com.babestudios.base.ext.getPrivateFieldWithReflection
 import com.babestudios.companyinfouk.charges.ui.ChargesState
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.charges.Charges
+import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 import io.mockk.every
 import io.mockk.mockk
@@ -27,7 +27,7 @@ class ChargesTest {
 			companiesHouseRepository.fetchCharges("123", "0")
 		} answers
 				{
-					Single.create { Charges() }
+					Single.create { ChargesDto() }
 				}
 	}
 

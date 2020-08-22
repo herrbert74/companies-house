@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Particulars(
+data class ParticularsDto(
 		@SerializedName("chargor_acting_as_bare_trustee")
 		var chargorActingAsBareTrustee: String? = null,
 		@SerializedName("contains_fixed_charge")

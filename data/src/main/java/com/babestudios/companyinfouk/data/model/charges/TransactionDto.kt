@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Transaction(
+data class TransactionDto(
 		@SerializedName("delivered_on")
 	var deliveredOn: String? = null,
 		@SerializedName("filing_type")
@@ -14,7 +14,7 @@ data class Transaction(
 		@SerializedName("insolvency_case_number")
 	var insolvencyCaseNumber: String? = null,
 		@SerializedName("links")
-	var links: TransactionLinks? = null,
+	var links: TransactionLinksDto? = null,
 		@SerializedName("transaction_id")
 	var transactionId: String? = null
 	): Parcelable

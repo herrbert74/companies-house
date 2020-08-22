@@ -8,7 +8,7 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsHeaderBinding
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsTransactionBinding
-import com.babestudios.companyinfouk.data.model.charges.Transaction
+import com.babestudios.companyinfouk.common.model.charges.Transaction
 
 class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<ChargeDetailsVisitableBase>
 						   , private val chargeDetailsTypeFactory: ChargeDetailsTypeFactory)

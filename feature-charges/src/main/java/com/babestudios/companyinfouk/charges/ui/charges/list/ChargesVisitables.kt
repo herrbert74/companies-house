@@ -1,15 +1,12 @@
 package com.babestudios.companyinfouk.charges.ui.charges.list
 
-import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.charges.ChargesItem
-import kotlinx.android.parcel.Parcelize
+import com.babestudios.companyinfouk.common.model.charges.ChargesItem
 
 sealed class ChargesVisitableBase {
 	abstract fun type(chargesTypeFactory: ChargesAdapter.ChargesTypeFactory): Int
 }
 
-@Parcelize
-class ChargesVisitable(val chargesItem: ChargesItem) : ChargesVisitableBase(), Parcelable {
+class ChargesVisitable(val chargesItem: ChargesItem) : ChargesVisitableBase() {
 	override fun type(chargesTypeFactory: ChargesAdapter.ChargesTypeFactory): Int {
 		return chargesTypeFactory.type(chargesItem)
 	}

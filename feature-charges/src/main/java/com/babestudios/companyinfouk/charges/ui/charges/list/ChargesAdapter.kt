@@ -9,7 +9,8 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.charges.databinding.RowChargesBinding
-import com.babestudios.companyinfouk.data.model.charges.ChargesItem
+import com.babestudios.companyinfouk.common.model.charges.ChargesItem
+import com.babestudios.companyinfouk.data.model.charges.ChargesItemDto
 
 class ChargesAdapter(private var chargesVisitables: List<ChargesVisitableBase>
 					 , private val chargesTypeFactory: ChargesTypeFactory)

@@ -4,7 +4,6 @@ import android.content.Context
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
-import com.babestudios.companyinfouk.data.model.charges.Charges
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService

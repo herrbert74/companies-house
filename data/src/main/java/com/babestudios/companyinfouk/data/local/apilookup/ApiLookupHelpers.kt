@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.data.local.apilookup
 import com.babestudios.companyinfouk.data.R
 import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
 import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDescriptions
+import com.babestudios.companyinfouk.data.local.apilookup.model.MortgageDescriptions
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,5 +28,15 @@ class FilingHistoryDescriptionsHelper @Inject constructor(rawResourceHelper: Raw
 
 	fun filingHistoryLookUp(filingHistoryDescriptionString: String): String {
 		return filingHistoryDescriptions.description[filingHistoryDescriptionString] ?: filingHistoryDescriptionString
+	}
+}
+
+@Singleton
+class ChargesHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) {
+	private val chargesDescriptions: MortgageDescriptions = rawResourceHelper
+			.getMortgageDescriptions(R.raw.mortgage_descriptions)
+
+	fun filingTypeLookUp(filingTypeString: String): String {
+		return chargesDescriptions.filing_type[filingTypeString] ?: filingTypeString
 	}
 }

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PersonsEntitled(
+data class PersonsEntitledDto(
 		@SerializedName("name")
 		var name: String? = null
 ) : Parcelable

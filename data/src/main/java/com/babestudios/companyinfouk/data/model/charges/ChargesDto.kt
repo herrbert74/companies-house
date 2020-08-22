@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 import java.util.ArrayList
 
-class Charges {
+class ChargesDto {
 	@SerializedName("etag")
 	var etag: String? = null
 	@SerializedName("items")
-	var items: List<ChargesItem> = ArrayList()
+	var items: List<ChargesItemDto> = ArrayList()
 	@SerializedName("part_satisfied_count")
-	var partSatisfiedCount: String? = null
+	var partSatisfiedCount: Int? = 0
 	@SerializedName("satisfied_count")
-	var satisfiedCount: String? = null
+	var satisfiedCount: Int? = 0
 	@SerializedName("total_count")
-	var totalCount: String? = null
-	@SerializedName("unfiletered_count")
-	var unfileteredCount: String? = null
+	var totalCount: Int? = 0
+	@SerializedName("unfiltered_count")
+	var unfilteredCount: Int? = 0
 }

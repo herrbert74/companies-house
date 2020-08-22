@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class TransactionLinks(
-		@SerializedName("filing")
-		var filing: String? = null,
-		@SerializedName("insolvency_case")
-		var insolvencyCase: String? = null
+data class SecuredDetailsDto(
+		@SerializedName("description")
+		var description: String? = null,
+		@SerializedName("type")
+		var type: String? = null
 ) : Parcelable

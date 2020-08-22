@@ -15,7 +15,7 @@ class ChargesViewHolder(_binding: ViewBinding)
 		val binding = _binding as RowChargesBinding
 		val chargesItem = (visitable as ChargesVisitable).chargesItem
 		binding.lblRowChargesCreatedOn.text = chargesItem.createdOn
-		if (chargesItem.chargeCode.isNullOrEmpty()) {
+		if (chargesItem.chargeCode.isEmpty()) {
 			binding.lblRowChargesChargeCode.visibility = MultiStateView.GONE
 		} else {
 			binding.lblRowChargesChargeCode.text = chargesItem.chargeCode
@@ -27,6 +27,6 @@ class ChargesViewHolder(_binding: ViewBinding)
 			binding.ivRowChargesStatus.setImageResource(R.drawable.ic_baseline_sentiment_very_dissatisfied)
 			ImageViewCompat.setImageTintList(binding.ivRowChargesStatus, itemView.context.colorStateList(R.color.red))
 		}
-		binding.lblRowChargesPersonEntitled.text = chargesItem.personsEntitled[0].name
+		binding.lblRowChargesPersonEntitled.text = chargesItem.personsEntitled
 	}
 }

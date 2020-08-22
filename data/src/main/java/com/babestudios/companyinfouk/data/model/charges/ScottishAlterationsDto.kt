@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ScottishAlterations(
+data class ScottishAlterationsDto(
 		@SerializedName("has_alterations_to_order")
 		var hasAlterationsToOrder: String? = null,
 		@SerializedName("has_alterations_to_prohibitions")
