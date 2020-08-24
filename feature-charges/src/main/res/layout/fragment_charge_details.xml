@@ -4,9 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:fitsSystemWindows="true"
 	tools:context=".ui.details.ChargeDetailsFragment">
-
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabChargeDetails"
@@ -18,6 +16,8 @@
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:fitsSystemWindows="true"
+		android:paddingBottom="@dimen/viewMarginLarge"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 		<androidx.constraintlayout.widget.ConstraintLayout
@@ -30,189 +30,230 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.6" />
+				app:layout_constraintGuide_percent="0.4" />
 
-			<TextView
-				android:id="@+id/lblChargeDetailsDeliveredOn"
-				style="@style/Text"
+			<androidx.constraintlayout.widget.Group
+				android:id="@+id/groupChargeDetails"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
+				android:visibility="visible"
+				app:constraint_referenced_ids="cpnChargeDetailsContainsFloatingCharge, lblChargeDetailsContainsFloatingCharge, cpnChargeDetailsFloatingChargeCoversAll, lblChargeDetailsFloatingChargeCoversAll, cpnChargeDetailsContainsNegativePledge, lblChargeDetailsContainsNegativePledge, cpnChargeDetailsContainsFixedCharge, lblChargeDetailsContainsFixedCharge" />
+
+			<TextView
+				android:id="@+id/cpnChargeDetailsDeliveredOn"
+				style="@style/Text"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
 				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
 				android:text="@string/charge_details_delivered_on"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent" />
 
 			<TextView
-				android:id="@+id/tvChargeDetailsDeliveredOn"
+				android:id="@+id/lblChargeDetailsDeliveredOn"
 				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsDeliveredOn"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsDeliveredOn"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="2016-11-08" />
 
 			<TextView
-				android:id="@+id/lblChargeDetailsStatus"
+				android:id="@+id/cpnChargeDetailsStatus"
 				style="@style/Text"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
+				android:maxLines="1"
 				android:text="@string/charge_details_status"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblChargeDetailsDeliveredOn" />
+				app:layout_constraintTop_toBottomOf="@+id/cpnChargeDetailsDeliveredOn" />
 
 			<TextView
-				android:id="@+id/tvChargeDetailsStatus"
+				android:id="@+id/lblChargeDetailsStatus"
 				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsStatus"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsStatus"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Outstanding" />
 
 			<TextView
-				android:id="@+id/lblChargeDetailsContainsFloatingCharge"
+				android:id="@+id/cpnChargeDetailsContainsFloatingCharge"
 				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/charge_details_contains_floating_charge"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsStatus" />
-
-			<TextView
-				android:id="@+id/tvChargeDetailsContainsFloatingCharge"
-				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsContainsFloatingCharge"
+				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
+				android:maxLines="2"
+				android:text="@string/charge_details_contains_floating_charge"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/lblChargeDetailsStatus" />
+
+			<TextView
+				android:id="@+id/lblChargeDetailsContainsFloatingCharge"
+				style="@style/Text.Bold"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsContainsFloatingCharge"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
+
+			<TextView
+				android:id="@+id/cpnChargeDetailsFloatingChargeCoversAll"
+				style="@style/Text"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
+				android:maxLines="2"
+				android:text="@string/charge_details_floating_charge_covers_all"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/cpnChargeDetailsContainsFloatingCharge" />
 
 			<TextView
 				android:id="@+id/lblChargeDetailsFloatingChargeCoversAll"
-				style="@style/Text"
+				style="@style/Text.Bold"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/charge_details_floating_charge_covers_all"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsFloatingCharge" />
-
-			<TextView
-				android:id="@+id/tvChargeDetailsFloatingChargeCoversAll"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsFloatingChargeCoversAll"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsFloatingChargeCoversAll"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
+
+			<TextView
+				android:id="@+id/cpnChargeDetailsContainsNegativePledge"
+				style="@style/Text"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
+				android:maxLines="2"
+				android:text="@string/charge_details_contains_negative_pledge"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/cpnChargeDetailsFloatingChargeCoversAll" />
 
 			<TextView
 				android:id="@+id/lblChargeDetailsContainsNegativePledge"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/charge_details_contains_negative_pledge"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsFloatingChargeCoversAll" />
-
-			<TextView
-				android:id="@+id/tvChargeDetailsContainsNegativePledge"
 				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsContainsNegativePledge"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsContainsNegativePledge"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
+
+			<TextView
+				android:id="@+id/cpnChargeDetailsContainsFixedCharge"
+				style="@style/Text"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
+				android:maxLines="2"
+				android:text="@string/charge_details_contains_fixed_charge"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/cpnChargeDetailsContainsNegativePledge" />
 
 			<TextView
 				android:id="@+id/lblChargeDetailsContainsFixedCharge"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/charge_details_contains_fixed_charge"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsNegativePledge" />
-
-			<TextView
-				android:id="@+id/tvChargeDetailsContainsFixedCharge"
 				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsContainsFixedCharge"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsContainsFixedCharge"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Yes" />
 
 			<TextView
-				android:id="@+id/lblChargeDetailsSatisfiedOn"
+				android:id="@+id/cpnChargeDetailsSatisfiedOn"
 				style="@style/Text"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
+				android:maxLines="1"
 				android:text="@string/charge_details_satisfied_on"
 				android:visibility="gone"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsFixedCharge" />
+				app:layout_constraintTop_toBottomOf="@+id/cpnChargeDetailsContainsFixedCharge"
+				tools:visibility="visible" />
 
 			<TextView
-				android:id="@+id/tvChargeDetailsSatisfiedOn"
+				android:id="@+id/lblChargeDetailsSatisfiedOn"
 				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
+				android:layout_marginTop="@dimen/screenMargin"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsContainsFixedCharge"
+				app:layout_constraintStart_toStartOf="@+id/guideline"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsSatisfiedOn"
 				tools:text="2016-12-18" />
 
 			<TextView
-				android:id="@+id/lblChargeDetailsPersonsEntitled"
+				android:id="@+id/cpnChargeDetailsPersonsEntitled"
 				style="@style/Text"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
 				android:layout_marginTop="@dimen/screenMargin"
+				android:layout_marginEnd="0dp"
+				android:maxLines="1"
 				android:text="@string/charge_details_persons_entitled"
+				app:autoSizeMaxTextSize="@dimen/textSizeBody1"
+				app:autoSizeMinTextSize="@dimen/textSizeCaption"
+				app:autoSizeTextType="uniform"
+				app:layout_constraintEnd_toEndOf="@id/guideline"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsSatisfiedOn" />
+				app:layout_constraintTop_toBottomOf="@+id/cpnChargeDetailsSatisfiedOn" />
 
 			<TextView
-				android:id="@+id/tvChargeDetailsPersonsEntitled"
+				android:id="@+id/lblChargeDetailsPersonsEntitled"
 				style="@style/Text.Bold"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsPersonsEntitled"
+				app:layout_constraintBaseline_toBaselineOf="@+id/cpnChargeDetailsPersonsEntitled"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"
 				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
 				tools:text="Barclays Bank PLC" />
 
 			<View
@@ -221,16 +262,16 @@
 				android:layout_height="1dp"
 				android:layout_marginTop="@dimen/screenMargin"
 				android:background="@color/translucentBlack"
-				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsPersonsEntitled" />
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/lblChargeDetailsPersonsEntitled" />
 
 			<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/rvChargeDetails"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:paddingBottom="@dimen/viewMargin"
+				android:layout_height="wrap_content"
 				android:scrollbars="vertical"
+				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/divChargeDetails" />
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</androidx.core.widget.NestedScrollView>

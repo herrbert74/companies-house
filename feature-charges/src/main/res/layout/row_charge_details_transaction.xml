@@ -5,57 +5,33 @@
 	android:layout_height="wrap_content"
 	android:paddingBottom="@dimen/screenMargin">
 
-	<androidx.constraintlayout.widget.Guideline
-		android:id="@+id/guideline"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		app:layout_constraintGuide_percent="0.6" />
-
 	<TextView
 		android:id="@+id/lblChargeDetailsHeaderFilingType"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:text="@string/charge_details_filing_type"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
-
-	<TextView
-		android:id="@+id/tvChargeDetailsHeaderFilingType"
 		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsHeaderFilingType"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/lblChargeDetailsTransactionDeliveredOn"
 		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintStart_toStartOf="@+id/guideline"
-		app:layout_constraintEnd_toEndOf="parent"
-		tools:text="Long text here 1" />
-
-	<TextView
-		android:id="@+id/lblChargeDetailsHeaderDeliveredOn"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:text="@string/charge_details_delivered_on"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tvChargeDetailsHeaderFilingType" />
+		app:layout_constraintEnd_toEndOf="parent"
+		tools:text="Registration of a charge (MG01)" />
 
 	<TextView
-		android:id="@+id/tvChargeDetailsTransactionDeliveredOn"
-		style="@style/Text.Bold"
+		android:id="@id/lblChargeDetailsTransactionDeliveredOn"
+		style="@style/Text"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/screenMargin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/lblChargeDetailsHeaderDeliveredOn"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/lblChargeDetailsHeaderFilingType"
 		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintStart_toStartOf="@+id/guideline"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		tools:text="Long text here 2" />
+		tools:text="2014-02-08" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

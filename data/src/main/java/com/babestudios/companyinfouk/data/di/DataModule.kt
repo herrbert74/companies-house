@@ -123,9 +123,10 @@ class DataModule(private val context: Context) {
 								filingHistoryDescriptionsHelper,
 								{ linksDto ->
 									mapFilingHistoryLinks(linksDto)
-								}, { categoryDto ->
-							mapFilingHistoryCategoryDto(categoryDto)
-						})
+								},
+								{ categoryDto ->
+									mapFilingHistoryCategoryDto(categoryDto)
+								})
 					}
 				}
 			}
@@ -136,15 +137,21 @@ class DataModule(private val context: Context) {
 			{ chargesDto ->
 				mapChargesDto(chargesDto) { items ->
 					mapNullInputList(items) {
-						mapChargesItemDto(it) { transactionDtoList ->
-							mapNullInputList(transactionDtoList) { transactionsDto ->
-								transactionsDto.deliveredOn.orEmpty()
-								mapTransactionDto(
-										transactionsDto,
-										chargesHelper
-								)
-							}
-						}
+						mapChargesItemDto(
+								it,
+								chargesHelper,
+								{ transactionDtoList ->
+									mapNullInputList(transactionDtoList) { transactionsDto ->
+										transactionsDto.deliveredOn.orEmpty()
+										mapTransactionDto(
+												transactionsDto,
+												chargesHelper
+										)
+									}
+								},
+								{ particularsDto ->
+									mapParticularsDto(particularsDto)
+								})
 					}
 				}
 			}

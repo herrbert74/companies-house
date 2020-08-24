@@ -10,8 +10,8 @@ class ChargeDetailsViewHolder(_binding: ViewBinding)
 	override fun bind(visitable: ChargeDetailsVisitableBase) {
 		val binding = _binding as RowChargeDetailsTransactionBinding
 		val chargeDetailsItem = (visitable as ChargeDetailsVisitable).transaction
-		binding.tvChargeDetailsHeaderFilingType.text = chargeDetailsItem.filingType
-		binding.tvChargeDetailsTransactionDeliveredOn.text = chargeDetailsItem.deliveredOn
+		binding.lblChargeDetailsHeaderFilingType.text = chargeDetailsItem.filingType
+		binding.lblChargeDetailsTransactionDeliveredOn.text = chargeDetailsItem.deliveredOn
 	}
 }
 

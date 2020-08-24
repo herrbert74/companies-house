@@ -36,6 +36,10 @@ class ChargesHelper @Inject constructor(rawResourceHelper: RawResourceHelperCont
 	private val chargesDescriptions: MortgageDescriptions = rawResourceHelper
 			.getMortgageDescriptions(R.raw.mortgage_descriptions)
 
+	fun statusLookUp(statusString: String): String {
+		return chargesDescriptions.status[statusString] ?: statusString
+	}
+
 	fun filingTypeLookUp(filingTypeString: String): String {
 		return chargesDescriptions.filing_type[filingTypeString] ?: filingTypeString
 	}

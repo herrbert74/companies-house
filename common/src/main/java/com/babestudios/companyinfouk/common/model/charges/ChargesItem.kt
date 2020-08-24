@@ -9,5 +9,6 @@ data class ChargesItem(
 		var resolvedOn: String = "",
 		var satisfiedOn: String = "",
 		var status: String = "",
-		var transactions: List<Transaction> = emptyList()
+		var transactions: List<Transaction> = emptyList(),
+		val particulars: Particulars = Particulars(),
 )

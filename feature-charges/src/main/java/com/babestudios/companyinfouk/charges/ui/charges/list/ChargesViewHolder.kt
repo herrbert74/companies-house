@@ -20,7 +20,7 @@ class ChargesViewHolder(_binding: ViewBinding)
 		} else {
 			binding.lblRowChargesChargeCode.text = chargesItem.chargeCode
 		}
-		if (chargesItem.status == "fully-satisfied") {
+		if (chargesItem.status.equals("satisfied", true)) {
 			binding.ivRowChargesStatus.setImageResource(R.drawable.ic_baseline_sentiment_satisfied)
 			ImageViewCompat.setImageTintList(binding.ivRowChargesStatus, itemView.context.colorStateList(R.color.green))
 		} else {

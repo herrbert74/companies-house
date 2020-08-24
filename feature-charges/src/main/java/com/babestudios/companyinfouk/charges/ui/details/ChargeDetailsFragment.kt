@@ -84,25 +84,28 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 	private fun showChargesItem() {
 		withState(viewModel) { state ->
 			state.chargesItem?.let { chargesItem ->
-				binding.tvChargeDetailsDeliveredOn.text = chargesItem.deliveredOn
-				binding.tvChargeDetailsStatus.text = chargesItem.status
-				/*binding.tvChargeDetailsContainsFloatingCharge.text =
-						if (chargesItem.particulars?.containsFloatingCharge == true) "YES" else "NO"
-				binding.tvChargeDetailsFloatingChargeCoversAll.text =
-						if (chargesItem.particulars?.floatingChargeCoversAll == true) "YES" else "NO"
-				binding.tvChargeDetailsContainsNegativePledge.text =
-						if (chargesItem.particulars?.containsNegativePledge == true) "YES" else "NO"
-				binding.tvChargeDetailsContainsFixedCharge.text =
-						if (chargesItem.particulars?.containsFixedCharge == true) "YES" else "NO"*/
-				if (chargesItem.satisfiedOn == null) {
-					binding.lblChargeDetailsSatisfiedOn.visibility = GONE
-					binding.tvChargeDetailsSatisfiedOn.visibility = GONE
-				} else {
-					binding.tvChargeDetailsSatisfiedOn.visibility = VISIBLE
-					binding.lblChargeDetailsSatisfiedOn.visibility = VISIBLE
-					binding.tvChargeDetailsSatisfiedOn.text = chargesItem.satisfiedOn
+				binding.lblChargeDetailsDeliveredOn.text = chargesItem.deliveredOn
+				binding.lblChargeDetailsStatus.text = chargesItem.status
+				if (chargesItem.particulars.containsFloatingCharge == null) {
+					binding.groupChargeDetails.visibility = GONE
 				}
-				binding.tvChargeDetailsPersonsEntitled.text = chargesItem.personsEntitled
+				binding.lblChargeDetailsContainsFloatingCharge.text =
+						if (chargesItem.particulars.containsFloatingCharge == true) "YES" else "NO"
+				binding.lblChargeDetailsFloatingChargeCoversAll.text =
+						if (chargesItem.particulars.floatingChargeCoversAll == true) "YES" else "NO"
+				binding.lblChargeDetailsContainsNegativePledge.text =
+						if (chargesItem.particulars.containsNegativePledge == true) "YES" else "NO"
+				binding.lblChargeDetailsContainsFixedCharge.text =
+						if (chargesItem.particulars.containsFixedCharge == true) "YES" else "NO"
+				if (chargesItem.satisfiedOn.isEmpty()) {
+					binding.cpnChargeDetailsSatisfiedOn.visibility = GONE
+					binding.lblChargeDetailsSatisfiedOn.visibility = GONE
+				} else {
+					binding.cpnChargeDetailsSatisfiedOn.visibility = VISIBLE
+					binding.lblChargeDetailsSatisfiedOn.visibility = VISIBLE
+					binding.lblChargeDetailsSatisfiedOn.text = chargesItem.satisfiedOn
+				}
+				binding.lblChargeDetailsPersonsEntitled.text = chargesItem.personsEntitled
 			}
 		}
 	}
