@@ -6,7 +6,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 @Suppress("unused", "SpellCheckingInspection")
 object Plugins {
 	private const val kotlinVersion = "1.4.0"
-	const val androidTools = "com.android.tools.build:gradle:4.2.0-alpha07"
+	const val androidTools = "com.android.tools.build:gradle:4.2.0-alpha08"
 	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 	const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
 	const val googleServices = "com.google.gms:google-services:4.3.3"

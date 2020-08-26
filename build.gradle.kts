@@ -12,7 +12,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:4.2.0-alpha07")
+		classpath("com.android.tools.build:gradle:4.2.0-alpha08")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
 		classpath("com.google.gms:google-services:4.3.3")
 		classpath("com.google.firebase:firebase-crashlytics-gradle:2.2.0")
