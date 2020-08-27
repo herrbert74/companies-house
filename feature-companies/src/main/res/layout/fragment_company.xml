@@ -20,6 +20,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
 		android:layout_margin="@dimen/screenMargin"
+		android:contentDescription="@string/fab_toggle_favourite"
 		app:srcCompat="@drawable/ic_favorite" />
 
 	<com.babestudios.base.view.MultiStateView

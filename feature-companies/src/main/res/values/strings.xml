@@ -24,6 +24,7 @@
 	<string name="could_not_retrieve_company_info">Could not retrieve company information. Check your network connection.</string>
 	<string name="no_recent_searches">You have no recent searches. Start by searching for a company above!</string>
 	<string name="no_search_result">Your search did not return any companies. Please try another one</string>
+	<string name="fab_toggle_favourite">Toggle Favourite</string>
 	<string-array name="search_filter_options">
 		<item>All</item>
 		<item>Active</item>
