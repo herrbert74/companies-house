@@ -16,15 +16,14 @@ object Plugins {
 
 @Suppress("unused", "SpellCheckingInspection")
 object Libs {
-	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.2.13"
+	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.2.15"
 
 	object AndroidX {
 		const val appcompat = "androidx.appcompat:appcompat:1.2.0"
 		const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
 		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
-		//beta2 causes linking problems
-		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-rc1"
+		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.1"
 		const val androidxAnnotations = "androidx.annotation:annotation:1.1.0"
 		const val coreKtx = "androidx.core:core-ktx:1.3.1"
 		const val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
