@@ -142,115 +142,56 @@
 
 				<include layout="@layout/divider" />
 
-				<LinearLayout
+				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyFilings"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:focusable="true">
+					android:focusable="true"
+					app:imageViewContentDescription="@string/filing_history"
+					app:imageViewSrc="@drawable/ic_company_filing_history"
+					app:text="@string/filing_history" />
 
-					<ImageView
-						android:layout_width="@dimen/iconSize"
-						android:layout_height="@dimen/iconSize"
-						android:layout_margin="@dimen/screenMargin"
-						android:contentDescription="@string/filing_history"
-						app:srcCompat="@drawable/ic_company_filing_history" />
-
-					<TextView
-						style="@style/Text"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/screenMargin"
-						android:text="@string/filing_history" />
-				</LinearLayout>
-
-				<LinearLayout
+				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyInsolvency"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:focusable="true">
+					android:focusable="true"
+					app:imageViewContentDescription="@string/insolvency"
+					app:imageViewSrc="@drawable/ic_company_insolvency"
+					app:text="@string/insolvency" />
 
-					<ImageView
-						android:layout_width="@dimen/iconSize"
-						android:layout_height="@dimen/iconSize"
-						android:layout_margin="@dimen/screenMargin"
-						android:contentDescription="@string/insolvency"
-						app:srcCompat="@drawable/ic_company_insolvency" />
-
-					<TextView
-						style="@style/Text"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/screenMargin"
-						android:text="@string/insolvency" />
-				</LinearLayout>
-
-				<LinearLayout
+				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyCharges"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:focusable="true">
+					android:focusable="true"
+					app:imageViewContentDescription="@string/charges"
+					app:imageViewSrc="@drawable/ic_company_charges"
+					app:text="@string/charges" />
 
-					<ImageView
-						android:layout_width="@dimen/iconSize"
-						android:layout_height="@dimen/iconSize"
-						android:layout_margin="@dimen/screenMargin"
-						android:contentDescription="@string/charges"
-						app:srcCompat="@drawable/ic_company_charges" />
-
-					<TextView
-						style="@style/Text"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/screenMargin"
-						android:text="@string/charges" />
-				</LinearLayout>
-
-				<LinearLayout
+				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyOfficers"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:focusable="true">
+					android:focusable="true"
+					app:imageViewContentDescription="@string/officers"
+					app:imageViewSrc="@drawable/ic_company_officers"
+					app:text="@string/officers" />
 
-					<ImageView
-						android:layout_width="@dimen/iconSize"
-						android:layout_height="@dimen/iconSize"
-						android:layout_margin="@dimen/screenMargin"
-						android:contentDescription="@string/officers"
-						app:srcCompat="@drawable/ic_company_officers" />
-
-					<TextView
-						style="@style/Text"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/screenMargin"
-						android:text="@string/officers" />
-				</LinearLayout>
-
-				<LinearLayout
+				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyPersons"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="true"
-					android:focusable="true">
+					android:focusable="true"
+					app:imageViewContentDescription="@string/persons_with_significant_control"
+					app:imageViewSrc="@drawable/ic_company_persons_with_control"
+					app:text="@string/persons_with_significant_control" />
 
-					<ImageView
-						android:layout_width="@dimen/iconSize"
-						android:layout_height="@dimen/iconSize"
-						android:layout_margin="@dimen/screenMargin"
-						android:contentDescription="@string/persons_with_significant_control"
-						app:srcCompat="@drawable/ic_company_persons_with_control" />
-
-					<TextView
-						style="@style/Text"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/screenMargin"
-						android:text="@string/persons_with_significant_control" />
-				</LinearLayout>
 			</LinearLayout>
 		</androidx.core.widget.NestedScrollView>
 	</com.babestudios.base.view.MultiStateView>

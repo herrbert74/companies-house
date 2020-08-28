@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/listSingleItemHeight"
+	android:layout_marginStart="@dimen/screenMargin"
+	android:layout_marginEnd="@dimen/screenMargin"
+	android:gravity="center_vertical"
+	android:orientation="horizontal"
+	tools:ignore="UseCompoundDrawables">
+
+	<ImageView
+		android:id="@+id/ivSingleLine"
+		android:layout_width="@dimen/iconSize"
+		android:layout_height="@dimen/iconSize"
+		android:layout_gravity="center_vertical"
+		android:contentDescription="@null"
+		tools:srcCompat="@drawable/ic_commit" />
+
+	<TextView
+		android:id="@+id/lblSingleLine"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_marginTop="0dp"
+		android:gravity="center_vertical"
+		tools:text="@string/charges" />
+</LinearLayout>
