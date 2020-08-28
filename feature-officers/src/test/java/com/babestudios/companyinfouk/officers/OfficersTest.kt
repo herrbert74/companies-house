@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.officers
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
@@ -43,32 +43,32 @@ class OfficersTest {
 	fun whenGetOfficers_thenRepoGetOfficersIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.fetchOfficers("123")
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getOfficers("123", "0") }
+		val repo : CompaniesRepositoryContract?= viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getOfficers("123", "0") }
 	}
 
 	@Test
 	fun whenLoadMoreOfficers_thenRepoLoadMoreOfficersIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.loadMoreOfficers(0)
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getOfficers("123", "0") }
+		val repo : CompaniesRepositoryContract?= viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getOfficers("123", "0") }
 	}
 
 	@Test
 	fun whenGetOfficerAppointments_thenRepoGetOfficerAppointmentsIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.fetchAppointments()
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getOfficerAppointments("123", "0") }
+		val repo : CompaniesRepositoryContract?= viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getOfficerAppointments("123", "0") }
 	}
 
 	@Test
 	fun whenLoadMoreOfficerAppointments_thenRepoLoadMoreOfficersAppointmentsIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.loadMoreAppointments(1)
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getOfficerAppointments("123", "100") }
+		val repo : CompaniesRepositoryContract?= viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getOfficerAppointments("123", "100") }
 	}
 
 	private fun officersViewModel(): OfficersViewModel {

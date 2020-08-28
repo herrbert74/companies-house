@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.charges
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.charges.ui.ChargesState
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -35,16 +35,16 @@ class ChargesTest {
 	fun whenGetCharges_thenRepoGetChargesIsCalled() {
 		val viewModel = chargesViewModel()
 		viewModel.fetchCharges("123")
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.fetchCharges("123", "0") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.fetchCharges("123", "0") }
 	}
 
 	@Test
 	fun whenLoadMoreCharges_thenRepoLoadMoreChargesIsCalled() {
 		val viewModel = chargesViewModel()
 		viewModel.loadMoreCharges(0)
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.fetchCharges("123", "0") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.fetchCharges("123", "0") }
 	}
 
 	private fun chargesViewModel(): ChargesViewModel {

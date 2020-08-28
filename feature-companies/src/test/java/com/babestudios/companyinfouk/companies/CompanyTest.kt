@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.companies
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -56,8 +56,8 @@ class CompanyTest {
 				}
 		val viewModel = companiesViewModel()
 		viewModel.flipCompanyFavoriteState()
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.addFavourite(searchHistoryItem) }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.addFavourite(searchHistoryItem) }
 	}
 
 	@Test
@@ -70,8 +70,8 @@ class CompanyTest {
 				}
 		val viewModel = companiesViewModel()
 		viewModel.flipCompanyFavoriteState()
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.removeFavourite(searchHistoryItem) }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.removeFavourite(searchHistoryItem) }
 	}
 
 	@Test
@@ -84,8 +84,8 @@ class CompanyTest {
 				}
 		val viewModel = companiesViewModel()
 		viewModel.fetchCompany("123456")
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getCompany("123456") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getCompany("123456") }
 	}
 
 

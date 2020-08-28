@@ -1,18 +1,18 @@
 package com.babestudios.companyinfouk.filings
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryLinks
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import io.mockk.every
-import okhttp3.MediaType.Companion.toMediaType
 import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.Single
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.ClassRule
@@ -37,8 +37,8 @@ class FilingHistoryDetailsTest {
 	fun whenGetDocument_thenDataManagerGetDocumentIsCalled() {
 		val viewModel = filingsViewModel()
 		viewModel.fetchDocument()
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getDocument("something") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getDocument("something") }
 	}
 
 	/**

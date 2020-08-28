@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.companies
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -57,16 +57,16 @@ class SearchTest {
 	fun whenFabClickedInStateRecentSearches_thenShowDeleteRecentSearchesDialogIsCalled() {
 		val viewModel = companiesViewModel()
 		viewModel.clearAllRecentSearches()
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.clearAllRecentSearches() }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.clearAllRecentSearches() }
 	}
 
 	@Test
 	fun `when searchItemClicked then addRecentSearchItem and StartActivity Is Called`() {
 		val viewModel = companiesViewModel()
 		viewModel.searchItemClicked("TUI", "12344")
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.addRecentSearchItem(searchHistoryItem) }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.addRecentSearchItem(searchHistoryItem) }
 		verify(exactly = 1) { viewModel.companiesNavigator.mainToCompany() }
 	}
 
@@ -74,16 +74,16 @@ class SearchTest {
 	fun whenSearch_thenDataManagerSearchCompaniesIsCalled() {
 		val viewModel = companiesViewModel()
 		viewModel.search("")
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) {repo.searchCompanies(any(), any())}
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.searchCompanies(any(), any()) }
 	}
 
 	@Test
 	fun whenSearchLoadMore_thenDataManagerSearchCompaniesIsCalled() {
 		val viewModel = companiesViewModel()
 		viewModel.loadMoreSearch(1)
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) {repo.searchCompanies(any(), any())}
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.searchCompanies(any(), any()) }
 	}
 
 

@@ -198,6 +198,13 @@ object Libs {
 		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"
 	}
 
+	object Kotest {
+		private const val version = "4.2.2"
+		const val runner = "io.kotest:kotest-runner-junit5:$version"
+		const val assertions = "io.kotest:kotest-assertions-core:$version"
+		const val property = "io.kotest:kotest-property:$version"
+	}
+
 	object Detekt {
 		private const val version = "1.6.0"
 		const val api = "io.gitlab.arturbosch.detekt:detekt-api:$version"

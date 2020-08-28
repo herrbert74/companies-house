@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.companies
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
@@ -60,8 +60,8 @@ class FavouritesTest {
 	fun whenRemoveFavourite_shouldCallDataManagerRemoveFavourite() {
 		val viewModel = companiesViewModel()
 		viewModel.removeFavourite(searchHistoryItem)
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.removeFavourite(searchHistoryItem) }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.removeFavourite(searchHistoryItem) }
 	}
 
 	private fun companiesViewModel(): CompaniesViewModel {

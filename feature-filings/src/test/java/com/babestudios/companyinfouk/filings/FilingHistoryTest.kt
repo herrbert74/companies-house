@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.filings
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
@@ -35,16 +35,16 @@ class FilingHistoryTest {
 	fun whenGetFilings_thenRepoGetFilingsIsCalled() {
 		val viewModel = filingsViewModel()
 		viewModel.getFilingHistory()
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getFilingHistory("123", any(),"0") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getFilingHistory("123", any(), "0") }
 	}
 
 	@Test
 	fun whenLoadMoreFilings_thenRepoLoadMoreFilingsIsCalled() {
 		val viewModel = filingsViewModel()
 		viewModel.loadMoreFilingHistory(1)
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getFilingHistory("123", any(),"100") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getFilingHistory("123", any(), "100") }
 	}
 
 	private fun filingsViewModel(): FilingsViewModel {

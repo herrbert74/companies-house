@@ -61,4 +61,5 @@ dependencies {
 
 	testImplementation(Libs.AndroidX.Test.Ext.jUnit)
 	testImplementation(Libs.Test.mockK)
+	testImplementation(Libs.Kotest.assertions)
 }

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.persons
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.persons.Persons
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
@@ -22,7 +22,6 @@ class PersonsTest {
 	private val personsNavigator = mockk<PersonsNavigator>()
 
 
-
 	@Before
 	fun setUp() {
 		every {
@@ -37,16 +36,16 @@ class PersonsTest {
 	fun whenGetPersons_thenRepoGetPersonsIsCalled() {
 		val viewModel = personsViewModel()
 		viewModel.fetchPersons("123")
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getPersons("123", "0") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getPersons("123", "0") }
 	}
 
 	@Test
 	fun whenLoadMorePersons_thenRepoLoadMorePersonsIsCalled() {
 		val viewModel = personsViewModel()
 		viewModel.loadMorePersons(0)
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
-		verify(exactly = 1) { repo.getPersons("123", "0") }
+		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		verify(exactly = 1) { repo?.getPersons("123", "0") }
 	}
 
 	private fun personsViewModel(): PersonsViewModel {

@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.insolvencies
 
 import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateFieldWithReflection
-import com.babestudios.base.ext.getPrivateFunctionWithReflection
+import com.babestudios.base.ext.callPrivateFunc
+import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
@@ -35,11 +35,10 @@ class InsolvenciesTest {
 	@Test
 	fun whenGetInsolvencies_thenRepoGetInsolvenciesIsCalled() {
 		val viewModel = insolvenciesViewModel()
-		val func = viewModel.getPrivateFunctionWithReflection("fetchInsolvencies")
-		func.invoke(viewModel,"123")
-		val repo = viewModel.getPrivateFieldWithReflection<CompaniesRepositoryContract>("companiesRepository")
+		val func = viewModel.callPrivateFunc("fetchInsolvencies", "123")
+		val repo :CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
 		//Executed twice because it's also in init function
-		verify(exactly = 2) { repo.getInsolvency("123") }
+		verify(exactly = 2) { repo?.getInsolvency("123") }
 	}
 
 	private fun insolvenciesViewModel(): InsolvenciesViewModel {

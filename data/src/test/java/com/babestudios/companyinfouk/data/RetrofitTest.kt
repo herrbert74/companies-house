@@ -2,22 +2,18 @@ package com.babestudios.companyinfouk.data
 
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
-
+import io.kotest.matchers.shouldBe
+import io.reactivex.observers.TestObserver
+import org.hamcrest.CoreMatchers.isA
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-
-import io.reactivex.observers.TestObserver
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
-import org.hamcrest.CoreMatchers.`is`
-import org.junit.Assert.assertThat
 
-/**
- * This test is as brittle as it gets. Can return different results from time to time, but let's just keep it here.
- */
 @RunWith(JUnit4::class)
 class RetrofitTest {
 
@@ -46,10 +42,7 @@ class RetrofitTest {
 				.map<String> { e -> e.items[0].title }
 				.subscribe(testSubscriber)
 		val result = testSubscriber.events[0]
-		testSubscriber.assertValue("DUNCANMC 123 LTD")
-		assertThat(result[0] == "DUNCANMC 123 LTD", `is`(true))
-		//testSubscriber.assertValue("CELESTIAL GAMES & BOOKS LTD")//GAMES AGENCY LIMITED");
-		//assertThat(result[0] == "CELESTIAL GAMES & BOOKS LTD", `is`(true))//GAMES AGENCY LIMITED")
+		result[0]::class.java shouldBe String::class.java
 		testSubscriber.assertNoErrors()
 
 	}
