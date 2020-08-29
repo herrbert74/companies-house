@@ -8,12 +8,12 @@ import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
-import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitable
-import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.company.Company
@@ -118,6 +118,7 @@ class CompaniesViewModel(
 		} else {
 			setState {
 				copy(
+						timeStamp = System.currentTimeMillis(),
 						queryText = queryText,
 						searchRequest = Uninitialized,
 						searchVisitables = emptyList(),
@@ -131,6 +132,7 @@ class CompaniesViewModel(
 		companiesRepository.searchCompanies(queryText, "0")
 				.execute {
 					copy(
+							timeStamp = System.currentTimeMillis(),
 							queryText = queryText,
 							totalCount = it()?.totalResults ?: 0,
 							searchRequest = it,
@@ -152,6 +154,7 @@ class CompaniesViewModel(
 				)
 						.execute {
 							copy(
+									timeStamp = System.currentTimeMillis(),
 									queryText = queryText,
 									totalCount = it()?.totalResults ?: 0,
 									searchRequest = it,

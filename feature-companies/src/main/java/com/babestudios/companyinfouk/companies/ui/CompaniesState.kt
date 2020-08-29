@@ -12,6 +12,10 @@ import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 
 data class CompaniesState(
+
+		//Needed to trigger filtered search result changes when only the state changes, but not the result
+		val timeStamp: Long = 0L,
+
 		//Main/Search
 		val searchRequest: Async<CompanySearchResult> = Uninitialized,
 		val searchVisitables: List<SearchVisitableBase> = emptyList(),

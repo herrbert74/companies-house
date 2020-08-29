@@ -35,9 +35,9 @@ import com.babestudios.companyinfouk.companies.databinding.FragmentMainBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.FilterState
-import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryAdapter
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryTypeFactory
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.search.*
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
@@ -60,7 +60,7 @@ class MainFragment : BaseMvRxFragment() {
 
 	private var _binding: FragmentMainBinding? = null
 	private val binding get() = _binding!!
-	
+
 	//Menu
 	lateinit var searchMenuItem: MenuItem
 	private var favouritesMenuItem: MenuItem? = null
@@ -69,7 +69,7 @@ class MainFragment : BaseMvRxFragment() {
 	private var lblSearch: TextView? = null
 	private var flagDoNotAnimateSearchMenuItem = false
 
-	private var searchToolbarAnimationDuration : Long = 0
+	private var searchToolbarAnimationDuration: Long = 0
 
 	//region life cycle
 
@@ -89,7 +89,7 @@ class MainFragment : BaseMvRxFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		searchToolbarAnimationDuration =
-		resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
+				resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
 		initializeUI()
 	}
 
@@ -316,27 +316,10 @@ class MainFragment : BaseMvRxFragment() {
 	}
 
 	private fun selectSubscribes() {
-		viewModel.selectSubscribe(CompaniesState::searchRequest) { searchRequest ->
-			val tvMsvSearchError = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
-			when (searchRequest) {
-				is Loading -> {
-					binding.msvMainSearch.viewState = VIEW_STATE_LOADING
-					observeActions()
-				}
-				is Fail -> {
-					binding.msvMainSearch.viewState = VIEW_STATE_ERROR
-					tvMsvSearchError.text = searchRequest.error.message
-				}
-				is Success -> {
-					//FilteredSearchVisitables will deal with non empty states
-					if (searchRequest.invoke().items.isEmpty()) {
-						showFilteredSearch()
-					}
-				}
-			}
-		}
-
-		viewModel.selectSubscribe(CompaniesState::filteredSearchVisitables) {
+		/**
+		 * Listening to both timestamp and visitables, so we can react to state changes
+		 */
+		viewModel.selectSubscribe(CompaniesState::timeStamp, CompaniesState::filteredSearchVisitables) { _, _ ->
 			showFilteredSearch()
 		}
 
@@ -373,22 +356,46 @@ class MainFragment : BaseMvRxFragment() {
 		}
 	}
 
+	/**
+	 * This is triggered by changes in [CompaniesState.filteredSearchVisitables] or [CompaniesState.timeStamp],
+	 * but uses [CompaniesState.searchRequest] to check for state changes.
+	 * TODO Test state transitions:
+	 * empty results -> empty results
+	 * empty filtered  results -> empty filtered results
+	 * empty results -> empty query text -> semi transparent background
+	 * any results -> change query text -> same results
+	 */
 	private fun showFilteredSearch() {
-		val tvMsvSearchEmpty = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
+		val tvMsvSearchError = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
+		withState(viewModel) { state ->
+			when (state.searchRequest) {
+				is Uninitialized -> {
+					showFilteredSearchEmptyState()
+				}
+				is Loading -> {
+					binding.msvMainSearch.viewState = VIEW_STATE_LOADING
+					observeActions()
+				}
+				is Fail -> {
+					binding.msvMainSearch.viewState = VIEW_STATE_ERROR
+					tvMsvSearchError.text = state.searchRequest.error.message
+				}
+				is Success -> {
+					showFilteredSearchSuccess()
+				}
+			}
+		}
+	}
+
+	private fun showFilteredSearchSuccess() {
 		binding.fabMainSearch.hide()
 		withState(viewModel) { state ->
-			if (state.queryText.length >= SEARCH_QUERY_MIN_LENGTH && state.filteredSearchVisitables.isEmpty()) {
-				binding.msvMainSearch.viewState = VIEW_STATE_EMPTY
-				tvMsvSearchEmpty.text = getString(R.string.no_search_result)
-				observeActions()
+			if (state.filteredSearchVisitables.isEmpty()) {
+				showFilteredSearchEmptyState()
 			} else {
 				binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
-				if (state.queryText.length > 2) {
-					binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
-					viewModel.logSearch()
-				} else
-					binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.semiTransparentBlack))
-
+				binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+				viewModel.logSearch()
 				state.filteredSearchVisitables.let {
 					binding.rvMainSearch.visibility = View.VISIBLE
 					binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
@@ -400,6 +407,21 @@ class MainFragment : BaseMvRxFragment() {
 					}
 					observeActions()
 				}
+			}
+		}
+	}
+
+	private fun showFilteredSearchEmptyState() {
+		val tvMsvSearchEmpty = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvEmpty)
+		withState(viewModel) { state ->
+			if (state.queryText.length >= SEARCH_QUERY_MIN_LENGTH) {
+				binding.msvMainSearch.viewState = VIEW_STATE_EMPTY
+				tvMsvSearchEmpty.text = getString(R.string.no_search_result)
+				observeActions()
+			} else {
+				binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
+				binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.semiTransparentBlack))
+				searchAdapter?.updateItems(emptyList())
 			}
 		}
 	}
