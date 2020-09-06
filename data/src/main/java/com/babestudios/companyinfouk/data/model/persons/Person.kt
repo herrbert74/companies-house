@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.data.model.persons
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import com.babestudios.companyinfouk.data.model.common.Address
+import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.MonthYear
 import com.babestudios.companyinfouk.data.model.common.SelfLinkData
 import com.google.gson.annotations.SerializedName
@@ -23,7 +23,7 @@ class Person(
 		@SerializedName("date_of_birth")
 		var dateOfBirth: MonthYear? = null,
 		@SerializedName("address")
-		var address: Address? = null,
+		var address: AddressDto? = null,
 		@SerializedName("links")
 		var links: SelfLinkData? = null,
 		@SerializedName("name_elements")

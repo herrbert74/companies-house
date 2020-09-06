@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data.model.officers
 
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.common.Address
+import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.MonthYear
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class OfficerItem(
 		@SerializedName("address")
-		var address: Address? = null,
+		var address: AddressDto? = null,
 		@SerializedName("identification")
 		var identification: Identification? = null,
 		@SerializedName("appointed_on")

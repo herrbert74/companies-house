@@ -5,19 +5,23 @@ import android.content.SharedPreferences
 import android.os.AsyncTask
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.common.model.charges.Charges
+import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
 import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.data.mappers.*
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryDto
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
+import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
+import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
@@ -154,6 +158,20 @@ class DataModule(private val context: Context) {
 								})
 					}
 				}
+			}
+
+	@Provides
+	fun provideMapCompanyDto(
+			constantsHelper: ConstantsHelper,
+			stringResourceHelperContract: StringResourceHelperContract,
+	): (CompanyDto) -> Company =
+			{ companyDto ->
+				mapCompanyDto(
+						companyDto,
+						{ accounts -> mapAccountsDto(accounts, constantsHelper, stringResourceHelperContract) },
+						{ registeredOfficeAddress -> mapAddressDto(registeredOfficeAddress) },
+						{ sicCodes -> mapNatureOfBusiness(sicCodes, constantsHelper) },
+				)
 			}
 
 	//endregion

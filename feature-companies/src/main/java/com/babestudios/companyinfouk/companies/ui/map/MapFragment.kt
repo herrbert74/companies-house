@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.companyinfouk.common.model.company.getAddressString
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMapBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
@@ -67,7 +68,7 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		withState(viewModel) { state ->
 			toolBar?.title = state.companyName
-			location = getLocationFromAddress(state.addressString)
+			location = getLocationFromAddress(state.company.getAddressString())
 			binding.tbMap.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
 			val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 			mapFragment?.getMapAsync(this)
@@ -92,7 +93,7 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 		val cameraPosition = CameraPosition.Builder().target(location).zoom(STARTING_ZOOM).build()
 		googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 		withState(viewModel) {
-			googleMap?.addMarker(MarkerOptions().position(location).title(it.addressString))
+			googleMap?.addMarker(MarkerOptions().position(location).title(it.company.getAddressString()))
 		}
 		googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 	}

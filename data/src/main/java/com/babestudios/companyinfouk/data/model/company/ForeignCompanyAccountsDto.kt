@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class ForeignCompanyAccounts (
+class ForeignCompanyAccountsDto (
 		@SerializedName("account_period_from")
 	var accountPeriodFrom: DayMonth? = null,
 
@@ -15,5 +15,5 @@ class ForeignCompanyAccounts (
 	var accountPeriodTo: DayMonth? = null,
 
 		@SerializedName("must_file_within")
-	var mustFileWithin: MustFileWithin? = null
+	var mustFileWithin: MustFileWithinDto? = null
 ):Parcelable

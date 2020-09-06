@@ -5,7 +5,7 @@ import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.company.Company
+import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 import io.mockk.every
@@ -42,7 +42,7 @@ class CompanyTest {
 			companiesHouseRepository.getCompany(any())
 		} answers
 				{
-					Single.create { Company(companyNumber = "123456") }
+					Single.create { CompanyDto(companyNumber = "123456") }
 				}
 	}
 

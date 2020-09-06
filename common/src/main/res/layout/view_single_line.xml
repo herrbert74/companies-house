@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="@dimen/listSingleItemHeight"
-	android:layout_marginStart="@dimen/screenMargin"
-	android:layout_marginEnd="@dimen/screenMargin"
-	android:gravity="center_vertical"
-	android:orientation="horizontal"
-	tools:ignore="UseCompoundDrawables">
+	tools:gravity="center_vertical"
+	tools:ignore="UseCompoundDrawables"
+	tools:layout_height="@dimen/listSingleItemHeight"
+	tools:layout_marginEnd="@dimen/screenMargin"
+	tools:layout_marginStart="@dimen/screenMargin"
+	tools:layout_width="match_parent"
+	tools:orientation="horizontal"
+	tools:parentTag="android.widget.LinearLayout">
 
 	<ImageView
 		android:id="@+id/ivSingleLine"
@@ -26,4 +27,4 @@
 		android:layout_marginTop="0dp"
 		android:gravity="center_vertical"
 		tools:text="@string/charges" />
-</LinearLayout>
+</merge>

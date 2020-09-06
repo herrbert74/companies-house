@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data.model.officers.appointments
 
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.common.Address
+import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.officers.Identification
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 data class Appointment (
 
 		@SerializedName("address")
-	var address: Address? = null,
+	var address: AddressDto? = null,
 		@SerializedName("appointed_before")
 	var appointedBefore: String? = null,
 		@SerializedName("appointed_on")

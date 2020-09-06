@@ -12,11 +12,8 @@
 	<string name="company_nature_of_business">Nature of business</string>
 	<string name="no_data">No data</string>
 	<string name="company_accounts">Accounts</string>
-	<string name="company_accounts_formatted_text">Last %1$s account made up to %2$s</string>
 	<string name="company_annual_returns">Annual Returns</string>
 	<string name="company_annual_returns_formatted_text">Last made up to %1$s</string>
-	<string name="company_accounts_not_found">Accounts not found</string>
-	<string name="company_annual_returns_not_found">Annual returns not found</string>
 	<string name="no_insolvency">No insolvency</string>
 	<string name="title_activity_maps">Map</string>
 	<string name="company_address_show_on_map">Show on map</string>

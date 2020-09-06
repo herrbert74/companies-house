@@ -1,23 +1,23 @@
 package com.babestudios.companyinfouk.data.model.company
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.common.Address
+import com.babestudios.companyinfouk.data.model.common.AddressDto
 import java.util.ArrayList
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Company(
+class CompanyDto(
 
 		@SerializedName("accounts")
-		var accounts: Accounts? = null,
+		var accounts: AccountsDto? = null,
 
 		@SerializedName("annual_return")
-		var annualReturn: AnnualReturn? = null,
+		var annualReturn: AnnualReturnDto? = null,
 
 		@SerializedName("branch_company_details")
-		var branchCompanyDetails: BranchCompanyDetails? = null,
+		var branchCompanyDetails: BranchCompanyDetailsDto? = null,
 
 		@SerializedName("can_file")
 		var canFile: String? = null,
@@ -35,7 +35,7 @@ class Company(
 		var companyStatusDetail: String? = null,
 
 		@SerializedName("confirmation_statement")
-		var confirmationStatement: ConfirmationStatement? = null,
+		var confirmationStatement: ConfirmationStatementDto? = null,
 
 		@SerializedName("date_of_cessation")
 		var dateOfCessation: String? = null,
@@ -47,7 +47,7 @@ class Company(
 		var etag: String? = null,
 
 		@SerializedName("foreign_company_details")
-		var foreignCompanyDetails: ForeignCompanyDetails? = null,
+		var foreignCompanyDetails: ForeignCompanyDetailsDto? = null,
 
 		@SerializedName("has_been_liquidated")
 		var hasBeenLiquidated: String? = null,
@@ -68,16 +68,16 @@ class Company(
 		var lastFullMembersListDate: String? = null,
 
 		@SerializedName("links")
-		var links: CompanyLinks? = null,
+		var links: CompanyLinksDto? = null,
 
 		@SerializedName("partial_data_available")
 		var partialDataAvailable: String? = null,
 
 		@SerializedName("previous_company_names")
-		var previousCompanyNames: List<PreviousCompanyName> = ArrayList(),
+		var previousCompanyNames: List<PreviousCompanyNameDto> = ArrayList(),
 
 		@SerializedName("registered_office_address")
-		var registeredOfficeAddress: Address? = null,
+		var registeredOfficeAddress: AddressDto? = null,
 
 		@SerializedName("registered_office_is_in_dispute")
 		var registeredOfficeIsInDispute: String? = null,

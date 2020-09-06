@@ -17,16 +17,16 @@ import kotlinx.android.synthetic.main.view_single_line.view.*
 class SingleLineView @JvmOverloads constructor(
 		context: Context,
 		attrs: AttributeSet? = null,
-		defStyleAttr: Int = 0
+		defStyleAttr: Int = R.attr.singleLineStyle
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
 	init {
 		View.inflate(context, R.layout.view_single_line, this)
-		obtainStyleAttributes(context, attrs)
+		obtainStyleAttributes(context, attrs, defStyleAttr)
 	}
 
-	private fun obtainStyleAttributes(context: Context, attrs: AttributeSet?) {
-		context.theme.obtainStyledAttributes(attrs, R.styleable.SingleLineView, 0, 0).apply {
+	private fun obtainStyleAttributes(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
+		context.theme.obtainStyledAttributes(attrs, R.styleable.SingleLineView, defStyleAttr, 0).apply {
 			ivSingleLine.setImageResource(getResourceId(R.styleable.SingleLineView_imageViewSrc, 0))
 			val contentDescription = getString(R.styleable.SingleLineView_imageViewContentDescription)
 			contentDescription?.let { ivSingleLine.contentDescription = it }

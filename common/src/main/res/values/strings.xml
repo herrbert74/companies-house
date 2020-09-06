@@ -21,5 +21,7 @@
 	<string name="insolvency_details_address">Address</string>
 	<string name="company_name">Company name</string>
 	<string name="company_status">Company status</string>
+	<string name="company_accounts_formatted_text">Last %1$s account made up to %2$s</string>
+	<string name="company_accounts_not_found">Accounts not found</string>
 
 </resources>

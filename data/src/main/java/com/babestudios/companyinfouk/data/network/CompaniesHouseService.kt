@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data.network
 
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import com.babestudios.companyinfouk.data.model.company.Company
+import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.model.officers.Officers
@@ -28,7 +28,7 @@ interface CompaniesHouseService {
 	fun getCompany(
 			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String
-	): Single<Company>
+	): Single<CompanyDto>
 
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT)

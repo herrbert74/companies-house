@@ -5,6 +5,8 @@ import com.babestudios.companyinfouk.data.CompaniesRepository
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
+import com.babestudios.companyinfouk.data.utils.StringResourceHelper
+import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseErrorResolver
 import dagger.Binds
 import dagger.Module
@@ -29,4 +31,8 @@ interface DataContractModule {
 	@Singleton
 	@Binds
 	fun provideErrorResolver(companiesHouseErrorResolver: CompaniesHouseErrorResolver): ErrorResolver
+
+	@Singleton
+	@Binds
+	fun provideStringResourceHelper(stringResourceHelper: StringResourceHelper): StringResourceHelperContract
 }

@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class ForeignCompanyDetails (
+class ForeignCompanyDetailsDto (
 
 		@SerializedName("accounting_requirement")
-	var accountingRequirement: AccountingRequirement? = null,
+	var accountingRequirement: AccountingRequirementDto? = null,
 
 		@SerializedName("accounts")
-	var accounts: ForeignCompanyAccounts? = null,
+	var accounts: ForeignCompanyAccountsDto? = null,
 
 		@SerializedName("business_activity")
 	var businessActivity: String? = null,
@@ -26,7 +26,7 @@ class ForeignCompanyDetails (
 	var isACreditFinanceInstitution: String? = null,
 
 		@SerializedName("originating_registry")
-	var originatingRegistry: OriginatingRegistry? = null,
+	var originatingRegistry: OriginatingRegistryDto? = null,
 
 		@SerializedName("registration_number")
 	var registrationNumber: String? = null

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class AccountingRequirement(
+class AccountingRequirementDto(
 
 		@SerializedName("foreign_account_type")
 		var foreignAccountType: String? = null,

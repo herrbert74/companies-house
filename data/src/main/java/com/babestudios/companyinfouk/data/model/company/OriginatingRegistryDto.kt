@@ -5,9 +5,12 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class MustFileWithin (
+class OriginatingRegistryDto(
 
-	@SerializedName("months")
-	var months: String? = null
+		@SerializedName("country")
+		var country: String? = null,
 
-):Parcelable
+		@SerializedName("name")
+		var name: String? = null
+
+) : Parcelable

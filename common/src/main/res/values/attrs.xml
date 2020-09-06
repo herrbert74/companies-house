@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<declare-styleable name="AppTheme">
+		<attr name="singleLineStyle" format="reference" />
+		<attr name="twoLineStyle" format="reference" />
+	</declare-styleable>
 	<declare-styleable name="SingleLineView">
 		<attr name="imageViewSrc" format="reference" />
 		<attr name="imageViewContentDescription" format="string" />
 		<attr name="textSize" format="dimension" />
 		<attr name="text" format="string" />
+	</declare-styleable>
+	<declare-styleable name="TwoLineView">
+		<attr name="textSizeFirst" format="dimension" />
+		<attr name="textFirst" format="string" />
+		<attr name="textSizeSecond" format="dimension" />
+		<attr name="textSecond" format="string" />
 	</declare-styleable>
 </resources>

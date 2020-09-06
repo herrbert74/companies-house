@@ -2,14 +2,14 @@ package com.babestudios.companyinfouk.data.model.insolvency
 
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.common.Address
+import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Practitioner(
 		@SerializedName("address")
-		var address: Address? = null,
+		var address: AddressDto? = null,
 		@SerializedName("appointed_on")
 		var appointedOn: String? = null,
 		@SerializedName("ceased_to_act_on")

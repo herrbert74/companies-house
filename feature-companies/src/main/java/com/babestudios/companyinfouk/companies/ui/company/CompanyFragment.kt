@@ -8,15 +8,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.airbnb.mvrx.*
-import com.babestudios.base.ext.convertToTimestamp
-import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
-import com.babestudios.base.ext.parseMySqlDate
 import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentCompanyBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
-import com.babestudios.companyinfouk.data.model.company.Company
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.CompositeDisposable
 
@@ -31,11 +28,7 @@ class CompanyFragment : BaseMvRxFragment() {
 
 	//region life cycle
 
-	override fun onCreateView(
-
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
-	): View {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentCompanyBinding.inflate(inflater, container, false)
 		return binding.root
 	}
@@ -95,53 +88,25 @@ class CompanyFragment : BaseMvRxFragment() {
 				}
 				is Success -> {
 					binding.msvCompany.viewState = VIEW_STATE_CONTENT
-					showCompany(state.company, state.natureOfBusinessString)
+					showCompany(state.company)
 				}
 			}
 		}
 	}
 
-	private fun showCompany(company: Company, natureOfBusinessString: String) {
+	private fun showCompany(company: Company) {
 		binding.tvCompanyNumber.text = company.companyNumber
-		binding.lblCompanyNatureOfBusiness.text = natureOfBusinessString
+		binding.twoLineCompanyNatureOfBusiness.setTextSecond(company.natureOfBusiness)
 		binding.tvCompanyIncorporated.text =
 				String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
-		binding.lblCompanyAddressLine1.text = company.registeredOfficeAddress?.addressLine1
-		if (company.registeredOfficeAddress?.addressLine2 != null) {
+		binding.lblCompanyAddressLine1.text = company.registeredOfficeAddress.addressLine1
+		if (company.registeredOfficeAddress.addressLine2.isNotEmpty()) {
 			binding.lblCompanyAddressLine2.visibility = View.VISIBLE
-			binding.lblCompanyAddressLine2.text = company.registeredOfficeAddress?.addressLine2
+			binding.lblCompanyAddressLine2.text = company.registeredOfficeAddress.addressLine2
 		}
-		binding.lblCompanyAddressPostalCode.text = company.registeredOfficeAddress?.postalCode
-		binding.lblCompanyAddressLocality.text = company.registeredOfficeAddress?.locality
-		var formattedDate: String
-		company.accounts?.lastAccounts?.madeUpTo?.let {
-			val madeUpToDate = it.parseMySqlDate()
-			madeUpToDate?.let { date ->
-				@Suppress("MagicNumber")
-				formattedDate = (1000 * date.convertToTimestamp()).formatShortDateFromTimeStampMillis()
-				binding.lblCompanyAccounts.text = String.format(
-						resources.getString(R.string.company_accounts_formatted_text),
-						company.accounts?.lastAccounts?.type,
-						formattedDate
-				)
-			}
-
-		} ?: run {
-			binding.lblCompanyAccounts.text = resources.getString(R.string.company_accounts_not_found)
-		}
-		company.annualReturn?.lastMadeUpTo?.let {
-			val lastMadeUpToDate = it.parseMySqlDate()
-			lastMadeUpToDate?.let { date ->
-				@Suppress("MagicNumber")
-				formattedDate = (1000 * date.convertToTimestamp()).formatShortDateFromTimeStampMillis()
-				binding.lblCompanyAnnualReturns.text = String.format(
-						resources.getString(R.string.company_annual_returns_formatted_text),
-						formattedDate
-				)
-			}
-		} ?: run {
-			binding.lblCompanyAnnualReturns.text = resources.getString(R.string.company_annual_returns_not_found)
-		}
+		binding.lblCompanyAddressPostalCode.text = company.registeredOfficeAddress.postalCode
+		binding.lblCompanyAddressLocality.text = company.registeredOfficeAddress.locality
+		binding.twoLineCompanyAccounts.setTextSecond(company.lastAccountsMadeUpTo)
 
 		if (!company.hasCharges) {
 			binding.llCompanyCharges.visibility = View.GONE

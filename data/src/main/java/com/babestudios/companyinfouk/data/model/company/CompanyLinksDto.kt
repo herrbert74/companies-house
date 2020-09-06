@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CompanyLinks(
+data class CompanyLinksDto(
 
 		@SerializedName("charges")
 		var charges: String? = null,

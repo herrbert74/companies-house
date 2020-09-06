@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Address(
+data class AddressDto(
 		@SerializedName("address_line_1")
 		var addressLine1: String? = null,
 		@SerializedName("address_line_2")

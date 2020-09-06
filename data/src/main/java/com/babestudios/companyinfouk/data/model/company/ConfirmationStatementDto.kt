@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class ConfirmationStatement(
+class ConfirmationStatementDto(
 		@SerializedName("last_made_up_to")
 		var lastMadeUpTo: String? = null,
 

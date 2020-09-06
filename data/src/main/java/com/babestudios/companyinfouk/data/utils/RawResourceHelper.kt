@@ -11,13 +11,13 @@ import javax.inject.Inject
 interface RawResourceHelperContract {
 	fun getConstants(id: Int): Constants
 	fun getFilingHistoryDescriptions(filingHistoryDescriptions: Int): FilingHistoryDescriptions
-	fun getMortgageDescriptions(filingHistoryDescriptions: Int): MortgageDescriptions
+	fun getMortgageDescriptions(mortgageDescriptions: Int): MortgageDescriptions
 }
 
 class RawResourceHelper @Inject constructor(@ApplicationContext val context: Context) : RawResourceHelperContract {
 	override fun getConstants(id: Int): Constants {
 		val constantsJsonString = context.resources.openRawResource(id).bufferedReader().use { it.readText() }
-		return Gson().fromJson<Constants>(constantsJsonString, Constants::class.java)
+		return Gson().fromJson(constantsJsonString, Constants::class.java)
 	}
 
 	override fun getFilingHistoryDescriptions(filingHistoryDescriptions: Int): FilingHistoryDescriptions {

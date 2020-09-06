@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class LastAccounts(
+class LastAccountsDto(
 		@SerializedName("made_up_to")
 		var madeUpTo: String? = null,
 

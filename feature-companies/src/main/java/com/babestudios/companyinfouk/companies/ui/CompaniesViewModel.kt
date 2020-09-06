@@ -6,6 +6,7 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
+import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
@@ -16,7 +17,7 @@ import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.company.Company
+import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
@@ -277,26 +278,17 @@ class CompaniesViewModel(
 							)),
 							companyRequest = it,
 							company = it() ?: Company(),
-							addressString = getAddressString(it()),
-							natureOfBusinessString = if (it()?.sicCodes?.isNotEmpty() == true) {
-								it()?.let { company ->
-									"${company.sicCodes[0]} ${companiesRepository.sicLookup(company.sicCodes[0])}"
-								} ?: "No data"
-							} else {
-								//TODO Create a string provider to get this from strings.xml, but don't rely on context here
-								"No data"
-							}
 					)
 				}
 	}
 
-	private fun getAddressString(company: Company?): String {
-		return company?.registeredOfficeAddress?.addressLine2 ?: run {
-			(company?.registeredOfficeAddress?.addressLine1
+	private fun getAddressString(companyDto: CompanyDto?): String {
+		return companyDto?.registeredOfficeAddress?.addressLine2 ?: run {
+			(companyDto?.registeredOfficeAddress?.addressLine1
 					+ ", "
-					+ company?.registeredOfficeAddress?.locality
+					+ companyDto?.registeredOfficeAddress?.locality
 					+ ", "
-					+ company?.registeredOfficeAddress?.postalCode)
+					+ companyDto?.registeredOfficeAddress?.postalCode)
 		}
 	}
 

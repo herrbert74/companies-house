@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.data.model.search
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.common.Address
+import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.SelfLinkData
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -36,7 +36,7 @@ class CompanySearchResultItem (
 	var matches: Matches? = null,
 
 		@SerializedName("address")
-	var address: Address? = null,
+	var address: AddressDto? = null,
 
 		@SerializedName("description")
 	var description: String? = null,

@@ -42,17 +42,17 @@
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:divider="@color/translucentBlack"
 				android:orientation="vertical"
+				android:showDividers="middle"
 				tools:ignore="UseCompoundDrawables">
 
 				<TextView
 					android:id="@+id/tvCompanyNumber"
-					style="@style/Text"
+					style="@style/Text.Bold"
 					android:layout_marginBottom="@dimen/viewMargin"
 					android:transitionName="companyNumber"
 					tools:text="08762819" />
-
-				<include layout="@layout/divider" />
 
 				<TextView
 					android:id="@+id/tvCompanyIncorporated"
@@ -61,133 +61,105 @@
 					android:layout_marginBottom="@dimen/viewMargin"
 					tools:text="Incorporated on 2016 August 3" />
 
-				<include layout="@layout/divider" />
-
-				<LinearLayout
+				<androidx.constraintlayout.widget.ConstraintLayout
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal">
+					android:layout_height="wrap_content">
 
 					<TextView
-						style="@style/Text.H6"
-						android:layout_width="0dp"
-						android:layout_weight="1"
-						android:text="@string/office_address" />
+						android:id="@+id/cpnCompanyOfficeAddress"
+						style="@style/Text"
+						android:layout_width="wrap_content"
+						android:text="@string/office_address"
+						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressLine1"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent" />
 
 					<com.google.android.material.button.MaterialButton
 						android:id="@+id/btnShowOnMap"
 						style="@style/Button"
-						android:layout_marginTop="16dp"
 						android:layout_marginEnd="@dimen/screenMargin"
-						android:text="@string/company_address_show_on_map" />
+						android:layout_marginBottom="@dimen/viewMargin"
+						android:text="@string/company_address_show_on_map"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent" />
 
-				</LinearLayout>
+					<TextView
+						android:id="@+id/lblCompanyAddressLine1"
+						style="@style/Text.H6"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressLine2"
+						app:layout_constraintTop_toBottomOf="@id/cpnCompanyOfficeAddress"
+						tools:text="3 Hendon Place" />
 
-				<TextView
-					android:id="@+id/lblCompanyAddressLine1"
-					style="@style/Text"
-					tools:text="3 Hendon Place" />
+					<TextView
+						android:id="@+id/lblCompanyAddressLine2"
+						style="@style/Text.H6"
+						android:visibility="gone"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressLocality"
+						app:layout_constraintTop_toBottomOf="@id/lblCompanyAddressLine1" />
 
-				<TextView
-					android:id="@+id/lblCompanyAddressLine2"
-					style="@style/Text"
-					android:visibility="gone" />
+					<TextView
+						android:id="@+id/lblCompanyAddressLocality"
+						style="@style/Text.H6"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressPostalCode"
+						app:layout_constraintTop_toBottomOf="@id/lblCompanyAddressLine2"
+						tools:text="Kingston" />
 
-				<TextView
-					android:id="@+id/lblCompanyAddressLocality"
-					style="@style/Text"
-					tools:text="Kingston" />
+					<TextView
+						android:id="@+id/lblCompanyAddressPostalCode"
+						style="@style/Text.H6"
+						android:layout_marginBottom="@dimen/viewMargin"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toBottomOf="@id/lblCompanyAddressLocality"
+						tools:text="KT6 2LP" />
+				</androidx.constraintlayout.widget.ConstraintLayout>
 
-				<TextView
-					android:id="@+id/lblCompanyAddressPostalCode"
-					style="@style/Text"
-					android:layout_marginBottom="@dimen/viewMargin"
-					tools:text="KT6 2LP" />
+				<com.babestudios.companyinfouk.core.views.TwoLineView
+					android:id="@+id/twoLineCompanyNatureOfBusiness"
+					style="@style/TwoLine"
+					app:textFirst="@string/company_nature_of_business"
+					tools:textSecond="77120 Renting and leasing of trucks and other heavy vehicles" />
 
-				<include layout="@layout/divider" />
-
-				<TextView
-					style="@style/Text.H6"
-					android:text="@string/company_nature_of_business" />
-
-				<TextView
-					android:id="@+id/lblCompanyNatureOfBusiness"
-					style="@style/Text"
-					android:layout_marginBottom="@dimen/viewMargin"
-					tools:text="Growing of rice" />
-
-				<include layout="@layout/divider" />
-
-				<TextView
-					style="@style/Text.H6"
-					android:text="@string/company_accounts" />
-
-				<TextView
-					android:id="@+id/lblCompanyAccounts"
-					style="@style/Text"
-					android:layout_marginBottom="@dimen/viewMargin"
-					tools:text="Last DORMANT account made up to 29 February 2016" />
-
-				<include layout="@layout/divider" />
-
-				<TextView
-					style="@style/Text.H6"
-					android:text="@string/company_annual_returns" />
-
-				<TextView
-					android:id="@+id/lblCompanyAnnualReturns"
-					style="@style/Text"
-					android:layout_marginBottom="@dimen/viewMargin"
-					tools:text="Last made up to 13 February 2016" />
-
-				<include layout="@layout/divider" />
+				<com.babestudios.companyinfouk.core.views.TwoLineView
+					android:id="@+id/twoLineCompanyAccounts"
+					style="@style/TwoLine"
+					app:textFirst="@string/company_accounts"
+					tools:textSecond="Last DORMANT account made up to 29 February 2016" />
 
 				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyFilings"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:clickable="true"
-					android:focusable="true"
+					style="@style/SingleLine"
 					app:imageViewContentDescription="@string/filing_history"
 					app:imageViewSrc="@drawable/ic_company_filing_history"
 					app:text="@string/filing_history" />
 
 				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyInsolvency"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:clickable="true"
-					android:focusable="true"
+					style="@style/SingleLine"
 					app:imageViewContentDescription="@string/insolvency"
 					app:imageViewSrc="@drawable/ic_company_insolvency"
 					app:text="@string/insolvency" />
 
 				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyCharges"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:clickable="true"
-					android:focusable="true"
+					style="@style/SingleLine"
 					app:imageViewContentDescription="@string/charges"
 					app:imageViewSrc="@drawable/ic_company_charges"
 					app:text="@string/charges" />
 
 				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyOfficers"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:clickable="true"
-					android:focusable="true"
+					style="@style/SingleLine"
 					app:imageViewContentDescription="@string/officers"
 					app:imageViewSrc="@drawable/ic_company_officers"
 					app:text="@string/officers" />
 
 				<com.babestudios.companyinfouk.core.views.SingleLineView
 					android:id="@+id/llCompanyPersons"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:clickable="true"
-					android:focusable="true"
+					style="@style/SingleLine"
 					app:imageViewContentDescription="@string/persons_with_significant_control"
 					app:imageViewSrc="@drawable/ic_company_persons_with_control"
 					app:text="@string/persons_with_significant_control" />

@@ -5,10 +5,13 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class OriginatingRegistry(
+class PreviousCompanyNameDto(
 
-		@SerializedName("country")
-		var country: String? = null,
+		@SerializedName("ceased_on")
+		var ceasedOn: String? = null,
+
+		@SerializedName("effective_from")
+		var effectiveFrom: String? = null,
 
 		@SerializedName("name")
 		var name: String? = null
