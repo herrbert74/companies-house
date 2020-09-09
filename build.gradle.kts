@@ -23,6 +23,7 @@ buildscript {
 plugins {
 	id("io.gitlab.arturbosch.detekt").version("1.6.0")
 	id("com.github.ben-manes.versions").version("0.29.0")
+	id("scabbard.gradle") version "0.4.0"
 }
 
 allprojects {
@@ -77,6 +78,10 @@ tasks.withType<DependencyUpdatesTask> {
 }
 
 // endregion
+
+scabbard {
+	enabled = true
+}
 
 apply(teamPropsFile("git-hooks.gradle"))
 apply(teamPropsFile("setup-root-tasks.gradle"))
