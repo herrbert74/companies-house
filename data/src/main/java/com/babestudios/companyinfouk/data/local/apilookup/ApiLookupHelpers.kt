@@ -8,15 +8,20 @@ import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface ConstantsHelperContract {
+	fun accountTypeLookUp(accountsString: String): String
+	fun sicLookUp(sicString: String): String
+}
+
 @Singleton
-class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) {
+class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : ConstantsHelperContract {
 	private val constants: Constants = rawResourceHelper.getConstants(R.raw.constants)
 
-	fun accountTypeLookUp(accountsString: String): String {
+	override fun accountTypeLookUp(accountsString: String): String {
 		return constants.account_type[accountsString] ?: accountsString
 	}
 
-	fun sicLookUp(sicString: String): String {
+	override fun sicLookUp(sicString: String): String {
 		return constants.sic_descriptions[sicString] ?: sicString
 	}
 }

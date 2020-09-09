@@ -1,0 +1,66 @@
+{
+  "status": "active",
+  "jurisdiction": "england-wales",
+  "date_of_creation": "2014-03-25",
+  "company_number": "08957400",
+  "undeliverable_registered_office_address": false,
+  "has_been_liquidated": false,
+  "accounts": {
+    "accounting_reference_date": {
+      "month": "03",
+      "day": "31"
+    },
+    "next_accounts": {
+      "due_on": "2021-03-31",
+      "period_start_on": "2019-04-01",
+      "period_end_on": "2020-03-31",
+      "overdue": false
+    },
+    "last_accounts": {
+      "period_end_on": "2019-03-31",
+      "period_start_on": "2018-04-01",
+      "made_up_to": "2019-03-31"
+    },
+    "next_made_up_to": "2020-03-31",
+    "overdue": false,
+    "next_due": "2021-03-31"
+  },
+  "registered_office_address": {
+    "locality": "Canterbury",
+    "postal_code": "CT1 3DZ",
+    "region": "Kent",
+    "address_line_1": "71 New Dover Road",
+    "country": "England"
+  },
+  "type": "ltd",
+  "company_name": "CANDOUR GROUP LIMITED",
+  "etag": "9e3f0bb92a752a57be9aadd7757f71e06df8589b",
+  "has_insolvency_history": false,
+  "company_status": "active",
+  "sic_codes": [
+    "68100"
+  ],
+  "last_full_members_list_date": "2016-03-25",
+  "previous_company_names": [
+    {
+      "name": "LONDON & KENT ESTATES LIMITED",
+      "ceased_on": "2020-04-20",
+      "effective_from": "2014-03-25"
+    }
+  ],
+  "has_charges": false,
+  "confirmation_statement": {
+    "last_made_up_to": "2020-03-25",
+    "overdue": false,
+    "next_due": "2021-04-08",
+    "next_made_up_to": "2021-03-25"
+  },
+  "links": {
+    "self": "/company/08957400",
+    "filing_history": "/company/08957400/filing-history",
+    "officers": "/company/08957400/officers",
+    "persons_with_significant_control": "/company/08957400/persons-with-significant-control"
+  },
+  "registered_office_is_in_dispute": false,
+  "can_file": true
+}

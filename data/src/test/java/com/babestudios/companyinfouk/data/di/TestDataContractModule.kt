@@ -12,15 +12,17 @@ import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseErrorResolver
 import dagger.Binds
 import dagger.Module
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import javax.inject.Singleton
 
 /**
  * Using the [Binds] annotation to bind internal implementations to their interfaces results in less generated code.
  * We also get rid of actually using this module by turning it into an abstract class, then an interface,
- * hence it's separated from [DataModule]
+ * hence it's separated from [TestDataModule]
  */
 @Module
-interface DataContractModule {
+interface TestDataContractModule {
 
 	@Singleton
 	@Binds
@@ -33,4 +35,12 @@ interface DataContractModule {
 	@Singleton
 	@Binds
 	fun provideErrorResolver(companiesHouseErrorResolver: CompaniesHouseErrorResolver): ErrorResolver
+
+	/*@Singleton
+	@Binds
+	fun provideStringResourceHelper(stringResourceHelper: StringResourceHelper): StringResourceHelperContract
+
+	@Singleton
+	@Binds
+	fun bindConstantsHelper(constantsHelper: ConstantsHelper = mockk()): ConstantsHelperContract*/
 }

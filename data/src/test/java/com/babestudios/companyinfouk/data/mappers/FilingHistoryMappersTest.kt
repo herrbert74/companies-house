@@ -5,7 +5,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
-class MappersTest {
+class FilingHistoryMappersTest {
 
 	@Test
 	fun `when there is a place holder in filing history item then it is mapped`() {

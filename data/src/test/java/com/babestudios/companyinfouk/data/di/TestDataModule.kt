@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.AsyncTask
-import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.company.Company
@@ -22,7 +21,6 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
-import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -31,6 +29,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -42,7 +43,7 @@ import javax.inject.Singleton
 
 @Module
 @Suppress("unused")
-class DataModule(private val context: Context) {
+class TestDataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
@@ -179,13 +180,24 @@ class DataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	fun provideStringResourceHelper(@ApplicationContext context: Context): StringResourceHelperContract =
-			StringResourceHelper(context)
+	fun provideStringResourceHelper(): StringResourceHelperContract {
+		val stringResourceHelper = mockk<StringResourceHelper>()
+		val slotDate = slot<String>()
+		every { stringResourceHelper.getCompanyAccountsNotFoundString() } returns ""
+		every { stringResourceHelper.getLastAccountMadeUpToString(any(), capture(slotDate)) } answers {
+			"Last account made up to ${slotDate.captured}"
+		}
+		return stringResourceHelper
+	}
 
 	@Provides
 	@Singleton
-	fun provideConstantsHelper(rawResourceHelper: RawResourceHelper): ConstantsHelperContract =
-			ConstantsHelper(rawResourceHelper)
+	fun provideConstantsHelper(): ConstantsHelperContract {
+		val constantsHelper = mockk<ConstantsHelper>()
+		every { constantsHelper.sicLookUp("68100") } returns "Buying and selling of own real estate"
+		every { constantsHelper.accountTypeLookUp(any()) } returns ""
+		return constantsHelper
+	}
 
 	//endregion
 

@@ -52,6 +52,7 @@ dependencies {
 	implementation(Libs.Google.Firebase.analytics)
 
 	kapt(Libs.Google.Dagger.compiler)
+	kaptTest(Libs.Google.Dagger.compiler)
 
 	debugImplementation(Libs.Chucker.library)
 	releaseImplementation(Libs.Chucker.noop)

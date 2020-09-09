@@ -6,6 +6,7 @@ import com.babestudios.base.mvrx.LifeCycleApp
 import com.babestudios.companyinfouk.core.injection.CoreComponent
 import com.babestudios.companyinfouk.core.injection.CoreComponentProvider
 import com.babestudios.companyinfouk.core.injection.DaggerCoreComponent
+import com.babestudios.companyinfouk.data.di.DaggerDataComponent
 import com.babestudios.companyinfouk.data.di.DataModule
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
@@ -38,9 +39,12 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider, Lif
 	override fun provideCoreComponent(): CoreComponent {
 
 		if (!this::coreComponent.isInitialized) {
+			val dataComponent = DaggerDataComponent
+					.factory()
+					.create(DataModule(this), this)
 			coreComponent = DaggerCoreComponent
 					.factory()
-					.create(DataModule(this), CompaniesHouseNavigation(), this)
+					.create(dataComponent, CompaniesHouseNavigation(), this)
 		}
 		return coreComponent
 	}

@@ -5,7 +5,7 @@ import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.ext.parseMySqlDate
 import com.babestudios.companyinfouk.common.model.common.Address
 import com.babestudios.companyinfouk.common.model.company.Company
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.company.AccountsDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
@@ -31,14 +31,13 @@ inline fun mapCompanyDto(
 
 fun mapAccountsDto(
 		input: AccountsDto?,
-		constantsHelper: ConstantsHelper,
+		constantsHelper: ConstantsHelperContract,
 		stringResourceHelper: StringResourceHelperContract,
 ): String {
 	return input?.lastAccounts?.madeUpTo?.let {
 		val madeUpToDate = it.parseMySqlDate()
 		madeUpToDate?.let { date ->
-			@Suppress("MagicNumber")
-			val formattedDate = (1000 * date.convertToTimestamp()).formatShortDateFromTimeStampMillis()
+			val formattedDate = date.time.formatShortDateFromTimeStampMillis()
 			stringResourceHelper.getLastAccountMadeUpToString(
 					constantsHelper.accountTypeLookUp(input.lastAccounts?.type ?: ""),
 					formattedDate
@@ -62,7 +61,7 @@ fun mapAddressDto(
 
 fun mapNatureOfBusiness(
 		input: List<String>?,
-		constantsHelper: ConstantsHelper,
+		constantsHelper: ConstantsHelperContract,
 ): String {
 	return if (input?.isNotEmpty() == true) {
 		"${input[0]} ${constantsHelper.sicLookUp(input[0])}"

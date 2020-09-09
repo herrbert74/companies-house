@@ -17,8 +17,6 @@ import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
-import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
@@ -45,12 +43,6 @@ interface CompaniesRepositoryContract : AnalyticsContract {
 	val authorization: String
 	fun recentSearches(): Single<List<SearchHistoryItem>>
 	fun favourites(): Single<List<SearchHistoryItem>>
-
-	//String mapping
-	fun sicLookup(code: String): String
-
-	fun accountTypeLookup(accountType: String): String
-	fun filingHistoryLookup(filingHistoryDescription: String): String
 
 	//Companies House API
 	fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult>
@@ -81,8 +73,6 @@ open class CompaniesRepository @Inject constructor(
 		private val companiesHouseDocumentService: CompaniesHouseDocumentService,
 		private var preferencesHelper: PreferencesHelper,
 		base64Wrapper: Base64Wrapper,
-		private val constantsHelper: ConstantsHelper,
-		private val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper,
 		private val firebaseAnalytics: FirebaseAnalytics,
 		private val schedulerProvider: SchedulerProvider,
 		private val errorResolver: ErrorResolver,
@@ -111,18 +101,6 @@ open class CompaniesRepository @Inject constructor(
 			singleEmitter.onSuccess(preferencesHelper.favourites.toList())
 
 		}.compose(schedulerProvider.getSchedulersForSingle())
-	}
-
-	override fun sicLookup(code: String): String {
-		return constantsHelper.sicLookUp(code)
-	}
-
-	override fun accountTypeLookup(accountType: String): String {
-		return constantsHelper.accountTypeLookUp(accountType)
-	}
-
-	override fun filingHistoryLookup(filingHistoryDescription: String): String {
-		return filingHistoryDescriptionsHelper.filingHistoryLookUp(filingHistoryDescription)
 	}
 
 	override fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult> {

@@ -2,9 +2,11 @@ package com.babestudios.companyinfouk.core.injection
 
 import android.content.Context
 import com.babestudios.base.di.qualifier.ApplicationContext
+import com.babestudios.base.di.scope.ApplicationScope
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.di.DataComponent
 import com.babestudios.companyinfouk.data.di.DataContractModule
 import com.babestudios.companyinfouk.data.di.DataModule
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
@@ -14,25 +16,20 @@ import dagger.Component
 import javax.inject.Singleton
 
 
-@Singleton
-@Component(modules = [DataModule::class, DataContractModule::class],
-		dependencies = [NavigationComponent::class])
+@ApplicationScope
+@Component(dependencies = [DataComponent::class, NavigationComponent::class])
 interface CoreComponent {
 
 	@Component.Factory
 	interface Factory {
 		fun create(
-				dataModule: DataModule,
+				dataComponent: DataComponent,
 				navigationComponent: NavigationComponent,
-				@BindsInstance @ApplicationContext applicationContext: Context
+				@BindsInstance @ApplicationContext applicationContext: Context,
 		): CoreComponent
 	}
 
 	fun companiesRepository(): CompaniesRepositoryContract
-
-	fun schedulerProvider(): SchedulerProvider
-
-	fun errorResolver(): ErrorResolver
 
 	@ApplicationContext
 	fun context(): Context
