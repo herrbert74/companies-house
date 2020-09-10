@@ -8,9 +8,8 @@ import com.babestudios.companyinfouk.data.di.TestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataModule
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.google.gson.Gson
+import io.kotest.matchers.shouldBe
 import io.mockk.mockk
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
@@ -32,9 +31,9 @@ class FilingHistoryMappersTest {
 	fun `when there is a filing history json then it is mapped`() {
 		val json = this.loadJson("filing_pfb_hire")
 		val filingHistoryDto = Gson().fromJson(json, FilingHistoryDto::class.java)
-		val filingHistory = testDataComponent?.filingMapper()?.invoke(filingHistoryDto)
-		assertThat(filingHistory?.totalCount, `is`(47))
-		assertThat(filingHistory?.filingHistoryStatus, `is`("filing-history-available"))
+		val filingHistoryPfbHire = testDataComponent?.filingMapper()?.invoke(filingHistoryDto)
+		filingHistoryPfbHire?.totalCount shouldBe 47
+		filingHistoryPfbHire?.filingHistoryStatus shouldBe "filing-history-available"
 	}
 
 	//endregion
@@ -45,16 +44,16 @@ class FilingHistoryMappersTest {
 	fun `when there is a place holder in filing history item then it is mapped`() {
 		val description = "test {replace}"
 		val descriptionValues = mapOf("replace" to "value")
-		val res = formatFilingHistoryDescriptionDto(description, descriptionValues)
-		assertThat(res, `is`("test value"))
+		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
+		result shouldBe "test value"
 	}
 
 	@Test
 	fun `when there is a capital place holder in filing history item then it is not mapped`() {
 		val description = "**Statement of capital following an allotment of shares** on {date}"
 		val descriptionValues = mapOf("date" to "01/01/2020", "capital" to Capital("11.1", "GBP"))
-		val res = formatFilingHistoryDescriptionDto(description, descriptionValues)
-		assertThat(res, `is`("**Statement of capital following an allotment of shares** on 01/01/2020"))
+		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
+		result shouldBe "**Statement of capital following an allotment of shares** on 01/01/2020"
 	}
 
 	@Test
@@ -65,8 +64,8 @@ class FilingHistoryMappersTest {
 				"old_address" to "99 Evesham Road London N11 2RR England",
 				"change_date" to "2020-07-08"
 		)
-		val res = formatFilingHistoryDescriptionDto(description, descriptionValues)
-		assertThat(res, `is`("**Registered office address changed** from 99 Evesham Road London N11 2RR England to 20-22 Wenlock Road London N1 7GU on 2020-07-08"))
+		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
+		result shouldBe "**Registered office address changed** from 99 Evesham Road London N11 2RR England to 20-22 Wenlock Road London N1 7GU on 2020-07-08"
 	}
 
 	/**
@@ -76,8 +75,8 @@ class FilingHistoryMappersTest {
 	fun `when there is an invalid regex in legacy filing history item then it is not causing an exception`() {
 		val description = "legacy"
 		val descriptionValues = mapOf("description" to "Ad 01/01/08\\gbp si 10@1=10\\gbp ic 100/110\\")
-		val res = formatFilingHistoryDescriptionDto(description, descriptionValues)
-		assertThat(res, `is`("Ad 01/01/08\\gbp si 10@1=10\\gbp ic 100/110\\"))
+		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
+		result shouldBe "Ad 01/01/08\\gbp si 10@1=10\\gbp ic 100/110\\"
 	}
 
 	//endregion

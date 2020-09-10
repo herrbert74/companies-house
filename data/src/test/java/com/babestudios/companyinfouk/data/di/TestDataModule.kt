@@ -137,7 +137,7 @@ class TestDataModule(private val context: Context) {
 			}
 
 	@Provides
-	fun provideMapChargesDto(chargesHelper: ChargesHelper)
+	fun provideMapChargesDto(chargesHelper: ChargesHelperContract)
 			: (ChargesDto) -> Charges =
 			{ chargesDto ->
 				mapChargesDto(chargesDto) { items ->
@@ -202,6 +202,15 @@ class TestDataModule(private val context: Context) {
 		val filingHistoryDescriptionsHelper = mockk<FilingHistoryDescriptionsHelper>()
 		every { filingHistoryDescriptionsHelper.filingHistoryLookUp(any()) } returns ""
 		return filingHistoryDescriptionsHelper
+	}
+
+	@Provides
+	@Singleton
+	fun provideChargesHelper(): ChargesHelperContract {
+		val chargesHelper = mockk<ChargesHelper>()
+		every { chargesHelper.statusLookUp(any()) } returns ""
+		every { chargesHelper.filingTypeLookUp(any()) } returns ""
+		return chargesHelper
 	}
 
 	//endregion

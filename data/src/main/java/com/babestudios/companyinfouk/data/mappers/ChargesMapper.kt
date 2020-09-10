@@ -4,7 +4,7 @@ import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.charges.ChargesItem
 import com.babestudios.companyinfouk.common.model.charges.Particulars
 import com.babestudios.companyinfouk.common.model.charges.Transaction
-import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.charges.ChargesItemDto
 import com.babestudios.companyinfouk.data.model.charges.ParticularsDto
@@ -22,7 +22,7 @@ inline fun mapChargesDto(
 
 fun mapChargesItemDto(
 		input: ChargesItemDto,
-		chargesHelper: ChargesHelper,
+		chargesHelper: ChargesHelperContract,
 		mapTransactionsDto: (List<TransactionDto>?) -> List<Transaction>,
 		mapParticulars: (ParticularsDto?) -> Particulars,
 ): ChargesItem {
@@ -41,7 +41,7 @@ fun mapChargesItemDto(
 
 fun mapTransactionDto(
 		input: TransactionDto,
-		chargesHelper: ChargesHelper,
+		chargesHelper: ChargesHelperContract,
 ): Transaction {
 	return Transaction(
 			input.deliveredOn.orEmpty(),

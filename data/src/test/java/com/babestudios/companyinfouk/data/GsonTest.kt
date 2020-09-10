@@ -5,10 +5,9 @@ import com.babestudios.companyinfouk.data.BuildConfig.COMPANIES_HOUSE_BASE_URL
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.google.gson.Gson
+import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 import retrofit2.Retrofit
 
@@ -18,7 +17,7 @@ class GsonTest {
 	fun advancedGsonConverter_map_converts() {
 		val json = this.loadJson("json_map")
 		val capitalMap = Gson().fromJson(json, CapitalMap::class.java)
-		assertThat(capitalMap.capital.size == 2, `is`(true))
+		capitalMap.capital.size shouldBeEqualComparingTo  2
 	}
 
 	@Test
@@ -26,7 +25,7 @@ class GsonTest {
 		val json = this.loadJson("json_map_single")
 		val gson = Gson()
 		val capitalMap = gson.fromJson(json, CapitalMap::class.java)
-		assertThat(capitalMap.capital.size == 1, `is`(true))
+		capitalMap.capital.size shouldBeEqualComparingTo  1
 	}
 
 	@Test
@@ -48,6 +47,6 @@ class GsonTest {
 			e.printStackTrace()
 		}
 
-		assertThat(response.items[0].title == "YOU  LIMITED", `is`(true))
+		response.items[0].title?.shouldBeEqualComparingTo("YOU  LIMITED")
 	}
 }

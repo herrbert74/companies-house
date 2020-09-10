@@ -4,9 +4,11 @@ import android.content.Context
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
+import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import dagger.BindsInstance
@@ -34,4 +36,6 @@ interface TestDataComponent {
 	fun companyMapper() : (CompanyDto) -> Company
 
 	fun filingMapper() : (FilingHistoryDto) -> FilingHistory
+
+	fun chargesMapper() : (ChargesDto) -> Charges
 }

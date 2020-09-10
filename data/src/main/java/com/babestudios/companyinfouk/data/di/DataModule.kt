@@ -136,7 +136,7 @@ class DataModule(private val context: Context) {
 			}
 
 	@Provides
-	fun provideMapChargesDto(chargesHelper: ChargesHelper)
+	fun provideMapChargesDto(chargesHelper: ChargesHelperContract)
 			: (ChargesDto) -> Charges =
 			{ chargesDto ->
 				mapChargesDto(chargesDto) { items ->
@@ -188,6 +188,11 @@ class DataModule(private val context: Context) {
 	@Singleton
 	fun provideFilingHistoryDescriptionsHelper(rawResourceHelper: RawResourceHelper)
 			: FilingHistoryDescriptionsHelperContract = FilingHistoryDescriptionsHelper(rawResourceHelper)
+
+	@Provides
+	@Singleton
+	fun provideChargesHelper(rawResourceHelper: RawResourceHelper)
+			: ChargesHelperContract = ChargesHelper(rawResourceHelper)
 
 	//endregion
 

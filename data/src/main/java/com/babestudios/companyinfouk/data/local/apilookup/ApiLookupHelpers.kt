@@ -17,6 +17,11 @@ interface FilingHistoryDescriptionsHelperContract {
 	fun filingHistoryLookUp(filingHistoryDescriptionString: String): String
 }
 
+interface ChargesHelperContract {
+	fun statusLookUp(statusString: String): String
+	fun filingTypeLookUp(filingTypeString: String): String
+}
+
 @Singleton
 class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : ConstantsHelperContract {
 	private val constants: Constants = rawResourceHelper.getConstants(R.raw.constants)
@@ -42,15 +47,15 @@ class FilingHistoryDescriptionsHelper @Inject constructor(rawResourceHelper: Raw
 }
 
 @Singleton
-class ChargesHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) {
+class ChargesHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : ChargesHelperContract {
 	private val chargesDescriptions: MortgageDescriptions = rawResourceHelper
 			.getMortgageDescriptions(R.raw.mortgage_descriptions)
 
-	fun statusLookUp(statusString: String): String {
+	override fun statusLookUp(statusString: String): String {
 		return chargesDescriptions.status[statusString] ?: statusString
 	}
 
-	fun filingTypeLookUp(filingTypeString: String): String {
+	override fun filingTypeLookUp(filingTypeString: String): String {
 		return chargesDescriptions.filing_type[filingTypeString] ?: filingTypeString
 	}
 }

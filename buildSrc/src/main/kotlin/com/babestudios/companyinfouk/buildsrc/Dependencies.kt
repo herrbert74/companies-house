@@ -189,7 +189,6 @@ object Libs {
 		//Provided by AndroidX!
 		//const val jUnit = "junit:junit:4.12"
 		const val assertJ = "org.assertj:assertj-core:3.15.0"
-		//const val hamcrest = "org.hamcrest:hamcrest-library:1.3" //Not used anymore?!
 		const val jUnit5 = "org.junit.jupiter:junit-jupiter-api:5.6.0"
 		const val mockK = "io.mockk:mockk:1.9.3"
 		const val mockKAndroidTest = "io.mockk:mockk-android:1.9.3"
