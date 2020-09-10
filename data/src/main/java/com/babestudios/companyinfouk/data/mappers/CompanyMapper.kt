@@ -50,7 +50,7 @@ fun mapAddressDto(
 ): Address {
 	return Address(
 			input?.addressLine1.orEmpty(),
-			input?.addressLine2.orEmpty(),
+			input?.addressLine2,
 			input?.country.orEmpty(),
 			input?.locality.orEmpty(),
 			input?.postalCode.orEmpty(),

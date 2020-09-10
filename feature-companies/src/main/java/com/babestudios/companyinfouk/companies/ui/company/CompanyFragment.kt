@@ -100,7 +100,7 @@ class CompanyFragment : BaseMvRxFragment() {
 		binding.tvCompanyIncorporated.text =
 				String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
 		binding.lblCompanyAddressLine1.text = company.registeredOfficeAddress.addressLine1
-		if (company.registeredOfficeAddress.addressLine2.isNotEmpty()) {
+		if (!company.registeredOfficeAddress.addressLine2.isNullOrEmpty()) {
 			binding.lblCompanyAddressLine2.visibility = View.VISIBLE
 			binding.lblCompanyAddressLine2.text = company.registeredOfficeAddress.addressLine2
 		}
