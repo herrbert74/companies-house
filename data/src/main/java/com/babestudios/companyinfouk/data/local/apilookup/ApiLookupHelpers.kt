@@ -13,6 +13,10 @@ interface ConstantsHelperContract {
 	fun sicLookUp(sicString: String): String
 }
 
+interface FilingHistoryDescriptionsHelperContract {
+	fun filingHistoryLookUp(filingHistoryDescriptionString: String): String
+}
+
 @Singleton
 class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : ConstantsHelperContract {
 	private val constants: Constants = rawResourceHelper.getConstants(R.raw.constants)
@@ -27,11 +31,12 @@ class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperCo
 }
 
 @Singleton
-class FilingHistoryDescriptionsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) {
+class FilingHistoryDescriptionsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract)
+	: FilingHistoryDescriptionsHelperContract {
 	private val filingHistoryDescriptions: FilingHistoryDescriptions = rawResourceHelper
 			.getFilingHistoryDescriptions(R.raw.filing_history_descriptions)
 
-	fun filingHistoryLookUp(filingHistoryDescriptionString: String): String {
+	override fun filingHistoryLookUp(filingHistoryDescriptionString: String): String {
 		return filingHistoryDescriptions.description[filingHistoryDescriptionString] ?: filingHistoryDescriptionString
 	}
 }

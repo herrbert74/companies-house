@@ -36,11 +36,4 @@ interface TestDataContractModule {
 	@Binds
 	fun provideErrorResolver(companiesHouseErrorResolver: CompaniesHouseErrorResolver): ErrorResolver
 
-	/*@Singleton
-	@Binds
-	fun provideStringResourceHelper(stringResourceHelper: StringResourceHelper): StringResourceHelperContract
-
-	@Singleton
-	@Binds
-	fun bindConstantsHelper(constantsHelper: ConstantsHelper = mockk()): ConstantsHelperContract*/
 }

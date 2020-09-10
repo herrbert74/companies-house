@@ -11,10 +11,7 @@ import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
-import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
-import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.*
 import com.babestudios.companyinfouk.data.mappers.*
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
@@ -186,6 +183,11 @@ class DataModule(private val context: Context) {
 	@Singleton
 	fun provideConstantsHelper(rawResourceHelper: RawResourceHelper): ConstantsHelperContract =
 			ConstantsHelper(rawResourceHelper)
+
+	@Provides
+	@Singleton
+	fun provideFilingHistoryDescriptionsHelper(rawResourceHelper: RawResourceHelper)
+			: FilingHistoryDescriptionsHelperContract = FilingHistoryDescriptionsHelper(rawResourceHelper)
 
 	//endregion
 

@@ -1,11 +1,45 @@
 package com.babestudios.companyinfouk.data.mappers
 
+import android.content.Context
+import com.babestudios.companyinfouk.common.loadJson
 import com.babestudios.companyinfouk.common.model.filinghistory.Capital
+import com.babestudios.companyinfouk.data.di.DaggerTestDataComponent
+import com.babestudios.companyinfouk.data.di.TestDataComponent
+import com.babestudios.companyinfouk.data.di.TestDataModule
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
+import com.google.gson.Gson
+import io.mockk.mockk
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Test
 
 class FilingHistoryMappersTest {
+
+	//region Full Filing History map
+
+	private var testDataComponent: TestDataComponent? = null
+
+	@Before
+	fun setup() {
+		val context = mockk<Context>()
+		testDataComponent = DaggerTestDataComponent
+				.factory()
+				.create(TestDataModule(context), context)
+	}
+
+	@Test
+	fun `when there is a filing history json then it is mapped`() {
+		val json = this.loadJson("filing_pfb_hire")
+		val filingHistoryDto = Gson().fromJson(json, FilingHistoryDto::class.java)
+		val filingHistory = testDataComponent?.filingMapper()?.invoke(filingHistoryDto)
+		assertThat(filingHistory?.totalCount, `is`(47))
+		assertThat(filingHistory?.filingHistoryStatus, `is`("filing-history-available"))
+	}
+
+	//endregion
+
+	//region format filing description
 
 	@Test
 	fun `when there is a place holder in filing history item then it is mapped`() {
@@ -45,4 +79,6 @@ class FilingHistoryMappersTest {
 		val res = formatFilingHistoryDescriptionDto(description, descriptionValues)
 		assertThat(res, `is`("Ad 01/01/08\\gbp si 10@1=10\\gbp ic 100/110\\"))
 	}
+
+	//endregion
 }

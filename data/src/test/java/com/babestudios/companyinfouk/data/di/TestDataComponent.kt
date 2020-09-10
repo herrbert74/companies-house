@@ -5,8 +5,10 @@ import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.common.model.company.Company
+import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
+import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -30,4 +32,6 @@ interface TestDataComponent {
 	fun errorResolver(): ErrorResolver
 
 	fun companyMapper() : (CompanyDto) -> Company
+
+	fun filingMapper() : (FilingHistoryDto) -> FilingHistory
 }

@@ -10,10 +10,7 @@ import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
-import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
-import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.*
 import com.babestudios.companyinfouk.data.mappers.*
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
@@ -121,7 +118,7 @@ class TestDataModule(private val context: Context) {
 	//region Mappers
 
 	@Provides
-	fun provideMapFilingHistoryDto(filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper)
+	fun provideMapFilingHistoryDto(filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract)
 			: (FilingHistoryDto) -> FilingHistory =
 			{ filingHistoryDto ->
 				mapFilingHistoryDto(filingHistoryDto) { items ->
@@ -197,6 +194,14 @@ class TestDataModule(private val context: Context) {
 		every { constantsHelper.sicLookUp("68100") } returns "Buying and selling of own real estate"
 		every { constantsHelper.accountTypeLookUp(any()) } returns ""
 		return constantsHelper
+	}
+
+	@Provides
+	@Singleton
+	fun provideFilingHistoryDescriptionsHelper(): FilingHistoryDescriptionsHelperContract {
+		val filingHistoryDescriptionsHelper = mockk<FilingHistoryDescriptionsHelper>()
+		every { filingHistoryDescriptionsHelper.filingHistoryLookUp(any()) } returns ""
+		return filingHistoryDescriptionsHelper
 	}
 
 	//endregion

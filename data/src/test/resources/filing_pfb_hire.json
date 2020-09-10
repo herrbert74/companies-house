@@ -1,0 +1,407 @@
+{
+  "items_per_page": 25,
+  "items": [
+    {
+      "subcategory": "create",
+      "date": "2013-12-21",
+      "description": "mortgage-create-with-deed-with-charge-number",
+      "description_values": {
+        "charge_number": "073103900004"
+      },
+      "category": "mortgage",
+      "type": "MR01",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/I7Y05LWd-Udemc9ExI3rKw6m-KqXX9sKWmUK09lEZJc",
+        "self": "/company/07310390/filing-history/MzA5MTcwNTYzN2FkaXF6a2N4"
+      },
+      "pages": 10,
+      "paper_filed": true,
+      "barcode": "A2NPNNBF",
+      "transaction_id": "MzA5MTcwNTYzN2FkaXF6a2N4"
+    },
+    {
+      "subcategory": "appointments",
+      "date": "2013-12-05",
+      "description": "appoint-person-secretary-company-with-name",
+      "description_values": {
+        "officer_name": "Mr Allan Horley"
+      },
+      "category": "officers",
+      "type": "AP03",
+      "pages": 1,
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/YGzv4uG7SLLjDqlOCweNs-kJMoW0T6vub_n9PTcadqg",
+        "self": "/company/07310390/filing-history/MzA5MDEzODYxOGFkaXF6a2N4"
+      },
+      "barcode": "X2MJY0FV",
+      "transaction_id": "MzA5MDEzODYxOGFkaXF6a2N4"
+    },
+    {
+      "subcategory": "termination",
+      "date": "2013-12-05",
+      "description": "termination-secretary-company-with-name",
+      "description_values": {
+        "officer_name": "Tracy Griffin"
+      },
+      "category": "officers",
+      "type": "TM02",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/XtI06jbarlOK0NvUrOlZ2kUpNkcNcH5reUQxScu92T4",
+        "self": "/company/07310390/filing-history/MzA5MDEyNjM4N2FkaXF6a2N4"
+      },
+      "pages": 1,
+      "barcode": "X2MJX1KI",
+      "transaction_id": "MzA5MDEyNjM4N2FkaXF6a2N4"
+    },
+    {
+      "action_date": "2013-07-24",
+      "description": "annual-return-company-with-made-up-date-full-list-shareholders",
+      "date": "2013-07-25",
+      "category": "annual-return",
+      "associated_filings": [
+        {
+          "type": "SH01",
+          "description": "statement-of-capital",
+          "data": {},
+          "description_values": {
+            "date": "2013-07-25",
+            "capital": [
+              {
+                "currency": "GBP",
+                "figure": "1"
+              }
+            ]
+          },
+          "category": "capital",
+          "date": "2013-07-25",
+          "action_date": 1374710400000
+        }
+      ],
+      "description_values": {
+        "made_up_date": "2013-07-24"
+      },
+      "type": "AR01",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/wDr-tA186QCTLbGnNBqPFk0DQvrd7DNSLoYShrq57Ug",
+        "self": "/company/07310390/filing-history/MzA4MjE2MzY4OGFkaXF6a2N4"
+      },
+      "pages": 3,
+      "barcode": "X2DCGB89",
+      "transaction_id": "MzA4MjE2MzY4OGFkaXF6a2N4"
+    },
+    {
+      "date": "2013-07-23",
+      "description": "change-person-secretary-company-with-change-date",
+      "action_date": "2013-07-19",
+      "subcategory": "change",
+      "type": "CH03",
+      "description_values": {
+        "change_date": "2013-07-19",
+        "officer_name": "Tracy Griffin"
+      },
+      "category": "officers",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/13I1PWs5ZPvAOYxgE6Dy9uNNf1UX6J2PonZlJbwrNBw",
+        "self": "/company/07310390/filing-history/MzA4MTg5Nzg2NmFkaXF6a2N4"
+      },
+      "pages": 1,
+      "barcode": "X2D4NAYF",
+      "transaction_id": "MzA4MTg5Nzg2NmFkaXF6a2N4"
+    },
+    {
+      "action_date": "2012-07-31",
+      "date": "2012-10-11",
+      "description": "accounts-with-accounts-type-total-exemption-small",
+      "description_values": {
+        "made_up_date": "2012-07-31"
+      },
+      "category": "accounts",
+      "type": "AA",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/yrWdK_3c-6KaHygy1sQ5uxrEiMDwuF9IFfiuSaHyUUo",
+        "self": "/company/07310390/filing-history/MzA2NTY3ODYwMWFkaXF6a2N4"
+      },
+      "pages": 5,
+      "barcode": "X1JBTJWY",
+      "transaction_id": "MzA2NTY3ODYwMWFkaXF6a2N4"
+    },
+    {
+      "date": "2012-07-24",
+      "description": "annual-return-company-with-made-up-date-full-list-shareholders",
+      "action_date": "2012-07-24",
+      "type": "AR01",
+      "description_values": {
+        "made_up_date": "2012-07-24"
+      },
+      "category": "annual-return",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/jp5R218KJ3LdIegnz_h5vctSlkP8tk8Svcv3hqDTwTM",
+        "self": "/company/07310390/filing-history/MzA2MTMyMTE1OGFkaXF6a2N4"
+      },
+      "pages": 3,
+      "barcode": "X1DTG9IQ",
+      "transaction_id": "MzA2MTMyMTE1OGFkaXF6a2N4"
+    },
+    {
+      "description": "annual-return-company-with-made-up-date-full-list-shareholders",
+      "date": "2012-07-10",
+      "action_date": "2012-07-09",
+      "type": "AR01",
+      "category": "annual-return",
+      "description_values": {
+        "made_up_date": "2012-07-09"
+      },
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/N4Jg77e34UQAh72F88K2AiPP8mvUTTFfDN1MdONhL4g",
+        "self": "/company/07310390/filing-history/MzA2MDU3NjEwOGFkaXF6a2N4"
+      },
+      "pages": 3,
+      "barcode": "X1CVWPTT",
+      "transaction_id": "MzA2MDU3NjEwOGFkaXF6a2N4"
+    },
+    {
+      "type": "TM01",
+      "category": "officers",
+      "description_values": {
+        "officer_name": "Patricia Bentley"
+      },
+      "description": "termination-director-company-with-name",
+      "date": "2012-05-09",
+      "subcategory": "termination",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/IqrqID1xFvOIt4cgYtZmPiVuea9SKy3tT8C6CAF49eU",
+        "self": "/company/07310390/filing-history/MzA1NzE3ODY0OGFkaXF6a2N4"
+      },
+      "pages": 1,
+      "barcode": "X18L89A1",
+      "transaction_id": "MzA1NzE3ODY0OGFkaXF6a2N4"
+    },
+    {
+      "description": "accounts-with-accounts-type-total-exemption-small",
+      "date": "2012-04-05",
+      "action_date": "2011-07-31",
+      "type": "AA",
+      "category": "accounts",
+      "description_values": {
+        "made_up_date": "2011-07-31"
+      },
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/ZQ82z0HEKcCAcaxH2sTAIOKYsNPqA4RSl5vvv20S2HI",
+        "self": "/company/07310390/filing-history/MzA1NTQzODg0NmFkaXF6a2N4"
+      },
+      "pages": 5,
+      "barcode": "X168BGE3",
+      "transaction_id": "MzA1NTQzODg0NmFkaXF6a2N4"
+    },
+    {
+      "description": "legacy",
+      "date": "2012-02-08",
+      "type": "MG01",
+      "category": "mortgage",
+      "description_values": {
+        "description": "Particulars of a mortgage or charge / charge no: 3"
+      },
+      "links": {
+        "self": "/company/07310390/filing-history/MzA1MjQzMDE4N2FkaXF6a2N4",
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/6e09S2vFAzsmqhfegl_cwcBgS9kDzmN8xCNV8EPPEGI"
+      },
+      "pages": 5,
+      "paper_filed": true,
+      "barcode": "A128BS22",
+      "transaction_id": "MzA1MjQzMDE4N2FkaXF6a2N4"
+    },
+    {
+      "type": "AP01",
+      "category": "officers",
+      "description_values": {
+        "officer_name": "Mr Peter Francis Bentley"
+      },
+      "description": "appoint-person-director-company-with-name",
+      "date": "2012-01-26",
+      "subcategory": "appointments",
+      "links": {
+        "self": "/company/07310390/filing-history/MzA1MTQzOTY2OWFkaXF6a2N4",
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/GAATE0Wr-oOEQeRZe-j4Ra_SuQ_n_jcP7aEVT5Z-FTg"
+      },
+      "pages": 2,
+      "barcode": "X11CNSK8",
+      "transaction_id": "MzA1MTQzOTY2OWFkaXF6a2N4"
+    },
+    {
+      "action_date": "2011-07-09",
+      "description": "annual-return-company-with-made-up-date-full-list-shareholders",
+      "date": "2011-08-02",
+      "category": "annual-return",
+      "description_values": {
+        "made_up_date": "2011-07-09"
+      },
+      "type": "AR01",
+      "links": {
+        "self": "/company/07310390/filing-history/MzA0MTQ2MDU4NmFkaXF6a2N4",
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/Z6SGUrQwenKOefaH51ww8FBvqQ9juxADAlEqhsIPlBc"
+      },
+      "pages": 4,
+      "barcode": "XDCQ4WCO",
+      "transaction_id": "MzA0MTQ2MDU4NmFkaXF6a2N4"
+    },
+    {
+      "subcategory": "termination",
+      "description": "termination-director-company-with-name",
+      "date": "2011-06-20",
+      "category": "officers",
+      "description_values": {
+        "officer_name": "Allan Horley"
+      },
+      "type": "TM01",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/AV2v8xXSmErH1bUaprcau2lJJfBklv_eK3OzrdecRq0",
+        "self": "/company/07310390/filing-history/MzAzOTA4MjgwMWFkaXF6a2N4"
+      },
+      "pages": 1,
+      "paper_filed": true,
+      "barcode": "A4HZRV2I",
+      "transaction_id": "MzAzOTA4MjgwMWFkaXF6a2N4"
+    },
+    {
+      "type": "MG01",
+      "category": "mortgage",
+      "description_values": {
+        "description": "Particulars of a mortgage or charge / charge no: 2"
+      },
+      "description": "legacy",
+      "date": "2011-01-13",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/Yk8JSPgqO7lEUM0SraSo6S7IjiCmFQUviwt5EJzGP6w",
+        "self": "/company/07310390/filing-history/MzAzMDQxODE4N2FkaXF6a2N4"
+      },
+      "pages": 5,
+      "paper_filed": true,
+      "barcode": "AN6QLQRV",
+      "transaction_id": "MzAzMDQxODE4N2FkaXF6a2N4"
+    },
+    {
+      "category": "mortgage",
+      "description_values": {
+        "description": "Particulars of a mortgage or charge / charge no: 1"
+      },
+      "type": "MG01",
+      "description": "legacy",
+      "date": "2010-09-15",
+      "paper_filed": true,
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/ZpOonVVvTSKGRPXjNzHRgYF2b5lPoLNhomBrctTvrjk",
+        "self": "/company/07310390/filing-history/MzAyMzQ4OTI5NmFkaXF6a2N4"
+      },
+      "pages": 5,
+      "barcode": "A9LH2NFP",
+      "transaction_id": "MzAyMzQ4OTI5NmFkaXF6a2N4"
+    },
+    {
+      "description_values": {
+        "change_date": "2010-08-24",
+        "old_address": " 13a Woden Road West Wednesbury West Midlands WS10 7SF United Kingdom"
+      },
+      "category": "address",
+      "type": "AD01",
+      "action_date": "2010-08-24",
+      "date": "2010-08-24",
+      "description": "change-registered-office-address-company-with-date-old-address",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/1G8_6W06rJpCviVzLALtf4haXTH7V2M7LFwertpJJ0I",
+        "self": "/company/07310390/filing-history/MzAyMTk4NjY3NmFkaXF6a2N4"
+      },
+      "pages": 2,
+      "paper_filed": true,
+      "barcode": "AKO7LMPL",
+      "transaction_id": "MzAyMTk4NjY3NmFkaXF6a2N4"
+    },
+    {
+      "date": "2010-08-03",
+      "description": "appoint-person-director-company-with-name",
+      "subcategory": "appointments",
+      "type": "AP01",
+      "description_values": {
+        "officer_name": "Patricia Bentley"
+      },
+      "category": "officers",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/IdW9Eg97i7ZhDJGMU7_L-MbkTAJUJxapXCzHgEctE44",
+        "self": "/company/07310390/filing-history/MzAyMDY3NDM1MGFkaXF6a2N4"
+      },
+      "pages": 3,
+      "paper_filed": true,
+      "barcode": "AXOS5M2G",
+      "transaction_id": "MzAyMDY3NDM1MGFkaXF6a2N4"
+    },
+    {
+      "date": "2010-08-02",
+      "description": "appoint-person-secretary-company-with-name",
+      "subcategory": "appointments",
+      "type": "AP03",
+      "description_values": {
+        "officer_name": "Tracy Griffin"
+      },
+      "category": "officers",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/aYDseSdatgrLlnc1SufqpPhta3hgg_m6BKBSwQcPt3Q",
+        "self": "/company/07310390/filing-history/MzAyMDU5MTk3NmFkaXF6a2N4"
+      },
+      "pages": 3,
+      "paper_filed": true,
+      "barcode": "AYGCWM0I",
+      "transaction_id": "MzAyMDU5MTk3NmFkaXF6a2N4"
+    },
+    {
+      "date": "2010-07-30",
+      "description": "appoint-person-director-company-with-name",
+      "subcategory": "appointments",
+      "type": "AP01",
+      "description_values": {
+        "officer_name": "Allan David Horley"
+      },
+      "category": "officers",
+      "paper_filed": true,
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/7Ej-HDHQcQ8TE3jNQg8kzEcRgr2gQLhlOv0cB-4FsaI",
+        "self": "/company/07310390/filing-history/MzAyMDUxODUzMWFkaXF6a2N4"
+      },
+      "pages": 3,
+      "barcode": "LLJ22M0F",
+      "transaction_id": "MzAyMDUxODUzMWFkaXF6a2N4"
+    },
+    {
+      "subcategory": "termination",
+      "description": "termination-director-company-with-name",
+      "date": "2010-07-26",
+      "category": "officers",
+      "description_values": {
+        "officer_name": "Andrew Davis"
+      },
+      "type": "TM01",
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/6XlRYbVghpLWlvRau3E0EqzIpmMDuSgdHbdLsXdzo48",
+        "self": "/company/07310390/filing-history/MzAyMDIwNTU4MmFkaXF6a2N4"
+      },
+      "pages": 1,
+      "barcode": "XOSKDM0W",
+      "transaction_id": "MzAyMDIwNTU4MmFkaXF6a2N4"
+    },
+    {
+      "category": "incorporation",
+      "type": "NEWINC",
+      "description": "incorporation-company",
+      "date": "2010-07-09",
+      "pages": 43,
+      "paper_filed": true,
+      "links": {
+        "document_metadata": "https://frontend-doc-api.companieshouse.gov.uk/document/QnRJfj1O4Yo7qN2NT2YBg546ScOOEE3b2S_-F0WhPEw",
+        "self": "/company/07310390/filing-history/MzAxOTIxOTk0MWFkaXF6a2N4"
+      },
+      "barcode": "XUD8KLJ0",
+      "transaction_id": "MzAxOTIxOTk0MWFkaXF6a2N4"
+    }
+  ],
+  "total_count": 47,
+  "start_index": "25",
+  "filing_history_status": "filing-history-available"
+}

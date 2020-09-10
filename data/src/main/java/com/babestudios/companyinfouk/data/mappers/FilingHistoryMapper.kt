@@ -5,6 +5,7 @@ import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryLinks
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
 import com.babestudios.companyinfouk.data.model.filinghistory.CategoryDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItemDto
@@ -25,7 +26,7 @@ inline fun mapFilingHistoryDto(
 
 fun mapFilingHistoryItemDto(
 		input: FilingHistoryItemDto,
-		filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper,
+		filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
 		mapFilingHistoryLinks: (FilingHistoryLinksDto?) -> FilingHistoryLinks,
 		mapCategoryDto: (CategoryDto?) -> Category
 ): FilingHistoryItem {
