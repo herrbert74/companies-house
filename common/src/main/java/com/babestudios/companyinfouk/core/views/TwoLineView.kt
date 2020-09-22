@@ -15,9 +15,11 @@ import kotlinx.android.synthetic.main.view_two_line.view.*
  * The first TextView is single line, the second can be multiline
  *
  * Usually for list items the first TextView should be larger and bold,
- * while for data items is should be the opposite (but you can style them any way you like):
+ * while for data items should be the opposite (but you can style them any way you like):
  * https://material.io/components/lists#theming
  * https://material.io/components/data-tables#theming
+ *
+ * Not intended to be used in Lists, only in static lists with a limited number of items
  *
  * TODO Apply textStyle changes
  */

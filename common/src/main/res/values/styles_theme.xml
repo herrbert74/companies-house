@@ -16,6 +16,7 @@
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorSecondary">@color/colorAccent</item>
 		<item name="colorOnSecondary">@color/colorOnSecondary</item>
+
 		<item name="singleLineStyle">@style/SingleLine</item>
 		<item name="twoLineStyle">@style/TwoLine</item>
 
