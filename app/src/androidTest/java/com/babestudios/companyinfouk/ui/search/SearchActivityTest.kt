@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.CompaniesHouseApplication
+import com.babestudios.companyinfouk.common.loadJson
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.di.AndroidTestCoreComponent
@@ -32,7 +33,7 @@ class SearchActivityTest {
 		val app = instrumentation.targetContext.applicationContext as CompaniesHouseApplication
 		val comp = app.provideCoreComponent() as AndroidTestCoreComponent
 
-		val jsonSearchResultForYou = comp.testHelper().loadJson("search_result_you")
+		val jsonSearchResultForYou = this.loadJson("search_result_you")
 		val companySearchItemForYou = comp.gson().fromJson(jsonSearchResultForYou, CompanySearchResult::class.java)
 		every {
 			comp.companiesRepository().searchCompanies(eq("you"), any())

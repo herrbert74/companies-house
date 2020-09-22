@@ -21,7 +21,6 @@ import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseErrorResolver
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
-import com.babestudios.companyinfouk.testhelpers.TestHelper
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -175,13 +174,4 @@ class AndroidTestDataModule(private val context: Context) {
 		return FirebaseAnalytics.getInstance(context)
 	}
 
-//region Test related
-
-	@Provides
-	@Singleton
-	internal fun provideTestHelper(): TestHelper {
-		return TestHelper()
-	}
-
-//endregion
 }

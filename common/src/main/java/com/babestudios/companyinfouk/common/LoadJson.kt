@@ -1,32 +1,16 @@
 package com.babestudios.companyinfouk.common
 
-import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
-import java.nio.charset.StandardCharsets
 
 fun Any.loadJson(jsonFileName: String):String {
-	return try {
-		val inputStream = this.javaClass.classLoader?.getResourceAsStream("$jsonFileName.json")
-		String(toByteArray(inputStream), StandardCharsets.UTF_8)
-	} catch (e: IOException) {
-		e.printStackTrace()
-		""
-	}
+	val inputStream = this.javaClass.classLoader?.getResourceAsStream("$jsonFileName.json")
+	inputStream?.let {
+		return readString(inputStream)
+	} ?: run { return "" }
 }
 
-private const val BYTE_ARRAY_SIZE = 4048
-
 @Throws(IOException::class)
-fun toByteArray(stream: InputStream?): ByteArray {
-	val output = ByteArrayOutputStream()
-	val bytes = ByteArray(BYTE_ARRAY_SIZE)
-	var bytesRead = stream?.read(bytes) ?: 0
-	while (bytesRead != -1) {
-		output.write(bytes, 0, bytesRead)
-		bytesRead = stream?.read(bytes) ?: 0
-	}
-	val result = output.toByteArray()
-	output.close()
-	return result
+fun readString(stream: InputStream): String {
+	return String(stream.readBytes(), Charsets.UTF_8)
 }
