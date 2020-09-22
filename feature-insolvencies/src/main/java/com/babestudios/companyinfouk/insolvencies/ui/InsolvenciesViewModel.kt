@@ -4,7 +4,7 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.*
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitable
@@ -58,12 +58,12 @@ class InsolvenciesViewModel(
 				.execute {
 					copy(
 							insolvencyRequest = it,
-							insolvencies = convertCaseToDetailsVisitables(it())
+							insolvencies = convertInsolvencyToVisitables(it())
 					)
 				}
 	}
 
-	private fun convertCaseToDetailsVisitables(reply: Insolvency?): List<InsolvencyVisitableBase> {
+	private fun convertInsolvencyToVisitables(reply: Insolvency?): List<InsolvencyVisitableBase> {
 		return ArrayList(reply?.cases?.map { item -> InsolvencyVisitable(item) } ?: emptyList())
 	}
 
@@ -71,9 +71,7 @@ class InsolvenciesViewModel(
 		withState { state ->
 			val newCase = (state.insolvencies[adapterPosition] as InsolvencyVisitable).insolvencyCase
 			setState {
-				copy(
-						insolvencyCase = newCase
-				)
+				copy(insolvencyCase = newCase)
 			}
 		}
 		insolvenciesNavigator.insolvenciesToInsolvencyDetails()
@@ -94,9 +92,7 @@ class InsolvenciesViewModel(
 				list.add(InsolvencyDetailsPractitionerVisitable(InsolvencyDetailsPractitionerItem(item)))
 			}
 			setState {
-				copy(
-						insolvencyDetailsItems = list.toList()
-				)
+				copy(insolvencyDetailsItems = list.toList())
 			}
 		}
 		//return list

@@ -4,7 +4,7 @@ import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.callPrivateFunc
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator

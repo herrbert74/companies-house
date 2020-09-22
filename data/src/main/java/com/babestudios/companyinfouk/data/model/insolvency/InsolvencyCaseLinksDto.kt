@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class InsolvencyCaseLinks (
+data class InsolvencyCaseLinksDto (
 	@SerializedName("charge")
 	var charge: String? = null
 ):Parcelable

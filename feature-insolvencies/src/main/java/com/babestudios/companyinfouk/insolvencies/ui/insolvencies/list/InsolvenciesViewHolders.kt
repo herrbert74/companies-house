@@ -10,7 +10,6 @@ class InsolvencyViewHolder(_binding: ViewBinding)
 		val binding = _binding as RowInsolvencyBinding
 		val insolvencyCase = (visitable as InsolvencyVisitable).insolvencyCase
 		binding.lblInsolvencyDate.text = insolvencyCase.dates[0].date
-		binding.lblInsolvencyNumber.text = insolvencyCase.number
 		binding.lblInsolvencyType.text = insolvencyCase.type
 		if (insolvencyCase.practitioners.isNotEmpty()) {
 			binding.lblInsolvencyPractitioner.text = insolvencyCase.practitioners[0].name

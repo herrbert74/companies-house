@@ -8,4 +8,5 @@
 	<string name="insolvency_dates">Dates</string>
 	<string name="insolvency_practitioners">Practitioners</string>
 	<string name="could_not_retrieve_insolvency_info">Could not retrieve insolvency information. Check your network connection.</string>
+	<string name="practitioner">Practitioner:</string>
 </resources>

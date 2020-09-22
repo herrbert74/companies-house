@@ -8,17 +8,17 @@ import java.util.*
 
 @Keep
 @Parcelize
-class InsolvencyCase (
+class InsolvencyCaseDto (
 		@SerializedName("dates")
-	var dates: List<Date> = ArrayList(),
+	var dates: List<DateDto> = ArrayList(),
 		@SerializedName("links")
-	var links: InsolvencyCaseLinks? = null,
+	var links: InsolvencyCaseLinksDto? = null,
 		@SerializedName("notes")
 	var notes: List<String> = ArrayList(),
 		@SerializedName("number")
 	var number: String? = null,
 		@SerializedName("practitioners")
-	var practitioners: List<Practitioner> = ArrayList(),
+	var practitioners: List<PractitionerDto> = ArrayList(),
 		@SerializedName("type")
 	var type: String? = null
 ): Parcelable

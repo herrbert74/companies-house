@@ -4,7 +4,7 @@ import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
-import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.babestudios.companyinfouk.data.model.persons.Persons
@@ -52,7 +52,7 @@ interface CompaniesHouseService {
 	fun getInsolvency(
 			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String
-	): Single<Insolvency>
+	): Single<InsolvencyDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT)
 	@Suppress("LongParameterList")

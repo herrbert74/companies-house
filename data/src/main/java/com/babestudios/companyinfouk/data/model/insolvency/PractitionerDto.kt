@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Practitioner(
+class PractitionerDto(
 		@SerializedName("address")
 		var address: AddressDto? = null,
 		@SerializedName("appointed_on")

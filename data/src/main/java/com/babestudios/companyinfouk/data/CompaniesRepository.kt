@@ -16,12 +16,13 @@ import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
-import com.babestudios.companyinfouk.data.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.Officers
 import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.babestudios.companyinfouk.data.model.persons.Persons
@@ -76,12 +77,11 @@ open class CompaniesRepository @Inject constructor(
 		private val firebaseAnalytics: FirebaseAnalytics,
 		private val schedulerProvider: SchedulerProvider,
 		private val errorResolver: ErrorResolver,
-		private val mapFilingHistoryDto: (@JvmSuppressWildcards FilingHistoryDto) -> @JvmSuppressWildcards
-		FilingHistory,
-		private val mapChargesDto: (@JvmSuppressWildcards ChargesDto) -> @JvmSuppressWildcards
-		Charges,
-		private val mapCompanyDto: (@JvmSuppressWildcards CompanyDto) -> @JvmSuppressWildcards
-		Company,
+		private val mapFilingHistoryDto
+		: (@JvmSuppressWildcards FilingHistoryDto) -> @JvmSuppressWildcards FilingHistory,
+		private val mapChargesDto: (@JvmSuppressWildcards ChargesDto) -> @JvmSuppressWildcards Charges,
+		private val mapCompanyDto: (@JvmSuppressWildcards CompanyDto) -> @JvmSuppressWildcards Company,
+		private val mapInsolvencyDto: (@JvmSuppressWildcards InsolvencyDto) -> @JvmSuppressWildcards Insolvency,
 ) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
@@ -166,6 +166,9 @@ open class CompaniesRepository @Inject constructor(
 		return companiesHouseService
 				.getInsolvency(authorization, companyNumber)
 				.compose(errorResolver.resolveErrorForSingle())
+				.map { mapInsolvencyDto ->
+					mapInsolvencyDto(mapInsolvencyDto)
+				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 

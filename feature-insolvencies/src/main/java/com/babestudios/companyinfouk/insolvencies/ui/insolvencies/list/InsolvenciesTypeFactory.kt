@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.common.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.R
 
 class InsolvenciesTypeFactory : InsolvenciesAdapter.InsolvencyTypeFactory {

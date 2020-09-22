@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 
 @Keep
-class Insolvency {
+class InsolvencyDto {
 	@SerializedName("cases")
-	var cases: List<InsolvencyCase> = ArrayList()
+	var cases: List<InsolvencyCaseDto> = ArrayList()
 	@SerializedName("etag")
 	var etag: String? = null
 	@SerializedName("status")

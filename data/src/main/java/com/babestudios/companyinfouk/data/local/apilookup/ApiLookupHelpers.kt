@@ -11,6 +11,8 @@ import javax.inject.Singleton
 interface ConstantsHelperContract {
 	fun accountTypeLookUp(accountsString: String): String
 	fun sicLookUp(sicString: String): String
+	fun insolvencyCaseType(caseTypeKey: String): String
+	fun insolvencyCaseDateType(caseDateTypeKey: String): String
 }
 
 interface FilingHistoryDescriptionsHelperContract {
@@ -32,6 +34,14 @@ class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperCo
 
 	override fun sicLookUp(sicString: String): String {
 		return constants.sic_descriptions[sicString] ?: sicString
+	}
+
+	override fun insolvencyCaseType(caseTypeKey: String): String {
+		return constants.insolvency_case_type[caseTypeKey] ?: caseTypeKey
+	}
+
+	override fun insolvencyCaseDateType(caseDateTypeKey: String): String {
+		return constants.insolvency_case_date_type[caseDateTypeKey] ?: caseDateTypeKey
 	}
 }
 

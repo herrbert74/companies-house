@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:tools="http://schemas.android.com/tools"
-			  android:layout_width="match_parent"
-			  android:layout_height="wrap_content"
-			  android:gravity="center"
-			  android:orientation="vertical"
-			  android:paddingBottom="@dimen/viewMargin">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:gravity="center"
+	android:orientation="vertical"
+	android:paddingBottom="@dimen/viewMargin">
 
 	<TextView
 		android:id="@+id/lblInsolvencyDate"
@@ -13,36 +14,43 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
-		tools:text="2016-01-31"/>
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/lblInsolvencyType"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="2016-01-31" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
+	<TextView
+		android:id="@+id/lblInsolvencyType"
+		style="@style/Text"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/cpnInsolvencyPractitioner"
+		app:layout_constraintTop_toBottomOf="@id/lblInsolvencyDate"
+		tools:text="Creditors voluntary liquidation" />
 
-		<TextView
-			android:id="@+id/lblInsolvencyType"
-			style="@style/Text"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			tools:text="12341234"/>
-
-		<TextView
-			android:id="@+id/lblInsolvencyNumber"
-			style="@style/Text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			tools:text="Satisfied"/>
-	</LinearLayout>
+	<TextView
+		android:id="@+id/cpnInsolvencyPractitioner"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblInsolvencyType"
+		android:text="@string/practitioner" />
 
 	<TextView
 		android:id="@+id/lblInsolvencyPractitioner"
 		style="@style/Text"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
+		android:layout_marginTop="0dp"
 		android:layout_height="wrap_content"
-		android:layout_gravity="start"
-		tools:text="Ameuri Limited"/>
+		android:layout_gravity="start|center"
+		app:layout_constraintTop_toTopOf="@id/cpnInsolvencyPractitioner"
+		app:layout_constraintStart_toEndOf="@id/cpnInsolvencyPractitioner"
+		app:layout_constraintBottom_toBottomOf="@id/cpnInsolvencyPractitioner"
+		app:layout_constraintEnd_toEndOf="parent"
+		tools:text="Dean Anthony Nelson" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
