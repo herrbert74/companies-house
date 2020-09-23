@@ -94,6 +94,10 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 			override fun insolvenciesToInsolvencyDetails() {
 				navController?.navigateSafe(R.id.action_insolvenciesFragment_to_insolvencyDetailsFragment)
 			}
+
+			override fun insolvencyDetailsToPractitioner() {
+				navController?.navigateSafe(R.id.action_insolvencyDetailsFragment_to_practitionerFragment)
+			}
 		}
 	}
 

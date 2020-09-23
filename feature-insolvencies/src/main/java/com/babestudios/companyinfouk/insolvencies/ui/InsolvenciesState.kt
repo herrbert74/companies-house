@@ -6,6 +6,7 @@ import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.common.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.common.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 
@@ -20,5 +21,9 @@ data class InsolvenciesState(
 		//Insolvency case
 		@PersistState
 		val insolvencyCase: InsolvencyCase = InsolvencyCase(),
-		val insolvencyDetailsItems: List<InsolvencyDetailsVisitableBase> = emptyList()
+		val insolvencyDetailsItems: List<InsolvencyDetailsVisitableBase> = emptyList(),
+
+		//Practitioner
+		@PersistState
+		val selectedPractitioner: Practitioner? = null,
 ) : MvRxState

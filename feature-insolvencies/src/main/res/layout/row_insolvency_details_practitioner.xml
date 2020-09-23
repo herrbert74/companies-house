@@ -1,177 +1,29 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-												   xmlns:app="http://schemas.android.com/apk/res-auto"
-												   xmlns:tools="http://schemas.android.com/tools"
-												   android:layout_width="match_parent"
-												   android:layout_height="wrap_content"
-												   android:paddingBottom="@dimen/screenMargin">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingTop="@dimen/screenMargin"
+	android:paddingBottom="@dimen/screenMargin">
 
-	<androidx.constraintlayout.widget.Guideline
-		android:id="@+id/guideline"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		app:layout_constraintGuide_percent="0.6"/>
-
-	<TextView
-		android:id="@+id/cpnInsolvencyDetailsAppointedOn"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+	<ImageView
+		android:id="@+id/ivSingleLine"
+		android:layout_width="@dimen/listAvatarWidth"
+		android:layout_height="@dimen/listAvatarWidth"
 		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:text="@string/insolvency_details_appointed_on"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsAppointedOn"
-		style="@style/Text.Bold"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/screenMargin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsAppointedOn"
-		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintStart_toStartOf="@+id/guideline"
-		app:layout_constraintEnd_toEndOf="parent"
-		tools:text="Long text here 1"/>
-
-	<TextView
-		android:id="@+id/cpnInsolvencyDetailsCeasedToActOn"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:text="@string/insolvency_details_ceased_to_act_on"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsAppointedOn"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsCeasedToActOn"
-		style="@style/Text.Bold"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/screenMargin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsCeasedToActOn"
-		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintStart_toStartOf="@+id/guideline"
-		app:layout_constraintEnd_toEndOf="parent"
-		tools:text="Long text here 2"/>
-
-	<TextView
-		android:id="@+id/cpnInsolvencyDetailsPractitionerName"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:text="@string/insolvency_details_name"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsCeasedToActOn"/>
+		android:layout_marginEnd="@dimen/viewMargin"
+		android:layout_gravity="center_vertical"
+		android:contentDescription="@null"
+		app:srcCompat="@drawable/ic_male_lawyer" />
 
 	<TextView
 		android:id="@+id/lblInsolvencyDetailsPractitionerName"
-		style="@style/Text.Bold"
-		android:layout_width="0dp"
+		style="@style/Text"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/screenMargin"
 		android:layout_marginEnd="@dimen/screenMargin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsPractitionerName"
-		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintStart_toStartOf="@+id/guideline"
-		app:layout_constraintEnd_toEndOf="parent"
-		tools:text="Long text here 3"/>
+		android:layout_marginBottom="@dimen/viewMargin"
+		tools:text="Dean Anthony Nelson" />
 
-	<TextView
-		android:id="@+id/cpnInsolvencyDetailsPractitionerRole"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:text="@string/insolvency_details_role"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerName"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsPractitionerRole"
-		style="@style/Text.Bold"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/screenMargin"
-		app:layout_constraintBaseline_toBaselineOf="@+id/cpnInsolvencyDetailsPractitionerRole"
-		app:layout_constraintHorizontal_bias="0.0"
-		app:layout_constraintStart_toStartOf="@+id/guideline"
-		app:layout_constraintEnd_toEndOf="parent"
-		tools:text="Practitioner"/>
-
-	<TextView
-		android:id="@+id/cpnInsolvencyDetailsPractitionerAddress"
-		style="@style/Text.Bold"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:paddingStart="@dimen/screenMargin"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerRole"
-		android:text="@string/insolvency_details_address"
-		tools:ignore="RtlSymmetry"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsPractitionerAddressLine1"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/cpnInsolvencyDetailsPractitionerAddress"
-		tools:text="14 Sample Street"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsPractitionerLocality"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerAddressLine1"
-		tools:text="Windsor"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsPractitionerPostalCode"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerLocality"
-		tools:text="AA14 1AA"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsPractitionerRegion"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		android:visibility="gone"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerPostalCode"
-		tools:text="Surrey"/>
-
-	<TextView
-		android:id="@+id/lblInsolvencyDetailsPractitionerCountry"
-		style="@style/Text"
-		android:visibility="gone"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblInsolvencyDetailsPractitionerRegion"
-		tools:text="United Kingdom"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.companyinfouk.insolvencies.R
@@ -17,7 +18,11 @@ import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvency
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsAdapter
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsPractitionerViewHolder
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTypeFactory
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsVisitableBase
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyViewHolder
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
@@ -95,7 +100,7 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 			if (binding.rvInsolvencyDetails.adapter == null) {
 				val titlePositions = ArrayList<Int>()
 				titlePositions.add(0)
-				titlePositions.add(state.insolvencyCase.dates.size)
+				titlePositions.add(state.insolvencyCase.dates.size + 1)
 				binding.rvInsolvencyDetails.addItemDecoration(
 						DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
 				insolvencyDetailsAdapter = InsolvencyDetailsAdapter(state.insolvencyDetailsItems, InsolvencyDetailsTypeFactory())
@@ -119,6 +124,12 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 
 	private fun observeActions() {
 		eventDisposables.clear()
+		insolvencyDetailsAdapter?.getViewClickedObservable()
+				?.take(1)
+				?.subscribe { view: BaseViewHolder<InsolvencyDetailsVisitableBase> ->
+					viewModel.practitionerClicked((view as InsolvencyDetailsPractitionerViewHolder).adapterPosition)
+				}
+				?.let { eventDisposables.add(it) }
 	}
 
 	//endregion

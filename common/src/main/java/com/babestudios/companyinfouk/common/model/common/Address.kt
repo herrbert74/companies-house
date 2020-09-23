@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Address(
 		val addressLine1: String = "",
-		val addressLine2: String? = "",
-		val country: String = "",
+		val addressLine2: String? = null,
+		val country: String? = null,
 		val locality: String = "",
 		val postalCode: String = "",
-		val region: String = ""
+		val region: String? = null,
 ) : Parcelable

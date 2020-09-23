@@ -8,14 +8,14 @@ class InsolvencyDetailsTypeFactory : InsolvencyDetailsAdapter.InsolvencyDetailsT
 	override fun type(insolvencyDetailsTitleItem: InsolvencyDetailsTitleItem): Int =
 			R.layout.row_subtitle
 	override fun type(insolvencyDetailsDateItem: InsolvencyDetailsDateItem): Int =
-			R.layout.row_insolvency_details_date
+			R.layout.row_two_lines
 	override fun type(insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem): Int =
 			R.layout.row_insolvency_details_practitioner
 
 	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<InsolvencyDetailsVisitableBase> {
 		return when (type) {
 			R.layout.row_subtitle -> InsolvencyDetailsTitleViewHolder(binding)
-			R.layout.row_insolvency_details_date ->
+			R.layout.row_two_lines ->
 				InsolvencyDetailsDateViewHolder(binding)
 			R.layout.row_insolvency_details_practitioner ->
 				InsolvencyDetailsPractitionerViewHolder(binding)

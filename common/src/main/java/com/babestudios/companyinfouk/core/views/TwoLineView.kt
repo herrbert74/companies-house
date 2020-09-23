@@ -51,7 +51,7 @@ class TwoLineView @JvmOverloads constructor(
 		lblTwoLineViewFirstLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
 	}
 
-	fun setTextFirst(text: String) {
+	fun setTextFirst(text: String?) {
 		lblTwoLineViewFirstLine.text = text
 	}
 
@@ -59,7 +59,7 @@ class TwoLineView @JvmOverloads constructor(
 		lblTwoLineViewSecondLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
 	}
 
-	fun setTextSecond(text: String) {
+	fun setTextSecond(text: String?) {
 		lblTwoLineViewSecondLine.text = text
 	}
 }

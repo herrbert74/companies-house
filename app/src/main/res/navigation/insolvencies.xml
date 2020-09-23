@@ -25,6 +25,19 @@
 		android:name="com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsFragment"
 		android:label="InsolvencyDetailsFragment"
 		tools:layout="@layout/fragment_insolvency_details">
+		<action
+			android:id="@+id/action_insolvencyDetailsFragment_to_practitionerFragment"
+			app:destination="@id/practitionerFragment"
+			app:enterAnim="@anim/right_slide_in"
+			app:exitAnim="@anim/left_slide_out"
+			app:popEnterAnim="@anim/left_slide_in"
+			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
+
+	<fragment
+		android:id="@+id/practitionerFragment"
+		android:name="com.babestudios.companyinfouk.insolvencies.ui.practitioner.PractitionerFragment"
+		android:label="PractitionerFragment"
+		tools:layout="@layout/fragment_practitioner"/>
 
 </navigation>

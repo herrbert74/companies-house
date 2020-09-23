@@ -95,7 +95,15 @@ class InsolvenciesViewModel(
 				copy(insolvencyDetailsItems = list.toList())
 			}
 		}
-		//return list
+	}
+
+	fun practitionerClicked(adapterPosition: Int) {
+		withState { state ->
+			val practitioner = (state.insolvencyDetailsItems[adapterPosition] as InsolvencyDetailsPractitionerVisitable)
+					.insolvencyDetailsPractitionerItem.practitioner
+			setState { copy(selectedPractitioner = practitioner) }
+		}
+		insolvenciesNavigator.insolvencyDetailsToPractitioner()
 	}
 
 	//endregion

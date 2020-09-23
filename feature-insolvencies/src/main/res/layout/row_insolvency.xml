@@ -14,8 +14,8 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="start"
-		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintBottom_toTopOf="@+id/lblInsolvencyType"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
 		tools:text="2016-01-31" />
 
@@ -24,33 +24,9 @@
 		style="@style/Text"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintBottom_toTopOf="@+id/cpnInsolvencyPractitioner"
 		app:layout_constraintTop_toBottomOf="@id/lblInsolvencyDate"
 		tools:text="Creditors voluntary liquidation" />
-
-	<TextView
-		android:id="@+id/cpnInsolvencyPractitioner"
-		style="@style/Text"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/lblInsolvencyType"
-		android:text="@string/practitioner" />
-
-	<TextView
-		android:id="@+id/lblInsolvencyPractitioner"
-		style="@style/Text"
-		android:layout_width="0dp"
-		android:layout_marginTop="0dp"
-		android:layout_height="wrap_content"
-		android:layout_gravity="start|center"
-		app:layout_constraintTop_toTopOf="@id/cpnInsolvencyPractitioner"
-		app:layout_constraintStart_toEndOf="@id/cpnInsolvencyPractitioner"
-		app:layout_constraintBottom_toBottomOf="@id/cpnInsolvencyPractitioner"
-		app:layout_constraintEnd_toEndOf="parent"
-		tools:text="Dean Anthony Nelson" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
