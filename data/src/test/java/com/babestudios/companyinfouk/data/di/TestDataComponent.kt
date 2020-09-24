@@ -7,10 +7,13 @@ import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.common.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
+import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -38,4 +41,6 @@ interface TestDataComponent {
 	fun filingMapper() : (FilingHistoryDto) -> FilingHistory
 
 	fun chargesMapper() : (ChargesDto) -> Charges
+
+	fun insolvencyMapper() : (InsolvencyDto) -> Insolvency
 }

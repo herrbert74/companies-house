@@ -1,0 +1,32 @@
+{
+  "etag": "b2b0484573735534f696fe295fa05ab466a92c8b",
+  "cases": [
+    {
+      "type": "compulsory-liquidation",
+      "dates": [
+        {
+          "type": "wound-up-on",
+          "date": "1995-01-18"
+        },
+        {
+          "date": "1994-12-12",
+          "type": "petitioned-on"
+        }
+      ],
+      "number": "1",
+      "practitioners": [
+        {
+          "address": {
+            "address_line_2": "P O Box 5895",
+            "postal_code": "NN8 5ZD",
+            "address_line_1": "Price & Co",
+            "region": "Northants",
+            "locality": "Wellingborought"
+          },
+          "name": "Alan Redvers Price",
+          "role": "practitioner"
+        }
+      ]
+    }
+  ]
+}
