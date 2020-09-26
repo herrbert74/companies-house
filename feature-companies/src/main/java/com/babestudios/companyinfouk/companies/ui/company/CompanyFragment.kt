@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.companies.ui.company
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -99,20 +100,19 @@ class CompanyFragment : BaseMvRxFragment() {
 		binding.twoLineCompanyNatureOfBusiness.setTextSecond(company.natureOfBusiness)
 		binding.tvCompanyIncorporated.text =
 				String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
-		binding.lblCompanyAddressLine1.text = company.registeredOfficeAddress.addressLine1
-		if (!company.registeredOfficeAddress.addressLine2.isNullOrEmpty()) {
-			binding.lblCompanyAddressLine2.visibility = View.VISIBLE
-			binding.lblCompanyAddressLine2.text = company.registeredOfficeAddress.addressLine2
-		}
-		binding.lblCompanyAddressPostalCode.text = company.registeredOfficeAddress.postalCode
-		binding.lblCompanyAddressLocality.text = company.registeredOfficeAddress.locality
+		binding.addressViewCompany.setAddressLine1(company.registeredOfficeAddress.addressLine1)
+		binding.addressViewCompany.setAddressLine2(company.registeredOfficeAddress.addressLine2)
+		binding.addressViewCompany.setLocality(company.registeredOfficeAddress.locality)
+		binding.addressViewCompany.setPostalCode(company.registeredOfficeAddress.postalCode)
+		binding.addressViewCompany.setRegion(company.registeredOfficeAddress.region)
+		binding.addressViewCompany.setCountry(company.registeredOfficeAddress.country)
 		binding.twoLineCompanyAccounts.setTextSecond(company.lastAccountsMadeUpTo)
 
 		if (!company.hasCharges) {
-			binding.llCompanyCharges.visibility = View.GONE
+			binding.llCompanyCharges.visibility = GONE
 		}
 		if (!company.hasInsolvencyHistory) {
-			binding.llCompanyInsolvency.visibility = View.GONE
+			binding.llCompanyInsolvency.visibility = GONE
 		}
 	}
 
@@ -158,7 +158,7 @@ class CompanyFragment : BaseMvRxFragment() {
 		RxView.clicks(binding.fabCompanyFavorite)
 				.subscribe { viewModel.flipCompanyFavoriteState() }
 				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.btnShowOnMap)
+		RxView.clicks(binding.addressViewCompany.getMapButton())
 				.subscribe { viewModel.companiesNavigator.companyToMap() }
 				.also { disposable -> eventDisposables.add(disposable) }
 		RxView.clicks(binding.llCompanyFilings)

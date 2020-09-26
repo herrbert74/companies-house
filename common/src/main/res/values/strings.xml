@@ -3,6 +3,8 @@
 	<string name="appbar_scrolling_view_behavior" translatable="false">	com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 	<string name="type">Type</string>
 	<string name="date">Date</string>
+	<string name="office_address">Office address</string>
+	<string name="company_address_show_on_map">Show on map</string>
 	<string name="filing_history">Filing history</string>
 	<string name="charges">Charges</string>
 	<string name="insolvency">Insolvency</string>

@@ -3,7 +3,6 @@
 	<string name="remove_favourites">Remove Favourites</string>
 	<string name="privacy_policy">Privacy policy</string>
 	<string name="incorporated_on">Incorporated on %1$s</string>
-	<string name="office_address">Office address</string>
 	<string name="recent_searches">Recent Searches</string>
 	<string name="title_activity_main">MainActivity</string>
 	<string name="delete_recent_searches">Delete recent searches</string>
@@ -16,7 +15,6 @@
 	<string name="company_annual_returns_formatted_text">Last made up to %1$s</string>
 	<string name="no_insolvency">No insolvency</string>
 	<string name="title_activity_maps">Map</string>
-	<string name="company_address_show_on_map">Show on map</string>
 	<string name="could_not_complete_search">Could not complete search. Check your network connection.</string>
 	<string name="could_not_retrieve_company_info">Could not retrieve company information. Check your network connection.</string>
 	<string name="no_recent_searches">You have no recent searches. Start by searching for a company above!</string>

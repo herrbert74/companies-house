@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:layout_width="match_parent"
+	tools:layout_height="wrap_content"
+	tools:gravity="center_vertical"
+	tools:orientation="vertical"
+	tools:paddingBottom="@dimen/viewMargin"
+	tools:ignore="UseCompoundDrawables"
+	tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+	<TextView
+		android:id="@+id/cpnAddressTitle"
+		style="@style/Text"
+		android:layout_width="wrap_content"
+		android:text="@string/office_address"
+		app:layout_constraintBottom_toTopOf="@id/lblAddressAddressLine1"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/btnShowOnMap"
+		style="@style/Button"
+		android:layout_marginEnd="@dimen/screenMargin"
+		android:layout_marginBottom="@dimen/viewMargin"
+		android:text="@string/company_address_show_on_map"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<TextView
+		android:id="@+id/lblAddressAddressLine1"
+		style="@style/Text.H6"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/lblAddressAddressLine2"
+		app:layout_constraintTop_toBottomOf="@id/cpnAddressTitle"
+		tools:text="3 Hendon Place" />
+
+	<TextView
+		android:id="@+id/lblAddressAddressLine2"
+		style="@style/Text.H6"
+		tools:text="Not used"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/lblAddressLocality"
+		app:layout_constraintTop_toBottomOf="@id/lblAddressAddressLine1" />
+
+	<TextView
+		android:id="@+id/lblAddressLocality"
+		style="@style/Text.H6"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/lblAddressPostalCode"
+		app:layout_constraintTop_toBottomOf="@id/lblAddressAddressLine2"
+		tools:text="Kingston" />
+
+	<TextView
+		android:id="@+id/lblAddressPostalCode"
+		style="@style/Text.H6"
+		app:layout_constraintBottom_toTopOf="@id/lblAddressRegion"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblAddressLocality"
+		tools:text="KT6 2LP" />
+
+	<TextView
+		android:id="@+id/lblAddressRegion"
+		style="@style/Text.H6"
+		app:layout_constraintBottom_toTopOf="@id/lblAddressCountry"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblAddressPostalCode"
+		tools:text="Greater London" />
+
+	<TextView
+		android:id="@+id/lblAddressCountry"
+		style="@style/Text.H6"
+		android:layout_marginBottom="@dimen/viewMargin"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblAddressRegion"
+		tools:text="United Kingdom" />
+</merge>

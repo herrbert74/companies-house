@@ -61,61 +61,17 @@
 					android:layout_marginBottom="@dimen/viewMargin"
 					tools:text="Incorporated on 2016 August 3" />
 
-				<androidx.constraintlayout.widget.ConstraintLayout
+				<com.babestudios.companyinfouk.core.views.AddressView
+					android:id="@+id/addressViewCompany"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
-
-					<TextView
-						android:id="@+id/cpnCompanyOfficeAddress"
-						style="@style/Text"
-						android:layout_width="wrap_content"
-						android:text="@string/office_address"
-						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressLine1"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintTop_toTopOf="parent" />
-
-					<com.google.android.material.button.MaterialButton
-						android:id="@+id/btnShowOnMap"
-						style="@style/Button"
-						android:layout_marginEnd="@dimen/screenMargin"
-						android:layout_marginBottom="@dimen/viewMargin"
-						android:text="@string/company_address_show_on_map"
-						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintEnd_toEndOf="parent" />
-
-					<TextView
-						android:id="@+id/lblCompanyAddressLine1"
-						style="@style/Text.H6"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressLine2"
-						app:layout_constraintTop_toBottomOf="@id/cpnCompanyOfficeAddress"
-						tools:text="3 Hendon Place" />
-
-					<TextView
-						android:id="@+id/lblCompanyAddressLine2"
-						style="@style/Text.H6"
-						android:visibility="gone"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressLocality"
-						app:layout_constraintTop_toBottomOf="@id/lblCompanyAddressLine1" />
-
-					<TextView
-						android:id="@+id/lblCompanyAddressLocality"
-						style="@style/Text.H6"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintBottom_toTopOf="@id/lblCompanyAddressPostalCode"
-						app:layout_constraintTop_toBottomOf="@id/lblCompanyAddressLine2"
-						tools:text="Kingston" />
-
-					<TextView
-						android:id="@+id/lblCompanyAddressPostalCode"
-						style="@style/Text.H6"
-						android:layout_marginBottom="@dimen/viewMargin"
-						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintTop_toBottomOf="@id/lblCompanyAddressLocality"
-						tools:text="KT6 2LP" />
-				</androidx.constraintlayout.widget.ConstraintLayout>
+					android:layout_height="wrap_content"
+					app:title="@string/office_address"
+					app:addressLine1="Hurst House"
+					app:addressLine2="Clay Lane"
+					app:locality="Redhill"
+					app:postCode="RH1 4EG"
+					app:region="Surrey"
+					app:country="England"/>
 
 				<com.babestudios.companyinfouk.core.views.TwoLineView
 					android:id="@+id/twoLineCompanyNatureOfBusiness"
