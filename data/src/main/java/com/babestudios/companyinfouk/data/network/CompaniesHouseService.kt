@@ -5,8 +5,8 @@ import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
-import com.babestudios.companyinfouk.data.model.officers.Officers
-import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
+import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
+import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.data.model.persons.Persons
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import io.reactivex.Single
@@ -64,7 +64,7 @@ interface CompaniesHouseService {
 			@Query("orderBy") orderBy: String?,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): Single<Officers>
+	): Single<OfficersResponseDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT)
 	fun getOfficerAppointments(
@@ -72,7 +72,7 @@ interface CompaniesHouseService {
 			@Path("officerId") officerId: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): Single<Appointments>
+	): Single<AppointmentsResponseDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_ENDPOINT)
 	fun getPersons(

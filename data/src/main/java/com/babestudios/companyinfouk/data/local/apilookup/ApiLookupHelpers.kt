@@ -13,6 +13,7 @@ interface ConstantsHelperContract {
 	fun sicLookUp(sicString: String): String
 	fun insolvencyCaseType(caseTypeKey: String): String
 	fun insolvencyCaseDateType(caseDateTypeKey: String): String
+	fun officerRoleLookup(officerRoleKey: String): String
 }
 
 interface FilingHistoryDescriptionsHelperContract {
@@ -42,6 +43,10 @@ class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperCo
 
 	override fun insolvencyCaseDateType(caseDateTypeKey: String): String {
 		return constants.insolvency_case_date_type[caseDateTypeKey] ?: caseDateTypeKey
+	}
+
+	override fun officerRoleLookup(officerRoleKey: String): String {
+		return constants.officer_role[officerRoleKey] ?: officerRoleKey
 	}
 }
 

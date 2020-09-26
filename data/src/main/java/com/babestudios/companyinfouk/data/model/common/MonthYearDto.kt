@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class MonthYear(
+class MonthYearDto(
 		@SerializedName("year")
-		var year: Long? = null,
+		var year: Int? = null,
 		@SerializedName("month")
-		var month: Long? = null
+		var month: Int? = null
 ) : Parcelable

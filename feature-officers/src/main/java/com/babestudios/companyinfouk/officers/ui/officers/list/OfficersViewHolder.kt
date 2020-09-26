@@ -9,8 +9,7 @@ class OfficersViewHolder(_binding: ViewBinding) : BaseViewHolder<OfficersVisitab
 		val binding = _binding as RowOfficersBinding
 		val officers = (visitable as OfficersVisitable).officerItem
 		binding.lblOfficersName.text = officers.name
-		binding.lblOfficersAppointedOn.text = officers.appointedOn
+		binding.lblOfficersFromTo.text = officers.fromToString
 		binding.lblOfficersRole.text = officers.officerRole
-		binding.lblOfficersResignedOn.text = officers.resignedOn
 	}
 }

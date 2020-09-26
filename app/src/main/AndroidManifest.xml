@@ -19,7 +19,6 @@
 
 		<activity
 			android:name=".companies.ui.CompaniesActivity"
-			android:launchMode="singleTop"
 			android:windowSoftInputMode="stateHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />

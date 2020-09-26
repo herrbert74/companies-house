@@ -1,15 +1,12 @@
 package com.babestudios.companyinfouk.officers.ui.officers.list
 
-import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.officers.OfficerItem
-import kotlinx.android.parcel.Parcelize
+import com.babestudios.companyinfouk.common.model.officers.Officer
 
-sealed class OfficersVisitableBase : Parcelable {
+sealed class OfficersVisitableBase {
 	abstract fun type(officersTypeFactory: OfficersAdapter.OfficersTypeFactory): Int
 }
 
-@Parcelize
-class OfficersVisitable(val officerItem: OfficerItem) : OfficersVisitableBase(), Parcelable {
+class OfficersVisitable(val officerItem: Officer) : OfficersVisitableBase() {
 	override fun type(officersTypeFactory: OfficersAdapter.OfficersTypeFactory): Int {
 		return officersTypeFactory.type(officerItem)
 	}

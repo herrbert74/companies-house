@@ -4,8 +4,8 @@ package com.babestudios.companyinfouk.data.model.persons
 import android.os.Parcelable
 import androidx.annotation.Keep
 import com.babestudios.companyinfouk.data.model.common.AddressDto
-import com.babestudios.companyinfouk.data.model.common.MonthYear
-import com.babestudios.companyinfouk.data.model.common.SelfLinkData
+import com.babestudios.companyinfouk.data.model.common.MonthYearDto
+import com.babestudios.companyinfouk.data.model.common.SelfLinkDataDto
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
@@ -21,11 +21,11 @@ class Person(
 		@SerializedName("etag")
 		var etag: String? = null,
 		@SerializedName("date_of_birth")
-		var dateOfBirth: MonthYear? = null,
+		var dateOfBirth: MonthYearDto? = null,
 		@SerializedName("address")
 		var address: AddressDto? = null,
 		@SerializedName("links")
-		var links: SelfLinkData? = null,
+		var links: SelfLinkDataDto? = null,
 		@SerializedName("name_elements")
 		var nameElements: NameElements? = null,
 		@SerializedName("natures_of_control")

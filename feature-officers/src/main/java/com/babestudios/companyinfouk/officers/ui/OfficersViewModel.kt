@@ -6,10 +6,10 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
+import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.officers.Officers
-import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
@@ -79,7 +79,7 @@ class OfficersViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: Officers?): List<OfficersVisitableBase> {
+	private fun convertToVisitables(reply: OfficersResponse?): List<OfficersVisitableBase> {
 		return ArrayList(reply?.items?.map { item -> OfficersVisitable(item) } ?: emptyList())
 	}
 
@@ -87,7 +87,7 @@ class OfficersViewModel(
 		withState { state ->
 			val newOfficerItem = (state.officerItems[adapterPosition] as OfficersVisitable).officerItem
 			val pattern = Pattern.compile("officers/(.+)/appointments")
-			val matcher = pattern.matcher(newOfficerItem.links?.officer?.appointments ?: "")
+			val matcher = pattern.matcher(newOfficerItem.links.officer?.appointments ?: "")
 			var officerId = ""
 			if (matcher.find()) {
 				officerId = matcher.group(1) ?: ""
@@ -151,7 +151,7 @@ class OfficersViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: Appointments?): List<OfficerAppointmentsVisitableBase> {
+	private fun convertToVisitables(reply: AppointmentsResponse?): List<OfficerAppointmentsVisitableBase> {
 		return reply?.items?.let {
 			ArrayList(it.toMutableList().map { item -> OfficerAppointmentsVisitable(item) })
 		} ?: emptyList()

@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.officers
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.officers.Officers
-import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
+import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
+import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.officers.ui.OfficersState
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
@@ -28,14 +28,14 @@ class OfficersTest {
 			companiesHouseRepository.getOfficers("123", "0")
 		} answers
 				{
-					Single.create { Officers() }
+					Single.create { OfficersResponseDto() }
 				}
 
 		every {
 			companiesHouseRepository.getOfficerAppointments("123", any())
 		} answers
 				{
-					Single.create { Appointments() }
+					Single.create { AppointmentsResponseDto() }
 				}
 	}
 

@@ -21,6 +21,7 @@ import org.junit.runner.RunWith
 class SearchActivityTest {
 
 	//TODO When bad query text returns empty results, empty message is shown
+	//TODO Officer appointments to Company and then back to the original company
 
 	@Suppress("BooleanLiteralArgument")
 	@Rule

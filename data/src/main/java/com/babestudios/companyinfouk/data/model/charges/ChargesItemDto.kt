@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.data.model.charges
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import com.babestudios.companyinfouk.data.model.common.SelfLinkData
+import com.babestudios.companyinfouk.data.model.common.SelfLinkDataDto
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
@@ -33,7 +33,7 @@ data class ChargesItemDto(
 		@SerializedName("insolvency_cases")
 		var insolvencyCases: List<InsolvencyCaseDto> = ArrayList(),
 		@SerializedName("links")
-		var links: SelfLinkData? = null,
+		var links: SelfLinkDataDto? = null,
 		@SerializedName("more_than_four_persons_entitled")
 		var moreThanFourPersonsEntitled: String? = null,
 		@SerializedName("particulars")

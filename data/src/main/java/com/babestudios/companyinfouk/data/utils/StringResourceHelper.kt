@@ -9,10 +9,13 @@ import javax.inject.Inject
 interface StringResourceHelperContract {
 	fun getLastAccountMadeUpToString(accountType: String, date: String): String
 	fun getCompanyAccountsNotFoundString(): String
+	fun getAppointedFromToString(from: String, to: String): String
+	fun getAppointedFromString(from: String): String
 }
 
 class StringResourceHelper @Inject constructor(@ApplicationContext val context: Context)
 	: StringResourceHelperContract {
+
 	override fun getLastAccountMadeUpToString(accountType: String, date: String): String {
 		return String.format(
 				context.resources.getString(R.string.company_accounts_formatted_text),
@@ -24,4 +27,13 @@ class StringResourceHelper @Inject constructor(@ApplicationContext val context: 
 	override fun getCompanyAccountsNotFoundString(): String {
 		return context.resources.getString(R.string.company_accounts_not_found)
 	}
+
+	override fun getAppointedFromToString(from: String, to: String): String {
+		return String.format(context.getString(R.string.officer_item_appointed_from_to), from, to)
+	}
+
+	override fun getAppointedFromString(from: String): String {
+		return String.format(context.getString(R.string.officer_item_appointed_from), from)
+	}
+
 }

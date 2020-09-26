@@ -17,14 +17,16 @@ import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
-import com.babestudios.companyinfouk.data.model.officers.Officers
-import com.babestudios.companyinfouk.data.model.officers.appointments.Appointments
+import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
+import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.persons.Persons
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
@@ -53,8 +55,8 @@ interface CompaniesRepositoryContract : AnalyticsContract {
 	fun getFilingHistory(companyNumber: String, category: Category, startItem: String): Single<FilingHistory>
 	fun fetchCharges(companyNumber: String, startItem: String): Single<Charges>
 	fun getInsolvency(companyNumber: String): Single<Insolvency>
-	fun getOfficers(companyNumber: String, startItem: String): Single<Officers>
-	fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments>
+	fun getOfficers(companyNumber: String, startItem: String): Single<OfficersResponse>
+	fun getOfficerAppointments(officerId: String, startItem: String): Single<AppointmentsResponse>
 	fun getPersons(companyNumber: String, startItem: String): Single<Persons>
 	fun getDocument(documentId: String): Single<ResponseBody>
 	fun writeDocumentPdf(responseBody: ResponseBody): Single<Uri>
@@ -82,6 +84,10 @@ open class CompaniesRepository @Inject constructor(
 		private val mapChargesDto: (@JvmSuppressWildcards ChargesDto) -> @JvmSuppressWildcards Charges,
 		private val mapCompanyDto: (@JvmSuppressWildcards CompanyDto) -> @JvmSuppressWildcards Company,
 		private val mapInsolvencyDto: (@JvmSuppressWildcards InsolvencyDto) -> @JvmSuppressWildcards Insolvency,
+		private val mapOfficersResponseDto
+		: (@JvmSuppressWildcards OfficersResponseDto) -> @JvmSuppressWildcards OfficersResponse,
+		private val mapAppointmentsResponseDto
+		: (@JvmSuppressWildcards AppointmentsResponseDto) -> @JvmSuppressWildcards AppointmentsResponse,
 ) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
@@ -166,13 +172,13 @@ open class CompaniesRepository @Inject constructor(
 		return companiesHouseService
 				.getInsolvency(authorization, companyNumber)
 				.compose(errorResolver.resolveErrorForSingle())
-				.map { mapInsolvencyDto ->
-					mapInsolvencyDto(mapInsolvencyDto)
+				.map { insolvencyDto ->
+					mapInsolvencyDto(insolvencyDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
-	override fun getOfficers(companyNumber: String, startItem: String): Single<Officers> {
+	override fun getOfficers(companyNumber: String, startItem: String): Single<OfficersResponse> {
 		return companiesHouseService
 				.getOfficers(
 						authorization,
@@ -184,10 +190,13 @@ open class CompaniesRepository @Inject constructor(
 						startItem
 				)
 				.compose(errorResolver.resolveErrorForSingle())
+				.map { officersResponseDto ->
+					mapOfficersResponseDto(officersResponseDto)
+				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
-	override fun getOfficerAppointments(officerId: String, startItem: String): Single<Appointments> {
+	override fun getOfficerAppointments(officerId: String, startItem: String): Single<AppointmentsResponse> {
 		return companiesHouseService
 				.getOfficerAppointments(
 						authorization,
@@ -196,6 +205,9 @@ open class CompaniesRepository @Inject constructor(
 						startItem
 				)
 				.compose(errorResolver.resolveErrorForSingle())
+				.map { appointmentsResponseDto ->
+					mapAppointmentsResponseDto(appointmentsResponseDto)
+				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 

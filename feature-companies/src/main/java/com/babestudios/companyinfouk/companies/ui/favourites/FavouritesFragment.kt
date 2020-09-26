@@ -44,11 +44,11 @@ class FavouritesFragment : BaseMvRxFragment() {
 	private var _binding: FragmentFavouritesBinding? = null
 	private val binding get() = _binding!!
 
-	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
+	private val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
 			viewModel.companiesNavigator.popBackStack()
 		}
-	})
+	}
 
 	//region life cycle
 

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.officers.OfficerItem
+import com.babestudios.companyinfouk.common.model.officers.Officer
 import com.babestudios.companyinfouk.officers.databinding.RowOfficersBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -30,7 +30,7 @@ class OfficersAdapter(private var officersVisitables: List<OfficersVisitableBase
 	}
 
 	interface OfficersTypeFactory {
-		fun type(officersItem: OfficerItem): Int
+		fun type(officersItem: Officer): Int
 		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<OfficersVisitableBase>
 	}
 

@@ -138,11 +138,11 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 											as OfficerAppointmentsVisitable)
 											.appointment
 											.appointedTo
-							company?.let { appointedTo ->
+							company.let { appointedTo ->
 								viewModel.officersNavigator
 										.officersAppointmentsToCompanyActivity(
-												appointedTo.companyNumber!!,
-												appointedTo.companyName!!
+												appointedTo.companyNumber,
+												appointedTo.companyName
 										)
 							}
 						}

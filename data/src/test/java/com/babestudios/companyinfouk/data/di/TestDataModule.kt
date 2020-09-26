@@ -8,6 +8,8 @@ import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
@@ -17,6 +19,8 @@ import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
+import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
+import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
@@ -205,6 +209,46 @@ class TestDataModule(private val context: Context) {
 			}
 
 	@Provides
+	fun provideMapOfficerResponseDto(constantsHelper: ConstantsHelperContract): (OfficersResponseDto) ->
+	OfficersResponse =
+			{ officersResponseDto ->
+				mapOfficersResponseDto(officersResponseDto)
+				{ officers ->
+					mapNullInputList(officers)
+					{ officer ->
+						mapOfficerDto(
+								officer,
+								{ linksDto -> mapOfficerLinksDto(linksDto) },
+								{ registeredOfficeAddressDto -> mapAddressDto(registeredOfficeAddressDto) },
+								{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+								constantsHelper,
+						)
+					}
+				}
+			}
+
+	@Provides
+	fun provideMapAppointmentsResponseDto(constantsHelper: ConstantsHelperContract): (AppointmentsResponseDto) ->
+	AppointmentsResponse =
+			{ appointmentsResponseDto ->
+				mapAppointmentsResponseDto(
+						appointmentsResponseDto,
+						{ appointments ->
+							mapNullInputList(appointments)
+							{ appointmentDto ->
+								mapAppointmentDto(
+										appointmentDto,
+										{ appointedToDto -> mapAppointedToDto(appointedToDto) },
+										{ addressDto -> mapAddressDto(addressDto) },
+										constantsHelper,
+								)
+							}
+						},
+						{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+				)
+			}
+
+	@Provides
 	@Singleton
 	fun provideStringResourceHelper(): StringResourceHelperContract {
 		val stringResourceHelper = mockk<StringResourceHelper>()
@@ -224,6 +268,7 @@ class TestDataModule(private val context: Context) {
 		every { constantsHelper.accountTypeLookUp(any()) } returns ""
 		every { constantsHelper.insolvencyCaseType(any()) } returns ""
 		every { constantsHelper.insolvencyCaseDateType(any()) } returns ""
+		every { constantsHelper.officerRoleLookup(any()) } returns ""
 		return constantsHelper
 	}
 
