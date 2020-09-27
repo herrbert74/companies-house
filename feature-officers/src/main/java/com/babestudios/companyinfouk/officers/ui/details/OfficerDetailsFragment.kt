@@ -89,31 +89,22 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 	private fun showOfficerDetails() {
 		withState(viewModel) { state ->
 			val officerItem = state.officerItem
-			binding.lblOfficerDetailsName.text = officerItem?.name
-			binding.lblOfficerDetailsAppointedOn.text = officerItem?.appointedOn
-			binding.lblOfficerDetailsNationality.text = officerItem?.nationality
-			binding.lblOfficerDetailsOccupation.text = officerItem?.occupation
+			binding.twoLineOfficerDetailsName.setTextSecond(officerItem?.name)
+			binding.twoLineOfficerDetailsAppointedOn.setTextSecond(officerItem?.appointedOn)
+			binding.twoLineOfficerDetailsNationality.setTextSecond(officerItem?.nationality)
+			binding.twoLineOfficerDetailsOccupation.setTextSecond(officerItem?.occupation)
 			officerItem?.dateOfBirth?.let {
-				binding.lblOfficerDetailsDateOfBirth.text = "${it.month.toString()} / ${it.year.toString()}"
+				binding.twoLineOfficerDetailsDateOfBirth.setTextSecond("${it.month} / ${it.year}")
 			} ?: run {
-				binding.lblOfficerDetailsDateOfBirth.setText(R.string.officer_details_unknown)
+				binding.twoLineOfficerDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
 			}
-			binding.lblOfficerDetailsCountryOfResidence.text = officerItem?.countryOfResidence
-			binding.lblOfficerDetailsAddressLine1.text = officerItem?.address?.addressLine1
-			binding.lblOfficerDetailsLocality.text = officerItem?.address?.locality
-			binding.lblOfficerDetailsPostalCode.text = officerItem?.address?.postalCode
-			officerItem?.address?.region?.let {
-				binding.lblOfficerDetailsRegion.visibility = View.VISIBLE
-				binding.lblOfficerDetailsRegion.text = it
-			} ?: run {
-				binding.lblOfficerDetailsRegion.visibility = View.GONE
-			}
-			officerItem?.address?.country?.let {
-				binding.lblOfficerDetailsCountry.text = it
-				binding.lblOfficerDetailsCountry.visibility = View.VISIBLE
-			} ?: run {
-				binding.lblOfficerDetailsCountry.visibility = View.GONE
-			}
+			binding.twoLineOfficerDetailsCountryOfResidence.setTextSecond(officerItem?.countryOfResidence)
+			binding.addressViewOfficerDetails.setAddressLine1(officerItem?.address?.addressLine1)
+			binding.addressViewOfficerDetails.setAddressLine2(officerItem?.address?.addressLine2)
+			binding.addressViewOfficerDetails.setLocality(officerItem?.address?.locality)
+			binding.addressViewOfficerDetails.setPostalCode(officerItem?.address?.postalCode)
+			binding.addressViewOfficerDetails.setRegion(officerItem?.address?.region)
+			binding.addressViewOfficerDetails.setCountry(officerItem?.address?.country)
 		}
 	}
 

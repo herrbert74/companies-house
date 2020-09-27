@@ -19,236 +19,73 @@
 		android:layout_height="match_parent"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<androidx.constraintlayout.widget.ConstraintLayout
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="?attr/actionBarSize"
+			android:divider="@color/translucentBlack"
+			android:orientation="vertical"
+			android:showDividers="middle|end">
 
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guideline"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.6" />
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLineOfficerDetailsName"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_name"
+				tools:textSecond="PATEL, Ashish Nalin" />
 
-			<TextView
-				android:id="@+id/cpnOfficerDetailsName"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_name"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent" />
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLineOfficerDetailsAppointedOn"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_appointed_on"
+				tools:textSecond="2011-08-11" />
 
-			<TextView
-				android:id="@+id/lblOfficerDetailsName"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsName"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="PATEL, Ashish Nalin" />
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLineOfficerDetailsNationality"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_nationality"
+				tools:textSecond="British" />
 
-			<TextView
-				android:id="@+id/cpnOfficerDetailsAppointedOn"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_appointed_on"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsName" />
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLineOfficerDetailsOccupation"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_occupation"
+				tools:textSecond="Director" />
 
-			<TextView
-				android:id="@+id/lblOfficerDetailsAppointedOn"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsAppointedOn"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="2011-08-11" />
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLineOfficerDetailsDateOfBirth"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_date_of_birth"
+				tools:textSecond="25/1980" />
 
-			<TextView
-				android:id="@+id/cpnOfficerDetailsNationality"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_nationality"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsAppointedOn" />
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLineOfficerDetailsCountryOfResidence"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_country_of_residence"
+				tools:textSecond="United Kingdom" />
 
-			<TextView
-				android:id="@+id/lblOfficerDetailsNationality"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
+			<com.babestudios.companyinfouk.core.views.AddressView
+				android:id="@+id/addressViewOfficerDetails"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsNationality"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="British" />
-
-			<TextView
-				android:id="@+id/cpnOfficerDetailsOccupation"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_occupation"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsNationality" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsOccupation"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsOccupation"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="Director" />
-
-			<TextView
-				android:id="@+id/cpnOfficerDetailsDateOfBirth"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_date_of_birth"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsOccupation" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsDateOfBirth"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsDateOfBirth"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="25/1980" />
-
-			<TextView
-				android:id="@+id/cpnOfficerDetailsCountryOfResidence"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_country_of_residence"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsDateOfBirth" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsCountryOfResidence"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnOfficerDetailsCountryOfResidence"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="United Kingdom" />
-
-			<TextView
-				android:id="@+id/cpnOfficerDetailsAddress"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="16dp"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:paddingStart="@dimen/screenMargin"
-				android:text="@string/insolvency_details_address"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsCountryOfResidence"
-				tools:ignore="RtlSymmetry" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsAddressLine1"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/cpnOfficerDetailsAddress"
-				tools:text="14 Sample Street" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsLocality"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsAddressLine1"
-				tools:text="Windsor" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsPostalCode"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsLocality"
-				tools:text="AA14 1AA" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsRegion"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsPostalCode"
-				tools:text="Surrey" />
-
-			<TextView
-				android:id="@+id/lblOfficerDetailsCountry"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblOfficerDetailsRegion"
-				tools:text="United Kingdom" />
+				app:addressLine1="Hurst House"
+				app:addressLine2="Clay Lane"
+				app:country="England"
+				app:locality="Redhill"
+				app:postCode="RH1 4EG"
+				app:region="Surrey"
+				app:title="@string/insolvency_details_address" />
 
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btnOfficerDetailsAppointments"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/screenMargin"
+				android:layout_marginBottom="@dimen/viewMarginLarge"
 				android:layout_marginTop="16dp"
 				android:text="@string/officer_details_appointments"
-				android:transitionName="transtion_name_example"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/lblOfficerDetailsCountry"
-				tools:layout_editor_absoluteX="0dp" />
+				android:transitionName="transition_name_example" />
 
-		</androidx.constraintlayout.widget.ConstraintLayout>
+		</LinearLayout>
 	</androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
