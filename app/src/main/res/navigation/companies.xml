@@ -20,6 +20,12 @@
 			app:popExitAnim="@anim/right_slide_out" />
 
 		<action
+			android:id="@+id/action_mainFragment_to_companyFragment_pop"
+			app:popUpTo="@id/mainFragment"
+			app:popUpToInclusive="true"
+			app:destination="@id/companyFragment" />
+
+		<action
 			android:id="@+id/action_mainFragment_to_favouritesFragment"
 			app:destination="@+id/favouritesFragment"
 			app:enterAnim="@anim/right_slide_in"

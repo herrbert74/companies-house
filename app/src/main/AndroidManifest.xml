@@ -28,7 +28,7 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".charges.ui.ChargesActivity" />
-		<activity android:name=".filings.ui.FilingsActivity" >
+		<activity android:name=".filings.ui.FilingsActivity">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value=".companies.ui.CompaniesActivity" />
@@ -37,8 +37,9 @@
 		<activity android:name=".officers.ui.OfficersActivity" />
 		<activity android:name=".persons.ui.PersonsActivity" />
 
-		<activity android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
-			android:exported="true"/>
+		<activity
+			android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
+			android:exported="true" />
 
 		<provider
 			android:name="androidx.core.content.FileProvider"

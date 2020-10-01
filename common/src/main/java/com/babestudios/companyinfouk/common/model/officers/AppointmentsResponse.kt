@@ -1,8 +1,10 @@
 package com.babestudios.companyinfouk.common.model.officers
 
 
+import android.os.Parcelable
 import com.babestudios.companyinfouk.common.model.common.Address
 import com.babestudios.companyinfouk.common.model.common.MonthYear
+import kotlinx.android.parcel.Parcelize
 
 data class AppointmentsResponse(
 		var dateOfBirth: MonthYear? = null,
@@ -11,6 +13,7 @@ data class AppointmentsResponse(
 		var totalResults: String? = null,
 )
 
+@Parcelize
 data class Appointment(
 		var address: Address = Address(),
 		var appointedOn: String = "",
@@ -21,10 +24,11 @@ data class Appointment(
 		var occupation: String? = null,
 		var officerRole: String = "",
 		var resignedOn: String? = null
-)
+) : Parcelable
 
+@Parcelize
 class AppointedTo(
 		var companyName: String = "",
 		var companyNumber: String = "",
 		var companyStatus: String = "",
-)
+) : Parcelable

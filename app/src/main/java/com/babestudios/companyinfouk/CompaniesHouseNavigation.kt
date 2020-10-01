@@ -44,6 +44,10 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 				navController?.navigateSafe(R.id.action_mainFragment_to_companyFragment)
 			}
 
+			override fun mainToCompanyPopMain() {
+				navController?.navigateSafe(R.id.action_mainFragment_to_companyFragment_pop)
+			}
+
 			override fun mainToFavourites() {
 				navController?.navigateSafe(R.id.action_mainFragment_to_favouritesFragment)
 			}

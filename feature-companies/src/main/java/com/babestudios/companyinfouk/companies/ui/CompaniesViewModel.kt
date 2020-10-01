@@ -7,6 +7,7 @@ import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.common.model.company.Company
+import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
@@ -17,7 +18,6 @@ import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
@@ -39,12 +39,22 @@ class CompaniesViewModel(
 			val companiesRepository = viewModelContext.activity<CompaniesActivity>().injectCompaniesHouseRepository()
 			val companiesNavigator = viewModelContext.activity<CompaniesActivity>().injectCompaniesNavigator()
 			val recentSearchesString = viewModelContext.activity<CompaniesActivity>().injectRecentSearchesString()
+
 			return CompaniesViewModel(
 					state,
 					companiesRepository,
 					companiesNavigator,
 					recentSearchesString
 			)
+		}
+
+		override fun initialState(viewModelContext: ViewModelContext): CompaniesState? {
+			val companyNumber = viewModelContext.activity<CompaniesActivity>().provideCompanyNumber()
+			val companyName = viewModelContext.activity<CompaniesActivity>().provideCompanyName()
+			return if (companyNumber.isNotEmpty())
+				CompaniesState(companyNumber = companyNumber, companyName = companyName)
+			else
+				null
 		}
 	}
 
@@ -280,16 +290,6 @@ class CompaniesViewModel(
 							company = it() ?: Company(),
 					)
 				}
-	}
-
-	private fun getAddressString(companyDto: CompanyDto?): String {
-		return companyDto?.registeredOfficeAddress?.addressLine2 ?: run {
-			(companyDto?.registeredOfficeAddress?.addressLine1
-					+ ", "
-					+ companyDto?.registeredOfficeAddress?.locality
-					+ ", "
-					+ companyDto?.registeredOfficeAddress?.postalCode)
-		}
 	}
 
 	fun flipCompanyFavoriteState() {

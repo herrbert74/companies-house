@@ -8,6 +8,8 @@ import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.navigation.COMPANY_NAME
+import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 
 class CompaniesActivity : BaseActivity() {
@@ -23,8 +25,13 @@ class CompaniesActivity : BaseActivity() {
 
 	private lateinit var navController: NavController
 
+	private lateinit var companyNumber: String
+	private lateinit var companyName: String
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		companyNumber = intent.extras?.getString(COMPANY_NUMBER).orEmpty()
+		companyName = intent.extras?.getString(COMPANY_NAME).orEmpty()
 		setContentView(R.layout.activity_companies)
 		navController = findNavController(R.id.navHostFragmentCompanies)
 		if (::comp.isLazyInitialized) {
@@ -47,12 +54,24 @@ class CompaniesActivity : BaseActivity() {
 
 	fun injectCompaniesNavigator(): CompaniesNavigator {
 		companiesNavigator = comp.navigator()
-		if (::navController.isInitialized)
+		if (::navController.isInitialized) {
 			companiesNavigator.bind(navController)
+			if (companyNumber.isNotEmpty())
+				companiesNavigator.mainToCompanyPopMain()
+
+		}
 		return companiesNavigator
 	}
 
 	fun injectRecentSearchesString(): String {
 		return getString(R.string.recent_searches)
+	}
+
+	fun provideCompanyNumber(): String {
+		return if (::companyNumber.isInitialized) companyNumber else ""
+	}
+
+	fun provideCompanyName(): String {
+		return if (::companyName.isInitialized) companyName else ""
 	}
 }
