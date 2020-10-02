@@ -42,7 +42,7 @@ class FilingsActivity : BaseActivity() {
 		if (onBackPressedDispatcher.hasEnabledCallbacks()) {
 			onBackPressedDispatcher.onBackPressed()
 		} else {
-			NavUtils.navigateUpFromSameTask(this)
+			super.finish()
 			overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
 		}
 	}

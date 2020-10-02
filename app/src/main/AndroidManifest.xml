@@ -28,11 +28,7 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".charges.ui.ChargesActivity" />
-		<activity android:name=".filings.ui.FilingsActivity">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".companies.ui.CompaniesActivity" />
-		</activity>
+		<activity android:name=".filings.ui.FilingsActivity" />
 		<activity android:name=".insolvencies.ui.InsolvenciesActivity" />
 		<activity android:name=".officers.ui.OfficersActivity" />
 		<activity android:name=".persons.ui.PersonsActivity" />

@@ -1,5 +1,9 @@
 package com.babestudios.companyinfouk.common.model.filinghistory
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class FilingHistoryItem(
 		val date: String = "",
 		val type: String = "",
@@ -8,4 +12,4 @@ data class FilingHistoryItem(
 		val subcategory: String = "",
 		val description: String = "",
 		val pages: Int = 0,
-)
+):Parcelable
