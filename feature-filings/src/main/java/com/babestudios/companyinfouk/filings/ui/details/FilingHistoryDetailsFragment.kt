@@ -13,10 +13,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.airbnb.mvrx.*
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryDetailsBinding
+import com.babestudios.companyinfouk.filings.ui.FilingsActivity
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.filings.ui.createSpannableDescription
 import io.reactivex.disposables.CompositeDisposable
@@ -24,7 +26,7 @@ import java.util.*
 
 private const val REQUEST_WRITE_STORAGE = 1687
 
-class FilingHistoryDetailsFragment : BaseMvRxFragment() {
+class FilingHistoryDetailsFragment : BaseFragment() {
 
 	private val viewModel by existingViewModel(FilingsViewModel::class)
 
@@ -58,6 +60,11 @@ class FilingHistoryDetailsFragment : BaseMvRxFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initializeUI()
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as FilingsActivity
+		viewModel.setNavigator(activity.injectFilingsNavigator())
 	}
 
 	override fun onDestroyView() {

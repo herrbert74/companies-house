@@ -22,10 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentFavouritesBinding
+import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.favourites.list.*
 import io.reactivex.disposables.CompositeDisposable
@@ -33,7 +35,7 @@ import java.util.*
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
 
-class FavouritesFragment : BaseMvRxFragment() {
+class FavouritesFragment : BaseFragment() {
 
 	private var favouritesAdapter: FavouritesAdapter? = null
 
@@ -93,6 +95,11 @@ class FavouritesFragment : BaseMvRxFragment() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 		binding.rvFavourites.layoutManager = linearLayoutManager
 		binding.rvFavourites.addItemDecoration(DividerItemDecoration(requireContext()))
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as CompaniesActivity
+		viewModel.setNavigator(activity.injectCompaniesNavigator())
 	}
 
 	//endregion

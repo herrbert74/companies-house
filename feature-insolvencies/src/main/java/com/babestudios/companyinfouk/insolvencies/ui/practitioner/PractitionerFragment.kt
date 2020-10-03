@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentPractitionerBinding
+import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import io.reactivex.disposables.CompositeDisposable
 
-class PractitionerFragment : BaseMvRxFragment() {
+class PractitionerFragment : BaseFragment() {
 
 	private val viewModel by existingViewModel(InsolvenciesViewModel::class)
 
@@ -69,6 +70,11 @@ class PractitionerFragment : BaseMvRxFragment() {
 		super.onDestroyView()
 		callback.remove()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as InsolvenciesActivity
+		viewModel.setNavigator(activity.injectInsolvenciesNavigator())
 	}
 
 	//endregion

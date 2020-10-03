@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerDetailsBinding
+import com.babestudios.companyinfouk.officers.ui.OfficersActivity
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.CompositeDisposable
 
-class OfficerDetailsFragment : BaseMvRxFragment() {
+class OfficerDetailsFragment : BaseFragment() {
 
 	private val viewModel by existingViewModel(OfficersViewModel::class)
 
@@ -63,6 +64,11 @@ class OfficerDetailsFragment : BaseMvRxFragment() {
 		super.onDestroyView()
 		callback.remove()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as OfficersActivity
+		viewModel.setNavigator(activity.injectOfficersNavigator())
 	}
 
 //endregion

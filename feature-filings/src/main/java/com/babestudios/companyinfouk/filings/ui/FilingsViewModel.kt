@@ -19,7 +19,7 @@ import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 class FilingsViewModel(
 		filingsState: FilingsState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val filingsNavigator: FilingsNavigator
+		var filingsNavigator: FilingsNavigator
 ) : BaseViewModel<FilingsState>(filingsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<FilingsViewModel, FilingsState> {
@@ -42,6 +42,10 @@ class FilingsViewModel(
 			else
 				null
 		}
+	}
+
+	fun setNavigator(navigator: FilingsNavigator) {
+		filingsNavigator = navigator
 	}
 
 	//region filings

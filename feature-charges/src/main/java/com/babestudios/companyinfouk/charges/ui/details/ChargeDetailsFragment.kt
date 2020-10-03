@@ -9,18 +9,19 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.FragmentChargeDetailsBinding
+import com.babestudios.companyinfouk.charges.ui.ChargesActivity
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.charges.ui.details.list.*
 import com.babestudios.companyinfouk.common.model.charges.Transaction
 import io.reactivex.disposables.CompositeDisposable
 
-class ChargeDetailsFragment : BaseMvRxFragment() {
+class ChargeDetailsFragment : BaseFragment() {
 
 	private val viewModel by existingViewModel(ChargesViewModel::class)
 
@@ -76,6 +77,10 @@ class ChargeDetailsFragment : BaseMvRxFragment() {
 		_binding = null
 	}
 
+	override fun orientationChanged() {
+		val activity = requireActivity() as ChargesActivity
+		viewModel.setNavigator(activity.injectChargesNavigator())
+	}
 
 	//endregion
 

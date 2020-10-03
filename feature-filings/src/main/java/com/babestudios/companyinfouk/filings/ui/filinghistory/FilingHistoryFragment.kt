@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
@@ -15,6 +16,7 @@ import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryBinding
+import com.babestudios.companyinfouk.filings.ui.FilingsActivity
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryAdapter
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryTypeFactory
@@ -23,7 +25,7 @@ import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistory
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import io.reactivex.disposables.CompositeDisposable
 
-class FilingHistoryFragment : BaseMvRxFragment() {
+class FilingHistoryFragment : BaseFragment() {
 
 	private val viewModel by activityViewModel(FilingsViewModel::class)
 
@@ -41,6 +43,11 @@ class FilingHistoryFragment : BaseMvRxFragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setHasOptionsMenu(true)
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as FilingsActivity
+		viewModel.setNavigator(activity.injectFilingsNavigator())
 	}
 
 	override fun onCreateView(

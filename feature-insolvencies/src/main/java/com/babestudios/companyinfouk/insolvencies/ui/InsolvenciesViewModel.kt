@@ -3,17 +3,17 @@ package com.babestudios.companyinfouk.insolvencies.ui
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.*
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitable
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
 
 class InsolvenciesViewModel(
 		insolvenciesState: InsolvenciesState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val insolvenciesNavigator: InsolvenciesNavigator,
+		var insolvenciesNavigator: InsolvenciesNavigator,
 		private val datesTitleString: String,
 		private val practitionersTitleString: String
 ) : BaseViewModel<InsolvenciesState>(insolvenciesState, companiesRepository) {
@@ -49,6 +49,10 @@ class InsolvenciesViewModel(
 			else
 				null
 		}
+	}
+
+	fun setNavigator(navigator: InsolvenciesNavigator) {
+		insolvenciesNavigator = navigator
 	}
 
 	//region charges

@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.companyinfouk.common.model.company.getAddressString
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMapBinding
+import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -30,7 +31,7 @@ const val STARTING_LATITUDE: Double = 51.5033635
 const val STARTING_LONGITUDE: Double = -0.1276248
 const val STARTING_ZOOM = 15f
 
-class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 	private var googleMap: GoogleMap? = null
 
@@ -59,6 +60,11 @@ class MapFragment : BaseMvRxFragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
 	override fun onDestroyView() {
 		super.onDestroyView()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as CompaniesActivity
+		viewModel.setNavigator(activity.injectCompaniesNavigator())
 	}
 
 	private fun initializeUI() {

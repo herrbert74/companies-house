@@ -9,19 +9,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonsBinding
+import com.babestudios.companyinfouk.persons.ui.PersonsActivity
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
-import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsAdapter
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsTypeFactory
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsViewHolder
+import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
 import io.reactivex.disposables.CompositeDisposable
 
-class PersonsFragment : BaseMvRxFragment() {
+class PersonsFragment : BaseFragment() {
 
 	private var personsAdapter: PersonsAdapter? = null
 
@@ -80,6 +82,11 @@ class PersonsFragment : BaseMvRxFragment() {
 				viewModel.loadMorePersons(page)
 			}
 		})
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as PersonsActivity
+		viewModel.setNavigator(activity.injectPersonsNavigator())
 	}
 
 	//endregion

@@ -7,26 +7,25 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvencyDetailsBinding
+import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsAdapter
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsPractitionerViewHolder
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTypeFactory
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsVisitableBase
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyViewHolder
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
-class InsolvencyDetailsFragment : BaseMvRxFragment() {
+class InsolvencyDetailsFragment : BaseFragment() {
 
 	private var insolvencyDetailsAdapter: InsolvencyDetailsAdapter? = null
 
@@ -88,6 +87,11 @@ class InsolvencyDetailsFragment : BaseMvRxFragment() {
 		super.onDestroyView()
 		callback.remove()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as InsolvenciesActivity
+		viewModel.setNavigator(activity.injectInsolvenciesNavigator())
 	}
 
 	//endregion

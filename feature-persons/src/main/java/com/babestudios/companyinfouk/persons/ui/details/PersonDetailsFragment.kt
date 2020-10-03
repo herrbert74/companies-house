@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.mvrx.BaseMvRxFragment
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonDetailsBinding
+import com.babestudios.companyinfouk.persons.ui.PersonsActivity
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
 import io.reactivex.disposables.CompositeDisposable
 
-class PersonDetailsFragment : BaseMvRxFragment() {
+class PersonDetailsFragment : BaseFragment() {
 
 	private val viewModel by existingViewModel(PersonsViewModel::class)
 
@@ -65,6 +66,11 @@ class PersonDetailsFragment : BaseMvRxFragment() {
 		super.onDestroyView()
 		callback.remove()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as PersonsActivity
+		viewModel.setNavigator(activity.injectPersonsNavigator())
 	}
 
 	//endregion

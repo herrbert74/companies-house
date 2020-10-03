@@ -9,19 +9,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.FragmentChargesBinding
+import com.babestudios.companyinfouk.charges.ui.ChargesActivity
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesAdapter
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesTypeFactory
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesViewHolder
+import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
 import io.reactivex.disposables.CompositeDisposable
 
-class ChargesFragment : BaseMvRxFragment() {
+class ChargesFragment : BaseFragment() {
 
 	private val viewModel by activityViewModel(ChargesViewModel::class)
 
@@ -79,6 +81,11 @@ class ChargesFragment : BaseMvRxFragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as ChargesActivity
+		viewModel.setNavigator(activity.injectChargesNavigator())
 	}
 
 	//endregion

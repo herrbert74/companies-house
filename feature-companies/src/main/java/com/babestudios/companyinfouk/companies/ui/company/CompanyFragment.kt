@@ -9,16 +9,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.airbnb.mvrx.*
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentCompanyBinding
+import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.CompositeDisposable
 
-class CompanyFragment : BaseMvRxFragment() {
+class CompanyFragment : BaseFragment() {
 
 	private val viewModel by existingViewModel(CompaniesViewModel::class)
 
@@ -60,6 +62,11 @@ class CompanyFragment : BaseMvRxFragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as CompaniesActivity
+		viewModel.setNavigator(activity.injectCompaniesNavigator())
 	}
 
 	//endregion

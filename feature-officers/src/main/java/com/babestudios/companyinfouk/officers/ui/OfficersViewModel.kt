@@ -10,6 +10,7 @@ import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
@@ -20,7 +21,7 @@ import java.util.regex.Pattern
 class OfficersViewModel(
 		officersState: OfficersState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val officersNavigator: OfficersNavigator
+		var officersNavigator: OfficersNavigator
 ) : BaseViewModel<OfficersState>(officersState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<OfficersViewModel, OfficersState> {
@@ -43,6 +44,10 @@ class OfficersViewModel(
 			else
 				null
 		}
+	}
+
+	fun setNavigator(navigator: OfficersNavigator) {
+		officersNavigator = navigator
 	}
 
 	//region officers

@@ -9,18 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficersBinding
+import com.babestudios.companyinfouk.officers.ui.OfficersActivity
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
-import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitableBase
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersAdapter
 import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersTypeFactory
+import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitableBase
 import io.reactivex.disposables.CompositeDisposable
 
-class OfficersFragment : BaseMvRxFragment() {
+class OfficersFragment : BaseFragment() {
 
 	private var officersAdapter: OfficersAdapter? = null
 
@@ -67,6 +69,11 @@ class OfficersFragment : BaseMvRxFragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as OfficersActivity
+		viewModel.setNavigator(activity.injectOfficersNavigator())
 	}
 
 	private fun createRecyclerView() {

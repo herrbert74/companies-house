@@ -25,6 +25,7 @@ import com.airbnb.mvrx.*
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.textColor
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
@@ -32,6 +33,7 @@ import com.babestudios.base.view.FilterAdapter
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMainBinding
+import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.FilterState
@@ -49,7 +51,7 @@ import java.util.concurrent.TimeUnit
 
 const val SEARCH_QUERY_MIN_LENGTH = 3
 
-class MainFragment : BaseMvRxFragment() {
+class MainFragment : BaseFragment() {
 
 	private var searchHistoryAdapter: SearchHistoryAdapter? = null
 	private var searchAdapter: SearchAdapter? = null
@@ -110,6 +112,11 @@ class MainFragment : BaseMvRxFragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as CompaniesActivity
+		viewModel.setNavigator(activity.injectCompaniesNavigator())
 	}
 
 	private fun createSearchHistoryRecyclerView() {

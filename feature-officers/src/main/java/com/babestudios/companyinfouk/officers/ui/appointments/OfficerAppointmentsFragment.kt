@@ -10,16 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerAppointmentsBinding
+import com.babestudios.companyinfouk.officers.ui.OfficersActivity
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import com.babestudios.companyinfouk.officers.ui.appointments.list.*
 import io.reactivex.disposables.CompositeDisposable
 
-class OfficerAppointmentsFragment : BaseMvRxFragment() {
+class OfficerAppointmentsFragment : BaseFragment() {
 
 
 	private var officerAppointmentsAdapter: OfficerAppointmentsAdapter? = null
@@ -85,6 +87,11 @@ class OfficerAppointmentsFragment : BaseMvRxFragment() {
 		super.onDestroyView()
 		callback.remove()
 		_binding = null
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as OfficersActivity
+		viewModel.setNavigator(activity.injectOfficersNavigator())
 	}
 
 	//endregion

@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvencyBinding
+import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvenciesAdapter
@@ -20,7 +22,7 @@ import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.Insolvenc
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyViewHolder
 import io.reactivex.disposables.CompositeDisposable
 
-class InsolvenciesFragment : BaseMvRxFragment() {
+class InsolvenciesFragment : BaseFragment() {
 
 	private var insolvenciesAdapter: InsolvenciesAdapter? = null
 
@@ -72,6 +74,11 @@ class InsolvenciesFragment : BaseMvRxFragment() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 		binding.rvInsolvency.layoutManager = linearLayoutManager
 		binding.rvInsolvency.addItemDecoration(DividerItemDecoration(requireContext()))
+	}
+
+	override fun orientationChanged() {
+		val activity = requireActivity() as InsolvenciesActivity
+		viewModel.setNavigator(activity.injectInsolvenciesNavigator())
 	}
 
 	//endregion

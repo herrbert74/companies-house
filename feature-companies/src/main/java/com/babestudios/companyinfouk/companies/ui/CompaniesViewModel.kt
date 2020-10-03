@@ -7,7 +7,6 @@ import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.common.model.company.Company
-import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
@@ -28,7 +27,7 @@ import io.reactivex.schedulers.Schedulers
 class CompaniesViewModel(
 		companiesState: CompaniesState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val companiesNavigator: CompaniesNavigator,
+		var companiesNavigator: CompaniesNavigator,
 		private val recentSearchesString: String
 ) : BaseViewModel<CompaniesState>(companiesState, companiesRepository) {
 
@@ -56,6 +55,10 @@ class CompaniesViewModel(
 			else
 				null
 		}
+	}
+
+	fun setNavigator(navigator: CompaniesNavigator) {
+		companiesNavigator = navigator
 	}
 
 	//region Recent searches

@@ -8,6 +8,7 @@ import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.persons.Persons
+import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
@@ -16,7 +17,7 @@ import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 class PersonsViewModel(
 		personsState: PersonsState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val personsNavigator: PersonsNavigator
+		var personsNavigator: PersonsNavigator
 ) : BaseViewModel<PersonsState>(personsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<PersonsViewModel, PersonsState> {
@@ -39,6 +40,10 @@ class PersonsViewModel(
 			else
 				null
 		}
+	}
+
+	fun setNavigator(navigator: PersonsNavigator) {
+		personsNavigator = navigator
 	}
 
 	//region persons

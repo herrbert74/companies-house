@@ -4,18 +4,17 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitable
+import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
 import com.babestudios.companyinfouk.common.model.charges.Charges
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 
 class ChargesViewModel(
 		chargesState: ChargesState,
 		private val companiesRepository: CompaniesRepositoryContract,
-		val chargesNavigator: ChargesNavigator
+		var chargesNavigator: ChargesNavigator
 ) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<ChargesViewModel, ChargesState> {
@@ -40,6 +39,10 @@ class ChargesViewModel(
 		}
 	}
 
+	fun setNavigator(navigator: ChargesNavigator) {
+		chargesNavigator = navigator
+	}
+
 	//region charges
 
 	fun fetchCharges(companyNumber: String) {
@@ -48,7 +51,7 @@ class ChargesViewModel(
 					copy(
 							chargesRequest = it,
 							charges = convertToVisitables(it()),
-							totalChargesCount = it()?.totalCount?.toInt() ?: 0
+							totalChargesCount = it()?.totalCount ?: 0
 					)
 				}
 	}
@@ -66,7 +69,7 @@ class ChargesViewModel(
 					copy(
 							chargesRequest = it,
 							charges = charges.appendAt(convertToVisitables(it()), charges.size + 1),
-							totalChargesCount = it()?.totalCount?.toInt() ?: 0
+							totalChargesCount = it()?.totalCount ?: 0
 					)
 				}
 			}
