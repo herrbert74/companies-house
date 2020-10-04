@@ -1,5 +1,9 @@
 package com.babestudios.companyinfouk.data.local.apilookup
 
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import com.babestudios.companyinfouk.data.R
 import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
 import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDescriptions

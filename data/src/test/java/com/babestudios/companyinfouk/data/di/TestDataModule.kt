@@ -209,7 +209,10 @@ class TestDataModule(private val context: Context) {
 			}
 
 	@Provides
-	fun provideMapOfficerResponseDto(constantsHelper: ConstantsHelperContract): (OfficersResponseDto) ->
+	fun provideMapOfficerResponseDto(
+			constantsHelper: ConstantsHelperContract,
+			stringResourceHelper: StringResourceHelperContract
+	): (OfficersResponseDto) ->
 	OfficersResponse =
 			{ officersResponseDto ->
 				mapOfficersResponseDto(officersResponseDto)
@@ -222,6 +225,7 @@ class TestDataModule(private val context: Context) {
 								{ registeredOfficeAddressDto -> mapAddressDto(registeredOfficeAddressDto) },
 								{ monthYearDto -> mapMonthYearDto(monthYearDto) },
 								constantsHelper,
+								stringResourceHelper
 						)
 					}
 				}
@@ -257,6 +261,8 @@ class TestDataModule(private val context: Context) {
 		every { stringResourceHelper.getLastAccountMadeUpToString(any(), capture(slotDate)) } answers {
 			"Last account made up to ${slotDate.captured}"
 		}
+		every { stringResourceHelper.getAppointedFromString(any()) } returns ""
+		every { stringResourceHelper.getAppointedFromToString(any(), any()) } returns ""
 		return stringResourceHelper
 	}
 

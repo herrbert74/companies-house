@@ -1,0 +1,172 @@
+{
+  "resigned_count": 4,
+  "kind": "officer-list",
+  "active_count": 3,
+  "links": {
+    "self": "/company/04475590/officers"
+  },
+  "items": [
+    {
+      "name": "STEVENSON, Elizabeth Mary",
+      "links": {
+        "officer": {
+          "appointments": "/officers/M0nRpSZPlPTwBusql3sNK6Efzr8/appointments"
+        }
+      },
+      "nationality": "British",
+      "occupation": "Director",
+      "appointed_on": "2002-07-02",
+      "address": {
+        "address_line_2": "Ketton",
+        "premises": "The Bungalow",
+        "country": "England",
+        "region": "Lincolnshire",
+        "address_line_1": "Geeston Road",
+        "postal_code": "PE9 3RH",
+        "locality": "Stamford"
+      },
+      "officer_role": "secretary"
+    },
+    {
+      "officer_role": "director",
+      "appointed_on": "2017-09-02",
+      "occupation": "Company Director",
+      "name": "STEVENSON, Benjamin Thomas",
+      "country_of_residence": "England",
+      "address": {
+        "region": "West Yorkshire",
+        "locality": "Leeds",
+        "premises": "Flat 19",
+        "address_line_1": "1 Harewood Street",
+        "country": "England",
+        "postal_code": "LS2 7AD"
+      },
+      "date_of_birth": {
+        "year": 1985,
+        "month": 7
+      },
+      "links": {
+        "officer": {
+          "appointments": "/officers/5SU_9GfEsP_Z_H7rb1fNFmEZvKs/appointments"
+        }
+      },
+      "nationality": "British"
+    },
+    {
+      "appointed_on": "2002-07-02",
+      "officer_role": "director",
+      "name": "STEVENSON, Elizabeth Mary",
+      "occupation": "Director",
+      "address": {
+        "address_line_2": "Ketton",
+        "country": "England",
+        "postal_code": "PE9 3RH",
+        "region": "Lincolnshire",
+        "address_line_1": "Geeston Road",
+        "premises": "The Bungalow",
+        "locality": "Stamford"
+      },
+      "country_of_residence": "England",
+      "links": {
+        "officer": {
+          "appointments": "/officers/M0nRpSZPlPTwBusql3sNK6Efzr8/appointments"
+        }
+      },
+      "nationality": "British",
+      "date_of_birth": {
+        "year": 1957,
+        "month": 3
+      }
+    },
+    {
+      "officer_role": "corporate-nominee-secretary",
+      "resigned_on": "2002-07-02",
+      "address": {
+        "address_line_2": "Temple Avenue",
+        "locality": "London",
+        "postal_code": "EC4Y 0HP",
+        "address_line_1": "84 Temple Chambers"
+      },
+      "appointed_on": "2002-07-02",
+      "links": {
+        "officer": {
+          "appointments": "/officers/yijMAlD-g9qcqcbX0w6AFDbcWtQ/appointments"
+        }
+      },
+      "name": "LONDON LAW SECRETARIAL LIMITED"
+    },
+    {
+      "resigned_on": "2002-07-02",
+      "officer_role": "nominee-director",
+      "address": {
+        "address_line_1": "84 Temple Chambers",
+        "address_line_2": "Temple Avenue",
+        "locality": "London",
+        "postal_code": "EC4Y 0HP"
+      },
+      "appointed_on": "2002-07-02",
+      "links": {
+        "officer": {
+          "appointments": "/officers/It1fdjIyCDqgLpk3nYKsWymv32U/appointments"
+        }
+      },
+      "name": "LONDON LAW SERVICES LIMITED"
+    },
+    {
+      "date_of_birth": {
+        "month": 6,
+        "year": 1985
+      },
+      "nationality": "British",
+      "links": {
+        "officer": {
+          "appointments": "/officers/mqkD15s6orcvxGCwF0zIaU7bw1I/appointments"
+        }
+      },
+      "resigned_on": "2017-09-01",
+      "address": {
+        "region": "Lincolnshire",
+        "postal_code": "PE9 3TH",
+        "country": "England",
+        "premises": "4a",
+        "address_line_2": "Ketton",
+        "address_line_1": "Edmonds Drive",
+        "locality": "Stamford"
+      },
+      "country_of_residence": "England",
+      "occupation": "Company Director",
+      "name": "STEVENSON, Benjamin Thomas",
+      "officer_role": "director",
+      "appointed_on": "2012-11-09"
+    },
+    {
+      "address": {
+        "postal_code": "PE9 3TH",
+        "locality": "Ketton",
+        "region": "Lincolnshire",
+        "address_line_1": "Huckleberry House",
+        "address_line_2": "4a Edmunds Drive"
+      },
+      "resigned_on": "2012-08-28",
+      "nationality": "British",
+      "links": {
+        "officer": {
+          "appointments": "/officers/w01KCApAVX3NeT_TR6yliDQ44lU/appointments"
+        }
+      },
+      "date_of_birth": {
+        "year": 1950,
+        "month": 4
+      },
+      "appointed_on": "2002-07-02",
+      "officer_role": "director",
+      "name": "STEVENSON, Leslie Alan",
+      "occupation": "Director"
+    }
+  ],
+  "etag": "08fe301afeed8677a4994b978933e9a228c8c887",
+  "start_index": 0,
+  "total_results": 7,
+  "inactive_count": 0,
+  "items_per_page": 35
+}

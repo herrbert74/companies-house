@@ -22,22 +22,22 @@ class AppointmentsResponseDto {
 	var items: List<AppointmentDto>? = null
 
 	@SerializedName("items_per_page")
-	var itemsPerPage: String? = null
+	var itemsPerPage: Int = 0
 
 	@SerializedName("kind")
-	var kind: String? = null
+	var kind: String = ""
 
 	@SerializedName("links")
-	var links: SelfLinkDataDto? = null
+	var links: SelfLinkDataDto = SelfLinkDataDto("")
 
 	@SerializedName("name")
-	var name: String? = null
+	var name: String = ""
 
 	@SerializedName("start_index")
-	var startIndex: String? = null
+	var startIndex: Int = 0
 
 	@SerializedName("total_results")
-	var totalResults: String? = null
+	var totalResults: Int = 0
 }
 
 @Parcelize
