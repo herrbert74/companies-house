@@ -11,9 +11,11 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-class Person(
+class PersonDto(
 		@SerializedName("notified_on")
 		var notifiedOn: String? = null,
+		@SerializedName("ceased_on")
+		var ceasedOn: String? = null,
 		@SerializedName("kind")
 		var kind: String? = null,
 		@SerializedName("country_of_residence")
@@ -27,10 +29,10 @@ class Person(
 		@SerializedName("links")
 		var links: SelfLinkDataDto? = null,
 		@SerializedName("name_elements")
-		var nameElements: NameElements? = null,
+		var nameElements: NameElementsDto? = null,
 		@SerializedName("natures_of_control")
 		var naturesOfControl: List<String> = ArrayList(),
 		var nationality: String? = null,
 		@Keep var name: String? = null,
-		var identification: Identification? = null
+		var identification: IdentificationDto? = null
 ) : Parcelable

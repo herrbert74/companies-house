@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.persons
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.persons.Persons
+import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import com.babestudios.companyinfouk.persons.ui.PersonsState
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
@@ -28,7 +28,7 @@ class PersonsTest {
 			companiesHouseRepository.getPersons("123", "0")
 		} answers
 				{
-					Single.create { Persons() }
+					Single.create { PersonsResponse() }
 				}
 	}
 

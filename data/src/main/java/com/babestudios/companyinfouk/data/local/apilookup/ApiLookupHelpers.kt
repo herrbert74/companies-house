@@ -1,13 +1,10 @@
 package com.babestudios.companyinfouk.data.local.apilookup
 
-import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.StyleSpan
 import com.babestudios.companyinfouk.data.R
 import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
 import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDescriptions
 import com.babestudios.companyinfouk.data.local.apilookup.model.MortgageDescriptions
+import com.babestudios.companyinfouk.data.local.apilookup.model.PscDescriptions
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,6 +24,10 @@ interface FilingHistoryDescriptionsHelperContract {
 interface ChargesHelperContract {
 	fun statusLookUp(statusString: String): String
 	fun filingTypeLookUp(filingTypeString: String): String
+}
+
+interface PscHelperContract {
+	fun shortDescriptionLookUp(statusString: String): String
 }
 
 @Singleton
@@ -76,5 +77,15 @@ class ChargesHelper @Inject constructor(rawResourceHelper: RawResourceHelperCont
 
 	override fun filingTypeLookUp(filingTypeString: String): String {
 		return chargesDescriptions.filing_type[filingTypeString] ?: filingTypeString
+	}
+}
+
+@Singleton
+class PscHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : PscHelperContract {
+	private val pscDescriptions: PscDescriptions = rawResourceHelper
+			.getPscDescriptions(R.raw.psc_descriptions)
+
+	override fun shortDescriptionLookUp(shortdescriptionString: String): String {
+		return pscDescriptions.short_description[shortdescriptionString] ?: shortdescriptionString
 	}
 }

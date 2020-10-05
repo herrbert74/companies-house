@@ -7,7 +7,8 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
-import com.babestudios.companyinfouk.data.model.persons.Persons
+import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -81,7 +82,7 @@ interface CompaniesHouseService {
 			@Query("registerView") registerView: String?,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): Single<Persons>
+	): Single<PersonsResponseDto>
 }
 
 

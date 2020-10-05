@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class NameElements(
+class NameElementsDto(
 		@SerializedName("surname")
 		var surname: String? = null,
 		@SerializedName("title")

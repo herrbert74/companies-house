@@ -11,6 +11,7 @@ import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
@@ -22,6 +23,7 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
+import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
@@ -252,6 +254,22 @@ class DataModule(private val context: Context) {
 			}
 
 	@Provides
+	fun provideMapPersonsResponseDto(pscHelper: PscHelperContract)
+			: (PersonsResponseDto) -> PersonsResponse =
+			{ personsResponseDto ->
+				mapPersonsResponseDto(personsResponseDto) { items ->
+					mapNullInputList(items) {
+						mapPersonDto(
+								it,
+								pscHelper,
+								{ addressDto -> mapAddressDto(addressDto) },
+								{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+						)
+					}
+				}
+			}
+
+	@Provides
 	@Singleton
 	fun provideStringResourceHelper(@ApplicationContext context: Context): StringResourceHelperContract =
 			StringResourceHelper(context)
@@ -270,6 +288,11 @@ class DataModule(private val context: Context) {
 	@Singleton
 	fun provideChargesHelper(rawResourceHelper: RawResourceHelper)
 			: ChargesHelperContract = ChargesHelper(rawResourceHelper)
+
+	@Provides
+	@Singleton
+	fun providePscHelper(rawResourceHelper: RawResourceHelper)
+			: PscHelperContract = PscHelper(rawResourceHelper)
 
 	//endregion
 

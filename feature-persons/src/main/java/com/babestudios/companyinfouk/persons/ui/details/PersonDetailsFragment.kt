@@ -113,9 +113,9 @@ class PersonDetailsFragment : BaseFragment() {
 				}
 				binding.lblPersonDetailsNaturesOfControl.text = naturesOfControl.toString()
 
-				binding.lblPersonDetailsAddress.text = person.address?.addressLine1
-				binding.lblPersonDetailsLocality.text = person.address?.locality
-				binding.lblPersonDetailsPostalCode.text = person.address?.postalCode
+				binding.lblPersonDetailsAddress.text = person.address.addressLine1
+				binding.lblPersonDetailsLocality.text = person.address.locality
+				binding.lblPersonDetailsPostalCode.text = person.address.postalCode
 				person.identification?.placeRegistered?.let {
 					binding.lblPersonDetailsPlaceRegistered.text = it
 					binding.lblPersonDetailsPlaceRegistered.visibility = View.VISIBLE
@@ -130,13 +130,13 @@ class PersonDetailsFragment : BaseFragment() {
 					binding.cpnPersonDetailsRegistrationNumber.visibility = View.GONE
 					binding.lblPersonDetailsRegistrationNumber.visibility = View.GONE
 				}
-				if (person.address?.region == null) {
+				if (person.address.region == null) {
 					binding.lblPersonDetailsRegion.visibility = View.GONE
 				} else {
 					binding.lblPersonDetailsRegion.visibility = View.VISIBLE
-					binding.lblPersonDetailsRegion.text = person.address?.region
+					binding.lblPersonDetailsRegion.text = person.address.region
 				}
-				person.address?.country?.let {
+				person.address.country?.let {
 					binding.lblPersonDetailsCountry.text = it
 					binding.lblPersonDetailsCountry.visibility = View.VISIBLE
 				} ?: run {

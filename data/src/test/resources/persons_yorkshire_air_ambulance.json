@@ -1,0 +1,162 @@
+{
+  "links": {
+    "self": "/company/04053514/persons-with-significant-control"
+  },
+  "items_per_page": 25,
+  "items": [
+    {
+      "links": {
+        "self": "/company/04053514/persons-with-significant-control/individual/UE6nGAIKMtS64uN3PJWNMNog1jg"
+      },
+      "nationality": "British",
+      "date_of_birth": {
+        "month": 3,
+        "year": 1942
+      },
+      "country_of_residence": "United Kingdom",
+      "etag": "a12cdba7d8be42c8d442e1f8dbf9c0607f41ee98",
+      "address": {
+        "postal_code": "HX5 0HQ",
+        "region": "West Yorkshire",
+        "locality": "Elland",
+        "address_line_1": "10 South Lane",
+        "premises": "Cayley House"
+      },
+      "notified_on": "2016-04-06",
+      "natures_of_control": [
+        "significant-influence-or-control"
+      ],
+      "name": "Mr Peter Sunderland",
+      "ceased_on": "2016-04-06",
+      "name_elements": {
+        "forename": "Peter",
+        "surname": "Sunderland",
+        "title": "Mr"
+      },
+      "kind": "individual-person-with-significant-control"
+    },
+    {
+      "nationality": "British",
+      "links": {
+        "self": "/company/04053514/persons-with-significant-control/individual/4J5z42PTia5BLUxydWhg7IMTZVA"
+      },
+      "date_of_birth": {
+        "year": 1956,
+        "month": 9
+      },
+      "etag": "84ed2b0e95898b49a08cbf4f6ba1f4d2897407b4",
+      "country_of_residence": "England",
+      "address": {
+        "locality": "Elland",
+        "address_line_1": "10 South Lane",
+        "premises": "Cayley House",
+        "region": "West Yorkshire",
+        "postal_code": "HX5 0HQ"
+      },
+      "notified_on": "2016-04-06",
+      "kind": "individual-person-with-significant-control",
+      "name_elements": {
+        "surname": "Burns",
+        "title": "Mr",
+        "forename": "Bruce"
+      },
+      "ceased_on": "2016-04-06",
+      "name": "Mr Bruce Burns",
+      "natures_of_control": [
+        "significant-influence-or-control"
+      ]
+    },
+    {
+      "name_elements": {
+        "surname": "Hynes",
+        "title": "Mr",
+        "forename": "Kevin"
+      },
+      "links": {
+        "self": "/company/04053514/persons-with-significant-control/individual/Fm9-5qPaAU_V46SS2ggJou43k8A"
+      },
+      "ceased_on": "2016-04-06",
+      "date_of_birth": {
+        "year": 1956,
+        "month": 3
+      },
+      "kind": "individual-person-with-significant-control",
+      "address": {
+        "region": "West Yorkshire",
+        "address_line_1": "10 South Lane",
+        "postal_code": "HX5 0HQ",
+        "premises": "Cayley House",
+        "locality": "Elland"
+      },
+      "natures_of_control": [
+        "significant-influence-or-control"
+      ],
+      "country_of_residence": "England",
+      "name": "Mr Kevin Hynes",
+      "etag": "e0e05f03ed25236ace774b8c8a1af06235066177",
+      "notified_on": "2016-04-06",
+      "nationality": "British"
+    },
+    {
+      "name_elements": {
+        "middle_name": "William Young Strachan",
+        "forename": "John",
+        "surname": "Samuel",
+        "title": "Mr"
+      },
+      "etag": "6090ab90016b92acee2f7e20a27d493f74ccd5c9",
+      "address": {
+        "postal_code": "HX5 0HQ",
+        "premises": "Cayley House",
+        "locality": "Elland",
+        "address_line_1": "10 South Lane",
+        "region": "West Yorkshire"
+      },
+      "natures_of_control": [
+        "significant-influence-or-control"
+      ],
+      "nationality": "British",
+      "links": {
+        "self": "/company/04053514/persons-with-significant-control/individual/kFQgXsEuaoAV0be4u_kkOrppP4s"
+      },
+      "name": "Mr John William Young Strachan Samuel",
+      "ceased_on": "2016-04-06",
+      "country_of_residence": "England",
+      "kind": "individual-person-with-significant-control",
+      "date_of_birth": {
+        "year": 1956,
+        "month": 7
+      },
+      "notified_on": "2016-04-06"
+    },
+    {
+      "links": {
+        "self": "/company/04053514/persons-with-significant-control/corporate-entity/1n5PsQ4ynlwcPpmoEdjyQg9fHqE"
+      },
+      "kind": "corporate-entity-person-with-significant-control",
+      "identification": {
+        "legal_form": "Limited Company",
+        "legal_authority": "Limited Company, England And Wales"
+      },
+      "address": {
+        "address_line_1": "10 South Lane",
+        "postal_code": "HX5 0HQ",
+        "locality": "Elland",
+        "premises": "Cayley House",
+        "country": "England"
+      },
+      "natures_of_control": [
+        "ownership-of-shares-75-to-100-percent",
+        "voting-rights-75-to-100-percent",
+        "right-to-appoint-and-remove-directors"
+      ],
+      "name": "Yorkshire Air Ambulance Ltd",
+      "etag": "8dbab5c88c8e50698b1c1ac43c4322668a74e79e",
+      "notified_on": "2016-04-06"
+    }
+  ],
+  "ceased_count": 4,
+  "active_count": 1,
+  "total_results": 5,
+  "start_index": 0
+}

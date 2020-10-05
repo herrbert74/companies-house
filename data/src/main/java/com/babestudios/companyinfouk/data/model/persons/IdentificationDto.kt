@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Identification(
+class IdentificationDto(
 		@SerializedName("country_registered")
 		var countryRegistered: String? = null,
 		@SerializedName("legal_authority")
 		var legalAuthority: String? = null,
 		@SerializedName("legal_form")
-		var LegalForm: String? = null,
+		var legalForm: String? = null,
 		@SerializedName("place_registered")
 		var placeRegistered: String? = null,
 		@SerializedName("registration_number")

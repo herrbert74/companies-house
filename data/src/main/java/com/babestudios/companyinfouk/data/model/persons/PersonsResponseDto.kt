@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-class Persons(
+class PersonsResponseDto(
 		@SerializedName("start_index")
 		var startIndex: Long? = null,
 		@SerializedName("links")
@@ -16,7 +16,7 @@ class Persons(
 		@SerializedName("active_count")
 		var activeCount: Long? = null,
 		@SerializedName("items")
-		var items: List<Person> = ArrayList(),
+		var items: List<PersonDto> = ArrayList(),
 		@SerializedName("ceased_count")
 		var ceasedCount: Long? = null,
 		@SerializedName("items_per_page")

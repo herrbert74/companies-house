@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.persons.ui.persons.list
 
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.data.model.persons.Person
+import com.babestudios.companyinfouk.common.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
 import java.lang.IllegalStateException
 

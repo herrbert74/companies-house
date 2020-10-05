@@ -7,8 +7,7 @@ import com.babestudios.base.annotation.Mockable
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.persons.Persons
-import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
+import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
@@ -79,7 +78,7 @@ class PersonsViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: Persons?): List<PersonsVisitableBase> {
+	private fun convertToVisitables(reply: PersonsResponse?): List<PersonsVisitableBase> {
 		return ArrayList(reply?.items?.map { item -> PersonsVisitable(item) } ?: emptyList())
 	}
 
