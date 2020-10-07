@@ -28,6 +28,7 @@ interface ChargesHelperContract {
 
 interface PscHelperContract {
 	fun shortDescriptionLookUp(statusString: String): String
+	fun kindLookUp(kindString: String): String
 }
 
 @Singleton
@@ -85,7 +86,11 @@ class PscHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract
 	private val pscDescriptions: PscDescriptions = rawResourceHelper
 			.getPscDescriptions(R.raw.psc_descriptions)
 
-	override fun shortDescriptionLookUp(shortdescriptionString: String): String {
-		return pscDescriptions.short_description[shortdescriptionString] ?: shortdescriptionString
+	override fun shortDescriptionLookUp(shortDescriptionString: String): String {
+		return pscDescriptions.short_description[shortDescriptionString] ?: shortDescriptionString
+	}
+
+	override fun kindLookUp(kindString: String): String {
+		return pscDescriptions.kind[kindString] ?: kindString
 	}
 }

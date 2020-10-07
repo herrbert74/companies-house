@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.common.model.persons.Person
-import com.babestudios.companyinfouk.persons.databinding.RowPersonsBinding
+import com.babestudios.companyinfouk.persons.databinding.RowPersonBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -37,7 +37,7 @@ class PersonsAdapter(
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<PersonsVisitableBase> {
-		val binding = RowPersonsBinding.inflate(
+		val binding = RowPersonBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false)

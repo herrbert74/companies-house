@@ -7,11 +7,11 @@ import com.babestudios.companyinfouk.persons.R
 import java.lang.IllegalStateException
 
 class PersonsTypeFactory : PersonsAdapter.PersonsTypeFactory {
-	override fun type(persons: Person): Int = R.layout.row_persons
+	override fun type(persons: Person): Int = R.layout.row_person
 
 	override fun holder(type: Int, binding: ViewBinding): BaseViewHolder<PersonsVisitableBase> {
 		return when (type) {
-			R.layout.row_persons -> PersonsViewHolder(binding)
+			R.layout.row_person -> PersonsViewHolder(binding)
 			else -> throw IllegalStateException("Illegal view type")
 		}
 	}

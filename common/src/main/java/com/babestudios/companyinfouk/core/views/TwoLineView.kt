@@ -44,6 +44,8 @@ class TwoLineView @JvmOverloads constructor(
 			lblTwoLineViewSecondLine.text = getString(R.styleable.TwoLineView_textSecond)
 			val textSizeSecond = getDimensionPixelSize(R.styleable.TwoLineView_textSizeSecond, 0)
 			if (textSizeSecond > 0) lblTwoLineViewSecondLine.setTextSize(COMPLEX_UNIT_PX, textSizeSecond.toFloat())
+			val textSecondMaxLines = getInt(R.styleable.TwoLineView_textSecondMaxLines, 2)
+			if (textSecondMaxLines > 0) lblTwoLineViewSecondLine.maxLines = textSecondMaxLines
 		}.recycle()
 	}
 
@@ -61,5 +63,9 @@ class TwoLineView @JvmOverloads constructor(
 
 	fun setTextSecond(text: String?) {
 		lblTwoLineViewSecondLine.text = text
+	}
+
+	fun setMaxLines(maxLines: Int) {
+		lblTwoLineViewSecondLine.maxLines = maxLines
 	}
 }

@@ -5,8 +5,12 @@ import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.common.model.company.Company
+import com.babestudios.companyinfouk.common.model.persons.Person
+import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
+import com.babestudios.companyinfouk.data.model.persons.PersonDto
+import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton

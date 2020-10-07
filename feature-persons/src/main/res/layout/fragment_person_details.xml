@@ -1,290 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-													 xmlns:app="http://schemas.android.com/apk/res-auto"
-													 xmlns:tools="http://schemas.android.com/tools"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent"
-													 android:fitsSystemWindows="true"
-													 tools:context=".ui.details.PersonDetailsFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	tools:context=".ui.details.PersonDetailsFragment">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabPersonDetails"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appBarHeight"
 		android:theme="@style/AppTheme.AppBarOverlay"
-		app:imageViewSrc="@drawable/bg_persons"/>
+		app:imageViewSrc="@drawable/bg_persons" />
 
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<androidx.constraintlayout.widget.ConstraintLayout
+		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/screenMargin"
-			android:layout_marginTop="@dimen/screenMargin">
+			android:layout_marginBottom="?attr/actionBarSize"
+			android:divider="@color/translucentBlack"
+			android:orientation="vertical"
+			android:showDividers="middle|end">
 
-			<androidx.constraintlayout.widget.Guideline
-				android:id="@+id/guideline"
-				android:layout_width="wrap_content"
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsName"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_name"
+				tools:textSecond="PATEL, Ashish Nalin" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsNotifiedOn"
+				style="@style/TwoLine"
+				app:textFirst="@string/person_details_notified_on"
+				tools:textSecond="2011-08-11" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsKind"
+				style="@style/TwoLine"
+				app:textFirst="@string/person_details_kind"
+				tools:textSecond="Individual" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsNaturesOfControl"
+				style="@style/TwoLine"
+				app:textFirst="@string/person_details_natures_of_control"
+				app:textSecondMaxLines="5"
+				tools:textSecond="Ownership of shares – 75% or more" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsNationality"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_nationality"
+				tools:textSecond="British" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsDateOfBirth"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_date_of_birth"
+				tools:textSecond="25/1980" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsCountryOfResidence"
+				style="@style/TwoLine"
+				app:textFirst="@string/officer_details_country_of_residence"
+				tools:textSecond="United Kingdom" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsPlaceRegistered"
+				style="@style/TwoLine"
+				app:textFirst="@string/person_details_place_registered"
+				tools:textSecond="Wales" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsRegistrationNumber"
+				style="@style/TwoLine"
+				app:textFirst="@string/person_details_registration_number"
+				tools:textSecond="1234" />
+
+			<com.babestudios.companyinfouk.core.views.AddressView
+				android:id="@+id/addressViewPersonDetails"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				app:layout_constraintGuide_percent="0.6"/>
+				app:addressLine1="Hurst House"
+				app:addressLine2="Clay Lane"
+				app:country="England"
+				app:locality="Redhill"
+				app:postCode="RH1 4EG"
+				app:region="Surrey"
+				app:title="@string/insolvency_details_address" />
 
-			<TextView
-				android:id="@+id/cpnPersonDetailsName"
-				style="@style/Text"
-				app:layout_constraintTop_toTopOf="parent"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_name"
-				app:layout_constraintStart_toStartOf="parent"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsName"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnPersonDetailsName"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="PATEL, Ashish Nalin"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsNotifiedOn"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/person_details_notified_on"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsName"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsNotifiedOn"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnPersonDetailsNotifiedOn"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="2011-08-11"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsNaturesOfControl"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/person_details_natures_of_control"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsNotifiedOn"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsNaturesOfControl"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintBaseline_toBaselineOf="@+id/cpnPersonDetailsNaturesOfControl"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				tools:text="ownership-of-shares-50-to-75-percent-as-firm"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsNationality"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_nationality"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsNaturesOfControl"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsNationality"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsNaturesOfControl"
-				tools:text="British"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsDateOfBirth"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_date_of_birth"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsNationality"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsDateOfBirth"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsNationality"
-				tools:text="25/1980"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsCountryOfResidence"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/officer_details_country_of_residence"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsDateOfBirth"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsCountryOfResidence"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsDateOfBirth"
-				tools:text="United Kingdom"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsPlaceRegistered"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/person_details_place_registered"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsCountryOfResidence"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsPlaceRegistered"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsCountryOfResidence"
-				tools:text="Wales"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsRegistrationNumber"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:text="@string/person_details_registration_number"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsPlaceRegistered"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsRegistrationNumber"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/screenMargin"
-				app:layout_constraintHorizontal_bias="0.0"
-				app:layout_constraintStart_toStartOf="@+id/guideline"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsPlaceRegistered"
-				tools:text="25/1980"/>
-
-			<TextView
-				android:id="@+id/cpnPersonDetailsAddress"
-				style="@style/Text.Bold"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				android:paddingStart="@dimen/screenMargin"
-				android:text="@string/insolvency_details_address"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsRegistrationNumber"
-				tools:ignore="RtlSymmetry"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsAddress"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/cpnPersonDetailsAddress"
-				tools:text="14 Sample Street"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsLocality"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsAddress"
-				tools:text="Windsor"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsPostalCode"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsLocality"
-				tools:text="AA14 1AA"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsRegion"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsPostalCode"
-				tools:text="Surrey"/>
-
-			<TextView
-				android:id="@+id/lblPersonDetailsCountry"
-				style="@style/Text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginTop="@dimen/screenMargin"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/lblPersonDetailsRegion"
-				tools:text="United Kingdom"/>
-
-		</androidx.constraintlayout.widget.ConstraintLayout>
+		</LinearLayout>
 	</androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

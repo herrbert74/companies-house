@@ -19,6 +19,7 @@ import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.common.model.persons.Person
 import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
@@ -28,6 +29,7 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
+import com.babestudios.companyinfouk.data.model.persons.PersonDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
@@ -59,6 +61,8 @@ interface CompaniesRepositoryContract : AnalyticsContract {
 	fun getOfficers(companyNumber: String, startItem: String): Single<OfficersResponse>
 	fun getOfficerAppointments(officerId: String, startItem: String): Single<AppointmentsResponse>
 	fun getPersons(companyNumber: String, startItem: String): Single<PersonsResponse>
+	fun getCorporatePerson(companyNumber: String, pscId: String): Single<Person>
+	fun getLegalPerson(companyNumber: String, pscId: String): Single<Person>
 	fun getDocument(documentId: String): Single<ResponseBody>
 	fun writeDocumentPdf(responseBody: ResponseBody): Single<Uri>
 
@@ -91,7 +95,8 @@ open class CompaniesRepository @Inject constructor(
 		: (@JvmSuppressWildcards AppointmentsResponseDto) -> @JvmSuppressWildcards AppointmentsResponse,
 		private val mapPersonsResponseDto
 		: (@JvmSuppressWildcards PersonsResponseDto) -> @JvmSuppressWildcards PersonsResponse,
-		) : CompaniesRepositoryContract {
+		private val mapPersonDto: (@JvmSuppressWildcards PersonDto) -> @JvmSuppressWildcards Person,
+) : CompaniesRepositoryContract {
 
 	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
 			BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(),
@@ -225,6 +230,32 @@ open class CompaniesRepository @Inject constructor(
 				).compose(errorResolver.resolveErrorForSingle())
 				.map { personsResponseDto ->
 					mapPersonsResponseDto(personsResponseDto)
+				}
+				.compose(schedulerProvider.getSchedulersForSingle())
+	}
+
+	override fun getCorporatePerson(companyNumber: String, pscId: String): Single<Person> {
+		return companiesHouseService
+				.getCorporatePerson(
+						authorization,
+						companyNumber,
+						pscId,
+				).compose(errorResolver.resolveErrorForSingle())
+				.map { personDto ->
+					mapPersonDto(personDto)
+				}
+				.compose(schedulerProvider.getSchedulersForSingle())
+	}
+
+	override fun getLegalPerson(companyNumber: String, pscId: String): Single<Person> {
+		return companiesHouseService
+				.getLegalPerson(
+						authorization,
+						companyNumber,
+						pscId,
+				).compose(errorResolver.resolveErrorForSingle())
+				.map { personDto ->
+					mapPersonDto(personDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}

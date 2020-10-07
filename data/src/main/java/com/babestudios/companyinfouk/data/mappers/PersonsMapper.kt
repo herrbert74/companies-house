@@ -34,7 +34,7 @@ fun mapPersonDto(
 	return Person(
 			input.notifiedOn.orEmpty(),
 			input.ceasedOn,
-			input.kind.orEmpty(),
+			pscHelper.kindLookUp(input.kind.orEmpty()),
 			input.countryOfResidence,
 			mapMonthYearDto(input.dateOfBirth),
 			mapAddressDto(input.address),

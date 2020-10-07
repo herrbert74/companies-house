@@ -24,6 +24,12 @@ android {
 			buildConfigField("String", "COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT", "\"officers/{officerId}/appointments\"")
 			buildConfigField("String", "COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT", "\"company/{companyNumber}/insolvency\"")
 			buildConfigField("String", "COMPANIES_HOUSE_GET_PERSONS_ENDPOINT", "\"company/{companyNumber}/persons-with-significant-control\"")
+			buildConfigField("String", "COMPANIES_HOUSE_GET_PERSONS_INDIVIDUAL_ENDPOINT",
+					"\"company/{companyNumber}/persons-with-significant-control/individual/{pscId}\"")
+			buildConfigField("String", "COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT",
+					"\"company/{companyNumber}/persons-with-significant-control/corporate-entity/{pscId}\"")
+			buildConfigField("String", "COMPANIES_HOUSE_GET_PERSONS_LEGAL_ENDPOINT",
+					"\"company/{companyNumber}/persons-with-significant-control/legal-entity/{pscId}\"")
 			buildConfigField("String", "COMPANIES_HOUSE_GET_DOCUMENT_ENDPOINT", "\"document/{documentNumber}/content\"")
 		}
 	}

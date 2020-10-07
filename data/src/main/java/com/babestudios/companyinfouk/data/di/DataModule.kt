@@ -11,6 +11,7 @@ import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.common.model.persons.Person
 import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
@@ -23,6 +24,7 @@ import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
+import com.babestudios.companyinfouk.data.model.persons.PersonDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
@@ -233,8 +235,8 @@ class DataModule(private val context: Context) {
 			}
 
 	@Provides
-	fun provideMapAppointmentsResponseDto(constantsHelper: ConstantsHelperContract): (AppointmentsResponseDto) ->
-	AppointmentsResponse =
+	fun provideMapAppointmentsResponseDto(constantsHelper: ConstantsHelperContract)
+			: (AppointmentsResponseDto) -> AppointmentsResponse =
 			{ appointmentsResponseDto ->
 				mapAppointmentsResponseDto(
 						appointmentsResponseDto,
@@ -254,13 +256,25 @@ class DataModule(private val context: Context) {
 			}
 
 	@Provides
-	fun provideMapPersonsResponseDto(pscHelper: PscHelperContract)
-			: (PersonsResponseDto) -> PersonsResponse =
+	fun provideMapPersonDto(pscHelper: PscHelperContract): (PersonDto) -> Person =
+			{ personDto ->
+				mapPersonDto(
+						personDto,
+						pscHelper,
+						{ addressDto -> mapAddressDto(addressDto) },
+						{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+				)
+			}
+
+
+	//TODO Why I cannot use the result above?
+	@Provides
+	fun provideMapPersonsResponseDto(pscHelper: PscHelperContract): (PersonsResponseDto) -> PersonsResponse =
 			{ personsResponseDto ->
 				mapPersonsResponseDto(personsResponseDto) { items ->
-					mapNullInputList(items) {
+					mapNullInputList(items) { personDto ->
 						mapPersonDto(
-								it,
+								personDto,
 								pscHelper,
 								{ addressDto -> mapAddressDto(addressDto) },
 								{ monthYearDto -> mapMonthYearDto(monthYearDto) },
@@ -294,6 +308,6 @@ class DataModule(private val context: Context) {
 	fun providePscHelper(rawResourceHelper: RawResourceHelper)
 			: PscHelperContract = PscHelper(rawResourceHelper)
 
-	//endregion
+//endregion
 
 }

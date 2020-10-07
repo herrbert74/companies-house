@@ -22,6 +22,7 @@
 	<string name="officer_details_name">Name</string>
 	<string name="officer_item_appointed_from_to">From %1$s to %2$s</string>
 	<string name="officer_item_appointed_from">From %1$s</string>
+	<string name="officer_details_unknown">Unknown</string>
 	<string name="insolvency_details_address">Address</string>
 	<string name="company_name">Company name</string>
 	<string name="company_status">Company status</string>

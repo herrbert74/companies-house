@@ -18,6 +18,6 @@ data class PersonsState(
 
 		//Person details
 		@PersistState
-		val personItem: Person? = null
+		val selectedPerson: Person? = null
 
 ) : MvRxState

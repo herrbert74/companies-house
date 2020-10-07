@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 data class PscDescriptions(
+		val kind: Map<String, String>,
 		val description: Map<String, String>,
 		val short_description: Map<String, String>,
 		val statement_description: Map<String, String>,

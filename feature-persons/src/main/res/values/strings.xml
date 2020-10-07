@@ -3,6 +3,7 @@
 	<string name="person_details">Person details</string>
 	<string name="no_person_with_significant_control">No person with significant control</string>
 	<string name="person_details_notified_on">Notified on</string>
+	<string name="person_details_kind">Kind</string>
 	<string name="person_details_registration_number">Registration number</string>
 	<string name="person_details_place_registered">Place registered</string>
 	<string name="person_details_natures_of_control">Natures of control</string>

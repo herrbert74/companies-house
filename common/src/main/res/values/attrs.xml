@@ -15,6 +15,7 @@
 		<attr name="textFirst" format="string" />
 		<attr name="textSizeSecond" format="dimension" />
 		<attr name="textSecond" format="string" />
+		<attr name="textSecondMaxLines" format="string" />
 	</declare-styleable>
 	<declare-styleable name="AddressView">
 		<attr name="title" format="string" />

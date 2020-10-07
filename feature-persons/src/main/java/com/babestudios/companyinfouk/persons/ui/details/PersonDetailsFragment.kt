@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.base.mvrx.BaseFragment
@@ -80,68 +81,33 @@ class PersonDetailsFragment : BaseFragment() {
 	@Suppress("ComplexMethod")
 	private fun showPersonDetails() {
 		withState(viewModel) { state ->
-			state.personItem?.let { person ->
-				binding.lblPersonDetailsName.text = person.name
-				binding.lblPersonDetailsNotifiedOn.text = person.notifiedOn
-				if (person.nationality == null) {
-					binding.lblPersonDetailsNationality.visibility = View.GONE
-					binding.cpnPersonDetailsNationality.visibility = View.GONE
-				} else {
-					binding.lblPersonDetailsNationality.visibility = View.VISIBLE
-					binding.lblPersonDetailsNationality.text = person.nationality
-				}
-				if (person.countryOfResidence == null) {
-					binding.lblPersonDetailsCountryOfResidence.visibility = View.GONE
-					binding.cpnPersonDetailsCountryOfResidence.visibility = View.GONE
-				} else {
-					binding.lblPersonDetailsCountryOfResidence.visibility = View.VISIBLE
-					binding.lblPersonDetailsCountryOfResidence.text = person.countryOfResidence
-				}
+			state.selectedPerson?.let { person ->
+				binding.twoLinePersonDetailsName.setTextSecond(person.name)
+				binding.twoLinePersonDetailsNotifiedOn.isVisible = !person.notifiedOn.isBlank()
+				binding.twoLinePersonDetailsNotifiedOn.setTextSecond(person.notifiedOn)
+				binding.twoLinePersonDetailsKind.setTextSecond(person.kind)
+				binding.twoLinePersonDetailsNaturesOfControl.setTextSecond(
+						person.naturesOfControl.joinToString(separator = "\n"))
+				binding.twoLinePersonDetailsNationality.isVisible = (person.nationality?.isBlank() == false)
+				binding.twoLinePersonDetailsNationality.setTextSecond(person.nationality)
 				person.dateOfBirth?.let {
-					binding.lblPersonDetailsDateOfBirth.visibility = View.VISIBLE
-					binding.lblPersonDetailsDateOfBirth.text = "${it.month.toString()} / ${it.year.toString()}"
+					binding.twoLinePersonDetailsDateOfBirth.setTextSecond("${it.month} / ${it.year}")
 				} ?: run {
-					binding.lblPersonDetailsDateOfBirth.visibility = View.GONE
-					binding.cpnPersonDetailsDateOfBirth.visibility = View.GONE
+					binding.twoLinePersonDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
 				}
-				val naturesOfControl = StringBuilder()
-				for (i in person.naturesOfControl.indices) {
-					naturesOfControl.append(person.naturesOfControl[i])
-					if (i < person.naturesOfControl.size - 1) {
-						naturesOfControl.append("; ")
-					}
-				}
-				binding.lblPersonDetailsNaturesOfControl.text = naturesOfControl.toString()
-
-				binding.lblPersonDetailsAddress.text = person.address.addressLine1
-				binding.lblPersonDetailsLocality.text = person.address.locality
-				binding.lblPersonDetailsPostalCode.text = person.address.postalCode
-				person.identification?.placeRegistered?.let {
-					binding.lblPersonDetailsPlaceRegistered.text = it
-					binding.lblPersonDetailsPlaceRegistered.visibility = View.VISIBLE
-				} ?: run {
-					binding.lblPersonDetailsPlaceRegistered.visibility = View.GONE
-					binding.cpnPersonDetailsPlaceRegistered.visibility = View.GONE
-				}
-				person.identification?.registrationNumber?.let {
-					binding.lblPersonDetailsRegistrationNumber.text = it
-					binding.lblPersonDetailsRegistrationNumber.visibility = View.VISIBLE
-				} ?: run {
-					binding.cpnPersonDetailsRegistrationNumber.visibility = View.GONE
-					binding.lblPersonDetailsRegistrationNumber.visibility = View.GONE
-				}
-				if (person.address.region == null) {
-					binding.lblPersonDetailsRegion.visibility = View.GONE
-				} else {
-					binding.lblPersonDetailsRegion.visibility = View.VISIBLE
-					binding.lblPersonDetailsRegion.text = person.address.region
-				}
-				person.address.country?.let {
-					binding.lblPersonDetailsCountry.text = it
-					binding.lblPersonDetailsCountry.visibility = View.VISIBLE
-				} ?: run {
-					binding.lblPersonDetailsCountry.visibility = View.GONE
-				}
+				binding.twoLinePersonDetailsCountryOfResidence.setTextSecond(person.countryOfResidence)
+				binding.twoLinePersonDetailsPlaceRegistered.isVisible =
+						(person.identification?.placeRegistered?.isBlank() == false)
+				binding.twoLinePersonDetailsPlaceRegistered.setTextSecond(person.identification?.placeRegistered)
+				binding.twoLinePersonDetailsRegistrationNumber.isVisible =
+						(person.identification?.registrationNumber?.isBlank() == false)
+				binding.twoLinePersonDetailsRegistrationNumber.setTextSecond(person.identification?.registrationNumber)
+				binding.addressViewPersonDetails.setAddressLine1(person.address.addressLine1)
+				binding.addressViewPersonDetails.setAddressLine2(person.address.addressLine2)
+				binding.addressViewPersonDetails.setLocality(person.address.locality)
+				binding.addressViewPersonDetails.setPostalCode(person.address.postalCode)
+				binding.addressViewPersonDetails.setRegion(person.address.region)
+				binding.addressViewPersonDetails.setCountry(person.address.country)
 			}
 		}
 	}

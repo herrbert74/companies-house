@@ -86,7 +86,7 @@ class PersonsViewModel(
 		withState { state ->
 			setState {
 				copy(
-						personItem = (state.persons[adapterPosition] as PersonsVisitable).person
+						selectedPerson = (state.persons[adapterPosition] as PersonsVisitable).person
 				)
 			}
 		}

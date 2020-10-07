@@ -8,6 +8,7 @@ import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.data.model.persons.PersonDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import io.reactivex.Single
@@ -83,6 +84,28 @@ interface CompaniesHouseService {
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
 	): Single<PersonsResponseDto>
+
+	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_INDIVIDUAL_ENDPOINT)
+	fun getPersonIndividual(
+			@Header("Authorization") authorization: String,
+			@Path("companyNumber") companyNumber: String,
+			@Path("pscId") pscId: String,
+	): Single<PersonDto>
+
+	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
+	fun getCorporatePerson(
+			@Header("Authorization") authorization: String,
+			@Path("companyNumber") companyNumber: String,
+			@Path("pscId") pscId: String,
+	): Single<PersonDto>
+
+	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
+	fun getLegalPerson(
+			@Header("Authorization") authorization: String,
+			@Path("companyNumber") companyNumber: String,
+			@Path("pscId") pscId: String,
+	): Single<PersonDto>
+
 }
 
 
