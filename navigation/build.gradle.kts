@@ -5,5 +5,6 @@ plugins{
 }
 
 dependencies {
+	implementation(project(":common"))
 	implementation(Libs.AndroidX.Navigation.ktx)
 }

@@ -5,6 +5,7 @@ import com.babestudios.companyinfouk.navigation.base.Navigator
 interface CompaniesNavigator: Navigator {
     fun mainToCompany()
     fun mainToCompanyPopMain()
+    fun mainToMapPopMain()
     fun mainToFavourites()
     fun mainToPrivacy()
     fun favouritesToCompany(companyNumber: String, companyName: String)

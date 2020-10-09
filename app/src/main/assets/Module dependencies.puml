@@ -5,6 +5,7 @@ features <|-- "core-injection"
 "core-injection" <|-- navigation
 "core-injection" <|-- data
 data <|-- common
+navigation <|-- common
 data <|-- babestudiosbase
 common <|-- babestudiosbase
 

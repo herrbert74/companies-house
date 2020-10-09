@@ -5,6 +5,7 @@ import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.annotation.Mockable
 import com.babestudios.base.mvrx.BaseViewModel
+import com.babestudios.companyinfouk.common.model.common.Address
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
@@ -91,6 +92,15 @@ class PersonsViewModel(
 			}
 		}
 		personsNavigator.personsToPersonDetails()
+	}
+
+	fun showOnMapClicked() {
+		withState {
+			personsNavigator.personDetailsToMap(
+					it.selectedPerson?.name ?: "",
+					it.selectedPerson?.address ?: Address()
+			)
+		}
 	}
 
 	//endregion

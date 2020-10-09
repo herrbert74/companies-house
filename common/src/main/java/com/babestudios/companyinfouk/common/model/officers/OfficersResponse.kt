@@ -17,7 +17,7 @@ data class Officer(
 		val links: OfficerLinks = OfficerLinks(),
 		val name: String = "",
 		val officerRole: String = "",
-		val dateOfBirth: MonthYear = MonthYear(),
+		val dateOfBirth: MonthYear = MonthYear(null, null),
 		val occupation: String = "Unknown",
 		val countryOfResidence: String = "Unknown",
 		val nationality: String = "Unknown",

@@ -75,7 +75,7 @@ class OfficersTest {
 		return OfficersViewModel(
 				OfficersState(
 						companyNumber = "123",
-						officerId = "123",
+						selectedOfficerId = "123",
 						totalOfficersCount = 100,
 						totalAppointmentsCount = 200
 				),

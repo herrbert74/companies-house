@@ -5,11 +5,11 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
+import com.babestudios.companyinfouk.common.model.common.Address
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.navigation.COMPANY_NAME
-import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
+import com.babestudios.companyinfouk.navigation.*
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 
 class CompaniesActivity : BaseActivity() {
@@ -27,11 +27,15 @@ class CompaniesActivity : BaseActivity() {
 
 	private lateinit var companyNumber: String
 	private lateinit var companyName: String
+	private var individualName: String? = null
+	private var individualAddress: Address? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		companyNumber = intent.extras?.getString(COMPANY_NUMBER).orEmpty()
 		companyName = intent.extras?.getString(COMPANY_NAME).orEmpty()
+		individualName = intent.extras?.getString(INDIVIDUAL_NAME)
+		individualAddress = intent.extras?.getParcelable(INDIVIDUAL_ADDRESS)
 		setContentView(R.layout.activity_companies)
 		navController = findNavController(R.id.navHostFragmentCompanies)
 		if (::comp.isLazyInitialized) {
@@ -58,7 +62,8 @@ class CompaniesActivity : BaseActivity() {
 			companiesNavigator.bind(navController)
 			if (companyNumber.isNotEmpty())
 				companiesNavigator.mainToCompanyPopMain()
-
+			else if(individualAddress != null)
+				companiesNavigator.mainToMapPopMain()
 		}
 		return companiesNavigator
 	}
@@ -73,5 +78,13 @@ class CompaniesActivity : BaseActivity() {
 
 	fun provideCompanyName(): String {
 		return if (::companyName.isInitialized) companyName else ""
+	}
+
+	fun provideIndividualName(): String? {
+		return individualName
+	}
+
+	fun provideIndividualAddress(): Address? {
+		return individualAddress
 	}
 }

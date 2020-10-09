@@ -82,6 +82,10 @@ class OfficerDetailsFragment : BaseFragment() {
 				binding.btnOfficerDetailsAppointments to "pabOfficerAppointments")
 		RxView.clicks(binding.btnOfficerDetailsAppointments)
 				.subscribe { viewModel.officerAppointmentsClicked(extras) }
+				.also { disposable -> eventDisposables.add(disposable) }
+		RxView.clicks(binding.addressViewOfficerDetails.getMapButton())
+				.subscribe { viewModel.showOnMapClicked() }
+				.also { disposable -> eventDisposables.add(disposable) }
 	}
 
 	//endregion
@@ -94,7 +98,7 @@ class OfficerDetailsFragment : BaseFragment() {
 
 	private fun showOfficerDetails() {
 		withState(viewModel) { state ->
-			val officerItem = state.officerItem
+			val officerItem = state.selectedOfficer
 			binding.twoLineOfficerDetailsName.setTextSecond(officerItem?.name)
 			binding.twoLineOfficerDetailsAppointedOn.setTextSecond(officerItem?.appointedOn)
 			binding.twoLineOfficerDetailsNationality.setTextSecond(officerItem?.nationality)

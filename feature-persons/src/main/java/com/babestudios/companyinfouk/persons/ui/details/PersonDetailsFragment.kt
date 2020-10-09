@@ -14,6 +14,7 @@ import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonDetailsBinding
 import com.babestudios.companyinfouk.persons.ui.PersonsActivity
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
+import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.CompositeDisposable
 
 class PersonDetailsFragment : BaseFragment() {
@@ -90,11 +91,12 @@ class PersonDetailsFragment : BaseFragment() {
 						person.naturesOfControl.joinToString(separator = "\n"))
 				binding.twoLinePersonDetailsNationality.isVisible = (person.nationality?.isBlank() == false)
 				binding.twoLinePersonDetailsNationality.setTextSecond(person.nationality)
-				person.dateOfBirth?.let {
-					binding.twoLinePersonDetailsDateOfBirth.setTextSecond("${it.month} / ${it.year}")
-				} ?: run {
-					binding.twoLinePersonDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
-				}
+				binding.twoLinePersonDetailsDateOfBirth.isVisible = (person.dateOfBirth?.year != null)
+				binding.twoLinePersonDetailsDateOfBirth.setTextSecond(
+						"${person.dateOfBirth?.month} / ${person.dateOfBirth?.year}")
+				binding.twoLinePersonDetailsCountryOfResidence.isVisible =
+						(person.countryOfResidence?.isBlank() == false
+								&& person.countryOfResidence != person.address.country)
 				binding.twoLinePersonDetailsCountryOfResidence.setTextSecond(person.countryOfResidence)
 				binding.twoLinePersonDetailsPlaceRegistered.isVisible =
 						(person.identification?.placeRegistered?.isBlank() == false)
@@ -102,6 +104,14 @@ class PersonDetailsFragment : BaseFragment() {
 				binding.twoLinePersonDetailsRegistrationNumber.isVisible =
 						(person.identification?.registrationNumber?.isBlank() == false)
 				binding.twoLinePersonDetailsRegistrationNumber.setTextSecond(person.identification?.registrationNumber)
+				binding.twoLinePersonDetailsLegalForm.isVisible =
+						(person.identification?.legalForm?.isBlank() == false)
+				binding.twoLinePersonDetailsLegalForm.setTextSecond(
+						person.identification?.legalForm)
+				binding.twoLinePersonDetailsLegalAuthority.isVisible =
+						(person.identification?.legalAuthority?.isBlank() == false)
+				binding.twoLinePersonDetailsLegalAuthority.setTextSecond(
+						person.identification?.legalAuthority)
 				binding.addressViewPersonDetails.setAddressLine1(person.address.addressLine1)
 				binding.addressViewPersonDetails.setAddressLine2(person.address.addressLine2)
 				binding.addressViewPersonDetails.setLocality(person.address.locality)
@@ -118,6 +128,9 @@ class PersonDetailsFragment : BaseFragment() {
 
 	private fun observeActions() {
 		eventDisposables.clear()
+		RxView.clicks(binding.addressViewPersonDetails.getMapButton())
+				.subscribe { viewModel.showOnMapClicked() }
+				.also { disposable -> eventDisposables.add(disposable) }
 	}
 
 	@Suppress("EmptyFunctionBlock")

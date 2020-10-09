@@ -147,7 +147,7 @@ class OfficerAppointmentsFragment : BaseFragment() {
 											.appointedTo
 							company.let { appointedTo ->
 								viewModel.officersNavigator
-										.officersAppointmentsToCompanyActivity(
+										.officersAppointmentsToCompany(
 												appointedTo.companyNumber,
 												appointedTo.companyName
 										)

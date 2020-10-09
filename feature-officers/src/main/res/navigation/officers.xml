@@ -50,5 +50,5 @@
 
 	<activity
 		android:id="@+id/companyActivity"
-		android:name="com.babestudios.companyinfouk.ui.company.CompanyActivity" />
+		android:name="com.babestudios.companyinfouk.companies.ui.CompaniesActivity" />
 </navigation>

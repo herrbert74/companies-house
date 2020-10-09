@@ -6,8 +6,11 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
+import com.babestudios.companyinfouk.common.model.common.Address
+import com.babestudios.companyinfouk.navigation.INDIVIDUAL_ADDRESS
 import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
+import com.babestudios.companyinfouk.navigation.INDIVIDUAL_NAME
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.*
@@ -46,6 +49,10 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 
 			override fun mainToCompanyPopMain() {
 				navController?.navigateSafe(R.id.action_mainFragment_to_companyFragment_pop)
+			}
+
+			override fun mainToMapPopMain() {
+				navController?.navigateSafe(R.id.action_mainFragment_to_mapFragment_pop)
 			}
 
 			override fun mainToFavourites() {
@@ -122,7 +129,15 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 				)
 			}
 
-			override fun officersAppointmentsToCompanyActivity(companyNumber: String, companyName: String) {
+			override fun officersDetailsToMap(name: String, address: Address) {
+				val bundle = bundleOf(
+						INDIVIDUAL_NAME to name,
+						INDIVIDUAL_ADDRESS to address,
+				)
+				navController?.navigateSafe(R.id.action_global_companyActivity, bundle)
+			}
+
+			override fun officersAppointmentsToCompany(companyNumber: String, companyName: String) {
 				val bundle = bundleOf(COMPANY_NUMBER to companyNumber,
 						COMPANY_NAME to companyName)
 				navController?.navigateSafe(R.id.action_global_companyActivity, bundle)
@@ -137,6 +152,14 @@ internal class CompaniesHouseNavigation : NavigationComponent {
 
 			override fun personsToPersonDetails() {
 				navController?.navigateSafe(R.id.action_personsFragment_to_personDetailsFragment)
+			}
+
+			override fun personDetailsToMap(name: String, address: Address) {
+				val bundle = bundleOf(
+						INDIVIDUAL_NAME to name,
+						INDIVIDUAL_ADDRESS to address,
+				)
+				navController?.navigateSafe(R.id.action_global_companyActivity, bundle)
 			}
 
 		}

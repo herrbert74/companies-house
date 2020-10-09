@@ -24,7 +24,18 @@
 		android:id="@+id/personDetailsFragment"
 		android:name="com.babestudios.companyinfouk.persons.ui.details.PersonDetailsFragment"
 		android:label="PersonDetailsFragment"
-		tools:layout="@layout/fragment_person_details">
-	</fragment>
+		tools:layout="@layout/fragment_person_details"/>
+
+	<action
+		android:id="@+id/action_global_companyActivity"
+		app:destination="@id/companyActivity"
+		app:enterAnim="@anim/right_slide_in"
+		app:exitAnim="@anim/left_slide_out"
+		app:popEnterAnim="@anim/left_slide_in"
+		app:popExitAnim="@anim/right_slide_out" />
+
+	<activity
+		android:id="@+id/companyActivity"
+		android:name="com.babestudios.companyinfouk.companies.ui.CompaniesActivity" />
 
 </navigation>

@@ -82,6 +82,18 @@
 				app:textFirst="@string/person_details_registration_number"
 				tools:textSecond="1234" />
 
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsLegalAuthority"
+				style="@style/TwoLine"
+				app:textFirst="@string/person_details_legal_authority"
+				tools:textSecond="Government Of Wales Act 2006" />
+
+			<com.babestudios.companyinfouk.core.views.TwoLineView
+				android:id="@+id/twoLinePersonDetailsLegalForm"
+				style="@style/TwoLine"
+				app:textFirst="@string/person_details_legal_form"
+				tools:textSecond="Local Government Body" />
+
 			<com.babestudios.companyinfouk.core.views.AddressView
 				android:id="@+id/addressViewPersonDetails"
 				android:layout_width="match_parent"

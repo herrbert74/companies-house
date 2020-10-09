@@ -6,11 +6,11 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
+import com.babestudios.companyinfouk.common.model.common.Address
 import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
@@ -99,9 +99,9 @@ class OfficersViewModel(
 			}
 			setState {
 				copy(
-						officerItem = newOfficerItem,
-						officerId = officerId,
-						officerName = newOfficerItem.name ?: ""
+						selectedOfficer = newOfficerItem,
+						selectedOfficerId = officerId,
+						officerName = newOfficerItem.name
 				)
 			}
 		}
@@ -122,13 +122,13 @@ class OfficersViewModel(
 
 	fun fetchAppointments() {
 		withState { state ->
-			companiesRepository.getOfficerAppointments(state.officerId, "0")
+			companiesRepository.getOfficerAppointments(state.selectedOfficerId, "0")
 					.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
 					.execute {
 						copy(
 								officerAppointmentsRequest = it,
 								appointmentItems = convertToVisitables(it()),
-								totalAppointmentsCount = it()?.totalResults?.toInt() ?: 0
+								totalAppointmentsCount = it()?.totalResults ?: 0
 						)
 					}
 		}
@@ -138,7 +138,7 @@ class OfficersViewModel(
 		withState { state ->
 			if (state.appointmentItems.size < state.totalAppointmentsCount) {
 				companiesRepository.getOfficerAppointments(
-						state.officerId,
+						state.selectedOfficerId,
 						(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
 				)
 						.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
@@ -149,7 +149,7 @@ class OfficersViewModel(
 											convertToVisitables(it()),
 											appointmentItems.size + 1
 									),
-									totalAppointmentsCount = it()?.totalResults?.toInt() ?: 0
+									totalAppointmentsCount = it()?.totalResults ?: 0
 							)
 						}
 			}
@@ -160,6 +160,15 @@ class OfficersViewModel(
 		return reply?.items?.let {
 			ArrayList(it.toMutableList().map { item -> OfficerAppointmentsVisitable(item) })
 		} ?: emptyList()
+	}
+
+	fun showOnMapClicked() {
+		withState {
+			officersNavigator.officersDetailsToMap(
+					it.selectedOfficer?.name ?: "",
+					it.selectedOfficer?.address ?: Address()
+			)
+		}
 	}
 
 	//endregion

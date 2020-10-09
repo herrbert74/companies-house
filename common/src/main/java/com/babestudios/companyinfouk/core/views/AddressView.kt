@@ -23,6 +23,7 @@ class AddressView @JvmOverloads constructor(
 
 	private fun obtainStyleAttributes(context: Context, attrs: AttributeSet?) {
 		context.theme.obtainStyledAttributes(attrs, R.styleable.AddressView, 0, 0).apply {
+			cpnAddressTitle.text = getString(R.styleable.AddressView_title)
 			lblAddressAddressLine1.text = getString(R.styleable.AddressView_addressLine1)
 			lblAddressAddressLine2.text = getString(R.styleable.AddressView_addressLine2)
 			lblAddressLocality.text = getString(R.styleable.AddressView_locality)

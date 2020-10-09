@@ -21,9 +21,9 @@ data class OfficersState(
 
 		//Officer details
 		@PersistState
-		val officerItem: Officer? = null,
+		val selectedOfficer: Officer? = null,
 		@PersistState
-		val officerId: String = "",
+		val selectedOfficerId: String = "",
 
 		//Officer appointments
 		@PersistState

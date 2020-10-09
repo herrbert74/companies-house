@@ -59,7 +59,7 @@ fun mapMonthYearDto(
 		input: MonthYearDto?,
 ): MonthYear {
 	return MonthYear(
-			input?.month ?: 0,
-			input?.year ?: 0,
+			input?.month,
+			input?.year,
 	)
 }

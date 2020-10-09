@@ -4,6 +4,7 @@ import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
+import com.babestudios.companyinfouk.common.model.common.Address
 import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
@@ -45,6 +46,10 @@ data class CompaniesState(
 		//Favourites
 		val favouritesRequest: Async<List<SearchHistoryItem>> = Uninitialized,
 		val favouriteItems: List<FavouritesVisitable> = emptyList(),
+
+		//Map
+		val individualName:String? = null,
+		val individualAddress: Address? = null
 
 ) : MvRxState
 

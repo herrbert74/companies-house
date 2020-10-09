@@ -14,14 +14,4 @@ data class Company(
 		val hasInsolvencyHistory: Boolean = false,
 		val registeredOfficeAddress: Address = Address(),
 		val natureOfBusiness: String = "",
-):Parcelable
-
-fun Company.getAddressString(): String {
-	return this.registeredOfficeAddress.addressLine2 ?: run {
-		(this.registeredOfficeAddress.addressLine1
-				+ ", "
-				+ this.registeredOfficeAddress.locality
-				+ ", "
-				+ this.registeredOfficeAddress.postalCode)
-	}
-}
+) : Parcelable

@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.base.mvrx.BaseFragment
-import com.babestudios.companyinfouk.common.model.company.getAddressString
+import com.babestudios.companyinfouk.common.model.common.getAddressString
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMapBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
@@ -73,9 +73,14 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 		toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		withState(viewModel) { state ->
-			toolBar?.title = state.companyName
-			location = getLocationFromAddress(state.company.getAddressString())
-			binding.tbMap.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
+			toolBar?.title = if (state.companyName.isEmpty()) state.individualName else state.companyName
+			location = if (state.individualAddress != null)
+				getLocationFromAddress(state.individualAddress.getAddressString())
+			else
+				getLocationFromAddress(state.company.registeredOfficeAddress.getAddressString())
+			binding.tbMap.setNavigationOnClickListener {
+				activity?.onBackPressed()
+			}
 			val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 			mapFragment?.getMapAsync(this)
 		}
@@ -99,7 +104,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 		val cameraPosition = CameraPosition.Builder().target(location).zoom(STARTING_ZOOM).build()
 		googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 		withState(viewModel) {
-			googleMap?.addMarker(MarkerOptions().position(location).title(it.company.getAddressString()))
+			googleMap?.addMarker(MarkerOptions().position(location).title(it.company.registeredOfficeAddress
+					.getAddressString()))
 		}
 		googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 	}
