@@ -257,15 +257,6 @@ class TestDataModule(private val context: Context) {
 			}
 
 	@Provides
-	fun provideMapPersonsResponseDto(mapPersonDto: (PersonDto) -> Person)
-			: (PersonsResponseDto) -> PersonsResponse =
-			{ personsResponseDto ->
-				mapPersonsResponseDto(personsResponseDto) { items ->
-					mapNullInputList(items, mapPersonDto)
-				}
-			}
-
-	@Provides
 	fun provideMapPersonDto(pscHelper: PscHelperContract): (PersonDto) -> Person =
 			{ personDto ->
 				mapPersonDto(
@@ -274,6 +265,23 @@ class TestDataModule(private val context: Context) {
 						{ addressDto -> mapAddressDto(addressDto) },
 						{ monthYearDto -> mapMonthYearDto(monthYearDto) },
 				)
+			}
+
+
+	//TODO Why I cannot use the result above?
+	@Provides
+	fun provideMapPersonsResponseDto(pscHelper: PscHelperContract): (PersonsResponseDto) -> PersonsResponse =
+			{ personsResponseDto ->
+				mapPersonsResponseDto(personsResponseDto) { items ->
+					mapNullInputList(items) { personDto ->
+						mapPersonDto(
+								personDto,
+								pscHelper,
+								{ addressDto -> mapAddressDto(addressDto) },
+								{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+						)
+					}
+				}
 			}
 
 	@Provides
@@ -324,6 +332,7 @@ class TestDataModule(private val context: Context) {
 	fun providePscHelper(): PscHelperContract{
 		val pscHelper = mockk<PscHelperContract>()
 		every { pscHelper.shortDescriptionLookUp(any()) } returns ""
+		every { pscHelper.kindLookUp(any()) } returns ""
 		return pscHelper
 	}
 
