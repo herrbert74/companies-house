@@ -3,10 +3,8 @@ package com.babestudios.companyinfouk.data
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Base64
 import android.util.Log
-import androidx.core.content.FileProvider
 import com.babestudios.base.data.AnalyticsContract
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.ext.getSerializedName
@@ -64,7 +62,7 @@ interface CompaniesRepositoryContract : AnalyticsContract {
 	fun getCorporatePerson(companyNumber: String, pscId: String): Single<Person>
 	fun getLegalPerson(companyNumber: String, pscId: String): Single<Person>
 	fun getDocument(documentId: String): Single<ResponseBody>
-	fun writeDocumentPdf(responseBody: ResponseBody): Single<Uri>
+	fun writeDocumentPdf(responseBody: ResponseBody, uri: Uri):Single<Uri>
 
 	//Preferences
 	fun clearAllRecentSearches()
@@ -265,47 +263,30 @@ open class CompaniesRepository @Inject constructor(
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
-	@Suppress("NestedBlockDepth")
-	override fun writeDocumentPdf(responseBody: ResponseBody): Single<Uri> {
-		val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-		val pdfFile = File(dir, "doc.pdf")
-		var inputStream: InputStream? = null
-		var outputStream: OutputStream? = null
+	override fun writeDocumentPdf(responseBody: ResponseBody, uri: Uri): Single<Uri> {
+		val outputStream = context.contentResolver.openOutputStream(uri)
+		val inputStream = responseBody.byteStream()
 		try {
 			@Suppress("MagicNumber")
 			val fileReader = ByteArray(4096)
-			try {
-				inputStream = responseBody.byteStream()
-				outputStream = FileOutputStream(pdfFile)
 				while (true) {
 					val read = inputStream.read(fileReader)
 					if (read == -1) {
 						break
 					}
-					outputStream.write(fileReader, 0, read)
+					outputStream?.write(fileReader, 0, read)
 				}
-				outputStream.flush()
-			} catch (e: IOException) {
-				Log.d("test", e.localizedMessage ?: "")
-			} finally {
-				inputStream?.close()
-
-				outputStream?.close()
-			}
+				outputStream?.flush()
 		} catch (e: FileNotFoundException) {
 			e.printStackTrace()
 		} catch (e: IOException) {
 			Log.d("test", "Error during closing input stream" + e.localizedMessage)
-		}
+		} finally {
+				inputStream.close()
 
-		return Single.create { singleEmitter: SingleEmitter<Uri> ->
-			val async = FileProvider.getUriForFile(
-					context,
-					context.packageName + ".fileprovider",
-					pdfFile
-			)
-			singleEmitter.onSuccess(async)
-		}.compose(schedulerProvider.getSchedulersForSingle())
+				outputStream?.close()
+			}
+		return Single.just(uri)
 	}
 
 	override fun clearAllRecentSearches() {

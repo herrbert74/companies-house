@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.filings.ui.details
 
 import android.Manifest
+import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,6 +26,7 @@ import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
 private const val REQUEST_WRITE_STORAGE = 1687
+private const val REQUEST_CREATE_DOCUMENT = 1688
 
 class FilingHistoryDetailsFragment : BaseFragment() {
 
@@ -110,82 +112,6 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 
 	//region Render
 
-	private fun showFilingHistoryItem() {
-		withState(viewModel) { state ->
-			val filingHistoryItem = state.filingHistoryItem
-			binding.lblFilingHistoryDetailsDate.text = filingHistoryItem.date
-			binding.lblFilingHistoryDetailsCategory.text = filingHistoryItem.category.displayName
-			if (filingHistoryItem.subcategory.isEmpty()) {
-				binding.lblFilingHistoryDetailsSubcategory.visibility = GONE
-				binding.cpnFilingHistoryDetailsSubcategory.visibility = GONE
-			} else {
-				binding.lblFilingHistoryDetailsSubcategory.text = filingHistoryItem.subcategory
-			}
-			binding.lblFilingHistoryDetailsDescription.text = filingHistoryItem.description
-			filingHistoryItem.description.let {
-				val spannableDescription = filingHistoryItem
-						.description
-						.createSpannableDescription()
-				binding.lblFilingHistoryDetailsDescription.text = spannableDescription
-			}
-			binding.lblFilingHistoryDetailsPages.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
-			binding.lblFilingHistoryDetailsDescriptionValues.visibility = View.GONE
-		}
-	}
-
-	private fun checkPermissionAndWriteDocument() {
-		if (ContextCompat.checkSelfPermission(
-						requireContext(),
-						Manifest.permission.WRITE_EXTERNAL_STORAGE
-				) == PackageManager.PERMISSION_GRANTED) {
-			viewModel.writeDocument()
-		} else {
-			requestPermissions(
-					arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-					REQUEST_WRITE_STORAGE
-			)
-		}
-	}
-
-	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-		if (requestCode == REQUEST_WRITE_STORAGE) {
-			if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				viewModel.writeDocument()
-			} else {
-				Toast.makeText(
-						requireContext(),
-						getString(R.string.filing_history_details_wont_save_pdf),
-						Toast.LENGTH_LONG
-				).show()
-			}
-		}
-	}
-
-	private fun showDocument(pdfBytes: Uri) {
-		val target = Intent(Intent.ACTION_VIEW)
-		target.setDataAndType(pdfBytes, "application/pdf")
-		target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-		target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-		val intent = Intent.createChooser(target, "Open File")
-		try {
-			(requireActivity() as AppCompatActivity).startActivityWithRightSlide(intent)
-		} catch (e: ActivityNotFoundException) {
-			Toast.makeText(
-					requireContext(),
-					getString(R.string.filing_history_details_no_pdf_reader),
-					Toast.LENGTH_LONG
-			).show()
-		}
-	}
-
-	//endregion
-
-	//region events
-
-	private fun observeActions() {
-		eventDisposables.clear()
-	}
-
 	override fun invalidate() {
 		withState(viewModel) { state ->
 			when (state.documentRequest) {
@@ -227,6 +153,110 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 		}
 	}
 
+	private fun showFilingHistoryItem() {
+		withState(viewModel) { state ->
+			val filingHistoryItem = state.filingHistoryItem
+			binding.lblFilingHistoryDetailsDate.text = filingHistoryItem.date
+			binding.lblFilingHistoryDetailsCategory.text = filingHistoryItem.category.displayName
+			if (filingHistoryItem.subcategory.isEmpty()) {
+				binding.lblFilingHistoryDetailsSubcategory.visibility = GONE
+				binding.cpnFilingHistoryDetailsSubcategory.visibility = GONE
+			} else {
+				binding.lblFilingHistoryDetailsSubcategory.text = filingHistoryItem.subcategory
+			}
+			binding.lblFilingHistoryDetailsDescription.text = filingHistoryItem.description
+			filingHistoryItem.description.let {
+				val spannableDescription = filingHistoryItem
+						.description
+						.createSpannableDescription()
+				binding.lblFilingHistoryDetailsDescription.text = spannableDescription
+			}
+			binding.lblFilingHistoryDetailsPages.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
+			binding.lblFilingHistoryDetailsDescriptionValues.visibility = View.GONE
+		}
+	}
+
+	private fun checkPermissionAndWriteDocument() {
+		if (ContextCompat.checkSelfPermission(
+						requireContext(),
+						Manifest.permission.WRITE_EXTERNAL_STORAGE
+				) == PackageManager.PERMISSION_GRANTED) {
+			createDocument()
+			//viewModel.writeDocument()
+		} else {
+			requestPermissions(
+					arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+					REQUEST_WRITE_STORAGE
+			)
+		}
+	}
+
+	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+		if (requestCode == REQUEST_WRITE_STORAGE) {
+			if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				createDocument()
+				//viewModel.writeDocument()
+			} else {
+				Toast.makeText(
+						requireContext(),
+						getString(R.string.filing_history_details_wont_save_pdf),
+						Toast.LENGTH_LONG
+				).show()
+			}
+		}
+	}
+
+	private fun createDocument() {
+		withState(viewModel) {
+			val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+					.setType("application/pdf")
+					.putExtra(Intent.EXTRA_TITLE, "${it.documentId}.pdf")
+					.addCategory(Intent.CATEGORY_OPENABLE)
+			startActivityForResult(intent, REQUEST_CREATE_DOCUMENT)
+		}
+	}
+
+	override fun onActivityResult(
+			requestCode: Int,
+			resultCode: Int,
+			intent: Intent?
+	) {
+		if (requestCode == REQUEST_CREATE_DOCUMENT) {
+			if (resultCode == RESULT_OK && intent != null) {
+				intent.data?.let { uri ->
+					viewModel.writeDocument(uri)
+					showDocument(uri)
+				}
+			}
+		} else {
+			super.onActivityResult(requestCode, resultCode, intent)
+		}
+	}
+
+	private fun showDocument(pdfBytes: Uri) {
+		val target = Intent(Intent.ACTION_VIEW)
+		target.setDataAndType(pdfBytes, "application/pdf")
+		target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+		target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+		val intent = Intent.createChooser(target, "Open File")
+		try {
+			(requireActivity() as AppCompatActivity).startActivityWithRightSlide(intent)
+		} catch (e: ActivityNotFoundException) {
+			Toast.makeText(
+					requireContext(),
+					getString(R.string.filing_history_details_no_pdf_reader),
+					Toast.LENGTH_LONG
+			).show()
+		}
+	}
+
+	//endregion
+
+	//region events
+
+	private fun observeActions() {
+		eventDisposables.clear()
+	}
 
 	//endregion
 }

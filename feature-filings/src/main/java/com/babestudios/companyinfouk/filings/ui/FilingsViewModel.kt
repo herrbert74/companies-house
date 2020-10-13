@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.filings.ui
 
 import android.graphics.Typeface
+import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
@@ -124,12 +125,11 @@ class FilingsViewModel(
 	fun fetchDocument() {
 		withState { state ->
 			state.filingHistoryItem.links.documentMetadata.also { data ->
-				//val documentId = it.replace("https://document-api.companieshouse.gov.uk/document/", "")
-				val documentId = data
-						.replace("https://frontend-doc-api.companieshouse.gov.uk/document/", "")
+				val documentId = data.substringAfterLast("/")
 				companiesRepository.getDocument(documentId)
 						.execute {
 							copy(
+									documentId = documentId,
 									documentRequest = it,
 									pdfResponseBody = it()
 							)
@@ -138,10 +138,10 @@ class FilingsViewModel(
 		}
 	}
 
-	fun writeDocument() {
+	fun writeDocument(uri: Uri) {
 		withState { state ->
 			state.pdfResponseBody?.let { pdfResponseBody ->
-				companiesRepository.writeDocumentPdf(pdfResponseBody)
+				companiesRepository.writeDocumentPdf(pdfResponseBody, uri)
 						.execute {
 							copy(
 									writeDocumentRequest = it,
@@ -155,6 +155,7 @@ class FilingsViewModel(
 	fun resetState() {
 		setState {
 			copy(
+					documentId = null,
 					documentRequest = Uninitialized,
 					writeDocumentRequest = Uninitialized
 			)

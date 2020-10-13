@@ -25,6 +25,7 @@ data class FilingsState(
 		@PersistState
 		val filingHistoryItem: FilingHistoryItem = FilingHistoryItem(),
 		val documentRequest: Async<ResponseBody> = Uninitialized,
+		var documentId : String? = null,
 		var pdfResponseBody : ResponseBody? = null,
 		val writeDocumentRequest: Async<Uri> = Uninitialized,
 		val pdfUri: @RawValue Uri? = null
