@@ -30,6 +30,11 @@ private const val REQUEST_CREATE_DOCUMENT = 1688
 
 class FilingHistoryDetailsFragment : BaseFragment() {
 
+	/**
+	 * This flag is to prevent calling create document twice when invalidate is called after coming back from Platform
+	 * File Chooser, but there is no state change
+	 */
+	private var wasCreateDocumentCalled: Boolean = false
 	private val viewModel by existingViewModel(FilingsViewModel::class)
 
 	private val eventDisposables: CompositeDisposable = CompositeDisposable()
@@ -125,12 +130,18 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 				is Success -> {
 					when (state.writeDocumentRequest) {
 						is Uninitialized -> {
-							checkPermissionAndWriteDocument()
+							binding.msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
+							if (!wasCreateDocumentCalled) {
+								checkPermissionAndWriteDocument()
+								wasCreateDocumentCalled = true
+							} else
+								return@withState
 						}
 						is Loading -> {
 							binding.msvFilingHistoryDetails.viewState = VIEW_STATE_LOADING
 						}
 						is Success -> {
+							wasCreateDocumentCalled = false
 							binding.msvFilingHistoryDetails.viewState = VIEW_STATE_CONTENT
 							state.pdfUri?.let {
 								viewModel.resetState()
@@ -182,7 +193,6 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 						Manifest.permission.WRITE_EXTERNAL_STORAGE
 				) == PackageManager.PERMISSION_GRANTED) {
 			createDocument()
-			//viewModel.writeDocument()
 		} else {
 			requestPermissions(
 					arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -195,7 +205,6 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 		if (requestCode == REQUEST_WRITE_STORAGE) {
 			if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				createDocument()
-				//viewModel.writeDocument()
 			} else {
 				Toast.makeText(
 						requireContext(),
@@ -225,9 +234,9 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 			if (resultCode == RESULT_OK && intent != null) {
 				intent.data?.let { uri ->
 					viewModel.writeDocument(uri)
-					showDocument(uri)
 				}
-			}
+			} else
+				viewModel.resetState() //When no file is created, so we can get back to the correct state
 		} else {
 			super.onActivityResult(requestCode, resultCode, intent)
 		}
