@@ -23,7 +23,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="?attr/actionBarSize"
-			android:divider="@color/translucentBlack"
+			android:divider="?android:listDivider"
 			android:orientation="vertical"
 			android:showDividers="middle|end">
 
