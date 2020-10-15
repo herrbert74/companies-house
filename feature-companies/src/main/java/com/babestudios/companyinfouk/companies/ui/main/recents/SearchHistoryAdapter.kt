@@ -13,9 +13,10 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class SearchHistoryAdapter(private var searchHistoryVisitables: List<SearchHistoryVisitableBase>
-						   , private val searchHistoryTypeFactory: SearchHistoryTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<SearchHistoryVisitableBase>>() {
+class SearchHistoryAdapter(
+		private var searchHistoryVisitables: List<SearchHistoryVisitableBase>,
+		private val searchHistoryTypeFactory: SearchHistoryTypeFactory
+) : RecyclerView.Adapter<BaseViewHolder<SearchHistoryVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return searchHistoryVisitables.size
@@ -53,6 +54,7 @@ class SearchHistoryAdapter(private var searchHistoryVisitables: List<SearchHisto
 		RxView.clicks(binding.root)
 				.takeUntil(RxView.detaches(parent))
 				.map { v }
+				.filter { it is SearchHistoryViewHolder }
 				.subscribe(itemClickSubject)
 		return v
 	}
