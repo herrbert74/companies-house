@@ -2,11 +2,11 @@ package com.babestudios.companyinfouk.core.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.babestudios.companyinfouk.common.R
+import com.babestudios.companyinfouk.common.databinding.ViewAddressBinding
 import com.google.android.material.button.MaterialButton
-import kotlinx.android.synthetic.main.view_address.view.*
 
 
 @Suppress("unused")
@@ -16,72 +16,75 @@ class AddressView @JvmOverloads constructor(
 		defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+	private var _binding: ViewAddressBinding? = null
+	private val binding get() = _binding!!
+
 	init {
-		View.inflate(context, R.layout.view_address, this)
+		_binding = ViewAddressBinding.inflate(LayoutInflater.from(context), this)
 		obtainStyleAttributes(context, attrs)
 	}
 
 	private fun obtainStyleAttributes(context: Context, attrs: AttributeSet?) {
 		context.theme.obtainStyledAttributes(attrs, R.styleable.AddressView, 0, 0).apply {
-			cpnAddressTitle.text = getString(R.styleable.AddressView_title)
-			lblAddressAddressLine1.text = getString(R.styleable.AddressView_addressLine1)
-			lblAddressAddressLine2.text = getString(R.styleable.AddressView_addressLine2)
-			lblAddressLocality.text = getString(R.styleable.AddressView_locality)
-			lblAddressPostalCode.text = getString(R.styleable.AddressView_postCode)
-			lblAddressRegion.text = getString(R.styleable.AddressView_region)
-			lblAddressCountry.text = getString(R.styleable.AddressView_country)
+			binding.cpnAddressTitle.text = getString(R.styleable.AddressView_title)
+			binding.lblAddressAddressLine1.text = getString(R.styleable.AddressView_addressLine1)
+			binding.lblAddressAddressLine2.text = getString(R.styleable.AddressView_addressLine2)
+			binding.lblAddressLocality.text = getString(R.styleable.AddressView_locality)
+			binding.lblAddressPostalCode.text = getString(R.styleable.AddressView_postCode)
+			binding.lblAddressRegion.text = getString(R.styleable.AddressView_region)
+			binding.lblAddressCountry.text = getString(R.styleable.AddressView_country)
 		}.recycle()
 	}
 
 	fun setTitle(text: String?) {
-		cpnAddressTitle.text = text
+		binding.cpnAddressTitle.text = text
 	}
 
 	fun setAddressLine1(text: String?) {
-		lblAddressAddressLine1.text = text
+		binding.lblAddressAddressLine1.text = text
 	}
 
 	fun setAddressLine2(text: String?) {
 		if (text.isNullOrEmpty()) {
-			lblAddressAddressLine2.visibility = GONE
+			binding.lblAddressAddressLine2.visibility = GONE
 		} else {
-			lblAddressAddressLine2.visibility = VISIBLE
-			lblAddressAddressLine2.text = text
+			binding.lblAddressAddressLine2.visibility = VISIBLE
+			binding.lblAddressAddressLine2.text = text
 		}
 	}
 
 	fun setLocality(text: String?) {
 		if (text.isNullOrEmpty()) {
-			lblAddressLocality.visibility = GONE
+			binding.lblAddressLocality.visibility = GONE
 		} else {
-			lblAddressLocality.visibility = VISIBLE
-			lblAddressLocality.text = text
+			binding.lblAddressLocality.visibility = VISIBLE
+			binding.lblAddressLocality.text = text
 		}
 	}
 
 	fun setPostalCode(text: String?) {
-		lblAddressPostalCode.text = text
+		binding.lblAddressPostalCode.text = text
 	}
 
 	fun setRegion(text: String?) {
 		if (text.isNullOrEmpty()) {
-			lblAddressRegion.visibility = GONE
+			binding.lblAddressRegion.visibility = GONE
 		} else {
-			lblAddressRegion.visibility = VISIBLE
-			lblAddressRegion.text = text
+			binding.lblAddressRegion.visibility = VISIBLE
+			binding.lblAddressRegion.text = text
 		}
 	}
 
 	fun setCountry(text: String?) {
 		if (text.isNullOrEmpty()) {
-			lblAddressCountry.visibility = GONE
+			binding.lblAddressCountry.visibility = GONE
 		} else {
-			lblAddressCountry.visibility = VISIBLE
-			lblAddressCountry.text = text
+			binding.lblAddressCountry.visibility = VISIBLE
+			binding.lblAddressCountry.text = text
 		}
 	}
 
 	fun getMapButton() : MaterialButton {
-		return btnShowOnMap
+		return binding.btnShowOnMap
 	}
 }

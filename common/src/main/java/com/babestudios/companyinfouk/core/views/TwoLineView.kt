@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_PX
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.babestudios.companyinfouk.common.R
-import kotlinx.android.synthetic.main.view_two_line.view.*
+import com.babestudios.companyinfouk.common.databinding.ViewTwoLineBinding
 
 /**
  * A two line view with two TextViews aligned vertically
@@ -31,41 +31,44 @@ class TwoLineView @JvmOverloads constructor(
 		defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+	private var _binding: ViewTwoLineBinding? = null
+	private val binding get() = _binding!!
+
 	init {
-		View.inflate(context, R.layout.view_two_line, this)
+		_binding = ViewTwoLineBinding.inflate(LayoutInflater.from(context), this)
 		obtainStyleAttributes(context, attrs)
 	}
 
 	private fun obtainStyleAttributes(context: Context, attrs: AttributeSet?) {
 		context.theme.obtainStyledAttributes(attrs, R.styleable.TwoLineView, 0, 0).apply {
-			lblTwoLineViewFirstLine.text = getString(R.styleable.TwoLineView_textFirst)
+			binding.lblTwoLineViewFirstLine.text = getString(R.styleable.TwoLineView_textFirst)
 			val textSizeFirst = getDimensionPixelSize(R.styleable.TwoLineView_textSizeFirst, 0)
-			if (textSizeFirst > 0) lblTwoLineViewFirstLine.setTextSize(COMPLEX_UNIT_PX, textSizeFirst.toFloat())
-			lblTwoLineViewSecondLine.text = getString(R.styleable.TwoLineView_textSecond)
+			if (textSizeFirst > 0) binding.lblTwoLineViewFirstLine.setTextSize(COMPLEX_UNIT_PX, textSizeFirst.toFloat())
+			binding.lblTwoLineViewSecondLine.text = getString(R.styleable.TwoLineView_textSecond)
 			val textSizeSecond = getDimensionPixelSize(R.styleable.TwoLineView_textSizeSecond, 0)
-			if (textSizeSecond > 0) lblTwoLineViewSecondLine.setTextSize(COMPLEX_UNIT_PX, textSizeSecond.toFloat())
+			if (textSizeSecond > 0) binding.lblTwoLineViewSecondLine.setTextSize(COMPLEX_UNIT_PX, textSizeSecond.toFloat())
 			val textSecondMaxLines = getInt(R.styleable.TwoLineView_textSecondMaxLines, 2)
-			if (textSecondMaxLines > 0) lblTwoLineViewSecondLine.maxLines = textSecondMaxLines
+			if (textSecondMaxLines > 0) binding.lblTwoLineViewSecondLine.maxLines = textSecondMaxLines
 		}.recycle()
 	}
 
 	fun setTextSizeFirst(size: Int) {
-		lblTwoLineViewFirstLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
+		binding.lblTwoLineViewFirstLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
 	}
 
 	fun setTextFirst(text: String?) {
-		lblTwoLineViewFirstLine.text = text
+		binding.lblTwoLineViewFirstLine.text = text
 	}
 
 	fun setTextSizeSecond(size: Int) {
-		lblTwoLineViewSecondLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
+		binding.lblTwoLineViewSecondLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
 	}
 
 	fun setTextSecond(text: String?) {
-		lblTwoLineViewSecondLine.text = text
+		binding.lblTwoLineViewSecondLine.text = text
 	}
 
 	fun setMaxLines(maxLines: Int) {
-		lblTwoLineViewSecondLine.maxLines = maxLines
+		binding.lblTwoLineViewSecondLine.maxLines = maxLines
 	}
 }

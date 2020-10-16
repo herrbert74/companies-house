@@ -3,10 +3,10 @@ package com.babestudios.companyinfouk.core.views
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue.COMPLEX_UNIT_PX
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.babestudios.companyinfouk.common.R
-import kotlinx.android.synthetic.main.view_single_line.view.*
+import com.babestudios.companyinfouk.common.databinding.ViewSingleLineBinding
 
 /**
  * A single line view with an ImageView and a TextView aligned horizontally
@@ -20,19 +20,22 @@ class SingleLineView @JvmOverloads constructor(
 		defStyleAttr: Int = R.attr.singleLineStyle
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+	private var _binding: ViewSingleLineBinding? = null
+	private val binding get() = _binding!!
+
 	init {
-		View.inflate(context, R.layout.view_single_line, this)
+		_binding = ViewSingleLineBinding.inflate(LayoutInflater.from(context), this)
 		obtainStyleAttributes(context, attrs, defStyleAttr)
 	}
 
 	private fun obtainStyleAttributes(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
 		context.theme.obtainStyledAttributes(attrs, R.styleable.SingleLineView, defStyleAttr, 0).apply {
-			ivSingleLine.setImageResource(getResourceId(R.styleable.SingleLineView_imageViewSrc, 0))
+			binding.ivSingleLine.setImageResource(getResourceId(R.styleable.SingleLineView_imageViewSrc, 0))
 			val contentDescription = getString(R.styleable.SingleLineView_imageViewContentDescription)
-			contentDescription?.let { ivSingleLine.contentDescription = it }
-			lblSingleLine.text = getString(R.styleable.SingleLineView_text)
+			contentDescription?.let { binding.ivSingleLine.contentDescription = it }
+			binding.lblSingleLine.text = getString(R.styleable.SingleLineView_text)
 			val textSize = getDimensionPixelSize(R.styleable.SingleLineView_textSize, 0)
-			if (textSize > 0) lblSingleLine.setTextSize(COMPLEX_UNIT_PX, textSize.toFloat())
+			if (textSize > 0) binding.lblSingleLine.setTextSize(COMPLEX_UNIT_PX, textSize.toFloat())
 		}.recycle()
 	}
 }
