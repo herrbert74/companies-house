@@ -2,12 +2,12 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	tools:layout_width="match_parent"
-	tools:layout_height="wrap_content"
 	tools:gravity="center_vertical"
+	tools:ignore="UseCompoundDrawables"
+	tools:layout_height="wrap_content"
+	tools:layout_width="match_parent"
 	tools:orientation="vertical"
 	tools:paddingBottom="@dimen/viewMargin"
-	tools:ignore="UseCompoundDrawables"
 	tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
 	<TextView
@@ -31,24 +31,30 @@
 	<TextView
 		android:id="@+id/lblAddressAddressLine1"
 		style="@style/Text.H6"
-		app:layout_constraintStart_toStartOf="parent"
+		android:layout_width="match_parent"
+		android:maxLines="1"
+		app:autoSizeMaxTextSize="@dimen/textSizeH6"
+		app:autoSizeMinTextSize="@dimen/textSizeCaption"
+		app:autoSizeTextType="uniform"
 		app:layout_constraintBottom_toTopOf="@id/lblAddressAddressLine2"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/cpnAddressTitle"
 		tools:text="3 Hendon Place" />
 
 	<TextView
 		android:id="@+id/lblAddressAddressLine2"
 		style="@style/Text.H6"
-		tools:text="Not used"
-		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintBottom_toTopOf="@id/lblAddressLocality"
-		app:layout_constraintTop_toBottomOf="@id/lblAddressAddressLine1" />
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/lblAddressAddressLine1"
+		tools:text="Not used" />
 
 	<TextView
 		android:id="@+id/lblAddressLocality"
 		style="@style/Text.H6"
-		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintBottom_toTopOf="@id/lblAddressPostalCode"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/lblAddressAddressLine2"
 		tools:text="Kingston" />
 
