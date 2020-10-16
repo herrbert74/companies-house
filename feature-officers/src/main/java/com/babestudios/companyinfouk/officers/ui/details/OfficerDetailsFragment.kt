@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerDetailsBinding
@@ -103,8 +104,8 @@ class OfficerDetailsFragment : BaseFragment() {
 			binding.twoLineOfficerDetailsAppointedOn.setTextSecond(officerItem?.appointedOn)
 			binding.twoLineOfficerDetailsNationality.setTextSecond(officerItem?.nationality)
 			binding.twoLineOfficerDetailsOccupation.setTextSecond(officerItem?.occupation)
-			officerItem?.dateOfBirth?.let {
-				binding.twoLineOfficerDetailsDateOfBirth.setTextSecond("${it.month} / ${it.year}")
+			(officerItem?.dateOfBirth?.month to officerItem?.dateOfBirth?.year).biLet { month, year ->
+				binding.twoLineOfficerDetailsDateOfBirth.setTextSecond("$month / $year")
 			} ?: run {
 				binding.twoLineOfficerDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
 			}

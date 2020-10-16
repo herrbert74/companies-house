@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonDetailsBinding
@@ -91,9 +92,14 @@ class PersonDetailsFragment : BaseFragment() {
 						person.naturesOfControl.joinToString(separator = "\n"))
 				binding.twoLinePersonDetailsNationality.isVisible = (person.nationality?.isBlank() == false)
 				binding.twoLinePersonDetailsNationality.setTextSecond(person.nationality)
-				binding.twoLinePersonDetailsDateOfBirth.isVisible = (person.dateOfBirth?.year != null)
+				(person.dateOfBirth.month to person.dateOfBirth.year).biLet { month, year ->
+					binding.twoLinePersonDetailsDateOfBirth.setTextSecond("$month / $year")
+				} ?: run {
+					binding.twoLinePersonDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
+				}
+				/*binding.twoLinePersonDetailsDateOfBirth.isVisible = (person.dateOfBirth?.year != null)
 				binding.twoLinePersonDetailsDateOfBirth.setTextSecond(
-						"${person.dateOfBirth?.month} / ${person.dateOfBirth?.year}")
+						"${person.dateOfBirth?.month} / ${person.dateOfBirth?.year}")*/
 				binding.twoLinePersonDetailsCountryOfResidence.isVisible =
 						(person.countryOfResidence?.isBlank() == false
 								&& person.countryOfResidence != person.address.country)
