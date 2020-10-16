@@ -35,7 +35,7 @@ class OfficersMappersTest {
 		officersResponseYouLimited?.totalResults shouldBe 7
 		officersResponseYouLimited?.items?.get(0)?.name shouldBe "STEVENSON, Elizabeth Mary"
 		officersResponseYouLimited?.items?.get(0)?.dateOfBirth shouldBe MonthYear(null, null)
-		officersResponseYouLimited?.items?.get(1)?.dateOfBirth shouldBe MonthYear(1985, 7)
+		officersResponseYouLimited?.items?.get(1)?.dateOfBirth shouldBe MonthYear(year = 1985, month = 7)
 	}
 
 }

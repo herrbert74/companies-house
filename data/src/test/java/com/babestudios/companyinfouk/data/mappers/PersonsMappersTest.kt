@@ -34,7 +34,7 @@ class PersonsMappersTest {
 		val officersResponseYouLimited = testDataComponent?.personsMapper()?.invoke(personsResponseDto)
 		officersResponseYouLimited?.totalResults shouldBe 5
 		officersResponseYouLimited?.items?.get(0)?.name shouldBe "Mr Peter Sunderland"
-		officersResponseYouLimited?.items?.get(0)?.dateOfBirth shouldBe MonthYear(1942, 3)
+		officersResponseYouLimited?.items?.get(0)?.dateOfBirth shouldBe MonthYear(year = 1942, month = 3)
 	}
 
 }
