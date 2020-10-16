@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.data.mappers
 
 import android.content.Context
 import com.babestudios.companyinfouk.common.loadJson
+import com.babestudios.companyinfouk.common.model.common.MonthYear
 import com.babestudios.companyinfouk.data.di.DaggerTestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataModule
@@ -33,6 +34,7 @@ class PersonsMappersTest {
 		val officersResponseYouLimited = testDataComponent?.personsMapper()?.invoke(personsResponseDto)
 		officersResponseYouLimited?.totalResults shouldBe 5
 		officersResponseYouLimited?.items?.get(0)?.name shouldBe "Mr Peter Sunderland"
+		officersResponseYouLimited?.items?.get(0)?.dateOfBirth shouldBe MonthYear(1942, 3)
 	}
 
 }
