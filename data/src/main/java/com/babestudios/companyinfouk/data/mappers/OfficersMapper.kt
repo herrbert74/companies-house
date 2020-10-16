@@ -55,11 +55,6 @@ fun mapOfficerLinksDto(input: OfficerLinksDto?) =
 		OfficerLinks(OfficerRelatedLinks(input?.officer?.appointments ?: ""))
 
 
-fun mapMonthYearDto(
-		input: MonthYearDto?,
-): MonthYear {
-	return MonthYear(
-			input?.month,
-			input?.year,
-	)
+fun mapMonthYearDto(input: MonthYearDto?): MonthYear {
+	return MonthYear(input?.year, input?.month)
 }

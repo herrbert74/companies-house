@@ -266,7 +266,6 @@ class DataModule(private val context: Context) {
 				)
 			}
 
-
 	//TODO Why I cannot use the result above?
 	@Provides
 	fun provideMapPersonsResponseDto(pscHelper: PscHelperContract): (PersonsResponseDto) -> PersonsResponse =
