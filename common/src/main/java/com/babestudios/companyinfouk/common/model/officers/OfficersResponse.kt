@@ -13,7 +13,7 @@ data class OfficersResponse(
 @Parcelize
 data class Officer(
 		val address: Address = Address(),
-		val appointedOn: String = "",
+		val appointedOn: String? = null,
 		val links: OfficerLinks = OfficerLinks(),
 		val name: String = "",
 		val officerRole: String = "",

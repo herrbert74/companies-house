@@ -16,7 +16,7 @@ data class AppointmentsResponse(
 @Parcelize
 data class Appointment(
 		var address: Address = Address(),
-		var appointedOn: String = "",
+		var appointedOn: String? = null,
 		var appointedTo: AppointedTo = AppointedTo(),
 		var countryOfResidence: String? = null,
 		var name: String = "",

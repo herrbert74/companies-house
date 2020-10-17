@@ -29,7 +29,7 @@ fun mapAppointmentDto(
 ): Appointment {
 	return Appointment(
 			mapAddressDto(input?.address),
-			input?.appointedOn ?: "",
+			input?.appointedOn ?: "Unknown",
 			mapAppointedToDto(input?.appointedTo),
 			input?.countryOfResidence,
 			input?.name ?: "",

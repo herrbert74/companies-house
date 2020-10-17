@@ -289,12 +289,19 @@ class TestDataModule(private val context: Context) {
 	fun provideStringResourceHelper(): StringResourceHelperContract {
 		val stringResourceHelper = mockk<StringResourceHelper>()
 		val slotDate = slot<String>()
+		val slotFrom = slot<String>()
+		val slotFrom2 = slot<String>()
+		val slotTo = slot<String>()
 		every { stringResourceHelper.getCompanyAccountsNotFoundString() } returns ""
 		every { stringResourceHelper.getLastAccountMadeUpToString(any(), capture(slotDate)) } answers {
 			"Last account made up to ${slotDate.captured}"
 		}
-		every { stringResourceHelper.getAppointedFromString(any()) } returns ""
-		every { stringResourceHelper.getAppointedFromToString(any(), any()) } returns ""
+		every { stringResourceHelper.getAppointedFromString(capture(slotFrom)) } answers {
+			String.format("From %1\$s", slotFrom.captured)
+		}
+		every { stringResourceHelper.getAppointedFromToString(capture(slotFrom2), capture(slotTo)) } answers {
+			String.format("From %1\$s to %2\$s", slotFrom2.captured, slotTo.captured)
+		}
 		return stringResourceHelper
 	}
 
@@ -329,7 +336,7 @@ class TestDataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	fun providePscHelper(): PscHelperContract{
+	fun providePscHelper(): PscHelperContract {
 		val pscHelper = mockk<PscHelperContract>()
 		every { pscHelper.shortDescriptionLookUp(any()) } returns ""
 		every { pscHelper.kindLookUp(any()) } returns ""

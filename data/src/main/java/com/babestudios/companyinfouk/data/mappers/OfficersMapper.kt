@@ -33,7 +33,7 @@ fun mapOfficerDto(
 		constantsHelper: ConstantsHelperContract,
 		stringResourceHelper: StringResourceHelperContract
 ): Officer {
-	val appointedOn = input?.appointedOn ?: ""
+	val appointedOn = input?.appointedOn ?: "Unknown"
 	val resignedOn = input?.resignedOn
 	return Officer(
 			mapAddressDto(input?.address),
