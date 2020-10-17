@@ -380,7 +380,8 @@ class MainFragment : BaseFragment() {
 					showFilteredSearchEmptyState()
 				}
 				is Loading -> {
-					binding.msvMainSearch.viewState = VIEW_STATE_LOADING
+					if (state.filteredSearchVisitables.isEmpty())
+						binding.msvMainSearch.viewState = VIEW_STATE_LOADING
 					observeActions()
 				}
 				is Fail -> {

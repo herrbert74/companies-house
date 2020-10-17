@@ -131,20 +131,27 @@ class CompaniesViewModel(
 	}
 
 	fun onSearchQueryChanged(queryText: String) {
-		if (queryText.length > 2) {
-			search(queryText)
-		} else {
-			setState {
-				copy(
-						timeStamp = System.currentTimeMillis(),
-						queryText = queryText,
-						searchRequest = Uninitialized,
-						searchVisitables = emptyList(),
-						filteredSearchVisitables = emptyList()
-				)
+		withState {
+			when {
+				isComingBackFromCompanyScreen(it.queryText, queryText) -> return@withState
+				queryText.length > 2 -> search(queryText)
+				else -> {
+					setState {
+						copy(
+								timeStamp = System.currentTimeMillis(),
+								queryText = queryText,
+								searchRequest = Uninitialized,
+								searchVisitables = emptyList(),
+								filteredSearchVisitables = emptyList()
+						)
+					}
+				}
 			}
 		}
 	}
+
+	private fun isComingBackFromCompanyScreen(stateQueryText: String, newQueryText: String) =
+			stateQueryText.isNotEmpty() && stateQueryText == newQueryText
 
 	fun search(queryText: String) {
 		companiesRepository.searchCompanies(queryText, "0")

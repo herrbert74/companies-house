@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
 	/* Depend on the android gradle plugin, since we want to access it in our plugin */
-	implementation("com.android.tools.build:gradle:4.0.2")
+	implementation("com.android.tools.build:gradle:4.1.0")
 
 	/* Depend on the kotlin plugin, since we want to access it in our plugin */
 	implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10")

@@ -9,7 +9,10 @@ import com.babestudios.companyinfouk.common.model.common.Address
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.navigation.*
+import com.babestudios.companyinfouk.navigation.COMPANY_NAME
+import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
+import com.babestudios.companyinfouk.navigation.INDIVIDUAL_ADDRESS
+import com.babestudios.companyinfouk.navigation.INDIVIDUAL_NAME
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 
 class CompaniesActivity : BaseActivity() {
