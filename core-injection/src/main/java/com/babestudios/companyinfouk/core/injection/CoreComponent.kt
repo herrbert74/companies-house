@@ -3,17 +3,12 @@ package com.babestudios.companyinfouk.core.injection
 import android.content.Context
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.di.scope.ApplicationScope
-import com.babestudios.base.rxjava.ErrorResolver
-import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.di.DataComponent
-import com.babestudios.companyinfouk.data.di.DataContractModule
-import com.babestudios.companyinfouk.data.di.DataModule
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.*
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Singleton
 
 
 @ApplicationScope

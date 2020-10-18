@@ -20,7 +20,6 @@ import retrofit2.http.Query
 interface CompaniesHouseService {
 	@GET(BuildConfig.COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT)
 	fun searchCompanies(
-			@Header("Authorization") authorization: String,
 			@Query("q") searchTerm: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
@@ -28,14 +27,12 @@ interface CompaniesHouseService {
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_COMPANY_ENDPOINT)
 	fun getCompany(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String
 	): Single<CompanyDto>
 
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT)
 	fun getFilingHistory(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String,
 			@Query("category") category: String,
 			@Query("items_per_page") itemsPerPage: String,
@@ -44,7 +41,6 @@ interface CompaniesHouseService {
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_CHARGES_ENDPOINT)
 	fun getCharges(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
@@ -52,14 +48,12 @@ interface CompaniesHouseService {
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT)
 	fun getInsolvency(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String
 	): Single<InsolvencyDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT)
 	@Suppress("LongParameterList")
 	fun getOfficers(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String,
 			@Query("registerView") registerView: String?,
 			@Query("registerType") registerType: String?,
@@ -70,7 +64,6 @@ interface CompaniesHouseService {
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT)
 	fun getOfficerAppointments(
-			@Header("Authorization") authorization: String,
 			@Path("officerId") officerId: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
@@ -78,7 +71,6 @@ interface CompaniesHouseService {
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_ENDPOINT)
 	fun getPersons(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String,
 			@Query("registerView") registerView: String?,
 			@Query("items_per_page") itemsPerPage: String,
@@ -87,21 +79,18 @@ interface CompaniesHouseService {
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_INDIVIDUAL_ENDPOINT)
 	fun getPersonIndividual(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String,
 			@Path("pscId") pscId: String,
 	): Single<PersonDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
 	fun getCorporatePerson(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String,
 			@Path("pscId") pscId: String,
 	): Single<PersonDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
 	fun getLegalPerson(
-			@Header("Authorization") authorization: String,
 			@Path("companyNumber") companyNumber: String,
 			@Path("pscId") pscId: String,
 	): Single<PersonDto>

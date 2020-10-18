@@ -29,6 +29,7 @@ import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
+import com.babestudios.companyinfouk.data.network.interceptors.CompaniesHouseInterceptor
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
@@ -54,13 +55,14 @@ class DataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
-	internal fun provideCompaniesHouseRetrofit(): Retrofit {
+	internal fun provideCompaniesHouseRetrofit(companiesHouseInterceptor: CompaniesHouseInterceptor): Retrofit {
 		val logging = HttpLoggingInterceptor()
 		logging.level = HttpLoggingInterceptor.Level.BODY
 
 		val httpClient = OkHttpClient.Builder()
 		httpClient.addInterceptor(logging)
 		httpClient.addInterceptor(ChuckerInterceptor(context))
+		httpClient.addInterceptor(companiesHouseInterceptor)
 		return Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
@@ -72,12 +74,13 @@ class DataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	@Named("CompaniesHouseDocumentRetrofit")
-	internal fun provideCompaniesHouseDocumentRetrofit(): Retrofit {
+	internal fun provideCompaniesHouseDocumentRetrofit(companiesHouseInterceptor: CompaniesHouseInterceptor): Retrofit {
 		val logging = HttpLoggingInterceptor()
 		logging.level = HttpLoggingInterceptor.Level.BODY
 
 		val httpClient = OkHttpClient.Builder()
 		httpClient.addInterceptor(logging)
+		httpClient.addInterceptor(companiesHouseInterceptor)
 		return Retrofit.Builder()//
 				.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)//
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//

@@ -9,8 +9,7 @@ import retrofit2.http.Path
 
 interface CompaniesHouseDocumentService {
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_DOCUMENT_ENDPOINT)
-	fun getDocument(@Header("Authorization") authorization: String,
-					@Header("Accept") accept: String,
+	fun getDocument(@Header("Accept") accept: String,
 					@Path("documentNumber") documentNumber: String): Single<ResponseBody>
 
 }

@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.data
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import com.babestudios.base.data.AnalyticsContract
 import com.babestudios.base.di.qualifier.ApplicationContext
@@ -33,18 +32,17 @@ import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
-import com.babestudios.companyinfouk.data.utils.Base64Wrapper
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import okhttp3.ResponseBody
-import java.io.*
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface CompaniesRepositoryContract : AnalyticsContract {
-	val authorization: String
 	fun recentSearches(): Single<List<SearchHistoryItem>>
 	fun favourites(): Single<List<SearchHistoryItem>>
 
@@ -78,7 +76,6 @@ open class CompaniesRepository @Inject constructor(
 		private val companiesHouseService: CompaniesHouseService,
 		private val companiesHouseDocumentService: CompaniesHouseDocumentService,
 		private var preferencesHelper: PreferencesHelper,
-		base64Wrapper: Base64Wrapper,
 		private val firebaseAnalytics: FirebaseAnalytics,
 		private val schedulerProvider: SchedulerProvider,
 		private val errorResolver: ErrorResolver,
@@ -95,11 +92,6 @@ open class CompaniesRepository @Inject constructor(
 		: (@JvmSuppressWildcards PersonsResponseDto) -> @JvmSuppressWildcards PersonsResponse,
 		private val mapPersonDto: (@JvmSuppressWildcards PersonDto) -> @JvmSuppressWildcards Person,
 ) : CompaniesRepositoryContract {
-
-	override val authorization: String = "Basic " + base64Wrapper.encodeToString(
-			BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(),
-			Base64.NO_WRAP
-	)
 
 	override fun recentSearches(): Single<List<SearchHistoryItem>> {
 		return Single.create { singleEmitter: SingleEmitter<List<SearchHistoryItem>> ->
@@ -118,7 +110,6 @@ open class CompaniesRepository @Inject constructor(
 	override fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult> {
 		return companiesHouseService
 				.searchCompanies(
-						authorization,
 						queryText.toString(),
 						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 						startItem
@@ -133,7 +124,7 @@ open class CompaniesRepository @Inject constructor(
 
 	override fun getCompany(companyNumber: String): Single<Company> {
 		return companiesHouseService
-				.getCompany(authorization, companyNumber)
+				.getCompany(companyNumber)
 				.map { mapCompanyDto(it) }
 				.compose(errorResolver.resolveErrorForSingle())
 				.compose(schedulerProvider.getSchedulersForSingle())
@@ -146,7 +137,6 @@ open class CompaniesRepository @Inject constructor(
 	): Single<FilingHistory> {
 		return companiesHouseService
 				.getFilingHistory(
-						authorization,
 						companyNumber,
 						mapFilingHistoryCategory(category).getSerializedName(),
 						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
@@ -162,7 +152,6 @@ open class CompaniesRepository @Inject constructor(
 	override fun fetchCharges(companyNumber: String, startItem: String): Single<Charges> {
 		return companiesHouseService
 				.getCharges(
-						authorization,
 						companyNumber,
 						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 						startItem
@@ -176,7 +165,7 @@ open class CompaniesRepository @Inject constructor(
 
 	override fun getInsolvency(companyNumber: String): Single<Insolvency> {
 		return companiesHouseService
-				.getInsolvency(authorization, companyNumber)
+				.getInsolvency(companyNumber)
 				.compose(errorResolver.resolveErrorForSingle())
 				.map { insolvencyDto ->
 					mapInsolvencyDto(insolvencyDto)
@@ -187,7 +176,6 @@ open class CompaniesRepository @Inject constructor(
 	override fun getOfficers(companyNumber: String, startItem: String): Single<OfficersResponse> {
 		return companiesHouseService
 				.getOfficers(
-						authorization,
 						companyNumber,
 						null,
 						null,
@@ -205,7 +193,6 @@ open class CompaniesRepository @Inject constructor(
 	override fun getOfficerAppointments(officerId: String, startItem: String): Single<AppointmentsResponse> {
 		return companiesHouseService
 				.getOfficerAppointments(
-						authorization,
 						officerId,
 						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 						startItem
@@ -220,7 +207,6 @@ open class CompaniesRepository @Inject constructor(
 	override fun getPersons(companyNumber: String, startItem: String): Single<PersonsResponse> {
 		return companiesHouseService
 				.getPersons(
-						authorization,
 						companyNumber,
 						null,
 						BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
@@ -235,7 +221,6 @@ open class CompaniesRepository @Inject constructor(
 	override fun getCorporatePerson(companyNumber: String, pscId: String): Single<Person> {
 		return companiesHouseService
 				.getCorporatePerson(
-						authorization,
 						companyNumber,
 						pscId,
 				).compose(errorResolver.resolveErrorForSingle())
@@ -248,7 +233,6 @@ open class CompaniesRepository @Inject constructor(
 	override fun getLegalPerson(companyNumber: String, pscId: String): Single<Person> {
 		return companiesHouseService
 				.getLegalPerson(
-						authorization,
 						companyNumber,
 						pscId,
 				).compose(errorResolver.resolveErrorForSingle())
@@ -259,7 +243,7 @@ open class CompaniesRepository @Inject constructor(
 	}
 
 	override fun getDocument(documentId: String): Single<ResponseBody> {
-		return companiesHouseDocumentService.getDocument(authorization, "application/pdf", documentId)
+		return companiesHouseDocumentService.getDocument("application/pdf", documentId)
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
 
