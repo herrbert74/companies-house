@@ -21,7 +21,7 @@ class StringResourceHelper @Inject constructor(@ApplicationContext val context: 
 				context.resources.getString(R.string.company_accounts_formatted_text),
 				accountType,
 				date
-		)
+		).replace("  ", " ")
 	}
 
 	override fun getCompanyAccountsNotFoundString(): String {
