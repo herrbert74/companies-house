@@ -61,7 +61,7 @@ class FilingsViewModel(
 					.execute {
 						copy(
 								filingsRequest = it,
-								filingsHistory = convertToVisitables(it()),
+								filingsHistory = convertToVisitables(it(), state.filingCategoryFilter),
 								totalFilingsCount = it()?.totalCount ?: 0
 						)
 					}
@@ -82,7 +82,7 @@ class FilingsViewModel(
 					copy(
 							filingsRequest = it,
 							filingsHistory = filingsHistory.appendAt(
-									convertToVisitables(it()),
+									convertToVisitables(it(), state.filingCategoryFilter),
 									filingsHistory.size + 1
 							),
 							totalFilingsCount = it()?.totalCount ?: 0
@@ -92,8 +92,16 @@ class FilingsViewModel(
 		}
 	}
 
-	private fun convertToVisitables(reply: FilingHistory?): List<FilingHistoryVisitable> {
-		return ArrayList(reply?.items?.map { item -> FilingHistoryVisitable(item) } ?: emptyList())
+	private fun convertToVisitables(reply: FilingHistory?, filingCategoryFilter: Category): List<FilingHistoryVisitable> {
+		return ArrayList(reply?.items
+				?.map { item -> FilingHistoryVisitable(item) }
+				//https://bitbucket.org/herrbert74/companies-house/issues/77/filinghistory-problems
+				?.filter {
+					if (filingCategoryFilter == Category.CATEGORY_CONFIRMATION_STATEMENT)
+						it.filingHistoryItem.category == Category.CATEGORY_CONFIRMATION_STATEMENT
+					else
+						true
+				} ?: emptyList())
 	}
 
 	fun setCategoryFilter(category: Int) {
