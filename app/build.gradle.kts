@@ -11,8 +11,8 @@ plugins {
 android {
 	defaultConfig {
 		applicationId = "com.babestudios.companyinfouk"
-		versionCode = 9
-		versionName = "1.2"
+		versionCode = 10
+		versionName = "2.0"
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner = "com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner"
 	}
