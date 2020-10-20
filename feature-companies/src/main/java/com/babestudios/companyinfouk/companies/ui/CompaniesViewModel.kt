@@ -258,6 +258,7 @@ class CompaniesViewModel(
 		setState {
 			copy(
 					queryText = "",
+					searchRequest = Uninitialized,
 					searchVisitables = emptyList(),
 					filteredSearchVisitables = emptyList()
 			)

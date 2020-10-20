@@ -256,7 +256,7 @@ class MainFragment : BaseFragment() {
 			}
 		} else {
 			binding.msvMainSearch.visibility = View.GONE
-			binding.fabMainSearch.show()
+			binding.fabMainClearRecents.show()
 			viewModel.clearSearch()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = binding.tbMain.width -
@@ -330,7 +330,8 @@ class MainFragment : BaseFragment() {
 			showFilteredSearch()
 		}
 
-		viewModel.selectSubscribe(CompaniesState::searchHistoryRequest) { searchHistoryRequest ->
+		viewModel.selectSubscribe(CompaniesState::searchHistoryRequest, CompaniesState::searchHistoryVisitables) {
+			searchHistoryRequest, _ ->
 			val tvMsvSearchHistoryError = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
 			val tvMsvSearchHistoryEmpty = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
 			withState(viewModel) { state ->
@@ -339,9 +340,9 @@ class MainFragment : BaseFragment() {
 						if (state.searchHistoryVisitables.isNullOrEmpty()) {
 							binding.msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
 							tvMsvSearchHistoryEmpty.text = getString(R.string.no_recent_searches)
-							binding.fabMainSearch.hide()
+							binding.fabMainClearRecents.hide()
 						} else {
-							binding.fabMainSearch.show()
+							binding.fabMainClearRecents.show()
 							state.searchHistoryVisitables.let {
 								binding.msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
 								if (binding.rvMainSearchHistory.adapter == null) {
@@ -358,6 +359,7 @@ class MainFragment : BaseFragment() {
 						binding.msvMainSearch.viewState = VIEW_STATE_ERROR
 						tvMsvSearchHistoryError.text = searchHistoryRequest.error.message
 					}
+					else -> Unit
 				}
 			}
 		}
@@ -396,7 +398,7 @@ class MainFragment : BaseFragment() {
 	}
 
 	private fun showFilteredSearchSuccess() {
-		binding.fabMainSearch.hide()
+		binding.fabMainClearRecents.hide()
 		withState(viewModel) { state ->
 			if (state.filteredSearchVisitables.isEmpty()) {
 				showFilteredSearchEmptyState()
@@ -468,13 +470,11 @@ class MainFragment : BaseFragment() {
 					?.let { queryTextChangeDisposable -> eventDisposables.add(queryTextChangeDisposable) }
 		}
 		searchHistoryAdapter?.getViewClickedObservable()
-				//?.skip(1)
 				?.subscribe { view: BaseViewHolder<SearchHistoryVisitableBase> ->
 					viewModel.searchHistoryItemClicked(view.adapterPosition)
 				}
 				?.let { eventDisposables.add(it) }
 		searchAdapter?.getViewClickedObservable()
-				//?.take(1)
 				?.subscribe { view: BaseViewHolder<SearchVisitableBase> ->
 					withState(viewModel) { state ->
 						state.filteredSearchVisitables.let { searchItems ->
@@ -488,7 +488,6 @@ class MainFragment : BaseFragment() {
 				?.let { eventDisposables.add(it) }
 		favouritesMenuItem?.let {
 			RxMenuItem.clicks(it)
-					//.skip(1)
 					.subscribe {
 						viewModel.companiesNavigator.mainToFavourites()
 					}
@@ -496,15 +495,13 @@ class MainFragment : BaseFragment() {
 		}
 		privacyMenuItem?.let {
 			RxMenuItem.clicks(it)
-					//.take(1)
 					.subscribe {
 						viewModel.companiesNavigator.mainToPrivacy()
 					}
 					.also { disposable -> eventDisposables.add(disposable) }
 		}
-		binding.fabMainSearch.let {
+		binding.fabMainClearRecents.let {
 			RxView.clicks(it)
-					//.take(1)
 					.subscribe {
 						withState(viewModel) { state ->
 							if (state.searchHistoryRequest is Success) {
