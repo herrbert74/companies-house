@@ -16,8 +16,39 @@ import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
-import com.babestudios.companyinfouk.data.local.apilookup.*
-import com.babestudios.companyinfouk.data.mappers.*
+import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.PscHelper
+import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
+import com.babestudios.companyinfouk.data.mappers.mapAccountsDto
+import com.babestudios.companyinfouk.data.mappers.mapAddressDto
+import com.babestudios.companyinfouk.data.mappers.mapAppointedToDto
+import com.babestudios.companyinfouk.data.mappers.mapAppointmentDto
+import com.babestudios.companyinfouk.data.mappers.mapAppointmentsResponseDto
+import com.babestudios.companyinfouk.data.mappers.mapChargesDto
+import com.babestudios.companyinfouk.data.mappers.mapChargesItemDto
+import com.babestudios.companyinfouk.data.mappers.mapCompanyDto
+import com.babestudios.companyinfouk.data.mappers.mapDateDto
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategoryDto
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryDto
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryItemDto
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryLinks
+import com.babestudios.companyinfouk.data.mappers.mapInsolvencyCaseDto
+import com.babestudios.companyinfouk.data.mappers.mapInsolvencyDto
+import com.babestudios.companyinfouk.data.mappers.mapMonthYearDto
+import com.babestudios.companyinfouk.data.mappers.mapNatureOfBusiness
+import com.babestudios.companyinfouk.data.mappers.mapOfficerDto
+import com.babestudios.companyinfouk.data.mappers.mapOfficerLinksDto
+import com.babestudios.companyinfouk.data.mappers.mapOfficersResponseDto
+import com.babestudios.companyinfouk.data.mappers.mapParticularsDto
+import com.babestudios.companyinfouk.data.mappers.mapPersonDto
+import com.babestudios.companyinfouk.data.mappers.mapPersonsResponseDto
+import com.babestudios.companyinfouk.data.mappers.mapPractitionerDto
+import com.babestudios.companyinfouk.data.mappers.mapTransactionDto
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
@@ -41,6 +72,7 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.Executors
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -118,7 +150,8 @@ class DataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	internal fun provideSchedulerProvider(): SchedulerProvider {
-		return SchedulerProvider(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR), AndroidSchedulers.mainThread())
+		return SchedulerProvider(Schedulers.from(Executors.newCachedThreadPool()), AndroidSchedulers
+			.mainThread())
 	}
 
 	@Provides
@@ -175,8 +208,8 @@ class DataModule(private val context: Context) {
 
 	@Provides
 	fun provideMapCompanyDto(
-			constantsHelper: ConstantsHelperContract,
-			stringResourceHelperContract: StringResourceHelperContract,
+		constantsHelper: ConstantsHelperContract,
+		stringResourceHelperContract: StringResourceHelperContract,
 	): (CompanyDto) -> Company =
 			{ companyDto ->
 				mapCompanyDto(

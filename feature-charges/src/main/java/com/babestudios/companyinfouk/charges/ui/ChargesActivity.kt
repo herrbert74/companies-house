@@ -28,8 +28,8 @@ class ChargesActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_charges)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+		setContentView(R.layout.activity_charges)
 		navController = findNavController(R.id.navHostFragmentCharges)
 		if (::comp.isLazyInitialized) {
 			chargesNavigator.bind(navController)

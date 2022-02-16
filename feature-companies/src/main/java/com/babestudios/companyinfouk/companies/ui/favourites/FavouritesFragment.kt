@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -20,18 +21,29 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.withState
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentFavouritesBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
-import com.babestudios.companyinfouk.companies.ui.favourites.list.*
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesAdapter
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesTypeFactory
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesViewHolder
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitableBase
 import io.reactivex.disposables.CompositeDisposable
-import java.util.*
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
 
@@ -177,7 +189,7 @@ class FavouritesFragment : BaseFragment() {
 	//region Swipe to dismiss
 
 	private val searchHistoryItemsPendingRemoval = ArrayList<FavouritesVisitable>()
-	private val handler = Handler()
+	private val handler = Handler(Looper.getMainLooper())
 	private val pendingRunnables = HashMap<FavouritesVisitable, Runnable>()
 
 	fun pendingRemoval(position: Int) {

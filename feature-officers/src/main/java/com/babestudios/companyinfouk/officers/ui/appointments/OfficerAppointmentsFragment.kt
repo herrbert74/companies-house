@@ -8,17 +8,28 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.withState
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
-import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.officers.R
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerAppointmentsBinding
 import com.babestudios.companyinfouk.officers.ui.OfficersActivity
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
-import com.babestudios.companyinfouk.officers.ui.appointments.list.*
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsAdapter
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsTypeFactory
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsViewHolder
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
+import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
 import io.reactivex.disposables.CompositeDisposable
 
 class OfficerAppointmentsFragment : BaseFragment() {
@@ -116,7 +127,10 @@ class OfficerAppointmentsFragment : BaseFragment() {
 							binding.rowOfficerAppointmentsHeader
 									.lblOfficerAppointmentsHeaderOfficerName.text = state.officerName
 							if (binding.rvOfficerAppointments.adapter == null) {
-								officerAppointmentsAdapter = OfficerAppointmentsAdapter(it.appointmentItems, OfficerAppointmentsTypeFactory())
+								officerAppointmentsAdapter = OfficerAppointmentsAdapter(
+									it.appointmentItems,
+									OfficerAppointmentsTypeFactory()
+								)
 								binding.rvOfficerAppointments.adapter = officerAppointmentsAdapter
 							} else {
 								officerAppointmentsAdapter?.updateItems(it.appointmentItems)
@@ -125,6 +139,7 @@ class OfficerAppointmentsFragment : BaseFragment() {
 						observeActions()
 					}
 				}
+				else -> {}
 			}
 		}
 	}

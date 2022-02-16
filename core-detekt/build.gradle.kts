@@ -9,6 +9,6 @@ dependencies {
 	api(Libs.Detekt.api)
 	testImplementation(Libs.Detekt.api)
 	testImplementation(Libs.Detekt.test)
-	testImplementation(Libs.Test.jUnit5)
+	testImplementation(Libs.Test.JUnit5.jupiterApi)
 	testImplementation(Libs.Test.assertJ)
 }

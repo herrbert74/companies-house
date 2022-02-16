@@ -15,6 +15,7 @@
  */
 package com.babestudios.companyinfouk.data.network.converters
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.TypeAdapter
@@ -37,7 +38,7 @@ internal class AdvancedGsonResponseBodyConverter<T>(
 		return try {
 			adapter.fromJson(clean)
 		} catch (e: JsonParseException) {
-			e.printStackTrace()
+			Log.e("test", e.localizedMessage ?: "JsonPArseException")
 			null
 		} finally {
 			body.close()

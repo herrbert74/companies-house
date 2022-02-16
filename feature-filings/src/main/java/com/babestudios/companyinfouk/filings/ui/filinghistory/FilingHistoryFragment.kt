@@ -1,18 +1,30 @@
 package com.babestudios.companyinfouk.filings.ui.filinghistory
 
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.withState
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
-import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.common.model.filinghistory.Category
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryBinding
@@ -35,7 +47,7 @@ class FilingHistoryFragment : BaseFragment() {
 
 	private var _binding: FragmentFilingHistoryBinding? = null
 	private val binding get() = _binding!!
-	
+
 	private lateinit var spinner: Spinner
 
 	//region lifeCycle
@@ -51,8 +63,8 @@ class FilingHistoryFragment : BaseFragment() {
 	}
 
 	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
+		inflater: LayoutInflater, container: ViewGroup?,
+		savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentFilingHistoryBinding.inflate(inflater, container, false)
 		return binding.root
@@ -84,7 +96,7 @@ class FilingHistoryFragment : BaseFragment() {
 		val linearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 		binding.rvFilingHistory.layoutManager = linearLayoutManager
 		binding.rvFilingHistory.addItemDecoration(
-				DividerItemDecoration(requireContext()))
+			DividerItemDecoration(requireContext()))
 
 		binding.rvFilingHistory.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
@@ -101,10 +113,10 @@ class FilingHistoryFragment : BaseFragment() {
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.screenMargin), 0)
 		spinner.gravity = Gravity.END
 		val adapter = FilterAdapter(
-				requireContext(),
-				resources.getStringArray(R.array.filing_history_categories),
-				isDropdownDarkTheme = true,
-				isToolbarDarkTheme = true
+			requireContext(),
+			resources.getStringArray(R.array.filing_history_categories),
+			isDropdownDarkTheme = true,
+			isToolbarDarkTheme = true
 		)
 		spinner.adapter = adapter
 		withState(viewModel) { state ->
@@ -122,15 +134,15 @@ class FilingHistoryFragment : BaseFragment() {
 		eventDisposables.clear()
 		if (::spinner.isInitialized) {
 			RxAdapterView.itemSelections(spinner)
-					.skip(1)
-					.subscribe { er -> viewModel.setCategoryFilter(er) }
-					?.let { eventDisposables.add(it) }
+				.skip(1)
+				.subscribe { er -> viewModel.setCategoryFilter(er) }
+				?.let { eventDisposables.add(it) }
 		}
 		filingHistoryAdapter?.getViewClickedObservable()
-				?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
-					viewModel.filingHistoryItemClicked((view as FilingHistoryViewHolder).adapterPosition)
-				}
-				?.let { eventDisposables.add(it) }
+			?.subscribe { view: BaseViewHolder<FilingHistoryVisitable> ->
+				viewModel.filingHistoryItemClicked((view as FilingHistoryViewHolder).adapterPosition)
+			}
+			?.let { eventDisposables.add(it) }
 	}
 
 	//endregion
@@ -141,7 +153,7 @@ class FilingHistoryFragment : BaseFragment() {
 		withState(viewModel) { state ->
 			when (state.filingsRequest) {
 				is Success -> {
-					if(state.filingsHistory.isEmpty()) {
+					if (state.filingsHistory.isEmpty()) {
 						binding.msvFilingHistory.viewState = VIEW_STATE_EMPTY
 					} else {
 						binding.msvFilingHistory.viewState = VIEW_STATE_CONTENT
@@ -157,6 +169,7 @@ class FilingHistoryFragment : BaseFragment() {
 					val tvMsvError = binding.msvFilingHistory.findViewById<TextView>(R.id.tvMsvError)
 					tvMsvError.text = state.filingsRequest.error.message
 				}
+				else -> {}
 			}
 		}
 	}

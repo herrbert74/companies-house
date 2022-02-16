@@ -17,7 +17,12 @@ import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.FragmentChargeDetailsBinding
 import com.babestudios.companyinfouk.charges.ui.ChargesActivity
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
-import com.babestudios.companyinfouk.charges.ui.details.list.*
+import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsAdapter
+import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsHeaderItem
+import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsHeaderVisitable
+import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsTypeFactory
+import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsVisitable
+import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsVisitableBase
 import com.babestudios.companyinfouk.common.model.charges.Transaction
 import io.reactivex.disposables.CompositeDisposable
 

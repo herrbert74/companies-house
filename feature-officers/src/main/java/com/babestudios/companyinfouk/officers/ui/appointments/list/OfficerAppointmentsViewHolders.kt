@@ -1,3 +1,4 @@
+@file:Suppress("MatchingDeclarationName")
 package com.babestudios.companyinfouk.officers.ui.appointments.list
 
 import android.view.View
@@ -11,8 +12,8 @@ class OfficerAppointmentsViewHolder(_binding: ViewBinding)
 		val binding = _binding as RowOfficerAppointmentsBinding
 		val appointment = (visitable as OfficerAppointmentsVisitable).appointment
 		binding.lblOfficerAppointmentsAppointedOn.text = appointment.appointedOn
-		binding.lblOfficerAppointmentsCompanyName.text = appointment.appointedTo?.companyName
-		binding.lblOfficerAppointmentsCompanyStatus.text = appointment.appointedTo?.companyStatus
+		binding.lblOfficerAppointmentsCompanyName.text = appointment.appointedTo.companyName
+		binding.lblOfficerAppointmentsCompanyStatus.text = appointment.appointedTo.companyStatus
 		binding.lblOfficerAppointmentsRole.text = appointment.officerRole
 		if (appointment.resignedOn != null) {
 			binding.lblOfficerAppointmentsResignedOn.visibility = View.VISIBLE

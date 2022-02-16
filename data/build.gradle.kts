@@ -55,7 +55,6 @@ dependencies {
 	implementation(Libs.RxJava2.rxKotlin)
 
 	implementation(Libs.Google.Dagger.dagger)
-	implementation(Libs.Google.Firebase.analytics)
 
 	kapt(Libs.Google.Dagger.compiler)
 	kaptTest(Libs.Google.Dagger.compiler)

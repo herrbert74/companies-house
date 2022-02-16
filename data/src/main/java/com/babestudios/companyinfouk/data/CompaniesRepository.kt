@@ -262,9 +262,9 @@ open class CompaniesRepository @Inject constructor(
 				}
 				outputStream?.flush()
 		} catch (e: FileNotFoundException) {
-			e.printStackTrace()
+			Log.e("test", "File not found: ${e.localizedMessage}")
 		} catch (e: IOException) {
-			Log.d("test", "Error during closing input stream" + e.localizedMessage)
+			Log.d("test", "Error during closing input stream ${e.localizedMessage}")
 		} finally {
 				inputStream.close()
 

@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.plugins.android
 
 import com.android.build.gradle.BaseExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import com.babestudios.companyinfouk.buildsrc.Libs
 
 /**
  * This plugin should be used for all android modules.
@@ -29,12 +29,11 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		if (androidExtension is BaseExtension) {
 
 			androidExtension.apply {
-				compileSdkVersion(29)
-				buildToolsVersion = "29.0.2"
+				compileSdkVersion(31)
 
 				defaultConfig {
-					minSdkVersion(21)
-					targetSdkVersion(29)
+					minSdk = 21
+					targetSdk = 31
 					consumerProguardFiles("consumer-rules.pro")
 				}
 
@@ -44,16 +43,13 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 						proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 					}
 				}
-
-				compileOptions {
-					sourceCompatibility = JavaVersion.VERSION_1_8
-					targetCompatibility = JavaVersion.VERSION_1_8
-				}
 			}
 		}
 
 		project.dependencies {
-			add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.6.0")
+			add("implementation", platform(Libs.Google.Firebase.bom))
+			add("implementation", Libs.Google.Firebase.analytics)
+			add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.19.0")
 			add("detektPlugins", project.project(":core-detekt"))
 		}
 	}

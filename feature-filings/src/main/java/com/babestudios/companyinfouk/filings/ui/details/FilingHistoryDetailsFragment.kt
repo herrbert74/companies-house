@@ -7,15 +7,28 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.View.GONE
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.withState
 import com.babestudios.base.mvrx.BaseFragment
-import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryDetailsBinding
@@ -56,8 +69,8 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 	}
 
 	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
+		inflater: LayoutInflater, container: ViewGroup?,
+		savedInstanceState: Bundle?
 	): View {
 		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 		_binding = FragmentFilingHistoryDetailsBinding.inflate(inflater, container, false)
@@ -183,7 +196,7 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 				binding.lblFilingHistoryDetailsDescription.text = spannableDescription
 			}
 			binding.lblFilingHistoryDetailsPages.text = String.format(Locale.UK, "%d", filingHistoryItem.pages)
-			binding.lblFilingHistoryDetailsDescriptionValues.visibility = View.GONE
+			binding.lblFilingHistoryDetailsDescriptionValues.visibility = GONE
 		}
 	}
 
@@ -242,6 +255,7 @@ class FilingHistoryDetailsFragment : BaseFragment() {
 		}
 	}
 
+	@Suppress("SwallowedException")
 	private fun showDocument(pdfBytes: Uri) {
 		val target = Intent(Intent.ACTION_VIEW)
 		target.setDataAndType(pdfBytes, "application/pdf")

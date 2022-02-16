@@ -7,7 +7,14 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.*
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
@@ -21,7 +28,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.withState
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.ext.textColor
 import com.babestudios.base.list.BaseViewHolder
@@ -30,7 +42,10 @@ import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
-import com.babestudios.base.view.MultiStateView.*
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMainBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
@@ -40,7 +55,11 @@ import com.babestudios.companyinfouk.companies.ui.FilterState
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryAdapter
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryTypeFactory
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
-import com.babestudios.companyinfouk.companies.ui.main.search.*
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchAdapter
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchTypeFactory
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchViewHolder
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
+import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.jakewharton.rxbinding2.view.RxMenuItem
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -81,8 +100,8 @@ class MainFragment : BaseFragment() {
 	}
 
 	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
+		inflater: LayoutInflater, container: ViewGroup?,
+		savedInstanceState: Bundle?
 	): View {
 		_binding = FragmentMainBinding.inflate(inflater, container, false)
 		return binding.root
@@ -91,7 +110,7 @@ class MainFragment : BaseFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		searchToolbarAnimationDuration =
-				resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
+			resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
 		initializeUI()
 	}
 
@@ -124,7 +143,9 @@ class MainFragment : BaseFragment() {
 		binding.rvMainSearchHistory.layoutManager = linearLayoutManager
 		val titlePositions = java.util.ArrayList<Int>()
 		titlePositions.add(0)
-		binding.rvMainSearchHistory.addItemDecoration(DividerItemDecorationWithSubHeading(requireContext(), titlePositions))
+		binding.rvMainSearchHistory.addItemDecoration(
+			DividerItemDecorationWithSubHeading(requireContext(), titlePositions)
+		)
 	}
 
 	private fun createSearchRecyclerView() {
@@ -147,10 +168,10 @@ class MainFragment : BaseFragment() {
 		spinner.setBackgroundResource(0)
 		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.screenMargin), 0)
 		val adapter = FilterAdapter(
-				requireContext(),
-				resources.getStringArray(R.array.search_filter_options),
-				isDropdownDarkTheme = true,
-				isToolbarDarkTheme = false
+			requireContext(),
+			resources.getStringArray(R.array.search_filter_options),
+			isDropdownDarkTheme = true,
+			isToolbarDarkTheme = false
 		)
 		spinner.adapter = adapter
 		spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -207,7 +228,7 @@ class MainFragment : BaseFragment() {
 			}
 			//For when we are recovering after a process death
 			if (state.queryText.isNotEmpty()) {
-				Handler().postDelayed({
+				Handler(Looper.getMainLooper()).postDelayed({
 					//To avoid skipping initial state in this case : we want to reload it
 					searchMenuItem.expandActionView()
 					(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
@@ -227,28 +248,29 @@ class MainFragment : BaseFragment() {
 			binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = binding.tbMain.width -
-						if (containsOverflow)
-							resources.getDimensionPixelSize(
-									R.dimen.abc_action_button_min_width_overflow_material
-							)
-						else
-							(0) - ((resources.getDimensionPixelSize(
-									R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2)
+					if (containsOverflow)
+						resources.getDimensionPixelSize(
+							R.dimen.abc_action_button_min_width_overflow_material
+						)
+					else
+						(0) - ((resources.getDimensionPixelSize(
+							R.dimen.abc_action_button_min_width_material
+						) * numberOfMenuIcon) / 2)
 				val createCircularReveal = ViewAnimationUtils.createCircularReveal(
-						binding.tbMain,
-						if (isRtl(resources)) binding.tbMain.width - width else width,
-						binding.tbMain.height / 2,
-						0.0f,
-						width.toFloat()
+					binding.tbMain,
+					if (isRtl(resources)) binding.tbMain.width - width else width,
+					binding.tbMain.height / 2,
+					0.0f,
+					width.toFloat()
 				)
 				createCircularReveal.duration = searchToolbarAnimationDuration
 				createCircularReveal.start()
 			} else {
 				val translateAnimation = TranslateAnimation(
-						0.0f,
-						0.0f,
-						((-binding.tbMain.height).toFloat()),
-						0.0f
+					0.0f,
+					0.0f,
+					((-binding.tbMain.height).toFloat()),
+					0.0f
 				)
 				translateAnimation.duration = searchToolbarAnimationDuration
 				binding.tbMain.clearAnimation()
@@ -260,23 +282,25 @@ class MainFragment : BaseFragment() {
 			viewModel.clearSearch()
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 				val width = binding.tbMain.width -
-						if (containsOverflow)
-							resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material)
-						else
-							0 - ((resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)
-									* numberOfMenuIcon) / 2)
+					if (containsOverflow)
+						resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material)
+					else
+						0 - ((resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)
+							* numberOfMenuIcon) / 2)
 				val createCircularReveal = ViewAnimationUtils.createCircularReveal(
-						binding.tbMain,
-						if (isRtl(resources)) binding.tbMain.width - width else width,
-						binding.tbMain.height / 2,
-						width.toFloat(),
-						0.0f
+					binding.tbMain,
+					if (isRtl(resources)) binding.tbMain.width - width else width,
+					binding.tbMain.height / 2,
+					width.toFloat(),
+					0.0f
 				)
 				createCircularReveal.duration = searchToolbarAnimationDuration
 				createCircularReveal.addListener(object : AnimatorListenerAdapter() {
 					override fun onAnimationEnd(animation: Animator) {
 						super.onAnimationEnd(animation)
-						binding.tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+						binding.tbMain.setBackgroundColor(
+							ContextCompat.getColor(requireContext(), R.color.colorPrimary)
+						)
 						activity?.invalidateOptionsMenu()
 					}
 				})
@@ -295,7 +319,9 @@ class MainFragment : BaseFragment() {
 					}
 
 					override fun onAnimationEnd(animation: Animation) {
-						binding.tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+						binding.tbMain.setBackgroundColor(
+							ContextCompat.getColor(requireContext(), R.color.colorPrimary)
+						)
 						activity?.invalidateOptionsMenu()
 					}
 
@@ -330,8 +356,9 @@ class MainFragment : BaseFragment() {
 			showFilteredSearch()
 		}
 
-		viewModel.selectSubscribe(CompaniesState::searchHistoryRequest, CompaniesState::searchHistoryVisitables) {
-			searchHistoryRequest, _ ->
+		viewModel.selectSubscribe(
+			CompaniesState::searchHistoryRequest, CompaniesState::searchHistoryVisitables
+		) { searchHistoryRequest, _ ->
 			val tvMsvSearchHistoryError = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
 			val tvMsvSearchHistoryEmpty = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
 			withState(viewModel) { state ->
@@ -430,7 +457,9 @@ class MainFragment : BaseFragment() {
 				observeActions()
 			} else {
 				binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
-				binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.semiTransparentBlack))
+				binding.rvMainSearch.setBackgroundColor(
+					ContextCompat.getColor(requireContext(), R.color.semiTransparentBlack)
+				)
 				searchAdapter?.updateItems(emptyList())
 			}
 		}
@@ -438,13 +467,13 @@ class MainFragment : BaseFragment() {
 
 	private fun showDeleteRecentSearchesDialog() {
 		AlertDialog.Builder(requireContext())
-				.setTitle(R.string.delete_recent_searches)
-				.setMessage(R.string.are_you_sure_you_want_to_delete_all_recent_searches)
-				.setPositiveButton(android.R.string.yes) { _, _ -> viewModel.clearAllRecentSearches() }
-				.setNegativeButton(android.R.string.no) { _, _ ->
-					// do nothing
-				}
-				.show()
+			.setTitle(R.string.delete_recent_searches)
+			.setMessage(R.string.are_you_sure_you_want_to_delete_all_recent_searches)
+			.setPositiveButton(android.R.string.ok) { _, _ -> viewModel.clearAllRecentSearches() }
+			.setNegativeButton(android.R.string.cancel) { _, _ ->
+				// do nothing
+			}
+			.show()
 		observeActions()
 	}
 
@@ -457,59 +486,60 @@ class MainFragment : BaseFragment() {
 		eventDisposables.clear()
 		lblSearch?.let {
 			RxTextView.textChanges(it)
-					.skipInitialValue()
-					.debounce(
-							resources.getInteger(R.integer.search_input_field_debounce).toLong(),
-							TimeUnit.MILLISECONDS
-					)
-					.subscribeOn(Schedulers.io())
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe {
-						viewModel.onSearchQueryChanged(lblSearch?.text.toString())
-					}
-					?.let { queryTextChangeDisposable -> eventDisposables.add(queryTextChangeDisposable) }
+				.skipInitialValue()
+				.debounce(
+					resources.getInteger(R.integer.search_input_field_debounce).toLong(),
+					TimeUnit.MILLISECONDS
+				)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe {
+					viewModel.onSearchQueryChanged(lblSearch?.text.toString())
+				}
+				?.let { queryTextChangeDisposable -> eventDisposables.add(queryTextChangeDisposable) }
 		}
 		searchHistoryAdapter?.getViewClickedObservable()
-				?.subscribe { view: BaseViewHolder<SearchHistoryVisitableBase> ->
-					viewModel.searchHistoryItemClicked(view.adapterPosition)
-				}
-				?.let { eventDisposables.add(it) }
+			?.subscribe { view: BaseViewHolder<SearchHistoryVisitableBase> ->
+				viewModel.searchHistoryItemClicked(view.adapterPosition)
+			}
+			?.let { eventDisposables.add(it) }
 		searchAdapter?.getViewClickedObservable()
-				?.subscribe { view: BaseViewHolder<SearchVisitableBase> ->
-					withState(viewModel) { state ->
-						state.filteredSearchVisitables.let { searchItems ->
-							val searchItem = (searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
-							(searchItem.title to searchItem.companyNumber).biLet { title, number ->
-								viewModel.searchItemClicked(title, number)
-							}
+			?.subscribe { view: BaseViewHolder<SearchVisitableBase> ->
+				withState(viewModel) { state ->
+					state.filteredSearchVisitables.let { searchItems ->
+						val searchItem =
+							(searchItems[(view as SearchViewHolder).adapterPosition] as SearchVisitable).searchItem
+						(searchItem.title to searchItem.companyNumber).biLet { title, number ->
+							viewModel.searchItemClicked(title, number)
 						}
 					}
 				}
-				?.let { eventDisposables.add(it) }
+			}
+			?.let { eventDisposables.add(it) }
 		favouritesMenuItem?.let {
 			RxMenuItem.clicks(it)
-					.subscribe {
-						viewModel.companiesNavigator.mainToFavourites()
-					}
-					.also { disposable -> eventDisposables.add(disposable) }
+				.subscribe {
+					viewModel.companiesNavigator.mainToFavourites()
+				}
+				.also { disposable -> eventDisposables.add(disposable) }
 		}
 		privacyMenuItem?.let {
 			RxMenuItem.clicks(it)
-					.subscribe {
-						viewModel.companiesNavigator.mainToPrivacy()
-					}
-					.also { disposable -> eventDisposables.add(disposable) }
+				.subscribe {
+					viewModel.companiesNavigator.mainToPrivacy()
+				}
+				.also { disposable -> eventDisposables.add(disposable) }
 		}
 		binding.fabMainClearRecents.let {
 			RxView.clicks(it)
-					.subscribe {
-						withState(viewModel) { state ->
-							if (state.searchHistoryRequest is Success) {
-								showDeleteRecentSearchesDialog()
-							}
+				.subscribe {
+					withState(viewModel) { state ->
+						if (state.searchHistoryRequest is Success) {
+							showDeleteRecentSearchesDialog()
 						}
 					}
-					.also { disposable -> eventDisposables.add(disposable) }
+				}
+				.also { disposable -> eventDisposables.add(disposable) }
 		}
 	}
 

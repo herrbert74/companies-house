@@ -6,7 +6,12 @@ import com.babestudios.base.di.scope.ApplicationScope
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
 import com.babestudios.companyinfouk.data.di.DataComponent
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
-import com.babestudios.companyinfouk.navigation.features.*
+import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
+import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
+import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
+import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import dagger.BindsInstance
 import dagger.Component
 

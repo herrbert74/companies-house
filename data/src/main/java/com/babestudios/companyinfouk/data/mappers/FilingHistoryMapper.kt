@@ -88,6 +88,7 @@ fun mapFilingHistoryCategory(input: Category): CategoryDto {
 	}
 }
 
+@Suppress("SwallowedException")
 fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: Map<String, Any>?): String {
 	@Suppress("RegExpRedundantEscape")
 	val matchResult = "\\{.*?\\}".toRegex().findAll(description) //Search anything within braces

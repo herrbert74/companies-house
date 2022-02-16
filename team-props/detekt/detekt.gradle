@@ -9,7 +9,7 @@ detekt {
             enabled = false
         }
     }
-    toolVersion = "1.6.0"
+    toolVersion = "1.19.0"
     config = files("$rootDir/team-props/detekt/default-detekt-config.yml")
     input = files("src/main/java")
     //filters = ".*/resources/.*,.*/build/.*"

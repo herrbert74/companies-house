@@ -7,12 +7,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.*
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.mvrx.BaseFragment
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.activityViewModel
+import com.airbnb.mvrx.withState
 import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.base.view.MultiStateView.*
 import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvencyBinding
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
@@ -108,6 +115,7 @@ class InsolvenciesFragment : BaseFragment() {
 						observeActions()
 					}
 				}
+				else -> {}
 			}
 		}
 	}

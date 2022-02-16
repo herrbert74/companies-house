@@ -55,10 +55,6 @@ android {
 			}
 		}
 	}
-
-	tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-		kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-	}
 }
 
 dependencies {
@@ -73,6 +69,7 @@ dependencies {
 	implementation(Libs.AndroidX.appcompat)
 	implementation(Libs.AndroidX.Navigation.ktx)
 	implementation(Libs.Google.Dagger.dagger)
+	implementation(platform(Libs.Google.Firebase.bom))
 	implementation(Libs.Google.Firebase.crashlytics)
 	debugImplementation(Libs.Facebook.Flipper.debug)
 	releaseImplementation(Libs.Facebook.Flipper.release)

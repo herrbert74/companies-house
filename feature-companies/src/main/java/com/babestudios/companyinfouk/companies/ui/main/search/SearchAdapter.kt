@@ -11,9 +11,10 @@ import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class SearchAdapter(private var searchVisitables: List<SearchVisitableBase>
-					, private val searchTypeFactory: SearchTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<SearchVisitableBase>>() {
+class SearchAdapter(
+	private var searchVisitables: List<SearchVisitableBase>,
+	private val searchTypeFactory: SearchTypeFactory
+) : RecyclerView.Adapter<BaseViewHolder<SearchVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return searchVisitables.size
@@ -36,14 +37,14 @@ class SearchAdapter(private var searchVisitables: List<SearchVisitableBase>
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<SearchVisitableBase> {
 		val binding = RowSearchResultBinding.inflate(
-				LayoutInflater.from(parent.context),
-				parent,
-				false)
+			LayoutInflater.from(parent.context),
+			parent,
+			false)
 		val v = searchTypeFactory.holder(viewType, binding)
 		RxView.clicks(binding.root)
-				.takeUntil(RxView.detaches(parent))
-				.map { v }
-				.subscribe(itemClickSubject)
+			.takeUntil(RxView.detaches(parent))
+			.map { v }
+			.subscribe(itemClickSubject)
 		return v
 	}
 

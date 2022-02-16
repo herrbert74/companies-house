@@ -13,7 +13,6 @@ dependencies {
 
 	implementation(Libs.SquareUp.Retrofit2.retrofit)
 	implementation(Libs.Google.gson)
-	implementation(Libs.Google.Firebase.analytics)
 
 	implementation(Libs.Javax.inject)
 	kapt(Libs.Javax.annotations)

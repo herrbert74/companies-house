@@ -28,8 +28,8 @@ class InsolvenciesActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_insolvencies)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+		setContentView(R.layout.activity_insolvencies)
 		navController = findNavController(R.id.navHostFragmentInsolvencies)
 		if (::comp.isLazyInitialized) {
 			insolvenciesNavigator.bind(navController)

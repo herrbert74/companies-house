@@ -8,9 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import com.airbnb.mvrx.*
 import com.babestudios.base.mvrx.BaseFragment
-import com.babestudios.base.view.MultiStateView.*
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.Success
+import com.airbnb.mvrx.existingViewModel
+import com.airbnb.mvrx.withState
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.common.model.company.Company
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentCompanyBinding
@@ -98,6 +104,7 @@ class CompanyFragment : BaseFragment() {
 					binding.msvCompany.viewState = VIEW_STATE_CONTENT
 					showCompany(state.company)
 				}
+				else -> {}
 			}
 		}
 	}

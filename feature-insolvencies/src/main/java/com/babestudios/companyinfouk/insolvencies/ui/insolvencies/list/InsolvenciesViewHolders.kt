@@ -1,10 +1,11 @@
+@file:Suppress("MatchingDeclarationName")
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyBinding
 
-class InsolvencyViewHolder(_binding: ViewBinding) 
+class InsolvencyViewHolder(_binding: ViewBinding)
 	: BaseViewHolder<InsolvencyVisitableBase>(_binding) {
 	override fun bind(visitable: InsolvencyVisitableBase) {
 		val binding = _binding as RowInsolvencyBinding

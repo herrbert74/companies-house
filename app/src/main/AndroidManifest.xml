@@ -19,6 +19,7 @@
 
 		<activity
 			android:name=".companies.ui.CompaniesActivity"
+			android:exported="true"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:windowSoftInputMode="stateHidden">
 			<intent-filter>

@@ -28,8 +28,8 @@ class PersonsActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_persons)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+		setContentView(R.layout.activity_persons)
 		navController = findNavController(R.id.navHostFragmentPersons)
 		if (::comp.isLazyInitialized) {
 			personsNavigator.bind(navController)

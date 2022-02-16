@@ -5,17 +5,23 @@ import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.*
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsDateItem
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsDateVisitable
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsPractitionerItem
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsPractitionerVisitable
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTitleItem
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTitleVisitable
+import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitable
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
 import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
 
 class InsolvenciesViewModel(
-		insolvenciesState: InsolvenciesState,
-		private val companiesRepository: CompaniesRepositoryContract,
-		var insolvenciesNavigator: InsolvenciesNavigator,
-		private val datesTitleString: String,
-		private val practitionersTitleString: String
+	insolvenciesState: InsolvenciesState,
+	private val companiesRepository: CompaniesRepositoryContract,
+	var insolvenciesNavigator: InsolvenciesNavigator,
+	private val datesTitleString: String,
+	private val practitionersTitleString: String
 ) : BaseViewModel<InsolvenciesState>(insolvenciesState, companiesRepository) {
 
 	init {
@@ -27,18 +33,18 @@ class InsolvenciesViewModel(
 	companion object : MvRxViewModelFactory<InsolvenciesViewModel, InsolvenciesState> {
 
 		@JvmStatic
-		override fun create(viewModelContext: ViewModelContext, state: InsolvenciesState): InsolvenciesViewModel? {
+		override fun create(viewModelContext: ViewModelContext, state: InsolvenciesState): InsolvenciesViewModel {
 			val companiesRepository = viewModelContext.activity<InsolvenciesActivity>().injectCompaniesHouseRepository()
 			val insolvenciesNavigator = viewModelContext.activity<InsolvenciesActivity>().injectInsolvenciesNavigator()
 			val datesTitleString = viewModelContext.activity<InsolvenciesActivity>().injectDatesTitleString()
 			val practitionersTitleString = viewModelContext.activity<InsolvenciesActivity>()
-					.injectPractitionersTitleString()
+				.injectPractitionersTitleString()
 			return InsolvenciesViewModel(
-					state,
-					companiesRepository,
-					insolvenciesNavigator,
-					datesTitleString,
-					practitionersTitleString
+				state,
+				companiesRepository,
+				insolvenciesNavigator,
+				datesTitleString,
+				practitionersTitleString
 			)
 		}
 
@@ -59,12 +65,12 @@ class InsolvenciesViewModel(
 
 	private fun fetchInsolvencies(companyNumber: String) {
 		companiesRepository.getInsolvency(companyNumber)
-				.execute {
-					copy(
-							insolvencyRequest = it,
-							insolvencies = convertInsolvencyToVisitables(it())
-					)
-				}
+			.execute {
+				copy(
+					insolvencyRequest = it,
+					insolvencies = convertInsolvencyToVisitables(it())
+				)
+			}
 	}
 
 	private fun convertInsolvencyToVisitables(reply: Insolvency?): List<InsolvencyVisitableBase> {
@@ -104,7 +110,7 @@ class InsolvenciesViewModel(
 	fun practitionerClicked(adapterPosition: Int) {
 		withState { state ->
 			val practitioner = (state.insolvencyDetailsItems[adapterPosition] as InsolvencyDetailsPractitionerVisitable)
-					.insolvencyDetailsPractitionerItem.practitioner
+				.insolvencyDetailsPractitionerItem.practitioner
 			setState { copy(selectedPractitioner = practitioner) }
 		}
 		insolvenciesNavigator.insolvencyDetailsToPractitioner()

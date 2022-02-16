@@ -29,8 +29,8 @@ class FilingsActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_filings)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER) ?: ""
+		setContentView(R.layout.activity_filings)
 
 		navController = findNavController(R.id.navHostFragmentFilings)
 		if (::comp.isLazyInitialized) {

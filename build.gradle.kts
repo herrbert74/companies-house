@@ -1,42 +1,34 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-	extra["kotlin_version"] = "1.4.10"
-	val kotlinVersion = "1.4.10"
+	extra["kotlin_version"] = "1.6.10"
+	val kotlinVersion = "1.6.10"
 	repositories {
 		google()
-		jcenter()
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:4.1.0")
+		classpath("com.android.tools.build:gradle:7.1.1")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
 		classpath("com.google.gms:google-services:4.3.3")
-		classpath("com.google.firebase:firebase-crashlytics-gradle:2.2.0")
-		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.6.0")
+		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0")
+		classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
 	}
 }
 
 plugins {
-	id("io.gitlab.arturbosch.detekt").version("1.6.0")
-	id("com.github.ben-manes.versions").version("0.29.0")
-	id("scabbard.gradle") version "0.4.0"
+	id("io.gitlab.arturbosch.detekt").version("1.19.0")
+	id("com.github.ben-manes.versions").version("0.34.0")
+	id("scabbard.gradle") version "0.5.0"
 }
 
 allprojects {
 	repositories {
+		mavenCentral()
 		google()
 		maven { url = uri("https://jitpack.io") }
-		jcenter()
 	}
 	apply("$rootDir/team-props/detekt/detekt.gradle")
-
-	tasks.withType<KotlinCompile> {
-		kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-	}
 }
 
 fun teamPropsFile(propsFile: String): File {

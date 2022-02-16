@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.core.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_PX
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -53,7 +52,7 @@ class TwoLineView @JvmOverloads constructor(
 	}
 
 	fun setTextSizeFirst(size: Int) {
-		binding.lblTwoLineViewFirstLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
+		binding.lblTwoLineViewFirstLine.setTextSize(COMPLEX_UNIT_PX, size.toFloat())
 	}
 
 	fun setTextFirst(text: String?) {
@@ -61,7 +60,7 @@ class TwoLineView @JvmOverloads constructor(
 	}
 
 	fun setTextSizeSecond(size: Int) {
-		binding.lblTwoLineViewSecondLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, size.toFloat())
+		binding.lblTwoLineViewSecondLine.setTextSize(COMPLEX_UNIT_PX, size.toFloat())
 	}
 
 	fun setTextSecond(text: String?) {

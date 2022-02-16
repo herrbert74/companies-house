@@ -27,8 +27,8 @@ class OfficersActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_officers)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+		setContentView(R.layout.activity_officers)
 		navController = findNavController(R.id.navHostFragmentOfficers)
 		if (::comp.isLazyInitialized) {
 			officersNavigator.bind(navController)

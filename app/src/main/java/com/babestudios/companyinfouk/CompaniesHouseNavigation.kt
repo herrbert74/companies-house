@@ -13,8 +13,12 @@ import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.INDIVIDUAL_NAME
 import com.babestudios.companyinfouk.navigation.base.BaseNavigator
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
-import com.babestudios.companyinfouk.navigation.features.*
-
+import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
+import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
+import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
+import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 
 /**
  * This class holds the navController for any feature through [BaseNavigator]
