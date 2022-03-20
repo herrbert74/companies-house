@@ -4,15 +4,14 @@ import android.content.Context
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.common.model.charges.Charges
-import com.babestudios.companyinfouk.common.model.company.Company
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.common.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
-import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
-import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.model.charges.Charges
+import com.babestudios.companyinfouk.domain.model.company.Company
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
@@ -36,7 +35,7 @@ interface TestDataComponent {
 		): TestDataComponent
 	}
 
-	fun companiesRepository(): CompaniesRepositoryContract
+	fun companiesRepository(): CompaniesRepository
 
 	fun schedulerProvider(): SchedulerProvider
 

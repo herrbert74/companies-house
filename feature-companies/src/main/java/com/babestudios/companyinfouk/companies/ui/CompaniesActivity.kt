@@ -5,10 +5,10 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
-import com.babestudios.companyinfouk.common.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.INDIVIDUAL_ADDRESS
@@ -55,7 +55,7 @@ class CompaniesActivity : BaseActivity() {
 		}
 	}
 
-	fun injectCompaniesHouseRepository(): CompaniesRepositoryContract {
+	fun injectCompaniesHouseRepository(): CompaniesRepository {
 		return comp.companiesRepository()
 	}
 

@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.charges.ui.charges.list
 
-import com.babestudios.companyinfouk.common.model.charges.ChargesItem
+import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 
 sealed class ChargesVisitableBase {
 	abstract fun type(chargesTypeFactory: ChargesAdapter.ChargesTypeFactory): Int

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.common.model.persons.Person
+import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.persons.databinding.RowPersonBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable

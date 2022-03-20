@@ -1,9 +1,9 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.common.model.charges.Charges
-import com.babestudios.companyinfouk.common.model.charges.ChargesItem
-import com.babestudios.companyinfouk.common.model.charges.Particulars
-import com.babestudios.companyinfouk.common.model.charges.Transaction
+import com.babestudios.companyinfouk.domain.model.charges.Charges
+import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.domain.model.charges.Particulars
+import com.babestudios.companyinfouk.domain.model.charges.Transaction
 import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.charges.ChargesItemDto
@@ -21,10 +21,10 @@ inline fun mapChargesDto(
 }
 
 fun mapChargesItemDto(
-		input: ChargesItemDto,
-		chargesHelper: ChargesHelperContract,
-		mapTransactionsDto: (List<TransactionDto>?) -> List<Transaction>,
-		mapParticulars: (ParticularsDto?) -> Particulars,
+	input: ChargesItemDto,
+	chargesHelper: ChargesHelperContract,
+	mapTransactionsDto: (List<TransactionDto>?) -> List<Transaction>,
+	mapParticulars: (ParticularsDto?) -> Particulars,
 ): ChargesItem {
 	return ChargesItem(
 			input.chargeCode.orEmpty(),

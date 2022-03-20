@@ -6,7 +6,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import com.babestudios.companyinfouk.common.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.navigation.INDIVIDUAL_ADDRESS
 import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER

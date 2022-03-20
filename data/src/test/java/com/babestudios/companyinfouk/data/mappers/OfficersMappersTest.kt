@@ -2,8 +2,8 @@ package com.babestudios.companyinfouk.data.mappers
 
 import android.content.Context
 import com.babestudios.companyinfouk.common.loadJson
-import com.babestudios.companyinfouk.common.model.common.MonthYear
-import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.di.DaggerTestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataModule

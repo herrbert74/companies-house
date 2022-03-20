@@ -2,40 +2,71 @@ package com.babestudios.companyinfouk.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
+object Versions {
+	const val minSdkVersion = 21
+	const val compileSdkVersion = 31
+	const val targetSdkVersion = 31
+	const val gradlePlugin = "7.1.2"
+	const val kotlin = "1.6.10"
+	const val coroutines = "1.6.0"
+	const val dagger = "2.41"
+}
+
 //Sadly this doesn't work in root gradle file, probably chicken and egg problem
 @Suppress("unused", "SpellCheckingInspection")
 object Plugins {
-	private const val kotlinVersion = "1.6.10"
-	const val androidTools = "com.android.tools.build:gradle:4.2.0-alpha08"
-	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-	const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
-	const val googleServices = "com.google.gms:google-services:4.3.3"
-	//const val fabric = "io.fabric.tools:gradle:1.31.2"
+	const val gradle = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
+	const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+	const val kotlinAllOpen = "org.jetbrains.kotlin:kotlin-allopen:${Versions.kotlin}"
+	const val googleServices = "com.google.gms:google-services:4.3.10"
+	const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.8.1"
+	const val firebaseAppDistribution = "com.google.firebase:firebase-appdistribution-gradle:3.0.0"
+	const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.dagger}"
+	const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-alpha01"
 	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0"
 }
 
 @Suppress("unused", "SpellCheckingInspection")
 object Libs {
-	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.2.15"
+	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.2.16"
 
 	object AndroidX {
-		const val appcompat = "androidx.appcompat:appcompat:1.2.0"
-		const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
-		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
+		const val activityKtx = "androidx.activity:activity-ktx:1.4.0"
+		const val annotation = "androidx.annotation:annotation:1.3.0"
+		const val appcompat = "androidx.appcompat:appcompat:1.3.1"
+		const val appCompatResources = "androidx.appcompat:appcompat-resources:1.3.1"
+		const val browser = "androidx.browser:browser:1.3.0"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
+		const val collection = "androidx.collection:collection:1.2.0"
 		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
-		const val androidxAnnotations = "androidx.annotation:annotation:1.1.0"
-		const val coreKtx = "androidx.core:core-ktx:1.3.2"
-		const val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
-		const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0-beta04"
-		const val preferenceKtx = "androidx.preference:preference-ktx:1.1.1"
+		const val coreKtx = "androidx.core:core-ktx:1.7.0"
+		const val datastoreCore = "androidx.datastore:datastore-preferences-core:1.0.0"
+		const val datastoreRx = "androidx.datastore:datastore-preferences-rxjava2:1.0.0"
+		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.4.0"
+		const val media = "androidx.media:media:1.4.3"
+		const val mediaRouter = "androidx.mediarouter:mediarouter:1.2.4"
+		const val preferenceKtx = "androidx.preference:preference-ktx:1.1.0"
+		const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
+		const val splash = "androidx.core:core-splashscreen:1.0.0-alpha01"
+		const val startup = "androidx.startup:startup-runtime:1.1.1"
+		const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+		const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0"
+		const val window = "androidx.window:window:1.0.0-alpha06"
 
+		object Hilt {
+			private const val version = "1.0.0"
+			const val compiler = "androidx.hilt:hilt-compiler:$version"
+			const val work = "androidx.hilt:hilt-work:$version"
+			const val navigation = "androidx.hilt:hilt-navigation:$version"
+			const val navigationFragment = "androidx.hilt:hilt-navigation-fragment:$version"
+		}
 
 		object Lifecycle {
 			private const val version = "2.4.0"
 			const val common = "androidx.lifecycle:lifecycle-common:$version"
-			const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
-			const val commonJava8 = "androidx.lifecycle:lifecycle-common-java8:$version"
+			const val runtime = "androidx.lifecycle:lifecycle-runtime:$version"
+			const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
+			const val process = "androidx.lifecycle:lifecycle-process:$version"
 
 			object ViewModel {
 				const val ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
@@ -44,51 +75,89 @@ object Libs {
 		}
 
 		object Navigation {
-			private const val version = "2.4.0"
-			const val ktx = "androidx.navigation:navigation-ui-ktx:$version"
+			private const val version = "2.4.1"
+			const val common = "androidx.navigation:navigation-common:$version"
+			const val runtime = "androidx.navigation:navigation-runtime:$version"
+			const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
 			const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
+			const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
 		}
 
 		object WorkManager {
-			private const val version = "2.3.0-alpha01"
+			private const val version = "2.7.0"
 			const val ktx = "androidx.work:work-runtime-ktx:$version"
+			const val rxJava = "androidx.work:work-rxjava2:$version"
+			const val testing = "androidx.work:work-testing:$version"
+		}
+
+		object Room {
+			private const val version = "2.3.0"
+			const val common = "androidx.room:room-common:$version"
+			const val runtime = "androidx.room:room-runtime:$version"
+			const val compiler = "androidx.room:room-compiler:$version"
+			const val rxJava = "androidx.room:room-rxjava2:$version"
 		}
 
 		object Test {
-			private const val version = "1.3.0"
-			const val core = "androidx.test:core:$version"
+			private const val version = "1.4.0"
+
+			//Provided by androidx.test.ext:junit
+			//const val core = "androidx.test:core:$version"
+			const val coreKtx = "androidx.test:core-ktx:$version"
 			const val runner = "androidx.test:runner:$version"
 			const val rules = "androidx.test:rules:$version"
+			const val orchestrator = "androidx.test:orchestrator:$version"
+			const val uiAutomator = "androidx.test.uiautomator:uiautomator:2.2.0"
 
 			object Espresso {
-				private const val version = "3.3.0"
+				private const val version = "3.4.0"
 				const val core = "androidx.test.espresso:espresso-core:$version"
 				const val contrib = "androidx.test.espresso:espresso-contrib:$version"
+				const val intents = "androidx.test.espresso:espresso-contrib:$version"
 			}
 
 			object Ext {
-				const val jUnit = "androidx.test.ext:junit:1.1.2"
+				private const val version = "1.1.3"
+				const val jUnit = "androidx.test.ext:junit:$version"
+				const val jUnitKtx = "androidx.test.ext:junit-ktx:$version"
+			}
+		}
+
+		object Arch {
+			object Core {
+				const val testing = "androidx.arch.core:core-testing:2.1.0"
 			}
 		}
 	}
 
 	object Google {
-		const val material = "com.google.android.material:material:1.3.0"
-		const val gson = "com.google.code.gson:gson:2.8.6"
+		const val material = "com.google.android.material:material:1.4.0"
+		const val gson = "com.google.code.gson:gson:2.8.7"
 
+		object Play {
+			const val core = "com.google.android.play:core:1.10.0"
+			const val coreKtx = "com.google.android.play:core-ktx:1.8.1"
+		}
 
 		object PlayServices {
-			private const val version = "17.0.0"
-			const val gcm = "com.google.android.gms:play-services-gcm:$version"
-			const val analytics = "com.google.android.gms:play-services-analytics:$version"
-			const val location = "com.google.android.gms:play-services-location:$version"
-			const val maps = "com.google.android.gms:play-services-maps:$version"
+			const val ads = "com.google.android.gms:play-services-ads:20.5.0"
+			const val analytics = "com.google.android.gms:play-services-analytics:17.0.1"
+			const val auth = "com.google.android.gms:play-services-auth:19.2.0"
+			const val location = "com.google.android.gms:play-services-location:18.0.0"
+			const val maps = "com.google.android.gms:play-services-maps:17.0.1"
 		}
 
 		object Dagger {
-			private const val version = "2.40.5"
-			const val dagger = "com.google.dagger:dagger:$version"
-			const val compiler = "com.google.dagger:dagger-compiler:$version"
+			const val core = "com.google.dagger:dagger:${Versions.dagger}"
+			const val compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+
+			object Hilt {
+				const val core = "com.google.dagger:hilt-core:${Versions.dagger}"
+				const val android = "com.google.dagger:hilt-android:${Versions.dagger}"
+				const val compiler = "com.google.dagger:hilt-compiler:${Versions.dagger}"
+				const val androidTesting = "com.google.dagger:hilt-android-testing:${Versions.dagger}"
+				const val androidTestingCompiler = "com.google.dagger:hilt-android-compiler:${Versions.dagger}"
+			}
 		}
 
 		object Firebase {
@@ -100,10 +169,36 @@ object Libs {
 		}
 	}
 
+	object Kotlin {
+
+		const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+		const val test = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
+		const val jUnit = "org.jetbrains.kotlin:kotlin-test-jUnit:${Versions.kotlin}"
+		const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+
+		object Coroutines {
+			const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+			const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+			const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+			const val rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${Versions.coroutines}"
+			const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutines}"
+		}
+
+	}
+
 	object SquareUp {
+
+		const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
+
+		object Moshi {
+			private const val version = "1.8.0"
+			const val core = "com.squareup.moshi:moshi:$version"
+			const val kotlin = "com.squareup.moshi:moshi-kotlin:$version"
+		}
+
 		object OkHttp3 {
 			private const val version = "4.9.1"
-			const val okHttp3 = "com.squareup.okhttp3:okhttp:$version"
+			const val okHttp = "com.squareup.okhttp3:okhttp:$version"
 			const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
 		}
 
@@ -114,13 +209,20 @@ object Libs {
 			const val converterGson = "com.squareup.retrofit2:converter-gson:$version"
 			const val rxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:$version"
 		}
+
+		object SqlDelight {
+			private const val version = "1.4.4"
+			const val plugin = "com.squareup.sqldelight:gradle-plugin:$version"
+			const val driver = "com.squareup.sqldelight:android-driver:$version"
+		}
+
 	}
 
 	object RxJava2 {
-		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.19"
+		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.21"
 		const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
-		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
+		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
 		fun DependencyHandler.implementRx() {
 			add("implementation", rxJava)
 			add("implementation", rxAndroid)
@@ -130,6 +232,8 @@ object Libs {
 
 	object JakeWharton {
 		const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:2.1.1"
+
+		const val timber = "com.jakewharton.timber:timber:4.7.1"
 
 		object RxBinding {
 			private const val version = "2.2.0"
@@ -141,23 +245,9 @@ object Libs {
 		}
 	}
 
-	object Kotlin {
-		private const val version = "1.6.10"
-		const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
-
-		object Coroutines {
-			private const val version = "1.6.0"
-			const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
-			const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
-			const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
-			const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version"
-			//const val rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$version"
-		}
-
-	}
-
 	object Facebook {
 		const val soloader = "com.facebook.soloader:soloader:0.10.1"
+
 		object Flipper {
 			private const val version = "0.91.1"
 			const val debug = "com.facebook.flipper:flipper:$version"
@@ -179,8 +269,8 @@ object Libs {
 
 	object Chucker {
 		private const val version = "3.5.2"
-		const val library =  "com.github.ChuckerTeam.Chucker:library:$version"
-		const val noop =  "com.github.ChuckerTeam.Chucker:library-no-op:$version"
+		const val library = "com.github.ChuckerTeam.Chucker:library:$version"
+		const val noop = "com.github.ChuckerTeam.Chucker:library-no-op:$version"
 	}
 
 	object MvRx {
@@ -189,29 +279,45 @@ object Libs {
 		const val testing = "com.airbnb.android:mvrx-testing:$version"
 	}
 
+	object MviKotlin {
+		private const val version = "3.0.0-alpha01"
+		const val core = "com.arkivanov.mvikotlin:mvikotlin:$version"
+		const val main = "com.arkivanov.mvikotlin:mvikotlin-main:$version"
+		const val rx = "com.arkivanov.mvikotlin:rx:$version"
+		const val rxInternal = "com.arkivanov.mvikotlin:rx-internal:$version"
+		const val utilsInternal = "com.arkivanov.mvikotlin:utils-internal:$version"
+		const val coroutines = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$version"
+		const val logging = "com.arkivanov.mvikotlin:mvikotlin-logging:$version"
+	}
+
 	object Test {
-		//Provided by AndroidX!
-		//const val jUnit = "junit:junit:4.12"
+		const val jUnit = "junit:junit:4.13.2"
 		const val assertJ = "org.assertj:assertj-core:3.19.0"
-		const val mockK = "io.mockk:mockk:1.10.6"
-		const val mockKAndroidTest = "io.mockk:mockk-android:1.10.6"
-		const val robolectric = "org.robolectric:robolectric:4.3.1"
+		const val robolectric = "org.robolectric:robolectric:4.7.3"
+
 		//This is an alternative to Espresso IdlingResource
 		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"
+
 		object JUnit5 {
-			private const val version = "5.7.1"
+			private const val version = "5.7.2"
 			const val jupiterApi = "org.junit.jupiter:junit-jupiter-api:$version"
 			const val jupiterEngine = "org.junit.jupiter:junit-jupiter-engine:$version"
 			const val jupiterParams = "org.junit.jupiter:junit-jupiter-params:$version"
 			const val vintageEngine = "org.junit.jupiter:junit-vintage-engine:$version"
 		}
-	}
 
-	object Kotest {
-		private const val version = "4.4.1"
-		const val runner = "io.kotest:kotest-runner-junit5:$version"
-		const val assertions = "io.kotest:kotest-assertions-core:$version"
-		const val property = "io.kotest:kotest-property:$version"
+		object MockK {
+			private const val version = "1.12.0"
+			const val core = "io.mockk:mockk:$version"
+			const val android = "io.mockk:mockk-android:$version"
+		}
+
+		object Kotest {
+			private const val version = "4.6.1"
+			const val runner = "io.kotest:kotest-runner-junit5:$version"
+			const val assertions = "io.kotest:kotest-assertions-core:$version"
+			const val property = "io.kotest:kotest-property:$version"
+		}
 	}
 
 	object Detekt {
@@ -222,5 +328,21 @@ object Libs {
 
 	object Views {
 		const val multiStateView = "com.github.Kennyc1012:MultiStateView:2.2.0"
+
+		object FlowBinding {
+			private const val version = "1.2.0"
+			const val android = "io.github.reactivecircus.flowbinding:flowbinding-android:$version"
+			const val appcompat = "io.github.reactivecircus.flowbinding:flowbinding-appcompat:$version"
+			const val core = "io.github.reactivecircus.flowbinding:flowbinding-core:$version"
+			const val drawerLayout = "io.github.reactivecircus.flowbinding:flowbinding-drawerLayout:$version"
+			const val lifecycle = "io.github.reactivecircus.flowbinding:flowbinding-lifecycle:$version"
+			const val navigation = "io.github.reactivecircus.flowbinding:flowbinding-navigation:$version"
+			const val preference = "io.github.reactivecircus.flowbinding:flowbinding-preference:$version"
+			const val recyclerView = "io.github.reactivecircus.flowbinding:flowbinding-recyclerview:$version"
+			const val swipeRefreshLayout =
+				"io.github.reactivecircus.flowbinding:flowbinding-swiperefreshlayout:$version"
+			const val viewPager2 = "io.github.reactivecircus.flowbinding:flowbinding-viewpager2:$version"
+			const val material = "io.github.reactivecircus.flowbinding:flowbinding-material:$version"
+		}
 	}
 }

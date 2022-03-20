@@ -4,52 +4,52 @@ import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
-import com.babestudios.companyinfouk.common.model.common.Address
-import com.babestudios.companyinfouk.common.model.company.Company
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 
 data class CompaniesState(
 
 		//Needed to trigger filtered search result changes when only the state changes, but not the result
-		val timeStamp: Long = 0L,
+	val timeStamp: Long = 0L,
 
 		//Main/Search
-		val searchRequest: Async<CompanySearchResult> = Uninitialized,
-		val searchVisitables: List<SearchVisitableBase> = emptyList(),
-		val filteredSearchVisitables: List<SearchVisitableBase> = ArrayList(),
-		val totalCount: Int = 0,
-		@PersistState
+	val searchRequest: Async<CompanySearchResult> = Uninitialized,
+	val searchVisitables: List<SearchVisitableBase> = emptyList(),
+	val filteredSearchVisitables: List<SearchVisitableBase> = ArrayList(),
+	val totalCount: Int = 0,
+	@PersistState
 		val queryText: String = "",
-		val isSearchLoading: Boolean = false,
-		val isSearchMenuItemExpanded: Boolean = false,
-		@PersistState
+	val isSearchLoading: Boolean = false,
+	val isSearchMenuItemExpanded: Boolean = false,
+	@PersistState
 		val filterState: FilterState = FilterState.FILTER_SHOW_ALL,
 
 		//Main/Search history
-		val searchHistoryRequest: Async<List<SearchHistoryItem>> = Uninitialized,
-		val searchHistoryVisitables: List<SearchHistoryVisitableBase> = emptyList(),
+	val searchHistoryRequest: Async<List<SearchHistoryItem>> = Uninitialized,
+	val searchHistoryVisitables: List<SearchHistoryVisitableBase> = emptyList(),
 
 		//Company
-		val companyRequest: Async<Company> = Uninitialized,
-		@PersistState
+	val companyRequest: Async<Company> = Uninitialized,
+	@PersistState
 		var company: Company = Company(),
-		@PersistState
+	@PersistState
 		val companyNumber: String = "",
-		@PersistState
+	@PersistState
 		val companyName: String = "",
-		val isFavorite: Boolean = false,
+	val isFavorite: Boolean = false,
 
 		//Favourites
-		val favouritesRequest: Async<List<SearchHistoryItem>> = Uninitialized,
-		val favouriteItems: List<FavouritesVisitable> = emptyList(),
+	val favouritesRequest: Async<List<SearchHistoryItem>> = Uninitialized,
+	val favouriteItems: List<FavouritesVisitable> = emptyList(),
 
 		//Map
-		val individualName:String? = null,
-		val individualAddress: Address? = null
+	val individualName:String? = null,
+	val individualAddress: Address? = null
 
 ) : MvRxState
 

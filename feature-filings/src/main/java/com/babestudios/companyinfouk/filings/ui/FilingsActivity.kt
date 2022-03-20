@@ -1,13 +1,12 @@
 package com.babestudios.companyinfouk.filings.ui
 
 import android.os.Bundle
-import androidx.core.app.NavUtils
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
@@ -51,7 +50,7 @@ class FilingsActivity : BaseActivity() {
 		return if (::companyNumber.isInitialized) companyNumber else ""
 	}
 
-	fun injectCompaniesHouseRepository(): CompaniesRepositoryContract {
+	fun injectCompaniesHouseRepository(): CompaniesRepository {
 		return comp.companiesRepository()
 	}
 

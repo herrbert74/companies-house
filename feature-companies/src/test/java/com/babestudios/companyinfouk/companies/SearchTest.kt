@@ -4,9 +4,9 @@ import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 import io.mockk.every
 import io.mockk.mockk
@@ -18,7 +18,7 @@ import org.junit.Test
 
 class SearchTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
 	private val companiesNavigator = mockk<CompaniesNavigator>()
 
@@ -57,7 +57,7 @@ class SearchTest {
 	fun whenFabClickedInStateRecentSearches_thenShowDeleteRecentSearchesDialogIsCalled() {
 		val viewModel = companiesViewModel()
 		viewModel.clearAllRecentSearches()
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.clearAllRecentSearches() }
 	}
 
@@ -65,7 +65,7 @@ class SearchTest {
 	fun `when searchItemClicked then addRecentSearchItem and StartActivity Is Called`() {
 		val viewModel = companiesViewModel()
 		viewModel.searchItemClicked("TUI", "12344")
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.addRecentSearchItem(searchHistoryItem) }
 		verify(exactly = 1) { viewModel.companiesNavigator.mainToCompany() }
 	}
@@ -74,7 +74,7 @@ class SearchTest {
 	fun whenSearch_thenDataManagerSearchCompaniesIsCalled() {
 		val viewModel = companiesViewModel()
 		viewModel.search("")
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.searchCompanies(any(), any()) }
 	}
 
@@ -82,7 +82,7 @@ class SearchTest {
 	fun whenSearchLoadMore_thenDataManagerSearchCompaniesIsCalled() {
 		val viewModel = companiesViewModel()
 		viewModel.loadMoreSearch(1)
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.searchCompanies(any(), any()) }
 	}
 

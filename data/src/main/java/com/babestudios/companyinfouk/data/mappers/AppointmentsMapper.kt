@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.common.model.common.Address
-import com.babestudios.companyinfouk.common.model.common.MonthYear
-import com.babestudios.companyinfouk.common.model.officers.AppointedTo
-import com.babestudios.companyinfouk.common.model.officers.Appointment
-import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.domain.model.officers.AppointedTo
+import com.babestudios.companyinfouk.domain.model.officers.Appointment
+import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.MonthYearDto

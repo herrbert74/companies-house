@@ -6,5 +6,6 @@ plugins{
 
 dependencies {
 	implementation(project(":common"))
-	implementation(Libs.AndroidX.Navigation.ktx)
+	implementation(project(":domain"))
+	implementation(Libs.AndroidX.Navigation.uiKtx)
 }

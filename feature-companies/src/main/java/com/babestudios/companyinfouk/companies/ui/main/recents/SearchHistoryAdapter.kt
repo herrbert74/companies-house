@@ -8,7 +8,7 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.common.databinding.RowSubtitleBinding
 import com.babestudios.companyinfouk.common.databinding.RowTwoLinesBinding
 import com.babestudios.companyinfouk.companies.R
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject

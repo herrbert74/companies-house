@@ -10,17 +10,17 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.common.model.filinghistory.Category
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 
 class FilingsViewModel(
-		filingsState: FilingsState,
-		private val companiesRepository: CompaniesRepositoryContract,
-		var filingsNavigator: FilingsNavigator
+	filingsState: FilingsState,
+	private val companiesRepository: CompaniesRepository,
+	var filingsNavigator: FilingsNavigator
 ) : BaseViewModel<FilingsState>(filingsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<FilingsViewModel, FilingsState> {

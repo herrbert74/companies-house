@@ -2,9 +2,9 @@ package com.babestudios.companyinfouk.filings
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryLinks
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLinks
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
@@ -20,7 +20,7 @@ import org.junit.Test
 
 class FilingHistoryDetailsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
 	private val filingsNavigator = mockk<FilingsNavigator>()
 
@@ -37,7 +37,7 @@ class FilingHistoryDetailsTest {
 	fun whenGetDocument_thenDataManagerGetDocumentIsCalled() {
 		val viewModel = filingsViewModel()
 		viewModel.fetchDocument()
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getDocument("something") }
 	}
 

@@ -16,13 +16,14 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 
 		project.dependencies {
 			add("api", project.project(":core-injection"))
+			add("api", project.project(":domain"))
 
 			add("implementation", Libs.MvRx.mvrx)
 			add("implementation", Libs.MvRx.testing)
 			add("implementation", Libs.AndroidX.constraintLayout)
-			add("implementation", Libs.AndroidX.Navigation.ktx)
+			add("implementation", Libs.AndroidX.Navigation.uiKtx)
 			add("implementation", Libs.AndroidX.Navigation.fragment)
-			add("implementation", Libs.Google.Dagger.dagger)
+			add("implementation", Libs.Google.Dagger.core)
 			add("implementation", Libs.RxJava2.rxAndroid)
 			add("implementation", Libs.RxJava2.rxJava)
 			add("implementation", Libs.JakeWharton.RxBinding.core)
@@ -31,7 +32,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("kapt", Libs.Google.Dagger.compiler)
 
 			add("testImplementation", Libs.AndroidX.Test.Ext.jUnit)
-			add("testImplementation", Libs.Test.mockK)
+			add("testImplementation", Libs.Test.MockK.core)
 		}
 
 		val androidExtension = project.extensions.getByName("android")

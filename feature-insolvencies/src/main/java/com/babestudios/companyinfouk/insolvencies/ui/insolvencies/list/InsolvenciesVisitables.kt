@@ -1,8 +1,7 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.common.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCaseDto
+import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
 import kotlinx.android.parcel.Parcelize
 
 sealed class InsolvencyVisitableBase {

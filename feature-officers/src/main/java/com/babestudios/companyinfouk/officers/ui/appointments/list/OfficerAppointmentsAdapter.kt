@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.common.model.officers.Appointment
-import com.babestudios.companyinfouk.data.model.officers.AppointmentDto
+import com.babestudios.companyinfouk.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.databinding.RowOfficerAppointmentsBinding
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable

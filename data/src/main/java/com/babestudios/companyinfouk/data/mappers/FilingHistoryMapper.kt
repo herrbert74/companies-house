@@ -1,9 +1,9 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.common.model.filinghistory.Category
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.common.model.filinghistory.FilingHistoryLinks
+import com.babestudios.companyinfouk.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLinks
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
 import com.babestudios.companyinfouk.data.model.filinghistory.CategoryDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
@@ -24,10 +24,10 @@ inline fun mapFilingHistoryDto(
 }
 
 fun mapFilingHistoryItemDto(
-		input: FilingHistoryItemDto,
-		filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
-		mapFilingHistoryLinks: (FilingHistoryLinksDto?) -> FilingHistoryLinks,
-		mapCategoryDto: (CategoryDto?) -> Category
+	input: FilingHistoryItemDto,
+	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
+	mapFilingHistoryLinks: (FilingHistoryLinksDto?) -> FilingHistoryLinks,
+	mapCategoryDto: (CategoryDto?) -> Category
 ): FilingHistoryItem {
 	return FilingHistoryItem(
 			input.date.orEmpty(),

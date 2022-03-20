@@ -2,8 +2,7 @@ package com.babestudios.companyinfouk.officers.ui.appointments.list
 
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.common.model.officers.Appointment
-import com.babestudios.companyinfouk.data.model.officers.AppointmentDto
+import com.babestudios.companyinfouk.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.R
 
 class OfficerAppointmentsTypeFactory : OfficerAppointmentsAdapter.OfficerAppointmentsTypeFactory {

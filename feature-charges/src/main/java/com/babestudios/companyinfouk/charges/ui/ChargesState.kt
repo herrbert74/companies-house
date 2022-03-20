@@ -5,19 +5,19 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
-import com.babestudios.companyinfouk.common.model.charges.Charges
-import com.babestudios.companyinfouk.common.model.charges.ChargesItem
+import com.babestudios.companyinfouk.domain.model.charges.Charges
+import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 
 data class ChargesState(
 		//Charges
-		val chargesRequest: Async<Charges> = Uninitialized,
-		val charges: List<ChargesVisitableBase> = emptyList(),
-		val totalChargesCount: Int = 0,
-		@PersistState
+	val chargesRequest: Async<Charges> = Uninitialized,
+	val charges: List<ChargesVisitableBase> = emptyList(),
+	val totalChargesCount: Int = 0,
+	@PersistState
 		val companyNumber: String = "",
 
 		//Charge details
-		@PersistState
+	@PersistState
 		val chargesItem: ChargesItem? = null
 
 ) : MvRxState

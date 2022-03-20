@@ -4,7 +4,7 @@ import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 import io.mockk.every
@@ -17,7 +17,7 @@ import org.junit.Test
 
 class FilingHistoryTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
 	private val filingsNavigator = mockk<FilingsNavigator>()
 
@@ -35,7 +35,7 @@ class FilingHistoryTest {
 	fun whenGetFilings_thenRepoGetFilingsIsCalled() {
 		val viewModel = filingsViewModel()
 		viewModel.getFilingHistory()
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getFilingHistory("123", any(), "0") }
 	}
 
@@ -43,7 +43,7 @@ class FilingHistoryTest {
 	fun whenLoadMoreFilings_thenRepoLoadMoreFilingsIsCalled() {
 		val viewModel = filingsViewModel()
 		viewModel.loadMoreFilingHistory(1)
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getFilingHistory("123", any(), "100") }
 	}
 

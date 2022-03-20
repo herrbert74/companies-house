@@ -8,11 +8,11 @@ import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
@@ -112,14 +112,16 @@ class AndroidTestDataModule(private val context: Context) {
 			base64Wrapper: Base64Wrapper,
 			constantsHelper: ConstantsHelper,
 			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
-	): CompaniesRepositoryContract {
-		val mockCompaniesRepository = mockk<CompaniesRepositoryContract>()
+	): CompaniesRepository {
+		val mockCompaniesRepository = mockk<CompaniesRepository>()
 
-		val favourites = listOf(SearchHistoryItem(
+		val favourites = listOf(
+			SearchHistoryItem(
 				"Acme Painting",
 				"1",
 				111L
-		))
+		)
+		)
 
 		every {
 			mockCompaniesRepository.favourites()

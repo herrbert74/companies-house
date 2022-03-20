@@ -6,15 +6,15 @@ import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitable
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
-import com.babestudios.companyinfouk.common.model.charges.Charges
+import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 
 class ChargesViewModel(
-		chargesState: ChargesState,
-		private val companiesRepository: CompaniesRepositoryContract,
-		var chargesNavigator: ChargesNavigator
+	chargesState: ChargesState,
+	private val companiesRepository: CompaniesRepository,
+	var chargesNavigator: ChargesNavigator
 ) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<ChargesViewModel, ChargesState> {

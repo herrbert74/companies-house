@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.common.model.common.Address
-import com.babestudios.companyinfouk.common.model.common.MonthYear
-import com.babestudios.companyinfouk.common.model.persons.Identification
-import com.babestudios.companyinfouk.common.model.persons.Person
-import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.domain.model.persons.Identification
+import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.MonthYearDto
@@ -26,10 +26,10 @@ inline fun mapPersonsResponseDto(
 }
 
 fun mapPersonDto(
-		input: PersonDto,
-		pscHelper: PscHelperContract,
-		mapAddressDto: (AddressDto?) -> Address,
-		mapMonthYearDto: (MonthYearDto?) -> MonthYear,
+	input: PersonDto,
+	pscHelper: PscHelperContract,
+	mapAddressDto: (AddressDto?) -> Address,
+	mapMonthYearDto: (MonthYearDto?) -> MonthYear,
 ): Person {
 	return Person(
 			input.notifiedOn.orEmpty(),

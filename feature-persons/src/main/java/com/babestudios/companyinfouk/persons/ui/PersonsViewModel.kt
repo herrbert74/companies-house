@@ -5,19 +5,19 @@ import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.annotation.Mockable
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.common.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.common.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 
 @Mockable
 class PersonsViewModel(
-		personsState: PersonsState,
-		private val companiesRepository: CompaniesRepositoryContract,
-		var personsNavigator: PersonsNavigator
+	personsState: PersonsState,
+	private val companiesRepository: CompaniesRepository,
+	var personsNavigator: PersonsNavigator
 ) : BaseViewModel<PersonsState>(personsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<PersonsViewModel, PersonsState> {

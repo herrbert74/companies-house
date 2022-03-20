@@ -6,7 +6,7 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.common.model.company.Company
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
@@ -16,19 +16,19 @@ import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisi
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class CompaniesViewModel(
-		companiesState: CompaniesState,
-		private val companiesRepository: CompaniesRepositoryContract,
-		var companiesNavigator: CompaniesNavigator,
-		private val recentSearchesString: String
+	companiesState: CompaniesState,
+	private val companiesRepository: CompaniesRepository,
+	var companiesNavigator: CompaniesNavigator,
+	private val recentSearchesString: String
 ) : BaseViewModel<CompaniesState>(companiesState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<CompaniesViewModel, CompaniesState> {
@@ -81,11 +81,13 @@ class CompaniesViewModel(
 			List<SearchHistoryVisitableBase> {
 		val searchHistoryVisitables: MutableList<SearchHistoryVisitableBase> =
 				reply.map { item ->
-					SearchHistoryVisitable(SearchHistoryItem(
+					SearchHistoryVisitable(
+						SearchHistoryItem(
 							item.companyName,
 							item.companyNumber,
 							System.currentTimeMillis()
-					))
+					)
+					)
 				}.toMutableList()
 		if (searchHistoryVisitables.size > 0)
 			searchHistoryVisitables.add(
@@ -296,11 +298,13 @@ class CompaniesViewModel(
 		companiesRepository.getCompany(companyNumber)
 				.execute {
 					copy(
-							isFavorite = companiesRepository.isFavourite(SearchHistoryItem(
+							isFavorite = companiesRepository.isFavourite(
+								SearchHistoryItem(
 									this.companyName,
 									this.companyNumber,
 									0
-							)),
+							)
+							),
 							companyRequest = it,
 							company = it() ?: Company(),
 					)
@@ -317,11 +321,13 @@ class CompaniesViewModel(
 				}
 				setState {
 					copy(
-							isFavorite = companiesRepository.isFavourite(SearchHistoryItem(
+							isFavorite = companiesRepository.isFavourite(
+								SearchHistoryItem(
 									this.companyName,
 									this.companyNumber,
 									0
-							))
+							)
+							)
 					)
 				}
 			}

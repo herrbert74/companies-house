@@ -23,7 +23,7 @@ import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsHeader
 import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsTypeFactory
 import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsVisitable
 import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsVisitableBase
-import com.babestudios.companyinfouk.common.model.charges.Transaction
+import com.babestudios.companyinfouk.domain.model.charges.Transaction
 import io.reactivex.disposables.CompositeDisposable
 
 class ChargeDetailsFragment : BaseFragment() {

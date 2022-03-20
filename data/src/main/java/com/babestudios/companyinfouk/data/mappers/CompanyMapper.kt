@@ -2,8 +2,8 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.ext.parseMySqlDate
-import com.babestudios.companyinfouk.common.model.common.Address
-import com.babestudios.companyinfouk.common.model.company.Company
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.company.AccountsDto
@@ -11,10 +11,10 @@ import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 
 inline fun mapCompanyDto(
-		input: CompanyDto,
-		mapAccounts: (AccountsDto?) -> String,
-		mapAddress: (AddressDto?) -> Address,
-		mapNatureOfBusiness: (List<String>?) -> String
+	input: CompanyDto,
+	mapAccounts: (AccountsDto?) -> String,
+	mapAddress: (AddressDto?) -> Address,
+	mapNatureOfBusiness: (List<String>?) -> String
 ): Company {
 	return Company(
 			input.companyName ?: "",

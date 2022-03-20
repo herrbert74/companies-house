@@ -7,7 +7,7 @@ import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.common.loadJson
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.di.AndroidTestCoreComponent
 import com.babestudios.companyinfouk.ui.CompaniesRobot
 import io.mockk.every

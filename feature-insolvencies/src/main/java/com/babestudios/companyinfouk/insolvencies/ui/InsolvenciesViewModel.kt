@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.insolvencies.ui
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsDateItem
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsDateVisitable
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsPractitionerItem
@@ -18,7 +18,7 @@ import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
 
 class InsolvenciesViewModel(
 	insolvenciesState: InsolvenciesState,
-	private val companiesRepository: CompaniesRepositoryContract,
+	private val companiesRepository: CompaniesRepository,
 	var insolvenciesNavigator: InsolvenciesNavigator,
 	private val datesTitleString: String,
 	private val practitionersTitleString: String

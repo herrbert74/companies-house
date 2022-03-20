@@ -38,6 +38,7 @@ android {
 dependencies {
 	api(Libs.baBeStudiosBase)
 	api(project(":common"))
+	api(project(":domain"))
 
 	implementation(Libs.Kotlin.stdLib)
 
@@ -54,7 +55,7 @@ dependencies {
 	implementation(Libs.RxJava2.rxAndroid)
 	implementation(Libs.RxJava2.rxKotlin)
 
-	implementation(Libs.Google.Dagger.dagger)
+	implementation(Libs.Google.Dagger.core)
 
 	kapt(Libs.Google.Dagger.compiler)
 	kaptTest(Libs.Google.Dagger.compiler)
@@ -66,6 +67,6 @@ dependencies {
 	implementation(Libs.Javax.annotations)
 
 	testImplementation(Libs.AndroidX.Test.Ext.jUnit)
-	testImplementation(Libs.Test.mockK)
-	testImplementation(Libs.Kotest.assertions)
+	testImplementation(Libs.Test.MockK.core)
+	testImplementation(Libs.Test.Kotest.assertions)
 }

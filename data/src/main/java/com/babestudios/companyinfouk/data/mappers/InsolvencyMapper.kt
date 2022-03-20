@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.common.model.common.Address
-import com.babestudios.companyinfouk.common.model.insolvency.Date
-import com.babestudios.companyinfouk.common.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.common.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.common.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.insolvency.Date
+import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.insolvency.DateDto
@@ -13,8 +13,8 @@ import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.insolvency.PractitionerDto
 
 inline fun mapInsolvencyDto(
-		input: InsolvencyDto,
-		mapInsolvencyCase: (List<InsolvencyCaseDto>?) -> List<InsolvencyCase>,
+	input: InsolvencyDto,
+	mapInsolvencyCase: (List<InsolvencyCaseDto>?) -> List<InsolvencyCase>,
 ): Insolvency {
 	return Insolvency(
 			mapInsolvencyCase(input.cases)
@@ -22,10 +22,10 @@ inline fun mapInsolvencyDto(
 }
 
 fun mapInsolvencyCaseDto(
-		input: InsolvencyCaseDto?,
-		mapDateDto: (List<DateDto>?) -> List<Date>,
-		mapPractitionerDto: (List<PractitionerDto>?) -> List<Practitioner>,
-		constantsHelper: ConstantsHelperContract,
+	input: InsolvencyCaseDto?,
+	mapDateDto: (List<DateDto>?) -> List<Date>,
+	mapPractitionerDto: (List<PractitionerDto>?) -> List<Practitioner>,
+	constantsHelper: ConstantsHelperContract,
 ): InsolvencyCase {
 	return InsolvencyCase(
 			mapDateDto(input?.dates),
@@ -45,8 +45,8 @@ fun mapDateDto(
 }
 
 fun mapPractitionerDto(
-		input: PractitionerDto?,
-		mapAddressDto: (AddressDto?) -> Address,
+	input: PractitionerDto?,
+	mapAddressDto: (AddressDto?) -> Address,
 ): Practitioner {
 	return Practitioner(
 			mapAddressDto(input?.address),

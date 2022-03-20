@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.companies.ui.main.recents
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.companies.R
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import java.lang.IllegalStateException
 
 class SearchHistoryTypeFactory : SearchHistoryAdapter.SearchHistoryTypeFactory {

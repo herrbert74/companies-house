@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.base.mvrx.BaseFragment
-import com.babestudios.companyinfouk.common.model.common.getAddressString
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMapBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity

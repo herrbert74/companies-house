@@ -5,6 +5,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import com.babestudios.companyinfouk.buildsrc.Libs
+import com.babestudios.companyinfouk.buildsrc.Versions
 
 /**
  * This plugin should be used for all android modules.
@@ -29,11 +30,11 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		if (androidExtension is BaseExtension) {
 
 			androidExtension.apply {
-				compileSdkVersion(31)
+				compileSdkVersion(Versions.compileSdkVersion)
 
 				defaultConfig {
-					minSdk = 21
-					targetSdk = 31
+					minSdk = Versions.minSdkVersion
+					targetSdk = Versions.targetSdkVersion
 					consumerProguardFiles("consumer-rules.pro")
 				}
 

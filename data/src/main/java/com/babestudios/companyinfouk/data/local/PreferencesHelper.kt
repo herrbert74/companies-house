@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data.local
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import java.util.*

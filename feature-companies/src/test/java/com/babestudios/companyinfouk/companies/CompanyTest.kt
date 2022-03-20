@@ -4,9 +4,9 @@ import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 import io.mockk.every
 import io.mockk.mockk
@@ -18,7 +18,7 @@ import org.junit.Test
 
 class CompanyTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepositoryContract>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
 	private val companiesNavigator = mockk<CompaniesNavigator>()
 
@@ -56,7 +56,7 @@ class CompanyTest {
 				}
 		val viewModel = companiesViewModel()
 		viewModel.flipCompanyFavoriteState()
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.addFavourite(searchHistoryItem) }
 	}
 
@@ -70,7 +70,7 @@ class CompanyTest {
 				}
 		val viewModel = companiesViewModel()
 		viewModel.flipCompanyFavoriteState()
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.removeFavourite(searchHistoryItem) }
 	}
 
@@ -84,7 +84,7 @@ class CompanyTest {
 				}
 		val viewModel = companiesViewModel()
 		viewModel.fetchCompany("123456")
-		val repo: CompaniesRepositoryContract? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getCompany("123456") }
 	}
 

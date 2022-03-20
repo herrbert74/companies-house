@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.officers.ui.officers.list
 
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.companyinfouk.common.model.officers.Officer
+import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.R
 
 class OfficersTypeFactory : OfficersAdapter.OfficersTypeFactory {

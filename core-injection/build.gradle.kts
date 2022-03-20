@@ -8,7 +8,7 @@ dependencies {
 	api(project(":navigation"))
 	api(project(":data"))
 
-	implementation(Libs.Google.Dagger.dagger)
+	implementation(Libs.Google.Dagger.core)
 	kapt(Libs.Google.Dagger.compiler)
 
 	implementation(Libs.SquareUp.Retrofit2.retrofit)

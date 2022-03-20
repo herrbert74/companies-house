@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.companies.databinding.RowSearchResultBinding
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResultItem
+import com.babestudios.companyinfouk.domain.model.search.CompanySearchResultItem
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject

@@ -6,11 +6,11 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.airbnb.mvrx.appendAt
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.common.model.common.Address
-import com.babestudios.companyinfouk.common.model.officers.AppointmentsResponse
-import com.babestudios.companyinfouk.common.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.CompaniesRepositoryContract
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
@@ -19,9 +19,9 @@ import com.babestudios.companyinfouk.officers.ui.officers.list.OfficersVisitable
 import java.util.regex.Pattern
 
 class OfficersViewModel(
-		officersState: OfficersState,
-		private val companiesRepository: CompaniesRepositoryContract,
-		var officersNavigator: OfficersNavigator
+	officersState: OfficersState,
+	private val companiesRepository: CompaniesRepository,
+	var officersNavigator: OfficersNavigator
 ) : BaseViewModel<OfficersState>(officersState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<OfficersViewModel, OfficersState> {

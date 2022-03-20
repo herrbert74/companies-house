@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data.mappers
 
 import android.content.Context
 import com.babestudios.companyinfouk.common.loadJson
-import com.babestudios.companyinfouk.common.model.filinghistory.Capital
+import com.babestudios.companyinfouk.domain.model.filinghistory.Capital
 import com.babestudios.companyinfouk.data.di.DaggerTestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataModule

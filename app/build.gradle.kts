@@ -67,8 +67,8 @@ dependencies {
 	androidTestImplementation(project(":data"))
 
 	implementation(Libs.AndroidX.appcompat)
-	implementation(Libs.AndroidX.Navigation.ktx)
-	implementation(Libs.Google.Dagger.dagger)
+	implementation(Libs.AndroidX.Navigation.uiKtx)
+	implementation(Libs.Google.Dagger.core)
 	implementation(platform(Libs.Google.Firebase.bom))
 	implementation(Libs.Google.Firebase.crashlytics)
 	debugImplementation(Libs.Facebook.Flipper.debug)
@@ -83,7 +83,7 @@ dependencies {
 	kapt(Libs.Google.Dagger.compiler)
 	kaptAndroidTest(Libs.Google.Dagger.compiler)
 
-	androidTestImplementation(Libs.Test.mockKAndroidTest)
+	androidTestImplementation(Libs.Test.MockK.android)
 	androidTestImplementation(Libs.Test.conditionWatcher)
 	androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
 	//RecyclerView, ViewPager, NavigationViewActions: unused for now

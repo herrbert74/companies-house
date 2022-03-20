@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.navigation.features
 
-import com.babestudios.companyinfouk.common.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.navigation.base.Navigator
 
 interface PersonsNavigator: Navigator {

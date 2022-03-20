@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.officers.ui.officers.list
 
-import com.babestudios.companyinfouk.common.model.officers.Officer
+import com.babestudios.companyinfouk.domain.model.officers.Officer
 
 sealed class OfficersVisitableBase {
 	abstract fun type(officersTypeFactory: OfficersAdapter.OfficersTypeFactory): Int

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.companies.ui.main.recents
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.data.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import kotlinx.android.parcel.Parcelize
 
 sealed class SearchHistoryVisitableBase : Parcelable {

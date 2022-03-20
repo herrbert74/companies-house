@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data
 
 import com.babestudios.companyinfouk.common.loadJson
 import com.babestudios.companyinfouk.data.BuildConfig.COMPANIES_HOUSE_BASE_URL
-import com.babestudios.companyinfouk.data.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.google.gson.Gson
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo

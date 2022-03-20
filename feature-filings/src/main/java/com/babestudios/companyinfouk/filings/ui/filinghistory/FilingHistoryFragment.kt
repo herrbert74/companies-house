@@ -25,7 +25,7 @@ import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
-import com.babestudios.companyinfouk.common.model.filinghistory.Category
+import com.babestudios.companyinfouk.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryBinding
 import com.babestudios.companyinfouk.filings.ui.FilingsActivity
