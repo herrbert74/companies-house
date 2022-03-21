@@ -42,10 +42,6 @@ android {
 		unitTests.isIncludeAndroidResources = true
 	}
 
-	androidExtensions {
-		isExperimental = true
-	}
-
 	applicationVariants.all {
 		val isTest: Boolean = gradle.startParameter.taskNames.find { it.contains("test") || it.contains("Test") } != null
 		if (isTest) {

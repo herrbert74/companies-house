@@ -5,7 +5,7 @@ import com.babestudios.companyinfouk.data.model.common.AddressDto
 import java.util.ArrayList
 
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class CompanyDto(

@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.domain.model.insolvency
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.common.Address
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class Practitioner(

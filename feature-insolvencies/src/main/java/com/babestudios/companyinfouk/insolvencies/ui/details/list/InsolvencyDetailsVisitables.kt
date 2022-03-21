@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details.list
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 sealed class InsolvencyDetailsVisitableBase : Parcelable {
 	abstract fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int

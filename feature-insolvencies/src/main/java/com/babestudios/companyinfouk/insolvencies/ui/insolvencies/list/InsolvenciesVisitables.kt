@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 sealed class InsolvencyVisitableBase {
 	abstract fun type(insolvenciesTypeFactory: InsolvenciesAdapter.InsolvencyTypeFactory): Int

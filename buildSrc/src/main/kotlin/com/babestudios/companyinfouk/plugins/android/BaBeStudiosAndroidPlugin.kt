@@ -21,7 +21,6 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		}
 
 		project.plugins.apply("kotlin-android")
-		project.plugins.apply("kotlin-android-extensions")
 		if (project.name != "navigation" && project.name != "common") {
 			project.plugins.apply("kotlin-kapt")
 		}

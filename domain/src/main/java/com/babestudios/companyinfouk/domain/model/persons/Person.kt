@@ -5,7 +5,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Person(

@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.officers.ui.appointments.list
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.officers.Appointment
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 sealed class OfficerAppointmentsVisitableBase : Parcelable {
 	abstract fun type(officerAppointmentsTypeFactory: OfficerAppointmentsAdapter.OfficerAppointmentsTypeFactory): Int

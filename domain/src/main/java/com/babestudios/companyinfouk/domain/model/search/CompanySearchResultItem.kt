@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.domain.model.search
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class CompanySearchResultItem (

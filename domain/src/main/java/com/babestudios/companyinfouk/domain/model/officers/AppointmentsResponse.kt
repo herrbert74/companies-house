@@ -4,7 +4,7 @@ package com.babestudios.companyinfouk.domain.model.officers
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 data class AppointmentsResponse(
 	var dateOfBirth: MonthYear? = null,

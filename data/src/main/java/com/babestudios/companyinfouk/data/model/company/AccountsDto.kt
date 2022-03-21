@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.data.model.company
 import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.common.DayMonthDto
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class AccountsDto(

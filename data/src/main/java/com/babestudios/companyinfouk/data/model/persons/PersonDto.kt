@@ -7,7 +7,7 @@ import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.MonthYearDto
 import com.babestudios.companyinfouk.data.model.common.SelfLinkDataDto
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize

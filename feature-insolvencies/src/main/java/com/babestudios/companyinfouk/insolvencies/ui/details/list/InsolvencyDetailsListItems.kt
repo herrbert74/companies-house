@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.insolvencies.ui.details.list
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class InsolvencyDetailsTitleItem(val title: String) : Parcelable

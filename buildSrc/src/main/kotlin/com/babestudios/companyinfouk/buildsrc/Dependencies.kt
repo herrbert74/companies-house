@@ -175,6 +175,7 @@ object Libs {
 		const val test = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
 		const val jUnit = "org.jetbrains.kotlin:kotlin-test-jUnit:${Versions.kotlin}"
 		const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+		const val parcelizeRuntime = "org.jetbrains.kotlin:kotlin-parcelize-runtime:${Versions.kotlin}"
 
 		object Coroutines {
 			const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"

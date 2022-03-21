@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.domain.model.common
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
