@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.persons
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import com.babestudios.companyinfouk.persons.ui.PersonsState
@@ -17,7 +17,7 @@ import org.junit.Test
 
 class PersonsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
 	private val personsNavigator = mockk<PersonsNavigator>()
 
@@ -36,7 +36,7 @@ class PersonsTest {
 	fun whenGetPersons_thenRepoGetPersonsIsCalled() {
 		val viewModel = personsViewModel()
 		viewModel.fetchPersons("123")
-		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getPersons("123", "0") }
 	}
 
@@ -44,7 +44,7 @@ class PersonsTest {
 	fun whenLoadMorePersons_thenRepoLoadMorePersonsIsCalled() {
 		val viewModel = personsViewModel()
 		viewModel.loadMorePersons(0)
-		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getPersons("123", "0") }
 	}
 

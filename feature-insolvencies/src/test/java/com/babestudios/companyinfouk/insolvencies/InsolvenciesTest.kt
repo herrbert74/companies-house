@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.insolvencies
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.callPrivateFunc
 import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
@@ -18,7 +18,7 @@ import org.junit.Test
 
 class InsolvenciesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
 	private val insolvenciesNavigator = mockk<InsolvenciesNavigator>()
 
@@ -36,7 +36,7 @@ class InsolvenciesTest {
 	fun whenGetInsolvencies_thenRepoGetInsolvenciesIsCalled() {
 		val viewModel = insolvenciesViewModel()
 		val func = viewModel.callPrivateFunc("fetchInsolvencies", "123")
-		val repo :CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
+		val repo :CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
 		//Executed twice because it's also in init function
 		verify(exactly = 2) { repo?.getInsolvency("123") }
 	}

@@ -11,7 +11,7 @@ import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
@@ -35,7 +35,7 @@ interface TestDataComponent {
 		): TestDataComponent
 	}
 
-	fun companiesRepository(): CompaniesRepository
+	fun companiesRepository(): CompaniesRxRepository
 
 	fun schedulerProvider(): SchedulerProvider
 

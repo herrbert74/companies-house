@@ -4,7 +4,7 @@ import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.charges.ui.ChargesState
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 import io.mockk.every
@@ -17,7 +17,7 @@ import org.junit.Test
 
 class ChargesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
 	private val chargesNavigator = mockk<ChargesNavigator>()
 
@@ -35,7 +35,7 @@ class ChargesTest {
 	fun whenGetCharges_thenRepoGetChargesIsCalled() {
 		val viewModel = chargesViewModel()
 		viewModel.fetchCharges("123")
-		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.fetchCharges("123", "0") }
 	}
 
@@ -43,7 +43,7 @@ class ChargesTest {
 	fun whenLoadMoreCharges_thenRepoLoadMoreChargesIsCalled() {
 		val viewModel = chargesViewModel()
 		viewModel.loadMoreCharges(0)
-		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.fetchCharges("123", "0") }
 	}
 

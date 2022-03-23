@@ -6,7 +6,7 @@ import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 import io.mockk.every
@@ -19,7 +19,7 @@ import org.junit.Test
 
 class FavouritesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
 	private val companiesNavigator = mockk<CompaniesNavigator>()
 
@@ -60,7 +60,7 @@ class FavouritesTest {
 	fun whenRemoveFavourite_shouldCallDataManagerRemoveFavourite() {
 		val viewModel = companiesViewModel()
 		viewModel.removeFavourite(searchHistoryItem)
-		val repo: CompaniesRepository? = viewModel.getPrivateProperty("companiesRepository")
+		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.removeFavourite(searchHistoryItem) }
 	}
 

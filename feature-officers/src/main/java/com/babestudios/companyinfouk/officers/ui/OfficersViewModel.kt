@@ -10,7 +10,7 @@ import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitableBase
 import com.babestudios.companyinfouk.officers.ui.appointments.list.OfficerAppointmentsVisitable
@@ -20,7 +20,7 @@ import java.util.regex.Pattern
 
 class OfficersViewModel(
 	officersState: OfficersState,
-	private val companiesRepository: CompaniesRepository,
+	private val companiesRepository: CompaniesRxRepository,
 	var officersNavigator: OfficersNavigator
 ) : BaseViewModel<OfficersState>(officersState, companiesRepository) {
 

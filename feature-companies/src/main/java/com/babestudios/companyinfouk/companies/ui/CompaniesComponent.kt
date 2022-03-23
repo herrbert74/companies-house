@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.companies.ui
 
 import com.babestudios.base.di.scope.ActivityScope
 import com.babestudios.companyinfouk.core.injection.CoreComponent
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
 import dagger.Component
 
@@ -10,5 +10,5 @@ import dagger.Component
 @Component(dependencies = [CoreComponent::class])
 interface CompaniesComponent {
 	fun navigator(): CompaniesNavigator
-	fun companiesRepository(): CompaniesRepository
+	fun companiesRepository(): CompaniesRxRepository
 }

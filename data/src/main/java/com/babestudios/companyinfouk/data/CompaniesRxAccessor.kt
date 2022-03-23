@@ -31,7 +31,7 @@ import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -43,7 +43,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class CompaniesAccessor @Inject constructor(
+open class CompaniesRxAccessor @Inject constructor(
 	@ApplicationContext private val context: Context,
 	private val companiesHouseService: CompaniesHouseService,
 	private val companiesHouseDocumentService: CompaniesHouseDocumentService,
@@ -63,7 +63,7 @@ open class CompaniesAccessor @Inject constructor(
 	private val mapPersonsResponseDto
 		: (@JvmSuppressWildcards PersonsResponseDto) -> @JvmSuppressWildcards PersonsResponse,
 	private val mapPersonDto: (@JvmSuppressWildcards PersonDto) -> @JvmSuppressWildcards Person,
-) : CompaniesRepository {
+) : CompaniesRxRepository {
 
 	override fun recentSearches(): Single<List<SearchHistoryItem>> {
 		return Single.create { singleEmitter: SingleEmitter<List<SearchHistoryItem>> ->

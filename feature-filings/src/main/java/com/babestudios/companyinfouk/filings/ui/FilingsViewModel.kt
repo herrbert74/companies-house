@@ -13,13 +13,13 @@ import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryVisitable
 import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
 
 class FilingsViewModel(
 	filingsState: FilingsState,
-	private val companiesRepository: CompaniesRepository,
+	private val companiesRepository: CompaniesRxRepository,
 	var filingsNavigator: FilingsNavigator
 ) : BaseViewModel<FilingsState>(filingsState, companiesRepository) {
 

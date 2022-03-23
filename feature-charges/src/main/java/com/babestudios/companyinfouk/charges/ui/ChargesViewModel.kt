@@ -8,12 +8,12 @@ import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitable
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
 import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 
 class ChargesViewModel(
 	chargesState: ChargesState,
-	private val companiesRepository: CompaniesRepository,
+	private val companiesRepository: CompaniesRxRepository,
 	var chargesNavigator: ChargesNavigator
 ) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {
 

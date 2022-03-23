@@ -7,7 +7,7 @@ import com.babestudios.base.annotation.Mockable
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
@@ -16,7 +16,7 @@ import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 @Mockable
 class PersonsViewModel(
 	personsState: PersonsState,
-	private val companiesRepository: CompaniesRepository,
+	private val companiesRepository: CompaniesRxRepository,
 	var personsNavigator: PersonsNavigator
 ) : BaseViewModel<PersonsState>(personsState, companiesRepository) {
 

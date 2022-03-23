@@ -41,7 +41,7 @@ class CompaniesRepositoryTest {
 
 	private val filingHistoryDescriptionsHelper = mockk<FilingHistoryDescriptionsHelper>()
 
-	private val companiesRepository = mockk<CompaniesAccessor>()
+	private val companiesRepository = mockk<CompaniesRxAccessor>()
 
 	private val companySearchResult = mockk<CompanySearchResult>()
 

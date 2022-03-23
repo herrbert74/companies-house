@@ -8,7 +8,7 @@ import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
@@ -112,8 +112,8 @@ class AndroidTestDataModule(private val context: Context) {
 			base64Wrapper: Base64Wrapper,
 			constantsHelper: ConstantsHelper,
 			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
-	): CompaniesRepository {
-		val mockCompaniesRepository = mockk<CompaniesRepository>()
+	): CompaniesRxRepository {
+		val mockCompaniesRepository = mockk<CompaniesRxRepository>()
 
 		val favourites = listOf(
 			SearchHistoryItem(

@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.officers
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
@@ -18,7 +18,7 @@ import org.junit.Test
 
 class OfficersTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
 	private val officersNavigator = mockk<OfficersNavigator>()
 
@@ -43,7 +43,7 @@ class OfficersTest {
 	fun whenGetOfficers_thenRepoGetOfficersIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.fetchOfficers("123")
-		val repo : CompaniesRepository?= viewModel.getPrivateProperty("companiesRepository")
+		val repo : CompaniesRxRepository?= viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getOfficers("123", "0") }
 	}
 
@@ -51,7 +51,7 @@ class OfficersTest {
 	fun whenLoadMoreOfficers_thenRepoLoadMoreOfficersIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.loadMoreOfficers(0)
-		val repo : CompaniesRepository?= viewModel.getPrivateProperty("companiesRepository")
+		val repo : CompaniesRxRepository?= viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getOfficers("123", "0") }
 	}
 
@@ -59,7 +59,7 @@ class OfficersTest {
 	fun whenGetOfficerAppointments_thenRepoGetOfficerAppointmentsIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.fetchAppointments()
-		val repo : CompaniesRepository?= viewModel.getPrivateProperty("companiesRepository")
+		val repo : CompaniesRxRepository?= viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getOfficerAppointments("123", "0") }
 	}
 
@@ -67,7 +67,7 @@ class OfficersTest {
 	fun whenLoadMoreOfficerAppointments_thenRepoLoadMoreOfficersAppointmentsIsCalled() {
 		val viewModel = officersViewModel()
 		viewModel.loadMoreAppointments(1)
-		val repo : CompaniesRepository?= viewModel.getPrivateProperty("companiesRepository")
+		val repo : CompaniesRxRepository?= viewModel.getPrivateProperty("companiesRepository")
 		verify(exactly = 1) { repo?.getOfficerAppointments("123", "100") }
 	}
 

@@ -5,7 +5,7 @@ import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.company.Company
 import dagger.BindsInstance
 import dagger.Component
@@ -23,7 +23,7 @@ interface DataComponent {
 		): DataComponent
 	}
 
-	fun companiesRepository(): CompaniesRepository
+	fun companiesRepository(): CompaniesRxRepository
 
 	fun schedulerProvider(): SchedulerProvider
 

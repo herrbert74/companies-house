@@ -16,7 +16,7 @@ import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisi
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
@@ -26,7 +26,7 @@ import io.reactivex.schedulers.Schedulers
 
 class CompaniesViewModel(
 	companiesState: CompaniesState,
-	private val companiesRepository: CompaniesRepository,
+	private val companiesRepository: CompaniesRxRepository,
 	var companiesNavigator: CompaniesNavigator,
 	private val recentSearchesString: String
 ) : BaseViewModel<CompaniesState>(companiesState, companiesRepository) {

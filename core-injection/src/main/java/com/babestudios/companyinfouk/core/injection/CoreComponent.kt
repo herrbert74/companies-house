@@ -4,7 +4,7 @@ import android.content.Context
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.di.scope.ApplicationScope
 import com.babestudios.companyinfouk.data.di.DataComponent
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.navigation.di.NavigationComponent
 import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
 import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
@@ -29,7 +29,7 @@ interface CoreComponent {
 		): CoreComponent
 	}
 
-	fun companiesRepository(): CompaniesRepository
+	fun companiesRepository(): CompaniesRxRepository
 
 	@ApplicationContext
 	fun context(): Context
