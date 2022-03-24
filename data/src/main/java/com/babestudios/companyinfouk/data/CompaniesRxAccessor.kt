@@ -29,8 +29,8 @@ import com.babestudios.companyinfouk.data.model.persons.PersonDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Single
@@ -45,8 +45,8 @@ import javax.inject.Singleton
 @Singleton
 open class CompaniesRxAccessor @Inject constructor(
 	@ApplicationContext private val context: Context,
-	private val companiesHouseService: CompaniesHouseService,
-	private val companiesHouseDocumentService: CompaniesHouseDocumentService,
+	private val companiesHouseService: CompaniesHouseRxService,
+	private val companiesHouseDocumentService: CompaniesHouseRxDocumentService,
 	private var preferencesHelper: PreferencesHelper,
 	private val firebaseAnalytics: FirebaseAnalytics,
 	private val schedulerProvider: SchedulerProvider,

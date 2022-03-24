@@ -5,7 +5,7 @@ import com.babestudios.companyinfouk.data.CompaniesRxAccessor
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
-import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseErrorResolver
+import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseRxErrorResolver
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -28,6 +28,6 @@ interface TestDataContractModule {
 
 	@Singleton
 	@Binds
-	fun provideErrorResolver(companiesHouseErrorResolver: CompaniesHouseErrorResolver): ErrorResolver
+	fun provideErrorResolver(companiesHouseErrorResolver: CompaniesHouseRxErrorResolver): ErrorResolver
 
 }

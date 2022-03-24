@@ -57,12 +57,15 @@ import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.persons.PersonDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.data.network.interceptors.CompaniesHouseInterceptor
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
+import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
@@ -92,14 +95,18 @@ class DataModule(private val context: Context) {
 
 		val httpClient = OkHttpClient.Builder()
 		httpClient.addInterceptor(logging)
-		httpClient.addInterceptor(ChuckerInterceptor(context))
+		httpClient.addInterceptor(
+			ChuckerInterceptor.Builder(context)
+				.collector(ChuckerCollector(context, showNotification = false))
+				.build()
+		)
 		httpClient.addInterceptor(companiesHouseInterceptor)
 		return Retrofit.Builder()//
-				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
-				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
-				.addConverterFactory(AdvancedGsonConverterFactory.create())//
-				.client(httpClient.build())//
-				.build()
+			.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)
+			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+			.addConverterFactory(AdvancedGsonConverterFactory.create())
+			.client(httpClient.build())
+			.build()
 	}
 
 	@Provides
@@ -113,32 +120,46 @@ class DataModule(private val context: Context) {
 		httpClient.addInterceptor(logging)
 		httpClient.addInterceptor(companiesHouseInterceptor)
 		return Retrofit.Builder()//
-				.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)//
-				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
-				.addConverterFactory(AdvancedGsonConverterFactory.create())//
-				.client(httpClient.build())//
-				.build()
+			.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)
+			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+			.addConverterFactory(AdvancedGsonConverterFactory.create())
+			.client(httpClient.build())
+			.build()
 	}
 
 	@Provides
 	@Singleton
 	internal fun provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit)
-			: CompaniesHouseService {
+		: CompaniesHouseService {
 		return retroFit.create(CompaniesHouseService::class.java)
 	}
 
 	@Provides
 	@Singleton
 	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit)
-			: CompaniesHouseDocumentService {
+		: CompaniesHouseDocumentService {
 		return retroFit.create(CompaniesHouseDocumentService::class.java)
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideCompaniesHouseRxService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit)
+		: CompaniesHouseRxService {
+		return retroFit.create(CompaniesHouseRxService::class.java)
+	}
+
+	@Provides
+	@Singleton
+	internal fun provideCompaniesHouseDocumentRxService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit)
+		: CompaniesHouseRxDocumentService {
+		return retroFit.create(CompaniesHouseRxDocumentService::class.java)
 	}
 
 	@Provides
 	internal fun provideGson(): Gson {
 		return GsonBuilder()
-				.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
-				.create()
+			.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
+			.create()
 	}
 
 	@Provides
@@ -149,8 +170,10 @@ class DataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	internal fun provideSchedulerProvider(): SchedulerProvider {
-		return SchedulerProvider(Schedulers.from(Executors.newCachedThreadPool()), AndroidSchedulers
-			.mainThread())
+		return SchedulerProvider(
+			Schedulers.from(Executors.newCachedThreadPool()), AndroidSchedulers
+			.mainThread()
+		)
 	}
 
 	@Provides
@@ -163,185 +186,184 @@ class DataModule(private val context: Context) {
 
 	@Provides
 	fun provideMapFilingHistoryDto(filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper)
-			: (FilingHistoryDto) -> FilingHistory =
-			{ filingHistoryDto ->
-				mapFilingHistoryDto(filingHistoryDto) { items ->
-					mapNullInputList(items) {
-						mapFilingHistoryItemDto(
-								it,
-								filingHistoryDescriptionsHelper,
-								{ linksDto ->
-									mapFilingHistoryLinks(linksDto)
-								},
-								{ categoryDto ->
-									mapFilingHistoryCategoryDto(categoryDto)
-								})
-					}
+		: (FilingHistoryDto) -> FilingHistory =
+		{ filingHistoryDto ->
+			mapFilingHistoryDto(filingHistoryDto) { items ->
+				mapNullInputList(items) {
+					mapFilingHistoryItemDto(
+						it,
+						filingHistoryDescriptionsHelper,
+						{ linksDto ->
+							mapFilingHistoryLinks(linksDto)
+						},
+						{ categoryDto ->
+							mapFilingHistoryCategoryDto(categoryDto)
+						})
 				}
 			}
+		}
 
 	@Provides
 	fun provideMapChargesDto(chargesHelper: ChargesHelperContract)
-			: (ChargesDto) -> Charges =
-			{ chargesDto ->
-				mapChargesDto(chargesDto) { items ->
-					mapNullInputList(items) {
-						mapChargesItemDto(
-								it,
-								chargesHelper,
-								{ transactionDtoList ->
-									mapNullInputList(transactionDtoList) { transactionsDto ->
-										transactionsDto.deliveredOn.orEmpty()
-										mapTransactionDto(
-												transactionsDto,
-												chargesHelper
-										)
-									}
-								},
-								{ particularsDto ->
-									mapParticularsDto(particularsDto)
-								})
-					}
+		: (ChargesDto) -> Charges =
+		{ chargesDto ->
+			mapChargesDto(chargesDto) { items ->
+				mapNullInputList(items) {
+					mapChargesItemDto(
+						it,
+						chargesHelper,
+						{ transactionDtoList ->
+							mapNullInputList(transactionDtoList) { transactionsDto ->
+								transactionsDto.deliveredOn.orEmpty()
+								mapTransactionDto(
+									transactionsDto,
+									chargesHelper
+								)
+							}
+						},
+						{ particularsDto ->
+							mapParticularsDto(particularsDto)
+						})
 				}
 			}
+		}
 
 	@Provides
 	fun provideMapCompanyDto(
 		constantsHelper: ConstantsHelperContract,
 		stringResourceHelperContract: StringResourceHelperContract,
 	): (CompanyDto) -> Company =
-			{ companyDto ->
-				mapCompanyDto(
-						companyDto,
-						{ accounts -> mapAccountsDto(accounts, constantsHelper, stringResourceHelperContract) },
-						{ registeredOfficeAddress -> mapAddressDto(registeredOfficeAddress) },
-						{ sicCodes -> mapNatureOfBusiness(sicCodes, constantsHelper) },
-				)
-			}
+		{ companyDto ->
+			mapCompanyDto(
+				companyDto,
+				{ accounts -> mapAccountsDto(accounts, constantsHelper, stringResourceHelperContract) },
+				{ registeredOfficeAddress -> mapAddressDto(registeredOfficeAddress) },
+				{ sicCodes -> mapNatureOfBusiness(sicCodes, constantsHelper) },
+			)
+		}
 
 	@Provides
 	fun provideMapInsolvencyDto(constantsHelper: ConstantsHelperContract): (InsolvencyDto) -> Insolvency =
-			{ insolvencyDto ->
-				mapInsolvencyDto(insolvencyDto)
-				{ cases ->
-					mapNullInputList(cases)
-					{ case ->
-						mapInsolvencyCaseDto(
-								case,
-								{ dates ->
-									mapNullInputList(dates) { date ->
-										mapDateDto(date, constantsHelper)
-									}
-								},
-								{ practitioners ->
-									mapNullInputList(practitioners) { practitioner ->
-										mapPractitionerDto(practitioner) { addressDto ->
-											mapAddressDto(addressDto)
-										}
-									}
-								},
-								constantsHelper,
-						)
-					}
+		{ insolvencyDto ->
+			mapInsolvencyDto(insolvencyDto)
+			{ cases ->
+				mapNullInputList(cases)
+				{ case ->
+					mapInsolvencyCaseDto(
+						case,
+						{ dates ->
+							mapNullInputList(dates) { date ->
+								mapDateDto(date, constantsHelper)
+							}
+						},
+						{ practitioners ->
+							mapNullInputList(practitioners) { practitioner ->
+								mapPractitionerDto(practitioner) { addressDto ->
+									mapAddressDto(addressDto)
+								}
+							}
+						},
+						constantsHelper,
+					)
 				}
 			}
+		}
 
 	@Provides
 	fun provideMapOfficerResponseDto(
-			constantsHelper: ConstantsHelperContract,
-			stringResourceHelper: StringResourceHelperContract
-	): (OfficersResponseDto) ->
-	OfficersResponse =
-			{ officersResponseDto ->
-				mapOfficersResponseDto(officersResponseDto)
-				{ officers ->
-					mapNullInputList(officers)
-					{ officer ->
-						mapOfficerDto(
-								officer,
-								{ linksDto -> mapOfficerLinksDto(linksDto) },
-								{ registeredOfficeAddressDto -> mapAddressDto(registeredOfficeAddressDto) },
-								{ monthYearDto -> mapMonthYearDto(monthYearDto) },
-								constantsHelper,
-								stringResourceHelper
-						)
-					}
+		constantsHelper: ConstantsHelperContract,
+		stringResourceHelper: StringResourceHelperContract
+	): (OfficersResponseDto) -> OfficersResponse =
+		{ officersResponseDto ->
+			mapOfficersResponseDto(officersResponseDto)
+			{ officers ->
+				mapNullInputList(officers)
+				{ officer ->
+					mapOfficerDto(
+						officer,
+						{ linksDto -> mapOfficerLinksDto(linksDto) },
+						{ registeredOfficeAddressDto -> mapAddressDto(registeredOfficeAddressDto) },
+						{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+						constantsHelper,
+						stringResourceHelper
+					)
 				}
 			}
+		}
 
 	@Provides
 	fun provideMapAppointmentsResponseDto(constantsHelper: ConstantsHelperContract)
-			: (AppointmentsResponseDto) -> AppointmentsResponse =
-			{ appointmentsResponseDto ->
-				mapAppointmentsResponseDto(
-						appointmentsResponseDto,
-						{ appointments ->
-							mapNullInputList(appointments)
-							{ appointmentDto ->
-								mapAppointmentDto(
-										appointmentDto,
-										{ appointedToDto -> mapAppointedToDto(appointedToDto) },
-										{ addressDto -> mapAddressDto(addressDto) },
-										constantsHelper,
-								)
-							}
-						},
-						{ monthYearDto -> mapMonthYearDto(monthYearDto) },
-				)
-			}
+		: (AppointmentsResponseDto) -> AppointmentsResponse =
+		{ appointmentsResponseDto ->
+			mapAppointmentsResponseDto(
+				appointmentsResponseDto,
+				{ appointments ->
+					mapNullInputList(appointments)
+					{ appointmentDto ->
+						mapAppointmentDto(
+							appointmentDto,
+							{ appointedToDto -> mapAppointedToDto(appointedToDto) },
+							{ addressDto -> mapAddressDto(addressDto) },
+							constantsHelper,
+						)
+					}
+				},
+				{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+			)
+		}
 
 	@Provides
 	fun provideMapPersonDto(pscHelper: PscHelperContract): (PersonDto) -> Person =
-			{ personDto ->
-				mapPersonDto(
-						personDto,
-						pscHelper,
-						{ addressDto -> mapAddressDto(addressDto) },
-						{ monthYearDto -> mapMonthYearDto(monthYearDto) },
-				)
-			}
+		{ personDto ->
+			mapPersonDto(
+				personDto,
+				pscHelper,
+				{ addressDto -> mapAddressDto(addressDto) },
+				{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+			)
+		}
 
 	//TODO Why I cannot use the result above?
 	@Provides
 	fun provideMapPersonsResponseDto(pscHelper: PscHelperContract): (PersonsResponseDto) -> PersonsResponse =
-			{ personsResponseDto ->
-				mapPersonsResponseDto(personsResponseDto) { items ->
-					mapNullInputList(items) { personDto ->
-						mapPersonDto(
-								personDto,
-								pscHelper,
-								{ addressDto -> mapAddressDto(addressDto) },
-								{ monthYearDto -> mapMonthYearDto(monthYearDto) },
-						)
-					}
+		{ personsResponseDto ->
+			mapPersonsResponseDto(personsResponseDto) { items ->
+				mapNullInputList(items) { personDto ->
+					mapPersonDto(
+						personDto,
+						pscHelper,
+						{ addressDto -> mapAddressDto(addressDto) },
+						{ monthYearDto -> mapMonthYearDto(monthYearDto) },
+					)
 				}
 			}
+		}
+
+//endregion
 
 	@Provides
 	@Singleton
 	fun provideStringResourceHelper(@ApplicationContext context: Context): StringResourceHelperContract =
-			StringResourceHelper(context)
+		StringResourceHelper(context)
 
 	@Provides
 	@Singleton
 	fun provideConstantsHelper(rawResourceHelper: RawResourceHelper): ConstantsHelperContract =
-			ConstantsHelper(rawResourceHelper)
+		ConstantsHelper(rawResourceHelper)
 
 	@Provides
 	@Singleton
 	fun provideFilingHistoryDescriptionsHelper(rawResourceHelper: RawResourceHelper)
-			: FilingHistoryDescriptionsHelperContract = FilingHistoryDescriptionsHelper(rawResourceHelper)
+		: FilingHistoryDescriptionsHelperContract = FilingHistoryDescriptionsHelper(rawResourceHelper)
 
 	@Provides
 	@Singleton
 	fun provideChargesHelper(rawResourceHelper: RawResourceHelper)
-			: ChargesHelperContract = ChargesHelper(rawResourceHelper)
+		: ChargesHelperContract = ChargesHelper(rawResourceHelper)
 
 	@Provides
 	@Singleton
 	fun providePscHelper(rawResourceHelper: RawResourceHelper)
-			: PscHelperContract = PscHelper(rawResourceHelper)
-
-//endregion
+		: PscHelperContract = PscHelper(rawResourceHelper)
 
 }

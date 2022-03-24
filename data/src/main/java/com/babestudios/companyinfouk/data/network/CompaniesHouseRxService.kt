@@ -15,83 +15,83 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface CompaniesHouseService {
+interface CompaniesHouseRxService {
 	@GET(BuildConfig.COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT)
-	suspend fun searchCompanies(
+	fun searchCompanies(
 			@Query("q") searchTerm: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): CompanySearchResult
+	): Single<CompanySearchResult>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_COMPANY_ENDPOINT)
-	suspend fun getCompany(
+	fun getCompany(
 			@Path("companyNumber") companyNumber: String
-	): CompanyDto
+	): Single<CompanyDto>
 
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT)
-	suspend fun getFilingHistory(
+	fun getFilingHistory(
 			@Path("companyNumber") companyNumber: String,
 			@Query("category") category: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): FilingHistoryDto
+	): Single<FilingHistoryDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_CHARGES_ENDPOINT)
-	suspend fun getCharges(
+	fun getCharges(
 			@Path("companyNumber") companyNumber: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): ChargesDto
+	): Single<ChargesDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT)
-	suspend fun getInsolvency(
+	fun getInsolvency(
 			@Path("companyNumber") companyNumber: String
-	): InsolvencyDto
+	): Single<InsolvencyDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT)
 	@Suppress("LongParameterList")
-	suspend fun getOfficers(
+	fun getOfficers(
 			@Path("companyNumber") companyNumber: String,
 			@Query("registerView") registerView: String?,
 			@Query("registerType") registerType: String?,
 			@Query("orderBy") orderBy: String?,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): OfficersResponseDto
+	): Single<OfficersResponseDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT)
-	suspend fun getOfficerAppointments(
+	fun getOfficerAppointments(
 			@Path("officerId") officerId: String,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): AppointmentsResponseDto
+	): Single<AppointmentsResponseDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_ENDPOINT)
-	suspend fun getPersons(
+	fun getPersons(
 			@Path("companyNumber") companyNumber: String,
 			@Query("registerView") registerView: String?,
 			@Query("items_per_page") itemsPerPage: String,
 			@Query("start_index") startIndex: String
-	): PersonsResponseDto
+	): Single<PersonsResponseDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_INDIVIDUAL_ENDPOINT)
-	suspend fun getPersonIndividual(
+	fun getPersonIndividual(
 			@Path("companyNumber") companyNumber: String,
 			@Path("pscId") pscId: String,
-	): PersonDto
+	): Single<PersonDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
-	suspend fun getCorporatePerson(
+	fun getCorporatePerson(
 			@Path("companyNumber") companyNumber: String,
 			@Path("pscId") pscId: String,
-	): PersonDto
+	): Single<PersonDto>
 
 	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
-	suspend fun getLegalPerson(
+	fun getLegalPerson(
 			@Path("companyNumber") companyNumber: String,
 			@Path("pscId") pscId: String,
-	): PersonDto
+	): Single<PersonDto>
 
 }
 

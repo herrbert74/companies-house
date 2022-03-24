@@ -25,8 +25,8 @@ import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.persons.PersonDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.data.utils.StringResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
@@ -90,15 +90,15 @@ class TestDataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	internal fun provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit)
-			: CompaniesHouseService {
-		return retroFit.create(CompaniesHouseService::class.java)
+			: CompaniesHouseRxService {
+		return retroFit.create(CompaniesHouseRxService::class.java)
 	}
 
 	@Provides
 	@Singleton
 	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit)
-			: CompaniesHouseDocumentService {
-		return retroFit.create(CompaniesHouseDocumentService::class.java)
+			: CompaniesHouseRxDocumentService {
+		return retroFit.create(CompaniesHouseRxDocumentService::class.java)
 	}
 
 	@Provides

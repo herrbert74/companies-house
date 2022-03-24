@@ -14,7 +14,7 @@ import javax.inject.Singleton
  *
  */
 @Singleton
-class CompaniesHouseErrorResolver @Inject constructor(
+class CompaniesHouseRxErrorResolver @Inject constructor(
 		@Suppress("unused") private val errorHelper: ErrorHelper
 ) : ErrorResolver {
 

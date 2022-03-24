@@ -1,11 +1,9 @@
 package com.babestudios.companyinfouk.data
 
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import io.kotest.matchers.shouldBe
 import io.reactivex.observers.TestObserver
-import org.hamcrest.CoreMatchers.isA
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,7 +34,7 @@ class RetrofitTest {
 				.addConverterFactory(AdvancedGsonConverterFactory.create())//
 				.build()
 
-		val companiesHouseService = retrofit.create(CompaniesHouseService::class.java)
+		val companiesHouseService = retrofit.create(CompaniesHouseRxService::class.java)
 
 		companiesHouseService.searchCompanies(authorization!!, "GAMES", "100", "0")
 				.map<String> { e -> e.items[0].title }

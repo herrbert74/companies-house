@@ -13,33 +13,34 @@ import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import io.reactivex.Single
-import java.util.ArrayList
+import kotlinx.coroutines.Deferred
 import okhttp3.ResponseBody
 
 interface CompaniesRepository : AnalyticsContract {
-	fun recentSearches(): Single<List<SearchHistoryItem>>
-	fun favourites(): Single<List<SearchHistoryItem>>
 
 	//Companies House API
-	fun searchCompanies(queryText: CharSequence, startItem: String): Single<CompanySearchResult>
+	suspend fun searchCompanies(queryText: CharSequence, startItem: String): CompanySearchResult
+	suspend fun getCompany(companyNumber: String): Company
+	suspend fun getFilingHistory(companyNumber: String, category: Category, startItem: String): FilingHistory
+	suspend fun fetchCharges(companyNumber: String, startItem: String): Charges
+	suspend fun getInsolvency(companyNumber: String): Insolvency
+	suspend fun getOfficers(companyNumber: String, startItem: String): OfficersResponse
+	suspend fun getOfficerAppointments(officerId: String, startItem: String): AppointmentsResponse
+	suspend fun getPersons(companyNumber: String, startItem: String): PersonsResponse
+	suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person
+	suspend fun getLegalPerson(companyNumber: String, pscId: String): Person
 
+	//Companies House Documents API
+	suspend fun getDocument(documentId: String): ResponseBody
+	suspend fun writeDocumentPdf(responseBody: ResponseBody, uri: Uri): Uri
+
+	//Preferences - Search
+	suspend fun recentSearches(): List<SearchHistoryItem>
 	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
-	fun getCompany(companyNumber: String): Single<Company>
-	fun getFilingHistory(companyNumber: String, category: Category, startItem: String): Single<FilingHistory>
-	fun fetchCharges(companyNumber: String, startItem: String): Single<Charges>
-	fun getInsolvency(companyNumber: String): Single<Insolvency>
-	fun getOfficers(companyNumber: String, startItem: String): Single<OfficersResponse>
-	fun getOfficerAppointments(officerId: String, startItem: String): Single<AppointmentsResponse>
-	fun getPersons(companyNumber: String, startItem: String): Single<PersonsResponse>
-	fun getCorporatePerson(companyNumber: String, pscId: String): Single<Person>
-	fun getLegalPerson(companyNumber: String, pscId: String): Single<Person>
-	fun getDocument(documentId: String): Single<ResponseBody>
-	fun writeDocumentPdf(responseBody: ResponseBody, uri: Uri):Single<Uri>
-
-	//Preferences
 	fun clearAllRecentSearches()
 
+	//Preferences - Favourites
+	suspend fun favourites(): List<SearchHistoryItem>
 	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun removeFavourite(favouriteToRemove: SearchHistoryItem)

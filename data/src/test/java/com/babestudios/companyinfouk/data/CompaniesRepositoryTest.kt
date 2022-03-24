@@ -5,8 +5,8 @@ import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.data.utils.Base64Wrapper
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.mockk.every
@@ -27,9 +27,9 @@ class CompaniesRepositoryTest {
 
 	private val context = mockk<Context>()
 
-	private val mockCompaniesHouseService = mockk<CompaniesHouseService>()
+	private val mockCompaniesHouseService = mockk<CompaniesHouseRxService>()
 
-	private val mockCompaniesHouseDocumentService = mockk<CompaniesHouseDocumentService>()
+	private val mockCompaniesHouseDocumentService = mockk<CompaniesHouseRxDocumentService>()
 
 	private val mockPreferencesHelper = mockk<PreferencesHelper>()
 

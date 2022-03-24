@@ -13,13 +13,13 @@ import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.data.utils.Base64Wrapper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
-import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseErrorResolver
+import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseRxErrorResolver
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
@@ -70,14 +70,14 @@ class AndroidTestDataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	internal fun provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit): CompaniesHouseService {
-		return retroFit.create(CompaniesHouseService::class.java)
+	internal fun provideCompaniesHouseService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit): CompaniesHouseRxService {
+		return retroFit.create(CompaniesHouseRxService::class.java)
 	}
 
 	@Provides
 	@Singleton
-	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit): CompaniesHouseDocumentService {
-		return retroFit.create(CompaniesHouseDocumentService::class.java)
+	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit): CompaniesHouseRxDocumentService {
+		return retroFit.create(CompaniesHouseRxDocumentService::class.java)
 	}
 
 	@Provides
@@ -106,12 +106,12 @@ class AndroidTestDataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	internal fun provideCompaniesRepositoryContract(
-			companiesHouseService: CompaniesHouseService,
-			companiesHouseDocumentService: CompaniesHouseDocumentService,
-			preferencesHelper: PreferencesHelper,
-			base64Wrapper: Base64Wrapper,
-			constantsHelper: ConstantsHelper,
-			filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
+		companiesHouseService: CompaniesHouseRxService,
+		companiesHouseDocumentService: CompaniesHouseRxDocumentService,
+		preferencesHelper: PreferencesHelper,
+		base64Wrapper: Base64Wrapper,
+		constantsHelper: ConstantsHelper,
+		filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelper
 	): CompaniesRxRepository {
 		val mockCompaniesRepository = mockk<CompaniesRxRepository>()
 
@@ -167,7 +167,7 @@ class AndroidTestDataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	internal fun provideErrorResolver(errorHelper: ErrorHelper): ErrorResolver {
-		return CompaniesHouseErrorResolver(errorHelper)
+		return CompaniesHouseRxErrorResolver(errorHelper)
 	}
 
 	@Provides
