@@ -1,53 +1,69 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.domain.model.filinghistory.Category
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLinks
+import com.babestudios.companyinfouk.core.mappers.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
 import com.babestudios.companyinfouk.data.model.filinghistory.CategoryDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItemDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryLinksDto
+import com.babestudios.companyinfouk.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLinks
 
-inline fun mapFilingHistoryDto(
-		input: FilingHistoryDto,
-		mapItems: (List<FilingHistoryItemDto>?) -> List<FilingHistoryItem>
+fun mapFilingHistoryDto(
+	input: FilingHistoryDto,
+	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract
 ): FilingHistory {
 	return FilingHistory(
-			input.startIndex ?: 0,
-			input.itemsPerPage ?: 0,
-			mapItems(input.items),
-			input.totalCount ?: 0,
-			input.filingHistoryStatus.orEmpty()
+		input.startIndex ?: 0,
+		input.itemsPerPage ?: 0,
+		mapFilingHistoryItemList(input.items, filingHistoryDescriptionsHelper),
+		input.totalCount ?: 0,
+		input.filingHistoryStatus.orEmpty()
 	)
 }
 
-fun mapFilingHistoryItemDto(
+private fun mapFilingHistoryItemList(
+	items: List<FilingHistoryItemDto>?,
+	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract
+) = mapNullInputList(items) { itemDto ->
+		mapFilingHistoryItemDto(
+			itemDto,
+			filingHistoryDescriptionsHelper,
+			{ linksDto ->
+				mapFilingHistoryLinks(linksDto)
+			},
+			{ categoryDto ->
+				mapFilingHistoryCategoryDto(categoryDto)
+			})
+	}
+
+private fun mapFilingHistoryItemDto(
 	input: FilingHistoryItemDto,
 	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
 	mapFilingHistoryLinks: (FilingHistoryLinksDto?) -> FilingHistoryLinks,
 	mapCategoryDto: (CategoryDto?) -> Category
 ): FilingHistoryItem {
 	return FilingHistoryItem(
-			input.date.orEmpty(),
-			input.type.orEmpty(),
-			mapFilingHistoryLinks(input.links),
-			mapCategoryDto(input.category),
-			input.subcategory.orEmpty(),
-			formatFilingHistoryDescriptionDto(
-					filingHistoryDescriptionsHelper.filingHistoryLookUp(input.description.orEmpty()),
-					input.descriptionValues
-			),
-			input.pages ?: 0
+		input.date.orEmpty(),
+		input.type.orEmpty(),
+		mapFilingHistoryLinks(input.links),
+		mapCategoryDto(input.category),
+		input.subcategory.orEmpty(),
+		formatFilingHistoryDescriptionDto(
+			filingHistoryDescriptionsHelper.filingHistoryLookUp(input.description.orEmpty()),
+			input.descriptionValues
+		),
+		input.pages ?: 0
 	)
 }
 
-fun mapFilingHistoryLinks(input: FilingHistoryLinksDto?): FilingHistoryLinks {
+private fun mapFilingHistoryLinks(input: FilingHistoryLinksDto?): FilingHistoryLinks {
 	return FilingHistoryLinks(input?.documentMetadata.orEmpty(), input?.self.orEmpty())
 }
 
-fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
+private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 	return when (input) {
 		CategoryDto.CATEGORY_SHOW_ALL -> Category.CATEGORY_SHOW_ALL
 		CategoryDto.CATEGORY_GAZETTE -> Category.CATEGORY_GAZETTE
@@ -101,8 +117,8 @@ fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: Ma
 	//Simply replace "legacy" and "miscellaneous" descriptions with the descriptionValue.description
 	result = try {
 		result.replace(
-				"(legacy|miscellaneous)".toRegex(RegexOption.IGNORE_CASE),
-				descriptionValues?.get("description") as? String ?: ""
+			"(legacy|miscellaneous)".toRegex(RegexOption.IGNORE_CASE),
+			descriptionValues?.get("description") as? String ?: ""
 		)
 	} catch (e: IllegalArgumentException) {
 		//Above replace calls through to replaceAll, which uses regexes, but some legacy strings are invalid

@@ -7,17 +7,9 @@ import android.util.Log
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
+import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
-import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import com.babestudios.companyinfouk.data.model.company.CompanyDto
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
-import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
-import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
-import com.babestudios.companyinfouk.data.model.persons.PersonDto
-import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.charges.Charges
@@ -48,18 +40,7 @@ open class CompaniesAccessor @Inject constructor(
 	private val companiesHouseDocumentService: CompaniesHouseDocumentService,
 	private var preferencesHelper: PreferencesHelper,
 	private val firebaseAnalytics: FirebaseAnalytics,
-	private val mapFilingHistoryDto
-	: (@JvmSuppressWildcards FilingHistoryDto) -> @JvmSuppressWildcards FilingHistory,
-	private val mapChargesDto: (@JvmSuppressWildcards ChargesDto) -> @JvmSuppressWildcards Charges,
-	private val mapCompanyDto: (@JvmSuppressWildcards CompanyDto) -> @JvmSuppressWildcards Company,
-	private val mapInsolvencyDto: (@JvmSuppressWildcards InsolvencyDto) -> @JvmSuppressWildcards Insolvency,
-	private val mapOfficersResponseDto
-	: (@JvmSuppressWildcards OfficersResponseDto) -> @JvmSuppressWildcards OfficersResponse,
-	private val mapAppointmentsResponseDto
-	: (@JvmSuppressWildcards AppointmentsResponseDto) -> @JvmSuppressWildcards AppointmentsResponse,
-	private val mapPersonsResponseDto
-	: (@JvmSuppressWildcards PersonsResponseDto) -> @JvmSuppressWildcards PersonsResponse,
-	private val mapPersonDto: (@JvmSuppressWildcards PersonDto) -> @JvmSuppressWildcards Person,
+	private val companiesHouseMapping: CompaniesHouseMapping,
 	@IoDispatcher val ioContext: CoroutineDispatcher,
 ) : CompaniesRepository {
 
@@ -88,7 +69,7 @@ open class CompaniesAccessor @Inject constructor(
 	override suspend fun getCompany(companyNumber: String): Company {
 		return withContext(ioContext) {
 			val companyDto = companiesHouseService.getCompany(companyNumber)
-			mapCompanyDto(companyDto)
+			companiesHouseMapping.mapCompany(companyDto)
 		}
 	}
 
@@ -104,7 +85,7 @@ open class CompaniesAccessor @Inject constructor(
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
 			)
-			mapFilingHistoryDto(historyDto)
+			companiesHouseMapping.mapFilingHistory(historyDto)
 		}
 	}
 
@@ -115,14 +96,14 @@ open class CompaniesAccessor @Inject constructor(
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
 			)
-			mapChargesDto(chargesDto)
+			companiesHouseMapping.mapChargesHistory(chargesDto)
 		}
 	}
 
 	override suspend fun getInsolvency(companyNumber: String): Insolvency {
 		return withContext(ioContext) {
 			val insolvencyDto = companiesHouseService.getInsolvency(companyNumber)
-			mapInsolvencyDto(insolvencyDto)
+			companiesHouseMapping.mapInsolvency(insolvencyDto)
 		}
 	}
 
@@ -136,7 +117,7 @@ open class CompaniesAccessor @Inject constructor(
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
 			)
-			mapOfficersResponseDto(officersResponseDto)
+			companiesHouseMapping.mapOfficers(officersResponseDto)
 		}
 	}
 
@@ -147,7 +128,7 @@ open class CompaniesAccessor @Inject constructor(
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
 			)
-			mapAppointmentsResponseDto(appointmentsResponseDto)
+			companiesHouseMapping.mapAppointments(appointmentsResponseDto)
 		}
 	}
 
@@ -159,21 +140,21 @@ open class CompaniesAccessor @Inject constructor(
 				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
 			)
-			mapPersonsResponseDto(personsResponseDto)
+			companiesHouseMapping.mapPersonsResponse(personsResponseDto)
 		}
 	}
 
 	override suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person {
 		return withContext(ioContext) {
 			val personDto = companiesHouseService.getCorporatePerson(companyNumber, pscId)
-			mapPersonDto(personDto)
+			companiesHouseMapping.mapPerson(personDto)
 		}
 	}
 
 	override suspend fun getLegalPerson(companyNumber: String, pscId: String): Person {
 		return withContext(ioContext) {
 			val personDto = companiesHouseService.getLegalPerson(companyNumber, pscId)
-			mapPersonDto(personDto)
+			companiesHouseMapping.mapPerson(personDto)
 		}
 	}
 

@@ -2,12 +2,14 @@ package com.babestudios.companyinfouk.data.mappers
 
 import android.content.Context
 import com.babestudios.companyinfouk.common.loadJson
-import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.data.di.DaggerTestDataComponent
+import com.babestudios.companyinfouk.data.di.MapperModule
 import com.babestudios.companyinfouk.data.di.TestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataModule
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
+import com.babestudios.companyinfouk.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.domain.util.CoroutineContextModule
 import com.google.gson.Gson
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
@@ -28,9 +30,14 @@ class OfficersMappersTest {
 	fun setup() {
 		val context = mockk<Context>()
 		testDataComponent = DaggerTestDataComponent
-				.factory()
-				.create(TestDataModule(context), context)
-		officersResponseYouLimited = testDataComponent?.officersMapper()?.invoke(officersResponseDto)
+			.factory()
+			.create(
+				TestDataModule(context),
+				MapperModule(),
+				CoroutineContextModule(),
+				context
+			)
+		officersResponseYouLimited = testDataComponent?.companiesHouseMapping()?.mapOfficers(officersResponseDto)
 	}
 
 	@Test

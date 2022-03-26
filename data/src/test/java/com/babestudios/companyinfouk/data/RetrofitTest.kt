@@ -36,7 +36,7 @@ class RetrofitTest {
 
 		val companiesHouseService = retrofit.create(CompaniesHouseRxService::class.java)
 
-		companiesHouseService.searchCompanies(authorization!!, "GAMES", "100", "0")
+		companiesHouseService.searchCompanies(/*authorization!!,*/ "GAMES", "100", "0")
 				.map<String> { e -> e.items[0].title }
 				.subscribe(testSubscriber)
 		val result = testSubscriber.events[0]

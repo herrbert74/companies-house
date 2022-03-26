@@ -4,54 +4,43 @@ import android.content.Context
 import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.domain.model.charges.Charges
-import com.babestudios.companyinfouk.domain.model.company.Company
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
-import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
-import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import com.babestudios.companyinfouk.data.model.company.CompanyDto
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
-import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
-import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
-import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
+import com.babestudios.companyinfouk.domain.util.CoroutineContextModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [TestDataModule::class, TestDataContractModule::class])
+@Component(
+	modules = [
+		TestDataModule::class,
+		TestDataContractModule::class,
+		MapperModule::class,
+		CoroutineContextModule::class
+	]
+)
 interface TestDataComponent {
 
 	@Component.Factory
 	interface Factory {
 		fun create(
-				testDataModule: TestDataModule,
-				@BindsInstance @ApplicationContext applicationContext: Context
+			testDataModule: TestDataModule,
+			mapperModule: MapperModule,
+			coroutineContextModule: CoroutineContextModule,
+			@BindsInstance @ApplicationContext applicationContext: Context
 		): TestDataComponent
 	}
 
-	fun companiesRepository(): CompaniesRxRepository
+	fun companiesRxRepository(): CompaniesRxRepository
+
+	fun companiesRepository(): CompaniesRepository
 
 	fun schedulerProvider(): SchedulerProvider
 
 	fun errorResolver(): ErrorResolver
 
-	fun companyMapper() : (CompanyDto) -> Company
+	fun companiesHouseMapping(): CompaniesHouseMapping
 
-	fun filingMapper() : (FilingHistoryDto) -> FilingHistory
-
-	fun chargesMapper() : (ChargesDto) -> Charges
-
-	fun insolvencyMapper() : (InsolvencyDto) -> Insolvency
-
-	fun officersMapper() : (OfficersResponseDto) -> OfficersResponse
-
-	fun appointmentsMapper() : (AppointmentsResponseDto) -> AppointmentsResponse
-
-	fun personsMapper() : (PersonsResponseDto) -> PersonsResponse
 }

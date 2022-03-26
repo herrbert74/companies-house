@@ -3,9 +3,12 @@ package com.babestudios.companyinfouk.data.mappers
 import android.content.Context
 import com.babestudios.companyinfouk.common.loadJson
 import com.babestudios.companyinfouk.data.di.DaggerTestDataComponent
+import com.babestudios.companyinfouk.data.di.DataComponent
+import com.babestudios.companyinfouk.data.di.MapperModule
 import com.babestudios.companyinfouk.data.di.TestDataComponent
 import com.babestudios.companyinfouk.data.di.TestDataModule
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
+import com.babestudios.companyinfouk.domain.util.CoroutineContextModule
 import com.google.gson.Gson
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -21,15 +24,20 @@ class ChargesMappersTest {
 	fun setup() {
 		val context = mockk<Context>()
 		testDataComponent = DaggerTestDataComponent
-				.factory()
-				.create(TestDataModule(context), context)
+			.factory()
+			.create(
+				TestDataModule(context),
+				MapperModule(),
+				CoroutineContextModule(),
+				context
+			)
 	}
 
 	@Test
 	fun `when there is a charges json then it is mapped`() {
 		val json = this.loadJson("charges_pfb_hire")
 		val chargesDto = Gson().fromJson(json, ChargesDto::class.java)
-		val chargesPfbHire = testDataComponent?.chargesMapper()?.invoke(chargesDto)
+		val chargesPfbHire = testDataComponent?.companiesHouseMapping()?.mapChargesHistory(chargesDto)
 		chargesPfbHire?.totalCount shouldBe 9
 		chargesPfbHire?.items?.get(0)?.personsEntitled shouldContain "Art Share"
 	}

@@ -10,57 +10,56 @@ import com.babestudios.companyinfouk.data.model.company.AccountsDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 
-inline fun mapCompanyDto(
+fun mapCompanyDto(
 	input: CompanyDto,
-	mapAccounts: (AccountsDto?) -> String,
-	mapAddress: (AddressDto?) -> Address,
-	mapNatureOfBusiness: (List<String>?) -> String
+	constantsHelper: ConstantsHelperContract,
+	stringResourceHelper: StringResourceHelperContract,
 ): Company {
 	return Company(
-			input.companyName ?: "",
-			mapAccounts(input.accounts),
-			input.companyNumber ?: "",
-			input.dateOfCreation ?: "",
-			input.hasCharges,
-			input.hasInsolvencyHistory,
-			mapAddress(input.registeredOfficeAddress),
-			mapNatureOfBusiness(input.sicCodes)
+		input.companyName ?: "",
+		mapAccountsDto(input.accounts, constantsHelper, stringResourceHelper),
+		input.companyNumber ?: "",
+		input.dateOfCreation ?: "",
+		input.hasCharges,
+		input.hasInsolvencyHistory,
+		mapAddressDto(input.registeredOfficeAddress),
+		mapNatureOfBusiness(input.sicCodes, constantsHelper)
 	)
 }
 
-fun mapAccountsDto(
-		input: AccountsDto?,
-		constantsHelper: ConstantsHelperContract,
-		stringResourceHelper: StringResourceHelperContract,
+private fun mapAccountsDto(
+	input: AccountsDto?,
+	constantsHelper: ConstantsHelperContract,
+	stringResourceHelper: StringResourceHelperContract,
 ): String {
 	return input?.lastAccounts?.madeUpTo?.let {
 		val madeUpToDate = it.parseMySqlDate()
 		madeUpToDate?.let { date ->
 			val formattedDate = date.time.formatShortDateFromTimeStampMillis()
 			stringResourceHelper.getLastAccountMadeUpToString(
-					constantsHelper.accountTypeLookUp(input.lastAccounts?.type ?: ""),
-					formattedDate
+				constantsHelper.accountTypeLookUp(input.lastAccounts?.type ?: ""),
+				formattedDate
 			)
 		} ?: stringResourceHelper.getCompanyAccountsNotFoundString()
 	} ?: stringResourceHelper.getCompanyAccountsNotFoundString()
 }
 
-fun mapAddressDto(
-		input: AddressDto?,
+internal fun mapAddressDto(
+	input: AddressDto?,
 ): Address {
 	return Address(
-			input?.addressLine1.orEmpty(),
-			input?.addressLine2,
-			input?.country.orEmpty(),
-			input?.locality.orEmpty(),
-			input?.postalCode.orEmpty(),
-			input?.region.orEmpty(),
+		input?.addressLine1.orEmpty(),
+		input?.addressLine2,
+		input?.country.orEmpty(),
+		input?.locality.orEmpty(),
+		input?.postalCode.orEmpty(),
+		input?.region.orEmpty(),
 	)
 }
 
-fun mapNatureOfBusiness(
-		input: List<String>?,
-		constantsHelper: ConstantsHelperContract,
+private fun mapNatureOfBusiness(
+	input: List<String>?,
+	constantsHelper: ConstantsHelperContract,
 ): String {
 	return if (input?.isNotEmpty() == true) {
 		"${input[0]} ${constantsHelper.sicLookUp(input[0])}"

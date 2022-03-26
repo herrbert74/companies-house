@@ -8,6 +8,12 @@ import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
+import com.babestudios.companyinfouk.data.local.PreferencesHelper
+import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
+import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
+import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.domain.model.filinghistory.Category
@@ -17,30 +23,16 @@ import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.data.local.PreferencesHelper
-import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
-import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import com.babestudios.companyinfouk.data.model.company.CompanyDto
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
-import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
-import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
-import com.babestudios.companyinfouk.data.model.persons.PersonDto
-import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
-import okhttp3.ResponseBody
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import okhttp3.ResponseBody
 
 @Singleton
 open class CompaniesRxAccessor @Inject constructor(
@@ -51,18 +43,7 @@ open class CompaniesRxAccessor @Inject constructor(
 	private val firebaseAnalytics: FirebaseAnalytics,
 	private val schedulerProvider: SchedulerProvider,
 	private val errorResolver: ErrorResolver,
-	private val mapFilingHistoryDto
-		: (@JvmSuppressWildcards FilingHistoryDto) -> @JvmSuppressWildcards FilingHistory,
-	private val mapChargesDto: (@JvmSuppressWildcards ChargesDto) -> @JvmSuppressWildcards Charges,
-	private val mapCompanyDto: (@JvmSuppressWildcards CompanyDto) -> @JvmSuppressWildcards Company,
-	private val mapInsolvencyDto: (@JvmSuppressWildcards InsolvencyDto) -> @JvmSuppressWildcards Insolvency,
-	private val mapOfficersResponseDto
-		: (@JvmSuppressWildcards OfficersResponseDto) -> @JvmSuppressWildcards OfficersResponse,
-	private val mapAppointmentsResponseDto
-		: (@JvmSuppressWildcards AppointmentsResponseDto) -> @JvmSuppressWildcards AppointmentsResponse,
-	private val mapPersonsResponseDto
-		: (@JvmSuppressWildcards PersonsResponseDto) -> @JvmSuppressWildcards PersonsResponse,
-	private val mapPersonDto: (@JvmSuppressWildcards PersonDto) -> @JvmSuppressWildcards Person,
+	private val companiesHouseMapping: CompaniesHouseMapping,
 ) : CompaniesRxRepository {
 
 	override fun recentSearches(): Single<List<SearchHistoryItem>> {
@@ -97,7 +78,7 @@ open class CompaniesRxAccessor @Inject constructor(
 	override fun getCompany(companyNumber: String): Single<Company> {
 		return companiesHouseService
 				.getCompany(companyNumber)
-				.map { mapCompanyDto(it) }
+				.map { companiesHouseMapping.mapCompany(it) }
 				.compose(errorResolver.resolveErrorForSingle())
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -116,7 +97,7 @@ open class CompaniesRxAccessor @Inject constructor(
 				)
 				.compose(errorResolver.resolveErrorForSingle())
 				.map { historyDto ->
-					mapFilingHistoryDto(historyDto)
+					companiesHouseMapping.mapFilingHistory(historyDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -130,7 +111,7 @@ open class CompaniesRxAccessor @Inject constructor(
 				)
 				.compose(errorResolver.resolveErrorForSingle())
 				.map { chargesDto ->
-					mapChargesDto(chargesDto)
+					companiesHouseMapping.mapChargesHistory(chargesDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -140,7 +121,7 @@ open class CompaniesRxAccessor @Inject constructor(
 				.getInsolvency(companyNumber)
 				.compose(errorResolver.resolveErrorForSingle())
 				.map { insolvencyDto ->
-					mapInsolvencyDto(insolvencyDto)
+					companiesHouseMapping.mapInsolvency(insolvencyDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -157,7 +138,7 @@ open class CompaniesRxAccessor @Inject constructor(
 				)
 				.compose(errorResolver.resolveErrorForSingle())
 				.map { officersResponseDto ->
-					mapOfficersResponseDto(officersResponseDto)
+					companiesHouseMapping.mapOfficers(officersResponseDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -171,7 +152,7 @@ open class CompaniesRxAccessor @Inject constructor(
 				)
 				.compose(errorResolver.resolveErrorForSingle())
 				.map { appointmentsResponseDto ->
-					mapAppointmentsResponseDto(appointmentsResponseDto)
+					companiesHouseMapping.mapAppointments(appointmentsResponseDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -185,7 +166,7 @@ open class CompaniesRxAccessor @Inject constructor(
 						startItem
 				).compose(errorResolver.resolveErrorForSingle())
 				.map { personsResponseDto ->
-					mapPersonsResponseDto(personsResponseDto)
+					companiesHouseMapping.mapPersonsResponse(personsResponseDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -197,7 +178,7 @@ open class CompaniesRxAccessor @Inject constructor(
 						pscId,
 				).compose(errorResolver.resolveErrorForSingle())
 				.map { personDto ->
-					mapPersonDto(personDto)
+					companiesHouseMapping.mapPerson(personDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
@@ -209,7 +190,7 @@ open class CompaniesRxAccessor @Inject constructor(
 						pscId,
 				).compose(errorResolver.resolveErrorForSingle())
 				.map { personDto ->
-					mapPersonDto(personDto)
+					companiesHouseMapping.mapPerson(personDto)
 				}
 				.compose(schedulerProvider.getSchedulersForSingle())
 	}
