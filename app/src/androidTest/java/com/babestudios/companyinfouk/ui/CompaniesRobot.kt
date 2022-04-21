@@ -13,7 +13,7 @@ import com.azimolabs.conditionwatcher.ConditionWatcher
 import com.azimolabs.conditionwatcher.Instruction
 import com.babestudios.companyinfouk.R
 import com.babestudios.companyinfouk.TestCompaniesHouseApplication
-import com.babestudios.companyinfouk.testhelpers.matchers.RecyclerViewMatchers.Companion.hasItem
+import com.babestudios.companyinfouk.testhelpers.matchers.RecyclerViewMatchers.hasItem
 import com.babestudios.companyinfouk.testhelpers.matchers.ViewGroupMatchers
 import org.hamcrest.CoreMatchers.allOf
 

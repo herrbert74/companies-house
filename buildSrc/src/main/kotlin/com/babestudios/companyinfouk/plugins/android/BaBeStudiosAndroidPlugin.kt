@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import com.babestudios.companyinfouk.buildsrc.Libs
 import com.babestudios.companyinfouk.buildsrc.Versions
+import org.gradle.kotlin.dsl.apply
 
 /**
  * This plugin should be used for all android modules.
@@ -20,10 +21,17 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 			project.plugins.apply("com.android.library")
 		}
 
+		project.repositories.mavenCentral()
+		project.repositories.google()
+		project.repositories.maven { url = project.uri("https://jitpack.io") }
+
 		project.plugins.apply("kotlin-android")
 		if (project.name != "navigation" && project.name != "common") {
 			project.plugins.apply("kotlin-kapt")
 		}
+
+		project.apply(from = project.rootProject.file("team-props/detekt/detekt.gradle"))
+
 		val androidExtension = project.extensions.getByName("android")
 
 		if (androidExtension is BaseExtension) {
@@ -47,9 +55,15 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		}
 
 		project.dependencies {
+			if (project.name == "app") {
+				add("implementation", Libs.Javax.inject)
+			} else {
+				add("api", Libs.Javax.inject)
+			}
+			add("implementation", Libs.JakeWharton.timber)
 			add("implementation", platform(Libs.Google.Firebase.bom))
 			add("implementation", Libs.Google.Firebase.analytics)
-			add("detekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.19.0")
+			add("detekt", Libs.Detekt.cli)
 			add("detektPlugins", project.project(":core-detekt"))
 		}
 	}

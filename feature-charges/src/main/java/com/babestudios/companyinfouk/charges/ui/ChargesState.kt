@@ -9,15 +9,15 @@ import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 
 data class ChargesState(
-		//Charges
+	//Charges
 	val chargesRequest: Async<Charges> = Uninitialized,
 	val charges: List<ChargesVisitableBase> = emptyList(),
 	val totalChargesCount: Int = 0,
 	@PersistState
-		val companyNumber: String = "",
+	val companyNumber: String = "",
 
-		//Charge details
+	//Charge details
 	@PersistState
-		val chargesItem: ChargesItem? = null
+	val chargesItem: ChargesItem? = null
 
 ) : MvRxState

@@ -4,6 +4,10 @@ plugins{
 	kotlin("jvm")
 }
 
+repositories {
+	mavenCentral()
+}
+
 dependencies {
 	implementation(Libs.Kotlin.stdLib)
 	api(Libs.Detekt.api)

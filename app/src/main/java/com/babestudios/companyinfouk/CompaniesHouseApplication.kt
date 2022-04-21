@@ -8,6 +8,8 @@ import com.babestudios.companyinfouk.core.injection.CoreComponentProvider
 import com.babestudios.companyinfouk.core.injection.DaggerCoreComponent
 import com.babestudios.companyinfouk.data.di.DaggerDataComponent
 import com.babestudios.companyinfouk.data.di.DataModule
+import com.babestudios.companyinfouk.data.di.MapperModule
+import com.babestudios.companyinfouk.domain.util.CoroutineContextModule
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
@@ -41,7 +43,7 @@ open class CompaniesHouseApplication : Application(), CoreComponentProvider, Lif
 		if (!this::coreComponent.isInitialized) {
 			val dataComponent = DaggerDataComponent
 					.factory()
-					.create(DataModule(this), this)
+					.create(DataModule(this), MapperModule(), CoroutineContextModule(), this)
 			coreComponent = DaggerCoreComponent
 					.factory()
 					.create(dataComponent, CompaniesHouseNavigation(), this)

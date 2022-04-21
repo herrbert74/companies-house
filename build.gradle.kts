@@ -1,14 +1,15 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
-	extra["kotlin_version"] = "1.6.10"
-	val kotlinVersion = "1.6.10"
+	extra["kotlin_version"] = "1.6.21"
+	val kotlinVersion = "1.6.21"
 	repositories {
 		google()
+		gradlePluginPortal()
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:7.1.2")
+		classpath("com.android.tools.build:gradle:7.1.3")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
 		classpath("com.google.gms:google-services:4.3.10")
 		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0")
@@ -18,17 +19,8 @@ buildscript {
 
 plugins {
 	id("io.gitlab.arturbosch.detekt").version("1.19.0")
-	id("com.github.ben-manes.versions").version("0.34.0")
+	id("com.github.ben-manes.versions").version("0.42.0")
 	id("scabbard.gradle") version "0.5.0"
-}
-
-allprojects {
-	repositories {
-		mavenCentral()
-		google()
-		maven { url = uri("https://jitpack.io") }
-	}
-	apply("$rootDir/team-props/detekt/detekt.gradle")
 }
 
 fun teamPropsFile(propsFile: String): File {

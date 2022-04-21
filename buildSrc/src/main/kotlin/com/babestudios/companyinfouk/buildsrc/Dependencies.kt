@@ -6,9 +6,9 @@ object Versions {
 	const val minSdkVersion = 21
 	const val compileSdkVersion = 31
 	const val targetSdkVersion = 31
-	const val gradlePlugin = "7.1.2"
-	const val kotlin = "1.6.10"
-	const val coroutines = "1.6.0"
+	const val gradlePlugin = "7.1.3"
+	const val kotlin = "1.6.21"
+	const val coroutines = "1.6.1"
 	const val dagger = "2.41"
 }
 
@@ -33,12 +33,12 @@ object Libs {
 	object AndroidX {
 		const val activityKtx = "androidx.activity:activity-ktx:1.4.0"
 		const val annotation = "androidx.annotation:annotation:1.3.0"
-		const val appcompat = "androidx.appcompat:appcompat:1.3.1"
+		const val appcompat = "androidx.appcompat:appcompat:1.4.1"
 		const val appCompatResources = "androidx.appcompat:appcompat-resources:1.3.1"
 		const val browser = "androidx.browser:browser:1.3.0"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
 		const val collection = "androidx.collection:collection:1.2.0"
-		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
+		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
 		const val coreKtx = "androidx.core:core-ktx:1.7.0"
 		const val datastoreCore = "androidx.datastore:datastore-preferences-core:1.0.0"
 		const val datastoreRx = "androidx.datastore:datastore-preferences-rxjava2:1.0.0"
@@ -75,7 +75,7 @@ object Libs {
 		}
 
 		object Navigation {
-			private const val version = "2.4.1"
+			private const val version = "2.4.2"
 			const val common = "androidx.navigation:navigation-common:$version"
 			const val runtime = "androidx.navigation:navigation-runtime:$version"
 			const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
@@ -131,8 +131,8 @@ object Libs {
 	}
 
 	object Google {
-		const val material = "com.google.android.material:material:1.4.0"
-		const val gson = "com.google.code.gson:gson:2.8.7"
+		const val material = "com.google.android.material:material:1.5.0"
+		const val gson = "com.google.code.gson:gson:2.9.0"
 
 		object Play {
 			const val core = "com.google.android.play:core:1.10.0"
@@ -144,7 +144,7 @@ object Libs {
 			const val analytics = "com.google.android.gms:play-services-analytics:17.0.1"
 			const val auth = "com.google.android.gms:play-services-auth:19.2.0"
 			const val location = "com.google.android.gms:play-services-location:18.0.0"
-			const val maps = "com.google.android.gms:play-services-maps:17.0.1"
+			const val maps = "com.google.android.gms:play-services-maps:18.0.2"
 		}
 
 		object Dagger {
@@ -161,7 +161,7 @@ object Libs {
 		}
 
 		object Firebase {
-			const val bom = "com.google.firebase:firebase-bom:29.1.0"
+			const val bom = "com.google.firebase:firebase-bom:29.3.1"
 			const val analytics = "com.google.firebase:firebase-analytics-ktx"
 			const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
 			const val messaging = "com.google.firebase:firebase-messaging-ktx"
@@ -198,7 +198,7 @@ object Libs {
 		}
 
 		object OkHttp3 {
-			private const val version = "4.9.1"
+			private const val version = "4.9.3"
 			const val okHttp = "com.squareup.okhttp3:okhttp:$version"
 			const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
 		}
@@ -234,7 +234,7 @@ object Libs {
 	object JakeWharton {
 		const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:2.1.1"
 
-		const val timber = "com.jakewharton.timber:timber:4.7.1"
+		const val timber = "com.jakewharton.timber:timber:5.0.1"
 
 		object RxBinding {
 			private const val version = "2.2.0"
@@ -243,17 +243,6 @@ object Libs {
 			const val kotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$version"
 			const val designKotlin = "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$version"
 			const val recyclerviewV7Kotlin = "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$version"
-		}
-	}
-
-	object Facebook {
-		const val soloader = "com.facebook.soloader:soloader:0.10.1"
-
-		object Flipper {
-			private const val version = "0.91.1"
-			const val debug = "com.facebook.flipper:flipper:$version"
-			const val release = "com.facebook.flipper:flipper-noop:$version"
-			const val networkPlugin = "com.facebook.flipper:flipper-network-plugin:$version"
 		}
 	}
 
@@ -293,14 +282,14 @@ object Libs {
 
 	object Test {
 		const val jUnit = "junit:junit:4.13.2"
-		const val assertJ = "org.assertj:assertj-core:3.19.0"
+		const val assertJ = "org.assertj:assertj-core:3.22.0"
 		const val robolectric = "org.robolectric:robolectric:4.7.3"
 
 		//This is an alternative to Espresso IdlingResource
 		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"
 
 		object JUnit5 {
-			private const val version = "5.7.2"
+			private const val version = "5.8.2"
 			const val jupiterApi = "org.junit.jupiter:junit-jupiter-api:$version"
 			const val jupiterEngine = "org.junit.jupiter:junit-jupiter-engine:$version"
 			const val jupiterParams = "org.junit.jupiter:junit-jupiter-params:$version"
@@ -308,13 +297,13 @@ object Libs {
 		}
 
 		object MockK {
-			private const val version = "1.12.0"
+			private const val version = "1.12.3"
 			const val core = "io.mockk:mockk:$version"
 			const val android = "io.mockk:mockk-android:$version"
 		}
 
 		object Kotest {
-			private const val version = "4.6.1"
+			private const val version = "5.2.3"
 			const val runner = "io.kotest:kotest-runner-junit5:$version"
 			const val assertions = "io.kotest:kotest-assertions-core:$version"
 			const val property = "io.kotest:kotest-property:$version"
@@ -324,6 +313,7 @@ object Libs {
 	object Detekt {
 		private const val version = "1.19.0"
 		const val api = "io.gitlab.arturbosch.detekt:detekt-api:$version"
+		const val cli = "io.gitlab.arturbosch.detekt:detekt-cli:$version"
 		const val test = "io.gitlab.arturbosch.detekt:detekt-test:$version"
 	}
 

@@ -6,6 +6,7 @@ plugins {
 	id("com.google.firebase.crashlytics")
 	id("com.google.gms.google-services")
 	id("org.jetbrains.kotlin.plugin.allopen")
+	id("com.google.devtools.ksp") version "1.6.21-1.0.5"
 }
 
 android {
@@ -43,7 +44,11 @@ android {
 	}
 
 	applicationVariants.all {
-		val isTest: Boolean = gradle.startParameter.taskNames.find { it.contains("test") || it.contains("Test") } != null
+		val isTest: Boolean = gradle.startParameter.taskNames.find {
+			it.contains("test") || it.contains(
+				"Test"
+			)
+		} != null
 		if (isTest) {
 			apply(plugin = "kotlin-allopen")
 			allOpen {
@@ -67,9 +72,6 @@ dependencies {
 	implementation(Libs.Google.Dagger.core)
 	implementation(platform(Libs.Google.Firebase.bom))
 	implementation(Libs.Google.Firebase.crashlytics)
-	debugImplementation(Libs.Facebook.Flipper.debug)
-	releaseImplementation(Libs.Facebook.Flipper.release)
-	implementation(Libs.Facebook.soloader)
 
 	androidTestImplementation(Libs.Google.gson)
 	androidTestImplementation(Libs.SquareUp.Retrofit2.retrofit)
