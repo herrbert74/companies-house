@@ -1,124 +1,100 @@
 package com.babestudios.companyinfouk.officers.ui.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import com.airbnb.mvrx.existingViewModel
-import com.airbnb.mvrx.withState
-import com.babestudios.base.ext.biLet
-import com.babestudios.base.mvrx.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
+import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerDetailsBinding
 import com.babestudios.companyinfouk.officers.ui.OfficersActivity
-import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.disposables.CompositeDisposable
+import com.babestudios.companyinfouk.officers.ui.OfficersViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
 
-class OfficerDetailsFragment : BaseFragment() {
+@AndroidEntryPoint
+class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 
-	private val viewModel by existingViewModel(OfficersViewModel::class)
+	@Inject
+	lateinit var officersViewModelFactory: OfficersViewModelFactory
 
-	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+	private val args: OfficerDetailsFragmentArgs by navArgs()
 
-	private var _binding: FragmentOfficerDetailsBinding? = null
-	private val binding get() = _binding!!
+	private val binding by viewBinding<FragmentOfficerDetailsBinding>()
 
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
-			viewModel.officersNavigator.popBackStack()
+			(activity as OfficersActivity).officersNavigator.popBackStack()
 		}
 	})
 
-//region life cycle
-
-	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
-	): View {
-		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-		_binding = FragmentOfficerDetailsBinding.inflate(inflater, container, false)
-		return binding.root
-	}
+	//region life cycle
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		viewModel.logScreenView(this::class.simpleName.orEmpty())
+		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+//		viewModel.logScreenView(this::class.simpleName.orEmpty())
 		val activity = (activity as AppCompatActivity)
 		val toolbar = binding.pabOfficerDetails.getToolbar()
 		activity.setSupportActionBar(toolbar)
 		activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		binding.pabOfficerDetails.setNavigationOnClickListener { viewModel.officersNavigator.popBackStack() }
+		binding.pabOfficerDetails.setNavigationOnClickListener {
+			(activity as OfficersActivity).officersNavigator.popBackStack()
+		}
 		activity.supportActionBar?.setTitle(R.string.officer_details)
 		showOfficerDetails()
-	}
-
-	override fun onResume() {
-		super.onResume()
-		observeActions()
+		lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+				binding.btnOfficerDetailsAppointments.clicks().onEach {
+					(activity as OfficersActivity).officersNavigator.officersDetailsToAppointments(args.selectedOfficer)
+				}.launchIn(lifecycleScope)
+				binding.addressViewOfficerDetails.getMapButton().clicks().onEach {
+					(activity as OfficersActivity).officersNavigator.officersDetailsToMap(
+						args.selectedOfficer.name,
+						args.selectedOfficer.address,
+					)
+				}.launchIn(lifecycleScope)
+			}
+		}
 	}
 
 	override fun onDestroyView() {
 		super.onDestroyView()
 		callback.remove()
-		_binding = null
-	}
-
-	override fun orientationChanged() {
-		val activity = requireActivity() as OfficersActivity
-		viewModel.setNavigator(activity.injectOfficersNavigator())
-	}
-
-//endregion
-
-//region events
-
-	@Suppress("CheckResult")
-	private fun observeActions() {
-		eventDisposables.clear()
-		val extras = FragmentNavigatorExtras(
-				binding.btnOfficerDetailsAppointments to "pabOfficerAppointments")
-		RxView.clicks(binding.btnOfficerDetailsAppointments)
-				.subscribe { viewModel.officerAppointmentsClicked(extras) }
-				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.addressViewOfficerDetails.getMapButton())
-				.subscribe { viewModel.showOnMapClicked() }
-				.also { disposable -> eventDisposables.add(disposable) }
 	}
 
 	//endregion
 
-	//region render
-
-	@Suppress("EmptyFunctionBlock")
-	override fun invalidate() {
-	}
-
 	private fun showOfficerDetails() {
-		withState(viewModel) { state ->
-			val officerItem = state.selectedOfficer
-			binding.twoLineOfficerDetailsName.setTextSecond(officerItem?.name)
-			binding.twoLineOfficerDetailsAppointedOn.setTextSecond(officerItem?.appointedOn)
-			binding.twoLineOfficerDetailsNationality.setTextSecond(officerItem?.nationality)
-			binding.twoLineOfficerDetailsOccupation.setTextSecond(officerItem?.occupation)
-			(officerItem?.dateOfBirth?.month to officerItem?.dateOfBirth?.year).biLet { month, year ->
-				binding.twoLineOfficerDetailsDateOfBirth.setTextSecond("$month / $year")
-			} ?: run {
-				binding.twoLineOfficerDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
-			}
-			binding.twoLineOfficerDetailsCountryOfResidence.setTextSecond(officerItem?.countryOfResidence)
-			binding.addressViewOfficerDetails.setAddressLine1(officerItem?.address?.addressLine1)
-			binding.addressViewOfficerDetails.setAddressLine2(officerItem?.address?.addressLine2)
-			binding.addressViewOfficerDetails.setLocality(officerItem?.address?.locality)
-			binding.addressViewOfficerDetails.setPostalCode(officerItem?.address?.postalCode)
-			binding.addressViewOfficerDetails.setRegion(officerItem?.address?.region)
-			binding.addressViewOfficerDetails.setCountry(officerItem?.address?.country)
-		}
-	}
+		val officer = args.selectedOfficer
+		binding.twoLineOfficerDetailsName.setTextSecond(officer.name)
+		binding.twoLineOfficerDetailsAppointedOn.setTextSecond(officer.appointedOn)
+		binding.twoLineOfficerDetailsNationality.setTextSecond(officer.nationality)
+		binding.twoLineOfficerDetailsOccupation.setTextSecond(officer.occupation)
 
-//endregion
+		val (month, year) = officer.dateOfBirth.month to officer.dateOfBirth.year
+		if (month == null || year == null) {
+			binding.twoLineOfficerDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
+		} else {
+			binding.twoLineOfficerDetailsDateOfBirth.setTextSecond("$month / $year")
+		}
+
+		binding.twoLineOfficerDetailsCountryOfResidence.setTextSecond(officer.countryOfResidence)
+		binding.addressViewOfficerDetails.setAddressLine1(officer.address.addressLine1)
+		binding.addressViewOfficerDetails.setAddressLine2(officer.address.addressLine2)
+		binding.addressViewOfficerDetails.setLocality(officer.address.locality)
+		binding.addressViewOfficerDetails.setPostalCode(officer.address.postalCode)
+		binding.addressViewOfficerDetails.setRegion(officer.address.region)
+		binding.addressViewOfficerDetails.setCountry(officer.address.country)
+	}
 
 }

@@ -7,7 +7,7 @@ import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLin
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
-import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -22,7 +22,7 @@ class FilingHistoryDetailsTest {
 
 	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
-	private val filingsNavigator = mockk<FilingsNavigator>()
+	private val filingsNavigator = mockk<FilingsBaseNavigatable>()
 
 	@Before
 	fun setUp() {

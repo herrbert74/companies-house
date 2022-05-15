@@ -7,6 +7,7 @@ plugins {
 	id("com.google.gms.google-services")
 	id("org.jetbrains.kotlin.plugin.allopen")
 	id("com.google.devtools.ksp") version "1.6.21-1.0.5"
+	id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -56,37 +57,55 @@ android {
 			}
 		}
 	}
+
+	//Added due to issue with AGP 7.1.1 and Hilt. See https://issuetracker.google.com/issues/219572935
+	hilt {
+		enableAggregatingTask = false
+	}
 }
 
 dependencies {
+	implementation(project(":domain"))
+	implementation(project(":data"))
 	implementation(project(":feature-charges"))
 	implementation(project(":feature-companies"))
 	implementation(project(":feature-filings"))
 	implementation(project(":feature-insolvencies"))
 	implementation(project(":feature-officers"))
 	implementation(project(":feature-persons"))
-	androidTestImplementation(project(":data"))
+	implementation(project(":navigation"))
 
+	implementation(Libs.baBeStudiosBase)
 	implementation(Libs.AndroidX.appcompat)
 	implementation(Libs.AndroidX.Navigation.uiKtx)
 	implementation(Libs.Google.Dagger.core)
+	implementation(Libs.Google.Dagger.Hilt.android)
+	implementation(Libs.Google.gson)
 	implementation(platform(Libs.Google.Firebase.bom))
 	implementation(Libs.Google.Firebase.crashlytics)
+	implementation(Libs.SquareUp.Retrofit2.retrofit)
+
+	kapt(Libs.AndroidX.Hilt.compiler)
+	kapt(Libs.Google.Dagger.compiler)
+	kapt(Libs.Google.Dagger.Hilt.compiler)
 
 	androidTestImplementation(Libs.Google.gson)
 	androidTestImplementation(Libs.SquareUp.Retrofit2.retrofit)
 	androidTestImplementation(Libs.SquareUp.Retrofit2.rxJava2Adapter)
 	androidTestImplementation(Libs.Google.Firebase.analytics)
 	androidTestImplementation(Libs.SquareUp.OkHttp3.loggingInterceptor)
-	kapt(Libs.Google.Dagger.compiler)
-	kaptAndroidTest(Libs.Google.Dagger.compiler)
-
 	androidTestImplementation(Libs.Test.MockK.android)
 	androidTestImplementation(Libs.Test.conditionWatcher)
+	androidTestImplementation(Libs.Google.Dagger.Hilt.androidTesting)
 	androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
 	//RecyclerView, ViewPager, NavigationViewActions: unused for now
 	//androidTestImplementation (Libs.AndroidX.Test.Espresso.contrib)
 	androidTestImplementation(Libs.AndroidX.Test.Ext.jUnit)
 	androidTestImplementation(Libs.AndroidX.Test.rules)
 	androidTestImplementation(Libs.AndroidX.Test.runner)
+
+	kaptAndroidTest(Libs.Google.Dagger.compiler)
+	kaptAndroidTest(Libs.Google.Dagger.Hilt.compiler)
+	kaptAndroidTest(Libs.Google.Dagger.Hilt.androidTestingCompiler)
+
 }

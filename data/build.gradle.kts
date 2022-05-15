@@ -17,7 +17,7 @@ android {
 			buildConfigField("String", "COMPANIES_HOUSE_API_KEY", companiesHouseApiKey)
 
 			buildConfigField("String", "COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT", "\"search/companies\"")
-			buildConfigField("String", "COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE", "\"100\"")
+			buildConfigField("String", "COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE", "\"50\"")
 
 			buildConfigField("String", "COMPANIES_HOUSE_GET_COMPANY_ENDPOINT", "\"company/{companyNumber}\"")
 
@@ -66,7 +66,7 @@ dependencies {
 	implementation(Libs.AndroidX.appcompat)
 	implementation(Libs.AndroidX.coreKtx)
 	implementation(Libs.Google.Dagger.core)
-	implementation(Libs.Javax.inject)
+	implementation(Libs.Google.Dagger.Hilt.android)
 	implementation(Libs.Javax.annotations)
 	implementation(Libs.RxJava2.rxJava)
 	implementation(Libs.RxJava2.rxAndroid)
@@ -83,6 +83,8 @@ dependencies {
 	testImplementation(Libs.Test.Kotest.assertions)
 
 	kapt(Libs.Google.Dagger.compiler)
+	kapt(Libs.Google.Dagger.Hilt.compiler)
+
 	kaptTest(Libs.Google.Dagger.compiler)
 
 }

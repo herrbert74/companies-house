@@ -8,7 +8,6 @@ import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.common.loadJson
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.di.AndroidTestCoreComponent
 import com.babestudios.companyinfouk.ui.CompaniesRobot
 import io.mockk.every
 import io.reactivex.Single

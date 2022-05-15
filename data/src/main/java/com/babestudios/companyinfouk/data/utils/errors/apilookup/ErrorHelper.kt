@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.data.utils.errors.apilookup
 
 import android.content.Context
-import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.companyinfouk.data.R
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.model.ErrorMappings
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 

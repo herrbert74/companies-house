@@ -3,24 +3,22 @@ package com.babestudios.companyinfouk.filings.ui
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
-import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FilingsActivity : BaseActivity() {
 
-	private val comp by lazy {
-		DaggerFilingsComponent
-				.builder()
-				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-				.build()
-	}
+	@Inject
+	lateinit var companiesRepository: CompaniesRxRepository
 
-	private lateinit var filingsNavigator: FilingsNavigator
+	@Inject
+	lateinit var filingsNavigator: FilingsBaseNavigatable
 
 	private lateinit var navController: NavController
 
@@ -32,9 +30,7 @@ class FilingsActivity : BaseActivity() {
 		setContentView(R.layout.activity_filings)
 
 		navController = findNavController(R.id.navHostFragmentFilings)
-		if (::comp.isLazyInitialized) {
 			filingsNavigator.bind(navController)
-		}
 	}
 
 	override fun onBackPressed() {
@@ -51,11 +47,10 @@ class FilingsActivity : BaseActivity() {
 	}
 
 	fun injectCompaniesHouseRepository(): CompaniesRxRepository {
-		return comp.companiesRepository()
+		return companiesRepository
 	}
 
-	fun injectFilingsNavigator(): FilingsNavigator {
-		filingsNavigator = comp.navigator()
+	fun injectFilingsNavigator(): FilingsBaseNavigatable {
 		if (::navController.isInitialized) {
 			filingsNavigator.bind(navController)
 		}

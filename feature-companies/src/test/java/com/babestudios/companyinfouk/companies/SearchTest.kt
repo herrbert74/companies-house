@@ -7,7 +7,7 @@ import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
+import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -20,7 +20,7 @@ class SearchTest {
 
 	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
-	private val companiesNavigator = mockk<CompaniesNavigator>()
+	private val companiesNavigator = mockk<CompaniesBaseNavigatable>()
 
 	private val searchHistoryItem = SearchHistoryItem("TUI", "12344", 12L)
 

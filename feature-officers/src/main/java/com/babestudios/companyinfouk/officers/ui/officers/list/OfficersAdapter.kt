@@ -2,57 +2,48 @@ package com.babestudios.companyinfouk.officers.ui.officers.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
-import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.databinding.RowOfficersBinding
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 
-class OfficersAdapter(private var officersVisitables: List<OfficersVisitableBase>
-					  , private val officersTypeFactory: OfficersTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<OfficersVisitableBase>>() {
+class OfficersAdapter(
+	private var officers: List<Officer>,
+	private val lifecycleScope: LifecycleCoroutineScope
+) : RecyclerView.Adapter<OfficersViewHolder>() {
+
+	private val itemClicksChannel: Channel<Officer> = Channel(Channel.UNLIMITED)
+	val itemClicks: Flow<Officer> = itemClicksChannel.consumeAsFlow()
 
 	override fun getItemCount(): Int {
-		return officersVisitables.size
+		return officers.size
 	}
 
-	override fun getItemViewType(position: Int): Int {
-		return officersVisitables[position].type(officersTypeFactory)
-	}
-
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<OfficersVisitableBase>>()
-
-	fun getViewClickedObservable(): Observable<BaseViewHolder<OfficersVisitableBase>> {
-		return itemClickSubject
-	}
-
-	interface OfficersTypeFactory {
-		fun type(officersItem: Officer): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<OfficersVisitableBase>
-	}
-
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<OfficersVisitableBase> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfficersViewHolder {
 		val binding = RowOfficersBinding.inflate(
-				LayoutInflater.from(parent.context),
-				parent,
-				false)
-		val v = officersTypeFactory.holder(viewType, binding)
-		RxView.clicks(binding.root)
-				.takeUntil(RxView.detaches(parent))
-				.map { v }
-				.subscribe(itemClickSubject)
-		return v
+			LayoutInflater.from(parent.context),
+			parent,
+			false
+		)
+
+		return OfficersViewHolder(binding)
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<OfficersVisitableBase>, position: Int) {
-		holder.bind(officersVisitables[position])
+	override fun onBindViewHolder(holder: OfficersViewHolder, position: Int) {
+		holder.bind(officers[position])
+		holder.rawBinding.root.clicks().onEach {
+			itemClicksChannel.trySend(officers[position])
+		}.launchIn(lifecycleScope)
 	}
 
-	fun updateItems(visitables: List<OfficersVisitableBase>) {
-		officersVisitables = visitables
+	fun updateItems(officers: List<Officer>) {
+		this.officers = officers
 		notifyDataSetChanged()
 	}
 }

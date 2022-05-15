@@ -1,7 +1,5 @@
 package com.babestudios.companyinfouk
 
-import com.babestudios.companyinfouk.core.injection.CoreComponent
-import com.babestudios.companyinfouk.di.AndroidTestCoreComponent
 import com.babestudios.companyinfouk.di.AndroidTestDataModule
 import com.babestudios.companyinfouk.di.DaggerAndroidTestCoreComponent
 

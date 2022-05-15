@@ -9,10 +9,13 @@ import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @Suppress("unused")
+@InstallIn(SingletonComponent::class)
 class MapperModule {
 
 	@Provides

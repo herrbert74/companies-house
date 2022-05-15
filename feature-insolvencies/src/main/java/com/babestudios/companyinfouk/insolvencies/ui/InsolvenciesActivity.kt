@@ -3,24 +3,22 @@ package com.babestudios.companyinfouk.insolvencies.ui
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
-import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
+import com.babestudios.companyinfouk.navigation.features.InsolvenciesBaseNavigatable
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class InsolvenciesActivity : BaseActivity() {
 
-	private val comp by lazy {
-		DaggerInsolvenciesComponent
-				.builder()
-				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-				.build()
-	}
+	@Inject
+	lateinit var companiesRepository: CompaniesRxRepository
 
-	private lateinit var insolvenciesNavigator: InsolvenciesNavigator
+	@Inject
+	lateinit var insolvenciesNavigator: InsolvenciesBaseNavigatable
 
 	private lateinit var navController: NavController
 
@@ -31,9 +29,7 @@ class InsolvenciesActivity : BaseActivity() {
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
 		setContentView(R.layout.activity_insolvencies)
 		navController = findNavController(R.id.navHostFragmentInsolvencies)
-		if (::comp.isLazyInitialized) {
-			insolvenciesNavigator.bind(navController)
-		}
+		insolvenciesNavigator.bind(navController)
 	}
 
 	override fun onBackPressed() {
@@ -50,11 +46,10 @@ class InsolvenciesActivity : BaseActivity() {
 	}
 
 	fun injectCompaniesHouseRepository(): CompaniesRxRepository {
-		return comp.companiesRepository()
+		return companiesRepository
 	}
 
-	fun injectInsolvenciesNavigator(): InsolvenciesNavigator {
-		insolvenciesNavigator = comp.navigator()
+	fun injectInsolvenciesNavigator(): InsolvenciesBaseNavigatable {
 		if (::navController.isInitialized)
 			insolvenciesNavigator.bind(navController)
 		return insolvenciesNavigator

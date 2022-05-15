@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
@@ -30,6 +29,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executors
@@ -42,12 +44,16 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 @Module
 @Suppress("unused")
-class DataModule(private val context: Context) {
+@InstallIn(SingletonComponent::class)
+object DataModule {
 
 	@Provides
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
-	internal fun provideCompaniesHouseRetrofit(companiesHouseInterceptor: CompaniesHouseInterceptor): Retrofit {
+	internal fun provideCompaniesHouseRetrofit(
+		@ApplicationContext context: Context,
+		companiesHouseInterceptor: CompaniesHouseInterceptor
+	): Retrofit {
 		val logging = HttpLoggingInterceptor()
 		logging.level = HttpLoggingInterceptor.Level.BODY
 
@@ -121,7 +127,7 @@ class DataModule(private val context: Context) {
 	}
 
 	@Provides
-	internal fun provideSharedPreferences(): SharedPreferences {
+	internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
 		return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
 	}
 
@@ -135,7 +141,7 @@ class DataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	internal fun provideFirebaseAnalytics(): FirebaseAnalytics {
+	internal fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
 		return FirebaseAnalytics.getInstance(context)
 	}
 

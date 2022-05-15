@@ -12,8 +12,10 @@ buildscript {
 		classpath("com.android.tools.build:gradle:7.1.3")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
 		classpath("com.google.gms:google-services:4.3.10")
-		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0")
+		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0")
+		classpath("com.google.dagger:hilt-android-gradle-plugin:2.41")
 		classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
+		classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
 	}
 }
 

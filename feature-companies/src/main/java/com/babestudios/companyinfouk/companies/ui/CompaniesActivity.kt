@@ -3,28 +3,26 @@ package com.babestudios.companyinfouk.companies.ui
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
-import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.companies.R
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
+import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.INDIVIDUAL_ADDRESS
 import com.babestudios.companyinfouk.navigation.INDIVIDUAL_NAME
-import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
+import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CompaniesActivity : BaseActivity() {
 
-	private val comp by lazy {
-		DaggerCompaniesComponent
-				.builder()
-				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-				.build()
-	}
+	@Inject
+	lateinit var companiesNavigator: CompaniesBaseNavigatable
 
-	private lateinit var companiesNavigator: CompaniesNavigator
+	@Inject
+	lateinit var companiesRepository: CompaniesRxRepository
 
 	private lateinit var navController: NavController
 
@@ -41,9 +39,7 @@ class CompaniesActivity : BaseActivity() {
 		individualAddress = intent.extras?.getParcelable(INDIVIDUAL_ADDRESS)
 		setContentView(R.layout.activity_companies)
 		navController = findNavController(R.id.navHostFragmentCompanies)
-		if (::comp.isLazyInitialized) {
-			companiesNavigator.bind(navController)
-		}
+		companiesNavigator.bind(navController)
 	}
 
 	override fun onBackPressed() {
@@ -56,16 +52,15 @@ class CompaniesActivity : BaseActivity() {
 	}
 
 	fun injectCompaniesHouseRepository(): CompaniesRxRepository {
-		return comp.companiesRepository()
+		return companiesRepository
 	}
 
-	fun injectCompaniesNavigator(): CompaniesNavigator {
-		companiesNavigator = comp.navigator()
+	fun injectCompaniesNavigator(): CompaniesBaseNavigatable {
 		if (::navController.isInitialized) {
 			companiesNavigator.bind(navController)
 			if (companyNumber.isNotEmpty())
 				companiesNavigator.mainToCompanyPopMain()
-			else if(individualAddress != null)
+			else if (individualAddress != null)
 				companiesNavigator.mainToMapPopMain()
 		}
 		return companiesNavigator

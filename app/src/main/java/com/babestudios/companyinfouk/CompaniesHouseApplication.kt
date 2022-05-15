@@ -3,52 +3,31 @@ package com.babestudios.companyinfouk
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import com.babestudios.base.mvrx.LifeCycleApp
-import com.babestudios.companyinfouk.core.injection.CoreComponent
-import com.babestudios.companyinfouk.core.injection.CoreComponentProvider
-import com.babestudios.companyinfouk.core.injection.DaggerCoreComponent
-import com.babestudios.companyinfouk.data.di.DaggerDataComponent
-import com.babestudios.companyinfouk.data.di.DataModule
-import com.babestudios.companyinfouk.data.di.MapperModule
-import com.babestudios.companyinfouk.domain.util.CoroutineContextModule
-import com.facebook.flipper.android.AndroidFlipperClient
-import com.facebook.flipper.android.utils.FlipperUtils
-import com.facebook.flipper.plugins.inspector.DescriptorMapping
-import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.soloader.SoLoader
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
+import timber.log.Timber
+import timber.log.Timber.Forest.plant
 
-open class CompaniesHouseApplication : Application(), CoreComponentProvider, LifeCycleApp {
+
+@HiltAndroidApp
+open class CompaniesHouseApplication : Application(), LifeCycleApp {
+
+	@Inject
+	lateinit var companiesRepository: CompaniesRepository
 
 	private var currentActivity: AppCompatActivity? = null
 
-	private lateinit var coreComponent: CoreComponent
-
 	override fun onCreate() {
 		super.onCreate()
-		SoLoader.init(this, false)
-
-		if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
-			val client = AndroidFlipperClient.getInstance(this)
-			client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
-			client.start()
-		}
 		logAppOpen()
+		if (BuildConfig.DEBUG) {
+			plant(Timber.DebugTree())
+		}
 	}
 
 	private fun logAppOpen() {
-		provideCoreComponent().companiesRepository().logAppOpen()
-	}
-
-	override fun provideCoreComponent(): CoreComponent {
-
-		if (!this::coreComponent.isInitialized) {
-			val dataComponent = DaggerDataComponent
-					.factory()
-					.create(DataModule(this), MapperModule(), CoroutineContextModule(), this)
-			coreComponent = DaggerCoreComponent
-					.factory()
-					.create(dataComponent, CompaniesHouseNavigation(), this)
-		}
-		return coreComponent
+		companiesRepository.logAppOpen()
 	}
 
 	override fun getCurrentActivity(): AppCompatActivity? {

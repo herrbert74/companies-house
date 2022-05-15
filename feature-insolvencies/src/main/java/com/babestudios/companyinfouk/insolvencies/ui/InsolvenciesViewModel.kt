@@ -14,12 +14,12 @@ import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDeta
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsVisitableBase
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitable
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
-import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
+import com.babestudios.companyinfouk.navigation.features.InsolvenciesBaseNavigatable
 
 class InsolvenciesViewModel(
 	insolvenciesState: InsolvenciesState,
 	private val companiesRepository: CompaniesRxRepository,
-	var insolvenciesNavigator: InsolvenciesNavigator,
+	var insolvenciesNavigator: InsolvenciesBaseNavigatable,
 	private val datesTitleString: String,
 	private val practitionersTitleString: String
 ) : BaseViewModel<InsolvenciesState>(insolvenciesState, companiesRepository) {
@@ -57,7 +57,7 @@ class InsolvenciesViewModel(
 		}
 	}
 
-	fun setNavigator(navigator: InsolvenciesNavigator) {
+	fun setNavigator(navigator: InsolvenciesBaseNavigatable) {
 		insolvenciesNavigator = navigator
 	}
 

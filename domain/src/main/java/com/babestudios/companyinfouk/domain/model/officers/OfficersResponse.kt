@@ -23,14 +23,15 @@ data class Officer(
 	val nationality: String = "Unknown",
 	val resignedOn: String? = null,
 	val fromToString: String,
+	val appointmentsId: String, //Not present in the Dto, converted from a url
 ) : Parcelable
 
 @Parcelize
 data class OfficerLinks(
-		val officer: OfficerRelatedLinks? = null
+	val officer: OfficerRelatedLinks? = null
 ) : Parcelable
 
 @Parcelize
 data class OfficerRelatedLinks(
-		val appointments: String? = null
+	val appointments: String? = null
 ) : Parcelable

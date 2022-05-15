@@ -14,6 +14,7 @@ import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.domain.model.officers.OfficerLinks
 import com.babestudios.companyinfouk.domain.model.officers.OfficerRelatedLinks
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
+import java.util.regex.Pattern
 
 fun mapOfficersResponseDto(
 	input: OfficersResponseDto,
@@ -64,8 +65,19 @@ private fun mapOfficerDto(
 		input?.nationality ?: "Unknown",
 		resignedOn,
 		if (resignedOn.isNullOrEmpty()) stringResourceHelper.getAppointedFromString(appointedOn) else
-			stringResourceHelper.getAppointedFromToString(appointedOn, resignedOn)
+			stringResourceHelper.getAppointedFromToString(appointedOn, resignedOn),
+		extractOfficerAppointmentsId(input?.links?.officer?.appointments ?: "")
 	)
+}
+
+private fun extractOfficerAppointmentsId(appointmentsUrl: String) : String {
+	val pattern = Pattern.compile("officers/(.+)/appointments")
+	val matcher = pattern.matcher(appointmentsUrl)
+	var officerId = ""
+	if (matcher.find()) {
+		officerId = matcher.group(1) ?: ""
+	}
+	return officerId
 }
 
 private fun mapOfficerLinksDto(input: OfficerLinksDto?) =

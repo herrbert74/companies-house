@@ -1,17 +1,15 @@
 package com.babestudios.companyinfouk.data.di
 
 import android.content.Context
-import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
-import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.domain.util.CoroutineContextModule
 import dagger.BindsInstance
 import dagger.Component
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 @Singleton
@@ -21,10 +19,10 @@ interface DataComponent {
 	@Component.Factory
 	interface Factory {
 		fun create(
-				dataModule: DataModule,
-				mapperModule: MapperModule,
-				coroutineContextModule: CoroutineContextModule,
-				@BindsInstance @ApplicationContext applicationContext: Context
+			dataModule: DataModule,
+			mapperModule: MapperModule,
+			coroutineContextModule: CoroutineContextModule,
+			@BindsInstance @ApplicationContext applicationContext: Context
 		): DataComponent
 	}
 
@@ -36,5 +34,5 @@ interface DataComponent {
 
 	fun errorResolver(): ErrorResolver
 
-	fun companiesHouseMapping() : CompaniesHouseMapping
+	fun companiesHouseMapping(): CompaniesHouseMapping
 }

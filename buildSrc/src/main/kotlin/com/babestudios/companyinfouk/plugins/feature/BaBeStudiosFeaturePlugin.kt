@@ -1,11 +1,10 @@
 package com.babestudios.companyinfouk.plugins.feature
 
 import com.android.build.gradle.BaseExtension
-import org.gradle.kotlin.dsl.dependencies
+import com.babestudios.companyinfouk.buildsrc.Libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-
-import com.babestudios.companyinfouk.buildsrc.Libs
+import org.gradle.kotlin.dsl.dependencies
 
 /**
  * This plugin should be used for all features.
@@ -14,25 +13,45 @@ import com.babestudios.companyinfouk.buildsrc.Libs
 open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 	override fun apply(project: Project) {
 
+		project.plugins.apply("kotlin-kapt")
+		project.plugins.apply("dagger.hilt.android.plugin")
+		project.plugins.apply("androidx.navigation.safeargs.kotlin")
+
 		project.dependencies {
-			add("api", project.project(":core-injection"))
-			add("api", project.project(":domain"))
+			add("implementation", project.project(":domain"))
+			add("implementation", project.project(":navigation"))
+			add("implementation", project.project(":data"))
+
+			add("api", Libs.Google.Dagger.core)
+			add("api", Libs.Google.Dagger.Hilt.android)
+			add("api", Libs.MviKotlin.core)
+			add("api", Libs.MviKotlin.coroutines)
 
 			add("implementation", Libs.MvRx.mvrx)
 			add("implementation", Libs.MvRx.testing)
 			add("implementation", Libs.AndroidX.constraintLayout)
+			add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
 			add("implementation", Libs.AndroidX.Navigation.uiKtx)
 			add("implementation", Libs.AndroidX.Navigation.fragment)
-			add("implementation", Libs.Google.Dagger.core)
 			add("implementation", Libs.RxJava2.rxAndroid)
 			add("implementation", Libs.RxJava2.rxJava)
 			add("implementation", Libs.JakeWharton.RxBinding.core)
 			add("implementation", Libs.Views.multiStateView)
-
-			add("kapt", Libs.Google.Dagger.compiler)
+			add("implementation", Libs.MviKotlin.main)
+			add("implementation", Libs.MviKotlin.rx)
+			add("implementation", Libs.MviKotlin.utilsInternal)
+			add("implementation", Libs.MviKotlin.logging)
+			add("implementation", Libs.MviKotlin.rxInternal)
 
 			add("testImplementation", Libs.AndroidX.Test.Ext.jUnit)
 			add("testImplementation", Libs.Test.MockK.core)
+
+			add("kapt", Libs.Google.Dagger.compiler)
+			add("kapt", Libs.Google.Dagger.Hilt.compiler)
+
+			add("kaptTest", Libs.Google.Dagger.compiler)
+			add("kaptTest", Libs.Google.Dagger.Hilt.compiler)
+
 		}
 
 		val androidExtension = project.extensions.getByName("android")

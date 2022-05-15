@@ -18,5 +18,5 @@ dependencies {
 	implementation(Libs.SquareUp.OkHttp3.okHttp)
 
 	kapt(Libs.Google.Dagger.compiler)
-	//kapt(Libs.Google.Dagger.Hilt.compiler)
+	kapt(Libs.Google.Dagger.Hilt.compiler)
 }

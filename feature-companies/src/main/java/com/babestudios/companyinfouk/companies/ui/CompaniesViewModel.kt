@@ -19,7 +19,7 @@ import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.navigation.features.CompaniesNavigator
+import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -27,14 +27,14 @@ import io.reactivex.schedulers.Schedulers
 class CompaniesViewModel(
 	companiesState: CompaniesState,
 	private val companiesRepository: CompaniesRxRepository,
-	var companiesNavigator: CompaniesNavigator,
+	var companiesNavigator: CompaniesBaseNavigatable,
 	private val recentSearchesString: String
 ) : BaseViewModel<CompaniesState>(companiesState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<CompaniesViewModel, CompaniesState> {
 
 		@JvmStatic
-		override fun create(viewModelContext: ViewModelContext, state: CompaniesState): CompaniesViewModel? {
+		override fun create(viewModelContext: ViewModelContext, state: CompaniesState): CompaniesViewModel {
 			val companiesRepository = viewModelContext.activity<CompaniesActivity>().injectCompaniesHouseRepository()
 			val companiesNavigator = viewModelContext.activity<CompaniesActivity>().injectCompaniesNavigator()
 			val recentSearchesString = viewModelContext.activity<CompaniesActivity>().injectRecentSearchesString()
@@ -61,7 +61,7 @@ class CompaniesViewModel(
 		}
 	}
 
-	fun setNavigator(navigator: CompaniesNavigator) {
+	fun setNavigator(navigator: CompaniesBaseNavigatable) {
 		companiesNavigator = navigator
 	}
 

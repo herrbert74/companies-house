@@ -32,13 +32,20 @@
 			app:exitAnim="@anim/left_slide_out"
 			app:popEnterAnim="@anim/left_slide_in"
 			app:popExitAnim="@anim/right_slide_out" />
+		<argument
+			android:name="selectedOfficer"
+			app:argType="com.babestudios.companyinfouk.domain.model.officers.Officer" />
 	</fragment>
 
 	<fragment
 		android:id="@+id/officerAppointmentsFragment"
-		android:name="com.babestudios.companyinfouk.officers.ui.appointments.OfficerAppointmentsFragment"
+		android:name="com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsFragment"
 		android:label="OfficerAppointmentsFragment"
-		tools:layout="@layout/activity_officers" />
+		tools:layout="@layout/activity_officers" >
+		<argument
+			android:name="selectedOfficer"
+			app:argType="com.babestudios.companyinfouk.domain.model.officers.Officer" />
+	</fragment>
 
 	<action
 		android:id="@+id/action_global_companyActivity"

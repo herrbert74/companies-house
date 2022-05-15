@@ -9,7 +9,7 @@ import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.navigation.features.PersonsNavigator
+import com.babestudios.companyinfouk.navigation.features.PersonsBaseNavigatable
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
 import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 
@@ -17,7 +17,7 @@ import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
 class PersonsViewModel(
 	personsState: PersonsState,
 	private val companiesRepository: CompaniesRxRepository,
-	var personsNavigator: PersonsNavigator
+	var personsNavigator: PersonsBaseNavigatable
 ) : BaseViewModel<PersonsState>(personsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<PersonsViewModel, PersonsState> {
@@ -42,7 +42,7 @@ class PersonsViewModel(
 		}
 	}
 
-	fun setNavigator(navigator: PersonsNavigator) {
+	fun setNavigator(navigator: PersonsBaseNavigatable) {
 		personsNavigator = navigator
 	}
 

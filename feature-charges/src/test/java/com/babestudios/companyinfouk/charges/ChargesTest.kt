@@ -6,7 +6,7 @@ import com.babestudios.companyinfouk.charges.ui.ChargesState
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.ChargesBaseNavigatable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -19,7 +19,7 @@ class ChargesTest {
 
 	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
-	private val chargesNavigator = mockk<ChargesNavigator>()
+	private val chargesNavigator = mockk<ChargesBaseNavigatable>()
 
 	@Before
 	fun setUp() {

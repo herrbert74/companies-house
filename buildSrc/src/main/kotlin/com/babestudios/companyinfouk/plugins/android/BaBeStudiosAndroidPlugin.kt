@@ -55,6 +55,7 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		}
 
 		project.dependencies {
+
 			if (project.name == "app") {
 				add("implementation", Libs.Javax.inject)
 			} else {
@@ -65,6 +66,8 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 			add("implementation", Libs.Google.Firebase.analytics)
 			add("detekt", Libs.Detekt.cli)
 			add("detektPlugins", project.project(":core-detekt"))
+
 		}
+
 	}
 }

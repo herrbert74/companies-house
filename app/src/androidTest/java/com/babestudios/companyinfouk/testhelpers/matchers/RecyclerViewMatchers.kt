@@ -7,6 +7,7 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 
 object RecyclerViewMatchers {
+
 	fun hasItem(matcher: Matcher<View>): Matcher<View> {
 		return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
 
@@ -29,4 +30,5 @@ object RecyclerViewMatchers {
 			}
 		}
 	}
+
 }

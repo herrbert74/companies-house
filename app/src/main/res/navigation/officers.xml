@@ -36,7 +36,7 @@
 
 	<fragment
 		android:id="@+id/officerAppointmentsFragment"
-		android:name="com.babestudios.companyinfouk.officers.ui.appointments.OfficerAppointmentsFragment"
+		android:name="com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsFragment"
 		android:label="OfficerAppointmentsFragment"
 		tools:layout="@layout/activity_officers" />
 

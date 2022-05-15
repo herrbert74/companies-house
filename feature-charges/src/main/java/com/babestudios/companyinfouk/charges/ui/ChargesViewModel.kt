@@ -9,12 +9,12 @@ import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBas
 import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.ChargesBaseNavigatable
 
 class ChargesViewModel(
 	chargesState: ChargesState,
 	private val companiesRepository: CompaniesRxRepository,
-	var chargesNavigator: ChargesNavigator
+	var chargesNavigator: ChargesBaseNavigatable
 ) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<ChargesViewModel, ChargesState> {
@@ -39,7 +39,7 @@ class ChargesViewModel(
 		}
 	}
 
-	fun setNavigator(navigator: ChargesNavigator) {
+	fun setNavigator(navigator: ChargesBaseNavigatable) {
 		chargesNavigator = navigator
 	}
 

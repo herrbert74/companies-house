@@ -1,12 +1,12 @@
 package com.babestudios.companyinfouk.data.utils
 
 import android.content.Context
-import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
 import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDescriptions
 import com.babestudios.companyinfouk.data.local.apilookup.model.MortgageDescriptions
 import com.babestudios.companyinfouk.data.local.apilookup.model.PscDescriptions
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 interface RawResourceHelperContract {

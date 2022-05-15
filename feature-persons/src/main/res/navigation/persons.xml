@@ -34,8 +34,8 @@
 		app:popEnterAnim="@anim/left_slide_in"
 		app:popExitAnim="@anim/right_slide_out" />
 
-	<activity
+	<!--<activity
 		android:id="@+id/companyActivity"
-		android:name="com.babestudios.companyinfouk.companies.ui.CompaniesActivity" />
+		android:name="com.babestudios.companyinfouk.companies.ui.CompaniesActivity" />-->
 
 </navigation>

@@ -3,24 +3,22 @@ package com.babestudios.companyinfouk.charges.ui
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.babestudios.base.ext.isLazyInitialized
 import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.charges.R
-import com.babestudios.companyinfouk.core.injection.CoreInjectHelper
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
-import com.babestudios.companyinfouk.navigation.features.ChargesNavigator
+import com.babestudios.companyinfouk.navigation.features.ChargesBaseNavigatable
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ChargesActivity : BaseActivity() {
 
-	private val comp by lazy {
-		DaggerChargesComponent
-				.builder()
-				.coreComponent(CoreInjectHelper.provideCoreComponent(applicationContext))
-				.build()
-	}
+	@Inject
+	lateinit var companiesRepository: CompaniesRxRepository
 
-	private lateinit var chargesNavigator: ChargesNavigator
+	@Inject
+	lateinit var chargesNavigator: ChargesBaseNavigatable
 
 	private lateinit var navController: NavController
 
@@ -31,9 +29,7 @@ class ChargesActivity : BaseActivity() {
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
 		setContentView(R.layout.activity_charges)
 		navController = findNavController(R.id.navHostFragmentCharges)
-		if (::comp.isLazyInitialized) {
-			chargesNavigator.bind(navController)
-		}
+		chargesNavigator.bind(navController)
 	}
 
 	override fun onBackPressed() {
@@ -50,11 +46,10 @@ class ChargesActivity : BaseActivity() {
 	}
 
 	fun injectCompaniesHouseRepository(): CompaniesRxRepository {
-		return comp.companiesRepository()
+		return companiesRepository
 	}
 
-	fun injectChargesNavigator(): ChargesNavigator {
-		chargesNavigator = comp.navigator()
+	fun injectChargesNavigator(): ChargesBaseNavigatable {
 		if (::navController.isInitialized)
 			chargesNavigator.bind(navController)
 		return chargesNavigator

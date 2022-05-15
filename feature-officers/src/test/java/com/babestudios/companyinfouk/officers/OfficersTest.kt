@@ -5,8 +5,7 @@ import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
-import com.babestudios.companyinfouk.navigation.features.OfficersNavigator
-import com.babestudios.companyinfouk.officers.ui.OfficersState
+import com.babestudios.companyinfouk.navigation.features.OfficersBaseNavigatable
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import io.mockk.every
 import io.mockk.mockk
@@ -20,7 +19,7 @@ class OfficersTest {
 
 	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
-	private val officersNavigator = mockk<OfficersNavigator>()
+	private val officersNavigator = mockk<OfficersBaseNavigatable>()
 
 	@Before
 	fun setUp() {

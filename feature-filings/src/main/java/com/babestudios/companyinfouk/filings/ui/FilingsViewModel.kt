@@ -15,12 +15,12 @@ import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryVisitable
-import com.babestudios.companyinfouk.navigation.features.FilingsNavigator
+import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
 
 class FilingsViewModel(
 	filingsState: FilingsState,
 	private val companiesRepository: CompaniesRxRepository,
-	var filingsNavigator: FilingsNavigator
+	var filingsNavigator: FilingsBaseNavigatable
 ) : BaseViewModel<FilingsState>(filingsState, companiesRepository) {
 
 	companion object : MvRxViewModelFactory<FilingsViewModel, FilingsState> {
@@ -45,7 +45,7 @@ class FilingsViewModel(
 		}
 	}
 
-	fun setNavigator(navigator: FilingsNavigator) {
+	fun setNavigator(navigator: FilingsBaseNavigatable) {
 		filingsNavigator = navigator
 	}
 

@@ -7,7 +7,7 @@ import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesState
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
-import com.babestudios.companyinfouk.navigation.features.InsolvenciesNavigator
+import com.babestudios.companyinfouk.navigation.features.InsolvenciesBaseNavigatable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -20,7 +20,7 @@ class InsolvenciesTest {
 
 	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
 
-	private val insolvenciesNavigator = mockk<InsolvenciesNavigator>()
+	private val insolvenciesNavigator = mockk<InsolvenciesBaseNavigatable>()
 
 	@Before
 	fun setUp() {

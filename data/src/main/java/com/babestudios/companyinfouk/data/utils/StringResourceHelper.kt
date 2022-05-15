@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.data.utils
 
 import android.content.Context
-import com.babestudios.base.di.qualifier.ApplicationContext
 import com.babestudios.companyinfouk.data.R
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 
