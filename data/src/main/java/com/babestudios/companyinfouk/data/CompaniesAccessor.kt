@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import com.babestudios.base.ext.getSerializedName
+import com.babestudios.base.network.OfflineException
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
@@ -12,6 +13,8 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.charges.Charges
+import com.babestudios.companyinfouk.domain.model.common.ApiResult
+import com.babestudios.companyinfouk.domain.model.common.apiRunCatching
 import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
@@ -23,6 +26,7 @@ import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.domain.util.IoDispatcher
+import com.github.michaelbull.result.mapError
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.FileNotFoundException
@@ -107,18 +111,22 @@ open class CompaniesAccessor @Inject constructor(
 		}
 	}
 
-	override suspend fun getOfficers(companyNumber: String, startItem: String): OfficersResponse {
-		return withContext(ioContext) {
-			val officersResponseDto = companiesHouseService.getOfficers(
-				companyNumber,
-				null,
-				null,
-				null,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-			)
-			companiesHouseMapping.mapOfficers(officersResponseDto)
-		}
+	override suspend fun getOfficers(companyNumber: String, startItem: String): ApiResult<OfficersResponse> {
+
+		return apiRunCatching {
+			withContext(ioContext) {
+				val officersResponseDto = companiesHouseService.getOfficers(
+					companyNumber,
+					null,
+					null,
+					null,
+					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					startItem
+				)
+				companiesHouseMapping.mapOfficers(officersResponseDto)
+			}
+		}.mapError { OfflineException(OfficersResponse()) }
+
 	}
 
 	override suspend fun getOfficerAppointments(officerId: String, startItem: String): AppointmentsResponse {
@@ -132,16 +140,18 @@ open class CompaniesAccessor @Inject constructor(
 		}
 	}
 
-	override suspend fun getPersons(companyNumber: String, startItem: String): PersonsResponse {
-		return withContext(ioContext) {
-			val personsResponseDto = companiesHouseService.getPersons(
-				companyNumber,
-				null,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-			)
-			companiesHouseMapping.mapPersonsResponse(personsResponseDto)
-		}
+	override suspend fun getPersons(companyNumber: String, startItem: String): ApiResult<PersonsResponse> {
+		return apiRunCatching {
+			withContext(ioContext) {
+				val personsResponseDto = companiesHouseService.getPersons(
+					companyNumber,
+					null,
+					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					startItem
+				)
+				companiesHouseMapping.mapPersonsResponse(personsResponseDto)
+			}
+		}.mapError { OfflineException(PersonsResponse()) }
 	}
 
 	override suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person {

@@ -6,10 +6,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PersonsResponse(
-	var startIndex: Long,
-	var activeCount: Long,
-	var items: List<Person>,
-	var ceasedCount: Long,
-	var itemsPerPage: Long,
-	var totalResults: Long,
+	var startIndex: Long? = null,
+	var activeCount: Long? = null,
+	var items: List<Person> = emptyList(),
+	var ceasedCount: Long? = null,
+	var itemsPerPage: Long? = null,
+	var totalResults: Long = 0,
 ) : Parcelable

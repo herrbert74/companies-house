@@ -1,79 +1,81 @@
 package com.babestudios.companyinfouk.persons.ui.details
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.airbnb.mvrx.existingViewModel
-import com.airbnb.mvrx.withState
-import com.babestudios.base.ext.biLet
-import com.babestudios.base.mvrx.BaseFragment
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
+import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonDetailsBinding
 import com.babestudios.companyinfouk.persons.ui.PersonsActivity
-import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.disposables.CompositeDisposable
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
 
-class PersonDetailsFragment : BaseFragment() {
+@AndroidEntryPoint
+class PersonDetailsFragment : Fragment(R.layout.fragment_person_details) {
 
-	private val viewModel by existingViewModel(PersonsViewModel::class)
+	@Inject
+	lateinit var companiesRepository: CompaniesRepository
 
-	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+	private val args: PersonDetailsFragmentArgs by navArgs()
 
-	private var _binding: FragmentPersonDetailsBinding? = null
-	private val binding get() = _binding!!
+	private val selectedPerson: Person by lazy {
+		args.selectedPerson
+	}
+
+	private val binding by viewBinding<FragmentPersonDetailsBinding>()
 
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
-			viewModel.personsNavigator.popBackStack()
+			(activity as PersonsActivity).personsNavigator.popBackStack()
 		}
 	})
 
 	//region life cycle
 
-	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
-	): View {
-		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-		_binding = FragmentPersonDetailsBinding.inflate(inflater, container, false)
-		return binding.root
-	}
-
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 		initializeUI()
 	}
 
 	private fun initializeUI() {
-		viewModel.logScreenView(this::class.simpleName.orEmpty())
+		companiesRepository.logScreenView(this::class.simpleName.orEmpty())
 		(activity as AppCompatActivity).setSupportActionBar(binding.pabPersonDetails.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		binding.pabPersonDetails.setNavigationOnClickListener { viewModel.personsNavigator.popBackStack() }
+		binding.pabPersonDetails.setNavigationOnClickListener {
+			(activity as PersonsActivity).personsNavigator.popBackStack()
+		}
 		toolBar?.setTitle(R.string.person_details)
 		showPersonDetails()
-	}
-
-	override fun onResume() {
-		super.onResume()
-		observeActions()
+		lifecycleScope.launch {
+			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+				binding.addressViewPersonDetails.getMapButton().clicks().onEach {
+					(activity as PersonsActivity).personsNavigator.personDetailsToMap(
+						selectedPerson.name	, selectedPerson.address
+					)
+				}.launchIn(lifecycleScope)
+			}
+		}
 	}
 
 	override fun onDestroyView() {
 		super.onDestroyView()
 		callback.remove()
-		_binding = null
-	}
-
-	override fun orientationChanged() {
-		val activity = requireActivity() as PersonsActivity
-		viewModel.setNavigator(activity.injectPersonsNavigator())
 	}
 
 	//endregion
@@ -82,65 +84,50 @@ class PersonDetailsFragment : BaseFragment() {
 
 	@Suppress("ComplexMethod")
 	private fun showPersonDetails() {
-		withState(viewModel) { state ->
-			state.selectedPerson?.let { person ->
-				binding.twoLinePersonDetailsName.setTextSecond(person.name)
-				binding.twoLinePersonDetailsNotifiedOn.isVisible = !person.notifiedOn.isBlank()
-				binding.twoLinePersonDetailsNotifiedOn.setTextSecond(person.notifiedOn)
-				binding.twoLinePersonDetailsKind.setTextSecond(person.kind)
-				binding.twoLinePersonDetailsNaturesOfControl.setTextSecond(
-						person.naturesOfControl.joinToString(separator = "\n"))
-				binding.twoLinePersonDetailsNationality.isVisible = (person.nationality?.isBlank() == false)
-				binding.twoLinePersonDetailsNationality.setTextSecond(person.nationality)
-				binding.twoLinePersonDetailsDateOfBirth.isVisible = (person.kind == "Individual")
-				(person.dateOfBirth.month to person.dateOfBirth.year).biLet { month, year ->
-					binding.twoLinePersonDetailsDateOfBirth.setTextSecond("$month / $year")
-				} ?: run {
-					binding.twoLinePersonDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
-				}
-				binding.twoLinePersonDetailsCountryOfResidence.isVisible =
-						(person.countryOfResidence?.isBlank() == false
-								&& person.countryOfResidence != person.address.country)
-				binding.twoLinePersonDetailsCountryOfResidence.setTextSecond(person.countryOfResidence)
-				binding.twoLinePersonDetailsPlaceRegistered.isVisible =
-						(person.identification?.placeRegistered?.isBlank() == false)
-				binding.twoLinePersonDetailsPlaceRegistered.setTextSecond(person.identification?.placeRegistered)
-				binding.twoLinePersonDetailsRegistrationNumber.isVisible =
-						(person.identification?.registrationNumber?.isBlank() == false)
-				binding.twoLinePersonDetailsRegistrationNumber.setTextSecond(person.identification?.registrationNumber)
-				binding.twoLinePersonDetailsLegalForm.isVisible =
-						(person.identification?.legalForm?.isBlank() == false)
-				binding.twoLinePersonDetailsLegalForm.setTextSecond(
-						person.identification?.legalForm)
-				binding.twoLinePersonDetailsLegalAuthority.isVisible =
-						(person.identification?.legalAuthority?.isBlank() == false)
-				binding.twoLinePersonDetailsLegalAuthority.setTextSecond(
-						person.identification?.legalAuthority)
-				binding.addressViewPersonDetails.setAddressLine1(person.address.addressLine1)
-				binding.addressViewPersonDetails.setAddressLine2(person.address.addressLine2)
-				binding.addressViewPersonDetails.setLocality(person.address.locality)
-				binding.addressViewPersonDetails.setPostalCode(person.address.postalCode)
-				binding.addressViewPersonDetails.setRegion(person.address.region)
-				binding.addressViewPersonDetails.setCountry(person.address.country)
-			}
+		binding.twoLinePersonDetailsName.setTextSecond(selectedPerson.name)
+		binding.twoLinePersonDetailsNotifiedOn.isVisible = selectedPerson.notifiedOn.isNotBlank()
+		binding.twoLinePersonDetailsNotifiedOn.setTextSecond(selectedPerson.notifiedOn)
+		binding.twoLinePersonDetailsKind.setTextSecond(selectedPerson.kind)
+		binding.twoLinePersonDetailsNaturesOfControl.setTextSecond(
+			selectedPerson.naturesOfControl.joinToString(separator = "\n")
+		)
+		binding.twoLinePersonDetailsNationality.isVisible = (selectedPerson.nationality?.isBlank() == false)
+		binding.twoLinePersonDetailsNationality.setTextSecond(selectedPerson.nationality)
+		binding.twoLinePersonDetailsDateOfBirth.isVisible = (selectedPerson.kind == "Individual")
+		val (month, year) = selectedPerson.dateOfBirth.month to selectedPerson.dateOfBirth.year
+		if (month == null || year == null) {
+			binding.twoLinePersonDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
+		} else {
+			binding.twoLinePersonDetailsDateOfBirth.setTextSecond("$month / $year")
 		}
+		binding.twoLinePersonDetailsCountryOfResidence.isVisible =
+			(selectedPerson.countryOfResidence?.isBlank() == false
+				&& selectedPerson.countryOfResidence != selectedPerson.address.country)
+		binding.twoLinePersonDetailsCountryOfResidence.setTextSecond(selectedPerson.countryOfResidence)
+		binding.twoLinePersonDetailsPlaceRegistered.isVisible =
+			(selectedPerson.identification?.placeRegistered?.isBlank() == false)
+		binding.twoLinePersonDetailsPlaceRegistered.setTextSecond(selectedPerson.identification?.placeRegistered)
+		binding.twoLinePersonDetailsRegistrationNumber.isVisible =
+			(selectedPerson.identification?.registrationNumber?.isBlank() == false)
+		binding.twoLinePersonDetailsRegistrationNumber.setTextSecond(selectedPerson.identification?.registrationNumber)
+		binding.twoLinePersonDetailsLegalForm.isVisible =
+			(selectedPerson.identification?.legalForm?.isBlank() == false)
+		binding.twoLinePersonDetailsLegalForm.setTextSecond(
+			selectedPerson.identification?.legalForm
+		)
+		binding.twoLinePersonDetailsLegalAuthority.isVisible =
+			(selectedPerson.identification?.legalAuthority?.isBlank() == false)
+		binding.twoLinePersonDetailsLegalAuthority.setTextSecond(
+			selectedPerson.identification?.legalAuthority
+		)
+		binding.addressViewPersonDetails.setAddressLine1(selectedPerson.address.addressLine1)
+		binding.addressViewPersonDetails.setAddressLine2(selectedPerson.address.addressLine2)
+		binding.addressViewPersonDetails.setLocality(selectedPerson.address.locality)
+		binding.addressViewPersonDetails.setPostalCode(selectedPerson.address.postalCode)
+		binding.addressViewPersonDetails.setRegion(selectedPerson.address.region)
+		binding.addressViewPersonDetails.setCountry(selectedPerson.address.country)
 	}
 
 	//endregion
 
-	//region events
-
-	private fun observeActions() {
-		eventDisposables.clear()
-		RxView.clicks(binding.addressViewPersonDetails.getMapButton())
-				.subscribe { viewModel.showOnMapClicked() }
-				.also { disposable -> eventDisposables.add(disposable) }
-	}
-
-	@Suppress("EmptyFunctionBlock")
-	override fun invalidate() {
-
-	}
-
-	//endregion
 }

@@ -9,7 +9,7 @@ object Versions {
 	const val gradlePlugin = "7.1.3"
 	const val kotlin = "1.6.21"
 	const val coroutines = "1.6.1"
-	const val dagger = "2.41"
+	const val dagger = "2.42"
 }
 
 //Sadly this doesn't work in root gradle file, probably chicken and egg problem
@@ -278,6 +278,12 @@ object Libs {
 		const val utilsInternal = "com.arkivanov.mvikotlin:utils-internal:$version"
 		const val coroutines = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$version"
 		const val logging = "com.arkivanov.mvikotlin:mvikotlin-logging:$version"
+	}
+
+	object KotlinResult {
+		private const val version = "1.1.16"
+		const val result = "com.michael-bull.kotlin-result:kotlin-result:$version"
+		const val coroutines = "com.michael-bull.kotlin-result:kotlin-result-coroutines:$version"
 	}
 
 	object Test {

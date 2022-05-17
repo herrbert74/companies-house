@@ -10,10 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerDetailsBinding
 import com.babestudios.companyinfouk.officers.ui.OfficersActivity
-import com.babestudios.companyinfouk.officers.ui.OfficersViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
@@ -25,7 +25,7 @@ import reactivecircus.flowbinding.android.view.clicks
 class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 
 	@Inject
-	lateinit var officersViewModelFactory: OfficersViewModelFactory
+	lateinit var companiesRepository: CompaniesRepository
 
 	private val args: OfficerDetailsFragmentArgs by navArgs()
 
@@ -42,7 +42,7 @@ class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-//		viewModel.logScreenView(this::class.simpleName.orEmpty())
+		companiesRepository.logScreenView(this::class.simpleName.orEmpty())
 		val activity = (activity as AppCompatActivity)
 		val toolbar = binding.pabOfficerDetails.getToolbar()
 		activity.setSupportActionBar(toolbar)

@@ -68,6 +68,7 @@ dependencies {
 	implementation(Libs.Google.Dagger.core)
 	implementation(Libs.Google.Dagger.Hilt.android)
 	implementation(Libs.Javax.annotations)
+	implementation(Libs.KotlinResult.result)
 	implementation(Libs.RxJava2.rxJava)
 	implementation(Libs.RxJava2.rxAndroid)
 	implementation(Libs.RxJava2.rxKotlin)

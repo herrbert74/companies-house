@@ -22,7 +22,10 @@ class AppointmentsExecutor @Inject constructor(
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
 		when (action) {
-			is BootstrapIntent.LoadAppointments -> fetchAppointments(action.selectedOfficer)
+			is BootstrapIntent.LoadAppointments -> {
+				companiesRepository.logScreenView("AppointmentsFragment")
+				fetchAppointments(action.selectedOfficer)
+			}
 		}
 	}
 

@@ -34,25 +34,6 @@ class OfficersViewModel @AssistedInject constructor(
 
 	companion object {
 
-//		@JvmStatic
-//		override fun create(viewModelContext: ViewModelContext, state: OfficersState): OfficersViewModel? {
-//			val companiesRepository = viewModelContext.activity<OfficersActivity>().injectCompaniesHouseRepository()
-//			val officersNavigator = viewModelContext.activity<OfficersActivity>().injectOfficersNavigator()
-//			return OfficersViewModel(
-//					state,
-//					companiesRepository,
-//					officersNavigator
-//			)
-//		}
-//
-//		override fun initialState(viewModelContext: ViewModelContext): OfficersState? {
-//			val companyNumber = viewModelContext.activity<OfficersActivity>().provideCompanyNumber()
-//			return if (companyNumber.isNotEmpty())
-//				OfficersState(companyNumber = companyNumber)
-//			else
-//				null
-//		}
-
 		fun provideFactory(
 			assistedFactory: OfficersViewModelFactory,
 			companyNumber: String
@@ -68,8 +49,6 @@ class OfficersViewModel @AssistedInject constructor(
 		OfficersStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), officersExecutor).create(companyNumber)
 
 	private var appointmentsStore: AppointmentsStore? = null
-	//AppointmentsStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), appointmentsExecutor).create
-	//(companyNumber)
 
 	fun onViewCreated(
 		view: OfficersFragment,
@@ -117,65 +96,6 @@ class OfficersViewModel @AssistedInject constructor(
 					AppointmentsStore.Intent.LoadMoreAppointments(page)
 			}
 		}
-
-	/*fun setNavigator(navigator: OfficersNavigator) {
-		officersNavigator = navigator
-	}
-
-	//region officer details
-
-	fun officerAppointmentsClicked(extras: Navigator.Extras) {
-		officersNavigator.officersDetailsToAppointments(extras)
-	}*/
-
-	//endregion
-
-	//region officer appointments
-
-	/*fun fetchAppointments() {
-		withState { state ->
-			companiesRepository.getOfficerAppointments(state.selectedOfficerId, "0")
-				.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
-				.execute {
-					copy(
-						officerAppointmentsRequest = it,
-						appointmentItems = convertToVisitables(it()),
-						totalAppointmentsCount = it()?.totalResults ?: 0
-					)
-				}
-		}
-	}*/
-
-	/*fun loadMoreAppointments(page: Int) {
-		withState { state ->
-			if (state.appointmentItems.size < state.totalAppointmentsCount) {
-				companiesRepository.getOfficerAppointments(
-					state.selectedOfficerId,
-					(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
-				)
-					.doOnSubscribe { setState { copy(officerAppointmentsRequest = Loading()) } }
-					.execute {
-						copy(
-							officerAppointmentsRequest = it,
-							appointmentItems = appointmentItems.appendAt(
-								convertToVisitables(it()),
-								appointmentItems.size + 1
-							),
-							totalAppointmentsCount = it()?.totalResults ?: 0
-						)
-					}
-			}
-		}
-	}*/
-
-	/*fun showOnMapClicked() {
-		withState {
-			officersNavigator.officersDetailsToMap(
-				it.selectedOfficer?.name ?: "",
-				it.selectedOfficer?.address ?: Address()
-			)
-		}
-	}*/
 
 	//endregion
 

@@ -8,7 +8,6 @@ import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.Intent
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.State
-import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -21,7 +20,10 @@ class OfficersExecutor @Inject constructor(
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
 		when (action) {
-			is BootstrapIntent.LoadOfficers -> fetchOfficers(action.companyNumber)
+			is BootstrapIntent.LoadOfficers -> {
+				companiesRepository.logScreenView("OfficersFragment")
+				fetchOfficers(action.companyNumber)
+			}
 		}
 	}
 
@@ -47,7 +49,7 @@ class OfficersExecutor @Inject constructor(
 
 	private fun loadMoreOfficers(getState: () -> State, page: Int) {
 		val showState = (getState() as State.Show)
-		if (showState.officers.size < showState.totalOfficersCount) {
+		if (showState.officersResponse.items.size < showState.officersResponse.totalResults) {
 			scope.launch {
 				val officersResponse = companiesRepository.getOfficers(
 					showState.companyNumber,
@@ -59,17 +61,11 @@ class OfficersExecutor @Inject constructor(
 	}
 
 	private fun officerItemClicked(officer: Officer) {
-		val pattern = Pattern.compile("officers/(.+)/appointments")
-		val matcher = pattern.matcher(officer.links.officer?.appointments ?: "")
-		var officerId = ""
-		if (matcher.find()) {
-			officerId = matcher.group(1) ?: ""
-		}
 		scope.launch {
-			publish(SideEffect.OfficerItemClicked(officer, officerId))
+			publish(SideEffect.OfficerItemClicked(officer))
 		}
 	}
 
-//endregion
+	//endregion
 
 }

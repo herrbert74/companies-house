@@ -120,7 +120,6 @@ class AppointmentsFragment : Fragment(R.layout.fragment_officer_appointments), M
 	}
 
 	private fun initializeUI() {
-		//viewModel.logScreenView(this::class.simpleName.orEmpty())
 		val activity = (activity as AppCompatActivity)
 		val toolbar = binding.pabOfficerAppointments.getToolbar()
 		activity.setSupportActionBar(toolbar)

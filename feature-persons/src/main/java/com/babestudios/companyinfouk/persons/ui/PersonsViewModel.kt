@@ -1,107 +1,69 @@
 package com.babestudios.companyinfouk.persons.ui
 
-import com.airbnb.mvrx.MvRxViewModelFactory
-import com.airbnb.mvrx.ViewModelContext
-import com.airbnb.mvrx.appendAt
-import com.babestudios.base.annotation.Mockable
-import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.navigation.features.PersonsBaseNavigatable
-import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitableBase
-import com.babestudios.companyinfouk.persons.ui.persons.list.PersonsVisitable
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.arkivanov.essenty.lifecycle.Lifecycle
+import com.arkivanov.mvikotlin.core.binder.BinderLifecycleMode
+import com.arkivanov.mvikotlin.extensions.coroutines.bind
+import com.arkivanov.mvikotlin.extensions.coroutines.events
+import com.arkivanov.mvikotlin.extensions.coroutines.labels
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsExecutor
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsFragment
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.Intent
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsStoreFactory
+import com.babestudios.companyinfouk.persons.ui.persons.UserIntent
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.map
 
-@Mockable
-class PersonsViewModel(
-	personsState: PersonsState,
-	private val companiesRepository: CompaniesRxRepository,
-	var personsNavigator: PersonsBaseNavigatable
-) : BaseViewModel<PersonsState>(personsState, companiesRepository) {
+class PersonsViewModel @AssistedInject constructor(
+	personsExecutor: PersonsExecutor,
+	@Assisted val companyNumber: String,
+) : ViewModel() {
 
-	companion object : MvRxViewModelFactory<PersonsViewModel, PersonsState> {
+	companion object {
 
-		@JvmStatic
-		override fun create(viewModelContext: ViewModelContext, state: PersonsState): PersonsViewModel? {
-			val companiesRepository = viewModelContext.activity<PersonsActivity>().injectCompaniesHouseRepository()
-			val personsNavigator = viewModelContext.activity<PersonsActivity>().injectPersonsNavigator()
-			return PersonsViewModel(
-					state,
-					companiesRepository,
-					personsNavigator
-			)
-		}
-
-		override fun initialState(viewModelContext: ViewModelContext): PersonsState? {
-			val companyNumber = viewModelContext.activity<PersonsActivity>().provideCompanyNumber()
-			return if (companyNumber.isNotEmpty())
-				PersonsState(companyNumber = companyNumber)
-			else
-				null
-		}
-	}
-
-	fun setNavigator(navigator: PersonsBaseNavigatable) {
-		personsNavigator = navigator
-	}
-
-	//region persons
-
-	fun fetchPersons(companyNumber: String) {
-		companiesRepository.getPersons(companyNumber, "0")
-				.execute {
-					copy(
-							personsRequest = it,
-							persons = convertToVisitables(it()),
-							totalPersonCount = it()?.totalResults ?: 0
-					)
-				}
-	}
-
-
-	fun loadMorePersons(page: Int) {
-		withState { state ->
-			if (state.persons.size < state.totalPersonCount) {
-				companiesRepository.getPersons(
-						state.companyNumber,
-						(page * Integer
-								.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE))
-								.toString()
-				).execute {
-					copy(
-							personsRequest = it,
-							persons = persons.appendAt(convertToVisitables(it()), persons.size + 1),
-							totalPersonCount = it()?.totalResults ?: 0
-					)
-				}
+		fun provideFactory(
+			assistedFactory: PersonsViewModelFactory,
+			companyNumber: String
+		): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+			@Suppress("UNCHECKED_CAST")
+			override fun <T : ViewModel> create(modelClass: Class<T>): T {
+				return assistedFactory.create(companyNumber) as T
 			}
 		}
 	}
 
-	private fun convertToVisitables(reply: PersonsResponse?): List<PersonsVisitableBase> {
-		return ArrayList(reply?.items?.map { item -> PersonsVisitable(item) } ?: emptyList())
+	private var personsStore: PersonsStore =
+		PersonsStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), personsExecutor).create(companyNumber)
+
+	fun onViewCreated(
+		view: PersonsFragment,
+		lifecycle: Lifecycle
+	) {
+		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+			personsStore.states bindTo view
+			personsStore.labels bindTo { view.sideEffects(it) }
+			view.events.map { userIntentToIntent(it) } bindTo personsStore
+		}
 	}
 
-	fun personItemClicked(adapterPosition: Int) {
-		withState { state ->
-			setState {
-				copy(
-						selectedPerson = (state.persons[adapterPosition] as PersonsVisitable).person
-				)
+	private val userIntentToIntent: UserIntent.() -> Intent =
+		{
+			when (this) {
+				is UserIntent.PersonsItemClicked -> Intent.PersonsItemClicked(selectedPerson)
+				is UserIntent.LoadMorePersons -> Intent.LoadMorePersons(page)
 			}
 		}
-		personsNavigator.personsToPersonDetails()
-	}
 
-	fun showOnMapClicked() {
-		withState {
-			personsNavigator.personDetailsToMap(
-					it.selectedPerson?.name ?: "",
-					it.selectedPerson?.address ?: Address()
-			)
-		}
-	}
+}
 
-	//endregion
+@AssistedFactory
+interface PersonsViewModelFactory {
+	fun create(companyNumber: String): PersonsViewModel
 }

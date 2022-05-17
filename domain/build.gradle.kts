@@ -14,6 +14,7 @@ dependencies {
 	implementation(Libs.Google.gson)
 	implementation(Libs.Google.Dagger.Hilt.core)
 	implementation(Libs.Kotlin.Coroutines.core)
+	implementation(Libs.KotlinResult.result)
 	implementation(Libs.RxJava2.rxJava)
 	implementation(Libs.SquareUp.OkHttp3.okHttp)
 

@@ -17,7 +17,7 @@ data class Person(
 	val address: Address,
 	val naturesOfControl: List<String>,
 	val nationality: String? = null,
-	@Keep val name: String? = null,
+	@Keep val name: String,
 	val identification: Identification? = null,
 ) : Parcelable
 

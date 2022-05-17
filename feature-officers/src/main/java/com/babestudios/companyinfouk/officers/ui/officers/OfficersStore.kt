@@ -2,8 +2,10 @@ package com.babestudios.companyinfouk.officers.ui.officers
 
 import com.arkivanov.mvikotlin.core.store.Store
 import com.babestudios.companyinfouk.domain.model.officers.Officer
+import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.Intent
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.State
+import com.github.michaelbull.result.Result
 
 interface OfficersStore : Store<Intent, State, SideEffect> {
 
@@ -18,8 +20,7 @@ interface OfficersStore : Store<Intent, State, SideEffect> {
 
 		class Show(
 			val companyNumber: String,
-			val officers: List<Officer>,
-			val totalOfficersCount: Int
+			val officersResponse: OfficersResponse,
 		) : State()
 
 		class Error(val t: Throwable) : State()

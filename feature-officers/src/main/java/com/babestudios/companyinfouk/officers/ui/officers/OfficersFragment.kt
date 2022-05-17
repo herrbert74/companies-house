@@ -14,6 +14,7 @@ import com.arkivanov.mvikotlin.core.view.MviView
 import com.arkivanov.mvikotlin.rx.Disposable
 import com.arkivanov.mvikotlin.rx.Observer
 import com.arkivanov.mvikotlin.rx.internal.PublishSubject
+import com.babestudios.base.network.OfflineException
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
@@ -59,6 +60,13 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 
 	override fun events(observer: Observer<UserIntent>): Disposable = subject.subscribe(observer)
 
+	fun sideEffects(sideEffect: SideEffect) {
+		when (sideEffect) {
+			is SideEffect.OfficerItemClicked ->
+				(activity as OfficersActivity).officersNavigator.officersToOfficerDetails(sideEffect.selectedOfficer)
+		}
+	}
+
 	/**
 	 * Dispatches the provided `View Event` to all subscribers
 	 *
@@ -73,25 +81,25 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 		when (model) {
 			is State.Loading -> binding.msvOfficers.viewState = VIEW_STATE_LOADING
 			is State.Error -> {
-				binding.msvOfficers.viewState = VIEW_STATE_ERROR
-				val tvMsvError = binding.msvOfficers.findViewById<TextView>(R.id.tvMsvError)
-				tvMsvError.text = model.t.message
-			}
-			is State.Show -> {
-				if (model.officers.isEmpty()) {
+				if (model.t is OfflineException) {
 					binding.msvOfficers.viewState = VIEW_STATE_EMPTY
 				} else {
-					binding.msvOfficers.viewState = VIEW_STATE_CONTENT
-					if (binding.rvOfficers.adapter == null) {
-						officersAdapter = OfficersAdapter(model.officers, lifecycleScope)
-						binding.rvOfficers.adapter = officersAdapter
-					} else {
-						officersAdapter?.updateItems(model.officers)
-					}
-					officersAdapter?.itemClicks?.onEach {
-						dispatch(UserIntent.OfficerItemClicked(it))
-					}?.launchIn(lifecycleScope)
+					binding.msvOfficers.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvOfficers.findViewById<TextView>(R.id.tvMsvError)
+					tvMsvError.text = model.t.message
 				}
+			}
+			is State.Show -> {
+				binding.msvOfficers.viewState = VIEW_STATE_CONTENT
+				if (binding.rvOfficers.adapter == null) {
+					officersAdapter = OfficersAdapter(model.officersResponse.items, lifecycleScope)
+					binding.rvOfficers.adapter = officersAdapter
+				} else {
+					officersAdapter?.updateItems(model.officersResponse.items)
+				}
+				officersAdapter?.itemClicks?.onEach {
+					dispatch(UserIntent.OfficerItemClicked(it))
+				}?.launchIn(lifecycleScope)
 			}
 		}
 	}
@@ -107,7 +115,6 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 	}
 
 	private fun initializeUI() {
-//		viewModel.logScreenView(this::class.simpleName.orEmpty())
 		(activity as AppCompatActivity).setSupportActionBar(binding.pabOfficers.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
@@ -129,13 +136,6 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 
 	//endregion
 
-	fun sideEffects(sideEffect: SideEffect) {
-		when (sideEffect) {
-			is SideEffect.OfficerItemClicked ->
-				(activity as OfficersActivity).officersNavigator.officersToOfficerDetails(sideEffect.selectedOfficer)
-		}
-	}
-
 }
 
 sealed class UserIntent {
@@ -144,5 +144,5 @@ sealed class UserIntent {
 }
 
 sealed class SideEffect {
-	data class OfficerItemClicked(val selectedOfficer: Officer, val selectedOfficerId: String) : SideEffect()
+	data class OfficerItemClicked(val selectedOfficer: Officer) : SideEffect()
 }

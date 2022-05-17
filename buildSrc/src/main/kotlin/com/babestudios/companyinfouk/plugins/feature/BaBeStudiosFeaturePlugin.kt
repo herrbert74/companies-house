@@ -33,6 +33,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
 			add("implementation", Libs.AndroidX.Navigation.uiKtx)
 			add("implementation", Libs.AndroidX.Navigation.fragment)
+			add("implementation", Libs.KotlinResult.result)
 			add("implementation", Libs.RxJava2.rxAndroid)
 			add("implementation", Libs.RxJava2.rxJava)
 			add("implementation", Libs.JakeWharton.RxBinding.core)
@@ -42,6 +43,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("implementation", Libs.MviKotlin.utilsInternal)
 			add("implementation", Libs.MviKotlin.logging)
 			add("implementation", Libs.MviKotlin.rxInternal)
+			add("implementation", Libs.Views.FlowBinding.android)
 
 			add("testImplementation", Libs.AndroidX.Test.Ext.jUnit)
 			add("testImplementation", Libs.Test.MockK.core)

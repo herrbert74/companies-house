@@ -73,7 +73,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 		toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		withState(viewModel) { state ->
-			toolBar?.title = if (state.companyName.isEmpty()) state.individualName else state.companyName
+			toolBar?.title = state.companyName.ifEmpty { state.individualName }
 			location = if (state.individualAddress != null)
 				getLocationFromAddress(state.individualAddress.getAddressString())
 			else

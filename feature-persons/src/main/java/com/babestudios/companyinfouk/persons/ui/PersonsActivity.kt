@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.persons.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.mvrx.BaseActivity
@@ -24,6 +25,13 @@ class PersonsActivity : BaseActivity() {
 
 	private lateinit var companyNumber: String
 
+	@Inject
+	lateinit var personsViewModelFactory: PersonsViewModelFactory
+
+	@Suppress("unused")
+	private val viewModel: PersonsViewModel by viewModels {
+		PersonsViewModel.provideFactory(personsViewModelFactory, intent.getStringExtra(COMPANY_NUMBER).orEmpty())
+	}
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		companyNumber = intent.getStringExtra(COMPANY_NUMBER).orEmpty()
@@ -41,17 +49,4 @@ class PersonsActivity : BaseActivity() {
 		}
 	}
 
-	fun provideCompanyNumber(): String {
-		return if (::companyNumber.isInitialized) companyNumber else ""
-	}
-
-	fun injectCompaniesHouseRepository(): CompaniesRxRepository {
-		return companiesRepository
-	}
-
-	fun injectPersonsNavigator(): PersonsBaseNavigatable {
-		if (::navController.isInitialized)
-			personsNavigator.bind(navController)
-		return personsNavigator
-	}
 }
