@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/main_nav_graph"
+	app:startDestination="@id/companies_flow">
+
+	<include app:graph="@navigation/companies_flow" />
+
+	<include app:graph="@navigation/charges_flow" />
+
+	<include app:graph="@navigation/filings_flow" />
+
+	<include app:graph="@navigation/insolvencies_flow" />
+
+	<include app:graph="@navigation/officers_flow" />
+
+	<include app:graph="@navigation/persons_flow" />
+
+	<action
+		android:id="@+id/action_global_charges_flow"
+		app:destination="@id/charges_flow"
+		app:enterAnim="@anim/nav_default_enter_anim"
+		app:exitAnim="@anim/nav_default_exit_anim">
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+	</action>
+
+	<action
+		android:id="@+id/action_global_filings_flow"
+		app:destination="@id/filings_flow"
+		app:enterAnim="@anim/nav_default_enter_anim"
+		app:exitAnim="@anim/nav_default_exit_anim">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+	</action>
+
+	<action
+		android:id="@+id/action_global_insolvencies_flow"
+		app:destination="@id/insolvencies_flow"
+		app:enterAnim="@anim/nav_default_enter_anim"
+		app:exitAnim="@anim/nav_default_exit_anim">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+	</action>
+
+	<action
+		android:id="@+id/action_global_officers_flow"
+		app:destination="@id/officers_flow"
+		app:enterAnim="@anim/nav_default_enter_anim"
+		app:exitAnim="@anim/nav_default_exit_anim">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+	</action>
+
+	<action
+		android:id="@+id/action_global_persons_flow"
+		app:destination="@id/persons_flow"
+		app:enterAnim="@anim/nav_default_enter_anim"
+		app:exitAnim="@anim/nav_default_exit_anim">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+	</action>
+
+</navigation>

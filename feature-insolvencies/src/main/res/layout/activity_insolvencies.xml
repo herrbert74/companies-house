@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/insolvencies" />
+        app:navGraph="@navigation/insolvencies_flow" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"

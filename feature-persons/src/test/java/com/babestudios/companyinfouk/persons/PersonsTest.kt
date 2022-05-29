@@ -4,7 +4,6 @@ import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.navigation.features.PersonsBaseNavigatable
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
 import io.mockk.every
 import io.mockk.mockk

@@ -8,12 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
+import com.babestudios.companyinfouk.navigation.DeepLinkDestination
+import com.babestudios.companyinfouk.navigation.deepLinkNavigateTo
+import com.babestudios.companyinfouk.navigation.navigateSafe
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerDetailsBinding
-import com.babestudios.companyinfouk.officers.ui.OfficersActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
@@ -33,7 +37,7 @@ class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
-			(activity as OfficersActivity).officersNavigator.popBackStack()
+			findNavController().popBackStack()
 		}
 	})
 
@@ -41,26 +45,38 @@ class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 		companiesRepository.logScreenView(this::class.simpleName.orEmpty())
-		val activity = (activity as AppCompatActivity)
-		val toolbar = binding.pabOfficerDetails.getToolbar()
-		activity.setSupportActionBar(toolbar)
-		activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		binding.pabOfficerDetails.setNavigationOnClickListener {
-			(activity as OfficersActivity).officersNavigator.popBackStack()
-		}
-		activity.supportActionBar?.setTitle(R.string.officer_details)
+
+		initializeToolBar()
+		initializeClicks()
 		showOfficerDetails()
+	}
+
+	private fun initializeToolBar() {
+		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabOfficerDetails.getToolbar())
+		val toolBar = (activity as AppCompatActivity).supportActionBar
+		toolBar?.setDisplayHomeAsUpEnabled(true)
+		binding.pabOfficerDetails.setNavigationOnClickListener {
+			findNavController().popBackStack()
+		}
+		toolBar?.setTitle(R.string.officer_details)
+	}
+
+	private fun initializeClicks() {
 		lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
 				binding.btnOfficerDetailsAppointments.clicks().onEach {
-					(activity as OfficersActivity).officersNavigator.officersDetailsToAppointments(args.selectedOfficer)
+					findNavController().navigateSafe(
+						OfficerDetailsFragmentDirections.actionToAppointments(args.selectedOfficer)
+					)
 				}.launchIn(lifecycleScope)
 				binding.addressViewOfficerDetails.getMapButton().clicks().onEach {
-					(activity as OfficersActivity).officersNavigator.officersDetailsToMap(
-						args.selectedOfficer.name,
-						args.selectedOfficer.address,
+					findNavController().deepLinkNavigateTo(
+						DeepLinkDestination.Map(
+							args.selectedOfficer.name,
+							args.selectedOfficer.address.getAddressString(),
+						)
 					)
 				}.launchIn(lifecycleScope)
 			}

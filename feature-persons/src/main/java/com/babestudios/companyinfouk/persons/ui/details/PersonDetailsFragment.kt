@@ -9,13 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.navigation.DeepLinkDestination
+import com.babestudios.companyinfouk.navigation.deepLinkNavigateTo
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonDetailsBinding
-import com.babestudios.companyinfouk.persons.ui.PersonsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
@@ -39,7 +42,7 @@ class PersonDetailsFragment : Fragment(R.layout.fragment_person_details) {
 
 	private val callback: OnBackPressedCallback = (object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
-			(activity as PersonsActivity).personsNavigator.popBackStack()
+			findNavController().popBackStack()
 		}
 	})
 
@@ -47,26 +50,30 @@ class PersonDetailsFragment : Fragment(R.layout.fragment_person_details) {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-		initializeUI()
+		companiesRepository.logScreenView(this::class.simpleName.orEmpty())
+		initializeToolBar()
+		initializeClicks()
+		showPersonDetails()
 	}
 
-	private fun initializeUI() {
-		companiesRepository.logScreenView(this::class.simpleName.orEmpty())
+	private fun initializeToolBar() {
+		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 		(activity as AppCompatActivity).setSupportActionBar(binding.pabPersonDetails.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
-
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		binding.pabPersonDetails.setNavigationOnClickListener {
-			(activity as PersonsActivity).personsNavigator.popBackStack()
-		}
+		binding.pabPersonDetails.setNavigationOnClickListener { findNavController().popBackStack() }
 		toolBar?.setTitle(R.string.person_details)
-		showPersonDetails()
+	}
+
+	private fun initializeClicks() {
 		lifecycleScope.launch {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
 				binding.addressViewPersonDetails.getMapButton().clicks().onEach {
-					(activity as PersonsActivity).personsNavigator.personDetailsToMap(
-						selectedPerson.name	, selectedPerson.address
+					findNavController().deepLinkNavigateTo(
+						DeepLinkDestination.Map(
+							selectedPerson.name,
+							selectedPerson.address.getAddressString(),
+						)
 					)
 				}.launchIn(lifecycleScope)
 			}

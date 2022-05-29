@@ -5,8 +5,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
 import com.arkivanov.mvikotlin.core.annotations.MainThread
@@ -23,10 +25,9 @@ import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
+import com.babestudios.companyinfouk.navigation.navigateSafe
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficersBinding
-import com.babestudios.companyinfouk.officers.ui.OfficersActivity
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModelFactory
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.State
@@ -42,12 +43,14 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 	@Inject
 	lateinit var officersViewModelFactory: OfficersViewModelFactory
 
+	private val args: OfficersFragmentArgs by navArgs()
+
 	private var officersAdapter: OfficersAdapter? = null
 
-	private val viewModel: OfficersViewModel by activityViewModels {
+	private val viewModel: OfficersViewModel by viewModels {
 		OfficersViewModel.provideFactory(
 			officersViewModelFactory,
-			requireActivity().intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+			args.selectedCompanyId
 		)
 	}
 
@@ -63,7 +66,9 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 	fun sideEffects(sideEffect: SideEffect) {
 		when (sideEffect) {
 			is SideEffect.OfficerItemClicked ->
-				(activity as OfficersActivity).officersNavigator.officersToOfficerDetails(sideEffect.selectedOfficer)
+				findNavController().navigateSafe(
+					OfficersFragmentDirections.actionToDetails(sideEffect.selectedOfficer)
+				)
 		}
 	}
 
@@ -118,7 +123,7 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 		(activity as AppCompatActivity).setSupportActionBar(binding.pabOfficers.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
-		binding.pabOfficers.setNavigationOnClickListener { activity?.onBackPressed() }
+		binding.pabOfficers.setNavigationOnClickListener { findNavController().popBackStack() }
 		toolBar?.setTitle(R.string.officers)
 		createRecyclerView()
 	}

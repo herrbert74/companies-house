@@ -13,6 +13,4 @@ interface CompaniesBaseNavigatable: BaseNavigatable {
     fun companyToCharges(companyNumber: String)
     fun companyToFilings(companyNumber: String)
     fun companyToInsolvencies(companyNumber: String)
-    fun companyToOfficers(companyNumber: String)
-    fun companyToPersons(companyNumber: String)
 }

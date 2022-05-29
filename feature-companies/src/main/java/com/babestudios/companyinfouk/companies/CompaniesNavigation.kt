@@ -54,14 +54,4 @@ class CompaniesNavigation : BaseNavigation(), CompaniesBaseNavigatable {
 		navController?.navigateSafe(R.id.action_companyFragment_to_insolvenciesActivity, bundle)
 	}
 
-	override fun companyToOfficers(companyNumber: String) {
-		val bundle = bundleOf(COMPANY_NUMBER to companyNumber)
-		navController?.navigateSafe(R.id.action_companyFragment_to_officersActivity, bundle)
-	}
-
-	override fun companyToPersons(companyNumber: String) {
-		val bundle = bundleOf(COMPANY_NUMBER to companyNumber)
-		navController?.navigateSafe(R.id.action_companyFragment_to_personsActivity, bundle)
-	}
-
 }

@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
-	tools:context=".ui.OfficersActivity">
+	tools:context=".ui.details.OfficerDetailsFragment">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabOfficerDetails"
@@ -80,8 +80,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/screenMargin"
-				android:layout_marginBottom="@dimen/viewMarginLarge"
 				android:layout_marginTop="16dp"
+				android:layout_marginBottom="@dimen/viewMarginLarge"
 				android:text="@string/officer_details_appointments"
 				android:transitionName="transition_name_example" />
 

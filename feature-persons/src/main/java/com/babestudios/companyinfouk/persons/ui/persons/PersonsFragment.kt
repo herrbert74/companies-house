@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
 import com.arkivanov.mvikotlin.core.annotations.MainThread
@@ -23,10 +25,9 @@ import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.model.persons.Person
-import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
+import com.babestudios.companyinfouk.navigation.navigateSafe
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.persons.databinding.FragmentPersonsBinding
-import com.babestudios.companyinfouk.persons.ui.PersonsActivity
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
 import com.babestudios.companyinfouk.persons.ui.PersonsViewModelFactory
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.State
@@ -42,16 +43,16 @@ class PersonsFragment : Fragment(R.layout.fragment_persons), MviView<State, User
 	@Inject
 	lateinit var personsViewModelFactory: PersonsViewModelFactory
 
+	private val args: PersonsFragmentArgs by navArgs()
+
 	private var personsAdapter: PersonsAdapter? = null
 
 	private val viewModel: PersonsViewModel by activityViewModels {
 		PersonsViewModel.provideFactory(
 			personsViewModelFactory,
-			requireActivity().intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+			args.selectedCompanyId
 		)
 	}
-
-	private var _binding: FragmentPersonsBinding? = null
 
 	private val binding by viewBinding<FragmentPersonsBinding>()
 
@@ -65,7 +66,9 @@ class PersonsFragment : Fragment(R.layout.fragment_persons), MviView<State, User
 	fun sideEffects(sideEffect: SideEffect) {
 		when (sideEffect) {
 			is SideEffect.PersonsItemClicked ->
-				(activity as PersonsActivity).personsNavigator.personsToPersonDetails(sideEffect.selectedPerson)
+				findNavController().navigateSafe(
+					PersonsFragmentDirections.actionToDetails(sideEffect.selectedPerson)
+				)
 		}
 	}
 
@@ -123,11 +126,6 @@ class PersonsFragment : Fragment(R.layout.fragment_persons), MviView<State, User
 		binding.pabPersons.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.persons_with_significant_control)
 		createRecyclerView()
-	}
-
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
 	}
 
 	private fun createRecyclerView() {

@@ -8,10 +8,6 @@ import com.babestudios.companyinfouk.navigation.features.ChargesBaseNavigatable
 import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
 import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
 import com.babestudios.companyinfouk.navigation.features.InsolvenciesBaseNavigatable
-import com.babestudios.companyinfouk.navigation.features.OfficersBaseNavigatable
-import com.babestudios.companyinfouk.navigation.features.PersonsBaseNavigatable
-import com.babestudios.companyinfouk.officers.OfficersNavigation
-import com.babestudios.companyinfouk.persons.PersonsNavigation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,18 +41,6 @@ object NavigationModule {
 	@Provides
 	fun provideInsolvenciesNavigatable( ): InsolvenciesBaseNavigatable{
 		return InsolvenciesNavigation()
-	}
-
-	@Singleton
-	@Provides
-	fun provideOfficersNavigatable(): OfficersBaseNavigatable{
-		return OfficersNavigation()
-	}
-
-	@Singleton
-	@Provides
-	fun providePersonsNavigatable(): PersonsBaseNavigatable{
-		return PersonsNavigation()
 	}
 
 }

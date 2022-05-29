@@ -19,8 +19,8 @@
 
 		<activity
 			android:name=".companies.ui.CompaniesActivity"
-			android:exported="true"
 			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:exported="true"
 			android:windowSoftInputMode="stateHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
@@ -38,16 +38,6 @@
 		<activity
 			android:name=".insolvencies.ui.InsolvenciesActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize" />
-		<activity
-			android:name=".officers.ui.OfficersActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize" />
-		<activity
-			android:name=".persons.ui.PersonsActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize" />
-
-		<activity
-			android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
-			android:exported="true" />
 
 		<provider
 			android:name="androidx.core.content.FileProvider"

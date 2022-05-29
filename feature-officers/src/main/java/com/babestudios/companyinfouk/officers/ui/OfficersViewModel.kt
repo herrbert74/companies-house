@@ -67,10 +67,12 @@ class OfficersViewModel @AssistedInject constructor(
 		lifecycle: Lifecycle,
 		selectedOfficer: Officer
 	) {
-		appointmentsStore = AppointmentsStoreFactory(
-			LoggingStoreFactory(DefaultStoreFactory()),
-			appointmentsExecutor
-		).create(selectedOfficer)
+		if (appointmentsStore == null) {
+			appointmentsStore = AppointmentsStoreFactory(
+				LoggingStoreFactory(DefaultStoreFactory()),
+				appointmentsExecutor
+			).create(selectedOfficer)
+		}
 
 		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
 			appointmentsStore?.states!! bindTo view

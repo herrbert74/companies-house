@@ -2,21 +2,20 @@ package com.babestudios.companyinfouk.officers.ui.appointments.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
-import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.databinding.RowOfficerAppointmentsBinding
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import reactivecircus.flowbinding.android.view.clicks
 
 class AppointmentsAdapter(
-	private var appointments: List<Appointment>
+	private var appointments: List<Appointment>,
+	private val lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<AppointmentsViewHolder>() {
 
 	override fun getItemCount(): Int {
@@ -40,7 +39,7 @@ class AppointmentsAdapter(
 		holder.bind(appointments[position])
 		holder.rawBinding.root.clicks().onEach {
 			itemClicksChannel.trySend(appointments[position])
-		}
+		}.launchIn(lifecycleScope)
 	}
 
 	fun updateItems(visitables: List<Appointment>) {

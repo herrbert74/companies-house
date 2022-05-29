@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.navigation.fragment.findNavController
 import com.babestudios.base.mvrx.BaseFragment
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -23,6 +24,9 @@ import com.babestudios.companyinfouk.companies.databinding.FragmentCompanyBindin
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
+import com.babestudios.companyinfouk.navigation.NavigationFlow
+import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
+import com.babestudios.companyinfouk.navigation.navigateSafe
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.CompositeDisposable
 
@@ -178,7 +182,9 @@ class CompanyFragment : BaseFragment() {
 		RxView.clicks(binding.llCompanyFilings)
 				.subscribe {
 					withState(viewModel) { state ->
-						viewModel.companiesNavigator.companyToFilings(state.companyNumber)
+						findNavController().navigateSafe(CompanyFragmentDirections
+							.actionCompanyFragmentToFilingsActivity())
+						//viewModel.companiesNavigator.companyToFilings(state.companyNumber)
 					}
 				}
 				.also { disposable -> eventDisposables.add(disposable) }
@@ -199,14 +205,20 @@ class CompanyFragment : BaseFragment() {
 		RxView.clicks(binding.llCompanyOfficers)
 				.subscribe {
 					withState(viewModel) { state ->
-						viewModel.companiesNavigator.companyToOfficers(state.companyNumber)
+						(requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.OfficersFlow(
+							state.companyNumber)
+						)
 					}
 				}
 				.also { disposable -> eventDisposables.add(disposable) }
 		RxView.clicks(binding.llCompanyPersons)
 				.subscribe {
 					withState(viewModel) { state ->
-						viewModel.companiesNavigator.companyToPersons(state.companyNumber)
+						(requireActivity() as ToFlowNavigatable).navigateToFlow(
+							NavigationFlow.PersonsFlow(
+								state.companyNumber
+							)
+						)
 					}
 				}
 				.also { disposable -> eventDisposables.add(disposable) }

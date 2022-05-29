@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/companies.xml"
+	android:id="@id/companies_flow"
 	app:startDestination="@id/mainFragment">
 
 	<fragment
@@ -53,6 +53,18 @@
 		android:name="com.babestudios.companyinfouk.companies.ui.company.CompanyFragment"
 		android:label="CompanyFragment"
 		tools:layout="@layout/fragment_company">
+		<argument
+			android:defaultValue=""
+			android:name="number"
+			app:argType="string" />
+		<argument
+			android:defaultValue=""
+			android:name="name"
+			app:argType="string" />
+
+		<deepLink
+			android:id="@+id/deepLink"
+			app:uri="companyinfo://company?number={number}&amp;name={name}" />
 		<action
 			android:id="@+id/action_companyFragment_to_mapFragment"
 			app:destination="@id/mapFragment"
@@ -81,20 +93,6 @@
 			app:exitAnim="@anim/left_slide_out"
 			app:popEnterAnim="@anim/left_slide_in"
 			app:popExitAnim="@anim/right_slide_out" />
-		<action
-			android:id="@+id/action_companyFragment_to_officersActivity"
-			app:destination="@id/officersActivity"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-		<action
-			android:id="@+id/action_companyFragment_to_personsActivity"
-			app:destination="@id/personsActivity"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
 
 	<fragment
@@ -116,6 +114,18 @@
 		android:name="com.babestudios.companyinfouk.companies.ui.map.MapFragment"
 		android:label="MapFragment"
 		tools:layout="@layout/fragment_map">
+		<argument
+			android:defaultValue=""
+			android:name="name"
+			app:argType="string" />
+		<argument
+			android:defaultValue=""
+			android:name="address"
+			app:argType="string" />
+
+		<deepLink
+			android:id="@+id/deepLink"
+			app:uri="companyinfo://map?name={name}&amp;address={address}" />
 	</fragment>
 
 	<fragment
@@ -135,13 +145,5 @@
 	<activity
 		android:id="@+id/insolvenciesActivity"
 		android:name="com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity" />
-
-	<activity
-		android:id="@+id/officersActivity"
-		android:name="com.babestudios.companyinfouk.officers.ui.OfficersActivity" />
-
-	<activity
-		android:id="@+id/personsActivity"
-		android:name="com.babestudios.companyinfouk.persons.ui.PersonsActivity" />
 
 </navigation>

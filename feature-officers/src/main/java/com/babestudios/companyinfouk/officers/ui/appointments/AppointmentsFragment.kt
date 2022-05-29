@@ -7,6 +7,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
@@ -24,9 +26,10 @@ import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
+import com.babestudios.companyinfouk.navigation.DeepLinkDestination
+import com.babestudios.companyinfouk.navigation.deepLinkNavigateTo
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.databinding.FragmentOfficerAppointmentsBinding
-import com.babestudios.companyinfouk.officers.ui.OfficersActivity
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModel
 import com.babestudios.companyinfouk.officers.ui.OfficersViewModelFactory
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsFragment.UserIntent
@@ -36,6 +39,7 @@ import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore.
 import com.babestudios.companyinfouk.officers.ui.appointments.list.AppointmentsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
@@ -59,7 +63,7 @@ class AppointmentsFragment : Fragment(R.layout.fragment_officer_appointments), M
 
 	private val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
-			(activity as OfficersActivity).officersNavigator.popBackStack()
+			findNavController().popBackStack()
 		}
 	}
 
@@ -96,11 +100,11 @@ class AppointmentsFragment : Fragment(R.layout.fragment_officer_appointments), M
 					binding.rowOfficerAppointmentsHeader
 						.lblOfficerAppointmentsHeaderOfficerName.text = model.selectedOfficer.name
 					if (binding.rvOfficerAppointments.adapter == null) {
-						appointmentsAdapter = AppointmentsAdapter(model.appointments)
+						appointmentsAdapter = AppointmentsAdapter(model.appointments, lifecycleScope)
 						binding.rvOfficerAppointments.adapter = appointmentsAdapter
 						appointmentsAdapter?.itemClicks?.onEach {
 							dispatch(UserIntent.AppointmentClicked(it))
-						}
+						}?.launchIn(lifecycleScope)
 					} else {
 						appointmentsAdapter?.updateItems(model.appointments)
 					}
@@ -125,7 +129,7 @@ class AppointmentsFragment : Fragment(R.layout.fragment_officer_appointments), M
 		activity.setSupportActionBar(toolbar)
 		activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		binding.pabOfficerAppointments.setNavigationOnClickListener {
-			(activity as OfficersActivity).officersNavigator.popBackStack()
+			findNavController().popBackStack()
 		}
 		activity.supportActionBar?.setTitle(R.string.officer_appointments_title)
 		createRecyclerView()
@@ -158,9 +162,8 @@ class AppointmentsFragment : Fragment(R.layout.fragment_officer_appointments), M
 	fun sideEffects(sideEffect: SideEffect) {
 		when (sideEffect) {
 			is SideEffect.AppointmentClicked ->
-				(activity as OfficersActivity).officersNavigator.officersAppointmentsToCompany(
-					sideEffect.companyNumber,
-					sideEffect.companyName
+				findNavController().deepLinkNavigateTo(
+					DeepLinkDestination.Company(sideEffect.companyNumber, sideEffect.companyName)
 				)
 		}
 	}

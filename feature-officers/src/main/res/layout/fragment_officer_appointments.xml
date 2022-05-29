@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-													 xmlns:app="http://schemas.android.com/apk/res-auto"
-													 xmlns:tools="http://schemas.android.com/tools"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent"
-													 android:fitsSystemWindows="true"
-													 tools:context=".ui.OfficersActivity">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	tools:context=".ui.appointments.AppointmentsFragment">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabOfficerAppointments"
 		android:layout_width="match_parent"
-		android:transitionName="transtion_name_example"
 		android:layout_height="@dimen/appBarHeight"
 		android:theme="@style/AppTheme.AppBarOverlay"
-		app:imageViewSrc="@drawable/bg_appointments"/>
+		android:transitionName="transtion_name_example"
+		app:imageViewSrc="@drawable/bg_appointments" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -24,8 +24,8 @@
 		<include
 			android:id="@+id/rowOfficerAppointmentsHeader"
 			layout="@layout/row_officer_appointments_header"
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"/>
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
 
 		<com.babestudios.base.view.MultiStateView
 			android:id="@+id/msvOfficerAppointments"
@@ -42,7 +42,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:paddingBottom="@dimen/viewMargin"
-				android:scrollbars="vertical"/>
+				android:scrollbars="vertical" />
 		</com.babestudios.base.view.MultiStateView>
 	</LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

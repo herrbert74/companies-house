@@ -11,12 +11,15 @@ import com.babestudios.companyinfouk.navigation.COMPANY_NAME
 import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.INDIVIDUAL_ADDRESS
 import com.babestudios.companyinfouk.navigation.INDIVIDUAL_NAME
+import com.babestudios.companyinfouk.navigation.NavigationFlow
+import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
+import com.babestudios.companyinfouk.navigation.base.Navigation
 import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CompaniesActivity : BaseActivity() {
+class CompaniesActivity : BaseActivity(), ToFlowNavigatable {
 
 	@Inject
 	lateinit var companiesNavigator: CompaniesBaseNavigatable
@@ -31,6 +34,8 @@ class CompaniesActivity : BaseActivity() {
 	private var individualName: String? = null
 	private var individualAddress: Address? = null
 
+	private var navigation: Navigation = Navigation()
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		companyNumber = intent.extras?.getString(COMPANY_NUMBER).orEmpty()
@@ -39,6 +44,7 @@ class CompaniesActivity : BaseActivity() {
 		individualAddress = intent.extras?.getParcelable(INDIVIDUAL_ADDRESS)
 		setContentView(R.layout.activity_companies)
 		navController = findNavController(R.id.navHostFragmentCompanies)
+		navigation.bind(navController)
 		companiesNavigator.bind(navController)
 	}
 
@@ -85,4 +91,13 @@ class CompaniesActivity : BaseActivity() {
 	fun provideIndividualAddress(): Address? {
 		return individualAddress
 	}
+
+	override fun navigateToFlow(flow: NavigationFlow) {
+		navigation.navigateToFlow(flow)
+	}
+
+	fun popBackStack() {
+		findNavController(R.id.navHostFragmentCompanies)
+	}
+
 }
