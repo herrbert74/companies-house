@@ -22,7 +22,7 @@ interface CompaniesRepository : AnalyticsContract {
 	suspend fun searchCompanies(queryText: CharSequence, startItem: String): CompanySearchResult
 	suspend fun getCompany(companyNumber: String): Company
 	suspend fun getFilingHistory(companyNumber: String, category: Category, startItem: String): FilingHistory
-	suspend fun fetchCharges(companyNumber: String, startItem: String): Charges
+	suspend fun getCharges(companyNumber: String, startItem: String): ApiResult<Charges>
 	suspend fun getInsolvency(companyNumber: String): Insolvency
 	suspend fun getOfficers(companyNumber: String, startItem: String): ApiResult<OfficersResponse>
 	suspend fun getOfficerAppointments(officerId: String, startItem: String): AppointmentsResponse

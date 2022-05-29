@@ -29,9 +29,11 @@
 		android:name="com.babestudios.companyinfouk.persons.ui.details.PersonDetailsFragment"
 		android:label="PersonDetailsFragment"
 		tools:layout="@layout/fragment_person_details">
+
 		<argument
 			android:name="selectedPerson"
 			app:argType="com.babestudios.companyinfouk.domain.model.persons.Person" />
+
 	</fragment>
 
 </navigation>

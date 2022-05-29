@@ -1,10 +1,8 @@
 package com.babestudios.companyinfouk
 
-import com.babestudios.companyinfouk.charges.ChargesNavigation
 import com.babestudios.companyinfouk.companies.CompaniesNavigation
 import com.babestudios.companyinfouk.filings.FilingsNavigation
 import com.babestudios.companyinfouk.insolvencies.InsolvenciesNavigation
-import com.babestudios.companyinfouk.navigation.features.ChargesBaseNavigatable
 import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
 import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
 import com.babestudios.companyinfouk.navigation.features.InsolvenciesBaseNavigatable
@@ -18,12 +16,6 @@ import javax.inject.Singleton
 @Suppress("unused")
 @InstallIn(SingletonComponent::class)
 object NavigationModule {
-
-	@Singleton
-	@Provides
-	fun provideChargesNavigatable(): ChargesBaseNavigatable {
-		return ChargesNavigation()
-	}
 
 	@Singleton
 	@Provides

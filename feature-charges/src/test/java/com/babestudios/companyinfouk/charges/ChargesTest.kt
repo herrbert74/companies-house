@@ -2,11 +2,9 @@ package com.babestudios.companyinfouk.charges
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.charges.ui.ChargesState
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import com.babestudios.companyinfouk.navigation.features.ChargesBaseNavigatable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

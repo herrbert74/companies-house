@@ -1,6 +1,9 @@
 package com.babestudios.companyinfouk.domain.model.charges
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ChargesItem(
 	val chargeCode: String = "",
 	var createdOn: String = "",
@@ -11,4 +14,4 @@ data class ChargesItem(
 	var status: String = "",
 	var transactions: List<Transaction> = emptyList(),
 	val particulars: Particulars = Particulars(),
-)
+): Parcelable

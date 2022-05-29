@@ -1,19 +1,18 @@
 package com.babestudios.companyinfouk.charges.ui.charges.list
 
 import androidx.core.widget.ImageViewCompat
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.view.MultiStateView
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.RowChargesBinding
 import com.babestudios.companyinfouk.common.ext.colorStateList
+import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 
-class ChargesViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<ChargesVisitableBase>(_binding) {
+class ChargesViewHolder(val rawBinding: ViewBinding) : RecyclerView.ViewHolder(rawBinding.root) {
 
-	override fun bind(visitable: ChargesVisitableBase) {
-		val binding = _binding as RowChargesBinding
-		val chargesItem = (visitable as ChargesVisitable).chargesItem
+	fun bind(chargesItem: ChargesItem) {
+		val binding = rawBinding as RowChargesBinding
 		binding.lblRowChargesCreatedOn.text = chargesItem.createdOn
 		if (chargesItem.chargeCode.isEmpty()) {
 			binding.lblRowChargesChargeCode.visibility = MultiStateView.GONE

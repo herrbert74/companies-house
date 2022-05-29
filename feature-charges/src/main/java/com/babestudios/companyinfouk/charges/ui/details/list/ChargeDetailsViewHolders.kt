@@ -5,8 +5,8 @@ import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsHeaderBinding
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsTransactionBinding
 
-class ChargeDetailsViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<ChargeDetailsVisitableBase>(_binding) {
+class ChargeDetailsViewHolder(rawBinding: ViewBinding)
+	: BaseViewHolder<ChargeDetailsVisitableBase>(rawBinding) {
 	override fun bind(visitable: ChargeDetailsVisitableBase) {
 		val binding = _binding as RowChargeDetailsTransactionBinding
 		val chargeDetailsItem = (visitable as ChargeDetailsVisitable).transaction
@@ -15,8 +15,8 @@ class ChargeDetailsViewHolder(_binding: ViewBinding)
 	}
 }
 
-class ChargeDetailsHeaderViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<ChargeDetailsVisitableBase>(_binding) {
+class ChargeDetailsHeaderViewHolder(rawBinding: ViewBinding)
+	: BaseViewHolder<ChargeDetailsVisitableBase>(rawBinding) {
 	override fun bind(visitable: ChargeDetailsVisitableBase) {
 		val binding = _binding as RowChargeDetailsHeaderBinding
 		val chargeDetailsHeaderItem = (visitable as ChargeDetailsHeaderVisitable)

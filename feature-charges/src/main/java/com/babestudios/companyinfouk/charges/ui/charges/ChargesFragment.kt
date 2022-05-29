@@ -1,19 +1,22 @@
 package com.babestudios.companyinfouk.charges.ui.charges
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
-import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.base.mvrx.BaseFragment
+import com.arkivanov.essenty.lifecycle.essentyLifecycle
+import com.arkivanov.mvikotlin.core.annotations.MainThread
+import com.arkivanov.mvikotlin.core.view.MviView
+import com.arkivanov.mvikotlin.rx.Disposable
+import com.arkivanov.mvikotlin.rx.Observer
+import com.arkivanov.mvikotlin.rx.internal.PublishSubject
+import com.babestudios.base.network.OfflineException
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
@@ -22,56 +25,107 @@ import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.FragmentChargesBinding
-import com.babestudios.companyinfouk.charges.ui.ChargesActivity
 import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
+import com.babestudios.companyinfouk.charges.ui.ChargesViewModelFactory
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.State
 import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesAdapter
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesTypeFactory
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesViewHolder
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
-import io.reactivex.disposables.CompositeDisposable
+import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.navigation.navigateSafe
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class ChargesFragment : BaseFragment() {
+@AndroidEntryPoint
+class ChargesFragment : Fragment(R.layout.fragment_charges), MviView<State, UserIntent> {
 
-	private val viewModel by activityViewModel(ChargesViewModel::class)
+	@Inject
+	lateinit var chargesViewModelFactory: ChargesViewModelFactory
+
+	private val args: ChargesFragmentArgs by navArgs()
 
 	private var chargesAdapter: ChargesAdapter? = null
 
-	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+	private val viewModel: ChargesViewModel by viewModels {
+		ChargesViewModel.provideFactory(
+			chargesViewModelFactory,
+			args.selectedCompanyId
+		)
+	}
 
-	private var _binding: FragmentChargesBinding? = null
-	private val binding get() = _binding!!
+	private val binding by viewBinding<FragmentChargesBinding>()
+
+	//region BaseMviView This is just a copy from com.arkivanov.mvikotlin.core.view.BaseMviView,
+	// as we cannot use it here and do not want to use it separately. This part could be extracted into a delegate
+
+	private val subject = PublishSubject<UserIntent>()
+
+	override fun events(observer: Observer<UserIntent>): Disposable = subject.subscribe(observer)
+
+	fun sideEffects(sideEffect: SideEffect) {
+		when (sideEffect) {
+			is SideEffect.ChargesItemClicked ->
+				findNavController().navigateSafe(
+					ChargesFragmentDirections.actionToDetails(sideEffect.selectedChargesItem)
+				)
+		}
+	}
+
+	/**
+	 * Dispatches the provided `View Event` to all subscribers
+	 *
+	 * @param event a `View Event` to be dispatched
+	 */
+	@MainThread
+	fun dispatch(event: UserIntent) {
+		subject.onNext(event)
+	}
+
+	override fun render(model: State) {
+		when (model) {
+			is State.Loading ->  binding.msvCharges.viewState = VIEW_STATE_LOADING
+			is State.Error -> {
+				if (model.t is OfflineException) {
+					binding.msvCharges.viewState = VIEW_STATE_EMPTY
+				} else {
+					binding.msvCharges.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvCharges.findViewById<TextView>(R.id.tvMsvError)
+					tvMsvError.text = model.t.message
+				}
+			}
+			is State.Show -> {
+				binding.msvCharges.viewState = VIEW_STATE_CONTENT
+				if (binding.rvCharges.adapter == null) {
+					chargesAdapter = ChargesAdapter(model.charges.items, lifecycleScope)
+					binding.rvCharges.adapter = chargesAdapter
+				} else {
+					chargesAdapter?.updateItems(model.charges.items)
+				}
+				chargesAdapter?.itemClicks?.onEach {
+					dispatch(UserIntent.ChargesItemClicked(it))
+				}?.launchIn(lifecycleScope)
+			}
+		}
+	}
+
+	//endregion
 
 	//region life cycle
 
-	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
-	): View {
-		_binding = FragmentChargesBinding.inflate(inflater, container, false)
-		return binding.root
-	}
-
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initializeUI()
+		viewModel.onViewCreated(this, essentyLifecycle())
+		initializeToolBar()
+		createRecyclerView()
 	}
 
-	private fun initializeUI() {
-		viewModel.logScreenView(this::class.simpleName.orEmpty())
+	private fun initializeToolBar() {
 		(activity as AppCompatActivity).setSupportActionBar(binding.pabCharges.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		binding.pabCharges.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.charges)
-		createRecyclerView()
-		withState(viewModel) {
-			viewModel.fetchCharges(it.companyNumber)
-		}
-	}
-
-	override fun onResume() {
-		super.onResume()
-		observeActions()
 	}
 
 	private fun createRecyclerView() {
@@ -80,67 +134,19 @@ class ChargesFragment : BaseFragment() {
 		binding.rvCharges.addItemDecoration(DividerItemDecoration(requireContext()))
 		binding.rvCharges.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
 			override fun onLoadMore(page: Int, totalItemsCount: Int) {
-				viewModel.loadMoreCharges(page)
+				dispatch(UserIntent.LoadMoreCharges(page))
 			}
 		})
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
-	}
-
-	override fun orientationChanged() {
-		val activity = requireActivity() as ChargesActivity
-		viewModel.setNavigator(activity.injectChargesNavigator())
-	}
-
 	//endregion
+}
 
-	//region render
+sealed class UserIntent {
+	data class ChargesItemClicked(val selectedChargesItem: ChargesItem) : UserIntent()
+	data class LoadMoreCharges(val page: Int) : UserIntent()
+}
 
-	//endregion
-
-	//region events
-
-	private fun observeActions() {
-		eventDisposables.clear()
-		chargesAdapter?.getViewClickedObservable()
-				?.take(1)
-				?.subscribe { view: BaseViewHolder<ChargesVisitableBase> ->
-					viewModel.chargesItemClicked((view as ChargesViewHolder).adapterPosition)
-				}
-				?.let { eventDisposables.add(it) }
-	}
-
-	override fun invalidate() {
-		withState(viewModel) { state ->
-			when (state.chargesRequest) {
-				is Loading -> binding.msvCharges.viewState = VIEW_STATE_LOADING
-				is Fail -> {
-					binding.msvCharges.viewState = VIEW_STATE_ERROR
-					val tvMsvError = binding.msvCharges.findViewById<TextView>(R.id.tvMsvError)
-					tvMsvError.text = state.chargesRequest.error.message
-				}
-				is Success -> {
-					if (state.charges.isEmpty()) {
-						binding.msvCharges.viewState = VIEW_STATE_EMPTY
-					} else {
-						binding.msvCharges.viewState = VIEW_STATE_CONTENT
-						if (binding.rvCharges.adapter == null) {
-							chargesAdapter = ChargesAdapter(state.charges, ChargesTypeFactory())
-							binding.rvCharges.adapter = chargesAdapter
-						} else {
-							chargesAdapter?.updateItems(state.charges)
-						}
-					}
-					observeActions()
-				}
-				else -> {
-				}
-			}
-		}
-	}
-
-	//endregion
+sealed class SideEffect {
+	data class ChargesItemClicked(val selectedChargesItem: ChargesItem) : SideEffect()
 }

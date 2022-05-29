@@ -10,9 +10,10 @@ import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsHeaderB
 import com.babestudios.companyinfouk.charges.databinding.RowChargeDetailsTransactionBinding
 import com.babestudios.companyinfouk.domain.model.charges.Transaction
 
-class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<ChargeDetailsVisitableBase>
-						   , private val chargeDetailsTypeFactory: ChargeDetailsTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<ChargeDetailsVisitableBase>>() {
+class ChargeDetailsAdapter(
+	private var chargeDetailsVisitables: List<ChargeDetailsVisitableBase>,
+	private val chargeDetailsTypeFactory: ChargeDetailsTypeFactory
+) : RecyclerView.Adapter<BaseViewHolder<ChargeDetailsVisitableBase>>() {
 
 	override fun getItemCount(): Int {
 		return chargeDetailsVisitables.size
@@ -29,16 +30,18 @@ class ChargeDetailsAdapter(private var chargeDetailsVisitables: List<ChargeDetai
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-			: BaseViewHolder<ChargeDetailsVisitableBase> {
+		: BaseViewHolder<ChargeDetailsVisitableBase> {
 		val binding = when (viewType) {
 			R.layout.row_charge_details_header -> RowChargeDetailsHeaderBinding.inflate(
-					LayoutInflater.from(parent.context),
-					parent,
-					false)
+				LayoutInflater.from(parent.context),
+				parent,
+				false
+			)
 			else -> RowChargeDetailsTransactionBinding.inflate(
-					LayoutInflater.from(parent.context),
-					parent,
-					false)
+				LayoutInflater.from(parent.context),
+				parent,
+				false
+			)
 		}
 		return chargeDetailsTypeFactory.holder(viewType, binding)
 	}

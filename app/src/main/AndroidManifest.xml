@@ -30,9 +30,6 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".charges.ui.ChargesActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize" />
-		<activity
 			android:name=".filings.ui.FilingsActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize" />
 		<activity

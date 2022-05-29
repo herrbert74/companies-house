@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -47,7 +47,7 @@ class PersonsFragment : Fragment(R.layout.fragment_persons), MviView<State, User
 
 	private var personsAdapter: PersonsAdapter? = null
 
-	private val viewModel: PersonsViewModel by activityViewModels {
+	private val viewModel: PersonsViewModel by viewModels {
 		PersonsViewModel.provideFactory(
 			personsViewModelFactory,
 			args.selectedCompanyId
@@ -109,23 +109,23 @@ class PersonsFragment : Fragment(R.layout.fragment_persons), MviView<State, User
 		}
 	}
 
+	//endregion
+
 	//region life cycle
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		viewModel.onViewCreated(this, essentyLifecycle())
-		initializeUI()
+		initializeToolBar()
+		createRecyclerView()
 	}
 
-	private fun initializeUI() {
-		//viewModel.logScreenView(this::class.simpleName.orEmpty())
+	private fun initializeToolBar() {
 		(activity as AppCompatActivity).setSupportActionBar(binding.pabPersons.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
-
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		binding.pabPersons.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolBar?.setTitle(R.string.persons_with_significant_control)
-		createRecyclerView()
 	}
 
 	private fun createRecyclerView() {

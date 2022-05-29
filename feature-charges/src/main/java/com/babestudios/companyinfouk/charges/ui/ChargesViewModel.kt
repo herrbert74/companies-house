@@ -1,93 +1,70 @@
 package com.babestudios.companyinfouk.charges.ui
 
-import com.airbnb.mvrx.MvRxViewModelFactory
-import com.airbnb.mvrx.ViewModelContext
-import com.airbnb.mvrx.appendAt
-import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitable
-import com.babestudios.companyinfouk.charges.ui.charges.list.ChargesVisitableBase
-import com.babestudios.companyinfouk.domain.model.charges.Charges
-import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.navigation.features.ChargesBaseNavigatable
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.arkivanov.essenty.lifecycle.Lifecycle
+import com.arkivanov.mvikotlin.core.binder.BinderLifecycleMode
+import com.arkivanov.mvikotlin.extensions.coroutines.bind
+import com.arkivanov.mvikotlin.extensions.coroutines.events
+import com.arkivanov.mvikotlin.extensions.coroutines.labels
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesExecutor
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesFragment
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.Intent
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStoreFactory
+import com.babestudios.companyinfouk.charges.ui.charges.UserIntent
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.map
 
-class ChargesViewModel(
-	chargesState: ChargesState,
-	private val companiesRepository: CompaniesRxRepository,
-	var chargesNavigator: ChargesBaseNavigatable
-) : BaseViewModel<ChargesState>(chargesState, companiesRepository) {
+class ChargesViewModel @AssistedInject constructor(
+	chargesExecutor: ChargesExecutor,
+	@Assisted val companyNumber: String,
+) : ViewModel() {
 
-	companion object : MvRxViewModelFactory<ChargesViewModel, ChargesState> {
+	companion object {
 
-		@JvmStatic
-		override fun create(viewModelContext: ViewModelContext, state: ChargesState): ChargesViewModel? {
-			val companiesRepository = viewModelContext.activity<ChargesActivity>().injectCompaniesHouseRepository()
-			val chargesNavigator = viewModelContext.activity<ChargesActivity>().injectChargesNavigator()
-			return ChargesViewModel(
-					state,
-					companiesRepository,
-					chargesNavigator
-			)
-		}
-
-		override fun initialState(viewModelContext: ViewModelContext): ChargesState? {
-			val companyNumber = viewModelContext.activity<ChargesActivity>().provideCompanyNumber()
-			return if (companyNumber.isNotEmpty())
-				ChargesState(companyNumber = companyNumber)
-			else
-				null
-		}
-	}
-
-	fun setNavigator(navigator: ChargesBaseNavigatable) {
-		chargesNavigator = navigator
-	}
-
-	//region charges
-
-	fun fetchCharges(companyNumber: String) {
-		companiesRepository.fetchCharges(companyNumber, "0")
-				.execute {
-					copy(
-							chargesRequest = it,
-							charges = convertToVisitables(it()),
-							totalChargesCount = it()?.totalCount ?: 0
-					)
-				}
-	}
-
-
-	fun loadMoreCharges(page: Int) {
-		withState { state ->
-			if (state.charges.size < state.totalChargesCount) {
-				companiesRepository.fetchCharges(
-						state.companyNumber,
-						(page * Integer
-								.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE))
-								.toString()
-				).execute {
-					copy(
-							chargesRequest = it,
-							charges = charges.appendAt(convertToVisitables(it()), charges.size + 1),
-							totalChargesCount = it()?.totalCount ?: 0
-					)
-				}
+		fun provideFactory(
+			assistedFactory: ChargesViewModelFactory,
+			companyNumber: String
+		): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+			@Suppress("UNCHECKED_CAST")
+			override fun <T : ViewModel> create(modelClass: Class<T>): T {
+				return assistedFactory.create(companyNumber) as T
 			}
 		}
 	}
 
-	private fun convertToVisitables(reply: Charges?): List<ChargesVisitableBase> {
-		return ArrayList(reply?.items?.map { item -> ChargesVisitable(item) } ?: emptyList())
+	private var chargesStore: ChargesStore =
+		ChargesStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), chargesExecutor).create(companyNumber)
+
+	fun onViewCreated(
+		view: ChargesFragment,
+		lifecycle: Lifecycle
+	) {
+		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+			chargesStore.states bindTo view
+			chargesStore.labels bindTo { view.sideEffects(it) }
+			view.events.map { userIntentToIntent(it) } bindTo chargesStore
+		}
 	}
 
-	fun chargesItemClicked(adapterPosition: Int) {
-		withState { state ->
-			setState {
-				copy(chargesItem = (state.charges[adapterPosition] as ChargesVisitable).chargesItem)
+	private val userIntentToIntent: UserIntent.() -> Intent =
+		{
+			when (this) {
+				is UserIntent.ChargesItemClicked -> Intent.ChargesItemClicked(selectedChargesItem)
+				is UserIntent.LoadMoreCharges -> Intent.LoadMoreCharges(page)
 			}
 		}
-		chargesNavigator.chargesToChargesDetails()
-	}
 
 	//endregion
+}
+
+@AssistedFactory
+interface ChargesViewModelFactory {
+	fun create(companyNumber: String): ChargesViewModel
 }

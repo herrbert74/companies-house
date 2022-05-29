@@ -1,18 +1,18 @@
-package com.babestudios.companyinfouk.persons.ui.persons
+package com.babestudios.companyinfouk.charges.ui.charges
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.Intent
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.State
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
-import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.Intent
-import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.State
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
-class PersonsExecutor @Inject constructor(
+class ChargesExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
 	@MainDispatcher val mainContext: CoroutineDispatcher,
 	@IoDispatcher val ioContext: CoroutineDispatcher,
@@ -20,46 +20,46 @@ class PersonsExecutor @Inject constructor(
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
 		when (action) {
-			is BootstrapIntent.LoadPersons -> {
+			is BootstrapIntent.LoadCharges -> {
 				companiesRepository.logScreenView("PersonsFragment")
-				fetchPersons(action.companyNumber)
+				fetchCharges(action.companyNumber)
 			}
 		}
 	}
 
 	override fun executeIntent(intent: Intent, getState: () -> State) {
 		when (intent) {
-			is Intent.PersonsItemClicked -> personsItemClicked(intent.selectedPerson)
-			is Intent.LoadMorePersons -> loadMorePersons(getState, intent.page)
+			is Intent.ChargesItemClicked -> chargesItemClicked(intent.selectedChargesItem)
+			is Intent.LoadMoreCharges -> loadMoreCharges(getState, intent.page)
 		}
 	}
 
-	//region persons actions
+	//region charges
 
-	private fun fetchPersons(companyNumber: String) {
+	private fun fetchCharges(companyNumber: String) {
 		scope.launch {
-			val personsResponse = companiesRepository.getPersons(companyNumber, "0")
-			dispatch(Message.PersonsMessage(personsResponse, companyNumber))
+			val charges = companiesRepository.getCharges(companyNumber, "0")
+			dispatch(Message.ChargesMessage(charges, companyNumber))
 		}
 	}
 
 
-	private fun loadMorePersons(getState: () -> State, page: Int) {
+	private fun loadMoreCharges(getState: () -> State, page: Int) {
 		val showState = (getState() as State.Show)
-		if (showState.personsResponse.items.size < showState.personsResponse.totalResults) {
+		if (showState.charges.items.size < showState.charges.totalCount) {
 			scope.launch {
-				val personsResponse = companiesRepository.getPersons(
+				val personsResponse = companiesRepository.getCharges(
 					showState.companyNumber,
 					(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
 				)
-				dispatch(Message.PersonsMessage(personsResponse, showState.companyNumber))
+				dispatch(Message.ChargesMessage(personsResponse, showState.companyNumber))
 			}
 		}
 	}
 
-	private fun personsItemClicked(person: Person) {
+	private fun chargesItemClicked(chargesItem: ChargesItem) {
 		scope.launch {
-			publish(SideEffect.PersonsItemClicked(person))
+			publish(SideEffect.ChargesItemClicked(chargesItem))
 		}
 	}
 

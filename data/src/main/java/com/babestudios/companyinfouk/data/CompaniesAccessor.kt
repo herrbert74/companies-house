@@ -93,15 +93,17 @@ open class CompaniesAccessor @Inject constructor(
 		}
 	}
 
-	override suspend fun fetchCharges(companyNumber: String, startItem: String): Charges {
-		return withContext(ioContext) {
-			val chargesDto = companiesHouseService.getCharges(
-				companyNumber,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-			)
-			companiesHouseMapping.mapChargesHistory(chargesDto)
-		}
+	override suspend fun getCharges(companyNumber: String, startItem: String): ApiResult<Charges> {
+		return apiRunCatching {
+			withContext(ioContext) {
+				val chargesDto = companiesHouseService.getCharges(
+					companyNumber,
+					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					startItem
+				)
+				companiesHouseMapping.mapChargesHistory(chargesDto)
+			}
+		}.mapError { OfflineException(Charges()) }
 	}
 
 	override suspend fun getInsolvency(companyNumber: String): Insolvency {

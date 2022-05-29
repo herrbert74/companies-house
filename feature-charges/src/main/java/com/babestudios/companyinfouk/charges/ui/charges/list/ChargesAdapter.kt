@@ -1,58 +1,48 @@
 package com.babestudios.companyinfouk.charges.ui.charges.list
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.viewbinding.ViewBinding
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
-import com.babestudios.base.list.BaseViewHolder
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.recyclerview.widget.RecyclerView
 import com.babestudios.companyinfouk.charges.databinding.RowChargesBinding
 import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 
-class ChargesAdapter(private var chargesVisitables: List<ChargesVisitableBase>
-					 , private val chargesTypeFactory: ChargesTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<ChargesVisitableBase>>() {
+class ChargesAdapter(
+	private var chargesItems: List<ChargesItem>,
+	private val lifecycleScope: LifecycleCoroutineScope
+) : RecyclerView.Adapter<ChargesViewHolder>() {
+
+	private val itemClicksChannel: Channel<ChargesItem> = Channel(Channel.UNLIMITED)
+	val itemClicks: Flow<ChargesItem> = itemClicksChannel.consumeAsFlow()
 
 	override fun getItemCount(): Int {
-		return chargesVisitables.size
+		return chargesItems.size
 	}
 
-	override fun getItemViewType(position: Int): Int {
-		return chargesVisitables[position].type(chargesTypeFactory)
-	}
-
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<ChargesVisitableBase>>()
-
-	fun getViewClickedObservable(): Observable<BaseViewHolder<ChargesVisitableBase>> {
-		return itemClickSubject
-	}
-
-	interface ChargesTypeFactory {
-		fun type(chargesItem: ChargesItem): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<ChargesVisitableBase>
-	}
-
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ChargesVisitableBase> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChargesViewHolder {
 		val binding = RowChargesBinding.inflate(
-				LayoutInflater.from(parent.context),
-				parent,
-				false)
-		val v = chargesTypeFactory.holder(viewType, binding)
-		RxView.clicks(v.itemView)
-				.takeUntil(RxView.detaches(parent))
-				.map { v }
-				.subscribe(itemClickSubject)
-		return v
+			LayoutInflater.from(parent.context),
+			parent,
+			false
+		)
+		return ChargesViewHolder(binding)
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<ChargesVisitableBase>, position: Int) {
-		holder.bind(chargesVisitables[position])
+	override fun onBindViewHolder(holder: ChargesViewHolder, position: Int) {
+		holder.bind(chargesItems[position])
+		holder.rawBinding.root.clicks().onEach {
+			itemClicksChannel.trySend(chargesItems[position])
+		}.launchIn(lifecycleScope)
 	}
 
-	fun updateItems(visitables: List<ChargesVisitableBase>) {
-		chargesVisitables = visitables
+	fun updateItems(chargesItems: List<ChargesItem>) {
+		this.chargesItems = chargesItems
 		notifyDataSetChanged()
 	}
 }
