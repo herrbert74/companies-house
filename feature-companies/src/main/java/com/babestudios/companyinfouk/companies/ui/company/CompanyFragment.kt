@@ -200,7 +200,9 @@ class CompanyFragment : BaseFragment() {
 		RxView.clicks(binding.llCompanyInsolvency)
 				.subscribe {
 					withState(viewModel) { state ->
-						viewModel.companiesNavigator.companyToInsolvencies(state.companyNumber)
+						(requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.InsolvenciesFlow(
+							state.companyNumber)
+						)
 					}
 				}
 				.also { disposable -> eventDisposables.add(disposable) }

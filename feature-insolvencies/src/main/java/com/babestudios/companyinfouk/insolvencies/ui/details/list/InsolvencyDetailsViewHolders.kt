@@ -6,33 +6,37 @@ import com.babestudios.companyinfouk.common.databinding.RowSubtitleBinding
 import com.babestudios.companyinfouk.common.databinding.RowTwoLinesBinding
 import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyDetailsPractitionerBinding
 
-class InsolvencyDetailsTitleViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<InsolvencyDetailsVisitableBase>(_binding) {
+class InsolvencyDetailsTitleViewHolder(private val rawBinding: ViewBinding)
+	: BaseViewHolder<InsolvencyDetailsVisitableBase>(rawBinding) {
+
 	override fun bind(visitable: InsolvencyDetailsVisitableBase) {
-		val binding = _binding as RowSubtitleBinding
+		val binding = rawBinding as RowSubtitleBinding
 		val insolvencyDetailsTitleItem = (visitable as InsolvencyDetailsTitleVisitable).insolvencyDetailsTitleItem
 		binding.lblCommonSubtitle.text = insolvencyDetailsTitleItem.title
 	}
+
 }
 
-class InsolvencyDetailsDateViewHolder(_binding: ViewBinding) 
-	: BaseViewHolder<InsolvencyDetailsVisitableBase>(_binding) {
+class InsolvencyDetailsDateViewHolder(private val rawBinding: ViewBinding)
+	: BaseViewHolder<InsolvencyDetailsVisitableBase>(rawBinding) {
+
 	override fun bind(visitable: InsolvencyDetailsVisitableBase) {
-		val binding = _binding as RowTwoLinesBinding
-		val insolvencyDetailsDateItem = 
-				(visitable as InsolvencyDetailsDateVisitable).insolvencyDetailsDateItem
+		val binding = rawBinding as RowTwoLinesBinding
+		val insolvencyDetailsDateItem =
+			(visitable as InsolvencyDetailsDateVisitable).insolvencyDetailsDateItem
 		binding.lblCommonTwoLinesTitle.text = insolvencyDetailsDateItem.date
 		binding.lblCommonTwoLinesText.text = insolvencyDetailsDateItem.type
 	}
+
 }
 
-class InsolvencyDetailsPractitionerViewHolder(_binding: ViewBinding)
-	: BaseViewHolder<InsolvencyDetailsVisitableBase>(_binding) {
+class InsolvencyDetailsPractitionerViewHolder(private val rawBinding: ViewBinding)
+	: BaseViewHolder<InsolvencyDetailsVisitableBase>(rawBinding) {
+
 	override fun bind(visitable: InsolvencyDetailsVisitableBase) {
-		val binding = _binding as RowInsolvencyDetailsPractitionerBinding
-		val insolvencyDetailsPractitionerItem =
-				(visitable as InsolvencyDetailsPractitionerVisitable)
-						.insolvencyDetailsPractitionerItem
-		binding.lblInsolvencyDetailsPractitionerName.text = insolvencyDetailsPractitionerItem.practitioner.name
+		val binding = rawBinding as RowInsolvencyDetailsPractitionerBinding
+		binding.lblInsolvencyDetailsPractitionerName.text =
+			(visitable as InsolvencyDetailsPractitionerVisitable).practitioner.name
 	}
+
 }

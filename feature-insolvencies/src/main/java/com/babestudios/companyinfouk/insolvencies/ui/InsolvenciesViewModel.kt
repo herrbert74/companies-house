@@ -1,120 +1,102 @@
 package com.babestudios.companyinfouk.insolvencies.ui
 
-import com.airbnb.mvrx.MvRxViewModelFactory
-import com.airbnb.mvrx.ViewModelContext
-import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsDateItem
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsDateVisitable
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsPractitionerItem
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsPractitionerVisitable
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTitleItem
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTitleVisitable
-import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsVisitableBase
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitable
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
-import com.babestudios.companyinfouk.navigation.features.InsolvenciesBaseNavigatable
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.arkivanov.essenty.lifecycle.Lifecycle
+import com.arkivanov.mvikotlin.core.binder.BinderLifecycleMode
+import com.arkivanov.mvikotlin.extensions.coroutines.bind
+import com.arkivanov.mvikotlin.extensions.coroutines.events
+import com.arkivanov.mvikotlin.extensions.coroutines.labels
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsExecutor
+import com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsFragment
+import com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsStore
+import com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsStoreFactory
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesExecutor
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesFragment
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore.Intent
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStoreFactory
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.UserIntent
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.map
 
-class InsolvenciesViewModel(
-	insolvenciesState: InsolvenciesState,
-	private val companiesRepository: CompaniesRxRepository,
-	var insolvenciesNavigator: InsolvenciesBaseNavigatable,
-	private val datesTitleString: String,
-	private val practitionersTitleString: String
-) : BaseViewModel<InsolvenciesState>(insolvenciesState, companiesRepository) {
+class InsolvenciesViewModel @AssistedInject constructor(
+	insolvenciesExecutor: InsolvenciesExecutor,
+	private val insolvencyDetailsExecutor: InsolvencyDetailsExecutor,
+	@Assisted val companyNumber: String,
+) : ViewModel() {
 
-	init {
-		withState {
-			fetchInsolvencies(it.companyNumber)
-		}
-	}
+	companion object {
 
-	companion object : MvRxViewModelFactory<InsolvenciesViewModel, InsolvenciesState> {
-
-		@JvmStatic
-		override fun create(viewModelContext: ViewModelContext, state: InsolvenciesState): InsolvenciesViewModel {
-			val companiesRepository = viewModelContext.activity<InsolvenciesActivity>().injectCompaniesHouseRepository()
-			val insolvenciesNavigator = viewModelContext.activity<InsolvenciesActivity>().injectInsolvenciesNavigator()
-			val datesTitleString = viewModelContext.activity<InsolvenciesActivity>().injectDatesTitleString()
-			val practitionersTitleString = viewModelContext.activity<InsolvenciesActivity>()
-				.injectPractitionersTitleString()
-			return InsolvenciesViewModel(
-				state,
-				companiesRepository,
-				insolvenciesNavigator,
-				datesTitleString,
-				practitionersTitleString
-			)
-		}
-
-		override fun initialState(viewModelContext: ViewModelContext): InsolvenciesState? {
-			val companyNumber = viewModelContext.activity<InsolvenciesActivity>().provideCompanyNumber()
-			return if (companyNumber.isNotEmpty())
-				InsolvenciesState(companyNumber = companyNumber)
-			else
-				null
-		}
-	}
-
-	fun setNavigator(navigator: InsolvenciesBaseNavigatable) {
-		insolvenciesNavigator = navigator
-	}
-
-	//region charges
-
-	private fun fetchInsolvencies(companyNumber: String) {
-		companiesRepository.getInsolvency(companyNumber)
-			.execute {
-				copy(
-					insolvencyRequest = it,
-					insolvencies = convertInsolvencyToVisitables(it())
-				)
-			}
-	}
-
-	private fun convertInsolvencyToVisitables(reply: Insolvency?): List<InsolvencyVisitableBase> {
-		return ArrayList(reply?.cases?.map { item -> InsolvencyVisitable(item) } ?: emptyList())
-	}
-
-	fun insolvencyItemClicked(adapterPosition: Int) {
-		withState { state ->
-			val newCase = (state.insolvencies[adapterPosition] as InsolvencyVisitable).insolvencyCase
-			setState {
-				copy(insolvencyCase = newCase)
-			}
-		}
-		insolvenciesNavigator.insolvenciesToInsolvencyDetails()
-	}
-
-	/**
-	/ The list of insolvency cases is shown on the main screen, and dates/practitioners are shown on the details screen
-	 **/
-	fun convertCaseToDetailsVisitables() {
-		val list = ArrayList<InsolvencyDetailsVisitableBase>()
-		withState {
-			list.add(InsolvencyDetailsTitleVisitable(InsolvencyDetailsTitleItem(datesTitleString)))
-			for (item in it.insolvencyCase.dates) {
-				list.add(InsolvencyDetailsDateVisitable(InsolvencyDetailsDateItem(item.date, item.type)))
-			}
-			list.add(InsolvencyDetailsTitleVisitable(InsolvencyDetailsTitleItem(practitionersTitleString)))
-			for (item in it.insolvencyCase.practitioners) {
-				list.add(InsolvencyDetailsPractitionerVisitable(InsolvencyDetailsPractitionerItem(item)))
-			}
-			setState {
-				copy(insolvencyDetailsItems = list.toList())
+		fun provideFactory(
+			assistedFactory: InsolvenciesViewModelFactory,
+			companyNumber: String
+		): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+			@Suppress("UNCHECKED_CAST")
+			override fun <T : ViewModel> create(modelClass: Class<T>): T {
+				return assistedFactory.create(companyNumber) as T
 			}
 		}
 	}
 
-	fun practitionerClicked(adapterPosition: Int) {
-		withState { state ->
-			val practitioner = (state.insolvencyDetailsItems[adapterPosition] as InsolvencyDetailsPractitionerVisitable)
-				.insolvencyDetailsPractitionerItem.practitioner
-			setState { copy(selectedPractitioner = practitioner) }
+	private var insolvenciesStore: InsolvenciesStore =
+		InsolvenciesStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), insolvenciesExecutor).create(companyNumber)
+
+	private var insolvencyDetailsStore: InsolvencyDetailsStore? = null
+
+	fun onViewCreated(
+		view: InsolvenciesFragment,
+		lifecycle: Lifecycle
+	) {
+		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+			insolvenciesStore.states bindTo view
+			insolvenciesStore.labels bindTo { view.sideEffects(it) }
+			view.events.map { userIntentToIntent(it) } bindTo insolvenciesStore
 		}
-		insolvenciesNavigator.insolvencyDetailsToPractitioner()
 	}
 
-	//endregion
+	fun onViewCreated(
+		view: InsolvencyDetailsFragment,
+		lifecycle: Lifecycle,
+		selectedInsolvencyCase: InsolvencyCase,
+	) {
+		if(insolvencyDetailsStore == null) {
+			insolvencyDetailsStore = InsolvencyDetailsStoreFactory(
+			LoggingStoreFactory(DefaultStoreFactory()), insolvencyDetailsExecutor
+			).create(companyNumber, selectedInsolvencyCase)
+		}
+		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+			insolvencyDetailsStore?.states!! bindTo view
+			insolvencyDetailsStore?.labels!! bindTo { view.sideEffects(it) }
+			view.events.map { detailsUserIntentToIntent(it) } bindTo insolvencyDetailsStore!!
+		}
+	}
+
+	private val userIntentToIntent: UserIntent.() -> Intent =
+		{
+			when (this) {
+				is UserIntent.InsolvencyClicked -> Intent.InsolvencyClicked(selectedInsolvency)
+			}
+		}
+
+	private val detailsUserIntentToIntent: com.babestudios.companyinfouk.insolvencies.ui.details.UserIntent.() ->
+	InsolvencyDetailsStore.Intent =
+		{
+			when (this) {
+				is com.babestudios.companyinfouk.insolvencies.ui.details.UserIntent.PractitionerClicked ->
+					InsolvencyDetailsStore.Intent.PractitionerClicked(selectedPractitioner)
+			}
+		}
+
+}
+
+@AssistedFactory
+interface InsolvenciesViewModelFactory {
+	fun create(companyNumber: String): InsolvenciesViewModel
 }

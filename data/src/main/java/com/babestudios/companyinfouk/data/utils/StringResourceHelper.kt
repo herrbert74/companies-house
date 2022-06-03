@@ -11,6 +11,8 @@ interface StringResourceHelperContract {
 	fun getCompanyAccountsNotFoundString(): String
 	fun getAppointedFromToString(from: String, to: String): String
 	fun getAppointedFromString(from: String): String
+	fun getInsolvencyDatesString(): String
+	fun getPractitionerString(): String
 }
 
 class StringResourceHelper @Inject constructor(@ApplicationContext val context: Context)
@@ -34,6 +36,14 @@ class StringResourceHelper @Inject constructor(@ApplicationContext val context: 
 
 	override fun getAppointedFromString(from: String): String {
 		return String.format(context.getString(R.string.officer_item_appointed_from), from)
+	}
+
+	override fun getInsolvencyDatesString(): String {
+		return context.resources.getString(R.string.insolvency_dates)
+	}
+
+	override fun getPractitionerString(): String {
+		return context.resources.getString(R.string.insolvency_practitioners)
 	}
 
 }

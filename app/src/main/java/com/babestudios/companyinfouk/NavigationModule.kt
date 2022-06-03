@@ -2,10 +2,8 @@ package com.babestudios.companyinfouk
 
 import com.babestudios.companyinfouk.companies.CompaniesNavigation
 import com.babestudios.companyinfouk.filings.FilingsNavigation
-import com.babestudios.companyinfouk.insolvencies.InsolvenciesNavigation
 import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
 import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
-import com.babestudios.companyinfouk.navigation.features.InsolvenciesBaseNavigatable
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,12 +25,6 @@ object NavigationModule {
 	@Provides
 	fun provideFilingsNavigatable(): FilingsBaseNavigatable{
 		return FilingsNavigation()
-	}
-
-	@Singleton
-	@Provides
-	fun provideInsolvenciesNavigatable( ): InsolvenciesBaseNavigatable{
-		return InsolvenciesNavigation()
 	}
 
 }

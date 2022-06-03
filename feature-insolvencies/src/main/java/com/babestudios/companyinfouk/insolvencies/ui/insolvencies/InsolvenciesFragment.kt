@@ -1,80 +1,132 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.base.mvrx.BaseFragment
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.withState
+import com.arkivanov.essenty.lifecycle.essentyLifecycle
+import com.arkivanov.mvikotlin.core.annotations.MainThread
+import com.arkivanov.mvikotlin.core.view.MviView
+import com.arkivanov.mvikotlin.rx.Disposable
+import com.arkivanov.mvikotlin.rx.Observer
+import com.arkivanov.mvikotlin.rx.internal.PublishSubject
+import com.babestudios.base.network.OfflineException
 import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
+import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvencyBinding
-import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity
 import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyVisitableBase
+import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModelFactory
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore.State
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvenciesAdapter
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvenciesTypeFactory
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list.InsolvencyViewHolder
-import io.reactivex.disposables.CompositeDisposable
+import com.babestudios.companyinfouk.navigation.navigateSafe
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class InsolvenciesFragment : BaseFragment() {
+@AndroidEntryPoint
+class InsolvenciesFragment : Fragment(R.layout.fragment_insolvency), MviView<State, UserIntent> {
+
+	@Inject
+	lateinit var insolvenciesViewModelFactory: InsolvenciesViewModelFactory
+
+	private val args: InsolvenciesFragmentArgs by navArgs()
 
 	private var insolvenciesAdapter: InsolvenciesAdapter? = null
 
-	private val viewModel by activityViewModel(InsolvenciesViewModel::class)
+	private val viewModel: InsolvenciesViewModel by viewModels {
+		InsolvenciesViewModel.provideFactory(
+			insolvenciesViewModelFactory,
+			args.selectedCompanyId
+		)
+	}
 
-	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+	private val binding by viewBinding<FragmentInsolvencyBinding>()
 
-	private var _binding: FragmentInsolvencyBinding? = null
-	private val binding get() = _binding!!
+	//region BaseMviView This is just a copy from com.arkivanov.mvikotlin.core.view.BaseMviView,
+	// as we cannot use it here and do not want to use it separately. This part could be extracted into a delegate
+
+	private val subject = PublishSubject<UserIntent>()
+
+	override fun events(observer: Observer<UserIntent>): Disposable = subject.subscribe(observer)
+
+	fun sideEffects(sideEffect: SideEffect) {
+		when (sideEffect) {
+			is SideEffect.InsolvencyClicked ->
+				findNavController().navigateSafe(
+					InsolvenciesFragmentDirections.actionToDetails(
+						sideEffect.companyNumber, sideEffect.selectedInsolvency
+					)
+				)
+		}
+	}
+
+	/**
+	 * Dispatches the provided `View Event` to all subscribers
+	 *
+	 * @param event a `View Event` to be dispatched
+	 */
+	@MainThread
+	fun dispatch(event: UserIntent) {
+		subject.onNext(event)
+	}
+
+	override fun render(model: State) {
+		when (model) {
+			is State.Loading -> binding.msvInsolvency.viewState = VIEW_STATE_LOADING
+			is State.Error -> {
+				if (model.t is OfflineException) {
+					binding.msvInsolvency.viewState = VIEW_STATE_EMPTY
+				} else {
+					binding.msvInsolvency.viewState = VIEW_STATE_ERROR
+					val tvMsvError = binding.msvInsolvency.findViewById<TextView>(R.id.tvMsvError)
+					tvMsvError.text = model.t.message
+				}
+			}
+			is State.Show -> {
+				binding.msvInsolvency.viewState = VIEW_STATE_CONTENT
+				if (binding.rvInsolvency.adapter == null) {
+					insolvenciesAdapter = InsolvenciesAdapter(model.insolvencies, lifecycleScope)
+					binding.rvInsolvency.adapter = insolvenciesAdapter
+				} else {
+					insolvenciesAdapter?.updateItems(model.insolvencies)
+				}
+				insolvenciesAdapter?.itemClicks?.onEach {
+					dispatch(UserIntent.InsolvencyClicked(it))
+				}?.launchIn(lifecycleScope)
+			}
+		}
+	}
+
+	//endregion
 
 	//region life cycle
 
-	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
-	): View {
-		_binding = FragmentInsolvencyBinding.inflate(inflater, container, false)
-		return binding.root
-	}
-
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initializeUI()
-	}
-
-	private fun initializeUI() {
-
-		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(binding.pabInsolvency.getToolbar())
-		val toolBar = (activity as AppCompatActivity).supportActionBar
-
-		toolBar?.setDisplayHomeAsUpEnabled(true)
-		binding.pabInsolvency.setNavigationOnClickListener { activity?.onBackPressed() }
-		toolBar?.setTitle(R.string.insolvency)
+		viewModel.onViewCreated(this, essentyLifecycle())
+		initializeToolBar()
 		createRecyclerView()
 	}
 
-	override fun onResume() {
-		super.onResume()
-		observeActions()
-	}
-
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
+	private fun initializeToolBar() {
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabInsolvency.getToolbar())
+		val toolBar = (activity as AppCompatActivity).supportActionBar
+		toolBar?.setDisplayHomeAsUpEnabled(true)
+		binding.pabInsolvency.setNavigationOnClickListener { activity?.onBackPressed() }
+		toolBar?.setTitle(R.string.insolvency)
 	}
 
 	private fun createRecyclerView() {
@@ -83,56 +135,14 @@ class InsolvenciesFragment : BaseFragment() {
 		binding.rvInsolvency.addItemDecoration(DividerItemDecoration(requireContext()))
 	}
 
-	override fun orientationChanged() {
-		val activity = requireActivity() as InsolvenciesActivity
-		viewModel.setNavigator(activity.injectInsolvenciesNavigator())
-	}
-
 	//endregion
 
-	//region render
+}
 
-	override fun invalidate() {
-		withState(viewModel) { state ->
-			when (state.insolvencyRequest) {
-				is Loading -> binding.msvInsolvency.viewState = VIEW_STATE_LOADING
-				is Fail -> {
-					binding.msvInsolvency.viewState = VIEW_STATE_ERROR
-					val tvMsvError = binding.msvInsolvency.findViewById<TextView>(R.id.tvMsvError)
-					tvMsvError.text = state.insolvencyRequest.error.message
-				}
-				is Success -> {
-					if (state.insolvencies.isEmpty()) {
-						binding.msvInsolvency.viewState = VIEW_STATE_EMPTY
-					} else {
-						binding.msvInsolvency.viewState = VIEW_STATE_CONTENT
-						if (binding.rvInsolvency.adapter == null) {
-							insolvenciesAdapter = InsolvenciesAdapter(state.insolvencies, InsolvenciesTypeFactory())
-							binding.rvInsolvency.adapter = insolvenciesAdapter
-						} else {
-							insolvenciesAdapter?.updateItems(state.insolvencies)
-						}
-						observeActions()
-					}
-				}
-				else -> {}
-			}
-		}
-	}
+sealed class UserIntent {
+	data class InsolvencyClicked(val selectedInsolvency: InsolvencyCase) : UserIntent()
+}
 
-	//endregion
-
-	//region events
-
-	private fun observeActions() {
-		eventDisposables.clear()
-		insolvenciesAdapter?.getViewClickedObservable()
-				?.take(1)
-				?.subscribe { view: BaseViewHolder<InsolvencyVisitableBase> ->
-					viewModel.insolvencyItemClicked((view as InsolvencyViewHolder).adapterPosition)
-				}
-				?.let { eventDisposables.add(it) }
-	}
-
-	//endregion
+sealed class SideEffect {
+	data class InsolvencyClicked(val companyNumber: String, val selectedInsolvency: InsolvencyCase) : SideEffect()
 }

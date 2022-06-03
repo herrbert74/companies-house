@@ -32,9 +32,6 @@
 		<activity
 			android:name=".filings.ui.FilingsActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize" />
-		<activity
-			android:name=".insolvencies.ui.InsolvenciesActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize" />
 
 		<provider
 			android:name="androidx.core.content.FileProvider"

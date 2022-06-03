@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details.list
 
 import android.os.Parcelable
+import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import kotlinx.parcelize.Parcelize
 
 sealed class InsolvencyDetailsVisitableBase : Parcelable {
@@ -24,9 +25,9 @@ class InsolvencyDetailsDateVisitable(val insolvencyDetailsDateItem: InsolvencyDe
 }
 
 @Parcelize
-class InsolvencyDetailsPractitionerVisitable(val insolvencyDetailsPractitionerItem: InsolvencyDetailsPractitionerItem)
+class InsolvencyDetailsPractitionerVisitable(val practitioner: Practitioner)
 	: InsolvencyDetailsVisitableBase(), Parcelable {
 	override fun type(insolvencyDetailsTypeFactory: InsolvencyDetailsAdapter.InsolvencyDetailsTypeFactory): Int {
-		return insolvencyDetailsTypeFactory.type(insolvencyDetailsPractitionerItem)
+		return insolvencyDetailsTypeFactory.type(practitioner)
 	}
 }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-													 xmlns:app="http://schemas.android.com/apk/res-auto"
-													 xmlns:tools="http://schemas.android.com/tools"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent"
-													 android:fitsSystemWindows="true"
-													 tools:context="com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	tools:context="com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesFragment">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabInsolvency"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appBarHeight"
 		android:theme="@style/AppTheme.AppBarOverlay"
-		app:imageViewSrc="@drawable/bg_insolvency"/>
+		app:imageViewSrc="@drawable/bg_insolvency" />
 
 	<com.babestudios.base.view.MultiStateView
 		android:id="@+id/msvInsolvency"
@@ -29,7 +29,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:paddingBottom="@dimen/viewMargin"
-			android:scrollbars="vertical"/>
+			android:scrollbars="vertical" />
 	</com.babestudios.base.view.MultiStateView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -270,7 +270,7 @@ object Libs {
 	}
 
 	object MviKotlin {
-		private const val version = "3.0.0-beta01"
+		private const val version = "3.0.0-beta02"
 		const val core = "com.arkivanov.mvikotlin:mvikotlin:$version"
 		const val main = "com.arkivanov.mvikotlin:mvikotlin-main:$version"
 		const val rx = "com.arkivanov.mvikotlin:rx:$version"

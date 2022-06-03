@@ -11,8 +11,12 @@
 		android:label="InsolvenciesFragment"
 		tools:layout="@layout/fragment_insolvency">
 
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+
 		<action
-			android:id="@+id/action_insolvenciesFragment_to_insolvencyDetailsFragment"
+			android:id="@+id/actionToDetails"
 			app:destination="@id/insolvencyDetailsFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
@@ -25,8 +29,17 @@
 		android:name="com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsFragment"
 		android:label="InsolvencyDetailsFragment"
 		tools:layout="@layout/fragment_insolvency_details">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+
+		<argument
+			android:name="selectedInsolvency"
+			app:argType="com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase" />
+
 		<action
-			android:id="@+id/action_insolvencyDetailsFragment_to_practitionerFragment"
+			android:id="@+id/actionToPractitioner"
 			app:destination="@id/practitionerFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
@@ -38,6 +51,16 @@
 		android:id="@+id/practitionerFragment"
 		android:name="com.babestudios.companyinfouk.insolvencies.ui.practitioner.PractitionerFragment"
 		android:label="PractitionerFragment"
-		tools:layout="@layout/fragment_practitioner"/>
+		tools:layout="@layout/fragment_practitioner">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+
+		<argument
+			android:name="selectedPractitioner"
+			app:argType="com.babestudios.companyinfouk.domain.model.insolvency.Practitioner" />
+
+	</fragment>
 
 </navigation>

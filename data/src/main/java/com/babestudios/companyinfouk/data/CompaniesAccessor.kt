@@ -106,11 +106,13 @@ open class CompaniesAccessor @Inject constructor(
 		}.mapError { OfflineException(Charges()) }
 	}
 
-	override suspend fun getInsolvency(companyNumber: String): Insolvency {
-		return withContext(ioContext) {
-			val insolvencyDto = companiesHouseService.getInsolvency(companyNumber)
-			companiesHouseMapping.mapInsolvency(insolvencyDto)
-		}
+	override suspend fun getInsolvency(companyNumber: String): ApiResult<Insolvency> {
+		return apiRunCatching {
+			withContext(ioContext) {
+				val insolvencyDto = companiesHouseService.getInsolvency(companyNumber)
+				companiesHouseMapping.mapInsolvency(insolvencyDto)
+			}
+		}.mapError { OfflineException(Insolvency()) }
 	}
 
 	override suspend fun getOfficers(companyNumber: String, startItem: String): ApiResult<OfficersResponse> {

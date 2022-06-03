@@ -33,11 +33,11 @@ class ChargesStoreFactory(
 	private object ChargesReducer : Reducer<State, Message> {
 		override fun State.reduce(msg: Message): State =
 			when (msg) {
-				is Message.ChargesMessage -> msg.personsResult.fold(
+				is Message.ChargesMessage -> msg.chargesResult.fold(
 					success = { State.Show(companyNumber = msg.companyNumber, charges = it) },
 					failure = { State.Error(it) }
 				)
-				is Message.LoadMoreChargesMessage -> msg.personsResult.fold(
+				is Message.LoadMoreChargesMessage -> msg.chargesResult.fold(
 					success = {
 						State.Show(
 							companyNumber = msg.companyNumber,
@@ -58,9 +58,9 @@ sealed class BootstrapIntent {
 }
 
 sealed class Message {
-	data class ChargesMessage(val personsResult: ApiResult<Charges>, val companyNumber: String) : Message()
+	data class ChargesMessage(val chargesResult: ApiResult<Charges>, val companyNumber: String) : Message()
 	data class LoadMoreChargesMessage(
-		val personsResult: ApiResult<Charges>,
+		val chargesResult: ApiResult<Charges>,
 		val companyNumber: String
 	) : Message()
 }

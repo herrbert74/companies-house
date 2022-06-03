@@ -28,5 +28,7 @@
 	<string name="company_status">Company status</string>
 	<string name="company_accounts_formatted_text">Last %1$s account made up to %2$s</string>
 	<string name="company_accounts_not_found">Accounts not found</string>
+	<string name="insolvency_dates">Dates</string>
+	<string name="insolvency_practitioners">Practitioners</string>
 
 </resources>

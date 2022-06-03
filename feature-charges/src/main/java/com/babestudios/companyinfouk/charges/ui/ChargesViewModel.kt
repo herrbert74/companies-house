@@ -61,7 +61,6 @@ class ChargesViewModel @AssistedInject constructor(
 			}
 		}
 
-	//endregion
 }
 
 @AssistedFactory

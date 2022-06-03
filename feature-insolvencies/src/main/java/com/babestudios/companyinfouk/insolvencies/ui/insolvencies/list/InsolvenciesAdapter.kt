@@ -2,57 +2,47 @@ package com.babestudios.companyinfouk.insolvencies.ui.insolvencies.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
-import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.databinding.RowInsolvencyBinding
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 
-class InsolvenciesAdapter(private var insolvencyVisitables: List<InsolvencyVisitableBase>
-						  , private val insolvencyTypeFactory: InsolvencyTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<InsolvencyVisitableBase>>() {
+class InsolvenciesAdapter(
+	private var insolvencyCases: List<InsolvencyCase>,
+	private val lifecycleScope: LifecycleCoroutineScope
+) : RecyclerView.Adapter<InsolvenciesViewHolder>() {
 
 	override fun getItemCount(): Int {
-		return insolvencyVisitables.size
+		return insolvencyCases.size
 	}
 
-	override fun getItemViewType(position: Int): Int {
-		return insolvencyVisitables[position].type(insolvencyTypeFactory)
-	}
+	private val itemClicksChannel: Channel<InsolvencyCase> = Channel(Channel.UNLIMITED)
+	val itemClicks: Flow<InsolvencyCase> = itemClicksChannel.consumeAsFlow()
 
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<InsolvencyVisitableBase>>()
-
-	fun getViewClickedObservable(): Observable<BaseViewHolder<InsolvencyVisitableBase>> {
-		return itemClickSubject
-	}
-
-	interface InsolvencyTypeFactory {
-		fun type(insolvencyCase: InsolvencyCase): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<InsolvencyVisitableBase>
-	}
-
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<InsolvencyVisitableBase> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InsolvenciesViewHolder {
 		val binding = RowInsolvencyBinding.inflate(
-				LayoutInflater.from(parent.context),
-				parent,
-				false)
-		val v = insolvencyTypeFactory.holder(viewType, binding)
-		RxView.clicks(binding.root)
-				.takeUntil(RxView.detaches(parent))
-				.map { v }
-				.subscribe(itemClickSubject)
-		return v
+			LayoutInflater.from(parent.context),
+			parent,
+			false
+		)
+		return InsolvenciesViewHolder(binding)
 	}
 
-	override fun onBindViewHolder(holder: BaseViewHolder<InsolvencyVisitableBase>, position: Int) {
-		holder.bind(insolvencyVisitables[position])
+	override fun onBindViewHolder(holder: InsolvenciesViewHolder, position: Int) {
+		holder.bind(insolvencyCases[position])
+		holder.rawBinding.root.clicks().onEach {
+			itemClicksChannel.trySend(insolvencyCases[position])
+		}.launchIn(lifecycleScope)
 	}
 
-	fun updateItems(visitables: List<InsolvencyVisitableBase>) {
-		insolvencyVisitables = visitables
+	fun updateItems(insolvencyCases: List<InsolvencyCase>) {
+		this.insolvencyCases = insolvencyCases
 		notifyDataSetChanged()
 	}
 }
