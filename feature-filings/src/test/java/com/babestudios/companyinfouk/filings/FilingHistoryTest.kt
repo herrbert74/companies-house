@@ -2,11 +2,9 @@ package com.babestudios.companyinfouk.filings
 
 import com.airbnb.mvrx.test.MvRxTestRule
 import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
-import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

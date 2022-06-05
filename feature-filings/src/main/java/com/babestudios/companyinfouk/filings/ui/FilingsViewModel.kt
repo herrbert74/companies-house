@@ -1,174 +1,108 @@
 package com.babestudios.companyinfouk.filings.ui
 
 import android.graphics.Typeface
-import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import com.airbnb.mvrx.MvRxViewModelFactory
-import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.ViewModelContext
-import com.airbnb.mvrx.appendAt
-import com.babestudios.base.mvrx.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.arkivanov.essenty.lifecycle.Lifecycle
+import com.arkivanov.mvikotlin.core.binder.BinderLifecycleMode
+import com.arkivanov.mvikotlin.extensions.coroutines.bind
+import com.arkivanov.mvikotlin.extensions.coroutines.events
+import com.arkivanov.mvikotlin.extensions.coroutines.labels
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.companyinfouk.domain.model.filinghistory.Category
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.filings.ui.filinghistory.list.FilingHistoryVisitable
-import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsExecutor
+import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsFragment
+import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStore
+import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStoreFactory
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryExecutor
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryFragment
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryStore
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryStore.Intent
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingsHistoryStoreFactory
+import com.babestudios.companyinfouk.filings.ui.filinghistory.UserIntent
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.map
 
-class FilingsViewModel(
-	filingsState: FilingsState,
-	private val companiesRepository: CompaniesRxRepository,
-	var filingsNavigator: FilingsBaseNavigatable
-) : BaseViewModel<FilingsState>(filingsState, companiesRepository) {
+class FilingsViewModel @AssistedInject constructor(
+	filingHistoryExecutor: FilingHistoryExecutor,
+	private val filingHistoryDetailsExecutor: FilingHistoryDetailsExecutor,
+	@Assisted val companyNumber: String,
+) : ViewModel() {
 
-	companion object : MvRxViewModelFactory<FilingsViewModel, FilingsState> {
+	companion object {
 
-		@JvmStatic
-		override fun create(viewModelContext: ViewModelContext, state: FilingsState): FilingsViewModel? {
-			val companiesRepository = viewModelContext.activity<FilingsActivity>().injectCompaniesHouseRepository()
-			val filingsNavigator = viewModelContext.activity<FilingsActivity>().injectFilingsNavigator()
-			return FilingsViewModel(
-					state,
-					companiesRepository,
-					filingsNavigator
-			)
-		}
-
-		override fun initialState(viewModelContext: ViewModelContext): FilingsState? {
-			val companyNumber = viewModelContext.activity<FilingsActivity>().provideCompanyNumber()
-			return if (companyNumber.isNotEmpty())
-				FilingsState(companyNumber = companyNumber)
-			else
-				null
-		}
-	}
-
-	fun setNavigator(navigator: FilingsBaseNavigatable) {
-		filingsNavigator = navigator
-	}
-
-	//region filings
-
-	fun getFilingHistory() {
-		withState { state ->
-			companiesRepository.getFilingHistory(
-					state.companyNumber,
-					state.filingCategoryFilter,
-					"0"
-			)
-					.execute {
-						copy(
-								filingsRequest = it,
-								filingsHistory = convertToVisitables(it(), state.filingCategoryFilter),
-								totalFilingsCount = it()?.totalCount ?: 0
-						)
-					}
-		}
-	}
-
-
-	fun loadMoreFilingHistory(page: Int) {
-		withState { state ->
-			if (state.filingsHistory.size < state.totalFilingsCount) {
-				companiesRepository.getFilingHistory(
-						state.companyNumber,
-						state.filingCategoryFilter,
-						(page * Integer
-								.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE))
-								.toString()
-				).execute {
-					copy(
-							filingsRequest = it,
-							filingsHistory = filingsHistory.appendAt(
-									convertToVisitables(it(), state.filingCategoryFilter),
-									filingsHistory.size + 1
-							),
-							totalFilingsCount = it()?.totalCount ?: 0
-					)
-				}
+		fun provideFactory(
+			assistedFactory: FilingsViewModelFactory,
+			companyNumber: String
+		): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+			@Suppress("UNCHECKED_CAST")
+			override fun <T : ViewModel> create(modelClass: Class<T>): T {
+				return assistedFactory.create(companyNumber) as T
 			}
 		}
 	}
 
-	private fun convertToVisitables(reply: FilingHistory?, filingCategoryFilter: Category): List<FilingHistoryVisitable> {
-		return ArrayList(reply?.items
-				?.map { item -> FilingHistoryVisitable(item) }
-				//https://bitbucket.org/herrbert74/companies-house/issues/77/filinghistory-problems
-				?.filter {
-					if (filingCategoryFilter == Category.CATEGORY_CONFIRMATION_STATEMENT)
-						it.filingHistoryItem.category == Category.CATEGORY_CONFIRMATION_STATEMENT
-					else
-						true
-				} ?: emptyList())
-	}
+	private var filingHistoryStore: FilingHistoryStore = FilingsHistoryStoreFactory(
+		LoggingStoreFactory(DefaultStoreFactory()),
+		filingHistoryExecutor
+	).create(companyNumber)
 
-	fun setCategoryFilter(category: Int) {
-		setState {
-			copy(
-					filingCategoryFilter = Category.values()[category],
-					filingsHistory = emptyList()
-			)
+	private var filingHistoryDetailsStore: FilingHistoryDetailsStore? = null
+
+	fun onViewCreated(
+		view: FilingHistoryFragment,
+		lifecycle: Lifecycle
+	) {
+		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+			filingHistoryStore.states bindTo view
+			filingHistoryStore.labels bindTo { view.sideEffects(it) }
+			view.events.map { userIntentToIntent(it) } bindTo filingHistoryStore
 		}
-		getFilingHistory()
 	}
 
-	fun filingHistoryItemClicked(adapterPosition: Int) {
-		withState { state ->
-			val filingHistoryItem = state.filingsHistory[adapterPosition].filingHistoryItem
-			setState {
-				copy(
-						filingHistoryItem = filingHistoryItem
-				)
+	fun onViewCreated(
+		view: FilingHistoryDetailsFragment,
+		lifecycle: Lifecycle,
+		selectedFilingHistoryItem: FilingHistoryItem,
+	) {
+		if(filingHistoryDetailsStore == null) {
+			filingHistoryDetailsStore = FilingHistoryDetailsStoreFactory(
+				LoggingStoreFactory(DefaultStoreFactory()), filingHistoryDetailsExecutor
+			).create(companyNumber, selectedFilingHistoryItem)
+		}
+		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+			filingHistoryDetailsStore!!.states bindTo view
+			view.events.map { detailsUserIntentToIntent(it) } bindTo filingHistoryDetailsStore!!
+		}
+	}
+
+	private val userIntentToIntent: UserIntent.() -> Intent =
+		{
+			when (this) {
+				is UserIntent.FilingItemClicked -> Intent.FilingHistoryItemClicked(selectedFilingHistoryItem)
+				is UserIntent.LoadMoreFilings -> Intent.LoadMoreFilingHistory(page)
+				is UserIntent.FilingCategorySelected -> Intent.FilterClicked(Category.values()[categoryOrdinal])
 			}
 		}
-		filingsNavigator.filingsToFilingsDetails()
-	}
 
-	//endregion
-
-	//region filings details
-
-	fun fetchDocument() {
-		withState { state ->
-			state.filingHistoryItem.links.documentMetadata.also { data ->
-				val documentId = data.substringAfterLast("/")
-				companiesRepository.getDocument(documentId)
-						.execute {
-							copy(
-									documentId = documentId,
-									documentRequest = it,
-									pdfResponseBody = it()
-							)
-						}
+	private val detailsUserIntentToIntent: com.babestudios.companyinfouk.filings.ui.details.UserIntent.() ->
+	FilingHistoryDetailsStore.Intent =
+		{
+			when (this) {
+				is com.babestudios.companyinfouk.filings.ui.details.UserIntent.FetchDocument ->
+					FilingHistoryDetailsStore.Intent.FetchDocument(documentId)
+				is com.babestudios.companyinfouk.filings.ui.details.UserIntent.WriteDocument ->
+					FilingHistoryDetailsStore.Intent.WriteDocument(uri)
 			}
 		}
-	}
-
-	fun writeDocument(uri: Uri) {
-		withState { state ->
-			state.pdfResponseBody?.let { pdfResponseBody ->
-				companiesRepository.writeDocumentPdf(pdfResponseBody, uri)
-						.execute {
-							copy(
-									writeDocumentRequest = it,
-									pdfUri = it()
-							)
-						}
-			}
-		}
-	}
-
-	fun resetState() {
-		setState {
-			copy(
-					documentId = null,
-					documentRequest = Uninitialized,
-					writeDocumentRequest = Uninitialized
-			)
-		}
-	}
 
 	//endregion
 }
@@ -195,4 +129,9 @@ fun String?.createSpannableDescription(): Spannable? {
 		return spannable
 	}
 	return null
+}
+
+@AssistedFactory
+interface FilingsViewModelFactory {
+	fun create(companyNumber: String): FilingsViewModel
 }

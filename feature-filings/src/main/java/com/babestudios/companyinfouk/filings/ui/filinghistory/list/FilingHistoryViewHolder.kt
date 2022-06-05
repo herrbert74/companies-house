@@ -1,15 +1,16 @@
 package com.babestudios.companyinfouk.filings.ui.filinghistory.list
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.babestudios.base.list.BaseViewHolder
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.databinding.RowFilingHistoryBinding
 import com.babestudios.companyinfouk.filings.ui.createSpannableDescription
 
-class FilingHistoryViewHolder(_binding: ViewBinding) : BaseViewHolder<FilingHistoryVisitableBase>(_binding) {
+class FilingHistoryViewHolder(val rawBinding: ViewBinding) : RecyclerView.ViewHolder(rawBinding.root) {
 
-	override fun bind(visitable: FilingHistoryVisitableBase) {
-		val binding = _binding as RowFilingHistoryBinding
-		val filingHistoryItem = (visitable as FilingHistoryVisitable).filingHistoryItem
+	fun bind(filingHistoryItem: FilingHistoryItem) {
+		val binding = rawBinding as RowFilingHistoryBinding
 		val spannableDescription = filingHistoryItem.description.createSpannableDescription()
 		binding.lblFilingHistoryDescription.text = spannableDescription
 		binding.lblFilingHistoryDate.text = filingHistoryItem.date

@@ -21,7 +21,7 @@ interface CompaniesRepository : AnalyticsContract {
 	//Companies House API
 	suspend fun searchCompanies(queryText: CharSequence, startItem: String): CompanySearchResult
 	suspend fun getCompany(companyNumber: String): Company
-	suspend fun getFilingHistory(companyNumber: String, category: Category, startItem: String): FilingHistory
+	suspend fun getFilingHistory(companyNumber: String, category: Category, startItem: String): ApiResult<FilingHistory>
 	suspend fun getCharges(companyNumber: String, startItem: String): ApiResult<Charges>
 	suspend fun getInsolvency(companyNumber: String): ApiResult<Insolvency>
 	suspend fun getOfficers(companyNumber: String, startItem: String): ApiResult<OfficersResponse>

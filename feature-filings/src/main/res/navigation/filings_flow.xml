@@ -11,8 +11,12 @@
 		android:label="FilingsFragment"
 		tools:layout="@layout/fragment_filing_history">
 
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+
 		<action
-			android:id="@+id/action_filingsFragment_to_filingDetailsFragment"
+			android:id="@+id/actionToDetails"
 			app:destination="@id/filingDetailsFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
@@ -25,6 +29,15 @@
 		android:name="com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsFragment"
 		android:label="FilingDetailsFragment"
 		tools:layout="@layout/fragment_filing_history_details">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+
+		<argument
+			android:name="selectedFilingsItem"
+			app:argType="com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem" />
+
 	</fragment>
 
 </navigation>

@@ -2,50 +2,38 @@ package com.babestudios.companyinfouk.filings.ui.filinghistory.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
-import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.databinding.RowFilingHistoryBinding
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 
 class FilingHistoryAdapter internal constructor(
-		private var visitables: List<FilingHistoryVisitable>,
-		private val filingHistoryTypeFactory: FilingHistoryTypeFactory
-) : RecyclerView.Adapter<BaseViewHolder<FilingHistoryVisitable>>() {
+	private var filingHistoryItems: List<FilingHistoryItem>,
+	private val lifecycleScope: LifecycleCoroutineScope
+) : RecyclerView.Adapter<FilingHistoryViewHolder>() {
 
-	interface FilingHistoryTypeFactory {
-		fun type(filingHistoryItem: FilingHistoryItem): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<FilingHistoryVisitableBase>
-	}
+	private val itemClicksChannel: Channel<FilingHistoryItem> = Channel(Channel.UNLIMITED)
+	val itemClicks: Flow<FilingHistoryItem> = itemClicksChannel.consumeAsFlow()
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FilingHistoryVisitableBase> {
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilingHistoryViewHolder {
 		val binding = RowFilingHistoryBinding.inflate(
 				LayoutInflater.from(parent.context),
 				parent,
 				false)
-		val v = filingHistoryTypeFactory.holder(viewType, binding)
-		RxView.clicks(binding.root)
-				.takeUntil(RxView.detaches(parent))
-				.map { v }
-				.subscribe(itemClickSubject)
-		return v
+		return FilingHistoryViewHolder(binding)
 	}
 
-	override fun onBindViewHolder(viewHolder: BaseViewHolder<FilingHistoryVisitable>, position: Int) {
-		viewHolder.bind(visitables[position])
-	}
-
-	override fun getItemViewType(position: Int): Int {
-		return visitables[position].type(filingHistoryTypeFactory)
-	}
-
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<FilingHistoryVisitable>>()
-
-	fun getViewClickedObservable(): Observable<BaseViewHolder<FilingHistoryVisitable>> {
-		return itemClickSubject
+	override fun onBindViewHolder(viewHolder: FilingHistoryViewHolder, position: Int) {
+		viewHolder.bind(filingHistoryItems[position])
+		viewHolder.rawBinding.root.clicks().onEach {
+			itemClicksChannel.trySend(filingHistoryItems[position])
+		}.launchIn(lifecycleScope)
 	}
 
 	override fun getItemId(position: Int): Long {
@@ -53,11 +41,11 @@ class FilingHistoryAdapter internal constructor(
 	}
 
 	override fun getItemCount(): Int {
-		return visitables.size
+		return filingHistoryItems.size
 	}
 
-	fun updateItems(visitables: List<FilingHistoryVisitable>) {
-		this.visitables = visitables
+	fun updateItems(visitables: List<FilingHistoryItem>) {
+		this.filingHistoryItems = visitables
 		notifyDataSetChanged()
 	}
 }

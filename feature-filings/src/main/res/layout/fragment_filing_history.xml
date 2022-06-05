@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-													 xmlns:app="http://schemas.android.com/apk/res-auto"
-													 xmlns:tools="http://schemas.android.com/tools"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent"
-													 android:fitsSystemWindows="true"
-													 tools:context="com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	tools:context="com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryFragment">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabFilingHistory"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appBarHeight"
 		android:theme="@style/AppTheme.AppBarOverlay"
-		app:imageViewSrc="@drawable/bg_filing_history"/>
+		app:imageViewSrc="@drawable/bg_filing_history" />
 
 	<com.babestudios.base.view.MultiStateView
 		android:id="@+id/msvFilingHistory"
@@ -29,7 +29,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:paddingBottom="@dimen/viewMargin"
-			android:scrollbars="vertical"/>
+			android:scrollbars="vertical" />
 	</com.babestudios.base.view.MultiStateView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

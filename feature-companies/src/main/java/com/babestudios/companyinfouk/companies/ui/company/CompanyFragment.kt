@@ -8,25 +8,23 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import androidx.navigation.fragment.findNavController
-import com.babestudios.base.mvrx.BaseFragment
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.existingViewModel
 import com.airbnb.mvrx.withState
+import com.babestudios.base.mvrx.BaseFragment
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
-import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentCompanyBinding
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
 import com.babestudios.companyinfouk.companies.ui.CompaniesState
 import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.navigation.NavigationFlow
 import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
-import com.babestudios.companyinfouk.navigation.navigateSafe
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.CompositeDisposable
 
@@ -182,9 +180,9 @@ class CompanyFragment : BaseFragment() {
 		RxView.clicks(binding.llCompanyFilings)
 				.subscribe {
 					withState(viewModel) { state ->
-						findNavController().navigateSafe(CompanyFragmentDirections
-							.actionCompanyFragmentToFilingsActivity())
-						//viewModel.companiesNavigator.companyToFilings(state.companyNumber)
+						(requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.FilingsFlow(
+							state.companyNumber)
+						)
 					}
 				}
 				.also { disposable -> eventDisposables.add(disposable) }

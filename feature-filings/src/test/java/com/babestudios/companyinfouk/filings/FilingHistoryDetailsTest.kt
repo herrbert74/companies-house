@@ -5,9 +5,7 @@ import com.babestudios.base.ext.getPrivateProperty
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLinks
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.filings.ui.FilingsState
 import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
-import com.babestudios.companyinfouk.navigation.features.FilingsBaseNavigatable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

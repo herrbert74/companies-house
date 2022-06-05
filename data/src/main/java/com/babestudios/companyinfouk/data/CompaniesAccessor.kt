@@ -81,16 +81,18 @@ open class CompaniesAccessor @Inject constructor(
 		companyNumber: String,
 		category: Category,
 		startItem: String
-	): FilingHistory {
-		return withContext(ioContext) {
-			val historyDto = companiesHouseService.getFilingHistory(
-				companyNumber,
-				mapFilingHistoryCategory(category).getSerializedName(),
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-			)
-			companiesHouseMapping.mapFilingHistory(historyDto)
-		}
+	): ApiResult<FilingHistory> {
+		return apiRunCatching {
+			withContext(ioContext) {
+				val historyDto = companiesHouseService.getFilingHistory(
+					companyNumber,
+					mapFilingHistoryCategory(category).getSerializedName(),
+					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					startItem
+				)
+				companiesHouseMapping.mapFilingHistory(historyDto)
+			}
+		}.mapError { OfflineException(FilingHistory()) }
 	}
 
 	override suspend fun getCharges(companyNumber: String, startItem: String): ApiResult<Charges> {

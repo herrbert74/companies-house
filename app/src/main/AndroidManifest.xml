@@ -29,9 +29,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity
-			android:name=".filings.ui.FilingsActivity"
-			android:configChanges="orientation|keyboardHidden|screenSize" />
 
 		<provider
 			android:name="androidx.core.content.FileProvider"
