@@ -67,7 +67,7 @@ class OfficersFragment : Fragment(R.layout.fragment_officers), MviView<State, Us
 		when (sideEffect) {
 			is SideEffect.OfficerItemClicked ->
 				findNavController().navigateSafe(
-					OfficersFragmentDirections.actionToDetails(sideEffect.selectedOfficer)
+					OfficersFragmentDirections.actionToDetails(args.selectedCompanyId, sideEffect.selectedOfficer)
 				)
 		}
 	}

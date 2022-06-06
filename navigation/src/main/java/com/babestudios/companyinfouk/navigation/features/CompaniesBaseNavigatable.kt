@@ -10,7 +10,4 @@ interface CompaniesBaseNavigatable: BaseNavigatable {
     fun mainToPrivacy()
     fun favouritesToCompany(companyNumber: String, companyName: String)
     fun companyToMap()
-    fun companyToCharges(companyNumber: String)
-    fun companyToFilings(companyNumber: String)
-    fun companyToInsolvencies(companyNumber: String)
 }

@@ -25,7 +25,6 @@ import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.model.officers.Appointment
-import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
 import com.babestudios.companyinfouk.navigation.DeepLinkDestination
 import com.babestudios.companyinfouk.navigation.deepLinkNavigateTo
 import com.babestudios.companyinfouk.officers.R
@@ -50,14 +49,14 @@ class AppointmentsFragment : Fragment(R.layout.fragment_officer_appointments), M
 
 	private var appointmentsAdapter: AppointmentsAdapter? = null
 
+	private val args: AppointmentsFragmentArgs by navArgs()
+
 	private val viewModel: OfficersViewModel by viewModels {
 		OfficersViewModel.provideFactory(
 			officersViewModelFactory,
-			requireActivity().intent.getStringExtra(COMPANY_NUMBER).orEmpty()
+			args.selectedCompanyId
 		)
 	}
-
-	private val args: AppointmentsFragmentArgs by navArgs()
 
 	private val binding by viewBinding<FragmentOfficerAppointmentsBinding>()
 

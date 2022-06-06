@@ -32,6 +32,10 @@
 		tools:layout="@layout/fragment_officer_details">
 
 		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
+
+		<argument
 			android:name="selectedOfficer"
 			app:argType="com.babestudios.companyinfouk.domain.model.officers.Officer" />
 
@@ -50,6 +54,10 @@
 		android:name="com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsFragment"
 		android:label="OfficerAppointmentsFragment"
 		tools:layout="@layout/fragment_officer_appointments">
+
+		<argument
+			android:name="selectedCompanyId"
+			app:argType="string" />
 
 		<argument
 			android:name="selectedOfficer"

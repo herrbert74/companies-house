@@ -6,11 +6,6 @@ import androidx.navigation.findNavController
 import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.navigation.COMPANY_NAME
-import com.babestudios.companyinfouk.navigation.COMPANY_NUMBER
-import com.babestudios.companyinfouk.navigation.INDIVIDUAL_ADDRESS
-import com.babestudios.companyinfouk.navigation.INDIVIDUAL_NAME
 import com.babestudios.companyinfouk.navigation.NavigationFlow
 import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
 import com.babestudios.companyinfouk.navigation.base.Navigation
@@ -29,19 +24,10 @@ class CompaniesActivity : BaseActivity(), ToFlowNavigatable {
 
 	private lateinit var navController: NavController
 
-	private lateinit var companyNumber: String
-	private lateinit var companyName: String
-	private var individualName: String? = null
-	private var individualAddress: Address? = null
-
 	private var navigation: Navigation = Navigation()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		companyNumber = intent.extras?.getString(COMPANY_NUMBER).orEmpty()
-		companyName = intent.extras?.getString(COMPANY_NAME).orEmpty()
-		individualName = intent.extras?.getString(INDIVIDUAL_NAME)
-		individualAddress = intent.extras?.getParcelable(INDIVIDUAL_ADDRESS)
 		setContentView(R.layout.activity_companies)
 		navController = findNavController(R.id.navHostFragmentCompanies)
 		navigation.bind(navController)
@@ -64,10 +50,6 @@ class CompaniesActivity : BaseActivity(), ToFlowNavigatable {
 	fun injectCompaniesNavigator(): CompaniesBaseNavigatable {
 		if (::navController.isInitialized) {
 			companiesNavigator.bind(navController)
-			if (companyNumber.isNotEmpty())
-				companiesNavigator.mainToCompanyPopMain()
-			else if (individualAddress != null)
-				companiesNavigator.mainToMapPopMain()
 		}
 		return companiesNavigator
 	}
@@ -76,28 +58,12 @@ class CompaniesActivity : BaseActivity(), ToFlowNavigatable {
 		return getString(R.string.recent_searches)
 	}
 
-	fun provideCompanyNumber(): String {
-		return if (::companyNumber.isInitialized) companyNumber else ""
-	}
-
-	fun provideCompanyName(): String {
-		return if (::companyName.isInitialized) companyName else ""
-	}
-
-	fun provideIndividualName(): String? {
-		return individualName
-	}
-
-	fun provideIndividualAddress(): Address? {
-		return individualAddress
-	}
-
 	override fun navigateToFlow(flow: NavigationFlow) {
 		navigation.navigateToFlow(flow)
 	}
 
-	fun popBackStack() {
-		findNavController(R.id.navHostFragmentCompanies)
-	}
+//	fun popBackStack() {
+//		findNavController(R.id.navHostFragmentCompanies)
+//	}
 
 }

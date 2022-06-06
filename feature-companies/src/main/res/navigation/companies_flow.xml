@@ -72,27 +72,6 @@
 			app:exitAnim="@anim/left_slide_out"
 			app:popEnterAnim="@anim/left_slide_in"
 			app:popExitAnim="@anim/right_slide_out" />
-		<action
-			android:id="@+id/action_companyFragment_to_chargesActivity"
-			app:destination="@id/chargesActivity"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-		<action
-			android:id="@+id/action_companyFragment_to_filingsActivity"
-			app:destination="@id/filingsActivity"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-		<action
-			android:id="@+id/action_companyFragment_to_insolvenciesActivity"
-			app:destination="@id/insolvenciesActivity"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
 	</fragment>
 
 	<fragment
@@ -133,17 +112,5 @@
 		android:name="com.babestudios.companyinfouk.companies.ui.privacy.PrivacyFragment"
 		android:label="PrivacyFragment">
 	</fragment>
-
-	<activity
-		android:id="@+id/chargesActivity"
-		android:name="com.babestudios.companyinfouk.charges.ui.ChargesActivity" />
-
-	<activity
-		android:id="@+id/filingsActivity"
-		android:name="com.babestudios.companyinfouk.filings.ui.FilingsActivity" />
-
-	<activity
-		android:id="@+id/insolvenciesActivity"
-		android:name="com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesActivity" />
 
 </navigation>

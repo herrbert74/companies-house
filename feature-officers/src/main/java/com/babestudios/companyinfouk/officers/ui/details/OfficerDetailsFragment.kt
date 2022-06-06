@@ -68,14 +68,15 @@ class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 			viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
 				binding.btnOfficerDetailsAppointments.clicks().onEach {
 					findNavController().navigateSafe(
-						OfficerDetailsFragmentDirections.actionToAppointments(args.selectedOfficer)
+						OfficerDetailsFragmentDirections.actionToAppointments(
+							args.selectedCompanyId, args.selectedOfficer
+						)
 					)
 				}.launchIn(lifecycleScope)
 				binding.addressViewOfficerDetails.getMapButton().clicks().onEach {
 					findNavController().deepLinkNavigateTo(
 						DeepLinkDestination.Map(
-							args.selectedOfficer.name,
-							args.selectedOfficer.address.getAddressString(),
+							args.selectedOfficer.name, args.selectedOfficer.address.getAddressString(),
 						)
 					)
 				}.launchIn(lifecycleScope)

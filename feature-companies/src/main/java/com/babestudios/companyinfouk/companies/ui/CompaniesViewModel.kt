@@ -48,16 +48,7 @@ class CompaniesViewModel(
 		}
 
 		override fun initialState(viewModelContext: ViewModelContext): CompaniesState? {
-			val companyNumber = viewModelContext.activity<CompaniesActivity>().provideCompanyNumber()
-			val companyName = viewModelContext.activity<CompaniesActivity>().provideCompanyName()
-			val individualName = viewModelContext.activity<CompaniesActivity>().provideIndividualName()
-			val individualAddress = viewModelContext.activity<CompaniesActivity>().provideIndividualAddress()
-			return when {
-				companyNumber.isNotEmpty() -> CompaniesState(companyNumber = companyNumber, companyName = companyName)
-				individualName != null ->
-					CompaniesState(individualName = individualName, individualAddress = individualAddress)
-				else -> null
-			}
+			return null
 		}
 	}
 
