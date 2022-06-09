@@ -2,17 +2,17 @@ package com.babestudios.companyinfouk.companies.ui.favourites.list
 
 import android.graphics.Color
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.companies.databinding.RowFavouritesBinding
 
-class FavouritesViewHolder(_binding: ViewBinding) : BaseViewHolder<FavouritesVisitableBase>(_binding) {
+class FavouritesViewHolder(val rawBinding: ViewBinding) : RecyclerView.ViewHolder(rawBinding.root) {
 
-	var favouritesVisitable: FavouritesVisitable? = null
-	override fun bind(visitable: FavouritesVisitableBase) {
-		val binding = _binding as RowFavouritesBinding
-				favouritesVisitable = (visitable as FavouritesVisitable)
-		val favouritesItem = favouritesVisitable!!.favouritesListItem
+	lateinit var favouritesItem: FavouritesListItem
+
+	fun bind(favouritesItem: FavouritesListItem) {
+		this.favouritesItem = favouritesItem
+		val binding = rawBinding as RowFavouritesBinding
 		if (favouritesItem.isPendingRemoval) {
 			binding.root.setBackgroundColor(Color.RED)
 			binding.llFavourites.visibility = View.INVISIBLE
@@ -20,11 +20,11 @@ class FavouritesViewHolder(_binding: ViewBinding) : BaseViewHolder<FavouritesVis
 		} else {
 			binding.root.setBackgroundColor(Color.WHITE)
 			binding.llFavourites.visibility = View.VISIBLE
-			binding.btnFavouritesUndo.visibility = View.GONE
 			binding.lblFavouritesCompanyName.text = favouritesItem.searchHistoryItem.companyName
 			binding.lblFavouritesCompanyNumber.text = favouritesItem.searchHistoryItem.companyNumber
 			binding.btnFavouritesUndo.visibility = View.GONE
 			binding.btnFavouritesUndo.setOnClickListener(null)
 		}
 	}
+
 }

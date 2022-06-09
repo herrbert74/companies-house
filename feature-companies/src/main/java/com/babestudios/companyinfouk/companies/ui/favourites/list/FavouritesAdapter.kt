@@ -2,66 +2,53 @@ package com.babestudios.companyinfouk.companies.ui.favourites.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
-import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.companyinfouk.companies.databinding.RowFavouritesBinding
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 
-class FavouritesAdapter(private var favouritesVisitables: List<FavouritesVisitableBase>
-						, private val favouritesTypeFactory: FavouritesTypeFactory)
-	: RecyclerView.Adapter<BaseViewHolder<FavouritesVisitableBase>>() {
+class FavouritesAdapter(
+	var favouritesItems: List<FavouritesListItem>,
+	private val lifecycleScope: LifecycleCoroutineScope
+) : RecyclerView.Adapter<FavouritesViewHolder>() {
 
 	override fun getItemCount(): Int {
-		return favouritesVisitables.size
+		return favouritesItems.size
 	}
 
-	override fun getItemViewType(position: Int): Int {
-		return favouritesVisitables[position].type(favouritesTypeFactory)
+	private val itemClicksChannel: Channel<FavouritesListItem> = Channel(Channel.UNLIMITED)
+	val itemClicks: Flow<FavouritesListItem> = itemClicksChannel.consumeAsFlow()
+
+	private val cancelClicksChannel: Channel<FavouritesListItem> = Channel(Channel.UNLIMITED)
+	val cancelClicks: Flow<FavouritesListItem> = cancelClicksChannel.consumeAsFlow()
+
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
+		val binding = RowFavouritesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+		return FavouritesViewHolder(binding)
 	}
 
-	private val itemClickSubject = PublishSubject.create<BaseViewHolder<FavouritesVisitableBase>>()
+	override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
+		holder.bind(favouritesItems[position])
 
-	fun getViewClickedObservable(): Observable<BaseViewHolder<FavouritesVisitableBase>> {
-		return itemClickSubject
+		holder.rawBinding.root.clicks().onEach {
+			itemClicksChannel.trySend(favouritesItems[position])
+		}.launchIn(lifecycleScope)
+
+		(holder.rawBinding as RowFavouritesBinding).btnFavouritesUndo.clicks().onEach {
+			cancelClicksChannel.trySend(favouritesItems[position])
+		}.launchIn(lifecycleScope)
 	}
 
-	private val cancelClickSubject = PublishSubject.create<BaseViewHolder<FavouritesVisitableBase>>()
-
-	fun getCancelClickedObservable(): Observable<BaseViewHolder<FavouritesVisitableBase>> {
-		return cancelClickSubject
-	}
-
-	interface FavouritesTypeFactory {
-		fun type(favouritesListItem: FavouritesListItem): Int
-		fun holder(type: Int, binding: ViewBinding): BaseViewHolder<FavouritesVisitableBase>
-	}
-
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FavouritesVisitableBase> {
-		val binding = RowFavouritesBinding.inflate(
-				LayoutInflater.from(parent.context),
-				parent,
-				false)
-		val v = favouritesTypeFactory.holder(viewType, binding)
-		RxView.clicks(v.itemView)
-				.takeUntil(RxView.detaches(parent))
-				.map { v }
-				.subscribe(itemClickSubject)
-		RxView.clicks(binding.btnFavouritesUndo)
-				.takeUntil(RxView.detaches(parent))
-				.map { v }
-				.subscribe(cancelClickSubject)
-		return v
-	}
-
-	override fun onBindViewHolder(holder: BaseViewHolder<FavouritesVisitableBase>, position: Int) {
-		holder.bind(favouritesVisitables[position])
-	}
-
-	fun updateItems(visitables: List<FavouritesVisitableBase>) {
-		favouritesVisitables = visitables
-		notifyDataSetChanged()
+	fun updateItems(newFavouritesItems: List<FavouritesListItem>) {
+		val diffCallback = FavouritesDiffCallback(favouritesItems, newFavouritesItems)
+		val diffResult = DiffUtil.calculateDiff(diffCallback)
+		favouritesItems = newFavouritesItems
+		diffResult.dispatchUpdatesTo(this)
 	}
 }

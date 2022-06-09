@@ -6,9 +6,6 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
 import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
-import com.babestudios.companyinfouk.domain.model.company.Company
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitable
@@ -17,6 +14,7 @@ import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
@@ -323,46 +321,6 @@ class CompaniesViewModel(
 				}
 			}
 		}
-	}
-
-	//endregion
-
-	//region Favourites
-
-	fun loadFavourites() {
-		companiesRepository.favourites()
-				.execute {
-					copy(
-							favouritesRequest = it,
-							favouriteItems = convertToVisitables(it() ?: emptyList())
-					)
-				}
-	}
-
-	private fun convertToVisitables(favourites: List<SearchHistoryItem>): List<FavouritesVisitable> {
-		return ArrayList(favourites.map { item -> FavouritesVisitable(FavouritesListItem(item)) })
-	}
-
-	fun favouritesItemClicked(adapterPosition: Int) {
-		withState { state ->
-			state.favouriteItems.let { favouriteItems ->
-				val item = favouriteItems[adapterPosition]
-						.favouritesListItem
-						.searchHistoryItem
-				setState {
-					copy(
-							companyName = item.companyName,
-							companyNumber = item.companyNumber
-					)
-				}
-				companiesNavigator.favouritesToCompany(item.companyNumber, item.companyName)
-			}
-		}
-	}
-
-	fun removeFavourite(favouriteToRemove: SearchHistoryItem) {
-		companiesRepository.removeFavourite(favouriteToRemove)
-		loadFavourites()
 	}
 
 	//endregion

@@ -80,7 +80,7 @@
 		android:label="FavouritesFragment"
 		tools:layout="@layout/fragment_favourites">
 		<action
-			android:id="@+id/action_favouritesFragment_to_companyFragment"
+			android:id="@+id/actionToCompany"
 			app:destination="@id/companyFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"

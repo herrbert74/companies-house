@@ -8,9 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -18,89 +16,141 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.existingViewModel
-import com.airbnb.mvrx.withState
-import com.babestudios.base.list.BaseViewHolder
-import com.babestudios.base.mvrx.BaseFragment
+import com.arkivanov.essenty.lifecycle.essentyLifecycle
+import com.arkivanov.mvikotlin.core.annotations.MainThread
+import com.arkivanov.mvikotlin.core.view.MviView
+import com.arkivanov.mvikotlin.rx.Disposable
+import com.arkivanov.mvikotlin.rx.Observer
+import com.arkivanov.mvikotlin.rx.internal.PublishSubject
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
+import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentFavouritesBinding
-import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
-import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
+import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesAdapter
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesTypeFactory
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesViewHolder
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitableBase
-import io.reactivex.disposables.CompositeDisposable
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.navigation.navigateSafe
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
 
-class FavouritesFragment : BaseFragment() {
+@AndroidEntryPoint
+class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State, UserIntent> {
 
-	private var favouritesAdapter: FavouritesAdapter? = null
+	private lateinit var favouritesAdapter: FavouritesAdapter
 
-	private val viewModel by existingViewModel(CompaniesViewModel::class)
+	private val viewModel: FavouritesViewModel by viewModels()
 
-	private val eventDisposables: CompositeDisposable = CompositeDisposable()
-
-	private var _binding: FragmentFavouritesBinding? = null
-	private val binding get() = _binding!!
+	private val binding by viewBinding<FragmentFavouritesBinding>()
 
 	private val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
 		override fun handleOnBackPressed() {
-			viewModel.companiesNavigator.popBackStack()
+			findNavController().popBackStack()
 		}
 	}
 
-	//region life cycle
+	//region BaseMviView This is just a copy from com.arkivanov.mvikotlin.core.view.BaseMviView,
+	// as we cannot use it here and do not want to use it separately. This part could be extracted into a delegate
 
-	override fun onCreateView(
-			inflater: LayoutInflater, container: ViewGroup?,
-			savedInstanceState: Bundle?
-	): View {
-		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-		_binding = FragmentFavouritesBinding.inflate(inflater, container, false)
-		return binding.root
+	private val subject = PublishSubject<UserIntent>()
+
+	override fun events(observer: Observer<UserIntent>): Disposable = subject.subscribe(observer)
+
+	fun sideEffects(sideEffect: SideEffect) {
+		when (sideEffect) {
+			is SideEffect.FavouritesItemClicked ->
+				findNavController().navigateSafe(
+					FavouritesFragmentDirections.actionToCompany(sideEffect.selectedCompanyNumber)
+				)
+		}
 	}
+
+	/**
+	 * Dispatches the provided `View Event` to all subscribers
+	 *
+	 * @param event a `View Event` to be dispatched
+	 */
+	@MainThread
+	fun dispatch(event: UserIntent) {
+		subject.onNext(event)
+	}
+
+	override fun render(model: State) {
+
+		val tvMsvError = binding.msvFavourites.findViewById<TextView>(R.id.tvMsvError)
+		val ivEmptyView = binding.msvFavourites.findViewById<ImageView>(R.id.ivEmptyView)
+
+		when (model) {
+			is State.Loading -> binding.msvFavourites.viewState = VIEW_STATE_LOADING
+			is State.Error -> {
+				binding.msvFavourites.viewState = VIEW_STATE_ERROR
+				tvMsvError.text = model.t.message
+			}
+			is State.Show -> {
+				val favourites = model.favourites.toList()
+				if (favourites.isEmpty()) {
+					binding.msvFavourites.viewState = VIEW_STATE_EMPTY
+					ivEmptyView.setImageResource(R.drawable.ic_business_empty_favorites)
+				} else {
+					binding.msvFavourites.viewState = VIEW_STATE_CONTENT
+					if (binding.rvFavourites.adapter == null) {
+						favouritesAdapter = FavouritesAdapter(favourites, lifecycleScope)
+						binding.rvFavourites.adapter = favouritesAdapter
+						favouritesAdapter.itemClicks.onEach {
+							dispatch(UserIntent.FavouritesItemClicked(it))
+						}.launchIn(lifecycleScope)
+						favouritesAdapter.cancelClicks.onEach {
+							val pendingRemovalRunnable = pendingRunnables[it.searchHistoryItem]
+							pendingRunnables.remove(it.searchHistoryItem)
+							if (pendingRemovalRunnable != null) handler.removeCallbacks(pendingRemovalRunnable)
+							searchHistoryItemsPendingRemoval.remove(it)
+							dispatch(UserIntent.CancelPendingRemoval(it))
+						}.launchIn(lifecycleScope)
+					} else {
+						favouritesAdapter.updateItems(favourites)
+					}
+				}
+
+			}
+		}
+	}
+
+	//endregion
+
+	//region life cycle
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initializeUI()
-	}
-
-	private fun initializeUI() {
-		viewModel.logScreenView(this::class.simpleName.orEmpty())
-		(activity as AppCompatActivity).setSupportActionBar(binding.pabFavourites.getToolbar())
-		val toolBar = (activity as AppCompatActivity).supportActionBar
-		toolBar?.setDisplayHomeAsUpEnabled(true)
-		binding.pabFavourites.setNavigationOnClickListener { viewModel.companiesNavigator.popBackStack() }
-		toolBar?.setTitle(R.string.favourites)
+		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+		viewModel.onViewCreated(this, essentyLifecycle())
+		initializeToolBar()
 		createRecyclerView()
 		setUpItemTouchHelper()
 		setUpAnimationDecoratorHelper()
-		viewModel.loadFavourites()
 	}
 
-	override fun onResume() {
-		super.onResume()
-		observeActions()
-	}
+	private fun initializeToolBar() {
+		(activity as AppCompatActivity).setSupportActionBar(binding.pabFavourites.getToolbar())
+		val toolBar = (activity as AppCompatActivity).supportActionBar
+		toolBar?.setDisplayHomeAsUpEnabled(true)
+		binding.pabFavourites.setNavigationOnClickListener { findNavController().popBackStack() }
+		toolBar?.setTitle(R.string.favourites)
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
 	}
 
 	private fun createRecyclerView() {
@@ -109,116 +159,28 @@ class FavouritesFragment : BaseFragment() {
 		binding.rvFavourites.addItemDecoration(DividerItemDecoration(requireContext()))
 	}
 
-	override fun orientationChanged() {
-		val activity = requireActivity() as CompaniesActivity
-		viewModel.setNavigator(activity.injectCompaniesNavigator())
-	}
-
-	//endregion
-
-	//region render
-
-	override fun invalidate() {
-		val tvMsvError = binding.msvFavourites.findViewById<TextView>(R.id.tvMsvError)
-		val ivEmptyView = binding.msvFavourites.findViewById<ImageView>(R.id.ivEmptyView)
-		withState(viewModel) { state ->
-			when (state.favouritesRequest) {
-				is Uninitialized -> {
-				}
-				is Loading -> binding.msvFavourites.viewState = VIEW_STATE_LOADING
-				is Fail -> {
-					binding.msvFavourites.viewState = VIEW_STATE_ERROR
-					tvMsvError.text = state.favouritesRequest.error.message
-				}
-				is Success -> {
-					if (state.favouriteItems.isEmpty()) {
-						binding.msvFavourites.viewState = VIEW_STATE_EMPTY
-						ivEmptyView.setImageResource(R.drawable.ic_business_empty_favorites)
-					} else {
-						binding.msvFavourites.viewState = VIEW_STATE_CONTENT
-						if (binding.rvFavourites.adapter == null) {
-							favouritesAdapter = FavouritesAdapter(state.favouriteItems, FavouritesTypeFactory())
-							binding.rvFavourites.adapter = favouritesAdapter
-							observeActions()
-						} else {
-							favouritesAdapter?.updateItems(state.favouriteItems)
-							observeActions()
-						}
-					}
-				}
-			}
-		}
-	}
-
-	//endregion
-
-	//region events
-
-	private fun observeActions() {
-		eventDisposables.clear()
-		favouritesAdapter?.getViewClickedObservable()
-				?.take(1)
-				?.subscribe { view: BaseViewHolder<FavouritesVisitableBase> ->
-					viewModel.favouritesItemClicked((view as FavouritesViewHolder).adapterPosition)
-				}
-				?.let { eventDisposables.add(it) }
-
-		favouritesAdapter?.getCancelClickedObservable()
-				?.take(1)
-				?.subscribe { view: BaseViewHolder<FavouritesVisitableBase> ->
-					// user wants to undo the removal, let's cancel the pending task
-					val visitable = (view as FavouritesViewHolder).favouritesVisitable
-					val pendingRemovalRunnable = pendingRunnables[visitable]
-					pendingRunnables.remove(visitable)
-					if (pendingRemovalRunnable != null) handler.removeCallbacks(pendingRemovalRunnable)
-					searchHistoryItemsPendingRemoval.remove(visitable)
-					// this will rebind the row in "normal" state
-					withState(viewModel) { state ->
-						state.favouriteItems.let {
-							it[it.indexOf(visitable)].favouritesListItem.isPendingRemoval = false
-							favouritesAdapter?.notifyItemChanged(it.indexOf(visitable))
-						}
-					}
-					observeActions()
-				}
-				?.let { eventDisposables.add(it) }
-	}
-
 	//endregion
 
 	//region Swipe to dismiss
 
-	private val searchHistoryItemsPendingRemoval = ArrayList<FavouritesVisitable>()
+	private val searchHistoryItemsPendingRemoval = ArrayList<FavouritesListItem>()
 	private val handler = Handler(Looper.getMainLooper())
-	private val pendingRunnables = HashMap<FavouritesVisitable, Runnable>()
+	private val pendingRunnables = HashMap<SearchHistoryItem, Runnable>()
 
-	fun pendingRemoval(position: Int) {
-		withState(viewModel) { state ->
-			val item = state.favouriteItems[position]
-			if (!searchHistoryItemsPendingRemoval.contains(item)) {
-				item.favouritesListItem.isPendingRemoval = true
-				searchHistoryItemsPendingRemoval.add(item)
-				// this will redraw row in "undo" state
-				favouritesAdapter?.notifyItemChanged(position)
-				// let's create, store and post a runnable to remove the item
-				val pendingRemovalRunnable = Runnable {
-					if (searchHistoryItemsPendingRemoval.contains(item)) {
-						searchHistoryItemsPendingRemoval.remove(item)
-					}
-					viewModel.removeFavourite(item.favouritesListItem.searchHistoryItem)
+	fun pendingRemoval(item: FavouritesListItem, position: Int) {
+		if (!searchHistoryItemsPendingRemoval.contains(item)) {
+			dispatch(UserIntent.InitPendingRemoval(item))
+			searchHistoryItemsPendingRemoval.add(item)
+			// this will redraw row in "undo" state
+			favouritesAdapter.notifyItemChanged(position)
+			val pendingRemovalRunnable = Runnable {
+				if (searchHistoryItemsPendingRemoval.contains(item)) {
+					searchHistoryItemsPendingRemoval.remove(item)
 				}
-				handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT.toLong())
-				pendingRunnables[item] = pendingRemovalRunnable
+				dispatch(UserIntent.RemoveItem(item))
 			}
-		}
-	}
-
-	fun isPendingRemoval(position: Int): Boolean {
-		return withState(viewModel) { state ->
-			state.favouriteItems.let {
-				val item = it[position]
-				searchHistoryItemsPendingRemoval.contains(item)
-			}
+			handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT.toLong())
+			pendingRunnables[item.searchHistoryItem] = pendingRemovalRunnable
 		}
 	}
 
@@ -240,40 +202,40 @@ class FavouritesFragment : BaseFragment() {
 				requireActivity().theme.resolveAttribute(android.R.attr.windowBackground, a, true)
 				val color = a.data
 				xMark.colorFilter = BlendModeColorFilterCompat
-						.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
+					.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
 				xMarkMargin = this@FavouritesFragment.resources.getDimension(R.dimen.viewMargin).toInt()
 				initiated = true
 			}
 
 			// not important, we don't want drag & drop
 			override fun onMove(
-					recyclerView: RecyclerView,
-					viewHolder: RecyclerView.ViewHolder,
-					target: RecyclerView.ViewHolder
+				recyclerView: RecyclerView,
+				viewHolder: RecyclerView.ViewHolder,
+				target: RecyclerView.ViewHolder
 			): Boolean {
 				return false
 			}
 
 			override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-				val position = viewHolder.adapterPosition
-				return if (isPendingRemoval(position)) {
+				val listItem = (viewHolder as FavouritesViewHolder).favouritesItem
+				return if (searchHistoryItemsPendingRemoval.contains(listItem)) {
 					0
 				} else super.getSwipeDirs(recyclerView, viewHolder)
 			}
 
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-				val swipedPosition = viewHolder.adapterPosition
-				pendingRemoval(swipedPosition)
+				val item = (viewHolder as FavouritesViewHolder).favouritesItem
+				pendingRemoval(item, viewHolder.adapterPosition)
 			}
 
 			override fun onChildDraw(
-					c: Canvas,
-					recyclerView: RecyclerView,
-					viewHolder: RecyclerView.ViewHolder,
-					dX: Float,
-					dY: Float,
-					actionState: Int,
-					isCurrentlyActive: Boolean
+				c: Canvas,
+				recyclerView: RecyclerView,
+				viewHolder: RecyclerView.ViewHolder,
+				dX: Float,
+				dY: Float,
+				actionState: Int,
+				isCurrentlyActive: Boolean
 			) {
 				val itemView = viewHolder.itemView
 
@@ -406,4 +368,15 @@ class FavouritesFragment : BaseFragment() {
 	}
 
 	//endregion
+}
+
+sealed class UserIntent {
+	data class FavouritesItemClicked(val favouritesListItem: FavouritesListItem) : UserIntent()
+	data class InitPendingRemoval(val favouritesListItem: FavouritesListItem) : UserIntent()
+	data class RemoveItem(val favouritesListItem: FavouritesListItem) : UserIntent()
+	data class CancelPendingRemoval(val favouritesListItem: FavouritesListItem) : UserIntent()
+}
+
+sealed class SideEffect {
+	data class FavouritesItemClicked(val selectedCompanyNumber: String) : SideEffect()
 }

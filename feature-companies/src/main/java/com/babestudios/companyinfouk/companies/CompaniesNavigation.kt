@@ -30,7 +30,7 @@ class CompaniesNavigation : BaseNavigation(), CompaniesBaseNavigatable {
 	}
 
 	override fun favouritesToCompany(companyNumber: String, companyName: String) {
-		navController?.navigateSafe(R.id.action_favouritesFragment_to_companyFragment)
+		navController?.navigateSafe(R.id.actionToCompany)
 	}
 
 	override fun companyToMap() {

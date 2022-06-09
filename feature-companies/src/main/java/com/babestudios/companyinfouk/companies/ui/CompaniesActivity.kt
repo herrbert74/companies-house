@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.companies.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.babestudios.base.mvrx.BaseActivity
@@ -21,6 +22,9 @@ class CompaniesActivity : BaseActivity(), ToFlowNavigatable {
 
 	@Inject
 	lateinit var companiesRepository: CompaniesRxRepository
+
+	@Suppress("unused")
+	private val viewModel: CompaniesViewModel by viewModels()
 
 	private lateinit var navController: NavController
 
