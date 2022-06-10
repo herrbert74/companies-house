@@ -4,46 +4,46 @@ import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.PersistState
 import com.airbnb.mvrx.Uninitialized
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 
 data class CompaniesState(
 
-		//Needed to trigger filtered search result changes when only the state changes, but not the result
+	//Needed to trigger filtered search result changes when only the state changes, but not the result
 	val timeStamp: Long = 0L,
 
-		//Main/Search
+	//Main/Search
 	val searchRequest: Async<CompanySearchResult> = Uninitialized,
 	val searchVisitables: List<SearchVisitableBase> = emptyList(),
 	val filteredSearchVisitables: List<SearchVisitableBase> = ArrayList(),
 	val totalCount: Int = 0,
 	@PersistState
-		val queryText: String = "",
+	val queryText: String = "",
 	val isSearchLoading: Boolean = false,
 	val isSearchMenuItemExpanded: Boolean = false,
 	@PersistState
-		val filterState: FilterState = FilterState.FILTER_SHOW_ALL,
+	val filterState: FilterState = FilterState.FILTER_SHOW_ALL,
 
-		//Main/Search history
+	//Main/Search history
 	val searchHistoryRequest: Async<List<SearchHistoryItem>> = Uninitialized,
 	val searchHistoryVisitables: List<SearchHistoryVisitableBase> = emptyList(),
 
-		//Company
+	//Company
 	val companyRequest: Async<Company> = Uninitialized,
 	@PersistState
-		var company: Company = Company(),
+	var company: Company = Company(),
 	@PersistState
-		val companyNumber: String = "",
+	val companyNumber: String = "",
 	@PersistState
-		val companyName: String = "",
+	val companyName: String = "",
 	val isFavorite: Boolean = false,
 
-		//Map
-	val individualName:String? = null,
+	//Map
+	val individualName: String? = null,
 	val individualAddress: Address? = null
 
 ) : MvRxState

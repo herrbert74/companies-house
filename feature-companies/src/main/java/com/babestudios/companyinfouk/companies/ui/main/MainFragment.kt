@@ -27,6 +27,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -35,6 +36,7 @@ import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import com.babestudios.base.ext.biLet
+import com.babestudios.base.ext.navigateSafe
 import com.babestudios.base.ext.textColor
 import com.babestudios.base.list.BaseViewHolder
 import com.babestudios.base.mvrx.BaseFragment
@@ -54,6 +56,7 @@ import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
 import com.babestudios.companyinfouk.companies.ui.FilterState
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryAdapter
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryTypeFactory
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitable
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchAdapter
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchTypeFactory
@@ -501,6 +504,16 @@ class MainFragment : BaseFragment() {
 		searchHistoryAdapter?.getViewClickedObservable()
 			?.subscribe { view: BaseViewHolder<SearchHistoryVisitableBase> ->
 				viewModel.searchHistoryItemClicked(view.adapterPosition)
+				withState(viewModel) { state ->
+					val searchHistoryItem = (state.searchHistoryVisitables[view.adapterPosition] as
+						SearchHistoryVisitable).searchHistoryItem
+					findNavController().navigateSafe(
+						MainFragmentDirections.actionToCompany(
+							name = searchHistoryItem.companyName,
+							number = searchHistoryItem.companyNumber
+						)
+					)
+				}
 			}
 			?.let { eventDisposables.add(it) }
 		searchAdapter?.getViewClickedObservable()

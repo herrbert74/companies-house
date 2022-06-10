@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Company(
-	val companyName: String = "",
+	val companyName: String ="",
 	val lastAccountsMadeUpTo: String = "",
 	val companyNumber: String = "",
 	val dateOfCreation: String = "",

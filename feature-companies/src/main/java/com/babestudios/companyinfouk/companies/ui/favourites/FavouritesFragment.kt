@@ -75,7 +75,10 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State
 		when (sideEffect) {
 			is SideEffect.FavouritesItemClicked ->
 				findNavController().navigateSafe(
-					FavouritesFragmentDirections.actionToCompany(sideEffect.selectedCompanyNumber)
+					FavouritesFragmentDirections.actionToCompany(
+						sideEffect.selectedCompanyNumber,
+						sideEffect.companyName
+					)
 				)
 		}
 	}
@@ -378,5 +381,5 @@ sealed class UserIntent {
 }
 
 sealed class SideEffect {
-	data class FavouritesItemClicked(val selectedCompanyNumber: String) : SideEffect()
+	data class FavouritesItemClicked(val selectedCompanyNumber: String, val companyName: String) : SideEffect()
 }

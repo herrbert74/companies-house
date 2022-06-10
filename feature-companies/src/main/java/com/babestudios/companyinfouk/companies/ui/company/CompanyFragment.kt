@@ -1,121 +1,157 @@
 package com.babestudios.companyinfouk.companies.ui.company
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
-import com.airbnb.mvrx.Fail
-import com.airbnb.mvrx.Loading
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.existingViewModel
-import com.airbnb.mvrx.withState
-import com.babestudios.base.mvrx.BaseFragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.arkivanov.essenty.lifecycle.essentyLifecycle
+import com.arkivanov.mvikotlin.core.annotations.MainThread
+import com.arkivanov.mvikotlin.core.view.MviView
+import com.arkivanov.mvikotlin.rx.Disposable
+import com.arkivanov.mvikotlin.rx.Observer
+import com.arkivanov.mvikotlin.rx.internal.PublishSubject
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
 import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
+import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentCompanyBinding
-import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
-import com.babestudios.companyinfouk.companies.ui.CompaniesState
-import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
+import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
+import com.babestudios.companyinfouk.core.views.SingleLineView
 import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.navigation.NavigationFlow
 import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
-import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.disposables.CompositeDisposable
+import com.babestudios.companyinfouk.navigation.navigateSafe
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 
-class CompanyFragment : BaseFragment() {
+@AndroidEntryPoint
+class CompanyFragment : Fragment(R.layout.fragment_company), MviView<State, UserIntent> {
 
-	private val viewModel by existingViewModel(CompaniesViewModel::class)
+	@Inject
+	lateinit var companyViewModelFactory: CompanyViewModelFactory
 
-	private val eventDisposables: CompositeDisposable = CompositeDisposable()
+	private val args: CompanyFragmentArgs by navArgs()
 
-	private var _binding: FragmentCompanyBinding? = null
-	private val binding get() = _binding!!
+	private val viewModel: CompanyViewModel by viewModels {
+		CompanyViewModel.provideFactory(
+			companyViewModelFactory,
+			args.number
+		)
+	}
+
+	private val binding by viewBinding<FragmentCompanyBinding>()
+
+	//region BaseMviView This is just a copy from com.arkivanov.mvikotlin.core.view.BaseMviView,
+	// as we cannot use it here and do not want to use it separately. This part could be extracted into a delegate
+
+	private val subject = PublishSubject<UserIntent>()
+
+	override fun events(observer: Observer<UserIntent>): Disposable = subject.subscribe(observer)
+
+	fun sideEffects(sideEffect: SideEffect) {
+		when (sideEffect) {
+			is SideEffect.MapClicked -> findNavController().navigateSafe(
+				CompanyFragmentDirections.actionToMap(
+					name = args.name,
+					address = sideEffect.addressString
+				)
+			)
+		}
+	}
+
+	/**
+	 * Dispatches the provided `View Event` to all subscribers
+	 *
+	 * @param event a `View Event` to be dispatched
+	 */
+	@MainThread
+	fun dispatch(event: UserIntent) {
+		subject.onNext(event)
+	}
+
+	override fun render(model: State) {
+		val tvMsvError = binding.msvCompany.findViewById<TextView>(R.id.tvMsvError)
+		when (model) {
+			is State.Loading -> {
+				binding.msvCompany.viewState = VIEW_STATE_LOADING
+				//hideFabToShowFavoriteState(state.isFavorite) TODO
+			}
+			is State.Error -> {
+				binding.msvCompany.viewState = VIEW_STATE_ERROR
+				binding.fabCompanyFavorite.animate().cancel()
+				binding.fabCompanyFavorite.hide()
+				binding.pabCompany.setExpanded(false)
+				tvMsvError.text = model.t.message
+			}
+			is State.Show -> {
+				binding.msvCompany.viewState = VIEW_STATE_CONTENT
+				showCompany(model.company)
+				hideFabToShowFavoriteState(model.isFavourite)
+			}
+		}
+	}
+
+	//endregion
 
 	//region life cycle
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		_binding = FragmentCompanyBinding.inflate(inflater, container, false)
-		return binding.root
-	}
-
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initializeUI()
+		viewModel.onViewCreated(this, essentyLifecycle())
+		initializeToolBar()
+		setupEvents()
 	}
 
-	private fun initializeUI() {
-		viewModel.logScreenView(this::class.simpleName.orEmpty())
+	private fun initializeToolBar() {
 		(activity as AppCompatActivity).setSupportActionBar(binding.pabCompany.getToolbar())
 		val toolBar = (activity as AppCompatActivity).supportActionBar
 		toolBar?.setDisplayHomeAsUpEnabled(true)
 		binding.pabCompany.setNavigationOnClickListener { activity?.onBackPressed() }
-		withState(viewModel) {
-			toolBar?.title = it.companyName
-			viewModel.fetchCompany(it.companyNumber)
-		}
-		selectSubscribes()
+		toolBar?.title = args.name
 	}
 
-	override fun onResume() {
-		super.onResume()
-		observeActions()
+	private fun setupEvents() {
+		binding.fabCompanyFavorite.clicks().onEach {
+			dispatch(UserIntent.FabFavouritesClicked)
+		}.launchIn(lifecycleScope)
+
+		binding.addressViewCompany.getMapButton().clicks().onEach {
+			dispatch(UserIntent.MapClicked)
+		}.launchIn(lifecycleScope)
+
+		navigateToFlow(binding.llCompanyCharges, NavigationFlow.ChargesFlow(args.number))
+		navigateToFlow(binding.llCompanyFilings, NavigationFlow.FilingsFlow(args.number))
+		navigateToFlow(binding.llCompanyInsolvency, NavigationFlow.InsolvenciesFlow(args.number))
+		navigateToFlow(binding.llCompanyOfficers, NavigationFlow.OfficersFlow(args.number))
+		navigateToFlow(binding.llCompanyPersons, NavigationFlow.PersonsFlow(args.number))
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
-	}
-
-	override fun orientationChanged() {
-		val activity = requireActivity() as CompaniesActivity
-		viewModel.setNavigator(activity.injectCompaniesNavigator())
+	private fun navigateToFlow(singleLineView: SingleLineView, navigationFlow: NavigationFlow) {
+		singleLineView.clicks().onEach {
+			(requireActivity() as ToFlowNavigatable).navigateToFlow(navigationFlow)
+		}.launchIn(lifecycleScope)
 	}
 
 	//endregion
 
 	//region render
 
-	private fun selectSubscribes() {
-		viewModel.selectSubscribe(CompaniesState::isFavorite) {
-			hideFabToShowFavoriteState(it)
-		}
-	}
-
-	override fun invalidate() {
-		val tvMsvError = binding.msvCompany.findViewById<TextView>(R.id.tvMsvError)
-		withState(viewModel) { state ->
-			when (state.companyRequest) {
-				is Loading -> {
-					binding.msvCompany.viewState = VIEW_STATE_LOADING
-					hideFabToShowFavoriteState(state.isFavorite)
-				}
-				is Fail -> {
-					binding.msvCompany.viewState = VIEW_STATE_ERROR
-					binding.fabCompanyFavorite.animate().cancel()
-					binding.fabCompanyFavorite.hide()
-					binding.pabCompany.setExpanded(false)
-					tvMsvError.text = state.companyRequest.error.message
-				}
-				is Success -> {
-					binding.msvCompany.viewState = VIEW_STATE_CONTENT
-					showCompany(state.company)
-				}
-				else -> {}
-			}
-		}
-	}
-
 	private fun showCompany(company: Company) {
 		binding.tvCompanyNumber.text = company.companyNumber
 		binding.twoLineCompanyNatureOfBusiness.setTextSecond(company.natureOfBusiness)
 		binding.tvCompanyIncorporated.text =
-				String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
+			String.format(resources.getString(R.string.incorporated_on), company.dateOfCreation)
 		binding.addressViewCompany.setAddressLine1(company.registeredOfficeAddress.addressLine1)
 		binding.addressViewCompany.setAddressLine2(company.registeredOfficeAddress.addressLine2)
 		binding.addressViewCompany.setLocality(company.registeredOfficeAddress.locality)
@@ -144,11 +180,11 @@ class CompanyFragment : BaseFragment() {
 			it.alpha = 0f
 			it.show()
 			it.animate()
-					.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
-					.scaleX(1f)
-					.scaleY(1f)
-					.alpha(1f)
-					.interpolator = LinearOutSlowInInterpolator()
+				.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
+				.scaleX(1f)
+				.scaleY(1f)
+				.alpha(1f)
+				.interpolator = LinearOutSlowInInterpolator()
 		}
 	}
 
@@ -156,76 +192,23 @@ class CompanyFragment : BaseFragment() {
 		binding.fabCompanyFavorite.also {
 			it.animate().cancel()
 			it.animate()
-					.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
-					.scaleX(0f)
-					.scaleY(0f)
-					.alpha(0f)
-					.setInterpolator(LinearOutSlowInInterpolator())
-					.withEndAction { this.showFab(favorite) }
+				.setDuration(resources.getInteger(R.integer.fab_move_in_duration).toLong())
+				.scaleX(0f)
+				.scaleY(0f)
+				.alpha(0f)
+				.setInterpolator(LinearOutSlowInInterpolator())
+				.withEndAction { this.showFab(favorite) }
 		}
 	}
 
 	//endregion
+}
 
-	//region events
+sealed class UserIntent {
+	object FabFavouritesClicked : UserIntent()
+	object MapClicked : UserIntent()
+}
 
-	private fun observeActions() {
-		eventDisposables.clear()
-		RxView.clicks(binding.fabCompanyFavorite)
-				.subscribe { viewModel.flipCompanyFavoriteState() }
-				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.addressViewCompany.getMapButton())
-				.subscribe { viewModel.companiesNavigator.companyToMap() }
-				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.llCompanyFilings)
-				.subscribe {
-					withState(viewModel) { state ->
-						(requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.FilingsFlow(
-							state.companyNumber)
-						)
-					}
-				}
-				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.llCompanyCharges)
-				.subscribe {
-					withState(viewModel) { state ->
-						(requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.ChargesFlow(
-							state.companyNumber)
-						)
-					}
-				}
-				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.llCompanyInsolvency)
-				.subscribe {
-					withState(viewModel) { state ->
-						(requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.InsolvenciesFlow(
-							state.companyNumber)
-						)
-					}
-				}
-				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.llCompanyOfficers)
-				.subscribe {
-					withState(viewModel) { state ->
-						(requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.OfficersFlow(
-							state.companyNumber)
-						)
-					}
-				}
-				.also { disposable -> eventDisposables.add(disposable) }
-		RxView.clicks(binding.llCompanyPersons)
-				.subscribe {
-					withState(viewModel) { state ->
-						(requireActivity() as ToFlowNavigatable).navigateToFlow(
-							NavigationFlow.PersonsFlow(
-								state.companyNumber
-							)
-						)
-					}
-				}
-				.also { disposable -> eventDisposables.add(disposable) }
-
-	}
-
-	//endregion
+sealed class SideEffect {
+	data class MapClicked(val addressString: String) : SideEffect()
 }

@@ -52,7 +52,12 @@ class FavouritesExecutor @Inject constructor(
 
 	private fun favouritesItemClicked(favouritesListItem: FavouritesListItem) {
 		scope.launch {
-			publish(SideEffect.FavouritesItemClicked(favouritesListItem.searchHistoryItem.companyNumber))
+			publish(
+				SideEffect.FavouritesItemClicked(
+					favouritesListItem.searchHistoryItem.companyNumber,
+					favouritesListItem.searchHistoryItem.companyName,
+				)
+			)
 		}
 	}
 

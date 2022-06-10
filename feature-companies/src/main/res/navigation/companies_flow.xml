@@ -12,7 +12,7 @@
 		tools:layout="@layout/fragment_main">
 
 		<action
-			android:id="@+id/action_mainFragment_to_companyFragment"
+			android:id="@+id/actionToCompany"
 			app:destination="@id/companyFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
@@ -54,11 +54,9 @@
 		android:label="CompanyFragment"
 		tools:layout="@layout/fragment_company">
 		<argument
-			android:defaultValue=""
 			android:name="number"
 			app:argType="string" />
 		<argument
-			android:defaultValue=""
 			android:name="name"
 			app:argType="string" />
 
@@ -66,7 +64,7 @@
 			android:id="@+id/deepLink"
 			app:uri="companyinfo://company?number={number}&amp;name={name}" />
 		<action
-			android:id="@+id/action_companyFragment_to_mapFragment"
+			android:id="@+id/actionToMap"
 			app:destination="@id/mapFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"

@@ -4,7 +4,6 @@ import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
 import com.airbnb.mvrx.ViewModelContext
-import com.babestudios.base.ext.biLet
 import com.babestudios.base.mvrx.BaseViewModel
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderVisitable
@@ -14,7 +13,6 @@ import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitable
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchVisitableBase
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
@@ -106,7 +104,7 @@ class CompaniesViewModel(
 				)
 			}
 		}
-		companiesNavigator.mainToCompany()
+
 	}
 
 	//endregion
@@ -242,7 +240,7 @@ class CompaniesViewModel(
 					searchHistoryVisitables = convertSearchHistoryToVisitables(searchHistoryItems)
 			)
 		}
-		companiesNavigator.mainToCompany()
+		companiesNavigator.mainToCompany(number, name)
 	}
 
 	fun clearSearch() {
@@ -273,50 +271,6 @@ class CompaniesViewModel(
 					copy(
 							filteredSearchVisitables = state.searchVisitables,
 							filterState = filterState
-					)
-				}
-			}
-		}
-	}
-
-	//endregion
-
-	//region company
-
-	fun fetchCompany(companyNumber: String) {
-		companiesRepository.getCompany(companyNumber)
-				.execute {
-					copy(
-							isFavorite = companiesRepository.isFavourite(
-								SearchHistoryItem(
-									this.companyName,
-									this.companyNumber,
-									0
-							)
-							),
-							companyRequest = it,
-							company = it() ?: Company(),
-					)
-				}
-	}
-
-	fun flipCompanyFavoriteState() {
-		withState { state ->
-			(state.companyName to state.companyNumber).biLet { companyName, companyNumber ->
-				if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
-					companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
-				} else {
-					companiesRepository.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
-				}
-				setState {
-					copy(
-							isFavorite = companiesRepository.isFavourite(
-								SearchHistoryItem(
-									this.companyName,
-									this.companyNumber,
-									0
-							)
-							)
 					)
 				}
 			}
