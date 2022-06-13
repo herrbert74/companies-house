@@ -1,12 +1,16 @@
 import com.babestudios.companyinfouk.buildsrc.Libs
 
-plugins{
+plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("com.babestudios.companyinfouk.plugins.feature")
 }
 
 dependencies {
+
+	api(Libs.MviKotlin.coroutines)
+
 	implementation(Libs.Kotlin.parcelizeRuntime)
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

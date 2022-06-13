@@ -1,42 +1,71 @@
 package com.babestudios.companyinfouk.filings
 
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateProperty
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLinks
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
-import io.mockk.every
+import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsExecutor
+import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStore
+import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStoreFactory
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.coEvery
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Test
 
 class FilingHistoryDetailsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private val filingsNavigator = mockk<FilingsBaseNavigatable>()
+	private lateinit var filingHistoryDetailsExecutor: FilingHistoryDetailsExecutor
+
+	private lateinit var filingHistoryDetailsStore: FilingHistoryDetailsStore
+
+	private val testCoroutineDispatcher = Dispatchers.Unconfined
+
+	private val documentResponseBody = "test".toResponseBody("text/plain".toMediaType())
 
 	@Before
 	fun setUp() {
-		every {
-			companiesHouseRepository.getDocument("something")
+
+		coEvery {
+			companiesHouseRepository.getDocument("123")
 		} answers {
-			Single.just("test".toResponseBody("text/plain".toMediaType()))
+			documentResponseBody
 		}
+
+		filingHistoryDetailsExecutor = FilingHistoryDetailsExecutor(
+			companiesHouseRepository,
+			testCoroutineDispatcher,
+			testCoroutineDispatcher
+		)
+
+		val historyLinks = FilingHistoryLinks(documentMetadata = "something")
+		val historyItem = FilingHistoryItem(links = historyLinks)
+
+		filingHistoryDetailsStore =
+			FilingHistoryDetailsStoreFactory(DefaultStoreFactory(), filingHistoryDetailsExecutor).create(
+				companyNumber = "123", selectedFilingHistoryItem = historyItem
+			)
+
 	}
 
 	@Test
-	fun whenGetDocument_thenDataManagerGetDocumentIsCalled() {
-		val viewModel = filingsViewModel()
-		viewModel.fetchDocument()
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.getDocument("something") }
+	fun `when fetch document then document is downloaded`() {
+
+		val states = filingHistoryDetailsStore.states.test()
+
+		filingHistoryDetailsStore.accept(FilingHistoryDetailsStore.Intent.FetchDocument("123"))
+
+		states.last().shouldBeTypeOf<FilingHistoryDetailsStore.State.DocumentDownloaded>()
+		(states.last() as? FilingHistoryDetailsStore.State.DocumentDownloaded)?.responseBody shouldBe documentResponseBody
+
 	}
 
 	/**
@@ -48,18 +77,4 @@ class FilingHistoryDetailsTest {
 		verify(filingHistoryDetailsPresenter.companiesRepository).writeDocumentPdf(any())
 	}*/
 
-	private fun filingsViewModel(): FilingsViewModel {
-		val historyLinks = FilingHistoryLinks().copy(documentMetadata = "something")
-		val historyItem = FilingHistoryItem().copy(links = historyLinks)
-		return FilingsViewModel(
-				FilingsState(companyNumber = "123", totalFilingsCount = 100, filingHistoryItem = historyItem),
-				companiesHouseRepository,
-				filingsNavigator)
-	}
-
-	companion object {
-		@JvmField
-		@ClassRule
-		val mvrxTestRule = MvRxTestRule()
-	}
 }

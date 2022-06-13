@@ -8,6 +8,7 @@ dependencies {
 	implementation(Libs.baBeStudiosBase)
 	implementation(Libs.AndroidX.appcompat)
 	implementation(Libs.Google.material)
+	implementation(Libs.Kotlin.Coroutines.core)
 }
 
 android {

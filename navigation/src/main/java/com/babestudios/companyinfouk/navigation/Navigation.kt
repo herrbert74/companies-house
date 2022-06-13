@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.navigation.base
+package com.babestudios.companyinfouk.navigation
 
 import androidx.navigation.NavController
 import com.babestudios.companyinfouk.navigation.MainNavGraphDirections

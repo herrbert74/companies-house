@@ -1,60 +1,83 @@
 package com.babestudios.companyinfouk.filings
 
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.filings.ui.FilingsViewModel
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
-import io.mockk.every
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.companyinfouk.data.BuildConfig
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryExecutor
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryStore
+import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingsHistoryStoreFactory
+import com.github.michaelbull.result.Ok
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Test
 
 class FilingHistoryTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private val filingsNavigator = mockk<FilingsBaseNavigatable>()
+	private lateinit var filingHistoryExecutor: FilingHistoryExecutor
+
+	private lateinit var filingHistoryStore: FilingHistoryStore
+
+	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
 	@Before
 	fun setUp() {
-		every {
+		coEvery {
 			companiesHouseRepository.getFilingHistory("123", any(), any())
-		} answers
-				{
-					Single.create { FilingHistoryDto() }
-				}
+		} answers { Ok(FilingHistory()) }
+
+		coEvery {
+			companiesHouseRepository.logScreenView(any())
+		} answers { }
+
+		filingHistoryExecutor = FilingHistoryExecutor(
+			companiesHouseRepository,
+			testCoroutineDispatcher,
+			testCoroutineDispatcher
+		)
+
+		filingHistoryStore =
+			FilingsHistoryStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
+				companyNumber = "123", autoInit = false
+			)
+
 	}
 
 	@Test
-	fun whenGetFilings_thenRepoGetFilingsIsCalled() {
-		val viewModel = filingsViewModel()
-		viewModel.getFilingHistory()
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.getFilingHistory("123", any(), "0") }
+	fun `when get filings then repo get filings is called`() {
+
+		val states = filingHistoryStore.states.test()
+		states.first().shouldBeTypeOf<FilingHistoryStore.State.Loading>()
+		filingHistoryStore.init()
+		states.last().shouldBeTypeOf<FilingHistoryStore.State.Show>()
+		(states.last() as? FilingHistoryStore.State.Show)?.filingHistory shouldBe FilingHistory()
+		coVerify(exactly = 1) { companiesHouseRepository.getFilingHistory("123", any(), "0") }
+
 	}
 
 	@Test
-	fun whenLoadMoreFilings_thenRepoLoadMoreFilingsIsCalled() {
-		val viewModel = filingsViewModel()
-		viewModel.loadMoreFilingHistory(1)
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.getFilingHistory("123", any(), "100") }
+	fun `when load more filings then repo load more filings is called`() {
+
+		val states = filingHistoryStore.states.test()
+		filingHistoryStore.init()
+		filingHistoryStore.accept(FilingHistoryStore.Intent.LoadMoreFilingHistory(1))
+		states.last().shouldBeTypeOf<FilingHistoryStore.State.Show>()
+		(states.last() as? FilingHistoryStore.State.Show)?.filingHistory shouldBe FilingHistory()
+		coVerify(exactly = 1) {
+			companiesHouseRepository.getFilingHistory(
+				"123", any(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE
+			)
+		}
+
 	}
 
-	private fun filingsViewModel(): FilingsViewModel {
-		return FilingsViewModel(
-				FilingsState(companyNumber = "123", totalFilingsCount = 100),
-				companiesHouseRepository,
-				filingsNavigator)
-	}
-
-	companion object {
-		@JvmField
-		@ClassRule
-		val mvrxTestRule = MvRxTestRule()
-	}
 }

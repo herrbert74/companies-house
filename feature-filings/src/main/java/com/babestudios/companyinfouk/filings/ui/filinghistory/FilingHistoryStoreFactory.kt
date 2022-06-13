@@ -16,9 +16,10 @@ class FilingsHistoryStoreFactory(
 	private val filingHistoryExecutor: FilingHistoryExecutor
 ) {
 
-	fun create(companyNumber: String): FilingHistoryStore =
+	fun create(companyNumber: String, autoInit :Boolean = true): FilingHistoryStore =
 		object : FilingHistoryStore, Store<Intent, State, SideEffect> by storeFactory.create(
 			name = "FilingsHistoryDetailsStore",
+			autoInit = autoInit,
 			initialState = State.Loading,
 			bootstrapper = FilingsHistoryBootstrapper(companyNumber),
 			executorFactory = { filingHistoryExecutor },

@@ -7,7 +7,7 @@ import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.navigation.NavigationFlow
 import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
-import com.babestudios.companyinfouk.navigation.base.Navigation
+import com.babestudios.companyinfouk.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

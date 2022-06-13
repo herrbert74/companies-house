@@ -45,6 +45,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("testImplementation", Libs.AndroidX.Test.Ext.jUnit)
 			add("testImplementation", Libs.Test.MockK.core)
 			add("testImplementation", Libs.Kotlin.Coroutines.test)
+			add("testImplementation", Libs.Test.Kotest.assertions)
 
 			add("kapt", Libs.Google.Dagger.compiler)
 			add("kapt", Libs.Google.Dagger.Hilt.compiler)
