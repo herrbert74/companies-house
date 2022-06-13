@@ -30,5 +30,6 @@
 	<string name="company_accounts_not_found">Accounts not found</string>
 	<string name="insolvency_dates">Dates</string>
 	<string name="insolvency_practitioners">Practitioners</string>
+	<string name="recent_searches">Recent Searches</string>
 
 </resources>

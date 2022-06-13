@@ -13,16 +13,18 @@ interface StringResourceHelperContract {
 	fun getAppointedFromString(from: String): String
 	fun getInsolvencyDatesString(): String
 	fun getPractitionerString(): String
+	fun getRecentSearchesString(): String
 }
 
-class StringResourceHelper @Inject constructor(@ApplicationContext val context: Context)
-	: StringResourceHelperContract {
+class StringResourceHelper @Inject constructor(
+	@ApplicationContext val context: Context
+) : StringResourceHelperContract {
 
 	override fun getLastAccountMadeUpToString(accountType: String, date: String): String {
 		return String.format(
-				context.resources.getString(R.string.company_accounts_formatted_text),
-				accountType,
-				date
+			context.resources.getString(R.string.company_accounts_formatted_text),
+			accountType,
+			date
 		).replace("  ", " ")
 	}
 
@@ -44,6 +46,10 @@ class StringResourceHelper @Inject constructor(@ApplicationContext val context: 
 
 	override fun getPractitionerString(): String {
 		return context.resources.getString(R.string.insolvency_practitioners)
+	}
+
+	override fun getRecentSearchesString(): String {
+		return context.getString(R.string.recent_searches)
 	}
 
 }

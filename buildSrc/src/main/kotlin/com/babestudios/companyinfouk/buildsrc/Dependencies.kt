@@ -232,18 +232,7 @@ object Libs {
 	}
 
 	object JakeWharton {
-		const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:2.1.1"
-
 		const val timber = "com.jakewharton.timber:timber:5.0.1"
-
-		object RxBinding {
-			private const val version = "2.2.0"
-			const val core = "com.jakewharton.rxbinding2:rxbinding:$version"
-			const val design = "com.jakewharton.rxbinding2:rxbinding-design:$version"
-			const val kotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$version"
-			const val designKotlin = "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$version"
-			const val recyclerviewV7Kotlin = "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$version"
-		}
 	}
 
 	object Room {
@@ -261,12 +250,6 @@ object Libs {
 		private const val version = "3.5.2"
 		const val library = "com.github.ChuckerTeam.Chucker:library:$version"
 		const val noop = "com.github.ChuckerTeam.Chucker:library-no-op:$version"
-	}
-
-	object MvRx {
-		private const val version = "1.5.1"
-		const val mvrx = "com.airbnb.android:mvrx:$version"
-		const val testing = "com.airbnb.android:mvrx-testing:$version"
 	}
 
 	object MviKotlin {

@@ -32,7 +32,7 @@
 			app:destination="@id/mapFragment" />
 
 		<action
-			android:id="@+id/action_mainFragment_to_favouritesFragment"
+			android:id="@+id/actionToFavourites"
 			app:destination="@+id/favouritesFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"
@@ -40,7 +40,7 @@
 			app:popExitAnim="@anim/right_slide_out" />
 
 		<action
-			android:id="@+id/action_mainFragment_to_privacyFragment"
+			android:id="@+id/actionToPrivacy"
 			app:destination="@id/privacyFragment"
 			app:enterAnim="@anim/right_slide_in"
 			app:exitAnim="@anim/left_slide_out"

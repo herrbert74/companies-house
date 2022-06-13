@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class CompanySearchResultItem (
+class CompanySearchResultItem(
 
 	@SerializedName("description_identifier")
 	var descriptionIdentifier: List<String> = ArrayList(),
@@ -43,4 +43,14 @@ class CompanySearchResultItem (
 
 	@SerializedName("address_snippet")
 	var addressSnippet: String? = null
-): Parcelable
+) : Parcelable
+
+fun List<CompanySearchResultItem>.filterSearchResults(filterState: FilterState?): List<CompanySearchResultItem> {
+	return this
+		.filter { searchItem ->
+			filterState == FilterState.FILTER_SHOW_ALL ||
+				(searchItem.companyStatus != null
+					&& searchItem.companyStatus.equals(filterState.toString(), ignoreCase = true))
+		}
+		.toList()
+}

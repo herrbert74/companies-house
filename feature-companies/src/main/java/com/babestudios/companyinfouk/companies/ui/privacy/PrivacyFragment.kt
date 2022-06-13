@@ -6,21 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import com.airbnb.mvrx.existingViewModel
-import com.babestudios.base.mvrx.BaseFragment
-import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
-import com.babestudios.companyinfouk.companies.ui.CompaniesViewModel
+import androidx.fragment.app.Fragment
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class PrivacyFragment : BaseFragment() {
+@AndroidEntryPoint
+class PrivacyFragment : Fragment() {
 
-	private val viewModel by existingViewModel(CompaniesViewModel::class)
+	@Inject
+	lateinit var companiesRepository: CompaniesRepository
 
 	@SuppressLint("SetJavaScriptEnabled")
 	override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 	): View {
-		viewModel.logScreenView(this::class.simpleName.orEmpty())
+		companiesRepository.logScreenView(this::class.simpleName.orEmpty())
 		val view = WebView(requireContext())
 		view.settings.javaScriptEnabled = true
 		view.loadUrl("file:///android_asset/privacy_policy.html")
@@ -28,13 +30,4 @@ class PrivacyFragment : BaseFragment() {
 
 	}
 
-	override fun orientationChanged() {
-		val activity = requireActivity() as CompaniesActivity
-		viewModel.setNavigator(activity.injectCompaniesNavigator())
-	}
-
-	@Suppress("EmptyFunctionBlock")
-	override fun invalidate() {
-
-	}
 }

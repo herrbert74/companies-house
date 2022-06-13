@@ -3,7 +3,6 @@
 	<string name="remove_favourites">Remove Favourites</string>
 	<string name="privacy_policy">Privacy policy</string>
 	<string name="incorporated_on">Incorporated on %1$s</string>
-	<string name="recent_searches">Recent Searches</string>
 	<string name="title_activity_main">MainActivity</string>
 	<string name="delete_recent_searches">Delete recent searches</string>
 	<string name="are_you_sure_you_want_to_delete_all_recent_searches">Are you sure you want to delete all recent searches?</string>
@@ -20,6 +19,7 @@
 	<string name="no_recent_searches">You have no recent searches. Start by searching for a company above!</string>
 	<string name="no_search_result">Your search did not return any companies. Please try another one</string>
 	<string name="fab_toggle_favourite">Toggle Favourite</string>
+	<string name="deleteButton">deleteButton</string>
 	<string-array name="search_filter_options">
 		<item>All</item>
 		<item>Active</item>
