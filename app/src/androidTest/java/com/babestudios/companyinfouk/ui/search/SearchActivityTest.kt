@@ -19,9 +19,15 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SearchActivityTest {
 
-	//TODO When bad query text returns empty results, empty message is shown
-	//TODO Officer appointments to Company and then back to the original company
-
+	/**
+	 * TODO When bad query text returns empty results, empty message is shown
+	 * TODO Officer appointments to Company and then back to the original company
+	 * TODO Test state transitions:
+	 * empty results -> empty results
+	 * empty filtered  results -> empty filtered results
+	 * empty results -> empty query text -> semi transparent background
+	 * any results -> change query text -> same results
+	 **/
 	@Suppress("BooleanLiteralArgument")
 	@Rule
 	@JvmField
@@ -44,9 +50,9 @@ class SearchActivityTest {
 	@Test
 	fun whenSearchingForYou_thenSearchResultIsDisplayed() {
 		CompaniesRobot()
-				.clickSearch()
-				.submitSearch()
-				.assertSearchResultMatchesSearchQuery()
+			.clickSearch()
+			.submitSearch()
+			.assertSearchResultMatchesSearchQuery()
 	}
 
 }

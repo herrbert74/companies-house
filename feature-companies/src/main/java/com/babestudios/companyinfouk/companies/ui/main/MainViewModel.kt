@@ -1,7 +1,9 @@
 package com.babestudios.companyinfouk.companies.ui.main
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.arkivanov.essenty.lifecycle.Lifecycle
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.mvikotlin.core.binder.BinderLifecycleMode
 import com.arkivanov.mvikotlin.extensions.coroutines.bind
 import com.arkivanov.mvikotlin.extensions.coroutines.events
@@ -14,21 +16,31 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
 
-@HiltViewModel
-class MainViewModel @Inject constructor(mainExecutor: MainExecutor) : ViewModel() {
+const val MAIN_STATE = "MainState"
 
-	private var mainStore: MainStore =
-		MainStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), mainExecutor).create()
+@HiltViewModel
+class MainViewModel @Inject constructor(
+	mainExecutor: MainExecutor,
+	savedStateHandle: SavedStateHandle,
+) : ViewModel() {
+
+	private var mainStore: MainStore
+
+	init {
+		mainStore = MainStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), mainExecutor, savedStateHandle)
+			.createOrRetrieve()
+	}
 
 	fun onViewCreated(
 		view: MainFragment,
 		lifecycle: Lifecycle
 	) {
-		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+		bind(lifecycle, BinderLifecycleMode.START_STOP) {
 			mainStore.states bindTo view
 			mainStore.labels bindTo { view.sideEffects(it) }
 			view.events.map { userIntentToIntent(it) } bindTo mainStore
 		}
+		lifecycle.doOnDestroy(mainStore::dispose)
 	}
 
 	private val userIntentToIntent: UserIntent.() -> Intent =
@@ -36,14 +48,14 @@ class MainViewModel @Inject constructor(mainExecutor: MainExecutor) : ViewModel(
 			when (this) {
 				UserIntent.ClearRecentSearchesClicked -> Intent.ClearRecentSearchesClicked
 				UserIntent.ClearRecentSearches -> Intent.ClearRecentSearches
-				UserIntent.ClearSearch -> Intent.ClearSearch
 				is UserIntent.LoadMoreSearch -> Intent.LoadMoreSearch(page)
 				is UserIntent.SearchHistoryItemClicked -> Intent.SearchHistoryItemClicked(searchHistoryItem)
 				is UserIntent.SearchItemClicked -> Intent.SearchItemClicked(name, number)
 				is UserIntent.SearchQueryChanged -> Intent.SearchQueryChanged(queryText)
 				is UserIntent.SetFilterState -> Intent.SetFilterState(filterState)
 				UserIntent.ShowRecentSearches -> Intent.ShowRecentSearches
-				is UserIntent.SetSearchMenuItemExpanded -> Intent.SetSearchMenuItemExpanded(isExpanded)
+				is UserIntent.SetSearchMenuItemExpanded -> Intent.SetSearchMenuItemExpanded
+				is UserIntent.SetSearchMenuItemCollapsed -> Intent.SetSearchMenuItemCollapsed
 			}
 		}
 

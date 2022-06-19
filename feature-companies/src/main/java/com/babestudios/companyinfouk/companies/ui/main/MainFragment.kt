@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.companies.ui.main
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.Menu
@@ -42,22 +41,23 @@ import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMainBinding
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.State
-import com.babestudios.companyinfouk.companies.ui.main.MainStore.StateMachine
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryAdapter
 import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryTypeFactory
+import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
 import com.babestudios.companyinfouk.companies.ui.main.search.SearchAdapter
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResultItem
 import com.babestudios.companyinfouk.domain.model.search.FilterState
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import reactivecircus.flowbinding.android.view.clicks
 import reactivecircus.flowbinding.android.widget.textChanges
-import timber.log.Timber
 
 const val SEARCH_QUERY_MIN_LENGTH = 3
 
@@ -76,8 +76,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 	private var favouritesMenuItem: MenuItem? = null
 	private var privacyMenuItem: MenuItem? = null
 	private var filterMenuItem: MenuItem? = null
-	private var lblSearch: TextView? = null
-	private var flagDoNotAnimateSearchMenuItem = false
+	private lateinit var lblSearch: TextView
 
 	private var searchToolbarAnimationDuration: Long = 0
 
@@ -112,62 +111,65 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 	}
 
 	override fun render(model: State) {
-		when (model.state) {
-			is StateMachine.Loading -> binding.msvMainSearch.viewState = VIEW_STATE_LOADING
-			is StateMachine.SearchError -> {
+
+		if (model.isLoading) {
+			binding.msvMainSearch.viewState = VIEW_STATE_LOADING
+		} else if (model.error != null) {
+
+			if (model.searchQuery == null) {
 				binding.msvMainSearch.viewState = VIEW_STATE_ERROR
 				val tvMsvError = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
-				tvMsvError.text = model.state.t.message
-			}
-			is StateMachine.SearchHistoryError -> {
+				tvMsvError.text = model.error.message
+			} else {
 				binding.msvMainSearchHistory.viewState = VIEW_STATE_ERROR
 				val tvMsvError = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvError)
-				tvMsvError.text = model.state.t.message
+				tvMsvError.text = model.error.message
 			}
-			is StateMachine.ShowRecentSearches -> {
-				Timber.d("render: showRecentSearches size: ${model.state.searchHistoryVisitables.size}")
-				val tvMsvSearchHistoryEmpty = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
-				if (model.state.searchHistoryVisitables.isEmpty()) {
-					binding.msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
-					tvMsvSearchHistoryEmpty.text = getString(R.string.no_recent_searches)
-					binding.fabMainClearRecents.hide()
-				} else {
-					binding.fabMainClearRecents.show()
-					binding.msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
-					if (binding.rvMainSearchHistory.adapter == null) {
-						searchHistoryAdapter = SearchHistoryAdapter(
-							model.state.searchHistoryVisitables,
-							SearchHistoryTypeFactory(),
-							lifecycleScope
-						)
-						binding.rvMainSearchHistory.adapter = searchHistoryAdapter
-						searchHistoryAdapter?.itemClicks?.onEach {
-							dispatch(UserIntent.SearchHistoryItemClicked(it))
-						}?.launchIn(lifecycleScope)
-					} else {
-						searchHistoryAdapter?.updateItems(model.state.searchHistoryVisitables)
-					}
-				}
+		} else if (model.searchQuery == null) {
+			val tvMsvSearchHistoryEmpty = binding.msvMainSearchHistory.findViewById<TextView>(R.id.tvMsvEmpty)
+			if (model.searchHistoryVisitables.isEmpty()) {
+				binding.msvMainSearchHistory.viewState = VIEW_STATE_EMPTY
+				tvMsvSearchHistoryEmpty.text = getString(R.string.no_recent_searches)
+				binding.fabMainClearRecents.hide()
+			} else {
+				binding.fabMainClearRecents.show()
+				binding.msvMainSearchHistory.viewState = VIEW_STATE_CONTENT
+				showRecentSearches(model.searchHistoryVisitables)
 			}
-			is StateMachine.ShowSearchResults -> {
-				Timber.d("AA-430 render: search")
-				if (model.state.filteredSearchResultItems.isEmpty()) {
-					Timber.d("AA-430 render search empty: ")
-					showFilteredSearchEmptyState(model.state.searchQuery)
-				} else {
-					setSearchMenuItemExpanded(
-						model.isSearchMenuItemExpanded,
-						model.state.searchQuery,
-						model.state.filterState
-					)
-					showFilteredSearchSuccess(model.state.filteredSearchResultItems)
-				}
+		} else {
+			if (model.filteredSearchResultItems.isEmpty()) {
+				showFilteredSearchEmptyState(model.searchQuery)
+			} else {
+				showFilteredSearchSuccess(model.filteredSearchResultItems)
 			}
+			showRecentSearches(model.searchHistoryVisitables)
+			if (!searchMenuItem.isActionViewExpanded) {
+				setSearchMenuItemExpanded(
+					model.searchQuery,
+					model.filterState,
+				)
+			}
+		}
+
+	}
+
+	private fun showRecentSearches(searchHistoryVisitables: List<SearchHistoryVisitableBase>) {
+		if (binding.rvMainSearchHistory.adapter == null) {
+			searchHistoryAdapter = SearchHistoryAdapter(
+				searchHistoryVisitables,
+				SearchHistoryTypeFactory(),
+				lifecycleScope
+			)
+			binding.rvMainSearchHistory.adapter = searchHistoryAdapter
+			searchHistoryAdapter?.itemClicks?.onEach {
+				dispatch(UserIntent.SearchHistoryItemClicked(it))
+			}?.launchIn(lifecycleScope)
+		} else {
+			searchHistoryAdapter?.updateItems(searchHistoryVisitables)
 		}
 	}
 
 	private fun showFilteredSearchSuccess(filteredSearchResultItems: List<CompanySearchResultItem>) {
-		Timber.d("showFilteredSearchSuccess: size: ${filteredSearchResultItems.size}")
 		binding.fabMainClearRecents.hide()
 		binding.msvMainSearch.viewState = VIEW_STATE_CONTENT
 		binding.rvMainSearch.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
@@ -204,11 +206,11 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setHasOptionsMenu(true)
+		viewModel.onViewCreated(this, essentyLifecycle())
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		viewModel.onViewCreated(this, essentyLifecycle())
 		searchToolbarAnimationDuration = resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
 		initializeUI()
 	}
@@ -218,7 +220,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 		createSearchHistoryRecyclerView()
 		createSearchRecyclerView()
 		binding.fabMainClearRecents.clicks().onEach {
-
+			dispatch(UserIntent.ClearRecentSearchesClicked)
 		}.launchIn(lifecycleScope)
 	}
 
@@ -270,6 +272,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 			}
 		}
 		searchMenuItem = menu.findItem(R.id.action_search)
+		searchMenuItem.setOnActionExpandListener(null)
 		favouritesMenuItem = menu.findItem(R.id.action_favourites)
 		favouritesMenuItem?.clicks()?.onEach {
 			findNavController().navigateSafe(MainFragmentDirections.actionToFavourites())
@@ -279,22 +282,21 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 			findNavController().navigateSafe(MainFragmentDirections.actionToPrivacy())
 		}?.launchIn(lifecycleScope)
 		val searchView = searchMenuItem.actionView as SearchView
-		lblSearch = searchView.findViewById<View>(androidx.appcompat.R.id.search_src_text) as TextView?
+		lblSearch = searchView.findViewById<View>(androidx.appcompat.R.id.search_src_text) as TextView
 
-		lblSearch?.let { searchTextView ->
-			searchTextView.textChanges()
-				.drop(1)
-				.debounce(resources.getInteger(R.integer.search_input_field_debounce).toLong())
-				.onEach {
-					dispatch(UserIntent.SearchQueryChanged(searchTextView.text.toString()))
-				}.launchIn(lifecycleScope)
+		var searchJob: Job?
+		searchJob = lblSearch.textChanges()
+			.drop(1)
+			.debounce(resources.getInteger(R.integer.search_input_field_debounce).toLong())
+			.onEach {
+				dispatch(UserIntent.SearchQueryChanged(lblSearch.text.toString()))
+			}.launchIn(lifecycleScope)
 
-		}
-		lblSearch?.hint = "Search"
-		lblSearch?.textColor = ContextCompat.getColor(requireContext(), android.R.color.black)
+		lblSearch.hint = "Search"
+		lblSearch.textColor = ContextCompat.getColor(requireContext(), android.R.color.black)
 		searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
 			override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-				Timber.d("AA-430 onMenuItemActionCollapse: ")
+				searchJob?.cancelChildren()
 				if (searchMenuItem.isActionViewExpanded) {
 					animateSearchToolbar(1, containsOverflow = false, show = false)
 				}
@@ -302,57 +304,39 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 				searchMenuItem.isVisible = true
 				privacyMenuItem?.isVisible = true
 				favouritesMenuItem?.isVisible = true
-				dispatch(UserIntent.SetSearchMenuItemExpanded(false))
+				dispatch(UserIntent.SetSearchMenuItemCollapsed)
 				return true
 			}
 
 			override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-				Timber.d("AA-430 onMenuItemActionExpand: ")
-				if (!flagDoNotAnimateSearchMenuItem) {
-					animateSearchToolbar(1, containsOverflow = true, show = true)
-					dispatch(UserIntent.SetSearchMenuItemExpanded(true))
-				} else {
-					flagDoNotAnimateSearchMenuItem = false
+				if (searchJob?.isCancelled == true) {
+					searchJob = lblSearch.textChanges()
+						.drop(1)
+						.debounce(resources.getInteger(R.integer.search_input_field_debounce).toLong())
+						.onEach {
+							dispatch(UserIntent.SearchQueryChanged(lblSearch.text.toString()))
+						}.launchIn(lifecycleScope)
 				}
+				animateSearchToolbar(1, containsOverflow = true, show = true)
+				dispatch(UserIntent.SetSearchMenuItemExpanded)
 				favouritesMenuItem?.isVisible = false
 				privacyMenuItem?.isVisible = false
 				filterMenuItem?.isVisible = true
 				return true
 			}
 		})
-		//TODO invalidateOptionsMenu and process death
-//		withState(viewModel) { state ->
-			//For when invalidateOptionsMenu called
-//			if (isSearchMenuItemExpanded) {
-//				searchMenuItem.expandActionView()
-//				//(searchMenuItem.actionView as SearchView).setQuery(state.queryText, false)
-//				//(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
-//				flagDoNotAnimateSearchMenuItem = true
-//			}
-//			//For when we are recovering after a process death
-//			if (state.queryText.isNotEmpty()) {
-//				Handler(Looper.getMainLooper()).postDelayed({
-//					//To avoid skipping initial state in this case : we want to reload it
-//					searchMenuItem.expandActionView()
-//					(filterMenuItem?.actionView as Spinner).setSelection(state.filterState.ordinal)
-//					lblSearch?.text = state.queryText
-//				}, searchToolbarAnimationDuration)
-//			}
-//		}
 
 	}
 
-	private fun setSearchMenuItemExpanded(isSearchMenuItemExpanded:Boolean, queryText: String, filterState: FilterState) {
-		Timber.d("AA-430 setSearchMenuItemExpanded: $isSearchMenuItemExpanded")
-		if (isSearchMenuItemExpanded) {
-			searchMenuItem.expandActionView()
-			(searchMenuItem.actionView as SearchView).setQuery(queryText, false)
-			(filterMenuItem?.actionView as Spinner).setSelection(filterState.ordinal)
-			flagDoNotAnimateSearchMenuItem = true
-		}
+	/**
+	 * To expand search menu item when coming back from company from search
+	 */
+	private fun setSearchMenuItemExpanded(queryText: String, filterState: FilterState) {
+		searchMenuItem.expandActionView()
+		(searchMenuItem.actionView as SearchView).setQuery(queryText, false)
+		(filterMenuItem?.actionView as Spinner).setSelection(filterState.ordinal)
 	}
 
-	@SuppressLint("PrivateResource")
 	fun animateSearchToolbar(numberOfMenuIcon: Int, containsOverflow: Boolean, show: Boolean) {
 
 		binding.tbMain.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
@@ -381,7 +365,6 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 		} else {
 			binding.msvMainSearch.visibility = View.GONE
 			binding.fabMainClearRecents.show()
-			dispatch(UserIntent.ClearSearch)
 			val width = binding.tbMain.width -
 				if (containsOverflow)
 					resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material)
@@ -402,7 +385,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 					binding.tbMain.setBackgroundColor(
 						ContextCompat.getColor(requireContext(), R.color.colorPrimary)
 					)
-					activity?.invalidateOptionsMenu()
+					//activity?.invalidateOptionsMenu()
 				}
 			})
 			createCircularReveal.start()
@@ -412,38 +395,6 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 	private fun isRtl(resources: Resources): Boolean {
 		return resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
 	}
-
-	/**
-	 * This is triggered by changes in [CompaniesState.filteredSearchVisitables] or [CompaniesState.timeStamp],
-	 * but uses [CompaniesState.searchRequest] to check for state changes.
-	 * TODO Test state transitions:
-	 * empty results -> empty results
-	 * empty filtered  results -> empty filtered results
-	 * empty results -> empty query text -> semi transparent background
-	 * any results -> change query text -> same results
-	 */
-//	private fun showFilteredSearch() {
-//		val tvMsvSearchError = binding.msvMainSearch.findViewById<TextView>(R.id.tvMsvError)
-//		withState(viewModel) { state ->
-//			when (state.searchRequest) {
-//				is Uninitialized -> {
-//					showFilteredSearchEmptyState(model.searchQuery)
-//				}
-//				is Loading -> {
-//					if (state.filteredSearchVisitables.isEmpty())
-//						binding.msvMainSearch.viewState = VIEW_STATE_LOADING
-//					observeActions()
-//				}
-//				is Fail -> {
-//					binding.msvMainSearch.viewState = VIEW_STATE_ERROR
-//					tvMsvSearchError.text = state.searchRequest.error.message
-//				}
-//				is Success -> {
-//					showFilteredSearchSuccess(model.filteredSearchResultItems)
-//				}
-//			}
-//		}
-//	}
 
 	private fun showDeleteRecentSearchesDialog() {
 		AlertDialog.Builder(requireContext())
@@ -456,7 +407,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 			.show()
 	}
 
-//endregion
+	//endregion
 
 }
 
@@ -468,9 +419,9 @@ sealed class UserIntent {
 	data class SearchQueryChanged(val queryText: String) : UserIntent()
 	data class LoadMoreSearch(val page: Int) : UserIntent()
 	data class SearchItemClicked(val name: String, val number: String) : UserIntent()
-	object ClearSearch : UserIntent()
 	data class SetFilterState(val filterState: FilterState) : UserIntent()
-	data class SetSearchMenuItemExpanded(val isExpanded: Boolean) : UserIntent()
+	object SetSearchMenuItemExpanded : UserIntent()
+	object SetSearchMenuItemCollapsed : UserIntent()
 }
 
 sealed class SideEffect {
