@@ -10,7 +10,7 @@ import com.babestudios.companyinfouk.domain.model.company.Company
 
 class CompanyStoreFactory(
 	private val storeFactory: StoreFactory,
-	private val CompanyExecutor: CompanyExecutor
+	private val companyExecutor: CompanyExecutor
 ) {
 
 	fun create(companyNumber: String): CompanyStore =
@@ -18,7 +18,7 @@ class CompanyStoreFactory(
 			name = "CompanyStore",
 			initialState = State.Loading,
 			bootstrapper = CompanyBootstrapper(companyNumber),
-			executorFactory = { CompanyExecutor },
+			executorFactory = { companyExecutor },
 			reducer = CompanyReducer
 		) {}
 

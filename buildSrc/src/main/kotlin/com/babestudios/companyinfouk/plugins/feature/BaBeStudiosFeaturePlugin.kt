@@ -32,8 +32,6 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("implementation", Libs.AndroidX.Navigation.uiKtx)
 			add("implementation", Libs.AndroidX.Navigation.fragment)
 			add("implementation", Libs.KotlinResult.result)
-			add("implementation", Libs.RxJava2.rxAndroid)
-			add("implementation", Libs.RxJava2.rxJava)
 			add("implementation", Libs.Views.multiStateView)
 			add("implementation", Libs.MviKotlin.main)
 			add("implementation", Libs.MviKotlin.rx)

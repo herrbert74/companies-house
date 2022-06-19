@@ -46,7 +46,7 @@ class CompanyExecutor @Inject constructor(
 				SearchHistoryItem(
 					company.companyName,
 					companyNumber,
-					0
+					0L
 				)
 			)
 			withContext(mainContext) {

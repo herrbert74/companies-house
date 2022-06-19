@@ -1,103 +1,118 @@
 package com.babestudios.companyinfouk.companies
 
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.data.model.company.CompanyDto
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.companyinfouk.companies.ui.company.CompanyExecutor
+import com.babestudios.companyinfouk.companies.ui.company.CompanyStore
+import com.babestudios.companyinfouk.companies.ui.company.CompanyStoreFactory
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
+import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Test
 
 class CompanyTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private val companiesNavigator = mockk<CompaniesBaseNavigatable>()
+	private lateinit var companyExecutor: CompanyExecutor
+
+	private lateinit var companyStore: CompanyStore
+
+	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
 	private val searchHistoryItem = SearchHistoryItem("TUI", "12344", 0L)
 
 	@Before
 	fun setUp() {
+		coEvery {
+			companiesHouseRepository.logScreenView(any())
+		} answers { }
 		every {
 			companiesHouseRepository.removeFavourite(searchHistoryItem)
 		} answers
-				{
-					Exception("")
-				}
+			{
+				Exception("")
+			}
 		every {
 			companiesHouseRepository.addFavourite(searchHistoryItem)
 		} answers
-				{
-					true
-				}
-		every {
+			{
+				true
+			}
+		coEvery {
 			companiesHouseRepository.getCompany(any())
 		} answers
-				{
-					Single.create { CompanyDto(companyNumber = "123456") }
-				}
+			{
+				Company(
+					companyName = searchHistoryItem.companyName,
+					companyNumber = searchHistoryItem.companyNumber
+				)
+			}
+
+		companyExecutor = CompanyExecutor(
+			companiesHouseRepository,
+			testCoroutineDispatcher,
+			testCoroutineDispatcher
+		)
+
+		whenIsFavourite(false)
+		companyStore = CompanyStoreFactory(DefaultStoreFactory(), companyExecutor).create("12344")
+	}
+
+	//region tests
+
+	@Test
+	fun `test when fab clicked then repo add favourite is called`() {
+		val states = companyStore.states.test()
+		states.last().shouldBeTypeOf<CompanyStore.State.Show>()
+		companyStore.accept(CompanyStore.Intent.FabFavouritesClicked)
+		coVerify(exactly = 1) { companiesHouseRepository.addFavourite(searchHistoryItem) }
 	}
 
 	@Test
-	fun test_When_FabClicked_Then_DataManagerAddFavouriteIsCalled() {
-		every {
-			companiesHouseRepository.isFavourite(searchHistoryItem)
-		} answers
-				{
-					false
-				}
-		val viewModel = companiesViewModel()
-		viewModel.flipCompanyFavoriteState()
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.addFavourite(searchHistoryItem) }
+	fun `when is favourite and fab clicked then repo remove favourite is called`() {
+		whenIsFavourite(true)
+		companyStore.accept(CompanyStore.Intent.FabFavouritesClicked)
+		coVerify(exactly = 1) { companiesHouseRepository.removeFavourite(searchHistoryItem) }
 	}
 
 	@Test
-	fun test_When_FabClicked_Then_DataManagerRemoveFavouriteIsCalled() {
+	fun `when get company then repo get company is called`() {
+		val states = companyStore.states.test()
+		states.last().shouldBeTypeOf<CompanyStore.State.Show>()
+		coVerify(exactly = 1) { companiesHouseRepository.getCompany(searchHistoryItem.companyNumber) }
+	}
+
+	//endregion
+
+	//region mocking
+
+	private fun whenIsFavourite(isFavourite: Boolean) {
 		every {
 			companiesHouseRepository.isFavourite(searchHistoryItem)
 		} answers
-				{
-					true
-				}
-		val viewModel = companiesViewModel()
-		viewModel.flipCompanyFavoriteState()
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.removeFavourite(searchHistoryItem) }
+			{
+				isFavourite
+			}
 	}
 
-	@Test
-	fun test_When_GetCompany_Then_DataManagerGetCompanyIsCalled() {
-		every {
-			companiesHouseRepository.isFavourite(searchHistoryItem)
-		} answers
-				{
-					true
-				}
-		val viewModel = companiesViewModel()
-		viewModel.fetchCompany("123456")
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.getCompany("123456") }
-	}
+	//endregion
 
+//	private fun companiesViewModel(): CompaniesViewModel {
+//		return CompaniesViewModel(
+//			CompaniesState(companyNumber = "12344", companyName = "TUI"),
+//			companiesHouseRepository,
+//			companiesNavigator,
+//			recentSearchesString = ""
+//		)
+//	}
 
-	private fun companiesViewModel(): CompaniesViewModel {
-		return CompaniesViewModel(
-				CompaniesState(companyNumber = "12344", companyName = "TUI"),
-				companiesHouseRepository,
-				companiesNavigator,
-				recentSearchesString = "")
-	}
-
-	companion object {
-		@JvmField
-		@ClassRule
-		val mvrxTestRule = MvRxTestRule()
-	}
 }

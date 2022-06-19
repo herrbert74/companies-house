@@ -10,7 +10,7 @@ import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesList
 
 class FavouritesStoreFactory(
 	private val storeFactory: StoreFactory,
-	private val FavouritesExecutor: FavouritesExecutor
+	private val favouritesExecutor: FavouritesExecutor
 ) {
 
 	fun create(): FavouritesStore =
@@ -18,7 +18,7 @@ class FavouritesStoreFactory(
 			name = "FavouritesStore",
 			initialState = State.Loading,
 			bootstrapper = FavouritesBootstrapper(),
-			executorFactory = { FavouritesExecutor },
+			executorFactory = { favouritesExecutor },
 			reducer = FavouritesReducer
 		) {}
 

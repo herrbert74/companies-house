@@ -1,78 +1,80 @@
 package com.babestudios.companyinfouk.companies
 
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateProperty
+import com.arkivanov.mvikotlin.extensions.coroutines.labels
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesExecutor
+import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore
+import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStoreFactory
+import com.babestudios.companyinfouk.companies.ui.favourites.SideEffect
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesVisitable
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.navigation.features.CompaniesBaseNavigatable
+import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Test
 
 class FavouritesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private val companiesNavigator = mockk<CompaniesBaseNavigatable>()
+	private lateinit var favouritesExecutor: FavouritesExecutor
+	private lateinit var favouritesStore: FavouritesStore
 
 	private val searchHistoryItem = SearchHistoryItem("TUI", "12344", 12L)
 
-	private val favouriteItems = listOf(FavouritesVisitable(FavouritesListItem(searchHistoryItem, false)))
+	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
 	@Before
 	fun setUp() {
 		every {
 			companiesHouseRepository.removeFavourite(searchHistoryItem)
 		} answers
-				{
-					Exception("")
-				}
-		every {
+			{
+				Exception("")
+			}
+		coEvery {
+			companiesHouseRepository.logScreenView(any())
+		} answers { }
+		coEvery {
 			companiesHouseRepository.favourites()
 		} answers
-				{
-					Single.create { searchHistoryItem }
-				}
-		every {
-			companiesNavigator.favouritesToCompany(any(), any())
-		} answers
-				{
-					Exception("")
-				}
+			{
+				listOf(searchHistoryItem)
+			}
+
+		favouritesExecutor = FavouritesExecutor(
+			testCoroutineDispatcher,
+			testCoroutineDispatcher,
+			companiesHouseRepository
+		)
+
+		favouritesStore = FavouritesStoreFactory(DefaultStoreFactory(), favouritesExecutor).create()
 	}
 
 	@Test
 	fun `when favourites item clicked then navigates to company`() {
-		val viewModel = companiesViewModel()
-		viewModel.favouritesItemClicked(0)
-		verify(exactly = 1) { viewModel.companiesNavigator.favouritesToCompany(any(), any()) }
+		val labels = favouritesStore.labels.test()
+		favouritesStore.accept(FavouritesStore.Intent.FavouritesItemClicked(FavouritesListItem(searchHistoryItem)))
+		labels.last().shouldBeTypeOf<SideEffect.FavouritesItemClicked>()
 	}
 
 	@Test
-	fun whenRemoveFavourite_shouldCallDataManagerRemoveFavourite() {
-		val viewModel = companiesViewModel()
-		viewModel.removeFavourite(searchHistoryItem)
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.removeFavourite(searchHistoryItem) }
+	fun `when remove favourite the repo removes favourite`() {
+		val states = favouritesStore.states.test()
+		favouritesStore.accept(FavouritesStore.Intent.RemoveItem(FavouritesListItem(searchHistoryItem)))
+		states.last().shouldBeTypeOf<FavouritesStore.State.Show>()
+		coVerify(exactly = 1) {
+			companiesHouseRepository.removeFavourite(
+				searchHistoryItem
+			)
+		}
 	}
 
-	private fun companiesViewModel(): CompaniesViewModel {
-		return CompaniesViewModel(
-				CompaniesState(companyNumber = "123", totalCount = 50, favouriteItems = favouriteItems),
-				companiesHouseRepository,
-				companiesNavigator,
-				recentSearchesString = "")
-	}
-
-	companion object {
-		@JvmField
-		@ClassRule
-		val mvrxTestRule = MvRxTestRule()
-	}
 }
