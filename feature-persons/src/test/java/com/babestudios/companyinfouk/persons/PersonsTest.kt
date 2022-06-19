@@ -1,61 +1,70 @@
 package com.babestudios.companyinfouk.persons
 
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.persons.ui.PersonsViewModel
-import io.mockk.every
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsExecutor
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore
+import com.babestudios.companyinfouk.persons.ui.persons.PersonsStoreFactory
+import com.github.michaelbull.result.Ok
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Test
 
 class PersonsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private val personsNavigator = mockk<PersonsBaseNavigatable>()
+	private lateinit var filingHistoryExecutor: PersonsExecutor
 
+	private lateinit var personsStore: PersonsStore
+
+	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
 	@Before
 	fun setUp() {
-		every {
+		coEvery {
+			companiesHouseRepository.logScreenView(any())
+		} answers { }
+
+		coEvery {
 			companiesHouseRepository.getPersons("123", "0")
-		} answers
-				{
-					Single.create { PersonsResponse() }
-				}
+		} answers { Ok(PersonsResponse()) }
+
+		filingHistoryExecutor = PersonsExecutor(
+			companiesHouseRepository,
+			testCoroutineDispatcher,
+			testCoroutineDispatcher
+		)
+
+		personsStore =
+			PersonsStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
+				companyNumber = "123"
+			)
 	}
 
 	@Test
-	fun whenGetPersons_thenRepoGetPersonsIsCalled() {
-		val viewModel = personsViewModel()
-		viewModel.fetchPersons("123")
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.getPersons("123", "0") }
+	fun `when get persons then repo get persons is called`() {
+		val states = personsStore.states.test()
+		states.last().shouldBeTypeOf<PersonsStore.State.Show>()
+		(states.last() as? PersonsStore.State.Show)?.personsResponse shouldBe PersonsResponse()
+		coVerify(exactly = 1) { companiesHouseRepository.getPersons("123", "0") }
 	}
 
 	@Test
-	fun whenLoadMorePersons_thenRepoLoadMorePersonsIsCalled() {
-		val viewModel = personsViewModel()
-		viewModel.loadMorePersons(0)
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.getPersons("123", "0") }
+	fun `when load more persons then repo load more persons is called`() {
+		val states = personsStore.states.test()
+		personsStore.accept(PersonsStore.Intent.LoadMorePersons(1))
+		states.last().shouldBeTypeOf<PersonsStore.State.Show>()
+		(states.last() as? PersonsStore.State.Show)?.personsResponse shouldBe PersonsResponse()
+		coVerify(exactly = 1) { companiesHouseRepository.getPersons("123", "0") }
 	}
 
-	private fun personsViewModel(): PersonsViewModel {
-		return PersonsViewModel(
-				PersonsState(companyNumber = "123", totalPersonCount = 100),
-				companiesHouseRepository,
-				personsNavigator)
-	}
-
-	companion object {
-		@JvmField
-		@ClassRule
-		val mvrxTestRule = MvRxTestRule()
-	}
 }

@@ -1,60 +1,71 @@
 package com.babestudios.companyinfouk.charges
 
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.charges.ui.ChargesViewModel
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
-import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import io.mockk.every
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesExecutor
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore
+import com.babestudios.companyinfouk.charges.ui.charges.ChargesStoreFactory
+import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.charges.Charges
+import com.github.michaelbull.result.Ok
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Test
 
 class ChargesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private val chargesNavigator = mockk<ChargesBaseNavigatable>()
+	private lateinit var filingHistoryExecutor: ChargesExecutor
+
+	private lateinit var chargesStore: ChargesStore
+
+	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
 	@Before
 	fun setUp() {
-		every {
-			companiesHouseRepository.fetchCharges("123", "0")
-		} answers
-				{
-					Single.create { ChargesDto() }
-				}
+		coEvery { companiesHouseRepository.logScreenView(any()) } answers { }
+
+		coEvery {
+			companiesHouseRepository.getCharges("123", "0")
+		} answers { Ok(Charges()) }
+
+		filingHistoryExecutor = ChargesExecutor(
+			companiesHouseRepository,
+			testCoroutineDispatcher,
+			testCoroutineDispatcher
+		)
+
+		chargesStore = ChargesStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
+			companyNumber = "123", false
+		)
 	}
 
 	@Test
-	fun whenGetCharges_thenRepoGetChargesIsCalled() {
-		val viewModel = chargesViewModel()
-		viewModel.fetchCharges("123")
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.fetchCharges("123", "0") }
+	fun `when get charges then repo get charges is called`() {
+		val states = chargesStore.states.test()
+		states.first().shouldBeTypeOf<ChargesStore.State.Loading>()
+		chargesStore.init()
+		states.last().shouldBeTypeOf<ChargesStore.State.Show>()
+		(states.last() as? ChargesStore.State.Show)?.charges shouldBe Charges()
+		coVerify(exactly = 1) { companiesHouseRepository.getCharges("123", "0") }
 	}
 
 	@Test
-	fun whenLoadMoreCharges_thenRepoLoadMoreChargesIsCalled() {
-		val viewModel = chargesViewModel()
-		viewModel.loadMoreCharges(0)
-		val repo: CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		verify(exactly = 1) { repo?.fetchCharges("123", "0") }
+	fun `when load more charges then repo load more charges is called`() {
+		val states = chargesStore.states.test()
+		chargesStore.init()
+		chargesStore.accept(ChargesStore.Intent.LoadMoreCharges(1))
+
+		states.last().shouldBeTypeOf<ChargesStore.State.Show>()
+		(states.last() as? ChargesStore.State.Show)?.charges shouldBe Charges()
+		coVerify(exactly = 1) { companiesHouseRepository.getCharges("123", "0") }
 	}
 
-	private fun chargesViewModel(): ChargesViewModel {
-		return ChargesViewModel(
-				ChargesState(companyNumber = "123", totalChargesCount = 100),
-				companiesHouseRepository,
-				chargesNavigator)
-	}
-
-	companion object {
-		@JvmField
-		@ClassRule
-		val mvrxTestRule = MvRxTestRule()
-	}
 }

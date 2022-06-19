@@ -1,56 +1,61 @@
 package com.babestudios.companyinfouk.insolvencies
 
-import com.airbnb.mvrx.test.MvRxTestRule
-import com.babestudios.base.ext.callPrivateFunc
-import com.babestudios.base.ext.getPrivateProperty
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
+import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesViewModel
-import io.mockk.every
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesExecutor
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore
+import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStoreFactory
+import com.github.michaelbull.result.Ok
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Test
 
 class InsolvenciesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRxRepository>()
+	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private val insolvenciesNavigator = mockk<InsolvenciesBaseNavigatable>()
+	private lateinit var insolvenciesExecutor: InsolvenciesExecutor
+
+	private lateinit var insolvenciesStore: InsolvenciesStore
+
+	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
 	@Before
 	fun setUp() {
-		every {
+		coEvery {
+			companiesHouseRepository.logScreenView(any())
+		} answers { }
+
+		coEvery {
 			companiesHouseRepository.getInsolvency("123")
-		} answers
-				{
-					Single.create { Insolvency() }
-				}
+		} answers { Ok(Insolvency(cases = emptyList())) }
+
+		insolvenciesExecutor = InsolvenciesExecutor(
+			companiesHouseRepository,
+			testCoroutineDispatcher,
+			testCoroutineDispatcher
+		)
+
+		insolvenciesStore =
+			InsolvenciesStoreFactory(DefaultStoreFactory(), insolvenciesExecutor).create(
+				companyNumber = "123"
+			)
 	}
 
 	@Test
-	fun whenGetInsolvencies_thenRepoGetInsolvenciesIsCalled() {
-		val viewModel = insolvenciesViewModel()
-		val func = viewModel.callPrivateFunc("fetchInsolvencies", "123")
-		val repo :CompaniesRxRepository? = viewModel.getPrivateProperty("companiesRepository")
-		//Executed twice because it's also in init function
-		verify(exactly = 2) { repo?.getInsolvency("123") }
+	fun `when get insolvencies then repo get insolvencies is called`() {
+		val states = insolvenciesStore.states.test()
+		states.last().shouldBeTypeOf<InsolvenciesStore.State.Show>()
+		coVerify(exactly = 1) { companiesHouseRepository.getInsolvency("123") }
+		(states.last() as? InsolvenciesStore.State.Show)?.insolvencies shouldBe emptyList()
 	}
 
-	private fun insolvenciesViewModel(): InsolvenciesViewModel {
-		return InsolvenciesViewModel(
-				InsolvenciesState(companyNumber = "123", totalInsolvenciesCount = 100),
-				companiesHouseRepository,
-				insolvenciesNavigator,
-				"dates",
-				"practitioners")
-	}
-
-	companion object {
-		@JvmField
-		@ClassRule
-		val mvrxTestRule = MvRxTestRule()
-	}
 }

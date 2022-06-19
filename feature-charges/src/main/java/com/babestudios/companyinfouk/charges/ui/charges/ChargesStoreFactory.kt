@@ -15,9 +15,10 @@ class ChargesStoreFactory(
 	private val chargesExecutor: ChargesExecutor
 ) {
 
-	fun create(companyNumber: String): ChargesStore =
+	fun create(companyNumber: String, autoInit :Boolean = true): ChargesStore =
 		object : ChargesStore, Store<Intent, State, SideEffect> by storeFactory.create(
 			name = "ChargesStore",
+			autoInit = autoInit,
 			initialState = State.Loading,
 			bootstrapper = ChargesBootstrapper(companyNumber),
 			executorFactory = { chargesExecutor },
