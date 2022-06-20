@@ -2,14 +2,14 @@ package com.babestudios.companyinfouk.data.di
 
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesAccessor
-import com.babestudios.companyinfouk.data.CompaniesRxAccessor
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseRxErrorResolver
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 /**
@@ -18,15 +18,12 @@ import javax.inject.Singleton
  * hence it's separated from [TestDataModule]
  */
 @Module
+@TestInstallIn(components = [SingletonComponent::class], replaces = [DataContractModule::class])
 interface TestDataContractModule {
 
 	@Singleton
 	@Binds
 	fun bindCompaniesRepository(companiesRepository: CompaniesAccessor): CompaniesRepository
-
-	@Singleton
-	@Binds
-	fun bindCompaniesRepositoryContract(companiesRepository: CompaniesRxAccessor): CompaniesRxRepository
 
 	@Singleton
 	@Binds

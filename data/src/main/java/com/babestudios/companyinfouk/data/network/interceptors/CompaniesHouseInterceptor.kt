@@ -11,9 +11,10 @@ import javax.inject.Inject
 class CompaniesHouseInterceptor @Inject constructor(base64Wrapper: Base64Wrapper) : Interceptor {
 
 	private val authorization: String = "Basic " + base64Wrapper.encodeToString(
-			BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(),
-			Base64.NO_WRAP
+		BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(),
+		Base64.NO_WRAP
 	)
+
 	override fun intercept(chain: Interceptor.Chain): Response {
 		val requestBuilder = chain.request().newBuilder()
 		var headersBuilder: Headers.Builder = chain.request().headers.newBuilder()

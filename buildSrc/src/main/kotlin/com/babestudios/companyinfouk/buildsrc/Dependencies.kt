@@ -8,7 +8,7 @@ object Versions {
 	const val targetSdkVersion = 31
 	const val gradlePlugin = "7.1.3"
 	const val kotlin = "1.6.21"
-	const val coroutines = "1.6.1"
+	const val coroutines = "1.6.3"
 	const val dagger = "2.42"
 }
 
@@ -198,8 +198,9 @@ object Libs {
 		}
 
 		object OkHttp3 {
-			private const val version = "4.9.3"
+			private const val version = "4.10.0"
 			const val okHttp = "com.squareup.okhttp3:okhttp:$version"
+			const val mockWebServer = "com.squareup.okhttp3:mockwebserver:$version"
 			const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
 		}
 
@@ -272,7 +273,8 @@ object Libs {
 	object Test {
 		const val jUnit = "junit:junit:4.13.2"
 		const val assertJ = "org.assertj:assertj-core:3.22.0"
-		const val robolectric = "org.robolectric:robolectric:4.7.3"
+		const val robolectric = "org.robolectric:robolectric:4.8.1"
+		const val barista = "com.adevinta.android:barista:4.2.0"
 
 		//This is an alternative to Espresso IdlingResource
 		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"

@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
-//import android.os.AsyncTask
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
@@ -26,6 +25,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
@@ -41,12 +43,13 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 @Module
 @Suppress("unused")
-class TestDataModule(private val context: Context) {
+@TestInstallIn(components = [SingletonComponent::class], replaces = [DataModule::class])
+class TestDataModule {
 
 	@Provides
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
-	internal fun provideCompaniesHouseRetrofit(): Retrofit {
+	internal fun provideCompaniesHouseRetrofit(@ApplicationContext context: Context): Retrofit {
 		val logging = HttpLoggingInterceptor()
 		logging.level = HttpLoggingInterceptor.Level.BODY
 
@@ -114,7 +117,7 @@ class TestDataModule(private val context: Context) {
 	}
 
 	@Provides
-	internal fun provideSharedPreferences(): SharedPreferences {
+	internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
 		return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
 	}
 
@@ -126,7 +129,7 @@ class TestDataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	internal fun provideFirebaseAnalytics(): FirebaseAnalytics {
+	internal fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
 		return FirebaseAnalytics.getInstance(context)
 	}
 

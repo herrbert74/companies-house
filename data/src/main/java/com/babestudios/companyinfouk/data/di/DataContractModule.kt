@@ -2,12 +2,10 @@ package com.babestudios.companyinfouk.data.di
 
 import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesAccessor
-import com.babestudios.companyinfouk.data.CompaniesRxAccessor
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseRxErrorResolver
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -27,10 +25,6 @@ interface DataContractModule {
 	@Singleton
 	@Binds
 	fun bindCompaniesRepository(companiesRepository: CompaniesAccessor): CompaniesRepository
-
-	@Singleton
-	@Binds
-	fun bindCompaniesRxRepository(companiesRepository: CompaniesRxAccessor): CompaniesRxRepository
 
 	@Singleton
 	@Binds

@@ -16,7 +16,7 @@ import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseRxErrorResolver
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
-import com.babestudios.companyinfouk.domain.api.CompaniesRxRepository
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
@@ -25,9 +25,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Named
 import javax.inject.Singleton
@@ -113,8 +113,8 @@ class AndroidTestDataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	internal fun provideCompaniesRepositoryContract(): CompaniesRxRepository {
-		val mockCompaniesRepository = mockk<CompaniesRxRepository>()
+	internal fun provideCompaniesRepositoryContract(): CompaniesRepository {
+		val mockCompaniesRepository = mockk<CompaniesRepository>()
 
 		val favourites = listOf(
 			SearchHistoryItem(
@@ -124,9 +124,9 @@ class AndroidTestDataModule(private val context: Context) {
 			)
 		)
 
-		every {
+		coEvery {
 			mockCompaniesRepository.favourites()
-		} returns Single.create { it.onSuccess(favourites) }
+		} returns favourites
 
 		every {
 			mockCompaniesRepository.logAppOpen()
@@ -140,9 +140,9 @@ class AndroidTestDataModule(private val context: Context) {
 			mockCompaniesRepository.logSearch(any())
 		} returns Unit
 
-		every {
+		coEvery {
 			mockCompaniesRepository.recentSearches()
-		} returns Single.create { it.onSuccess(favourites) }
+		} returns favourites
 
 		return mockCompaniesRepository
 	}

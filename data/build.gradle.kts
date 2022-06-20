@@ -80,12 +80,20 @@ dependencies {
 	releaseImplementation(Libs.Chucker.noop)
 
 	testImplementation(Libs.AndroidX.Test.Ext.jUnit)
+	testImplementation(Libs.SquareUp.OkHttp3.mockWebServer)
 	testImplementation(Libs.Test.MockK.core)
 	testImplementation(Libs.Test.Kotest.assertions)
+	testImplementation(Libs.Test.robolectric)
+	testImplementation(Libs.Kotlin.Coroutines.test)
+	testImplementation(Libs.Google.Dagger.Hilt.androidTesting)
 
 	kapt(Libs.Google.Dagger.compiler)
 	kapt(Libs.Google.Dagger.Hilt.compiler)
 
 	kaptTest(Libs.Google.Dagger.compiler)
 
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+	kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
 }

@@ -1,47 +1,50 @@
 package com.babestudios.companyinfouk.data
 
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
+import com.babestudios.companyinfouk.common.loadJson
+import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import io.kotest.matchers.shouldBe
-import io.reactivex.observers.TestObserver
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 
 @RunWith(JUnit4::class)
 class RetrofitTest {
 
-	private var authorization: String? = null
+	private val server = MockWebServer()
+	private val baseUrl = server.url("/").toString()
+	private lateinit var mockedResponse: String
 
 	@Before
 	fun setUp() {
-		authorization = "Basic WnBoWHBnLXRyZndBTmlUTmZlNHh3SzZRWFk0WHdSd3cwd0h4RjVkbQ=="
+		mockedResponse = this.loadJson("search_result_you")
 	}
 
 	@Test
 	@Throws(Exception::class)
-	fun testSearchCompanies() {
-		val testSubscriber = TestObserver<String>()
-
-		val retrofit = Retrofit.Builder()//
-				.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
-				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
-				//.callbackExecutor(Executors.newSingleThreadExecutor())//
-				.addConverterFactory(AdvancedGsonConverterFactory.create())//
+	fun testSearchCompanies() = runTest {
+		server.enqueue(
+			MockResponse()
+				.setResponseCode(200)
+				.setBody(mockedResponse)
+		)
+		val retrofit = Retrofit.Builder()
+				.baseUrl(baseUrl)
+				.addConverterFactory(AdvancedGsonConverterFactory.create())
 				.build()
 
-		val companiesHouseService = retrofit.create(CompaniesHouseRxService::class.java)
+		val companiesHouseService = retrofit.create(CompaniesHouseService::class.java)
 
-		companiesHouseService.searchCompanies(/*authorization!!,*/ "GAMES", "100", "0")
-				.map<String> { e -> e.items[0].title }
-				.subscribe(testSubscriber)
-		val result = testSubscriber.events[0]
-		result[0]::class.java shouldBe String::class.java
-		testSubscriber.assertNoErrors()
+		val title = companiesHouseService.searchCompanies("GAMES", "100", "0")
+			.items[0].title
+
+		title shouldBe "YOU  LIMITED"
 
 	}
 }

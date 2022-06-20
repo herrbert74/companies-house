@@ -35,8 +35,8 @@ You can drill down from the main screen to the following:
 ### Technical highlights ###
 
 * 100% Kotlin.
-* Retrofit 2 with RxJava is used for networking and events.
-* Unidirectional Data Flow architecture with MvRx from AirBnB. 
+* Retrofit 2 with Coroutines is used for networking and events.
+* Unidirectional Data Flow architecture with MVIKotlin. 
 * Dagger 2 for easy testing.
 * Large part of the ViewModels are unit tested.
 * ConstraintLayout is used on Details screens.
