@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-													 xmlns:app="http://schemas.android.com/apk/res-auto"
-													 xmlns:tools="http://schemas.android.com/tools"
-													 android:layout_width="match_parent"
-													 android:layout_height="match_parent"
-													 android:fitsSystemWindows="true"
-													 tools:context=".ui.favourites.FavouritesFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	tools:context=".ui.favourites.FavouritesFragment">
 
 	<com.babestudios.base.view.ParallaxAppBarView
 		android:id="@+id/pabFavourites"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/appBarHeight"
 		android:theme="@style/AppTheme.AppBarOverlay"
-		app:imageViewSrc="@drawable/bg_favourites"/>
+		app:imageViewSrc="@drawable/bg_favourites" />
 
 	<com.babestudios.base.view.MultiStateView
 		android:id="@+id/msvFavourites"
@@ -29,6 +29,6 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:paddingBottom="@dimen/viewMargin"
-			android:scrollbars="vertical"/>
+			android:scrollbars="vertical" />
 	</com.babestudios.base.view.MultiStateView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

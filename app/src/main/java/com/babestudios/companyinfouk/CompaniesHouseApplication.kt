@@ -1,8 +1,6 @@
 package com.babestudios.companyinfouk
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatActivity
-import com.babestudios.base.mvrx.LifeCycleApp
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -11,12 +9,12 @@ import timber.log.Timber.Forest.plant
 
 
 @HiltAndroidApp
-open class CompaniesHouseApplication : Application(), LifeCycleApp {
+open class CompaniesHouseApplication : Application() {
 
 	@Inject
 	lateinit var companiesRepository: CompaniesRepository
 
-	private var currentActivity: AppCompatActivity? = null
+	//private var currentActivity: AppCompatActivity? = null
 
 	override fun onCreate() {
 		super.onCreate()
@@ -30,11 +28,11 @@ open class CompaniesHouseApplication : Application(), LifeCycleApp {
 		companiesRepository.logAppOpen()
 	}
 
-	override fun getCurrentActivity(): AppCompatActivity? {
-		return currentActivity
-	}
-
-	override fun setCurrentActivity(mCurrentActivity: AppCompatActivity) {
-		this.currentActivity = mCurrentActivity
-	}
+//	override fun getCurrentActivity(): AppCompatActivity? {
+//		return currentActivity
+//	}
+//
+//	override fun setCurrentActivity(mCurrentActivity: AppCompatActivity) {
+//		this.currentActivity = mCurrentActivity
+//	}
 }

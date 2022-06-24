@@ -1,35 +1,60 @@
 package com.babestudios.companyinfouk.ui.favourites
 
-import android.content.Intent
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
 import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
+import com.babestudios.companyinfouk.data.di.DataContractModule
+import com.babestudios.companyinfouk.data.utils.RawResourceHelper
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.mock.mockCompaniesRepository
 import com.babestudios.companyinfouk.ui.CompaniesRobot
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import io.mockk.coEvery
+import io.mockk.mockk
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
+@UninstallModules(DataContractModule::class)
 @RunWith(AndroidJUnit4::class)
 class FavouritesFragmentTest {
 
-	@Suppress("BooleanLiteralArgument")
-	@Rule
-	@JvmField
-	var activityTestRule = ActivityTestRule(CompaniesActivity::class.java, true, false)
+	@get:Rule(order = 0)
+	val hiltAndroidRule = HiltAndroidRule(this)
 
-	//TODO Test when coming from RecentSearchesActivity, shows data
-	//TODO Test when coming from RecentSearchesActivity, not crashing on empty data
+	@get:Rule(order = 1)
+	var activityTestRule = ActivityScenarioRule(CompaniesActivity::class.java)
+
+	@BindValue
+	val companiesRepository: CompaniesRepository = mockCompaniesRepository()
+
+	@BindValue
+	val rawResourceHelper: RawResourceHelper = mockk()
+
 	//TODO Test when coming back from CompanyActivity after delete -> Updated
 
 	@Before
 	fun setUp() {
-		activityTestRule.launchActivity(Intent())
-		CompaniesRobot().clickFavourites()
+		hiltAndroidRule.inject()
 	}
 
 	@Test
-	fun whenComingFromRecentSearchesActivity_thenShowsData() {
+	fun whenComingFromMain_thenShowsData() {
+		CompaniesRobot().clickFavourites()
 		CompaniesRobot().assertFavouriteIsListed()
+	}
+
+	@Test
+	fun whenComingFromMain_andFavouritesIsEmpty_thenDisplaysEmptyView() {
+		coEvery {
+			companiesRepository.favourites()
+		} returns emptyList()
+		CompaniesRobot().clickFavourites()
+		CompaniesRobot().assertFavouriteIsNotListed()
 	}
 }

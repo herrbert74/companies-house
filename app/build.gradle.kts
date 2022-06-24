@@ -95,7 +95,7 @@ dependencies {
 	androidTestImplementation(Libs.Google.Firebase.analytics)
 	androidTestImplementation(Libs.SquareUp.OkHttp3.loggingInterceptor)
 	androidTestImplementation(Libs.Test.MockK.android)
-	androidTestImplementation(Libs.Test.conditionWatcher)
+	androidTestImplementation(Libs.Test.barista)
 	androidTestImplementation(Libs.Google.Dagger.Hilt.androidTesting)
 	androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
 	//RecyclerView, ViewPager, NavigationViewActions: unused for now
@@ -103,6 +103,7 @@ dependencies {
 	androidTestImplementation(Libs.AndroidX.Test.Ext.jUnit)
 	androidTestImplementation(Libs.AndroidX.Test.rules)
 	androidTestImplementation(Libs.AndroidX.Test.runner)
+	androidTestImplementation(Libs.Test.barista)
 
 	kaptAndroidTest(Libs.Google.Dagger.compiler)
 	kaptAndroidTest(Libs.Google.Dagger.Hilt.compiler)

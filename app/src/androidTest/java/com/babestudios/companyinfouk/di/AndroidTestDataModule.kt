@@ -1,23 +1,16 @@
 package com.babestudios.companyinfouk.di
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.babestudios.base.di.qualifier.ApplicationContext
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.di.DataModule
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
+import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
-import com.babestudios.companyinfouk.data.utils.RawResourceHelper
-import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
-import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseRxErrorResolver
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -25,8 +18,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Named
@@ -42,7 +33,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 	components = [SingletonComponent::class],
 	replaces = [DataModule::class]
 )
-class AndroidTestDataModule(private val context: Context) {
+object AndroidTestDataModule {
 
 	@Provides
 	@Singleton
@@ -76,21 +67,16 @@ class AndroidTestDataModule(private val context: Context) {
 	@Singleton
 	internal fun provideCompaniesHouseService(
 		@Named("CompaniesHouseRetrofit") retroFit: Retrofit
-	): CompaniesHouseRxService {
-		return retroFit.create(CompaniesHouseRxService::class.java)
+	): CompaniesHouseService {
+		return retroFit.create(CompaniesHouseService::class.java)
 	}
 
 	@Provides
 	@Singleton
 	internal fun provideCompaniesHouseDocumentService(
 		@Named("CompaniesHouseRetrofit") retroFit: Retrofit
-	): CompaniesHouseRxDocumentService {
-		return retroFit.create(CompaniesHouseRxDocumentService::class.java)
-	}
-
-	@Provides
-	internal fun provideApplication(): Application {
-		return mockk<CompaniesHouseApplication>()
+	): CompaniesHouseDocumentService {
+		return retroFit.create(CompaniesHouseDocumentService::class.java)
 	}
 
 	@Provides
@@ -113,67 +99,20 @@ class AndroidTestDataModule(private val context: Context) {
 
 	@Provides
 	@Singleton
-	internal fun provideCompaniesRepositoryContract(): CompaniesRepository {
-		val mockCompaniesRepository = mockk<CompaniesRepository>()
-
-		val favourites = listOf(
-			SearchHistoryItem(
-				"Acme Painting",
-				"1",
-				111L
-			)
-		)
-
-		coEvery {
-			mockCompaniesRepository.favourites()
-		} returns favourites
-
-		every {
-			mockCompaniesRepository.logAppOpen()
-		} returns Unit
-
-		every {
-			mockCompaniesRepository.logScreenView(any())
-		} returns Unit
-
-		every {
-			mockCompaniesRepository.logSearch(any())
-		} returns Unit
-
-		coEvery {
-			mockCompaniesRepository.recentSearches()
-		} returns favourites
-
-		return mockCompaniesRepository
-	}
-
-	@Provides
-	@Singleton
 	internal fun provideSchedulerProvider(): SchedulerProvider {
 		return SchedulerProvider(Schedulers.trampoline(), Schedulers.trampoline())
 	}
 
 	@Provides
 	@Singleton
-	internal fun provideRawResourceHelperContract(): RawResourceHelperContract {
-		return RawResourceHelper(context)
-	}
-
-	@Provides
-	@Singleton
-	internal fun provideErrorHelper(): ErrorHelper {
+	internal fun provideErrorHelper(@ApplicationContext context: Context): ErrorHelper {
 		return ErrorHelper(context)
 	}
 
-	@Provides
-	@Singleton
-	internal fun provideErrorResolver(errorHelper: ErrorHelper): ErrorResolver {
-		return CompaniesHouseRxErrorResolver(errorHelper)
-	}
 
 	@Provides
 	@Singleton
-	internal fun provideFirebaseAnalytics(): FirebaseAnalytics {
+	internal fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
 		return FirebaseAnalytics.getInstance(context)
 	}
 

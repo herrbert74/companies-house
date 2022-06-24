@@ -276,9 +276,6 @@ object Libs {
 		const val robolectric = "org.robolectric:robolectric:4.8.1"
 		const val barista = "com.adevinta.android:barista:4.2.0"
 
-		//This is an alternative to Espresso IdlingResource
-		const val conditionWatcher = "com.azimolabs.conditionwatcher:conditionwatcher:0.2"
-
 		object JUnit5 {
 			private const val version = "5.8.2"
 			const val jupiterApi = "org.junit.jupiter:junit-jupiter-api:$version"

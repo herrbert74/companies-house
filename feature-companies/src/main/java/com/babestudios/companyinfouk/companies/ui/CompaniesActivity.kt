@@ -1,17 +1,17 @@
 package com.babestudios.companyinfouk.companies.ui
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.babestudios.base.mvrx.BaseActivity
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.navigation.Navigation
 import com.babestudios.companyinfouk.navigation.NavigationFlow
 import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
-import com.babestudios.companyinfouk.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CompaniesActivity : BaseActivity(), ToFlowNavigatable {
+class CompaniesActivity : AppCompatActivity(), ToFlowNavigatable {
 
 	private lateinit var navController: NavController
 

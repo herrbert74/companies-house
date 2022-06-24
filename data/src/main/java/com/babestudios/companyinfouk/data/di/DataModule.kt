@@ -14,8 +14,6 @@ import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescripti
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelper
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseRxService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.data.network.interceptors.CompaniesHouseInterceptor
@@ -103,20 +101,6 @@ object DataModule {
 	internal fun provideCompaniesHouseDocumentService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit)
 		: CompaniesHouseDocumentService {
 		return retroFit.create(CompaniesHouseDocumentService::class.java)
-	}
-
-	@Provides
-	@Singleton
-	internal fun provideCompaniesHouseRxService(@Named("CompaniesHouseRetrofit") retroFit: Retrofit)
-		: CompaniesHouseRxService {
-		return retroFit.create(CompaniesHouseRxService::class.java)
-	}
-
-	@Provides
-	@Singleton
-	internal fun provideCompaniesHouseDocumentRxService(@Named("CompaniesHouseDocumentRetrofit") retroFit: Retrofit)
-		: CompaniesHouseRxDocumentService {
-		return retroFit.create(CompaniesHouseRxDocumentService::class.java)
 	}
 
 	@Provides
