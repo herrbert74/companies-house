@@ -61,6 +61,10 @@ class PersonsViewModel @AssistedInject constructor(
 			}
 		}
 
+	override fun onCleared() {
+		personsStore::dispose
+	}
+
 }
 
 @AssistedFactory

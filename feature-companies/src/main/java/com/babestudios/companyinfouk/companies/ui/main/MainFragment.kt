@@ -206,12 +206,13 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setHasOptionsMenu(true)
-		viewModel.onViewCreated(this, essentyLifecycle())
+
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		searchToolbarAnimationDuration = resources.getInteger(R.integer.search_toolbar_animation_duration).toLong()
+		viewModel.onViewCreated(this, essentyLifecycle())
 		initializeUI()
 	}
 

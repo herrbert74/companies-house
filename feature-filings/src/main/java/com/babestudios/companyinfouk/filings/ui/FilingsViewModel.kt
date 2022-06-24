@@ -73,7 +73,7 @@ class FilingsViewModel @AssistedInject constructor(
 		lifecycle: Lifecycle,
 		selectedFilingHistoryItem: FilingHistoryItem,
 	) {
-		if(filingHistoryDetailsStore == null) {
+		if (filingHistoryDetailsStore == null) {
 			filingHistoryDetailsStore = FilingHistoryDetailsStoreFactory(
 				LoggingStoreFactory(DefaultStoreFactory()), filingHistoryDetailsExecutor
 			).create(companyNumber, selectedFilingHistoryItem)
@@ -103,6 +103,11 @@ class FilingsViewModel @AssistedInject constructor(
 					FilingHistoryDetailsStore.Intent.WriteDocument(uri)
 			}
 		}
+
+	override fun onCleared() {
+		filingHistoryStore::dispose
+		filingHistoryDetailsStore?.dispose()
+	}
 
 	//endregion
 }

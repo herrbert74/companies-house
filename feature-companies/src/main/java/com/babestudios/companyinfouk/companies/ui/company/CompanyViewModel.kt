@@ -56,6 +56,10 @@ class CompanyViewModel @AssistedInject constructor(
 			}
 		}
 
+	override fun onCleared() {
+		companyStore::dispose
+	}
+
 }
 
 @AssistedFactory

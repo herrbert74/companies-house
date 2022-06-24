@@ -19,7 +19,7 @@ import io.mockk.mockk
 /**
  *
  * Replaces DataContractModule.
- * 
+ *
  * We uninstall the contract module and replace it with mocks from here in order to be
  * able to provide different response for companiesRepository in different tests.
  *

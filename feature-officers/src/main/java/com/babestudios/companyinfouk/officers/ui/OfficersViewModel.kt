@@ -99,6 +99,11 @@ class OfficersViewModel @AssistedInject constructor(
 			}
 		}
 
+	override fun onCleared() {
+		officersStore::dispose
+		appointmentsStore?.dispose()
+	}
+
 	//endregion
 
 }

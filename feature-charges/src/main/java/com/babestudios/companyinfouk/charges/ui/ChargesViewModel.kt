@@ -61,6 +61,10 @@ class ChargesViewModel @AssistedInject constructor(
 			}
 		}
 
+	override fun onCleared() {
+		chargesStore::dispose
+	}
+
 }
 
 @AssistedFactory

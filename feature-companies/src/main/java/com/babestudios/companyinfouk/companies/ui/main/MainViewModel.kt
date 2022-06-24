@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.companies.ui.main
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.arkivanov.essenty.lifecycle.Lifecycle
-import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.mvikotlin.core.binder.BinderLifecycleMode
 import com.arkivanov.mvikotlin.extensions.coroutines.bind
 import com.arkivanov.mvikotlin.extensions.coroutines.events
@@ -35,12 +34,11 @@ class MainViewModel @Inject constructor(
 		view: MainFragment,
 		lifecycle: Lifecycle
 	) {
-		bind(lifecycle, BinderLifecycleMode.START_STOP) {
+		bind(lifecycle, BinderLifecycleMode.RESUME_PAUSE) {
 			mainStore.states bindTo view
 			mainStore.labels bindTo { view.sideEffects(it) }
 			view.events.map { userIntentToIntent(it) } bindTo mainStore
 		}
-		lifecycle.doOnDestroy(mainStore::dispose)
 	}
 
 	private val userIntentToIntent: UserIntent.() -> Intent =
@@ -58,5 +56,9 @@ class MainViewModel @Inject constructor(
 				is UserIntent.SetSearchMenuItemCollapsed -> Intent.SetSearchMenuItemCollapsed
 			}
 		}
+
+	override fun onCleared() {
+		mainStore::dispose
+	}
 
 }

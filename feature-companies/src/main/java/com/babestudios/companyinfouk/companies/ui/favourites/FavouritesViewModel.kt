@@ -41,4 +41,8 @@ class FavouritesViewModel @Inject constructor(favouritesExecutor: FavouritesExec
 			}
 		}
 
+	override fun onCleared() {
+		favouritesStore::dispose
+	}
+
 }

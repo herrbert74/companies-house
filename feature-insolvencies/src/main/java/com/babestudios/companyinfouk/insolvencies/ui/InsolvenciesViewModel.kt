@@ -94,6 +94,11 @@ class InsolvenciesViewModel @AssistedInject constructor(
 			}
 		}
 
+	override fun onCleared() {
+		insolvenciesStore::dispose
+		insolvencyDetailsStore?.dispose()
+	}
+
 }
 
 @AssistedFactory
