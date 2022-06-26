@@ -23,7 +23,7 @@ import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 
 class CompaniesHouseMapper(
-	val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
+	private val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
 	val chargesHelper: ChargesHelperContract,
 	val constantsHelper: ConstantsHelperContract,
 	private val stringResourceHelper: StringResourceHelperContract,

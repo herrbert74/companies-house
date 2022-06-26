@@ -31,22 +31,26 @@ class FavouritesExecutor @Inject constructor(
 		val showState = getState() as State.Show
 		when (intent) {
 			is Intent.FavouritesItemClicked -> favouritesItemClicked(intent.favouritesListItem)
+
 			is Intent.InitPendingRemoval -> {
 				val favourites = showState.favourites.toMutableList()
 				val itemCopy = favourites[favourites.indexOf(intent.favouritesListItem)].copy(isPendingRemoval = true)
 				favourites[favourites.indexOf(intent.favouritesListItem)] = itemCopy
 				dispatch(Message.UpdateFavourites(favourites.toList()))
 			}
+
 			is Intent.RemoveItem -> {
 				companiesRepository.removeFavourite(intent.favouritesListItem.searchHistoryItem)
 				loadFavourites()
 			}
+
 			is Intent.CancelPendingRemoval -> {
 				val favourites = showState.favourites.toMutableList()
 				val itemCopy = favourites[favourites.indexOf(intent.favouritesListItem)].copy(isPendingRemoval = false)
 				favourites[favourites.indexOf(intent.favouritesListItem)] = itemCopy
 				dispatch(Message.UpdateFavourites(favourites.toList()))
 			}
+			is Intent.DeletedInCompany -> loadFavourites()
 		}
 	}
 

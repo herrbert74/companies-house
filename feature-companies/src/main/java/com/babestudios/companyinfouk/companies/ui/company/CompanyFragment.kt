@@ -5,7 +5,9 @@ import android.view.View
 import android.view.View.GONE
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +26,8 @@ import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentCompanyBinding
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
+import com.babestudios.companyinfouk.companies.ui.favourites.DELETE_IN_COMPANY_BUNDLE_KEY
+import com.babestudios.companyinfouk.companies.ui.favourites.DELETE_IN_COMPANY_KEY
 import com.babestudios.companyinfouk.core.views.SingleLineView
 import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.navigation.NavigationFlow
@@ -169,6 +173,7 @@ class CompanyFragment : Fragment(R.layout.fragment_company), MviView<State, User
 	}
 
 	private fun showFab(favorite: Boolean) {
+		setFragmentResult(DELETE_IN_COMPANY_KEY, bundleOf(DELETE_IN_COMPANY_BUNDLE_KEY to !favorite))
 		binding.fabCompanyFavorite.also {
 			if (favorite) {
 				it.setImageResource(R.drawable.ic_favorite_clear)

@@ -104,6 +104,7 @@ dependencies {
 	androidTestImplementation(Libs.AndroidX.Test.rules)
 	androidTestImplementation(Libs.AndroidX.Test.runner)
 	androidTestImplementation(Libs.Test.barista)
+	androidTestImplementation(Libs.KotlinResult.result)
 
 	kaptAndroidTest(Libs.Google.Dagger.compiler)
 	kaptAndroidTest(Libs.Google.Dagger.Hilt.compiler)

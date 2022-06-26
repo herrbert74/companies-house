@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -44,10 +45,15 @@ import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesView
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.navigateSafe
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000 // 5sec
+const val DELETE_IN_COMPANY_KEY = "DeletedInCompany"
+const val DELETE_IN_COMPANY_BUNDLE_KEY = "DeletedInCompany"
+const val STARTUP_DELAY = 30L
 
 @AndroidEntryPoint
 class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State, UserIntent> {
@@ -137,10 +143,23 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State
 
 	//region life cycle
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setFragmentResultListener(DELETE_IN_COMPANY_KEY) { _, bundle ->
+			val isCompanyDeleted = bundle.getBoolean(DELETE_IN_COMPANY_BUNDLE_KEY)
+			if (isCompanyDeleted) {
+				lifecycleScope.launch {
+					delay(STARTUP_DELAY)
+					dispatch(UserIntent.DeletedInCompany)
+				}
+			}
+		}
+	}
+
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-		viewModel.onViewCreated(this, essentyLifecycle())
+		viewModel.onViewCreated(this, viewLifecycleOwner.essentyLifecycle())
 		initializeToolBar()
 		createRecyclerView()
 		setUpItemTouchHelper()
@@ -378,6 +397,7 @@ sealed class UserIntent {
 	data class InitPendingRemoval(val favouritesListItem: FavouritesListItem) : UserIntent()
 	data class RemoveItem(val favouritesListItem: FavouritesListItem) : UserIntent()
 	data class CancelPendingRemoval(val favouritesListItem: FavouritesListItem) : UserIntent()
+	object DeletedInCompany : UserIntent()
 }
 
 sealed class SideEffect {

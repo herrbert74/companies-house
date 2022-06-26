@@ -57,16 +57,16 @@ class CompanyExecutor @Inject constructor(
 
 	private fun flipCompanyFavoriteState(companyNumber: String, companyName: String) {
 		scope.launch(ioContext) {
-			if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
-				companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
-			} else {
-				companiesRepository.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
-			}
-			val isFavourite = companiesRepository.isFavourite(
-				SearchHistoryItem(companyName, companyNumber, 0)
-			)
+			val isFavouriteAfterFlip =
+				if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
+					companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+					false
+				} else {
+					companiesRepository.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+					true
+				}
 			withContext(mainContext) {
-				dispatch(Message.FlipFavourite(isFavourite))
+				dispatch(Message.FlipFavourite(isFavouriteAfterFlip))
 			}
 		}
 	}

@@ -12,6 +12,7 @@ interface FavouritesStore : Store<Intent, State, SideEffect> {
 		data class InitPendingRemoval(val favouritesListItem: FavouritesListItem) : Intent()
 		data class RemoveItem(val favouritesListItem: FavouritesListItem) : Intent()
 		data class CancelPendingRemoval(val favouritesListItem: FavouritesListItem) : Intent()
+		object DeletedInCompany : Intent()
 	}
 
 	sealed class State {

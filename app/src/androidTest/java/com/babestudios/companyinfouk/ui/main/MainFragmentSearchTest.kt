@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.ui.search
+package com.babestudios.companyinfouk.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -22,17 +22,8 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 @UninstallModules(DataContractModule::class)
 @RunWith(AndroidJUnit4::class)
-class SearchActivityTest {
+class MainFragmentSearchTest {
 
-	/**
-	 * TODO When bad query text returns empty results, empty message is shown
-	 * TODO Officer appointments to Company and then back to the original company
-	 * TODO Test state transitions:
-	 * empty results -> empty results
-	 * empty filtered  results -> empty filtered results
-	 * empty results -> empty query text -> semi transparent background
-	 * any results -> change query text -> same results
-	 **/
 	@get:Rule(order = 0)
 	val hiltAndroidRule = HiltAndroidRule(this)
 
@@ -54,8 +45,26 @@ class SearchActivityTest {
 	fun whenSearchingForYou_thenSearchResultIsDisplayed() {
 		CompaniesRobot()
 			.clickSearch()
-			.submitSearch()
+			.submitSearch("you")
 			.assertSearchResultMatchesSearchQuery(getActivity()!!)
+	}
+
+	@Test
+	fun whenSearchResultIsEmpty_thenSearchResultEmptyIsDisplayed() {
+		CompaniesRobot()
+			.clickSearch()
+			.submitSearch("xyzabc")
+			.assertSearchResultsEmpty(getActivity()!!)
+	}
+
+	@Test
+	fun whenSearchResultIsEmpty_andQueryIsCleared_thenTransparentBackgroundDisplayed() {
+		CompaniesRobot()
+			.clickSearch()
+			.submitSearch("xyzabc")
+			.assertSearchResultsEmpty(getActivity()!!)
+			.submitSearch("")
+			.assertSearchResultsAreNotDisplayed(getActivity()!!)
 	}
 
 	private fun getActivity(): AppCompatActivity? {

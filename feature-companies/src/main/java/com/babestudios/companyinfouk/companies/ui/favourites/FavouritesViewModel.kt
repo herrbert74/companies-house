@@ -24,7 +24,7 @@ class FavouritesViewModel @Inject constructor(favouritesExecutor: FavouritesExec
 		view: FavouritesFragment,
 		lifecycle: Lifecycle
 	) {
-		bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY) {
+		bind(lifecycle, BinderLifecycleMode.RESUME_PAUSE) {
 			favouritesStore.states bindTo view
 			favouritesStore.labels bindTo { view.sideEffects(it) }
 			view.events.map { userIntentToIntent(it) } bindTo favouritesStore
@@ -38,6 +38,7 @@ class FavouritesViewModel @Inject constructor(favouritesExecutor: FavouritesExec
 				is UserIntent.CancelPendingRemoval -> Intent.CancelPendingRemoval(favouritesListItem)
 				is UserIntent.InitPendingRemoval -> Intent.InitPendingRemoval(favouritesListItem)
 				is UserIntent.RemoveItem -> Intent.RemoveItem(favouritesListItem)
+				is UserIntent.DeletedInCompany -> Intent.DeletedInCompany
 			}
 		}
 

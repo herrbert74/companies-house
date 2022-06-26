@@ -98,7 +98,7 @@ class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 		binding.twoLineOfficerDetailsNationality.setTextSecond(officer.nationality)
 		binding.twoLineOfficerDetailsOccupation.setTextSecond(officer.occupation)
 
-		val (month, year) = officer.dateOfBirth.month to officer.dateOfBirth.year
+		val (month, year) = officer.dateOfBirth.month to officer.dateOfBirth?.year
 		if (month == null || year == null) {
 			binding.twoLineOfficerDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
 		} else {
