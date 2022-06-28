@@ -27,68 +27,68 @@
 			android:orientation="vertical"
 			android:showDividers="middle|end">
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsName"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_name"
 				tools:textSecond="PATEL, Ashish Nalin" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsNotifiedOn"
 				style="@style/TwoLine"
 				app:textFirst="@string/person_details_notified_on"
 				tools:textSecond="2011-08-11" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsKind"
 				style="@style/TwoLine"
 				app:textFirst="@string/person_details_kind"
 				tools:textSecond="Individual" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsNaturesOfControl"
 				style="@style/TwoLine"
 				app:textFirst="@string/person_details_natures_of_control"
 				app:textSecondMaxLines="5"
 				tools:textSecond="Ownership of shares – 75% or more" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsNationality"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_nationality"
 				tools:textSecond="British" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsDateOfBirth"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_date_of_birth"
 				tools:textSecond="25/1980" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsCountryOfResidence"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_country_of_residence"
 				tools:textSecond="United Kingdom" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsPlaceRegistered"
 				style="@style/TwoLine"
 				app:textFirst="@string/person_details_place_registered"
 				tools:textSecond="Wales" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsRegistrationNumber"
 				style="@style/TwoLine"
 				app:textFirst="@string/person_details_registration_number"
 				tools:textSecond="1234" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsLegalAuthority"
 				style="@style/TwoLine"
 				app:textFirst="@string/person_details_legal_authority"
 				tools:textSecond="Government Of Wales Act 2006" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLinePersonDetailsLegalForm"
 				style="@style/TwoLine"
 				app:textFirst="@string/person_details_legal_form"

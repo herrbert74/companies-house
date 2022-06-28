@@ -3,14 +3,14 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:paddingBottom="@dimen/screenMargin">
+	android:paddingBottom="@dimen/viewMarginLarge">
 
 	<TextView
 		android:id="@+id/lblChargeDetailsHeaderFilingType"
 		style="@style/Text.Bold"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/screenMargin"
+		android:layout_marginEnd="@dimen/viewMarginLarge"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintBottom_toTopOf="@+id/lblChargeDetailsTransactionDeliveredOn"
 		app:layout_constraintHorizontal_bias="0.0"
@@ -23,7 +23,7 @@
 		style="@style/Text"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="@dimen/screenMargin"
+		android:layout_marginEnd="@dimen/viewMarginLarge"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/lblChargeDetailsHeaderFilingType"
 		app:layout_constraintHorizontal_bias="0.0"

@@ -22,7 +22,7 @@
 	<com.google.android.material.button.MaterialButton
 		android:id="@+id/btnShowOnMap"
 		style="@style/Button"
-		android:layout_marginEnd="@dimen/screenMargin"
+		android:layout_marginEnd="@dimen/viewMarginLarge"
 		android:layout_marginBottom="@dimen/viewMargin"
 		android:text="@string/company_address_show_on_map"
 		app:layout_constraintBottom_toBottomOf="parent"

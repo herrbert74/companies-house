@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.core.mappers.mapNullInputList
+import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
 import com.babestudios.companyinfouk.data.model.filinghistory.CategoryDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto

@@ -1,7 +1,5 @@
 package com.babestudios.companyinfouk.buildsrc
 
-import org.gradle.api.artifacts.dsl.DependencyHandler
-
 object Versions {
 	const val minSdkVersion = 21
 	const val compileSdkVersion = 31
@@ -28,7 +26,7 @@ object Plugins {
 
 @Suppress("unused", "SpellCheckingInspection")
 object Libs {
-	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:1.2.16"
+	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:2.0.3"
 
 	object AndroidX {
 		const val activityKtx = "androidx.activity:activity-ktx:1.4.0"
@@ -218,18 +216,6 @@ object Libs {
 			const val driver = "com.squareup.sqldelight:android-driver:$version"
 		}
 
-	}
-
-	object RxJava2 {
-		const val rxJava = "io.reactivex.rxjava2:rxjava:2.2.21"
-		const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
-
-		const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
-		fun DependencyHandler.implementRx() {
-			add("implementation", rxJava)
-			add("implementation", rxAndroid)
-			add("implementation", rxKotlin)
-		}
 	}
 
 	object JakeWharton {

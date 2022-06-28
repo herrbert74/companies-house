@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentPractitionerBinding
@@ -63,13 +63,17 @@ class PractitionerFragment : Fragment(R.layout.fragment_practitioner) {
 				binding.twoLinePractitionerAppointedOn.visibility = View.GONE
 			} else {
 				binding.twoLinePractitionerAppointedOn.visibility = View.VISIBLE
-				binding.twoLinePractitionerAppointedOn.setTextSecond(appointedOn)
+				binding.twoLinePractitionerAppointedOn.setTextSecond(
+					appointedOn ?: getText(R.string.officer_details_unknown).toString()
+				)
 			}
 			if (ceasedToActOn == null) {
 				binding.twoLinePractitionerCeasedToActOn.visibility = View.GONE
 			} else {
 				binding.twoLinePractitionerCeasedToActOn.visibility = View.VISIBLE
-				binding.twoLinePractitionerCeasedToActOn.setTextSecond(ceasedToActOn)
+				binding.twoLinePractitionerCeasedToActOn.setTextSecond(
+					ceasedToActOn ?: getText(R.string.officer_details_unknown).toString()
+				)
 			}
 			binding.twoLinePractitionerName.setTextSecond(name)
 			binding.lblPractitionerAddressLine1.text = address.addressLine1

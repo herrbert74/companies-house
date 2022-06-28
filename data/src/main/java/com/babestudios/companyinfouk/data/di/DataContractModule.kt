@@ -1,10 +1,8 @@
 package com.babestudios.companyinfouk.data.di
 
-import com.babestudios.base.rxjava.ErrorResolver
 import com.babestudios.companyinfouk.data.CompaniesAccessor
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
-import com.babestudios.companyinfouk.data.utils.errors.CompaniesHouseRxErrorResolver
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import dagger.Binds
 import dagger.Module
@@ -29,9 +27,5 @@ interface DataContractModule {
 	@Singleton
 	@Binds
 	fun provideRawResourceHelper(rawResourceHelper: RawResourceHelper): RawResourceHelperContract
-
-	@Singleton
-	@Binds
-	fun provideErrorResolver(companiesHouseErrorResolver: CompaniesHouseRxErrorResolver): ErrorResolver
 
 }

@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data
 
-import com.babestudios.companyinfouk.common.loadJson
+import com.babestudios.base.ext.loadJson
 import com.babestudios.companyinfouk.data.BuildConfig.COMPANIES_HOUSE_BASE_URL
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult

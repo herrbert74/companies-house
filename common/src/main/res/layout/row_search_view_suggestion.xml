@@ -74,9 +74,9 @@
 		android:layout_height="0.5dp"
 		android:layout_alignParentBottom="true"
 		android:layout_alignStart="@android:id/text1"
-		android:layout_marginStart="@dimen/screenMargin"
+		android:layout_marginStart="@dimen/viewMarginLarge"
 		android:layout_alignLeft="@android:id/text1"
-		android:layout_marginLeft="@dimen/screenMargin"
+		android:layout_marginLeft="@dimen/viewMarginLarge"
 		android:background="@color/colorPrimary"
 		android:visibility="gone"/>
 </RelativeLayout>

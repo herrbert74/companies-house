@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.companies
 import androidx.lifecycle.SavedStateHandle
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.base.ext.test
 import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
 import com.babestudios.companyinfouk.companies.ui.main.MainStore
 import com.babestudios.companyinfouk.companies.ui.main.MainStoreFactory

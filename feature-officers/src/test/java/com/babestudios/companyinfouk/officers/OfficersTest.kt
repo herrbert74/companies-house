@@ -2,9 +2,8 @@ package com.babestudios.companyinfouk.officers
 
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.base.ext.test
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersExecutor
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore
@@ -14,7 +13,6 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import org.junit.Before

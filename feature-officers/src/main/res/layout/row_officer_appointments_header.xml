@@ -3,7 +3,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:paddingBottom="@dimen/screenMargin">
+	android:paddingBottom="@dimen/viewMarginLarge">
 
 
 	<TextView
@@ -11,8 +11,8 @@
 		style="@style/Text.H6"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginEnd="@dimen/screenMargin"
+		android:layout_marginStart="@dimen/viewMarginLarge"
+		android:layout_marginEnd="@dimen/viewMarginLarge"
 		android:textAllCaps="true"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
 		android:id="@+id/divOfficerAppointments"
 		android:layout_width="0dp"
 		android:layout_height="1dp"
-		android:layout_marginTop="@dimen/screenMargin"
+		android:layout_marginTop="@dimen/viewMarginLarge"
 		android:background="@color/translucentBlack"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +34,8 @@
 		style="@style/Text.Bold"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/screenMargin"
-		android:layout_marginTop="@dimen/screenMargin"
+		android:layout_marginStart="@dimen/viewMarginLarge"
+		android:layout_marginTop="@dimen/viewMarginLarge"
 		android:gravity="start"
 		android:text="@string/officer_appointments_appointments"
 		app:layout_constraintStart_toStartOf="parent"

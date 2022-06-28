@@ -35,16 +35,16 @@
 
 	<style name="spinner_item_style">
 		<item name="android:background">@android:color/transparent</item>
-		<item name="android:paddingTop">@dimen/screenMargin</item>
-		<item name="android:paddingBottom">@dimen/screenMargin</item>
+		<item name="android:paddingTop">@dimen/viewMarginLarge</item>
+		<item name="android:paddingBottom">@dimen/viewMarginLarge</item>
 		<item name="android:paddingLeft">0dp</item>
 		<item name="android:paddingRight">0dp</item>
 		<item name="android:textAppearance">@style/Text</item>
 	</style>
 
 	<style name="spinner_dropdown_item_style" parent="spinner_item_style">
-		<item name="android:paddingLeft">@dimen/screenMargin</item>
-		<item name="android:paddingRight">@dimen/screenMargin</item>
+		<item name="android:paddingLeft">@dimen/viewMarginLarge</item>
+		<item name="android:paddingRight">@dimen/viewMarginLarge</item>
 		<item name="android:paddingTop">@dimen/viewMargin</item>
 		<item name="android:paddingBottom">@dimen/viewMargin</item>
 		<item name="android:layout_marginTop">0dp</item>
@@ -76,8 +76,8 @@
 		<item name="android:layout_height">@dimen/listSingleItemHeight</item>
 		<item name="android:clickable">true</item>
 		<item name="android:focusable">true</item>
-		<item name="android:layout_marginStart">@dimen/screenMargin</item>
-		<item name="android:layout_marginEnd">@dimen/screenMargin</item>
+		<item name="android:layout_marginStart">@dimen/viewMarginLarge</item>
+		<item name="android:layout_marginEnd">@dimen/viewMarginLarge</item>
 		<item name="android:orientation">horizontal</item>
 	</style>
 

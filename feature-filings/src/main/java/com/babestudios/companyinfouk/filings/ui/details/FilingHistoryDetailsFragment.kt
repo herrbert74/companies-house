@@ -26,9 +26,9 @@ import com.arkivanov.mvikotlin.core.view.MviView
 import com.arkivanov.mvikotlin.rx.Disposable
 import com.arkivanov.mvikotlin.rx.Observer
 import com.arkivanov.mvikotlin.rx.internal.PublishSubject
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
+import com.babestudios.base.ext.viewBinding
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_CONTENT
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
-import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.databinding.FragmentFilingHistoryDetailsBinding

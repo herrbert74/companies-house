@@ -15,8 +15,3 @@ fun AppCompatActivity.startActivityForResultWithRightSlide(intent: Intent, reque
 	this.startActivityForResult(intent, requestCode)
 	this.overridePendingTransition(R.anim.right_slide_in, R.anim.left_slide_out)
 }
-
-inline fun <T : ViewBinding> AppCompatActivity.viewBinding(crossinline bindingInflater: (LayoutInflater) -> T) =
-	lazy(LazyThreadSafetyMode.NONE) {
-		bindingInflater.invoke(layoutInflater)
-	}

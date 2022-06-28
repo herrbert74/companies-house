@@ -20,7 +20,7 @@
 		android:layout_height="wrap_content"
 		app:tint="@color/colorOnSecondary"
 		android:layout_gravity="bottom|end"
-		android:layout_margin="@dimen/screenMargin"
+		android:layout_margin="@dimen/viewMarginLarge"
 		android:contentDescription="@string/fab_toggle_favourite"
 		app:srcCompat="@drawable/ic_favorite" />
 
@@ -73,52 +73,52 @@
 					app:region="Surrey"
 					app:country="England"/>
 
-				<com.babestudios.companyinfouk.core.views.TwoLineView
+				<com.babestudios.base.view.TwoLineView
 					android:id="@+id/twoLineCompanyNatureOfBusiness"
 					style="@style/TwoLine"
 					app:textFirst="@string/company_nature_of_business"
 					tools:textSecond="77120 Renting and leasing of trucks and other heavy vehicles" />
 
-				<com.babestudios.companyinfouk.core.views.TwoLineView
+				<com.babestudios.base.view.TwoLineView
 					android:id="@+id/twoLineCompanyAccounts"
 					style="@style/TwoLine"
 					app:textFirst="@string/company_accounts"
 					tools:textSecond="Last DORMANT account made up to 29 February 2016" />
 
-				<com.babestudios.companyinfouk.core.views.SingleLineView
+				<com.babestudios.base.view.SingleLineView
 					android:id="@+id/llCompanyFilings"
 					style="@style/SingleLine"
-					app:imageViewContentDescription="@string/filing_history"
-					app:imageViewSrc="@drawable/ic_company_filing_history"
-					app:text="@string/filing_history" />
+					app:slvImageViewContentDescription="@string/filing_history"
+					app:slvImageViewSrc="@drawable/ic_company_filing_history"
+					app:slvText="@string/filing_history" />
 
-				<com.babestudios.companyinfouk.core.views.SingleLineView
+				<com.babestudios.base.view.SingleLineView
 					android:id="@+id/llCompanyInsolvency"
 					style="@style/SingleLine"
-					app:imageViewContentDescription="@string/insolvency"
-					app:imageViewSrc="@drawable/ic_company_insolvency"
-					app:text="@string/insolvency" />
+					app:slvImageViewContentDescription="@string/insolvency"
+					app:slvImageViewSrc="@drawable/ic_company_insolvency"
+					app:slvText="@string/insolvency" />
 
-				<com.babestudios.companyinfouk.core.views.SingleLineView
+				<com.babestudios.base.view.SingleLineView
 					android:id="@+id/llCompanyCharges"
 					style="@style/SingleLine"
-					app:imageViewContentDescription="@string/charges"
-					app:imageViewSrc="@drawable/ic_company_charges"
-					app:text="@string/charges" />
+					app:slvImageViewContentDescription="@string/charges"
+					app:slvImageViewSrc="@drawable/ic_company_charges"
+					app:slvText="@string/charges" />
 
-				<com.babestudios.companyinfouk.core.views.SingleLineView
+				<com.babestudios.base.view.SingleLineView
 					android:id="@+id/llCompanyOfficers"
 					style="@style/SingleLine"
-					app:imageViewContentDescription="@string/officers"
-					app:imageViewSrc="@drawable/ic_company_officers"
-					app:text="@string/officers" />
+					app:slvImageViewContentDescription="@string/officers"
+					app:slvImageViewSrc="@drawable/ic_company_officers"
+					app:slvText="@string/officers" />
 
-				<com.babestudios.companyinfouk.core.views.SingleLineView
+				<com.babestudios.base.view.SingleLineView
 					android:id="@+id/llCompanyPersons"
 					style="@style/SingleLine"
-					app:imageViewContentDescription="@string/persons_with_significant_control"
-					app:imageViewSrc="@drawable/ic_company_persons_with_control"
-					app:text="@string/persons_with_significant_control" />
+					app:slvImageViewContentDescription="@string/persons_with_significant_control"
+					app:slvImageViewSrc="@drawable/ic_company_persons_with_control"
+					app:slvText="@string/persons_with_significant_control" />
 
 			</LinearLayout>
 		</androidx.core.widget.NestedScrollView>

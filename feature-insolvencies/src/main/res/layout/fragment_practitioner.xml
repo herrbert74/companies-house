@@ -17,10 +17,10 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:paddingBottom="@dimen/screenMargin"
+		android:paddingBottom="@dimen/viewMarginLarge"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<com.babestudios.companyinfouk.core.views.TwoLineView
+		<com.babestudios.base.view.TwoLineView
 			android:id="@+id/twoLinePractitionerName"
 			style="@style/TwoLine"
 			android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
 			app:textFirst="@string/insolvency_details_name"
 			tools:textSecond="James Dean"/>
 
-		<com.babestudios.companyinfouk.core.views.TwoLineView
+		<com.babestudios.base.view.TwoLineView
 			android:id="@id/twoLinePractitionerAppointedOn"
 			style="@style/TwoLine"
 			android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
 			app:textFirst="@string/insolvency_details_appointed_on"
 			tools:textSecond="2016-10-26"/>
 
-		<com.babestudios.companyinfouk.core.views.TwoLineView
+		<com.babestudios.base.view.TwoLineView
 			android:id="@id/twoLinePractitionerCeasedToActOn"
 			style="@style/TwoLine"
 			android:layout_width="wrap_content"
@@ -58,8 +58,8 @@
 			style="@style/Text"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/screenMargin"
-			android:layout_marginTop="@dimen/screenMargin"
+			android:layout_marginStart="@dimen/viewMarginLarge"
+			android:layout_marginTop="@dimen/viewMarginLarge"
 			android:text="@string/insolvency_details_address"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@id/twoLinePractitionerCeasedToActOn"
@@ -70,8 +70,8 @@
 			style="@style/Text.H6"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/screenMargin"
-			android:layout_marginTop="@dimen/screenMargin"
+			android:layout_marginStart="@dimen/viewMarginLarge"
+			android:layout_marginTop="@dimen/viewMarginLarge"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/cpnPractitionerAddress"
 			tools:text="14 Sample Street" />
@@ -81,8 +81,8 @@
 			style="@style/Text.H6"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/screenMargin"
-			android:layout_marginTop="@dimen/screenMargin"
+			android:layout_marginStart="@dimen/viewMarginLarge"
+			android:layout_marginTop="@dimen/viewMarginLarge"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/lblPractitionerAddressLine1"
 			tools:text="Windsor" />
@@ -92,8 +92,8 @@
 			style="@style/Text.H6"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/screenMargin"
-			android:layout_marginTop="@dimen/screenMargin"
+			android:layout_marginStart="@dimen/viewMarginLarge"
+			android:layout_marginTop="@dimen/viewMarginLarge"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/lblPractitionerLocality"
 			tools:text="AA14 1AA" />
@@ -103,8 +103,8 @@
 			style="@style/Text.H6"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/screenMargin"
-			android:layout_marginTop="@dimen/screenMargin"
+			android:layout_marginStart="@dimen/viewMarginLarge"
+			android:layout_marginTop="@dimen/viewMarginLarge"
 			android:visibility="gone"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/lblPractitionerPostalCode"
@@ -115,8 +115,8 @@
 			style="@style/Text.H6"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/screenMargin"
-			android:layout_marginTop="@dimen/screenMargin"
+			android:layout_marginStart="@dimen/viewMarginLarge"
+			android:layout_marginTop="@dimen/viewMarginLarge"
 			android:visibility="gone"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/lblPractitionerRegion"

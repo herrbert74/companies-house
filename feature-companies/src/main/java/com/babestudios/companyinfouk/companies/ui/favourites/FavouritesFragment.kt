@@ -30,12 +30,12 @@ import com.arkivanov.mvikotlin.core.view.MviView
 import com.arkivanov.mvikotlin.rx.Disposable
 import com.arkivanov.mvikotlin.rx.Observer
 import com.arkivanov.mvikotlin.rx.internal.PublishSubject
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.base.view.DividerItemDecoration
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
-import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentFavouritesBinding
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
@@ -247,7 +247,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State
 
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
 				val item = (viewHolder as FavouritesViewHolder).favouritesItem
-				pendingRemoval(item, viewHolder.adapterPosition)
+				pendingRemoval(item, viewHolder.bindingAdapterPosition)
 			}
 
 			override fun onChildDraw(
@@ -262,7 +262,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State
 				val itemView = viewHolder.itemView
 
 				// not sure why, but this method get's called for viewholder that are already swiped away
-				if (viewHolder.adapterPosition == -1) {
+				if (viewHolder.bindingAdapterPosition == -1) {
 					// not interested in those
 					return
 				}

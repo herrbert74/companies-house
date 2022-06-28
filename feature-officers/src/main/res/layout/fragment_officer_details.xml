@@ -27,37 +27,37 @@
 			android:orientation="vertical"
 			android:showDividers="middle|end">
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLineOfficerDetailsName"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_name"
 				tools:textSecond="PATEL, Ashish Nalin" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLineOfficerDetailsAppointedOn"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_appointed_on"
 				tools:textSecond="2011-08-11" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLineOfficerDetailsNationality"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_nationality"
 				tools:textSecond="British" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLineOfficerDetailsOccupation"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_occupation"
 				tools:textSecond="Director" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLineOfficerDetailsDateOfBirth"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_date_of_birth"
 				tools:textSecond="25/1980" />
 
-			<com.babestudios.companyinfouk.core.views.TwoLineView
+			<com.babestudios.base.view.TwoLineView
 				android:id="@+id/twoLineOfficerDetailsCountryOfResidence"
 				style="@style/TwoLine"
 				app:textFirst="@string/officer_details_country_of_residence"
@@ -79,9 +79,9 @@
 				android:id="@+id/btnOfficerDetailsAppointments"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/screenMargin"
+				android:layout_marginStart="@dimen/viewMarginLarge"
 				android:layout_marginTop="16dp"
-				android:layout_marginBottom="@dimen/viewMarginLarge"
+				android:layout_marginBottom="@dimen/viewMarginExtraLarge"
 				android:text="@string/officer_details_appointments"
 				android:transitionName="transition_name_example" />
 

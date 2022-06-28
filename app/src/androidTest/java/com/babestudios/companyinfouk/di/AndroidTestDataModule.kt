@@ -2,9 +2,6 @@ package com.babestudios.companyinfouk.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.babestudios.base.di.qualifier.ApplicationContext
-import com.babestudios.base.rxjava.SchedulerProvider
-import com.babestudios.companyinfouk.CompaniesHouseApplication
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.di.DataModule
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
@@ -16,10 +13,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import io.mockk.mockk
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -80,12 +77,6 @@ object AndroidTestDataModule {
 	}
 
 	@Provides
-	@ApplicationContext
-	internal fun provideContext(): Context {
-		return mockk<CompaniesHouseApplication>()
-	}
-
-	@Provides
 	internal fun provideGson(): Gson {
 		return GsonBuilder()
 			.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
@@ -95,12 +86,6 @@ object AndroidTestDataModule {
 	@Provides
 	internal fun provideSharedPreferences(): SharedPreferences {
 		return mockk()
-	}
-
-	@Provides
-	@Singleton
-	internal fun provideSchedulerProvider(): SchedulerProvider {
-		return SchedulerProvider(Schedulers.trampoline(), Schedulers.trampoline())
 	}
 
 	@Provides

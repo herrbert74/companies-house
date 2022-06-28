@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.filings
 
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.babestudios.companyinfouk.common.ext.test
+import com.babestudios.base.ext.test
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory

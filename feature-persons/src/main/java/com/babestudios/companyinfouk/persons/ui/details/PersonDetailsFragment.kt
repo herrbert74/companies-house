@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.persons.Person
@@ -99,7 +99,9 @@ class PersonDetailsFragment : Fragment(R.layout.fragment_person_details) {
 			selectedPerson.naturesOfControl.joinToString(separator = "\n")
 		)
 		binding.twoLinePersonDetailsNationality.isVisible = (selectedPerson.nationality?.isBlank() == false)
-		binding.twoLinePersonDetailsNationality.setTextSecond(selectedPerson.nationality)
+		binding.twoLinePersonDetailsNationality.setTextSecond(
+			selectedPerson.nationality ?: getText(R.string.officer_details_unknown).toString()
+		)
 		binding.twoLinePersonDetailsDateOfBirth.isVisible = (selectedPerson.kind == "Individual")
 		val (month, year) = selectedPerson.dateOfBirth.month to selectedPerson.dateOfBirth.year
 		if (month == null || year == null) {
@@ -110,22 +112,28 @@ class PersonDetailsFragment : Fragment(R.layout.fragment_person_details) {
 		binding.twoLinePersonDetailsCountryOfResidence.isVisible =
 			(selectedPerson.countryOfResidence?.isBlank() == false
 				&& selectedPerson.countryOfResidence != selectedPerson.address.country)
-		binding.twoLinePersonDetailsCountryOfResidence.setTextSecond(selectedPerson.countryOfResidence)
+		binding.twoLinePersonDetailsCountryOfResidence.setTextSecond(
+			selectedPerson.countryOfResidence ?: getText(R.string.officer_details_unknown).toString()
+		)
 		binding.twoLinePersonDetailsPlaceRegistered.isVisible =
 			(selectedPerson.identification?.placeRegistered?.isBlank() == false)
-		binding.twoLinePersonDetailsPlaceRegistered.setTextSecond(selectedPerson.identification?.placeRegistered)
+		binding.twoLinePersonDetailsPlaceRegistered.setTextSecond(
+			selectedPerson.identification?.placeRegistered ?: getText(R.string.officer_details_unknown).toString()
+		)
 		binding.twoLinePersonDetailsRegistrationNumber.isVisible =
 			(selectedPerson.identification?.registrationNumber?.isBlank() == false)
-		binding.twoLinePersonDetailsRegistrationNumber.setTextSecond(selectedPerson.identification?.registrationNumber)
+		binding.twoLinePersonDetailsRegistrationNumber.setTextSecond(
+			selectedPerson.identification?.registrationNumber ?: getText(R.string.officer_details_unknown).toString()
+		)
 		binding.twoLinePersonDetailsLegalForm.isVisible =
 			(selectedPerson.identification?.legalForm?.isBlank() == false)
 		binding.twoLinePersonDetailsLegalForm.setTextSecond(
-			selectedPerson.identification?.legalForm
+			selectedPerson.identification?.legalForm ?: getText(R.string.officer_details_unknown).toString()
 		)
 		binding.twoLinePersonDetailsLegalAuthority.isVisible =
 			(selectedPerson.identification?.legalAuthority?.isBlank() == false)
 		binding.twoLinePersonDetailsLegalAuthority.setTextSecond(
-			selectedPerson.identification?.legalAuthority
+			selectedPerson.identification?.legalAuthority ?: getText(R.string.officer_details_unknown).toString()
 		)
 		binding.addressViewPersonDetails.setAddressLine1(selectedPerson.address.addressLine1)
 		binding.addressViewPersonDetails.setAddressLine2(selectedPerson.address.addressLine2)

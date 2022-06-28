@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.companyinfouk.core.mappers.mapNullInputList
+import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
 import com.babestudios.companyinfouk.data.model.officers.AppointedToDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentDto

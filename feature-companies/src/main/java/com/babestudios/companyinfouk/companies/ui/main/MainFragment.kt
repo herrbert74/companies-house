@@ -29,15 +29,15 @@ import com.arkivanov.mvikotlin.rx.Observer
 import com.arkivanov.mvikotlin.rx.internal.PublishSubject
 import com.babestudios.base.ext.navigateSafe
 import com.babestudios.base.ext.textColor
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
-import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentMainBinding
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.State
@@ -254,7 +254,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MviView<State, UserIntent
 		filterMenuItem?.isVisible = false
 		val spinner = filterMenuItem?.actionView as Spinner
 		spinner.setBackgroundResource(0)
-		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.screenMargin), 0)
+		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.viewMarginLarge), 0)
 		val adapter = FilterAdapter(
 			requireContext(),
 			resources.getStringArray(R.array.search_filter_options),

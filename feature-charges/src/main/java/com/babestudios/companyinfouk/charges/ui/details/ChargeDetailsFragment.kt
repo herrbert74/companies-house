@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.charges.databinding.FragmentChargeDetailsBinding
@@ -19,7 +20,6 @@ import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsHeader
 import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsTypeFactory
 import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsVisitable
 import com.babestudios.companyinfouk.charges.ui.details.list.ChargeDetailsVisitableBase
-import com.babestudios.companyinfouk.common.ext.viewBinding
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.domain.model.charges.Transaction

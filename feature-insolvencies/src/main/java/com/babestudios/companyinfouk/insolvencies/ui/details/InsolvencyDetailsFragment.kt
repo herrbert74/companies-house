@@ -16,9 +16,9 @@ import com.arkivanov.mvikotlin.core.view.MviView
 import com.arkivanov.mvikotlin.rx.Disposable
 import com.arkivanov.mvikotlin.rx.Observer
 import com.arkivanov.mvikotlin.rx.internal.PublishSubject
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.base.view.DividerItemDecorationWithSubHeading
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
-import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_CONTENT
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.databinding.FragmentInsolvencyDetailsBinding
@@ -29,7 +29,6 @@ import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDeta
 import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDetailsTypeFactory
 import com.babestudios.companyinfouk.navigation.navigateSafe
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

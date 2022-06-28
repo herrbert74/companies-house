@@ -14,8 +14,7 @@ interface CoroutineExceptionHandleable {
 	fun errorMessageFromResponseBody(responseBody: ResponseBody): String {
 		val jsonObject = JSONObject(responseBody.string())
 		val error = jsonObject.optString("error")
-		return if (error.isNotEmpty()) error
-		else jsonObject.optString("message", "An error happened, try again.")
+		return error.ifEmpty { jsonObject.optString("message", "An error happened, try again.") }
 	}
 
 	/**

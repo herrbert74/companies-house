@@ -20,15 +20,15 @@ import com.arkivanov.mvikotlin.core.view.MviView
 import com.arkivanov.mvikotlin.rx.Disposable
 import com.arkivanov.mvikotlin.rx.Observer
 import com.arkivanov.mvikotlin.rx.internal.PublishSubject
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.base.network.OfflineException
 import com.babestudios.base.view.DividerItemDecoration
 import com.babestudios.base.view.EndlessRecyclerViewScrollListener
 import com.babestudios.base.view.FilterAdapter
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_CONTENT
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_EMPTY
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_ERROR
-import com.babestudios.base.view.MultiStateView.VIEW_STATE_LOADING
-import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_CONTENT
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_EMPTY
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_ERROR
+import com.babestudios.base.view.MultiStateView.Companion.VIEW_STATE_LOADING
 import com.babestudios.companyinfouk.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
@@ -181,7 +181,7 @@ class FilingHistoryFragment : Fragment(R.layout.fragment_filing_history), MviVie
 		val item = menu.findItem(R.id.action_filter)
 		spinner = item.actionView as Spinner
 		spinner.setBackgroundResource(0)
-		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.screenMargin), 0)
+		spinner.setPadding(0, 0, resources.getDimensionPixelOffset(R.dimen.viewMarginLarge), 0)
 		spinner.gravity = Gravity.END
 		val adapter = FilterAdapter(
 			requireContext(),

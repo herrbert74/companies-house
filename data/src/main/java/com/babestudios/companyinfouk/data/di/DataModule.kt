@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.babestudios.base.rxjava.SchedulerProvider
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
 import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
@@ -30,9 +29,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.Executors
 import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -113,14 +109,6 @@ object DataModule {
 	@Provides
 	internal fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
 		return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
-	}
-
-	@Provides
-	@Singleton
-	internal fun provideSchedulerProvider(): SchedulerProvider {
-		return SchedulerProvider(
-			Schedulers.from(Executors.newCachedThreadPool()), AndroidSchedulers.mainThread()
-		)
 	}
 
 	@Provides

@@ -8,13 +8,16 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Not used as CH API does not send handleable exceptions
+ */
 @Singleton
 class ErrorHelper @Inject constructor(@ApplicationContext context: Context) {
 	private val errorMapping: ErrorMappings
 
 	init {
 		val text = context.resources.openRawResource(R.raw.errors).bufferedReader().use { it.readText() }
-		errorMapping = Gson().fromJson<ErrorMappings>(text, ErrorMappings::class.java)
+		errorMapping = Gson().fromJson(text, ErrorMappings::class.java)
 	}
 
 	fun errorLookUp(errorString: String): String {

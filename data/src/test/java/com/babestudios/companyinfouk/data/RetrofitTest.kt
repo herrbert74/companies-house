@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data
 
-import com.babestudios.companyinfouk.common.loadJson
+import com.babestudios.base.ext.loadJson
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import io.kotest.matchers.shouldBe
@@ -12,7 +12,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Retrofit
-
 
 @RunWith(JUnit4::class)
 class RetrofitTest {

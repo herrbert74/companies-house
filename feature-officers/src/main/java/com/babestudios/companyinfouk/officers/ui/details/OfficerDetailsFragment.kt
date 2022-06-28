@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.babestudios.companyinfouk.common.ext.viewBinding
+import com.babestudios.base.ext.viewBinding
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.navigation.DeepLinkDestination
@@ -94,11 +94,13 @@ class OfficerDetailsFragment : Fragment(R.layout.fragment_officer_details) {
 	private fun showOfficerDetails() {
 		val officer = args.selectedOfficer
 		binding.twoLineOfficerDetailsName.setTextSecond(officer.name)
-		binding.twoLineOfficerDetailsAppointedOn.setTextSecond(officer.appointedOn)
+		binding.twoLineOfficerDetailsAppointedOn.setTextSecond(
+			officer.appointedOn ?: getText(R.string.officer_details_unknown).toString()
+		)
 		binding.twoLineOfficerDetailsNationality.setTextSecond(officer.nationality)
 		binding.twoLineOfficerDetailsOccupation.setTextSecond(officer.occupation)
 
-		val (month, year) = officer.dateOfBirth.month to officer.dateOfBirth?.year
+		val (month, year) = officer.dateOfBirth.month to officer.dateOfBirth.year
 		if (month == null || year == null) {
 			binding.twoLineOfficerDetailsDateOfBirth.setTextSecond(getString(R.string.officer_details_unknown))
 		} else {
