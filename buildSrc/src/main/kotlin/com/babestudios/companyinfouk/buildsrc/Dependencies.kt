@@ -29,18 +29,17 @@ object Libs {
 	const val baBeStudiosBase = "org.bitbucket.herrbert74:babestudiosbase:2.0.3"
 
 	object AndroidX {
-		const val activityKtx = "androidx.activity:activity-ktx:1.4.0"
 		const val annotation = "androidx.annotation:annotation:1.3.0"
-		const val appcompat = "androidx.appcompat:appcompat:1.4.1"
-		const val appCompatResources = "androidx.appcompat:appcompat-resources:1.3.1"
+		const val appcompat = "androidx.appcompat:appcompat:1.4.2"
+		const val appCompatResources = "androidx.appcompat:appcompat-resources:1.4.2"
 		const val browser = "androidx.browser:browser:1.3.0"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
 		const val collection = "androidx.collection:collection:1.2.0"
-		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
-		const val coreKtx = "androidx.core:core-ktx:1.7.0"
+		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
+		const val coreKtx = "androidx.core:core-ktx:1.8.0"
 		const val datastoreCore = "androidx.datastore:datastore-preferences-core:1.0.0"
 		const val datastoreRx = "androidx.datastore:datastore-preferences-rxjava2:1.0.0"
-		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.4.0"
+		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.0"
 		const val media = "androidx.media:media:1.4.3"
 		const val mediaRouter = "androidx.mediarouter:mediarouter:1.2.4"
 		const val preferenceKtx = "androidx.preference:preference-ktx:1.1.0"
@@ -51,6 +50,30 @@ object Libs {
 		const val viewPager2 = "androidx.viewpager2:viewpager2:1.0.0"
 		const val window = "androidx.window:window:1.0.0-alpha06"
 
+		object Activity {
+			private const val version = "1.5.0"
+			const val activityKtx = "androidx.activity:activity-ktx:$version"
+			const val compose = "androidx.activity:activity-compose:$version"
+		}
+
+		object Compose {
+			const val version = "1.1.1"
+
+			object Ui {
+				//Compile: ui-geometry, ui-graphics, ui-text and ui-unit; runtime: ui-util
+				const val primitives = "androidx.compose.ui:ui:$version"
+
+				//Compile: ui, runtime, ui-tooling-preview, ui-tooling-data
+				const val tooling = "androidx.compose.ui:ui-tooling:$version"
+
+				//Compile: ui-test
+				const val test = "androidx.compose.ui:ui-test-junit4:$version"
+			}
+
+			//Compile: ui, runtime, animation, material-icons-core, material-ripple
+			const val material = "androidx.compose.material:material:$version"
+		}
+
 		object Hilt {
 			private const val version = "1.0.0"
 			const val compiler = "androidx.hilt:hilt-compiler:$version"
@@ -60,7 +83,7 @@ object Libs {
 		}
 
 		object Lifecycle {
-			private const val version = "2.4.0"
+			private const val version = "2.5.0"
 			const val common = "androidx.lifecycle:lifecycle-common:$version"
 			const val runtime = "androidx.lifecycle:lifecycle-runtime:$version"
 			const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
@@ -73,7 +96,7 @@ object Libs {
 		}
 
 		object Navigation {
-			private const val version = "2.4.2"
+			private const val version = "2.5.0"
 			const val common = "androidx.navigation:navigation-common:$version"
 			const val runtime = "androidx.navigation:navigation-runtime:$version"
 			const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
@@ -240,7 +263,7 @@ object Libs {
 	}
 
 	object MviKotlin {
-		private const val version = "3.0.0-beta02"
+		private const val version = "3.0.0"
 		const val core = "com.arkivanov.mvikotlin:mvikotlin:$version"
 		const val main = "com.arkivanov.mvikotlin:mvikotlin-main:$version"
 		const val rx = "com.arkivanov.mvikotlin:rx:$version"
@@ -248,6 +271,12 @@ object Libs {
 		const val utilsInternal = "com.arkivanov.mvikotlin:utils-internal:$version"
 		const val coroutines = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$version"
 		const val logging = "com.arkivanov.mvikotlin:mvikotlin-logging:$version"
+	}
+
+	object Decompose {
+		private const val VERSION = "0.8.0"
+		const val decompose = "com.arkivanov.decompose:decompose:$VERSION"
+		const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
 	}
 
 	object KotlinResult {
@@ -277,7 +306,7 @@ object Libs {
 		}
 
 		object Kotest {
-			private const val version = "5.2.3"
+			private const val version = "5.3.1"
 			const val runner = "io.kotest:kotest-runner-junit5:$version"
 			const val assertions = "io.kotest:kotest-assertions-core:$version"
 			const val property = "io.kotest:kotest-property:$version"
