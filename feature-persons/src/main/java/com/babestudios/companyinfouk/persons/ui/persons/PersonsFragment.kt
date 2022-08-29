@@ -1,15 +1,23 @@
 package com.babestudios.companyinfouk.persons.ui.persons
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
 import com.arkivanov.mvikotlin.core.annotations.MainThread
 import com.arkivanov.mvikotlin.core.view.MviView
@@ -46,6 +54,8 @@ class PersonsFragment : Fragment(R.layout.fragment_persons), MviView<State, User
 	private val args: PersonsFragmentArgs by navArgs()
 
 	private var personsAdapter: PersonsAdapter? = null
+
+	private lateinit var personsComponent: PersonsComponent
 
 	private val viewModel: PersonsViewModel by viewModels {
 		PersonsViewModel.provideFactory(
@@ -113,6 +123,22 @@ class PersonsFragment : Fragment(R.layout.fragment_persons), MviView<State, User
 
 	//region life cycle
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		personsComponent = PersonsComponent(
+			DefaultComponentContext(lifecycle, savedStateRegistry, viewModelStore, null)
+		)
+	}
+
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+		return ComposeView(requireContext()).apply {
+			setContent {
+				PersonsContent(personsComponent)
+			}
+		}
+	}
+
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		viewModel.onViewCreated(this, essentyLifecycle())
@@ -150,4 +176,15 @@ sealed class UserIntent {
 
 sealed class SideEffect {
 	data class PersonsItemClicked(val selectedPerson: Person) : SideEffect()
+}
+
+@Composable
+fun PersonsContent(component: PersonsComponent) {
+	val stack = component.childStack.subscribeAsState()
+	Children(stack = stack, animation = scale()) {
+		when (val child = it.instance) {
+			is PersonsChild.Main -> TodoMainContent(child.component)
+			is PersonsChild.Edit -> TodoEditContent(child.component)
+		}
+	}
 }

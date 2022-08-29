@@ -106,13 +106,4 @@ class CompanyTest {
 
 	//endregion
 
-//	private fun companiesViewModel(): CompaniesViewModel {
-//		return CompaniesViewModel(
-//			CompaniesState(companyNumber = "12344", companyName = "TUI"),
-//			companiesHouseRepository,
-//			companiesNavigator,
-//			recentSearchesString = ""
-//		)
-//	}
-
 }

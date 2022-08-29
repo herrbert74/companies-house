@@ -1,19 +1,19 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
-	extra["kotlin_version"] = "1.6.21"
-	val kotlinVersion = "1.6.21"
+	extra["kotlin_version"] = "1.7.10"
+	val kotlinVersion = "1.7.10"
 	repositories {
 		google()
 		gradlePluginPortal()
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:7.1.3")
+		classpath("com.android.tools.build:gradle:7.2.2")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
-		classpath("com.google.gms:google-services:4.3.10")
+		classpath("com.google.gms:google-services:4.3.13")
 		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0")
-		classpath("com.google.dagger:hilt-android-gradle-plugin:2.41")
+		classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
 		classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
 		classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
 	}

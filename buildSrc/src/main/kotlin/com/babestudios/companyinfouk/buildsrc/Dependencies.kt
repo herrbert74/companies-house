@@ -5,8 +5,8 @@ object Versions {
 	const val compileSdkVersion = 31
 	const val targetSdkVersion = 31
 	const val gradlePlugin = "7.1.3"
-	const val kotlin = "1.6.21"
-	const val coroutines = "1.6.3"
+	const val kotlin = "1.7.10"
+	const val coroutines = "1.6.4"
 	const val dagger = "2.42"
 }
 
@@ -196,7 +196,6 @@ object Libs {
 		const val test = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
 		const val jUnit = "org.jetbrains.kotlin:kotlin-test-jUnit:${Versions.kotlin}"
 		const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-		const val parcelizeRuntime = "org.jetbrains.kotlin:kotlin-parcelize-runtime:${Versions.kotlin}"
 
 		object Coroutines {
 			const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
@@ -275,7 +274,7 @@ object Libs {
 
 	object Decompose {
 		private const val VERSION = "0.8.0"
-		const val decompose = "com.arkivanov.decompose:decompose:$VERSION"
+		const val core = "com.arkivanov.decompose:decompose:$VERSION"
 		const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
 	}
 
@@ -300,7 +299,7 @@ object Libs {
 		}
 
 		object MockK {
-			private const val version = "1.12.3"
+			private const val version = "1.12.5"
 			const val core = "io.mockk:mockk:$version"
 			const val android = "io.mockk:mockk-android:$version"
 		}
