@@ -2,10 +2,10 @@ package com.babestudios.companyinfouk.buildsrc
 
 object Versions {
 	const val minSdkVersion = 21
-	const val compileSdkVersion = 31
-	const val targetSdkVersion = 31
+	const val compileSdkVersion = 33
+	const val targetSdkVersion = 33
 	const val gradlePlugin = "7.1.3"
-	const val kotlin = "1.7.10"
+	const val kotlin = "1.7.20"
 	const val coroutines = "1.6.4"
 	const val dagger = "2.42"
 }
@@ -57,7 +57,7 @@ object Libs {
 		}
 
 		object Compose {
-			const val version = "1.1.1"
+			const val version = "1.2.1"
 
 			object Ui {
 				//Compile: ui-geometry, ui-graphics, ui-text and ui-unit; runtime: ui-util
@@ -72,6 +72,8 @@ object Libs {
 
 			//Compile: ui, runtime, animation, material-icons-core, material-ripple
 			const val material = "androidx.compose.material:material:$version"
+
+			const val foundationLayout = "androidx.compose.foundation:foundation-layout:$version"
 		}
 
 		object Hilt {
@@ -273,9 +275,10 @@ object Libs {
 	}
 
 	object Decompose {
-		private const val VERSION = "0.8.0"
+		private const val VERSION = "1.0.0-alpha-06"
 		const val core = "com.arkivanov.decompose:decompose:$VERSION"
-		const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
+		const val extensionsJetpack = "com.arkivanov.decompose:extensions-compose-jetpack:$VERSION"
+		const val extensionsJetBrains = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
 	}
 
 	object KotlinResult {

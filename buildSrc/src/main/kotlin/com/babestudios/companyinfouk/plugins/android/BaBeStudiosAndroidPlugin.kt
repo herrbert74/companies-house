@@ -24,6 +24,7 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		project.repositories.mavenCentral()
 		project.repositories.google()
 		project.repositories.maven { url = project.uri("https://jitpack.io") }
+		project.repositories.maven { url = project.uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
 
 		project.plugins.apply("kotlin-android")
 		if (project.name != "navigation" && project.name != "common") {

@@ -12,7 +12,7 @@ dependencies {
 	implementation("com.android.tools.build:gradle:7.2.2")
 
 	/* Depend on the kotlin plugin, since we want to access it in our plugin */
-	implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+	implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
 
 	implementation(kotlin("android-extensions"))
 

@@ -1,8 +1,8 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
-	extra["kotlin_version"] = "1.7.10"
-	val kotlinVersion = "1.7.10"
+	extra["kotlin_version"] = "1.7.20"
+	val kotlinVersion = "1.7.20"
 	repositories {
 		google()
 		gradlePluginPortal()
