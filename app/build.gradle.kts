@@ -6,7 +6,7 @@ plugins {
 	id("com.google.firebase.crashlytics")
 	id("com.google.gms.google-services")
 	id("org.jetbrains.kotlin.plugin.allopen")
-	id("com.google.devtools.ksp") version "1.7.10-1.0.6"
+	id("com.google.devtools.ksp") version "1.7.20-1.0.7"
 	id("dagger.hilt.android.plugin")
 }
 

@@ -16,7 +16,7 @@ import com.babestudios.companyinfouk.insolvencies.ui.details.list.InsolvencyDeta
 
 class InsolvencyDetailsStoreFactory(
 	private val storeFactory: StoreFactory,
-	private val InsolvencyDetailsExecutor: InsolvencyDetailsExecutor
+	private val insolvencyDetailsExecutor: InsolvencyDetailsExecutor
 ) {
 
 	fun create(companyNumber: String, selectedInsolvencyCase: InsolvencyCase): InsolvencyDetailsStore =
@@ -24,7 +24,7 @@ class InsolvencyDetailsStoreFactory(
 			name = "InsolvencyDetailsStore",
 			initialState = State.Loading,
 			bootstrapper = InsolvencyDetailsBootstrapper(companyNumber, selectedInsolvencyCase),
-			executorFactory = { InsolvencyDetailsExecutor },
+			executorFactory = { insolvencyDetailsExecutor },
 			reducer = InsolvencyDetailsReducer
 		) {}
 

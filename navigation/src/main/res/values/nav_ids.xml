@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<item name="companiesFlow" type="id" />
+	<item name="chargesFlow" type="id" />
+	<item name="filingsFlow" type="id" />
+	<item name="insolvenciesFlow" type="id" />
+	<item name="officersFlow" type="id" />
+	<item name="personsFlow" type="id" />
+</resources>

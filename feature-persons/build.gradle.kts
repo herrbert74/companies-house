@@ -11,8 +11,10 @@ dependencies {
 	implementation(Libs.Decompose.extensionsJetpack)
 	implementation(Libs.Decompose.extensionsJetBrains)
 	implementation(Libs.AndroidX.Activity.compose)
+	implementation(Libs.AndroidX.constraintLayoutCompose)
 	implementation(Libs.AndroidX.Compose.Ui.tooling)
 	implementation(Libs.AndroidX.Compose.material)
+	implementation(Libs.AndroidX.Compose.material3)
 	implementation(Libs.AndroidX.Compose.foundationLayout)
 }
 
@@ -38,4 +40,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
 	kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+	kotlinOptions.freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
 }

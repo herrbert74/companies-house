@@ -11,7 +11,7 @@ import okhttp3.ResponseBody
 
 class FilingHistoryDetailsStoreFactory(
 	private val storeFactory: StoreFactory,
-	private val FilingHistoryDetailsExecutor: FilingHistoryDetailsExecutor
+	private val filingHistoryDetailsExecutor: FilingHistoryDetailsExecutor
 ) {
 
 	fun create(
@@ -21,7 +21,7 @@ class FilingHistoryDetailsStoreFactory(
 		object : FilingHistoryDetailsStore, Store<Intent, State, Nothing> by storeFactory.create(
 			name = "FilingHistoryDetailsStore",
 			initialState = State.Show(companyNumber, selectedFilingHistoryItem),
-			executorFactory = { FilingHistoryDetailsExecutor },
+			executorFactory = { filingHistoryDetailsExecutor },
 			reducer = FilingHistoryDetailsReducer
 		) {}
 

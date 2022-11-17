@@ -6,11 +6,10 @@ import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.Intent
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.State
 
-interface PersonsStore : Store<Intent, State, SideEffect> {
+interface PersonsStore : Store<Intent, State, Nothing> {
 
 	sealed class Intent {
-		data class PersonsItemClicked(val selectedPerson: Person) : Intent()
-		data class LoadMorePersons(val page: Int) : Intent()
+		object LoadMorePersons : Intent()
 	}
 
 	sealed class State {

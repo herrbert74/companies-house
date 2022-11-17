@@ -4,17 +4,18 @@ buildscript {
 	extra["kotlin_version"] = "1.7.20"
 	val kotlinVersion = "1.7.20"
 	repositories {
+		mavenCentral()
 		google()
 		gradlePluginPortal()
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:7.2.2")
+		classpath("com.android.tools.build:gradle:7.4.0-beta05")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
-		classpath("com.google.gms:google-services:4.3.13")
-		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0")
+		classpath("com.google.gms:google-services:4.3.14")
+		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")
 		classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
-		classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
+		classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.2")
 		classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
 	}
 }

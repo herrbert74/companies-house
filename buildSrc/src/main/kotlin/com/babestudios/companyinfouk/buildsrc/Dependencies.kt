@@ -20,8 +20,8 @@ object Plugins {
 	const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.8.1"
 	const val firebaseAppDistribution = "com.google.firebase:firebase-appdistribution-gradle:3.0.0"
 	const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.dagger}"
-	const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-alpha01"
-	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0"
+	const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.2"
+	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0"
 }
 
 @Suppress("unused", "SpellCheckingInspection")
@@ -30,16 +30,17 @@ object Libs {
 
 	object AndroidX {
 		const val annotation = "androidx.annotation:annotation:1.3.0"
-		const val appcompat = "androidx.appcompat:appcompat:1.4.2"
+		const val appcompat = "androidx.appcompat:appcompat:1.5.1"
 		const val appCompatResources = "androidx.appcompat:appcompat-resources:1.4.2"
 		const val browser = "androidx.browser:browser:1.3.0"
 		const val cardView = "androidx.cardview:cardview:1.0.0"
 		const val collection = "androidx.collection:collection:1.2.0"
 		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
+		const val constraintLayoutCompose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 		const val coreKtx = "androidx.core:core-ktx:1.8.0"
 		const val datastoreCore = "androidx.datastore:datastore-preferences-core:1.0.0"
 		const val datastoreRx = "androidx.datastore:datastore-preferences-rxjava2:1.0.0"
-		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.5.0"
+		const val fragmentKtx = "androidx.fragment:fragment-ktx:1.6.0"
 		const val media = "androidx.media:media:1.4.3"
 		const val mediaRouter = "androidx.mediarouter:mediarouter:1.2.4"
 		const val preferenceKtx = "androidx.preference:preference-ktx:1.1.0"
@@ -51,13 +52,14 @@ object Libs {
 		const val window = "androidx.window:window:1.0.0-alpha06"
 
 		object Activity {
-			private const val version = "1.5.0"
+			private const val version = "1.6.0"
 			const val activityKtx = "androidx.activity:activity-ktx:$version"
 			const val compose = "androidx.activity:activity-compose:$version"
 		}
 
 		object Compose {
 			const val version = "1.2.1"
+			const val material3Version = "1.0.0-rc01"
 
 			object Ui {
 				//Compile: ui-geometry, ui-graphics, ui-text and ui-unit; runtime: ui-util
@@ -72,6 +74,8 @@ object Libs {
 
 			//Compile: ui, runtime, animation, material-icons-core, material-ripple
 			const val material = "androidx.compose.material:material:$version"
+
+			const val material3 = "androidx.compose.material3:material3:$material3Version"
 
 			const val foundationLayout = "androidx.compose.foundation:foundation-layout:$version"
 		}
@@ -96,9 +100,8 @@ object Libs {
 				const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$version"
 			}
 		}
-
 		object Navigation {
-			private const val version = "2.5.0"
+			private const val version = "2.5.2"
 			const val common = "androidx.navigation:navigation-common:$version"
 			const val runtime = "androidx.navigation:navigation-runtime:$version"
 			const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
@@ -316,7 +319,7 @@ object Libs {
 	}
 
 	object Detekt {
-		private const val version = "1.19.0"
+		private const val version = "1.21.0"
 		const val api = "io.gitlab.arturbosch.detekt:detekt-api:$version"
 		const val cli = "io.gitlab.arturbosch.detekt:detekt-cli:$version"
 		const val test = "io.gitlab.arturbosch.detekt:detekt-test:$version"

@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.data.local.apilookup.model
 import androidx.annotation.Keep
 
 @Keep
+@Suppress("ConstructorParameterNaming")
 data class PscDescriptions(
 		val kind: Map<String, String>,
 		val description: Map<String, String>,

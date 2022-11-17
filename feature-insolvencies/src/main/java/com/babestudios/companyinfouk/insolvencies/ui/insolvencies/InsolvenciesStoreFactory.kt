@@ -12,7 +12,7 @@ import com.github.michaelbull.result.fold
 
 class InsolvenciesStoreFactory(
 	private val storeFactory: StoreFactory,
-	private val InsolvenciesExecutor: InsolvenciesExecutor
+	private val insolvenciesExecutor: InsolvenciesExecutor
 ) {
 
 	fun create(companyNumber: String): InsolvenciesStore =
@@ -20,7 +20,7 @@ class InsolvenciesStoreFactory(
 			name = "InsolvenciesStore",
 			initialState = State.Loading,
 			bootstrapper = InsolvenciesBootstrapper(companyNumber),
-			executorFactory = { InsolvenciesExecutor },
+			executorFactory = { insolvenciesExecutor },
 			reducer = InsolvenciesReducer
 		) {}
 

@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.data.local.apilookup.model
 import androidx.annotation.Keep
 
 @Keep
+@Suppress("ConstructorParameterNaming")
 data class Constants (
 	val identification_type: Map<String, String>,
 	val jurisdiction: Map<String, String>,

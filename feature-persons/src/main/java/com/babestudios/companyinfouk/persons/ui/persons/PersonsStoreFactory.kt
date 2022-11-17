@@ -16,7 +16,7 @@ class PersonsStoreFactory(
 ) {
 
 	fun create(companyNumber: String): PersonsStore =
-		object : PersonsStore, Store<Intent, State, SideEffect> by storeFactory.create(
+		object : PersonsStore, Store<Intent, State, Nothing> by storeFactory.create(
 			name = "PersonsStore",
 			initialState = State.Loading,
 			bootstrapper = PersonsBootstrapper(companyNumber),

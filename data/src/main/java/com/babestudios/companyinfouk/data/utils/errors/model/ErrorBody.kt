@@ -8,6 +8,7 @@ data class ErrorBody(
 ) : ErrorEntity()
 
 @Keep
+@Suppress("ConstructorParameterNaming")
 open class ErrorEntity(
 	val error: String? = null,
 	val error_values: Map<String, String>? = null,

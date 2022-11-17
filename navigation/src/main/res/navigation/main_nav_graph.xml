@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/main_nav_graph"
-	app:startDestination="@id/companies_flow">
+	app:startDestination="@id/companiesFlow">
 
 	<include app:graph="@navigation/companies_flow" />
 
@@ -18,7 +18,7 @@
 
 	<action
 		android:id="@+id/action_global_charges_flow"
-		app:destination="@id/charges_flow"
+		app:destination="@id/chargesFlow"
 		app:enterAnim="@anim/nav_default_enter_anim"
 		app:exitAnim="@anim/nav_default_exit_anim">
 		<argument
@@ -28,7 +28,7 @@
 
 	<action
 		android:id="@+id/action_global_filings_flow"
-		app:destination="@id/filings_flow"
+		app:destination="@id/filingsFlow"
 		app:enterAnim="@anim/nav_default_enter_anim"
 		app:exitAnim="@anim/nav_default_exit_anim">
 
@@ -39,7 +39,7 @@
 
 	<action
 		android:id="@+id/action_global_insolvencies_flow"
-		app:destination="@id/insolvencies_flow"
+		app:destination="@id/insolvenciesFlow"
 		app:enterAnim="@anim/nav_default_enter_anim"
 		app:exitAnim="@anim/nav_default_exit_anim">
 
@@ -50,7 +50,7 @@
 
 	<action
 		android:id="@+id/action_global_officers_flow"
-		app:destination="@id/officers_flow"
+		app:destination="@id/officersFlow"
 		app:enterAnim="@anim/nav_default_enter_anim"
 		app:exitAnim="@anim/nav_default_exit_anim">
 
@@ -61,7 +61,7 @@
 
 	<action
 		android:id="@+id/action_global_persons_flow"
-		app:destination="@id/persons_flow"
+		app:destination="@id/personsFlow"
 		app:enterAnim="@anim/nav_default_enter_anim"
 		app:exitAnim="@anim/nav_default_exit_anim">
 

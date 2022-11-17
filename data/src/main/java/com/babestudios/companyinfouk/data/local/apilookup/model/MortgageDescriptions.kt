@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.data.local.apilookup.model
 import androidx.annotation.Keep
 
 @Keep
+@Suppress("ConstructorParameterNaming")
 data class MortgageDescriptions(
 		val classificationDesc: Map<String, String>,
 		val status: Map<String, String>,

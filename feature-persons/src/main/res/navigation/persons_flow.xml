@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@id/persons_flow"
+	android:id="@id/personsFlow"
 	app:startDestination="@id/personsFragment">
 
 	<fragment
@@ -14,25 +14,6 @@
 		<argument
 			android:name="selectedCompanyId"
 			app:argType="string" />
-
-		<action
-			android:id="@+id/actionToDetails"
-			app:destination="@id/personDetailsFragment"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-	</fragment>
-
-	<fragment
-		android:id="@+id/personDetailsFragment"
-		android:name="com.babestudios.companyinfouk.persons.ui.details.PersonDetailsFragment"
-		android:label="PersonDetailsFragment"
-		tools:layout="@layout/fragment_person_details">
-
-		<argument
-			android:name="selectedPerson"
-			app:argType="com.babestudios.companyinfouk.domain.model.persons.Person" />
 
 	</fragment>
 
