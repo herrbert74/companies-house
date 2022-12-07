@@ -10,7 +10,8 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		classpath("com.android.tools.build:gradle:7.4.0-beta05")
+		//classpath("com.android.tools.build:gradle:7.4.0-rc01")
+		classpath("com.android.tools.build:gradle:7.3.0") //For IJ plugin runIde
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
 		classpath("com.google.gms:google-services:4.3.14")
 		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")

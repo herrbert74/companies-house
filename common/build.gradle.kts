@@ -5,9 +5,12 @@ plugins{
 }
 
 dependencies {
+	implementation(project(":domain"))
 	implementation(Libs.baBeStudiosBase)
 	implementation(Libs.AndroidX.appcompat)
+	implementation(Libs.AndroidX.Activity.compose)
 	implementation(Libs.AndroidX.Compose.material3)
+	implementation(Libs.AndroidX.constraintLayoutCompose)
 	implementation(Libs.Google.material)
 	implementation(Libs.Kotlin.Coroutines.core)
 	implementation(Libs.Decompose.core)

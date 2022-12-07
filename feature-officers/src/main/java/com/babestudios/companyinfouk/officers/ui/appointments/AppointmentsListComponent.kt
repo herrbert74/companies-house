@@ -1,0 +1,62 @@
+package com.babestudios.companyinfouk.officers.ui.appointments
+
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.common.ext.asValue
+import com.babestudios.companyinfouk.domain.model.officers.Appointment
+import com.babestudios.companyinfouk.domain.model.officers.Officer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.launch
+
+interface AppointmentsListComp {
+
+	fun onItemClicked(appointment: Appointment)
+
+	fun onLoadMore()
+
+	fun onBackClicked()
+
+	val state: Value<AppointmentsStore.State>
+
+	sealed class Output {
+		data class Selected(val appointment: Appointment) : Output()
+		object Back : Output()
+	}
+
+}
+
+class AppointmentsListComponent(
+	componentContext: ComponentContext,
+	private val appointmentsExecutor: AppointmentsExecutor,
+	val selectedOfficer: Officer,
+	private val output: FlowCollector<AppointmentsListComp.Output>,
+) : AppointmentsListComp, ComponentContext by componentContext {
+
+	private var appointmentsStore: AppointmentsStore =
+		AppointmentsStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), appointmentsExecutor)
+			.create(selectedOfficer)
+
+	override fun onItemClicked(appointment: Appointment) {
+		CoroutineScope(appointmentsExecutor.mainContext).launch {
+			output.emit(AppointmentsListComp.Output.Selected(appointment = appointment))
+		}
+	}
+
+	override fun onLoadMore() {
+		appointmentsStore.accept(AppointmentsStore.Intent.LoadMoreAppointments)
+	}
+
+	override fun onBackClicked() {
+		CoroutineScope(appointmentsExecutor.mainContext).launch {
+			output.emit(AppointmentsListComp.Output.Back)
+			appointmentsStore.dispose()
+		}
+	}
+
+	override val state: Value<AppointmentsStore.State>
+		get() = appointmentsStore.asValue()
+
+}

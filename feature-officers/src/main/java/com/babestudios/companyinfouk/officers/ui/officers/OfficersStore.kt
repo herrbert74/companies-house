@@ -1,30 +1,28 @@
 package com.babestudios.companyinfouk.officers.ui.officers
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.Intent
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.State
-import com.github.michaelbull.result.Result
 
-interface OfficersStore : Store<Intent, State, SideEffect> {
+interface OfficersStore : Store<Intent, State, Nothing> {
 
-	sealed class Intent {
-		data class OfficerItemClicked(val selectedOfficer: Officer) : Intent()
-		data class LoadMoreOfficers(val page: Int) : Intent()
-	}
+    sealed class Intent {
+        object LoadMoreOfficers : Intent()
+    }
 
-	sealed class State {
+    data class State (
 
-		object Loading : State()
+        //initial data
+        val companyId: String,
 
-		class Show(
-			val companyNumber: String,
-			val officersResponse: OfficersResponse,
-		) : State()
+        //result data
+        val officersResponse: OfficersResponse = OfficersResponse(),
+        val error: Throwable? = null,
 
-		class Error(val t: Throwable) : State()
+        //state
+        val isLoading: Boolean = true
 
-	}
+    )
 
 }

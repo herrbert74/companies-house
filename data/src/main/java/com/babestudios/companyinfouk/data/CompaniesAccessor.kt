@@ -135,15 +135,17 @@ open class CompaniesAccessor @Inject constructor(
 
 	}
 
-	override suspend fun getOfficerAppointments(officerId: String, startItem: String): AppointmentsResponse {
-		return withContext(ioContext) {
-			val appointmentsResponseDto = companiesHouseService.getOfficerAppointments(
-				officerId,
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
-				startItem
-			)
-			companiesHouseMapping.mapAppointments(appointmentsResponseDto)
-		}
+	override suspend fun getOfficerAppointments(officerId: String, startItem: String): ApiResult<AppointmentsResponse> {
+		return apiRunCatching {
+			withContext(ioContext) {
+				val appointmentsResponseDto = companiesHouseService.getOfficerAppointments(
+					officerId,
+					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					startItem
+				)
+				companiesHouseMapping.mapAppointments(appointmentsResponseDto)
+			}
+		}.mapError { OfflineException(AppointmentsResponse()) }
 	}
 
 	override suspend fun getPersons(companyNumber: String, startItem: String): ApiResult<PersonsResponse> {

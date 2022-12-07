@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER, FunctionNaming")
 
-package com.babestudios.companyinfouk.persons.ui.persons
+package com.babestudios.companyinfouk.officers.ui.officers
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.companyinfouk.common.compose.InfiniteListHandler
 import com.babestudios.companyinfouk.design.CompaniesTypography
-import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.domain.model.officers.Officer
 
 @Composable
-fun PersonsListScreen(component: PersonsListComp) {
+fun OfficersListScreen(component: OfficersListComp) {
 
 	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val model by component.state.subscribeAsState()
@@ -42,7 +42,7 @@ fun PersonsListScreen(component: PersonsListComp) {
 			LargeTopAppBar(
 				title = {
 					Text(
-						text = "Persons with significant control", style = CompaniesTypography.titleLarge
+						text = "Officers", style = CompaniesTypography.titleLarge
 					)
 				},
 				navigationIcon = {
@@ -54,39 +54,36 @@ fun PersonsListScreen(component: PersonsListComp) {
 					}
 				},
 				//Add back image background oce supported
-				//app:imageViewSrc="@drawable/bg_persons"
+				//app:imageViewSrc="@drawable/bg_Officers2"
 				scrollBehavior = scrollBehavior
 			)
 		},
 		content = { innerPadding ->
-			when (model) {
-				is PersonsStore.State.Loading -> {
-					CircularProgressIndicator()
-				}
-				is PersonsStore.State.Error -> {
-					Box(
-						Modifier
-							.background(color = Color.Red)
-					)
-				}
-				else -> {
-					PersonsList(
-						paddingValues = innerPadding,
-						items = (model as PersonsStore.State.Show).personsResponse.items,
-						onItemClicked = component::onItemClicked,
-						onLoadMore = component::onLoadMore,
-					)
-				}
+			if (model.isLoading) {
+				CircularProgressIndicator()
+			} else if (model.error != null) {
+				Box(
+					Modifier
+						.background(color = Color.Red)
+				)
+			} else {
+				OfficersList(
+					paddingValues = innerPadding,
+					items = model.officersResponse.items,
+					onItemClicked = component::onItemClicked,
+					onLoadMore = component::onLoadMore,
+				)
 			}
-		})
+		}
+	)
 
 }
 
 @Composable
-private fun PersonsList(
+private fun OfficersList(
 	paddingValues: PaddingValues,
-	items: List<Person>,
-	onItemClicked: (id: Person) -> Unit,
+	items: List<Officer>,
+	onItemClicked: (id: Officer) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 	Box {
@@ -96,9 +93,9 @@ private fun PersonsList(
 			contentPadding = paddingValues,
 			state = listState
 		) {
-			itemsIndexed(items) { _, person ->
-				PersonsListItem(
-					item = person,
+			itemsIndexed(items) { _, Officer ->
+				OfficerListItem(
+					item = Officer,
 					onItemClicked = onItemClicked,
 				)
 

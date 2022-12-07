@@ -7,61 +7,13 @@
 
 	<fragment
 		android:id="@+id/officersFragment"
-		android:name="com.babestudios.companyinfouk.officers.ui.officers.OfficersFragment"
+		android:name="com.babestudios.companyinfouk.officers.ui.OfficersFragment"
 		android:label="OfficersFragment"
 		tools:layout="@layout/fragment_officers">
 
 		<argument
 			android:name="selectedCompanyId"
 			app:argType="string" />
-
-		<action
-			android:id="@+id/actionToDetails"
-			app:destination="@id/officerDetailsFragment"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-
-	</fragment>
-
-	<fragment
-		android:id="@+id/officerDetailsFragment"
-		android:name="com.babestudios.companyinfouk.officers.ui.details.OfficerDetailsFragment"
-		android:label="OfficerDetailsFragment"
-		tools:layout="@layout/fragment_officer_details">
-
-		<argument
-			android:name="selectedCompanyId"
-			app:argType="string" />
-
-		<argument
-			android:name="selectedOfficer"
-			app:argType="com.babestudios.companyinfouk.domain.model.officers.Officer" />
-
-		<action
-			android:id="@+id/actionToAppointments"
-			app:destination="@id/officerAppointmentsFragment"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-
-	</fragment>
-
-	<fragment
-		android:id="@+id/officerAppointmentsFragment"
-		android:name="com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsFragment"
-		android:label="OfficerAppointmentsFragment"
-		tools:layout="@layout/fragment_officer_appointments">
-
-		<argument
-			android:name="selectedCompanyId"
-			app:argType="string" />
-
-		<argument
-			android:name="selectedOfficer"
-			app:argType="com.babestudios.companyinfouk.domain.model.officers.Officer" />
 
 	</fragment>
 

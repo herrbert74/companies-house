@@ -8,9 +8,9 @@ import kotlinx.parcelize.Parcelize
 
 data class AppointmentsResponse(
 	var dateOfBirth: MonthYear? = null,
-	var items: List<Appointment>? = null,
-	var name: String,
-	var totalResults: Int,
+	var items: List<Appointment> = emptyList(),
+	var name: String = "",
+	var totalResults: Int = 0,
 )
 
 @Parcelize

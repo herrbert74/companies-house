@@ -9,7 +9,8 @@ repositories {
 
 dependencies {
 	/* Depend on the android gradle plugin, since we want to access it in our plugin */
-	implementation("com.android.tools.build:gradle:7.4.0-beta05")
+	//implementation("com.android.tools.build:gradle:7.4.0-rc01")
+	implementation("com.android.tools.build:gradle:7.3.0") //For IJ plugin runIde
 
 	/* Depend on the kotlin plugin, since we want to access it in our plugin */
 	implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")

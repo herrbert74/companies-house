@@ -25,7 +25,7 @@ interface CompaniesRepository : AnalyticsContract {
 	suspend fun getCharges(companyNumber: String, startItem: String): ApiResult<Charges>
 	suspend fun getInsolvency(companyNumber: String): ApiResult<Insolvency>
 	suspend fun getOfficers(companyNumber: String, startItem: String): ApiResult<OfficersResponse>
-	suspend fun getOfficerAppointments(officerId: String, startItem: String): AppointmentsResponse
+	suspend fun getOfficerAppointments(officerId: String, startItem: String): ApiResult<AppointmentsResponse>
 	suspend fun getPersons(companyNumber: String, startItem: String): ApiResult<PersonsResponse>
 	suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person
 	suspend fun getLegalPerson(companyNumber: String, pscId: String): Person

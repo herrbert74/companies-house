@@ -27,9 +27,8 @@ internal interface PersonsRootComp {
 class PersonsRootComponent internal constructor(
 	componentContext: ComponentContext,
 	private val personsList: (ComponentContext, FlowCollector<PersonsListComp.Output>) -> PersonsListComp,
-	private val personDetails: (ComponentContext, selectedPerson: Person, FlowCollector<PersonDetailsComp.Output>) ->
-	PersonDetailsComp,
-	val companyNumber: String,
+	private val personDetails:
+		(ComponentContext, selectedPerson: Person, FlowCollector<PersonDetailsComp.Output>) -> PersonDetailsComp,
 	private val finishHandler: () -> Unit,
 	private val showOnMapHandler: (String, Address) -> Unit,
 ) : PersonsRootComp,
@@ -60,7 +59,6 @@ class PersonsRootComponent internal constructor(
 				output = output
 			)
 		},
-		companyNumber,
 		finishHandler,
 		showOnMapHandler,
 	)

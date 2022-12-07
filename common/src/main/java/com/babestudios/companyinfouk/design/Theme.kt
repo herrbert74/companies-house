@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-val CompaniesHouseLightColorScheme = lightColorScheme(
+val CompaniesLightColorScheme = lightColorScheme(
 	primary = Color(LIGHT_PRIMARY),
 	onPrimary = Color(LIGHT_ON_PRIMARY),
 	primaryContainer = Color(LIGHT_PRIMARY_CONTAINER),
@@ -38,7 +38,7 @@ val CompaniesHouseLightColorScheme = lightColorScheme(
 	inverseOnSurface = Color(LIGHT_INVERSE_ON_SURFACE),
 	inverseSurface = Color(LIGHT_INVERSE_SURFACE),
 )
-private val CompaniesHouseDarkColorScheme = darkColorScheme(
+private val CompaniesDarkColorScheme = darkColorScheme(
 
 	primary = Color(DARK_PRIMARY),
 	onPrimary = Color(DARK_ON_PRIMARY),
@@ -68,7 +68,7 @@ private val CompaniesHouseDarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun CompaniesHouseTheme(
+fun CompaniesTheme(
 	isDarkTheme: Boolean = isSystemInDarkTheme(),
 	isDynamicColor: Boolean = false,
 	content: @Composable () -> Unit
@@ -79,13 +79,13 @@ fun CompaniesHouseTheme(
 	val colorScheme = when {
 		dynamicColor && isDarkTheme -> dynamicDarkColorScheme(LocalContext.current)
 		dynamicColor && !isDarkTheme -> dynamicLightColorScheme(LocalContext.current)
-		isDarkTheme -> CompaniesHouseDarkColorScheme
-		else -> CompaniesHouseLightColorScheme
+		isDarkTheme -> CompaniesDarkColorScheme
+		else -> CompaniesLightColorScheme
 	}
 
 	MaterialTheme(
 		colorScheme = colorScheme,
-		typography = CompaniesHouseTypography,
+		typography = CompaniesTypography,
 		content = content
 	)
 

@@ -10,7 +10,7 @@ const val MINUS_QUARTER = -0.25f
 
 val Roboto = FontFamily.Default
 
-val CompaniesHouseTypography = Typography(
+val CompaniesTypography = Typography(
 	displayLarge = TextStyle(
 		fontFamily = Roboto,
 		fontWeight = FontWeight.W400,
@@ -55,14 +55,14 @@ val CompaniesHouseTypography = Typography(
 	),
 	titleLarge = TextStyle(
 		fontFamily = Roboto,
-		fontWeight = FontWeight.W400,
+		fontWeight = FontWeight.W800,
 		fontSize = 22.sp,
 		lineHeight = 28.sp,
 		letterSpacing = 0.sp
 	),
 	titleMedium = TextStyle(
 		fontFamily = Roboto,
-		fontWeight = FontWeight.Medium,
+		fontWeight = FontWeight.W700,
 		fontSize = 16.sp,
 		lineHeight = 24.sp,
 		letterSpacing = 0.1.sp

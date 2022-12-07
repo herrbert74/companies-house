@@ -1,9 +1,7 @@
 package com.babestudios.companyinfouk.persons.ui.persons
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.Intent
@@ -54,7 +52,7 @@ class PersonsExecutor @Inject constructor(
 					showState.companyNumber,
 					(showState.personsResponse.items.size).toString()
 				)
-				dispatch(Message.PersonsMessage(personsResponse, showState.companyNumber))
+				dispatch(Message.LoadMorePersonsMessage(personsResponse, showState.companyNumber))
 			}
 		}
 	}

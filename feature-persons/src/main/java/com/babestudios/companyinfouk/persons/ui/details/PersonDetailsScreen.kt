@@ -4,15 +4,12 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,23 +19,20 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.design.CompaniesHouseTheme
-import com.babestudios.companyinfouk.design.CompaniesHouseTypography
-import com.babestudios.companyinfouk.design.titleLargeBold
+import com.babestudios.companyinfouk.common.compose.AddressCard
+import com.babestudios.companyinfouk.common.compose.TwoLineCard
+import com.babestudios.companyinfouk.design.CompaniesTheme
+import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.domain.model.persons.Identification
 import com.babestudios.companyinfouk.domain.model.persons.Person
 import kotlinx.coroutines.Dispatchers
-
-private const val HALF = 0.5f
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -56,7 +50,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 				title = {
 					Text(
 						text = "Person Details",
-						style = CompaniesHouseTypography.titleLarge,
+						style = CompaniesTypography.titleLarge,
 					)
 				},
 				navigationIcon = {
@@ -162,109 +156,6 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 
 }
 
-@Composable
-fun TwoLineCard(
-	firstLineString: String,
-	secondLineString: String,
-	modifier: Modifier = Modifier,
-) {
-	Column(
-		verticalArrangement = Arrangement.Center,
-		horizontalAlignment = Alignment.CenterHorizontally,
-		modifier = modifier
-	) {
-		Text(
-			modifier = Modifier
-				.padding(horizontal = 8.dp, vertical = 8.dp)
-				.fillMaxWidth(1f),
-			text = firstLineString,
-			style = CompaniesHouseTypography.bodyMedium
-		)
-		Text(
-			modifier = Modifier
-				.padding(horizontal = 8.dp, vertical = 8.dp)
-				.fillMaxWidth(1f),
-			text = secondLineString,
-			style = CompaniesHouseTypography.titleLargeBold
-		)
-	}
-}
-
-@Composable
-fun AddressCard(
-	address: Address,
-	modifier: Modifier = Modifier,
-	onShowMap: () -> Unit,
-) {
-	ConstraintLayout(
-		modifier = modifier
-			.fillMaxWidth(1f)
-			.wrapContentHeight(CenterVertically),
-	) {
-		val (title, showMapButton) = createRefs()
-
-		Column(
-			verticalArrangement = Arrangement.Center,
-			horizontalAlignment = Alignment.Start,
-			modifier = modifier
-				.fillMaxWidth(HALF)
-				.constrainAs(title) {
-					top.linkTo(parent.top)
-					bottom.linkTo(parent.bottom)
-					start.linkTo(parent.start)
-				}
-		) {
-			Text(
-				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
-					.fillMaxWidth(1f),
-				text = "Address",
-				style = CompaniesHouseTypography.bodyMedium
-			)
-			Text(
-				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
-					.fillMaxWidth(1f),
-				text = address.addressLine1,
-				style = CompaniesHouseTypography.titleLargeBold
-			)
-			Text(
-				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
-					.fillMaxWidth(1f),
-				text = address.locality,
-				style = CompaniesHouseTypography.titleLargeBold
-			)
-			Text(
-				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
-					.fillMaxWidth(1f),
-				text = address.postalCode,
-				style = CompaniesHouseTypography.titleLargeBold
-			)
-			Text(
-				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
-					.fillMaxWidth(1f),
-				text = address.region ?: "",
-				style = CompaniesHouseTypography.titleLargeBold
-			)
-		}
-
-		Button(
-			onClick = { onShowMap.invoke() },
-			modifier = modifier
-				.padding(bottom = 8.dp, end = 8.dp)
-				.constrainAs(showMapButton) {
-					bottom.linkTo(parent.bottom)
-					end.linkTo(parent.end)
-				},
-		) {
-			Text(text = "Show on map".uppercase())
-		}
-	}
-}
-
 @Preview("Person Details Preview")
 @Composable
 fun PersonDetailsScreenPreview() {
@@ -301,7 +192,7 @@ fun PersonDetailsScreenPreview() {
 @Composable
 fun PersonDetailsScreenDefaultsPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
-	CompaniesHouseTheme {
+	CompaniesTheme {
 		PersonDetailsScreen(
 			PersonDetailsComponent(
 				componentContext,

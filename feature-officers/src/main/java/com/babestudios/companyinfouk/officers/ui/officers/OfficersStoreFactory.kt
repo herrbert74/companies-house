@@ -10,43 +10,60 @@ import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.Intent
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.State
 import com.github.michaelbull.result.fold
 
-internal class OfficersStoreFactory(
+class OfficersStoreFactory(
 	private val storeFactory: StoreFactory,
-	val officersExecutor: OfficersExecutor
+	private val officersExecutor: OfficersExecutor,
 ) {
 
-	fun create(companyNumber: String): OfficersStore =
-		object : OfficersStore, Store<Intent, State, SideEffect> by storeFactory.create(
+	fun create(companyId: String): OfficersStore =
+		object : OfficersStore, Store<Intent, State, Nothing> by storeFactory.create(
 			name = "OfficersStore",
-			initialState = State.Loading,
-			bootstrapper = OfficersBootstrapper(companyNumber),
+			initialState = State(companyId),
+			bootstrapper = OfficersBootstrapper(companyId),
 			executorFactory = { officersExecutor },
 			reducer = OfficersReducer
-		) {
+		) {}
+
+	private class OfficersBootstrapper(val companyId: String) : CoroutineBootstrapper<BootstrapIntent>() {
+		override fun invoke() {
+			dispatch(BootstrapIntent.LoadOfficers(companyId))
 		}
+	}
 
 	private object OfficersReducer : Reducer<State, Message> {
-		override fun State.reduce(msg: Message): State {
-			return when (msg) {
+		override fun State.reduce(msg: Message): State =
+			when (msg) {
 				is Message.OfficersMessage -> msg.officersResult.fold(
-					success = { State.Show(companyNumber = msg.companyNumber, officersResponse = it) },
-					failure = { State.Error(it) }
+					success = { copy(isLoading = false, officersResponse = it) },
+					failure = { copy(isLoading = false, error = it) }
+				)
+
+				is Message.LoadMoreOfficersMessage -> msg.officersResult.fold(
+
+					success = {
+						copy(
+							isLoading = false,
+							officersResponse = OfficersResponse(
+								items = officersResponse.items.plus(it.items),
+								totalResults = it.totalResults
+							)
+						)
+					},
+					failure = { copy(isLoading = false, error = it) }
 				)
 			}
-		}
 	}
 
-	private class OfficersBootstrapper(val companyNumber: String) : CoroutineBootstrapper<BootstrapIntent>() {
-		override fun invoke() {
-			dispatch(BootstrapIntent.LoadOfficers(companyNumber))
-		}
-	}
 }
 
 sealed class Message {
-	data class OfficersMessage(val officersResult: ApiResult<OfficersResponse>, val companyNumber: String) : Message()
+	data class OfficersMessage(val officersResult: ApiResult<OfficersResponse>, val companyId: String) : Message()
+	data class LoadMoreOfficersMessage(
+		val officersResult: ApiResult<OfficersResponse>,
+		val companyId: String,
+	) : Message()
 }
 
 sealed class BootstrapIntent {
-	data class LoadOfficers(val companyNumber: String) : BootstrapIntent()
+	data class LoadOfficers(val companyId: String) : BootstrapIntent()
 }

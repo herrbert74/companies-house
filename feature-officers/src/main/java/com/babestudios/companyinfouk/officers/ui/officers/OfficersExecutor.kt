@@ -1,9 +1,7 @@
 package com.babestudios.companyinfouk.officers.ui.officers
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.data.BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.Intent
@@ -11,58 +9,51 @@ import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.State
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OfficersExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
 	@MainDispatcher val mainContext: CoroutineDispatcher,
 	@IoDispatcher val ioContext: CoroutineDispatcher,
-) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, SideEffect>(mainContext) {
+) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
 		when (action) {
 			is BootstrapIntent.LoadOfficers -> {
 				companiesRepository.logScreenView("OfficersFragment")
-				fetchOfficers(action.companyNumber)
+				fetchOfficers(action.companyId)
 			}
 		}
 	}
 
-	@Suppress("ComplexMethod")
 	override fun executeIntent(intent: Intent, getState: () -> State) {
 		when (intent) {
-			is Intent.LoadMoreOfficers -> loadMoreOfficers(getState, intent.page)
-			is Intent.OfficerItemClicked -> officerItemClicked(intent.selectedOfficer)
+			is Intent.LoadMoreOfficers -> loadMoreOfficers(getState)
 		}
 	}
 
-	//region Main intents
+	//region officers2 actions
 
-	//region officers
-
-	private fun fetchOfficers(companyNumber: String) {
-		scope.launch {
-			val officersResponse = companiesRepository.getOfficers(companyNumber, "0")
-			dispatch(Message.OfficersMessage(officersResponse, companyNumber))
+	private fun fetchOfficers(companyId: String) {
+		scope.launch(ioContext) {
+			val officersResponse = companiesRepository.getOfficers(companyId, "0")
+			withContext(mainContext) {
+				dispatch(Message.OfficersMessage(officersResponse, companyId))
+			}
 		}
 	}
 
 
-	private fun loadMoreOfficers(getState: () -> State, page: Int) {
-		val showState = (getState() as State.Show)
+	private fun loadMoreOfficers(getState: () -> State) {
+		val showState = getState()
 		if (showState.officersResponse.items.size < showState.officersResponse.totalResults) {
 			scope.launch {
 				val officersResponse = companiesRepository.getOfficers(
-					showState.companyNumber,
-					(page * Integer.valueOf(COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
+					showState.companyId,
+					(showState.officersResponse.items.size).toString()
 				)
-				dispatch(Message.OfficersMessage(officersResponse, showState.companyNumber))
+				dispatch(Message.LoadMoreOfficersMessage(officersResponse, showState.companyId))
 			}
-		}
-	}
-
-	private fun officerItemClicked(officer: Officer) {
-		scope.launch {
-			publish(SideEffect.OfficerItemClicked(officer))
 		}
 	}
 
