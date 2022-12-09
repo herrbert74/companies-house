@@ -17,7 +17,7 @@ import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.navigation.DeepLinkDestination
 import com.babestudios.companyinfouk.navigation.deepLinkNavigateTo
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsExecutor
-import com.babestudios.companyinfouk.officers2.R
+import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersExecutor
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

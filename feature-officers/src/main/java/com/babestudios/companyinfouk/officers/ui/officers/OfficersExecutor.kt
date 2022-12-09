@@ -32,7 +32,7 @@ class OfficersExecutor @Inject constructor(
 		}
 	}
 
-	//region officers2 actions
+	//region officers actions
 
 	private fun fetchOfficers(companyId: String) {
 		scope.launch(ioContext) {

@@ -36,7 +36,7 @@ import com.babestudios.companyinfouk.domain.PREVIEW_YEAR
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.officers2.R
+import com.babestudios.companyinfouk.officers.R
 import kotlinx.coroutines.Dispatchers
 
 @Composable

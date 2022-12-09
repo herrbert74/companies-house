@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.Dp
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.officers2.R
+import com.babestudios.companyinfouk.officers.R
 
 @Composable
 internal fun OfficerListItem(

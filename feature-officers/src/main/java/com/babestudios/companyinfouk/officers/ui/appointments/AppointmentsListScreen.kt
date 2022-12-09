@@ -35,7 +35,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.companyinfouk.common.compose.InfiniteListHandler
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.officers.Appointment
-import com.babestudios.companyinfouk.officers2.R
+import com.babestudios.companyinfouk.officers.R
 
 @Composable
 fun AppointmentsListScreen(component: AppointmentsListComp) {

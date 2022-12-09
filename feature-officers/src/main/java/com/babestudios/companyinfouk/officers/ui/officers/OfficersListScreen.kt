@@ -54,7 +54,7 @@ fun OfficersListScreen(component: OfficersListComp) {
 					}
 				},
 				//Add back image background oce supported
-				//app:imageViewSrc="@drawable/bg_Officers2"
+				//app:imageViewSrc="@drawable/bg_officers"
 				scrollBehavior = scrollBehavior
 			)
 		},
