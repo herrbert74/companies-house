@@ -10,7 +10,6 @@ import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -22,7 +21,7 @@ class ChargesTest {
 
 	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private lateinit var filingHistoryExecutor: ChargesExecutor
+	private lateinit var chargesExecutor: ChargesExecutor
 
 	private lateinit var chargesStore: ChargesStore
 
@@ -36,24 +35,25 @@ class ChargesTest {
 			companiesHouseRepository.getCharges("123", "0")
 		} answers { Ok(Charges()) }
 
-		filingHistoryExecutor = ChargesExecutor(
+		chargesExecutor = ChargesExecutor(
 			companiesHouseRepository,
 			testCoroutineDispatcher,
 			testCoroutineDispatcher
 		)
 
-		chargesStore = ChargesStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
-			companyNumber = "123", false
+		chargesStore = ChargesStoreFactory(DefaultStoreFactory(), chargesExecutor).create(
+			selectedCompanyId = "123", false
 		)
 	}
 
 	@Test
 	fun `when get charges then repo get charges is called`() {
 		val states = chargesStore.states.test()
-		states.first().shouldBeTypeOf<ChargesStore.State.Loading>()
+		states.first().isLoading shouldBe true
 		chargesStore.init()
-		states.last().shouldBeTypeOf<ChargesStore.State.Show>()
-		(states.last() as? ChargesStore.State.Show)?.charges shouldBe Charges()
+
+		states.last().isLoading shouldBe false
+		states.last().chargesResponse shouldBe Charges()
 		coVerify(exactly = 1) { companiesHouseRepository.getCharges("123", "0") }
 	}
 
@@ -61,10 +61,10 @@ class ChargesTest {
 	fun `when load more charges then repo load more charges is called`() {
 		val states = chargesStore.states.test()
 		chargesStore.init()
-		chargesStore.accept(ChargesStore.Intent.LoadMoreCharges(1))
+		chargesStore.accept(ChargesStore.Intent.LoadMoreCharges)
 
-		states.last().shouldBeTypeOf<ChargesStore.State.Show>()
-		(states.last() as? ChargesStore.State.Show)?.charges shouldBe Charges()
+		states.last().isLoading shouldBe false
+		states.last().chargesResponse shouldBe Charges()
 		coVerify(exactly = 1) { companiesHouseRepository.getCharges("123", "0") }
 	}
 

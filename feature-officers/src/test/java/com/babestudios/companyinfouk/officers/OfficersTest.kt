@@ -10,7 +10,6 @@ import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStoreFactory
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -45,14 +44,17 @@ class OfficersTest {
 			testCoroutineDispatcher
 		)
 
-		officersStore = OfficersStoreFactory(DefaultStoreFactory(), officersExecutor).create("123")
+		officersStore = OfficersStoreFactory(DefaultStoreFactory(), officersExecutor).create("123", false)
 	}
 
 	@Test
 	fun `when get officers then repo get officers is called`() {
 		val states = officersStore.states.test()
-		states.last().shouldBeTypeOf<OfficersStore.State.Show>()
-		(states.last() as? OfficersStore.State.Show)?.officersResponse shouldBe OfficersResponse()
+		states.first().isLoading shouldBe true
+		officersStore.init()
+
+		states.last().isLoading shouldBe false
+		states.last().officersResponse shouldBe OfficersResponse()
 		coVerify(exactly = 1) { companiesHouseRepository.logScreenView("OfficersFragment") }
 		coVerify(exactly = 1) { companiesHouseRepository.getOfficers("123", "0") }
 	}
@@ -60,23 +62,12 @@ class OfficersTest {
 	@Test
 	fun `when load more officers then repo load more officers is called`() {
 		val states = officersStore.states.test()
-		officersStore.accept(OfficersStore.Intent.LoadMoreOfficers(1))
-		states.last().shouldBeTypeOf<OfficersStore.State.Show>()
-		(states.last() as? OfficersStore.State.Show)?.officersResponse shouldBe OfficersResponse()
+		officersStore.init()
+
+		officersStore.accept(OfficersStore.Intent.LoadMoreOfficers)
+		states.last().isLoading shouldBe false
+		states.last().officersResponse shouldBe OfficersResponse()
 		coVerify(exactly = 1) { companiesHouseRepository.getOfficers("123", "0") }
 	}
-
-//	private fun officersViewModel(): OfficersViewModel {
-//		return OfficersViewModel(
-//			OfficersState(
-//				companyNumber = "123",
-//				selectedOfficerId = "123",
-//				totalOfficersCount = 100,
-//				totalAppointmentsCount = 200
-//			),
-//			companiesHouseRepository,
-//			officersNavigator
-//		)
-//	}
 
 }

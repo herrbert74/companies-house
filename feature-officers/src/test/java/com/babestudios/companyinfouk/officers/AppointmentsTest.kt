@@ -10,8 +10,8 @@ import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsExecutor
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStoreFactory
+import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -39,7 +39,7 @@ class AppointmentsTest {
 
 		coEvery {
 			companiesHouseRepository.getOfficerAppointments("1", any())
-		} answers { AppointmentsResponse(name = "", totalResults = 5, items = listOf(appointment)) }
+		} answers { Ok(AppointmentsResponse(name = "", totalResults = 5, items = listOf(appointment))) }
 
 		appointmentsExecutor = AppointmentsExecutor(
 			companiesHouseRepository,
@@ -55,8 +55,7 @@ class AppointmentsTest {
 	@Test
 	fun `when get officer appointments then repo get officer appointments is called`() {
 		val states = appointmentsStore.states.test()
-		states.last().shouldBeTypeOf<AppointmentsStore.State.Show>()
-		(states.last() as? AppointmentsStore.State.Show)?.appointments shouldBe listOf(appointment)
+		states.last().appointmentsResponse.items shouldBe listOf(appointment)
 		coVerify(exactly = 1) { companiesHouseRepository.logScreenView("AppointmentsFragment") }
 		coVerify(exactly = 1) { companiesHouseRepository.getOfficerAppointments("1", "0") }
 	}
@@ -64,9 +63,8 @@ class AppointmentsTest {
 	@Test
 	fun `when load more officer appointments then repo load more officers appointments is called`() {
 		val states = appointmentsStore.states.test()
-		appointmentsStore.accept(AppointmentsStore.Intent.LoadMoreAppointments(1))
-		states.last().shouldBeTypeOf<AppointmentsStore.State.Show>()
-		(states.last() as? AppointmentsStore.State.Show)?.appointments shouldBe listOf(appointment, appointment)
+		appointmentsStore.accept(AppointmentsStore.Intent.LoadMoreAppointments)
+		states.last().appointmentsResponse.items shouldBe listOf(appointment, appointment)
 		coVerify(exactly = 1) { companiesHouseRepository.getOfficerAppointments("1", "0") }
 	}
 

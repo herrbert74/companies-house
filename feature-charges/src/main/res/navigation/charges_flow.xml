@@ -7,32 +7,13 @@
 
 	<fragment
 		android:id="@+id/chargesFragment"
-		android:name="com.babestudios.companyinfouk.charges.ui.charges.ChargesFragment"
+		android:name="com.babestudios.companyinfouk.charges.ui.ChargesFragment"
 		android:label="ChargesFragment"
 		tools:layout="@layout/fragment_charges">
 
 		<argument
 			android:name="selectedCompanyId"
 			app:argType="string" />
-
-		<action
-			android:id="@+id/actionToDetails"
-			app:destination="@id/chargesDetailsFragment"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-	</fragment>
-
-	<fragment
-		android:id="@+id/chargesDetailsFragment"
-		android:name="com.babestudios.companyinfouk.charges.ui.details.ChargeDetailsFragment"
-		android:label="ChargesDetailsFragment"
-		tools:layout="@layout/fragment_charge_details">
-
-		<argument
-			android:name="selectedChargesItem"
-			app:argType="com.babestudios.companyinfouk.domain.model.charges.ChargesItem" />
 
 	</fragment>
 
