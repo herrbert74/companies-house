@@ -1,26 +1,23 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore.Intent
+import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore.State
 
-interface InsolvenciesStore : Store<Intent, State, SideEffect> {
+interface InsolvenciesStore : Store<Nothing, State, Nothing> {
 
-	sealed class Intent {
-		data class InsolvencyClicked(val selectedInsolvency: InsolvencyCase) : Intent()
-	}
+    data class State (
 
-	sealed class State {
-		object Loading : State()
+        //initial data
+        val selectedCompanyId: String,
 
-		class Show(
-			val companyNumber: String,
-			val insolvencies: List<InsolvencyCase>,
-		) : State()
+        //result data
+        val insolvency: Insolvency = Insolvency(),
+        val error: Throwable? = null,
 
-		class Error(val t: Throwable) : State()
-	}
+        //state
+        val isLoading: Boolean = true
+
+    )
 
 }
-

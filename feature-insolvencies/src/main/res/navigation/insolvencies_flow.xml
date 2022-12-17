@@ -7,59 +7,13 @@
 
 	<fragment
 		android:id="@+id/insolvenciesFragment"
-		android:name="com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesFragment"
+		android:name="com.babestudios.companyinfouk.insolvencies.ui.InsolvenciesFragment"
 		android:label="InsolvenciesFragment"
-		tools:layout="@layout/fragment_insolvency">
+		tools:layout="@layout/fragment_insolvencies">
 
 		<argument
 			android:name="selectedCompanyId"
 			app:argType="string" />
-
-		<action
-			android:id="@+id/actionToDetails"
-			app:destination="@id/insolvencyDetailsFragment"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-	</fragment>
-
-	<fragment
-		android:id="@+id/insolvencyDetailsFragment"
-		android:name="com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsFragment"
-		android:label="InsolvencyDetailsFragment"
-		tools:layout="@layout/fragment_insolvency_details">
-
-		<argument
-			android:name="selectedCompanyId"
-			app:argType="string" />
-
-		<argument
-			android:name="selectedInsolvency"
-			app:argType="com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase" />
-
-		<action
-			android:id="@+id/actionToPractitioner"
-			app:destination="@id/practitionerFragment"
-			app:enterAnim="@anim/right_slide_in"
-			app:exitAnim="@anim/left_slide_out"
-			app:popEnterAnim="@anim/left_slide_in"
-			app:popExitAnim="@anim/right_slide_out" />
-	</fragment>
-
-	<fragment
-		android:id="@+id/practitionerFragment"
-		android:name="com.babestudios.companyinfouk.insolvencies.ui.practitioner.PractitionerFragment"
-		android:label="PractitionerFragment"
-		tools:layout="@layout/fragment_practitioner">
-
-		<argument
-			android:name="selectedCompanyId"
-			app:argType="string" />
-
-		<argument
-			android:name="selectedPractitioner"
-			app:argType="com.babestudios.companyinfouk.domain.model.insolvency.Practitioner" />
 
 	</fragment>
 

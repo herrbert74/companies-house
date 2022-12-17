@@ -6,6 +6,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Date (
-	var date: String? = null,
-	var type: String? = null
+	var date: String,
+	var type: String,
 ): Parcelable

@@ -8,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.TextStyle
+import com.babestudios.companyinfouk.common.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.titleLargeBold
 
@@ -16,8 +18,14 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 fun TwoLineCard(
 	firstLineString: String,
 	secondLineString: String,
+	firstLineStyle: TextStyle = CompaniesTypography.bodyMedium,
+	secondLineStyle: TextStyle = CompaniesTypography.titleLargeBold,
 	modifier: Modifier = Modifier,
 ) {
+
+	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+
 	Column(
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
@@ -25,17 +33,17 @@ fun TwoLineCard(
 	) {
 		Text(
 			modifier = Modifier
-				.padding(horizontal = 8.dp, vertical = 8.dp)
+				.padding(horizontal = viewMarginLarge + viewMarginNormal, vertical = viewMarginNormal)
 				.fillMaxWidth(1f),
 			text = firstLineString,
-			style = CompaniesTypography.bodyMedium
+			style = firstLineStyle,
 		)
 		Text(
 			modifier = Modifier
-				.padding(horizontal = 8.dp, vertical = 8.dp)
+				.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
 				.fillMaxWidth(1f),
 			text = secondLineString,
-			style = CompaniesTypography.titleLargeBold
+			style = secondLineStyle,
 		)
 	}
 }
