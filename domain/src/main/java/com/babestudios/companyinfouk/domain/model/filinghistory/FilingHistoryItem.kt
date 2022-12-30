@@ -9,7 +9,7 @@ data class FilingHistoryItem(
 	val type: String = "",
 	val links: FilingHistoryLinks = FilingHistoryLinks(),
 	val category: Category = Category.CATEGORY_SHOW_ALL,
-	val subcategory: String = "",
+	val subcategory: String? = null,
 	val description: String = "",
 	val pages: Int = 0,
 ):Parcelable

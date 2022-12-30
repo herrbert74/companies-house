@@ -6,11 +6,10 @@ import com.babestudios.base.ext.test
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLinks
-import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsExecutor
-import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStore
+import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsExecutor
+import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsStore
 import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStoreFactory
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -23,9 +22,9 @@ class FilingHistoryDetailsTest {
 
 	private val companiesHouseRepository = mockk<CompaniesRepository>()
 
-	private lateinit var filingHistoryDetailsExecutor: FilingHistoryDetailsExecutor
+	private lateinit var filingDetailsExecutor: FilingDetailsExecutor
 
-	private lateinit var filingHistoryDetailsStore: FilingHistoryDetailsStore
+	private lateinit var filingDetailsStore: FilingDetailsStore
 
 	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
@@ -35,12 +34,12 @@ class FilingHistoryDetailsTest {
 	fun setUp() {
 
 		coEvery {
-			companiesHouseRepository.getDocument("123")
+			companiesHouseRepository.getDocument(any())
 		} answers {
 			documentResponseBody
 		}
 
-		filingHistoryDetailsExecutor = FilingHistoryDetailsExecutor(
+		filingDetailsExecutor = FilingDetailsExecutor(
 			companiesHouseRepository,
 			testCoroutineDispatcher,
 			testCoroutineDispatcher
@@ -49,9 +48,9 @@ class FilingHistoryDetailsTest {
 		val historyLinks = FilingHistoryLinks(documentMetadata = "something")
 		val historyItem = FilingHistoryItem(links = historyLinks)
 
-		filingHistoryDetailsStore =
-			FilingHistoryDetailsStoreFactory(DefaultStoreFactory(), filingHistoryDetailsExecutor).create(
-				companyNumber = "123", selectedFilingHistoryItem = historyItem
+		filingDetailsStore =
+			FilingHistoryDetailsStoreFactory(DefaultStoreFactory(), filingDetailsExecutor).create(
+				selectedFilingHistoryItem = historyItem
 			)
 
 	}
@@ -59,12 +58,11 @@ class FilingHistoryDetailsTest {
 	@Test
 	fun `when fetch document then document is downloaded`() {
 
-		val states = filingHistoryDetailsStore.states.test()
+		val states = filingDetailsStore.states.test()
 
-		filingHistoryDetailsStore.accept(FilingHistoryDetailsStore.Intent.FetchDocument("123"))
+		filingDetailsStore.accept(FilingDetailsStore.Intent.FetchDocument)
 
-		states.last().shouldBeTypeOf<FilingHistoryDetailsStore.State.DocumentDownloaded>()
-		(states.last() as? FilingHistoryDetailsStore.State.DocumentDownloaded)?.responseBody shouldBe documentResponseBody
+		states.last().downloadedPdfResponseBody shouldBe documentResponseBody
 
 	}
 

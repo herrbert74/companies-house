@@ -7,6 +7,7 @@ plugins {
 }
 
 dependencies {
+	implementation(project(":data"))
 	implementation(Libs.Google.PlayServices.maps)
 }
 

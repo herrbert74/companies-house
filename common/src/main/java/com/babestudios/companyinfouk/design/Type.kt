@@ -55,7 +55,7 @@ val CompaniesTypography = Typography(
 	),
 	titleLarge = TextStyle(
 		fontFamily = Roboto,
-		fontWeight = FontWeight.W800,
+		fontWeight = FontWeight.Normal,
 		fontSize = 22.sp,
 		lineHeight = 28.sp,
 		letterSpacing = 0.sp

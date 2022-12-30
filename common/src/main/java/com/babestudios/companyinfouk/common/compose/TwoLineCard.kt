@@ -18,9 +18,9 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 fun TwoLineCard(
 	firstLineString: String,
 	secondLineString: String,
+	modifier: Modifier = Modifier,
 	firstLineStyle: TextStyle = CompaniesTypography.bodyMedium,
 	secondLineStyle: TextStyle = CompaniesTypography.titleLargeBold,
-	modifier: Modifier = Modifier,
 ) {
 
 	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)

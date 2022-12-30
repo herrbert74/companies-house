@@ -5,14 +5,15 @@ import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
-import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStore.Intent
-import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStore.State
+import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsStore.Intent
+import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsStore.State
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 
-class FilingHistoryDetailsExecutor @Inject constructor(
+class FilingDetailsExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
 	@MainDispatcher val mainContext: CoroutineDispatcher,
 	@IoDispatcher val ioContext: CoroutineDispatcher,
@@ -20,24 +21,24 @@ class FilingHistoryDetailsExecutor @Inject constructor(
 
 	override fun executeIntent(intent: Intent, getState: () -> State) {
 		when (intent) {
-			is Intent.FetchDocument -> fetchDocument(intent.documentId)
-			is Intent.WriteDocument -> writeDocument((getState() as State.DocumentDownloaded).responseBody, intent.uri)
+			is Intent.FetchDocument -> fetchDocument(getState())
+			is Intent.WriteDocument -> writeDocument(getState().downloadedPdfResponseBody!!, intent.uri)
 		}
 	}
 
 	//region filings details
 
-	private fun fetchDocument(documentId:String) {
-		scope.launch {
-			val documentUri = companiesRepository.getDocument(documentId)
-			dispatch(Message.DocumentDownloaded(documentUri))
+	private fun fetchDocument(state: State) {
+		scope.launch(ioContext) {
+			val documentUri = companiesRepository.getDocument(state.documentId)
+			withContext(mainContext) { dispatch(Message.DocumentDownloaded(documentUri)) }
 		}
 	}
 
 	private fun writeDocument(responseBody: ResponseBody, uri: Uri) {
-		scope.launch {
+		scope.launch(ioContext) {
 			val documentUri = companiesRepository.writeDocumentPdf(responseBody, uri)
-			dispatch(Message.DocumentWritten(documentUri))
+			withContext(mainContext) { dispatch(Message.DocumentWritten(documentUri)) }
 		}
 	}
 

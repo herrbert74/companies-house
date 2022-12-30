@@ -52,32 +52,37 @@ object Libs {
 		const val window = "androidx.window:window:1.0.0-alpha06"
 
 		object Activity {
-			private const val version = "1.6.0"
+			private const val version = "1.6.1"
 			const val activityKtx = "androidx.activity:activity-ktx:$version"
 			const val compose = "androidx.activity:activity-compose:$version"
 		}
 
 		object Compose {
-			const val version = "1.2.1"
-			const val material3Version = "1.0.0-rc01"
+			private const val bomVersion = "2022.12.00"
+			private const val material3Version = "1.0.1"
+
+			//https://developer.android.com/jetpack/compose/setup#bom-version-mapping
+			const val bom = "androidx.compose:compose-bom:$bomVersion"
 
 			object Ui {
+
 				//Compile: ui-geometry, ui-graphics, ui-text and ui-unit; runtime: ui-util
-				const val primitives = "androidx.compose.ui:ui:$version"
+				const val primitives = "androidx.compose.ui:ui"
 
 				//Compile: ui, runtime, ui-tooling-preview, ui-tooling-data
-				const val tooling = "androidx.compose.ui:ui-tooling:$version"
+				const val tooling = "androidx.compose.ui:ui-tooling"
 
 				//Compile: ui-test
-				const val test = "androidx.compose.ui:ui-test-junit4:$version"
+				const val test = "androidx.compose.ui:ui-test-junit4"
+
 			}
 
 			//Compile: ui, runtime, animation, material-icons-core, material-ripple
-			const val material = "androidx.compose.material:material:$version"
-
+			const val material = "androidx.compose.material:material"
 			const val material3 = "androidx.compose.material3:material3:$material3Version"
 
-			const val foundationLayout = "androidx.compose.foundation:foundation-layout:$version"
+			const val foundationLayout = "androidx.compose.foundation:foundation-layout"
+
 		}
 
 		object Hilt {
@@ -100,6 +105,7 @@ object Libs {
 				const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$version"
 			}
 		}
+
 		object Navigation {
 			private const val version = "2.5.2"
 			const val common = "androidx.navigation:navigation-common:$version"

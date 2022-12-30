@@ -11,9 +11,12 @@ import java.util.*
 
 class AdvancedGsonConverterFactory private constructor(internal var gson: Gson) : Converter.Factory() {
 
-	override fun responseBodyConverter(type: Type?, annotations: Array<Annotation>?,
-									   retrofit: Retrofit?): Converter<ResponseBody, *>? {
-		val adapter = gson.getAdapter(TypeToken.get(type!!))
+	override fun responseBodyConverter(
+		type: Type,
+		annotations: Array<out Annotation>,
+		retrofit: Retrofit,
+	): Converter<ResponseBody, *> {
+		val adapter = gson.getAdapter(TypeToken.get(type))
 		return AdvancedGsonResponseBodyConverter(gson, adapter)
 	}
 

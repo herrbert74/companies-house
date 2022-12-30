@@ -19,14 +19,15 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 
 		project.dependencies {
 			add("implementation", project.project(":domain"))
+			add("implementation", project.project(":common"))
 			add("implementation", project.project(":navigation"))
-			add("implementation", project.project(":data"))
 
 			add("api", Libs.Google.Dagger.core)
 			add("api", Libs.Google.Dagger.Hilt.android)
 			add("api", Libs.MviKotlin.core)
 			add("api", Libs.MviKotlin.coroutines)
 
+			add("implementation", Libs.baBeStudiosBase)
 			add("implementation", Libs.AndroidX.constraintLayout)
 			add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
 			add("implementation", Libs.AndroidX.Navigation.uiKtx)

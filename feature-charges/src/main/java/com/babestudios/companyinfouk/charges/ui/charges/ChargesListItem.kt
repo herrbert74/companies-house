@@ -2,12 +2,9 @@ package com.babestudios.companyinfouk.charges.ui.charges
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +19,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Visibility
 import com.babestudios.companyinfouk.charges.R
@@ -184,26 +180,6 @@ internal fun ChargesItemListItem(
 			colorFilter = colorFilter
 		)
 	}
-}
-
-interface ScrollbarAdapter
-
-@Suppress("UNUSED_PARAMETER")
-@Composable
-fun rememberScrollbarAdapter(
-	scrollState: LazyListState,
-	itemCount: Int,
-	averageItemSize: Dp,
-): ScrollbarAdapter =
-	object : ScrollbarAdapter {}
-
-@Suppress("UNUSED_PARAMETER")
-@Composable
-fun VerticalScrollbar(
-	modifier: Modifier,
-	adapter: ScrollbarAdapter,
-) {
-	//no-op
 }
 
 @Preview("Satisfied Item Preview")

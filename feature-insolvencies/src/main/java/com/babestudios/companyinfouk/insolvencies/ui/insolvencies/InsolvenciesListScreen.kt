@@ -5,7 +5,6 @@ package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,13 +20,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.R
@@ -62,7 +60,7 @@ fun InsolvenciesListScreen(component: InsolvenciesComp) {
 			)
 		},
 		content = { innerPadding ->
-			if(model.isLoading) {
+			if (model.isLoading) {
 				CircularProgressIndicator()
 			} else if (model.error != null) {
 				Box(
@@ -86,10 +84,13 @@ private fun InsolvenciesList(
 	items: List<InsolvencyCase>,
 	onItemClicked: (id: InsolvencyCase) -> Unit,
 ) {
+
 	Box {
+
 		val listState = rememberLazyListState()
 
 		LazyColumn(
+			Modifier.simpleVerticalScrollbar(listState),
 			contentPadding = paddingValues,
 			state = listState
 		) {
@@ -103,15 +104,6 @@ private fun InsolvenciesList(
 			}
 		}
 
-		VerticalScrollbar(
-			modifier = Modifier
-				.align(Alignment.CenterEnd)
-				.fillMaxHeight(),
-			adapter = rememberScrollbarAdapter(
-				scrollState = listState,
-				itemCount = items.size,
-				averageItemSize = 37.dp
-			)
-		)
 	}
+
 }

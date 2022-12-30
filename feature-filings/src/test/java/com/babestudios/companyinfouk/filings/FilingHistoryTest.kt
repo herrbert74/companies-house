@@ -3,15 +3,13 @@ package com.babestudios.companyinfouk.filings
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.ext.test
-import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryExecutor
-import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingHistoryStore
-import com.babestudios.companyinfouk.filings.ui.filinghistory.FilingsHistoryStoreFactory
+import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryExecutor
+import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore
+import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStoreFactory
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -45,9 +43,8 @@ class FilingHistoryTest {
 			testCoroutineDispatcher
 		)
 
-		filingHistoryStore =
-			FilingsHistoryStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
-				companyNumber = "123", autoInit = false
+		filingHistoryStore = FilingHistoryStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
+				selectedCompanyId = "123", autoInit = false
 			)
 
 	}
@@ -56,10 +53,9 @@ class FilingHistoryTest {
 	fun `when get filings then repo get filings is called`() {
 
 		val states = filingHistoryStore.states.test()
-		states.first().shouldBeTypeOf<FilingHistoryStore.State.Loading>()
+		states.first().isLoading shouldBe true
 		filingHistoryStore.init()
-		states.last().shouldBeTypeOf<FilingHistoryStore.State.Show>()
-		(states.last() as? FilingHistoryStore.State.Show)?.filingHistory shouldBe FilingHistory()
+		states.last().filingHistory shouldBe FilingHistory()
 		coVerify(exactly = 1) { companiesHouseRepository.getFilingHistory("123", any(), "0") }
 
 	}
@@ -69,12 +65,11 @@ class FilingHistoryTest {
 
 		val states = filingHistoryStore.states.test()
 		filingHistoryStore.init()
-		filingHistoryStore.accept(FilingHistoryStore.Intent.LoadMoreFilingHistory(1))
-		states.last().shouldBeTypeOf<FilingHistoryStore.State.Show>()
-		(states.last() as? FilingHistoryStore.State.Show)?.filingHistory shouldBe FilingHistory()
+		filingHistoryStore.accept(FilingHistoryStore.Intent.LoadMoreFilingHistory)
+		states.last().filingHistory shouldBe FilingHistory()
 		coVerify(exactly = 1) {
 			companiesHouseRepository.getFilingHistory(
-				"123", any(), BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE
+				"123", any(), "0"
 			)
 		}
 

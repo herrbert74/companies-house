@@ -50,7 +50,7 @@ private fun mapFilingHistoryItemDto(
 		input.type.orEmpty(),
 		mapFilingHistoryLinks(input.links),
 		mapCategoryDto(input.category),
-		input.subcategory.orEmpty(),
+		input.subcategory,
 		formatFilingHistoryDescriptionDto(
 			filingHistoryDescriptionsHelper.filingHistoryLookUp(input.description.orEmpty()),
 			input.descriptionValues

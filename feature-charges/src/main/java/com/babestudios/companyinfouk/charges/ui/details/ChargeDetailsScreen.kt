@@ -5,7 +5,6 @@ package com.babestudios.companyinfouk.charges.ui.details
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -29,10 +28,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.charges.R
+import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.FORTY_PERCENT
 import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
@@ -310,6 +309,7 @@ private fun ChargeDetailsList(
 		val listState = rememberLazyListState()
 
 		LazyColumn(
+			Modifier.simpleVerticalScrollbar(listState),
 			contentPadding = paddingValues,
 			state = listState
 		) {
@@ -326,16 +326,6 @@ private fun ChargeDetailsList(
 			}
 		}
 
-		VerticalScrollbar(
-			modifier = Modifier
-				.align(Alignment.CenterEnd)
-				.fillMaxHeight(),
-			adapter = rememberScrollbarAdapter(
-				scrollState = listState,
-				itemCount = charge.transactions.size,
-				averageItemSize = 37.dp
-			)
-		)
 	}
 }
 

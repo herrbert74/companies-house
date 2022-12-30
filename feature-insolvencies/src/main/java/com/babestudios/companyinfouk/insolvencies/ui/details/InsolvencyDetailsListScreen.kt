@@ -5,7 +5,6 @@ package com.babestudios.companyinfouk.insolvencies.ui.details
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -21,13 +20,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.insolvency.Date
@@ -43,7 +40,6 @@ fun InsolvencyDetailsListScreen(component: InsolvencyDetailsListComp) {
 	val title = stringResource(R.string.insolvency_details)
 
 	BackHandler(onBack = { component.onBackClicked() })
-	val state = rememberScrollState()
 
 	Scaffold(
 		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -83,11 +79,12 @@ private fun InsolvencyDetailsList(
 	items: InsolvencyCase,
 	onItemClicked: (id: Practitioner) -> Unit,
 ) {
-	Column(
-		Modifier.padding( paddingValues),
-	) {
-		val listState = rememberLazyListState()
 
+	Column(
+		Modifier.padding(paddingValues),
+	) {
+
+		val listState = rememberLazyListState()
 		val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
 		val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
 
@@ -128,17 +125,8 @@ private fun InsolvencyDetailsList(
 			}
 		}
 
-		VerticalScrollbar(
-			modifier = Modifier
-				.align(Alignment.CenterHorizontally)
-				.fillMaxHeight(),
-			adapter = rememberScrollbarAdapter(
-				scrollState = listState,
-				itemCount = items.practitioners.size,
-				averageItemSize = 37.dp
-			)
-		)
 	}
+
 }
 
 @Preview("InsolvencyDetailsList Preview")

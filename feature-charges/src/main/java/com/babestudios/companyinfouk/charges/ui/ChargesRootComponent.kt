@@ -28,7 +28,7 @@ class ChargesRootComponent internal constructor(
 	private val chargesList: (ComponentContext, FlowCollector<ChargesListComp.Output>) -> ChargesListComp,
 	private val chargeDetails:
 		(ComponentContext, selectedCharges: ChargesItem, FlowCollector<ChargeDetailsListComp.Output>) ->
-		ChargeDetailsListComp,
+	ChargeDetailsListComp,
 	private val finishHandler: () -> Unit,
 ) : ChargesRootComp,
 	ComponentContext by componentContext {
@@ -76,23 +76,22 @@ class ChargesRootComponent internal constructor(
 			is Configuration.List -> ChargesChild.List(
 				chargesList(componentContext, FlowCollector(::onChargesListOutput))
 			)
+
 			is Configuration.Details -> ChargesChild.Details(
 				chargeDetails(componentContext, configuration.selectedCharges, FlowCollector(::onChargesDetailsOutput))
 			)
 		}
 
-	private fun onChargesListOutput(output: ChargesListComp.Output) {
-		when (output) {
-			is ChargesListComp.Output.Selected ->
-				navigation.push(Configuration.Details(selectedCharges = output.chargesItem))
-			ChargesListComp.Output.Back -> finishHandler.invoke()
-		}
+	private fun onChargesListOutput(output: ChargesListComp.Output) = when (output) {
+		is ChargesListComp.Output.Selected ->
+			navigation.push(Configuration.Details(selectedCharges = output.chargesItem))
+
+		ChargesListComp.Output.Back -> finishHandler.invoke()
 	}
 
-	private fun onChargesDetailsOutput(output: ChargeDetailsListComp.Output): Unit =
-		when (output) {
-			is ChargeDetailsListComp.Output.Back -> navigation.pop()
-		}
+	private fun onChargesDetailsOutput(output: ChargeDetailsListComp.Output) = when (output) {
+		ChargeDetailsListComp.Output.Back -> navigation.pop()
+	}
 
 }
 

@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.data
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import com.babestudios.base.ext.getSerializedName
 import com.babestudios.base.network.OfflineException
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
@@ -36,6 +35,7 @@ import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
+import timber.log.Timber
 
 @Singleton
 open class CompaniesAccessor @Inject constructor(
@@ -80,7 +80,7 @@ open class CompaniesAccessor @Inject constructor(
 	override suspend fun getFilingHistory(
 		companyNumber: String,
 		category: Category,
-		startItem: String
+		startItem: String,
 	): ApiResult<FilingHistory> {
 		return apiRunCatching {
 			withContext(ioContext) {
@@ -199,9 +199,9 @@ open class CompaniesAccessor @Inject constructor(
 				}
 				outputStream?.flush()
 			} catch (e: FileNotFoundException) {
-				Log.e("test", "File not found: ${e.localizedMessage}")
+				Timber.e("File not found: ${e.localizedMessage}")
 			} catch (e: IOException) {
-				Log.d("test", "Error during closing input stream ${e.localizedMessage}")
+				Timber.d("Error during closing input stream ${e.localizedMessage}")
 			} finally {
 				inputStream.close()
 
