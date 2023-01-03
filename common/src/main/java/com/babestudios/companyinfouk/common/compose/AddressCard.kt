@@ -10,12 +10,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.babestudios.companyinfouk.common.R
+import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.HALF
 import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun AddressCard(
@@ -23,6 +31,10 @@ fun AddressCard(
 	modifier: Modifier = Modifier,
 	onShowMap: () -> Unit,
 ) {
+
+	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+
 	ConstraintLayout(
 		modifier = modifier
 			.fillMaxWidth(1f)
@@ -43,39 +55,59 @@ fun AddressCard(
 		) {
 			Text(
 				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
+					.padding(horizontal = viewMarginLarge + viewMarginNormal, vertical = viewMarginNormal)
 					.fillMaxWidth(1f),
 				text = "Address",
 				style = CompaniesTypography.bodyMedium
 			)
 			Text(
 				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
+					.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
 					.fillMaxWidth(1f),
 				text = address.addressLine1,
 				style = CompaniesTypography.titleLargeBold
 			)
+			address.addressLine2?.let {
+				Text(
+					modifier = Modifier
+						.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+						.fillMaxWidth(1f),
+					text = it,
+					style = CompaniesTypography.titleLargeBold,
+				)
+			}
 			Text(
 				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
+					.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
 					.fillMaxWidth(1f),
 				text = address.locality,
 				style = CompaniesTypography.titleLargeBold
 			)
 			Text(
 				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
+					.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
 					.fillMaxWidth(1f),
 				text = address.postalCode,
 				style = CompaniesTypography.titleLargeBold
 			)
-			Text(
-				modifier = Modifier
-					.padding(horizontal = 8.dp, vertical = 8.dp)
-					.fillMaxWidth(1f),
-				text = address.region ?: "",
-				style = CompaniesTypography.titleLargeBold
-			)
+			address.region?.let {
+				Text(
+					modifier = Modifier
+						.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+						.fillMaxWidth(1f),
+					text = it,
+					style = CompaniesTypography.titleLargeBold
+				)
+			}
+			address.country?.let {
+				Text(
+					modifier = Modifier
+						.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+						.fillMaxWidth(1f),
+					text = it,
+					style = CompaniesTypography.titleLargeBold,
+				)
+			}
 		}
 
 		Button(
@@ -89,5 +121,22 @@ fun AddressCard(
 		) {
 			Text(text = "Show on map".uppercase())
 		}
+	}
+}
+
+@Preview("PractitionerDetails Preview")
+@Composable
+fun PractitionerDetailsScreenPreview() {
+	CompaniesTheme {
+		AddressCard(
+			address = Address(
+				addressLine1 = "Suite A",
+				addressLine2 = "4-6 Canfield Place",
+				locality = "London",
+				postalCode = "NW6 3BT",
+				country = "United Kingdom"
+			),
+			onShowMap = { }
+		)
 	}
 }

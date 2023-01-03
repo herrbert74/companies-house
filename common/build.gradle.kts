@@ -19,6 +19,7 @@ dependencies {
 	implementation(Libs.Decompose.extensionsJetBrains)
 	implementation(Libs.MviKotlin.core)
 	implementation(Libs.MviKotlin.rx)
+	implementation(Libs.Views.collapsingToolbar)
 }
 
 android {
@@ -31,4 +32,8 @@ android {
 	composeOptions {
 		kotlinCompilerExtensionVersion = "1.3.2"
 	}
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+	kotlinOptions.freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
 }

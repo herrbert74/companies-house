@@ -1,37 +1,29 @@
 package com.babestudios.companyinfouk.persons.ui.details
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.common.compose.AddressCard
+import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.domain.model.persons.Identification
 import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.persons.R
 import kotlinx.coroutines.Dispatchers
 
 @Composable
@@ -44,115 +36,93 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
 
-	Scaffold(
-		topBar = {
-			TopAppBar(
-				title = {
-					Text(
-						text = "Person Details",
-						style = CompaniesTypography.titleLarge,
-					)
-				},
-				navigationIcon = {
-					IconButton(onClick = { component.onBackClicked() }) {
-						Icon(
-							imageVector = Icons.Filled.ArrowBack,
-							contentDescription = "Localized description"
-						)
-					}
-				},
-				//Add back image background once supported
-				//app:imageViewSrc="@drawable/bg_persons"
-				//scrollBehavior = scrollBehavior
+	HeaderCollapsingToolbarScaffold(
+		headerBackgroundResource = R.drawable.bg_persons,
+		navigationAction = { component.onBackClicked() },
+		topAppBarActions = {},
+		title = stringResource(id = R.string.person_details)
+	) {
+		Column(
+			verticalArrangement = Arrangement.Top,
+			horizontalAlignment = Alignment.CenterHorizontally,
+			modifier = Modifier.verticalScroll(state)
+		) {
+			TwoLineCard(
+				firstLineString = "Name",
+				secondLineString = selectedPerson.name,
 			)
-		},
-
-		content = { innerPadding ->
-			Column(
-				verticalArrangement = Arrangement.Top,
-				horizontalAlignment = Alignment.CenterHorizontally,
-				modifier = Modifier
-					.padding(innerPadding)
-					.verticalScroll(state)
-					.background(color = MaterialTheme.colors.background),
-			) {
+			Divider(thickness = 1.dp)
+			if (selectedPerson.notifiedOn.isNotBlank()) {
 				TwoLineCard(
-					firstLineString = "Name",
-					secondLineString = selectedPerson.name,
+					firstLineString = "Notified on",
+					secondLineString = selectedPerson.notifiedOn,
 				)
 				Divider(thickness = 1.dp)
-				if (selectedPerson.notifiedOn.isNotBlank()) {
-					TwoLineCard(
-						firstLineString = "Notified on",
-						secondLineString = selectedPerson.notifiedOn,
-					)
-					Divider(thickness = 1.dp)
-				}
-				TwoLineCard(
-					firstLineString = "Kind",
-					secondLineString = selectedPerson.kind,
-				)
-				Divider(thickness = 1.dp)
-				TwoLineCard(
-					firstLineString = "Natures of control",
-					secondLineString = selectedPerson.naturesOfControl.joinToString(separator = "\n"),
-				)
-				Divider(thickness = 1.dp)
-				TwoLineCard(
-					firstLineString = "Nationality",
-					secondLineString = selectedPerson.nationality ?: "Unknown",
-				)
-				Divider(thickness = 1.dp)
-				val (month, year) = selectedPerson.dateOfBirth.month to selectedPerson.dateOfBirth.year
-				TwoLineCard(
-					firstLineString = "Date of birth",
-					secondLineString = if (month == null || year == null) {
-						"Unknown"
-					} else {
-						"$month / $year"
-					},
-				)
-				Divider(thickness = 1.dp)
-				if ((selectedPerson.countryOfResidence?.isBlank() == false
-						&& selectedPerson.countryOfResidence != selectedPerson.address.country)) {
-					TwoLineCard(
-						firstLineString = "Country of residence",
-						secondLineString = selectedPerson.countryOfResidence ?: "",
-					)
-					Divider(thickness = 1.dp)
-				}
-				if (selectedPerson.identification?.placeRegistered?.isBlank() == false) {
-					TwoLineCard(
-						firstLineString = "Place registered",
-						secondLineString = selectedPerson.identification?.placeRegistered ?: "",
-					)
-					Divider(thickness = 1.dp)
-				}
-				if (selectedPerson.identification?.registrationNumber?.isBlank() == false) {
-					TwoLineCard(
-						firstLineString = "Registration number",
-						secondLineString = selectedPerson.identification?.registrationNumber ?: "",
-					)
-					Divider(thickness = 1.dp)
-				}
-				if (selectedPerson.identification?.legalAuthority?.isBlank() == false) {
-					TwoLineCard(
-						firstLineString = "Legal authority",
-						secondLineString = selectedPerson.identification?.legalAuthority ?: "",
-					)
-					Divider(thickness = 1.dp)
-				}
-				if (selectedPerson.identification?.legalForm?.isBlank() == false) {
-					TwoLineCard(
-						firstLineString = "Legal form",
-						secondLineString = selectedPerson.identification?.legalForm ?: "",
-					)
-					Divider(thickness = 1.dp)
-				}
-				AddressCard(address = selectedPerson.address) { component.onShowMapClicked() }
 			}
+			TwoLineCard(
+				firstLineString = "Kind",
+				secondLineString = selectedPerson.kind,
+			)
+			Divider(thickness = 1.dp)
+			TwoLineCard(
+				firstLineString = "Natures of control",
+				secondLineString = selectedPerson.naturesOfControl.joinToString(separator = "\n"),
+			)
+			Divider(thickness = 1.dp)
+			TwoLineCard(
+				firstLineString = "Nationality",
+				secondLineString = selectedPerson.nationality ?: "Unknown",
+			)
+			Divider(thickness = 1.dp)
+			val (month, year) = selectedPerson.dateOfBirth.month to selectedPerson.dateOfBirth.year
+			TwoLineCard(
+				firstLineString = "Date of birth",
+				secondLineString = if (month == null || year == null) {
+					"Unknown"
+				} else {
+					"$month / $year"
+				},
+			)
+			Divider(thickness = 1.dp)
+			if ((selectedPerson.countryOfResidence?.isBlank() == false
+					&& selectedPerson.countryOfResidence != selectedPerson.address.country)) {
+				TwoLineCard(
+					firstLineString = "Country of residence",
+					secondLineString = selectedPerson.countryOfResidence ?: "",
+				)
+				Divider(thickness = 1.dp)
+			}
+			if (selectedPerson.identification?.placeRegistered?.isBlank() == false) {
+				TwoLineCard(
+					firstLineString = "Place registered",
+					secondLineString = selectedPerson.identification?.placeRegistered ?: "",
+				)
+				Divider(thickness = 1.dp)
+			}
+			if (selectedPerson.identification?.registrationNumber?.isBlank() == false) {
+				TwoLineCard(
+					firstLineString = "Registration number",
+					secondLineString = selectedPerson.identification?.registrationNumber ?: "",
+				)
+				Divider(thickness = 1.dp)
+			}
+			if (selectedPerson.identification?.legalAuthority?.isBlank() == false) {
+				TwoLineCard(
+					firstLineString = "Legal authority",
+					secondLineString = selectedPerson.identification?.legalAuthority ?: "",
+				)
+				Divider(thickness = 1.dp)
+			}
+			if (selectedPerson.identification?.legalForm?.isBlank() == false) {
+				TwoLineCard(
+					firstLineString = "Legal form",
+					secondLineString = selectedPerson.identification?.legalForm ?: "",
+				)
+				Divider(thickness = 1.dp)
+			}
+			AddressCard(address = selectedPerson.address) { component.onShowMapClicked() }
 		}
-	)
+	}
 
 }
 

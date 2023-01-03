@@ -13,21 +13,15 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.background
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,12 +32,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.LabeledDetailCardItem
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.ui.filings.createAnnotatedStringDescription
 import java.util.*
@@ -88,89 +87,72 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 		}
 	}
 
-	Scaffold(
-		topBar = {
-			TopAppBar(
-				title = {
-					Text(
-						text = stringResource(id = R.string.filing_history_details),
-						style = CompaniesTypography.titleLarge,
-					)
-				},
-				navigationIcon = {
-					IconButton(onClick = { component.onBackClicked() }) {
-						Icon(
-							imageVector = Icons.Filled.ArrowBack,
-							contentDescription = "Finish"
-						)
-					}
-				},
-				actions = {
-					IconButton(onClick = {
-						wasCreateDocumentCalled.value = false
-						wasCreateDocumentShown.value = false
-						component.downloadPdf()
-					}) {
-						Icon(
-							painter = painterResource(R.drawable.ic_picture_as_pdf),
-							contentDescription = "Localized description"
-						)
-					}
-				}
-				//Add back image background once supported
-				//app:imageViewSrc="@drawable/bg_filings"
-				//scrollBehavior = scrollBehavior
-			)
-		},
-
-		content = { innerPadding ->
-			if (model.downloadedPdfResponseBody != null && !wasCreateDocumentCalled.value) {
-				CheckPermissionAndWriteDocument(
-					context, permissionLauncher, model.documentId, createDocumentLauncher
+	HeaderCollapsingToolbarScaffold(
+		headerBackgroundResource = R.drawable.bg_filing_history,
+		navigationAction = { component.onBackClicked() },
+		topAppBarActions = {
+			IconButton(onClick = {
+				wasCreateDocumentCalled.value = false
+				wasCreateDocumentShown.value = false
+				component.downloadPdf()
+			}) {
+				Icon(
+					painter = painterResource(R.drawable.ic_picture_as_pdf),
+					contentDescription = "Localized description",
+					tint = MaterialTheme.colorScheme.onPrimary
 				)
-				wasCreateDocumentCalled.value = true
 			}
-			if (model.savedPdfUri != null && !wasCreateDocumentShown.value) {
-				showDocument(model.savedPdfUri!!, context, pdfWillNotSaveMessage)
-				wasCreateDocumentShown.value = true
-			} else {
-				Column(
-					verticalArrangement = Arrangement.Top,
-					horizontalAlignment = Alignment.CenterHorizontally,
-					modifier = Modifier
-						.padding(innerPadding)
-						.verticalScroll(state)
-						.background(color = MaterialTheme.colors.background),
-				) {
-					LabeledDetailCardItem(
-						labelString = stringResource(id = R.string.date),
-						detailString = selectedFilingDetails.date
-					)
-					LabeledDetailCardItem(
-						labelString = stringResource(id = R.string.category),
-						detailString = selectedFilingDetails.category.displayName
-					)
-					selectedFilingDetails.subcategory?.let {
-						LabeledDetailCardItem(
-							labelString = stringResource(id = R.string.subcategory),
-							detailString = it
-						)
-					}
-					LabeledDetailCardItem(
-						labelString = stringResource(id = R.string.description),
-						detailString = selectedFilingDetails.description.createAnnotatedStringDescription(),
-						detailStyle = CompaniesTypography.titleLarge,
-					)
-					LabeledDetailCardItem(
-						labelString = stringResource(id = R.string.pages),
-						detailString = String.format(Locale.UK, "%d", selectedFilingDetails.pages)
-					)
-					Divider(thickness = 1.dp)
-				}
-			}
+		},
+		title = stringResource(id = R.string.filing_history_details)
+	) {
+		if (model.downloadedPdfResponseBody != null && !wasCreateDocumentCalled.value) {
+			CheckPermissionAndWriteDocument(
+				context, permissionLauncher, model.documentId, createDocumentLauncher
+			)
+			wasCreateDocumentCalled.value = true
 		}
-	)
+		if (model.savedPdfUri != null && !wasCreateDocumentShown.value) {
+			showDocument(model.savedPdfUri!!, context, pdfWillNotSaveMessage)
+			wasCreateDocumentShown.value = true
+		} else {
+			FilingDetailsBody(state, selectedFilingDetails)
+		}
+	}
 
+}
+
+@Composable
+private fun FilingDetailsBody(state: ScrollState, selectedFilingDetails: FilingHistoryItem) {
+	Column(
+		verticalArrangement = Arrangement.Top,
+		horizontalAlignment = Alignment.CenterHorizontally,
+		modifier = Modifier.verticalScroll(state)
+	) {
+		LabeledDetailCardItem(
+			labelString = stringResource(id = R.string.date),
+			detailString = selectedFilingDetails.date
+		)
+		LabeledDetailCardItem(
+			labelString = stringResource(id = R.string.category),
+			detailString = selectedFilingDetails.category.displayName
+		)
+		selectedFilingDetails.subcategory?.let {
+			LabeledDetailCardItem(
+				labelString = stringResource(id = R.string.subcategory),
+				detailString = it
+			)
+		}
+		LabeledDetailCardItem(
+			labelString = stringResource(id = R.string.description),
+			detailString = selectedFilingDetails.description.createAnnotatedStringDescription(),
+			detailStyle = CompaniesTypography.titleLarge,
+		)
+		LabeledDetailCardItem(
+			labelString = stringResource(id = R.string.pages),
+			detailString = String.format(Locale.UK, "%d", selectedFilingDetails.pages)
+		)
+		Divider(thickness = 1.dp)
+	}
 }
 
 @Composable
@@ -217,25 +199,21 @@ fun Context.getActivity(): AppCompatActivity? {
 	return null
 }
 
-//@Preview("FilingDetails Preview")
-//@Composable
-//fun FilingDetailsScreenPreview() {
-//	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
-//	CompaniesTheme {
-//		FilingDetailsScreen(
-//			FilingDetailsComponent(
-//				componentContext,
-//				FilingDetailsExecutor(object j: CompaniesRepository{}, Dispatchers.Main, Dispatchers.Main),
-//				FilingHistoryItem(
-//					date = "2016-01-31",
-//					category = Category.CATEGORY_CONFIRMATION_STATEMENT,
-//					type = "AA",
-//					description = "**Termination of appointment** of Abdul Gafoor Kannathody Kunjumuihhamed as a director" +
-//						" on " +
-//						"2020-04-02",
-//					pages = 2,
-//				),
-//			) { }
-//		)
-//	}
-//}
+@Preview("FilingDetailsBody Preview")
+@Composable
+fun FilingDetailsBodyPreview() {
+	CompaniesTheme {
+		FilingDetailsBody(
+			ScrollState(0),
+			FilingHistoryItem(
+				date = "2016-01-31",
+				category = Category.CATEGORY_CONFIRMATION_STATEMENT,
+				type = "AA",
+				description = "**Termination of appointment** of Abdul Gafoor Kannathody Kunjumuihhamed as a director" +
+					" on " +
+					"2020-04-02",
+				pages = 2,
+			),
+		)
+	}
+}

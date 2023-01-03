@@ -4,83 +4,52 @@ package com.babestudios.companyinfouk.charges.ui.charges
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.companyinfouk.charges.R
+import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.InfiniteListHandler
 import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.domain.model.charges.Particulars
 
 @Composable
 fun ChargesListScreen(component: ChargesListComp) {
 
-	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val model by component.state.subscribeAsState()
-	Scaffold(
-		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-		topBar = {
-			LargeTopAppBar(
-				title = {
-					Text(
-						text = stringResource(R.string.charges), style = CompaniesTypography.titleLarge
-					)
-				},
-				navigationIcon = {
-					IconButton(onClick = { component.onBackClicked() }) {
-						Icon(
-							imageVector = Icons.Filled.ArrowBack,
-							contentDescription = "Localized description"
-						)
-					}
-				},
-				//Add back image background oce supported
-				//app:imageViewSrc="@drawable/bg_Charges"
-				scrollBehavior = scrollBehavior
-			)
-		},
-		content = { innerPadding ->
-			if(model.isLoading) {
-				CircularProgressIndicator()
-			} else if (model.error != null) {
-				Box(
-					Modifier
-						.background(color = Color.Red)
-				)
-			} else {
-				ChargesList(
-					paddingValues = innerPadding,
-					items = model.chargesResponse.items,
-					onItemClicked = component::onItemClicked,
-					onLoadMore = component::onLoadMore,
-				)
-			}
-		})
 
+	HeaderCollapsingToolbarScaffold(
+		headerBackgroundResource = R.drawable.bg_charges,
+		navigationAction = { component.onBackClicked() },
+		topAppBarActions = {},
+		title = stringResource(R.string.charges)
+	) {
+		if (model.isLoading) {
+			CircularProgressIndicator()
+		} else if (model.error != null) {
+			Box(Modifier.background(color = Color.Red))
+		} else {
+			ChargesList(
+				items = model.chargesResponse.items,
+				onItemClicked = component::onItemClicked,
+				onLoadMore = component::onLoadMore,
+			)
+		}
+	}
 }
 
 @Composable
 private fun ChargesList(
-	paddingValues: PaddingValues,
 	items: List<ChargesItem>,
 	onItemClicked: (id: ChargesItem) -> Unit,
 	onLoadMore: () -> Unit,
@@ -90,7 +59,6 @@ private fun ChargesList(
 
 		LazyColumn(
 			Modifier.simpleVerticalScrollbar(listState),
-			contentPadding = paddingValues,
 			state = listState
 		) {
 			itemsIndexed(items) { _, ChargesItem ->
@@ -109,4 +77,54 @@ private fun ChargesList(
 
 	}
 
+}
+
+
+@Preview("Charges List Preview")
+@Composable
+fun ChargesListPreview() {
+	ChargesList(
+		items = listOf(
+			ChargesItem(
+				chargeCode = "03453457345734",
+				status = "Outstanding",
+				deliveredOn = "2011-01-13",
+				satisfiedOn = "2012-01-13",
+				createdOn = "2011-01-10",
+				particulars = Particulars(
+					type = "short-particulars",
+					containsFixedCharge = true,
+					floatingChargeCoversAll = false,
+					containsFloatingCharge = true,
+					containsNegativePledge = true,
+					description = "The subcontracts relating to the vehicles or other goods now or hereafter owned by the lessor" +
+						" and comprised in the principal contracts, the full benefit of all monies under the subcontracts, the " +
+						"benefit of all guarantees, the benefit of all insurances, the benefit of all supplemental or collateral " +
+						"agreements, see image for full details."
+				),
+				personsEntitled = "Man Financial Services PLC",
+			),
+			ChargesItem(
+				chargeCode = "03453457345733",
+				status = "Satisfied",
+				deliveredOn = "2011-01-13",
+				satisfiedOn = "2012-01-13",
+				createdOn = "2011-01-10",
+				particulars = Particulars(
+					type = "short-particulars",
+					containsFixedCharge = true,
+					floatingChargeCoversAll = false,
+					containsFloatingCharge = true,
+					containsNegativePledge = true,
+					description = "The subcontracts relating to the vehicles or other goods now or hereafter owned by the lessor" +
+						" and comprised in the principal contracts, the full benefit of all monies under the subcontracts, the " +
+						"benefit of all guarantees, the benefit of all insurances, the benefit of all supplemental or collateral " +
+						"agreements, see image for full details."
+				),
+				personsEntitled = "Man Financial Services PLC",
+			)
+		),
+		onItemClicked = {},
+		onLoadMore = {}
+	)
 }

@@ -4,26 +4,17 @@ package com.babestudios.companyinfouk.charges.ui.details
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.charges.R
+import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.FORTY_PERCENT
@@ -40,40 +32,20 @@ import com.babestudios.companyinfouk.domain.model.charges.Particulars
 @Composable
 fun ChargeDetailsListScreen(component: ChargeDetailsListComp) {
 
-	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val selectedCharge = component.selectedCharges
-	val title = stringResource(R.string.charge_details_title)
 
 	BackHandler(onBack = { component.onBackClicked() })
 
-	Scaffold(
-		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-		topBar = {
-			LargeTopAppBar(
-				title = {
-					Text(
-						text = title, style = CompaniesTypography.titleLarge
-					)
-				},
-				navigationIcon = {
-					IconButton(onClick = { component.onBackClicked() }) {
-						Icon(
-							imageVector = Icons.Filled.ArrowBack,
-							contentDescription = "Localized description"
-						)
-					}
-				},
-				//Add back image background oce supported
-				//app:imageViewSrc="@drawable/bg_ChargeDetails"
-				scrollBehavior = scrollBehavior
-			)
-		},
-		content = { innerPadding ->
-			ChargeDetailsList(
-				paddingValues = innerPadding,
-				charge = selectedCharge,
-			)
-		})
+	HeaderCollapsingToolbarScaffold(
+		headerBackgroundResource = R.drawable.bg_charges,
+		navigationAction = { component.onBackClicked() },
+		topAppBarActions = {},
+		title = stringResource(R.string.charge_details_title)
+	) {
+		ChargeDetailsList(
+			charge = selectedCharge,
+		)
+	}
 
 }
 
@@ -302,7 +274,6 @@ private fun ChargeHeader(
 
 @Composable
 private fun ChargeDetailsList(
-	paddingValues: PaddingValues,
 	charge: ChargesItem,
 ) {
 	Box {
@@ -310,7 +281,6 @@ private fun ChargeDetailsList(
 
 		LazyColumn(
 			Modifier.simpleVerticalScrollbar(listState),
-			contentPadding = paddingValues,
 			state = listState
 		) {
 			itemsIndexed(charge.transactions) { index, Transaction ->

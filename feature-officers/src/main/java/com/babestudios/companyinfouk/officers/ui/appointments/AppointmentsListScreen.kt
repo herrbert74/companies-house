@@ -11,24 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.InfiniteListHandler
 import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.design.CompaniesTypography
@@ -42,56 +35,35 @@ fun AppointmentsListScreen(component: AppointmentsListComp) {
 	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
 	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
 
-	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	BackHandler(onBack = { component.onBackClicked() })
 	val model by component.state.subscribeAsState()
-	Scaffold(
-		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-		topBar = {
-			LargeTopAppBar(
-				title = {
-					Text(
-						text = stringResource(R.string.officer_appointments_title),
-						style = CompaniesTypography.titleLarge,
-					)
-				},
-				navigationIcon = {
-					IconButton(onClick = { component.onBackClicked() }) {
-						Icon(
-							imageVector = Icons.Filled.ArrowBack,
-							contentDescription = "Localized description"
-						)
-					}
-				},
-				//Add back image background oce supported
-				//app:imageViewSrc="@drawable/bg_Appointments"
-				scrollBehavior = scrollBehavior
-			)
-		},
-		content = { innerPadding ->
-			if (model.isLoading) {
-				CircularProgressIndicator()
-			} else if (model.error != null) {
-				Box(
-					Modifier
-						.background(color = Color.Red)
+
+	HeaderCollapsingToolbarScaffold(
+		headerBackgroundResource = R.drawable.bg_officers,
+		navigationAction = { component.onBackClicked() },
+		topAppBarActions = {},
+		title = stringResource(R.string.officer_appointments_title)
+	) {
+		if (model.isLoading) {
+			CircularProgressIndicator()
+		} else if (model.error != null) {
+			Box(Modifier.background(color = Color.Red))
+		} else {
+			Column {
+				Text(
+					modifier = Modifier
+						.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
+					text = model.selectedOfficer.name,
+					style = CompaniesTypography.titleLargeBold,
 				)
-			} else {
-				Column(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
-					Text(
-						modifier = Modifier
-							.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
-						text = model.selectedOfficer.name,
-						style = CompaniesTypography.titleLargeBold,
-					)
-					AppointmentsList(
-						items = model.appointmentsResponse.items,
-						onItemClicked = component::onItemClicked,
-						onLoadMore = component::onLoadMore,
-					)
-				}
+				AppointmentsList(
+					items = model.appointmentsResponse.items,
+					onItemClicked = component::onItemClicked,
+					onLoadMore = component::onLoadMore,
+				)
 			}
-		})
+		}
+	}
 
 }
 

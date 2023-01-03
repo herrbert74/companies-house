@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.insolvencies.ui.practitioner
 
 import com.arkivanov.decompose.ComponentContext
+import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,11 +13,14 @@ interface PractitionerDetailsComp {
 
 	sealed class Output {
 		object Back : Output()
+		data class OnShowMapClicked(val name: String, val address: Address) : Output()
 	}
 
 	val selectedPractitioner: Practitioner
 
 	fun onBackClicked()
+
+	fun onShowMapClicked()
 
 }
 
@@ -26,12 +30,21 @@ class PractitionerDetailsComponent(
 	@MainDispatcher
 	val mainContext: CoroutineDispatcher,
 	override val selectedPractitioner: Practitioner,
-	private val output: FlowCollector<PractitionerDetailsComp.Output>
+	private val output: FlowCollector<PractitionerDetailsComp.Output>,
 ) : PractitionerDetailsComp, ComponentContext by componentContext {
 
 	override fun onBackClicked() {
 		CoroutineScope(mainContext).launch {
 			output.emit(PractitionerDetailsComp.Output.Back)
+		}
+	}
+
+	override fun onShowMapClicked() {
+		CoroutineScope(mainContext).launch {
+			output.emit(PractitionerDetailsComp.Output.OnShowMapClicked(
+				selectedPractitioner.name,
+				selectedPractitioner.address)
+			)
 		}
 	}
 

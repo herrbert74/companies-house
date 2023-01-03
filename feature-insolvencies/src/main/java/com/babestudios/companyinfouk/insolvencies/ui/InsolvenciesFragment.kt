@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.arkivanov.decompose.DefaultComponentContext
+import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesExecutor
+import com.babestudios.companyinfouk.navigation.DeepLinkDestination
+import com.babestudios.companyinfouk.navigation.deepLinkNavigateTo
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -41,6 +45,7 @@ class InsolvenciesFragment : Fragment(R.layout.fragment_insolvencies) {
 			mainContext,
 			args.selectedCompanyId,
 			(findNavController()::popBackStack),
+			(::navigateToMap),
 		)
 	}
 
@@ -50,6 +55,15 @@ class InsolvenciesFragment : Fragment(R.layout.fragment_insolvencies) {
 				InsolvenciesRootContent(insolvenciesRootComponent)
 			}
 		}
+	}
+
+	private fun navigateToMap(name: String, address: Address) {
+		findNavController().deepLinkNavigateTo(
+			DeepLinkDestination.Map(
+				name,
+				address.getAddressString(),
+			)
+		)
 	}
 
 	//endregion

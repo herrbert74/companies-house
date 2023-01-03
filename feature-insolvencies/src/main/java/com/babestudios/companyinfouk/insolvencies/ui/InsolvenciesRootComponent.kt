@@ -8,6 +8,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
+import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
@@ -37,6 +38,7 @@ class InsolvenciesRootComponent internal constructor(
 		(ComponentContext, selectedPractitioner: Practitioner, FlowCollector<PractitionerDetailsComp.Output>) ->
 	PractitionerDetailsComp,
 	private val finishHandler: () -> Unit,
+	private val showOnMapHandler: (String, Address) -> Unit,
 ) : InsolvenciesRootComp,
 	ComponentContext by componentContext {
 
@@ -46,6 +48,7 @@ class InsolvenciesRootComponent internal constructor(
 		@MainDispatcher mainContext: CoroutineDispatcher,
 		companyNumber: String,
 		finishHandler: () -> Unit,
+		showOnMapHandler: (String, Address) -> Unit,
 	) : this(
 		componentContext = componentContext,
 		insolvenciesList = { childContext, output ->
@@ -74,6 +77,7 @@ class InsolvenciesRootComponent internal constructor(
 			)
 		},
 		finishHandler,
+		showOnMapHandler,
 	)
 
 	private val navigation = StackNavigation<Configuration>()
@@ -130,6 +134,7 @@ class InsolvenciesRootComponent internal constructor(
 	private fun onPractitionerDetailsOutput(output: PractitionerDetailsComp.Output): Unit =
 		when (output) {
 			PractitionerDetailsComp.Output.Back -> navigation.pop()
+			is PractitionerDetailsComp.Output.OnShowMapClicked -> showOnMapHandler(output.name, output.address)
 		}
 
 }

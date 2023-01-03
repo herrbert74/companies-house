@@ -1,22 +1,14 @@
 package com.babestudios.companyinfouk.officers.ui.details
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.common.compose.AddressCard
+import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.PREVIEW_MONTH
 import com.babestudios.companyinfouk.domain.PREVIEW_YEAR
 import com.babestudios.companyinfouk.domain.model.common.Address
@@ -51,96 +43,74 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
 
-	Scaffold(
-		topBar = {
-			TopAppBar(
-				title = {
-					Text(
-						text = stringResource(R.string.officer_details),
-						style = CompaniesTypography.titleLarge,
-					)
-				},
-				navigationIcon = {
-					IconButton(onClick = { component.onBackClicked() }) {
-						Icon(
-							imageVector = Icons.Filled.ArrowBack,
-							contentDescription = "Localized description"
-						)
-					}
-				},
-				//Add back image background once supported
-				//app:imageViewSrc="@drawable/bg_officers"
-				//scrollBehavior = scrollBehavior
+	HeaderCollapsingToolbarScaffold(
+		headerBackgroundResource = R.drawable.bg_officers,
+		navigationAction = { component.onBackClicked() },
+		topAppBarActions = {},
+		title = stringResource(R.string.officer_details)
+	) {
+		Column(
+			verticalArrangement = Arrangement.Top,
+			horizontalAlignment = Alignment.CenterHorizontally,
+			modifier = Modifier.verticalScroll(state)
+		) {
+			TwoLineCard(
+				firstLineString = "Name",
+				secondLineString = selectedOfficer.name,
 			)
-		},
-
-		content = { innerPadding ->
-			Column(
-				verticalArrangement = Arrangement.Top,
-				horizontalAlignment = Alignment.CenterHorizontally,
+			Divider(thickness = 1.dp)
+			TwoLineCard(
+				firstLineString = stringResource(R.string.officer_details_appointed_on),
+				secondLineString = selectedOfficer.appointedOn ?: "Unknown",
+			)
+			Divider(thickness = 1.dp)
+			selectedOfficer.resignedOn?.let {
+				TwoLineCard(
+					firstLineString = stringResource(R.string.officer_appointments_resigned_on),
+					secondLineString = it,
+				)
+				Divider(thickness = 1.dp)
+			}
+			TwoLineCard(
+				firstLineString = "Nationality",
+				secondLineString = selectedOfficer.nationality,
+			)
+			Divider(thickness = 1.dp)
+			TwoLineCard(
+				firstLineString = stringResource(R.string.officer_details_occupation),
+				secondLineString = selectedOfficer.occupation,
+			)
+			Divider(thickness = 1.dp)
+			val (month, year) = selectedOfficer.dateOfBirth.month to selectedOfficer.dateOfBirth.year
+			TwoLineCard(
+				firstLineString = "Date of birth",
+				secondLineString = if (month == null || year == null) {
+					"Unknown"
+				} else {
+					"$month / $year"
+				},
+			)
+			Divider(thickness = 1.dp)
+			TwoLineCard(
+				firstLineString = "Country of residence",
+				secondLineString = selectedOfficer.countryOfResidence,
+			)
+			Divider(thickness = 1.dp)
+			AddressCard(address = selectedOfficer.address) { component.onShowMapClicked() }
+			Divider(thickness = 1.dp)
+			Button(
+				onClick = { component.onAppointmentsClicked() },
 				modifier = Modifier
-					.padding(innerPadding)
-					.verticalScroll(state)
-					.background(color = MaterialTheme.colors.background),
+					.padding(
+						top = viewMarginNormal,
+						bottom = viewMarginNormal,
+						end = viewMarginNormal,
+					),
 			) {
-				TwoLineCard(
-					firstLineString = "Name",
-					secondLineString = selectedOfficer.name,
-				)
-				Divider(thickness = 1.dp)
-				TwoLineCard(
-					firstLineString = stringResource(R.string.officer_details_appointed_on),
-					secondLineString = selectedOfficer.appointedOn ?: "Unknown",
-				)
-				Divider(thickness = 1.dp)
-				selectedOfficer.resignedOn?.let {
-					TwoLineCard(
-						firstLineString = stringResource(R.string.officer_appointments_resigned_on),
-						secondLineString = it,
-					)
-					Divider(thickness = 1.dp)
-				}
-				TwoLineCard(
-					firstLineString = "Nationality",
-					secondLineString = selectedOfficer.nationality,
-				)
-				Divider(thickness = 1.dp)
-				TwoLineCard(
-					firstLineString = stringResource(R.string.officer_details_occupation),
-					secondLineString = selectedOfficer.occupation,
-				)
-				Divider(thickness = 1.dp)
-				val (month, year) = selectedOfficer.dateOfBirth.month to selectedOfficer.dateOfBirth.year
-				TwoLineCard(
-					firstLineString = "Date of birth",
-					secondLineString = if (month == null || year == null) {
-						"Unknown"
-					} else {
-						"$month / $year"
-					},
-				)
-				Divider(thickness = 1.dp)
-				TwoLineCard(
-					firstLineString = "Country of residence",
-					secondLineString = selectedOfficer.countryOfResidence,
-				)
-				Divider(thickness = 1.dp)
-				AddressCard(address = selectedOfficer.address) { component.onShowMapClicked() }
-				Divider(thickness = 1.dp)
-				Button(
-					onClick = { component.onAppointmentsClicked() },
-					modifier = Modifier
-						.padding(
-							top = viewMarginNormal,
-							bottom = viewMarginNormal,
-							end = viewMarginNormal,
-						),
-				) {
-					Text(text = stringResource(R.string.officer_details_appointments).uppercase())
-				}
+				Text(text = stringResource(R.string.officer_details_appointments).uppercase())
 			}
 		}
-	)
+	}
 
 }
 

@@ -4,85 +4,58 @@ package com.babestudios.companyinfouk.persons.ui.persons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.InfiniteListHandler
 import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.persons.R
 
 @Composable
 fun PersonsListScreen(component: PersonsListComp) {
 
-	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val model by component.state.subscribeAsState()
-	Scaffold(
-		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-		topBar = {
-			LargeTopAppBar(
-				title = {
-					Text(
-						text = "Persons with significant control", style = CompaniesTypography.titleLarge
-					)
-				},
-				navigationIcon = {
-					IconButton(onClick = { component.finish() }) {
-						Icon(
-							imageVector = Icons.Filled.ArrowBack,
-							contentDescription = "Localized description"
-						)
-					}
-				},
-				//Add back image background oce supported
-				//app:imageViewSrc="@drawable/bg_persons"
-				scrollBehavior = scrollBehavior
-			)
-		},
-		content = { innerPadding ->
-			when (model) {
-				is PersonsStore.State.Loading -> {
-					CircularProgressIndicator()
-				}
-				is PersonsStore.State.Error -> {
-					Box(
-						Modifier
-							.background(color = Color.Red)
-					)
-				}
-				else -> {
-					PersonsList(
-						paddingValues = innerPadding,
-						items = (model as PersonsStore.State.Show).personsResponse.items,
-						onItemClicked = component::onItemClicked,
-						onLoadMore = component::onLoadMore,
-					)
-				}
+
+	HeaderCollapsingToolbarScaffold(
+		headerBackgroundResource = R.drawable.bg_persons,
+		navigationAction = { component.finish() },
+		topAppBarActions = {},
+		title = stringResource(R.string.filing_history)
+	) {
+		when (model) {
+			is PersonsStore.State.Loading -> {
+				CircularProgressIndicator()
 			}
-		})
+			is PersonsStore.State.Error -> {
+				Box(
+					Modifier
+						.background(color = Color.Red)
+				)
+			}
+			else -> {
+				PersonsList(
+					items = (model as PersonsStore.State.Show).personsResponse.items,
+					onItemClicked = component::onItemClicked,
+					onLoadMore = component::onLoadMore,
+				)
+			}
+		}
+	}
 
 }
 
 @Composable
 private fun PersonsList(
-	paddingValues: PaddingValues,
 	items: List<Person>,
 	onItemClicked: (id: Person) -> Unit,
 	onLoadMore: () -> Unit,
@@ -94,7 +67,6 @@ private fun PersonsList(
 
 		LazyColumn(
 			Modifier.simpleVerticalScrollbar(listState),
-			contentPadding = paddingValues,
 			state = listState
 		) {
 			itemsIndexed(items) { _, person ->

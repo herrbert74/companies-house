@@ -14,9 +14,9 @@ dependencies {
 	implementation(Libs.AndroidX.constraintLayoutCompose)
 	implementation(platform(Libs.AndroidX.Compose.bom))
 	implementation(Libs.AndroidX.Compose.Ui.tooling)
-	implementation(Libs.AndroidX.Compose.material)
 	implementation(Libs.AndroidX.Compose.material3)
 	implementation(Libs.AndroidX.Compose.foundationLayout)
+	implementation(Libs.Views.collapsingToolbar)
 }
 
 android {

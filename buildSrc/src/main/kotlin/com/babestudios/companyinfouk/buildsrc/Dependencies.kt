@@ -349,5 +349,7 @@ object Libs {
 			const val viewPager2 = "io.github.reactivecircus.flowbinding:flowbinding-viewpager2:$version"
 			const val material = "io.github.reactivecircus.flowbinding:flowbinding-material:$version"
 		}
+
+		const val collapsingToolbar = "me.onebone:toolbar-compose:2.3.5"
 	}
 }
