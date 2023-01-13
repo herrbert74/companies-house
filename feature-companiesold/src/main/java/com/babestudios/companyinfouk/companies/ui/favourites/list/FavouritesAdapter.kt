@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import reactivecircus.flowbinding.android.view.clicks
 
 class FavouritesAdapter(
-	var favouritesItems: List<FavouritesListItem>,
+	private var favouritesItems: List<FavouritesItem>,
 	private val lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<FavouritesViewHolder>() {
 
@@ -22,11 +22,11 @@ class FavouritesAdapter(
 		return favouritesItems.size
 	}
 
-	private val itemClicksChannel: Channel<FavouritesListItem> = Channel(Channel.UNLIMITED)
-	val itemClicks: Flow<FavouritesListItem> = itemClicksChannel.consumeAsFlow()
+	private val itemClicksChannel: Channel<FavouritesItem> = Channel(Channel.UNLIMITED)
+	val itemClicks: Flow<FavouritesItem> = itemClicksChannel.consumeAsFlow()
 
-	private val cancelClicksChannel: Channel<FavouritesListItem> = Channel(Channel.UNLIMITED)
-	val cancelClicks: Flow<FavouritesListItem> = cancelClicksChannel.consumeAsFlow()
+	private val cancelClicksChannel: Channel<FavouritesItem> = Channel(Channel.UNLIMITED)
+	val cancelClicks: Flow<FavouritesItem> = cancelClicksChannel.consumeAsFlow()
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
 		val binding = RowFavouritesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -45,7 +45,7 @@ class FavouritesAdapter(
 		}.launchIn(lifecycleScope)
 	}
 
-	fun updateItems(newFavouritesItems: List<FavouritesListItem>) {
+	fun updateItems(newFavouritesItems: List<FavouritesItem>) {
 		val diffCallback = FavouritesDiffCallback(favouritesItems, newFavouritesItems)
 		val diffResult = DiffUtil.calculateDiff(diffCallback)
 		favouritesItems = newFavouritesItems

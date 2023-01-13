@@ -21,6 +21,14 @@ fun TwoLineCard(
 	modifier: Modifier = Modifier,
 	firstLineStyle: TextStyle = CompaniesTypography.bodyMedium,
 	secondLineStyle: TextStyle = CompaniesTypography.titleLargeBold,
+	/**
+	 * By default this displays a normal sized title in the first line,
+	 * and a bold, large title in the second, plus the first line has an extra margin.
+	 * This can be used for displaying label + data.
+	 * If we flip them (for example when we want to show data + less important data),
+	 * the additional margin on the first line is removed.
+	 */
+	flipLineStyles: Boolean = false,
 ) {
 
 	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
@@ -31,19 +39,22 @@ fun TwoLineCard(
 		horizontalAlignment = Alignment.CenterHorizontally,
 		modifier = modifier
 	) {
+
+		val startMarginFirst = if (flipLineStyles) viewMarginLarge else viewMarginLarge + viewMarginNormal
+
 		Text(
 			modifier = Modifier
-				.padding(horizontal = viewMarginLarge + viewMarginNormal, vertical = viewMarginNormal)
+				.padding(start = startMarginFirst, top = viewMarginNormal)
 				.fillMaxWidth(1f),
 			text = firstLineString,
-			style = firstLineStyle,
+			style = if (flipLineStyles) secondLineStyle else firstLineStyle,
 		)
 		Text(
 			modifier = Modifier
 				.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
 				.fillMaxWidth(1f),
 			text = secondLineString,
-			style = secondLineStyle,
+			style = if (flipLineStyles) firstLineStyle else secondLineStyle,
 		)
 	}
 }

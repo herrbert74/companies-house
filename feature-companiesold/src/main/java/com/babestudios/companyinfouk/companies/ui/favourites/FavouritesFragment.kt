@@ -40,7 +40,7 @@ import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.companies.databinding.FragmentFavouritesBinding
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesAdapter
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesItem
 import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesViewHolder
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.navigation.navigateSafe
@@ -185,11 +185,11 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State
 
 	//region Swipe to dismiss
 
-	private val searchHistoryItemsPendingRemoval = ArrayList<FavouritesListItem>()
+	private val searchHistoryItemsPendingRemoval = ArrayList<FavouritesItem>()
 	private val handler = Handler(Looper.getMainLooper())
 	private val pendingRunnables = HashMap<SearchHistoryItem, Runnable>()
 
-	fun pendingRemoval(item: FavouritesListItem, position: Int) {
+	fun pendingRemoval(item: FavouritesItem, position: Int) {
 		if (!searchHistoryItemsPendingRemoval.contains(item)) {
 			dispatch(UserIntent.InitPendingRemoval(item))
 			searchHistoryItemsPendingRemoval.add(item)
@@ -393,10 +393,10 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites), MviView<State
 }
 
 sealed class UserIntent {
-	data class FavouritesItemClicked(val favouritesListItem: FavouritesListItem) : UserIntent()
-	data class InitPendingRemoval(val favouritesListItem: FavouritesListItem) : UserIntent()
-	data class RemoveItem(val favouritesListItem: FavouritesListItem) : UserIntent()
-	data class CancelPendingRemoval(val favouritesListItem: FavouritesListItem) : UserIntent()
+	data class FavouritesItemClicked(val favouritesItem: FavouritesItem) : UserIntent()
+	data class InitPendingRemoval(val favouritesItem: FavouritesItem) : UserIntent()
+	data class RemoveItem(val favouritesItem: FavouritesItem) : UserIntent()
+	data class CancelPendingRemoval(val favouritesItem: FavouritesItem) : UserIntent()
 	object DeletedInCompany : UserIntent()
 }
 

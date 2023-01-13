@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.companies.ui.favourites.list
 import androidx.recyclerview.widget.DiffUtil
 
 class FavouritesDiffCallback(
-	private val oldList: List<FavouritesListItem>,
-	private val newList: List<FavouritesListItem>
+	private val oldList: List<FavouritesItem>,
+	private val newList: List<FavouritesItem>
 ) : DiffUtil.Callback() {
 
 	override fun getOldListSize(): Int = oldList.size

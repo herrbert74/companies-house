@@ -38,9 +38,8 @@
 
 	<fragment
 		android:id="@+id/companyFragment"
-		android:name="com.babestudios.companyinfouk.companies.ui.company.CompanyFragment"
-		android:label="CompanyFragment"
-		tools:layout="@layout/fragment_company">
+		android:name="com.babestudios.companyinfouk.companies.ui.CompaniesFragment"
+		android:label="CompanyFragment">
 		<argument
 			android:name="number"
 			app:argType="string" />

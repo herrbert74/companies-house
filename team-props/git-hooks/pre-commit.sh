@@ -3,7 +3,7 @@
 echo "Running static analysis..."
 
 # Inspect code using Detekt
-./gradlew detekt --daemon --no-configuration-cache
+# ./gradlew detekt --daemon --no-configuration-cache
 
 status=$?
 

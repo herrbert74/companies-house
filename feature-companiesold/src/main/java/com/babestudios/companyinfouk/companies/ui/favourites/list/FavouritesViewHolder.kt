@@ -8,9 +8,9 @@ import com.babestudios.companyinfouk.companies.databinding.RowFavouritesBinding
 
 class FavouritesViewHolder(val rawBinding: ViewBinding) : RecyclerView.ViewHolder(rawBinding.root) {
 
-	lateinit var favouritesItem: FavouritesListItem
+	lateinit var favouritesItem: FavouritesItem
 
-	fun bind(favouritesItem: FavouritesListItem) {
+	fun bind(favouritesItem: FavouritesItem) {
 		this.favouritesItem = favouritesItem
 		val binding = rawBinding as RowFavouritesBinding
 		if (favouritesItem.isPendingRemoval) {

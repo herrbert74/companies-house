@@ -16,7 +16,6 @@ import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import com.babestudios.companyinfouk.data.utils.StringResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
-import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -33,7 +32,6 @@ import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 @Module
 @Suppress("unused")
@@ -43,16 +41,14 @@ class TestDataModule {
 	@Provides
 	@Singleton
 	@Named("CompaniesHouseRetrofit")
-	internal fun provideCompaniesHouseRetrofit(@ApplicationContext context: Context): Retrofit {
+	internal fun provideCompaniesHouseRetrofit(): Retrofit {
 		val logging = HttpLoggingInterceptor()
 		logging.level = HttpLoggingInterceptor.Level.BODY
 
 		val httpClient = OkHttpClient.Builder()
 		httpClient.addInterceptor(logging)
-		httpClient.addInterceptor(ChuckerInterceptor(context))
 		return Retrofit.Builder()//
 			.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)//
-			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
 			.addConverterFactory(AdvancedGsonConverterFactory.create())//
 			.client(httpClient.build())//
 			.build()
@@ -69,7 +65,6 @@ class TestDataModule {
 		httpClient.addInterceptor(logging)
 		return Retrofit.Builder()//
 			.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)//
-			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())//
 			.addConverterFactory(AdvancedGsonConverterFactory.create())//
 			.client(httpClient.build())//
 			.build()

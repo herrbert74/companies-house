@@ -34,10 +34,10 @@ class FavouritesViewModel @Inject constructor(favouritesExecutor: FavouritesExec
 	private val userIntentToIntent: UserIntent.() -> Intent =
 		{
 			when (this) {
-				is UserIntent.FavouritesItemClicked -> Intent.FavouritesItemClicked(favouritesListItem)
-				is UserIntent.CancelPendingRemoval -> Intent.CancelPendingRemoval(favouritesListItem)
-				is UserIntent.InitPendingRemoval -> Intent.InitPendingRemoval(favouritesListItem)
-				is UserIntent.RemoveItem -> Intent.RemoveItem(favouritesListItem)
+				is UserIntent.FavouritesItemClicked -> Intent.FavouritesItemClicked(favouritesItem)
+				is UserIntent.CancelPendingRemoval -> Intent.CancelPendingRemoval(favouritesItem)
+				is UserIntent.InitPendingRemoval -> Intent.InitPendingRemoval(favouritesItem)
+				is UserIntent.RemoveItem -> Intent.RemoveItem(favouritesItem)
 				is UserIntent.DeletedInCompany -> Intent.DeletedInCompany
 			}
 		}

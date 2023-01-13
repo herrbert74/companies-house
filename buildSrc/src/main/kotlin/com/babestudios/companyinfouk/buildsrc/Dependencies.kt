@@ -59,7 +59,7 @@ object Libs {
 
 		object Compose {
 			private const val bomVersion = "2022.12.00"
-			private const val material3Version = "1.0.1"
+			private const val material3Version = "1.1.0-alpha04"
 
 			//https://developer.android.com/jetpack/compose/setup#bom-version-mapping
 			const val bom = "androidx.compose:compose-bom:$bomVersion"
@@ -240,7 +240,6 @@ object Libs {
 			const val retrofit = "com.squareup.retrofit2:retrofit:$version"
 			const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:$version"
 			const val converterGson = "com.squareup.retrofit2:converter-gson:$version"
-			const val rxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:$version"
 		}
 
 		object SqlDelight {

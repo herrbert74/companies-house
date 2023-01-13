@@ -24,9 +24,9 @@ class GsonTest {
 		try {
 			response = advancedGsonConverterFactory.responseBodyConverter(
 					CompanySearchResult::class.java,
-					null,
+					emptyArray(),
 					retrofit
-			)!!.convert(json.toResponseBody("application/json; charset=utf-8".toMediaType())) as CompanySearchResult
+			).convert(json.toResponseBody("application/json; charset=utf-8".toMediaType())) as CompanySearchResult
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}

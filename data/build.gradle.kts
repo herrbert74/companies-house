@@ -70,7 +70,6 @@ dependencies {
 	implementation(Libs.Javax.annotations)
 	implementation(Libs.KotlinResult.result)
 	implementation(Libs.SquareUp.Retrofit2.retrofit)
-	implementation(Libs.SquareUp.Retrofit2.rxJava2Adapter)
 	implementation(Libs.SquareUp.Retrofit2.converterGson)
 
 	debugImplementation(Libs.Chucker.library)

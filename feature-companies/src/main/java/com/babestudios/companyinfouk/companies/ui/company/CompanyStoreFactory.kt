@@ -10,43 +10,37 @@ import com.babestudios.companyinfouk.domain.model.company.Company
 
 class CompanyStoreFactory(
 	private val storeFactory: StoreFactory,
-	private val companyExecutor: CompanyExecutor
+	private val companyExecutor: CompanyExecutor,
 ) {
 
-	fun create(companyNumber: String): CompanyStore =
-		object : CompanyStore, Store<Intent, State, SideEffect> by storeFactory.create(
+	fun create(companyId: String): CompanyStore =
+		object : CompanyStore, Store<Intent, State, Nothing> by storeFactory.create(
 			name = "CompanyStore",
-			initialState = State.Loading,
-			bootstrapper = CompanyBootstrapper(companyNumber),
+			initialState = State(companyId),
+			bootstrapper = CompanyBootstrapper(companyId),
 			executorFactory = { companyExecutor },
 			reducer = CompanyReducer
 		) {}
 
-	private class CompanyBootstrapper(val companyNumber: String) : CoroutineBootstrapper<BootstrapIntent>() {
+	private class CompanyBootstrapper(val companyId: String) : CoroutineBootstrapper<BootstrapIntent>() {
 		override fun invoke() {
-			dispatch(BootstrapIntent.FetchCompany(companyNumber))
+			dispatch(BootstrapIntent.LoadCompany(companyId))
 		}
 	}
 
 	private object CompanyReducer : Reducer<State, Message> {
 		override fun State.reduce(msg: Message): State =
 			when (msg) {
-				is Message.CompanyLoaded -> State.Show(
-					msg.company.companyNumber, msg.company, msg.isFavourite
-				)
-				is Message.FlipFavourite -> {
-					val state = this as State.Show
-					State.Show(state.companyNumber, state.company, msg.isFavourite)
-				}
+				is Message.CompanyMessage -> this.copy(isLoading = false, company = msg.companyResult)
 			}
 	}
+
+}
+
+sealed class Message {
+	data class CompanyMessage(val companyResult: Company, val companyId: String) : Message()
 }
 
 sealed class BootstrapIntent {
-	data class FetchCompany(val companyNumber: String) : BootstrapIntent()
-}
-
-sealed interface Message {
-	data class CompanyLoaded(val company: Company, val isFavourite: Boolean) : Message
-	data class FlipFavourite(val isFavourite: Boolean) : Message
+	data class LoadCompany(val companyId: String) : BootstrapIntent()
 }

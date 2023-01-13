@@ -53,7 +53,7 @@ internal fun mapAddressDto(
 		input?.country.orEmpty(),
 		input?.locality.orEmpty(),
 		input?.postalCode.orEmpty(),
-		input?.region.orEmpty(),
+		input?.region,
 	)
 }
 

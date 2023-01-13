@@ -3,28 +3,26 @@ package com.babestudios.companyinfouk.companies.ui.favourites
 import com.arkivanov.mvikotlin.core.store.Store
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.Intent
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
 
-interface FavouritesStore : Store<Intent, State, SideEffect> {
+interface FavouritesStore : Store<Intent, State, Nothing> {
 
-	sealed class Intent {
-		data class FavouritesItemClicked(val favouritesListItem: FavouritesListItem) : Intent()
-		data class InitPendingRemoval(val favouritesListItem: FavouritesListItem) : Intent()
-		data class RemoveItem(val favouritesListItem: FavouritesListItem) : Intent()
-		data class CancelPendingRemoval(val favouritesListItem: FavouritesListItem) : Intent()
-		object DeletedInCompany : Intent()
-	}
+    sealed class Intent {
+        data class InitPendingRemoval(val favouritesItem: FavouritesItem) : Intent()
+        data class RemoveItem(val favouritesItem: FavouritesItem) : Intent()
+        data class CancelPendingRemoval(val favouritesItem: FavouritesItem) : Intent()
+        object DeletedInCompany : Intent()
+    }
 
-	sealed class State {
+    data class State (
 
-		object Loading : State()
+        //result data
+        val favourites: List<FavouritesItem> = listOf(),
 
-		class Show(
-			val favourites: List<FavouritesListItem>
-		) : State()
+        val error: Throwable? = null,
 
-		class Error(val t: Throwable) : State()
+        //state
+        val isLoading: Boolean = true
 
-	}
+    )
 
 }

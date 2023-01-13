@@ -28,7 +28,7 @@
   "registered_office_address": {
     "locality": "Canterbury",
     "postal_code": "CT1 3DZ",
-    "region": "Kent",
+    "region": null,
     "address_line_1": "71 New Dover Road",
     "country": "England"
   },

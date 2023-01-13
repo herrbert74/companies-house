@@ -8,7 +8,7 @@ import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesExecutor
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStoreFactory
 import com.babestudios.companyinfouk.companies.ui.favourites.SideEffect
-import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesListItem
+import com.babestudios.companyinfouk.companies.ui.favourites.list.FavouritesItem
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import io.kotest.matchers.types.shouldBeTypeOf
@@ -61,14 +61,14 @@ class FavouritesTest {
 	@Test
 	fun `when favourites item clicked then navigates to company`() {
 		val labels = favouritesStore.labels.test()
-		favouritesStore.accept(FavouritesStore.Intent.FavouritesItemClicked(FavouritesListItem(searchHistoryItem)))
+		favouritesStore.accept(FavouritesStore.Intent.FavouritesItemClicked(FavouritesItem(searchHistoryItem)))
 		labels.last().shouldBeTypeOf<SideEffect.FavouritesItemClicked>()
 	}
 
 	@Test
 	fun `when remove favourite the repo removes favourite`() {
 		val states = favouritesStore.states.test()
-		favouritesStore.accept(FavouritesStore.Intent.RemoveItem(FavouritesListItem(searchHistoryItem)))
+		favouritesStore.accept(FavouritesStore.Intent.RemoveItem(FavouritesItem(searchHistoryItem)))
 		states.last().shouldBeTypeOf<FavouritesStore.State.Show>()
 		coVerify(exactly = 1) {
 			companiesHouseRepository.removeFavourite(

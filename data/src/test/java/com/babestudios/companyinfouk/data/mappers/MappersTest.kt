@@ -54,7 +54,7 @@ class MappersTest {
 		val appointmentsResponseAllanDavidHorley =
 			companiesHouseMapper.mapAppointments(appointmentsResponseDto)
 		appointmentsResponseAllanDavidHorley.totalResults shouldBe 3
-		appointmentsResponseAllanDavidHorley.items?.get(0)?.name shouldBe "Allan David HORLEY"
+		appointmentsResponseAllanDavidHorley.items[0].name shouldBe "Allan David HORLEY"
 	}
 
 	//endregion
@@ -90,6 +90,12 @@ class MappersTest {
 	fun `when addressline2 is null then it is mapped to null`() {
 		val companyCandour = companiesHouseMapper.mapCompany(companyDto)
 		companyCandour.registeredOfficeAddress.addressLine2 shouldBe null
+	}
+
+	@Test
+	fun `when address region is null then it is mapped to null`() {
+		val companyCandour = companiesHouseMapper.mapCompany(companyDto)
+		companyCandour.registeredOfficeAddress.region shouldBe null
 	}
 
 	//endregion

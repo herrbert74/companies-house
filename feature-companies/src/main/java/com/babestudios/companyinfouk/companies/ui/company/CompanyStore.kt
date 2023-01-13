@@ -1,27 +1,28 @@
 package com.babestudios.companyinfouk.companies.ui.company
 
 import com.arkivanov.mvikotlin.core.store.Store
+import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
-import com.babestudios.companyinfouk.domain.model.company.Company
 
-interface CompanyStore : Store<Intent, State, SideEffect> {
+interface CompanyStore : Store<Intent, State, Nothing> {
 
-	sealed class Intent {
-		object FabFavouritesClicked : Intent()
-		object MapClicked : Intent()
-	}
+    sealed class Intent {
+        object LoadMoreCompany : Intent()
+    }
 
-	sealed class State {
-		object Loading : State()
+    data class State (
 
-		class Show(
-			val companyNumber: String,
-			val company: Company,
-			val isFavourite: Boolean,
-		) : State()
+        //initial data
+        val companyId: String,
 
-		class Error(val t: Throwable) : State()
-	}
+        //result data
+        val company: Company = Company(),
+        val error: Throwable? = null,
+
+        //state
+        val isLoading: Boolean = true
+
+    )
 
 }

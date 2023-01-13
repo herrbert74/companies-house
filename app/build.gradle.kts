@@ -91,7 +91,6 @@ dependencies {
 
 	androidTestImplementation(Libs.Google.gson)
 	androidTestImplementation(Libs.SquareUp.Retrofit2.retrofit)
-	androidTestImplementation(Libs.SquareUp.Retrofit2.rxJava2Adapter)
 	androidTestImplementation(Libs.Google.Firebase.analytics)
 	androidTestImplementation(Libs.SquareUp.OkHttp3.loggingInterceptor)
 	androidTestImplementation(Libs.Test.MockK.android)
