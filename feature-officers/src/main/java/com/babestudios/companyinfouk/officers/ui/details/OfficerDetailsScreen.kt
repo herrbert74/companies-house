@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.officers.ui.details
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -57,28 +58,33 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 			TwoLineCard(
 				firstLineString = "Name",
 				secondLineString = selectedOfficer.name,
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = stringResource(R.string.officer_details_appointed_on),
 				secondLineString = selectedOfficer.appointedOn ?: "Unknown",
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			selectedOfficer.resignedOn?.let {
 				TwoLineCard(
 					firstLineString = stringResource(R.string.officer_appointments_resigned_on),
 					secondLineString = it,
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}
 			TwoLineCard(
 				firstLineString = "Nationality",
 				secondLineString = selectedOfficer.nationality,
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = stringResource(R.string.officer_details_occupation),
 				secondLineString = selectedOfficer.occupation,
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			val (month, year) = selectedOfficer.dateOfBirth.month to selectedOfficer.dateOfBirth.year
@@ -89,11 +95,13 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 				} else {
 					"$month / $year"
 				},
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = "Country of residence",
 				secondLineString = selectedOfficer.countryOfResidence,
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			AddressCard(address = selectedOfficer.address) { component.onShowMapClicked() }

@@ -1,8 +1,8 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
-	extra["kotlin_version"] = "1.7.20"
-	val kotlinVersion = "1.7.20"
+	extra["kotlin_version"] = "1.8.0"
+	val kotlinVersion = "1.8.0"
 	repositories {
 		mavenCentral()
 		google()
@@ -11,13 +11,13 @@ buildscript {
 	dependencies {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
 		//classpath("com.android.tools.build:gradle:7.4.0-rc01")
-		classpath("com.android.tools.build:gradle:7.3.0") //For IJ plugin runIde
+		classpath("com.android.tools.build:gradle:7.3.1") //For IJ plugin runIde
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
-		classpath("com.google.gms:google-services:4.3.14")
+		classpath("com.google.gms:google-services:4.3.15")
 		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")
-		classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
+		classpath("com.google.dagger:hilt-android-gradle-plugin:2.44.2")
 		classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.2")
-		classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
+		classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3")
 	}
 }
 

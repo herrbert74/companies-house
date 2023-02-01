@@ -8,13 +8,6 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
     <option name="SOFT_MARGINS" value="120" />
     <JetCodeStyleSettings>
-      <option name="PACKAGES_TO_USE_STAR_IMPORTS">
-        <value>
-          <package name="java.util" alias="false" withSubpackages="false" />
-          <package name="kotlinx.android.synthetic" alias="false" withSubpackages="false" />
-          <package name="io.ktor" alias="false" withSubpackages="false" />
-        </value>
-      </option>
       <option name="PACKAGES_IMPORT_LAYOUT">
         <value>
           <package name="" alias="false" withSubpackages="true" />
@@ -24,8 +17,6 @@
           <package name="" alias="true" withSubpackages="true" />
         </value>
       </option>
-      <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="2147483647" />
-      <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="2147483647" />
       <option name="CONTINUATION_INDENT_IN_PARAMETER_LISTS" value="false" />
       <option name="CONTINUATION_INDENT_IN_ARGUMENT_LISTS" value="false" />
       <option name="CONTINUATION_INDENT_IN_SUPERTYPE_LISTS" value="false" />
@@ -146,6 +137,9 @@
     </codeStyleSettings>
     <codeStyleSettings language="kotlin">
       <option name="RIGHT_MARGIN" value="120" />
+      <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
+      <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+      <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
       <option name="CALL_PARAMETERS_WRAP" value="1" />
       <option name="CALL_PARAMETERS_LPAREN_ON_NEXT_LINE" value="true" />
       <option name="CALL_PARAMETERS_RPAREN_ON_NEXT_LINE" value="true" />

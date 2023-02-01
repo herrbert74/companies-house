@@ -113,7 +113,7 @@ fun mockCompaniesRepository(): CompaniesRepository {
 
 	coEvery {
 		mockCompaniesRepository.getOfficerAppointments(eq("M0nRpSZPlPTwBusql3sNK6Efzr8"), any())
-	} returns officersAppointmentsYouLimited
+	} returns Ok(officersAppointmentsYouLimited)
 
 	return mockCompaniesRepository
 

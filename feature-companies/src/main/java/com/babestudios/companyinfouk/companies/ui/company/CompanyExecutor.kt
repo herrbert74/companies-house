@@ -6,6 +6,7 @@ import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
+import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -24,17 +25,42 @@ class CompanyExecutor @Inject constructor(
 	}
 
 	override fun executeIntent(intent: Intent, getState: () -> State) {
-//		when (intent) {
-//		}
+		when (intent) {
+			Intent.FabFavouritesClicked ->
+				flipCompanyFavoriteState(getState().companyId, getState().company.companyName)
+		}
 	}
 
 	//region company actions
 
 	private fun fetchCompany(companyId: String) {
 		scope.launch(ioContext) {
-			val companyResponse = companiesRepository.getCompany(companyId)
+			val company = companiesRepository.getCompany(companyId)
+			val isFavourite = companiesRepository.isFavourite(
+				SearchHistoryItem(
+					company.companyName,
+					companyId,
+					0L
+				)
+			)
 			withContext(mainContext) {
-				dispatch(Message.CompanyMessage(companyResponse, companyId))
+				dispatch(Message.CompanyLoaded(company, isFavourite))
+			}
+		}
+	}
+
+	private fun flipCompanyFavoriteState(companyNumber: String, companyName: String) {
+		scope.launch(ioContext) {
+			val isFavouriteAfterFlip =
+				if (companiesRepository.isFavourite(SearchHistoryItem(companyName, companyNumber, 0))) {
+					companiesRepository.removeFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+					false
+				} else {
+					companiesRepository.addFavourite(SearchHistoryItem(companyName, companyNumber, 0))
+					true
+				}
+			withContext(mainContext) {
+				dispatch(Message.FlipFavourite(isFavouriteAfterFlip))
 			}
 		}
 	}

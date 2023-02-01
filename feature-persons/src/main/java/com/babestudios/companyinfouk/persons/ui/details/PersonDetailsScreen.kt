@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.persons.ui.details
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
@@ -50,28 +51,33 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 			TwoLineCard(
 				firstLineString = "Name",
 				secondLineString = selectedPerson.name,
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			if (selectedPerson.notifiedOn.isNotBlank()) {
 				TwoLineCard(
 					firstLineString = "Notified on",
 					secondLineString = selectedPerson.notifiedOn,
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}
 			TwoLineCard(
 				firstLineString = "Kind",
 				secondLineString = selectedPerson.kind,
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = "Natures of control",
 				secondLineString = selectedPerson.naturesOfControl.joinToString(separator = "\n"),
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = "Nationality",
 				secondLineString = selectedPerson.nationality ?: "Unknown",
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			val (month, year) = selectedPerson.dateOfBirth.month to selectedPerson.dateOfBirth.year
@@ -82,6 +88,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 				} else {
 					"$month / $year"
 				},
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			if ((selectedPerson.countryOfResidence?.isBlank() == false
@@ -89,6 +96,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 				TwoLineCard(
 					firstLineString = "Country of residence",
 					secondLineString = selectedPerson.countryOfResidence ?: "",
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}
@@ -96,6 +104,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 				TwoLineCard(
 					firstLineString = "Place registered",
 					secondLineString = selectedPerson.identification?.placeRegistered ?: "",
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}
@@ -103,6 +112,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 				TwoLineCard(
 					firstLineString = "Registration number",
 					secondLineString = selectedPerson.identification?.registrationNumber ?: "",
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}
@@ -110,6 +120,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 				TwoLineCard(
 					firstLineString = "Legal authority",
 					secondLineString = selectedPerson.identification?.legalAuthority ?: "",
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}
@@ -117,6 +128,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 				TwoLineCard(
 					firstLineString = "Legal form",
 					secondLineString = selectedPerson.identification?.legalForm ?: "",
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}

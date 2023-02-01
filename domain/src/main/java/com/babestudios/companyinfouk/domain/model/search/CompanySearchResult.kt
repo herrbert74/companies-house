@@ -2,12 +2,12 @@ package com.babestudios.companyinfouk.domain.model.search
 
 import com.google.gson.annotations.SerializedName
 
-class CompanySearchResult {
+data class CompanySearchResult (
 
 	@SerializedName("total_results")
-	var totalResults: Int? = null
+	var totalResults: Int = 0,
 
 	@SerializedName("items")
-	var items: MutableList<CompanySearchResultItem> = ArrayList()
+	var items: List<CompanySearchResultItem> = emptyList()
 
-}
+)

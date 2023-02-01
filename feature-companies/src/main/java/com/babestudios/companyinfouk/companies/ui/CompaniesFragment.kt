@@ -9,20 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.arkivanov.decompose.DefaultComponentContext
-import com.babestudios.companyinfouk.companies.ui.company.CompanyExecutor
+import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
+import com.babestudios.companyinfouk.navigation.NavigationFlow
+import com.babestudios.companyinfouk.navigation.ToFlowNavigatable
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
-import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
 
 @AndroidEntryPoint
 class CompaniesFragment : Fragment() {
 
 	@Inject
-	lateinit var companyExecutor: CompanyExecutor
+	lateinit var mainExecutor: MainExecutor
 
 	@Inject
 	lateinit var companiesRepository: CompaniesRepository
@@ -44,17 +45,22 @@ class CompaniesFragment : Fragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		val startConfiguration: Configuration = when {
+			args.address.isNotEmpty() -> Configuration.Map(args.name ?: "", args.address)
+			args.number != null -> Configuration.Company(args.number ?:"", args.name ?: "", Configuration.Main)
+			else -> Configuration.Main
+		}
+
 		companiesRootComponent = CompaniesRootComponent(
 			DefaultComponentContext(lifecycle, savedStateRegistry, viewModelStore, null),
 			mainContext,
 			ioContext,
 			companiesRepository,
-			args.name,
-			args.number,
 			(findNavController()::popBackStack),
-			//(::navigateToMap)
-			companyExecutor,
-			//favouritesExecutor,
+			mainExecutor,
+			(::navigateToFlow),
+			startConfiguration,
+			(::popBackStack),
 		)
 	}
 
@@ -64,6 +70,14 @@ class CompaniesFragment : Fragment() {
 				CompaniesRootContent(companiesRootComponent)
 			}
 		}
+	}
+
+	private fun navigateToFlow(navigationFlow: NavigationFlow) {
+		(requireActivity() as ToFlowNavigatable).navigateToFlow(navigationFlow)
+	}
+
+	private fun popBackStack() {
+		(requireActivity() as ToFlowNavigatable).popBackStack()
 	}
 
 	//endregion

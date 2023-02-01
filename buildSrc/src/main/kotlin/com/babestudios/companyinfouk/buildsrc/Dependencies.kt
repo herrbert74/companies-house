@@ -5,9 +5,9 @@ object Versions {
 	const val compileSdkVersion = 33
 	const val targetSdkVersion = 33
 	const val gradlePlugin = "7.1.3"
-	const val kotlin = "1.7.20"
+	const val kotlin = "1.8.0"
 	const val coroutines = "1.6.4"
-	const val dagger = "2.42"
+	const val dagger = "2.44.2"
 }
 
 //Sadly this doesn't work in root gradle file, probably chicken and egg problem
@@ -58,16 +58,18 @@ object Libs {
 		}
 
 		object Compose {
-			private const val bomVersion = "2022.12.00"
-			private const val material3Version = "1.1.0-alpha04"
+			private const val bomVersion = "2023.01.00"
+			private const val material3Version = "1.1.0-alpha05" //This had search bar
+			private const val composeUiVersion = "1.4.0-alpha05" //This has a fix for a crash
 
 			//https://developer.android.com/jetpack/compose/setup#bom-version-mapping
+			//https://developer.android.com/jetpack/compose/bom/bom-mapping
 			const val bom = "androidx.compose:compose-bom:$bomVersion"
 
 			object Ui {
 
 				//Compile: ui-geometry, ui-graphics, ui-text and ui-unit; runtime: ui-util
-				const val primitives = "androidx.compose.ui:ui"
+				const val primitives = "androidx.compose.ui:ui:$composeUiVersion"
 
 				//Compile: ui, runtime, ui-tooling-preview, ui-tooling-data
 				const val tooling = "androidx.compose.ui:ui-tooling"
@@ -176,7 +178,8 @@ object Libs {
 			const val analytics = "com.google.android.gms:play-services-analytics:17.0.1"
 			const val auth = "com.google.android.gms:play-services-auth:19.2.0"
 			const val location = "com.google.android.gms:play-services-location:18.0.0"
-			const val maps = "com.google.android.gms:play-services-maps:18.0.2"
+			const val maps = "com.google.android.gms:play-services-maps:18.1.0"
+			const val mapsCompose = "com.google.maps.android:maps-compose:2.8.0"
 		}
 
 		object Dagger {

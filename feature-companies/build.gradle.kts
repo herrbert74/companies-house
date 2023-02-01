@@ -18,6 +18,7 @@ dependencies {
 	implementation(Libs.AndroidX.Compose.material3)
 	implementation(Libs.AndroidX.Compose.foundationLayout)
 	implementation(Libs.Google.PlayServices.maps)
+	implementation(Libs.Google.PlayServices.mapsCompose)
 	implementation(Libs.Views.collapsingToolbar)
 }
 
@@ -28,7 +29,7 @@ android {
 	}
 
 	composeOptions {
-		kotlinCompilerExtensionVersion = "1.3.2"
+		kotlinCompilerExtensionVersion = "1.4.0"
 	}
 
 }

@@ -52,7 +52,7 @@ fun HeaderCollapsingToolbarScaffold(
 	val state = rememberCollapsingToolbarScaffoldState()
 	val progress = state.toolbarState.progress
 	val bgColor = MaterialTheme.colorScheme.primary
-	val topAppBarColors = TopAppBarDefaults.smallTopAppBarColors(
+	val topAppBarColors = TopAppBarDefaults.topAppBarColors(
 		containerColor = Color(bgColor.red, bgColor.green, bgColor.blue, 1 - progress),
 	)
 

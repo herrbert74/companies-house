@@ -23,8 +23,9 @@ import com.babestudios.companyinfouk.domain.model.common.Address
 
 @Composable
 fun AddressCard(
-	address: Address,
 	modifier: Modifier = Modifier,
+	address: Address,
+	title: String = "Address",
 	onShowMap: () -> Unit,
 ) {
 
@@ -36,14 +37,14 @@ fun AddressCard(
 			.fillMaxWidth(1f)
 			.wrapContentHeight(Alignment.CenterVertically),
 	) {
-		val (title, showMapButton) = createRefs()
+		val (titleText, showMapButton) = createRefs()
 
 		Column(
 			verticalArrangement = Arrangement.Center,
 			horizontalAlignment = Alignment.Start,
 			modifier = modifier
 				.fillMaxWidth(HALF)
-				.constrainAs(title) {
+				.constrainAs(titleText) {
 					top.linkTo(parent.top)
 					bottom.linkTo(parent.bottom)
 					start.linkTo(parent.start)
@@ -53,7 +54,7 @@ fun AddressCard(
 				modifier = Modifier
 					.padding(horizontal = viewMarginLarge + viewMarginNormal, vertical = viewMarginNormal)
 					.fillMaxWidth(1f),
-				text = "Address",
+				text = title,
 				style = CompaniesTypography.bodyMedium
 			)
 			Text(

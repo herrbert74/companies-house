@@ -2,18 +2,18 @@ package com.babestudios.companyinfouk.companies.ui.main
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.Intent
+import com.babestudios.companyinfouk.companies.ui.main.MainStore.SideEffect
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.State
-import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderItem
-import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryHeaderVisitable
-import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitable
-import com.babestudios.companyinfouk.companies.ui.main.recents.SearchHistoryVisitableBase
-import com.babestudios.companyinfouk.data.BuildConfig
-import com.babestudios.companyinfouk.data.utils.StringResourceHelper
+import com.babestudios.companyinfouk.companies.ui.main.Message.MoreSearchResult
+import com.babestudios.companyinfouk.companies.ui.main.Message.SearchResult
+import com.babestudios.companyinfouk.companies.ui.main.Message.SetSearchMenuItemExpanded
+import com.babestudios.companyinfouk.companies.ui.main.Message.ShowRecentSearches
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.domain.model.search.filterSearchResults
 import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
+import com.github.michaelbull.result.Ok
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -21,14 +21,12 @@ import kotlinx.coroutines.withContext
 
 class MainExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
-	private val stringResourceHelper: StringResourceHelper,
 	@MainDispatcher val mainContext: CoroutineDispatcher,
 	@IoDispatcher val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, SideEffect>(mainContext) {
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
 		when (action) {
-
 			is BootstrapIntent.ShowRecentSearches -> {
 				companiesRepository.logScreenView("Main")
 				if (getState().searchQuery == null)
@@ -41,27 +39,27 @@ class MainExecutor @Inject constructor(
 
 	override fun executeIntent(intent: Intent, getState: () -> State) {
 		when (intent) {
-
 			Intent.ShowRecentSearches -> showRecentSearches()
 
 			Intent.ClearRecentSearchesClicked ->
-				if (getState().searchHistoryVisitables.isNotEmpty()) publish(SideEffect.ShowDeleteRecentSearchesDialog)
+				if (getState().searchHistoryItems.isNotEmpty()) publish(SideEffect.ShowDeleteRecentSearchesDialog)
 
-			Intent.ClearRecentSearches -> clearAllRecentSearches()
-			is Intent.LoadMoreSearch -> loadMoreSearch(intent.page, getState)
-			is Intent.SearchHistoryItemClicked -> publish(SideEffect.SearchItemClicked(intent.searchHistoryItem))
-			is Intent.SearchItemClicked -> searchItemClicked(intent.name, intent.number)
+			Intent.ClearRecentSearches -> clearRecentSearches()
+
 			is Intent.SearchQueryChanged -> onSearchQueryChanged(intent.queryText, getState)
+			is Intent.LoadMoreSearch -> loadMoreSearch(getState)
+			is Intent.SearchItemClicked -> searchItemClicked(intent.name, intent.number)
 			is Intent.SetFilterState -> dispatch(Message.SetFilterState(intent.filterState))
 
 			is Intent.SetSearchMenuItemExpanded -> {
 				if (getState().searchQuery == null)
-					dispatch(Message.SetSearchMenuItemExpanded)
+					dispatch(SetSearchMenuItemExpanded)
 			}
 
 			is Intent.SetSearchMenuItemCollapsed -> dispatch(Message.SetSearchMenuItemCollapsed)
 		}
 	}
+
 
 	//region Recent searches
 
@@ -70,115 +68,86 @@ class MainExecutor @Inject constructor(
 			val recentSearches = companiesRepository.recentSearches()
 			val recentSearchVisitables = convertSearchHistoryToVisitables(recentSearches)
 			withContext(mainContext) {
-				dispatch(Message.ShowRecentSearches(recentSearchVisitables))
+				dispatch(ShowRecentSearches(recentSearchVisitables))
 			}
 		}
 	}
 
-	private fun convertSearchHistoryToVisitables(reply: List<SearchHistoryItem>): List<SearchHistoryVisitableBase> {
-		val searchHistoryVisitables: MutableList<SearchHistoryVisitableBase> =
-			reply.map { item ->
-				SearchHistoryVisitable(
-					SearchHistoryItem(
-						item.companyName,
-						item.companyNumber,
-						System.currentTimeMillis()
-					)
-				)
-			}.toMutableList()
-		if (searchHistoryVisitables.size > 0)
-			searchHistoryVisitables.add(
-				0,
-				SearchHistoryHeaderVisitable(SearchHistoryHeaderItem(stringResourceHelper.getRecentSearchesString()))
+	private fun convertSearchHistoryToVisitables(reply: List<SearchHistoryItem>): List<SearchHistoryItem> {
+		return reply.map { item ->
+			SearchHistoryItem(
+				item.companyName,
+				item.companyNumber,
+				System.currentTimeMillis()
 			)
-		return searchHistoryVisitables
+		}
 	}
 
-	private fun clearAllRecentSearches() {
+	private fun clearRecentSearches() {
 		scope.launch(ioContext) {
 			companiesRepository.clearAllRecentSearches()
 			withContext(mainContext) {
-				dispatch(Message.ShowRecentSearches(convertSearchHistoryToVisitables(emptyList())))
+				dispatch(ShowRecentSearches(convertSearchHistoryToVisitables(emptyList())))
 			}
 		}
-	}
-
-	//endregion
-
-	//region Search
-
-	private fun onSearchQueryChanged(queryText: String, getState: () -> State) {
-		when {
-			isComingBackFromCompanyScreen(queryText, getState) ||
-				getState().searchQuery == null -> return
-			queryText.length > 2 -> search(queryText, getState)
-			else -> {
-				dispatch(
-					Message.ShowSearchResults(
-						searchQuery = queryText,
-						totalCount = 0,
-						searchResultItems = emptyList(),
-						filteredSearchResultItems = emptyList()
-					),
-				)
-			}
-		}
-	}
-
-	private fun isComingBackFromCompanyScreen(newQueryText: String, getState: () -> State) =
-		getState().searchQuery != null && getState().searchQuery == newQueryText
-
-	fun search(queryText: String, getState: () -> State) {
-		logSearch(queryText)
-		scope.launch(ioContext) {
-			val searchResult = companiesRepository.searchCompanies(queryText, "0")
-			val filterState = getState().filterState
-			withContext(mainContext) {
-				dispatch(
-					Message.ShowSearchResults(
-						timeStamp = System.currentTimeMillis(),
-						searchQuery = queryText,
-						totalCount = searchResult.totalResults ?: 0,
-						searchResultItems = searchResult.items,
-						filteredSearchResultItems = searchResult.items.filterSearchResults(filterState)
-					),
-				)
-			}
-		}
-	}
-
-	private fun loadMoreSearch(page: Int, getState: () -> State) {
-		scope.launch(ioContext) {
-			val searchQuery = getState().searchQuery.toString()
-			val searchResult = companiesRepository.searchCompanies(
-				searchQuery,
-				(page * Integer.valueOf(BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE)).toString()
-			)
-			val filterState = getState().filterState
-			val newItems = getState().searchResultItems.toMutableList()
-			newItems.addAll(searchResult.items)
-			val filteredSearchResultItems = newItems.filterSearchResults(filterState)
-			withContext(mainContext) {
-				dispatch(
-					Message.ShowSearchResults(
-						timeStamp = System.currentTimeMillis(),
-						searchQuery = searchQuery,
-						totalCount = searchResult.totalResults ?: 0,
-						searchResultItems = newItems.toList(),
-						filteredSearchResultItems = filteredSearchResultItems
-					),
-				)
-			}
-		}
-	}
-
-	private fun logSearch(queryText: String) {
-		companiesRepository.logSearch(queryText)
 	}
 
 	//endregion
 
 	//region main actions
+
+	//endregion
+
+	//region Search
+
+	private fun onSearchQueryChanged(queryText: String?, getState: () -> State) {
+		when {
+			isComingBackFromCompanyScreen(queryText, getState) || getState().searchQuery == null -> return
+			queryText != null &&queryText.length > 2 -> search(queryText)
+			else -> {
+				dispatch(
+					SearchResult(
+						searchQuery = queryText,
+						searchResult = Ok(CompanySearchResult()),
+					),
+				)
+			}
+		}
+	}
+
+	private fun isComingBackFromCompanyScreen(newQueryText: String?, getState: () -> State) =
+		getState().searchQuery != null && getState().searchQuery == newQueryText
+
+	fun search(queryText: String) {
+		companiesRepository.logSearch(queryText)
+		scope.launch(ioContext) {
+			val searchResult = companiesRepository.searchCompanies(queryText, "0")
+			withContext(mainContext) {
+				dispatch(
+					SearchResult(
+						searchQuery = queryText,
+						searchResult = Ok(searchResult),
+					),
+				)
+			}
+		}
+	}
+
+	private fun loadMoreSearch(getState: () -> State) {
+		val state = getState()
+		if (state.searchResults.size < state.totalResults) {
+			scope.launch(ioContext) {
+				val searchQuery = state.searchQuery
+				val searchResult = companiesRepository.searchCompanies(
+					searchQuery!!,
+					(state.searchResults.size).toString()
+				)
+				withContext(mainContext) {
+					dispatch(MoreSearchResult(searchResult = Ok(searchResult)))
+				}
+			}
+		}
+	}
 
 	private fun searchItemClicked(name: String, number: String) {
 
@@ -193,7 +162,6 @@ class MainExecutor @Inject constructor(
 			val recentSearchVisitables = convertSearchHistoryToVisitables(searchHistoryItems)
 			withContext(mainContext) {
 				dispatch(Message.SearchItemClicked(recentSearchVisitables))
-				publish(SideEffect.SearchItemClicked(newSearchHistoryItem))
 			}
 		}
 

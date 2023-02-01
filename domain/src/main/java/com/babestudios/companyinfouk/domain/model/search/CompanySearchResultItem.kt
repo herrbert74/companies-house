@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class CompanySearchResultItem(
+data class CompanySearchResultItem(
 
 	@SerializedName("description_identifier")
 	var descriptionIdentifier: List<String> = ArrayList(),

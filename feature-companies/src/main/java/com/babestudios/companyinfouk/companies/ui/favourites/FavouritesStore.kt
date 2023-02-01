@@ -8,7 +8,6 @@ interface FavouritesStore : Store<Intent, State, Nothing> {
 
     sealed class Intent {
         data class InitPendingRemoval(val favouritesItem: FavouritesItem) : Intent()
-        data class RemoveItem(val favouritesItem: FavouritesItem) : Intent()
         data class CancelPendingRemoval(val favouritesItem: FavouritesItem) : Intent()
         object DeletedInCompany : Intent()
     }

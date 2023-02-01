@@ -1,21 +1,31 @@
 package com.babestudios.companyinfouk.companies.ui.company
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.companyinfouk.common.compose.AddressCard
@@ -25,9 +35,11 @@ import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.company.Company
-import java.util.*
+import com.babestudios.companyinfouk.navigation.NavigationFlow
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -35,37 +47,49 @@ fun CompanyScreen(component: CompanyComp) {
 
 	val model by component.state.subscribeAsState()
 
-	BackHandler(onBack = { component.onBackClicked() })
-	val state = rememberScrollState()
+	BackHandler(onBack = { component.onBackClicked(model.previousConfig, model.isFavourite) })
 
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_company,
-		navigationAction = { component.onBackClicked() },
+		navigationAction = { component.onBackClicked(model.previousConfig, model.isFavourite) },
 		topAppBarActions = {},
 		title = model.company.companyName
 	) {
-		CompanyScreenBody(state, model.company)
+		CompanyScreenBody(
+			model.company,
+			model.isFavourite,
+			component::onToggleFavouriteClicked,
+			component::onMapClicked,
+			component::onDeepLinkClicked,
+		)
 	}
 
 }
 
 @Composable
-private fun CompanyScreenBody(state: ScrollState, company: Company) {
+private fun CompanyScreenBody(
+	company: Company,
+	isFavourite: Boolean,
+	onToggleFavouriteClicked: () -> Unit,
+	onMapClicked: (String) -> Unit,
+	onDeepLinkClicked: (NavigationFlow) -> Unit,
+) {
+
+	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+
 	Column(
 		verticalArrangement = Arrangement.Top,
 		horizontalAlignment = Alignment.CenterHorizontally,
-		modifier = Modifier.verticalScroll(state)
+		modifier = Modifier.verticalScroll(rememberScrollState())
 	) {
-
-		val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-		val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
 
 		Text(
 			text = company.companyNumber,
 			modifier = Modifier
 				.align(Alignment.Start)
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
-			style = CompaniesTypography.titleMedium,
+			style = CompaniesTypography.titleLargeBold,
 		)
 		Divider(thickness = 1.dp)
 		Text(
@@ -77,68 +101,104 @@ private fun CompanyScreenBody(state: ScrollState, company: Company) {
 		)
 		Divider(thickness = 1.dp)
 		AddressCard(
+			title = stringResource(R.string.office_address),
 			address = company.registeredOfficeAddress,
-			onShowMap = {},
+			onShowMap = { onMapClicked(company.registeredOfficeAddress.getAddressString()) },
 		)
 		Divider(thickness = 1.dp)
 		TwoLineCard(
 			stringResource(R.string.company_nature_of_business),
-			company.natureOfBusiness
+			company.natureOfBusiness,
+			Modifier.fillMaxWidth(1f)
 		)
 		Divider(thickness = 1.dp)
 		TwoLineCard(
 			stringResource(R.string.company_accounts),
-			company.lastAccountsMadeUpTo
+			company.lastAccountsMadeUpTo,
+			Modifier.fillMaxWidth(1f)
 		)
 		Divider(thickness = 1.dp)
 		SingleLineCard(
+			modifier = Modifier
+				.padding(vertical = viewMarginNormal)
+				.clickable { onDeepLinkClicked(NavigationFlow.FilingsFlow(company.companyNumber)) },
 			vectorImageResource = R.drawable.ic_company_filing_history,
 			text = stringResource(R.string.filing_history)
 		)
-		Divider(thickness = 1.dp)
+		if(company.hasInsolvencyHistory) {
+			SingleLineCard(
+				modifier = Modifier
+					.padding(vertical = viewMarginNormal)
+					.clickable { onDeepLinkClicked(NavigationFlow.InsolvenciesFlow(company.companyNumber)) },
+				vectorImageResource = R.drawable.ic_company_insolvency,
+				text = stringResource(R.string.insolvency)
+			)
+		}
+		if(company.hasCharges) {
+			SingleLineCard(
+				modifier = Modifier
+					.padding(vertical = viewMarginNormal)
+					.clickable { onDeepLinkClicked(NavigationFlow.ChargesFlow(company.companyNumber)) },
+				vectorImageResource = R.drawable.ic_company_charges,
+				text = stringResource(R.string.charges)
+			)
+		}
 		SingleLineCard(
-			vectorImageResource = R.drawable.ic_company_insolvency,
-			text = stringResource(R.string.insolvency)
-		)
-		Divider(thickness = 1.dp)
-		SingleLineCard(
-			vectorImageResource = R.drawable.ic_company_charges,
-			text = stringResource(R.string.charges)
-		)
-		Divider(thickness = 1.dp)
-		SingleLineCard(
+			modifier = Modifier
+				.padding(vertical = viewMarginNormal)
+				.clickable { onDeepLinkClicked(NavigationFlow.OfficersFlow(company.companyNumber)) },
 			vectorImageResource = R.drawable.ic_company_officers,
 			text = stringResource(R.string.officers)
 		)
-		Divider(thickness = 1.dp)
 		SingleLineCard(
+			modifier = Modifier
+				.padding(vertical = viewMarginNormal)
+				.clickable { onDeepLinkClicked(NavigationFlow.PersonsFlow(company.companyNumber)) },
 			vectorImageResource = R.drawable.ic_company_persons_with_control,
 			text = stringResource(R.string.persons_with_significant_control)
 		)
+		Spacer(modifier = Modifier.height(viewMarginLarge))
+	}
+
+	Box(Modifier.fillMaxSize(1f)) {
+		LargeFloatingActionButton(
+			modifier = Modifier
+				.align(Alignment.BottomEnd)
+				.padding(all = viewMarginLarge),
+			onClick = { onToggleFavouriteClicked() },
+		) {
+			Icon(
+				painter = painterResource(if (isFavourite) R.drawable.ic_favorite_clear else R.drawable.ic_favorite),
+				contentDescription = "Add favourites",
+			)
+		}
 	}
 }
 
-@Preview("company Preview")
+@Preview
 @Composable
-fun CompanyScreenPreview() {
+fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
 	CompaniesTheme {
-		CompanyScreenBody(
-			ScrollState(0),
-			Company(
-				companyNumber = "0234567",
-				companyName = "Pbf Hire",
-				dateOfCreation = "2012-02-02",
-				registeredOfficeAddress = Address(
-					addressLine1 = "1 Harewood Street",
-					addressLine2 = null,
-					country = "England",
-					locality = "Leeds",
-					postalCode = "LS2 7AD",
-					region = "West Yorkshire"
-				),
-				natureOfBusiness = "64209 Activities of other holding companies not elsewhere classified",
-				lastAccountsMadeUpTo = "Last Full account made up to 31 July 2022"
-			)
-		)
+		CompanyScreenBody(company, true, {}, {}, {})
 	}
+}
+
+class CompanyProvider : PreviewParameterProvider<Company> {
+	override val values = sequenceOf(
+		Company(
+			companyNumber = "0234567",
+			companyName = "Pbf Hire",
+			dateOfCreation = "2012-02-02",
+			registeredOfficeAddress = Address(
+				addressLine1 = "1 Harewood Street",
+				addressLine2 = null,
+				country = "England",
+				locality = "Leeds",
+				postalCode = "LS2 7AD",
+				region = "West Yorkshire"
+			),
+			natureOfBusiness = "64209 Activities of other holding companies not elsewhere classified",
+			lastAccountsMadeUpTo = "Last Full account"// made up to 31 July 2022"
+		)
+	)
 }

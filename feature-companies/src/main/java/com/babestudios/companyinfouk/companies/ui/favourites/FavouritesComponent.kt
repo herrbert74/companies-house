@@ -5,7 +5,6 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.companyinfouk.common.ext.asValue
-import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
@@ -13,6 +12,10 @@ import kotlinx.coroutines.launch
 interface FavouritesComp {
 
 	fun onItemClicked(favouritesItem: FavouritesItem)
+
+	fun onDeleteClicked(favouritesItem: FavouritesItem)
+
+	fun onUndoDeleteClicked(favouritesItem: FavouritesItem)
 
 	fun onBackClicked()
 
@@ -38,6 +41,14 @@ class FavouritesComponent(
 		CoroutineScope(favouritesExecutor.mainContext).launch {
 			output.emit(FavouritesComp.Output.Selected(favouritesItem = favouritesItem))
 		}
+	}
+
+	override fun onDeleteClicked(favouritesItem: FavouritesItem) {
+		favouritesStore.accept(FavouritesStore.Intent.InitPendingRemoval(favouritesItem))
+	}
+
+	override fun onUndoDeleteClicked(favouritesItem: FavouritesItem) {
+		favouritesStore.accept(FavouritesStore.Intent.CancelPendingRemoval(favouritesItem))
 	}
 
 	override fun onBackClicked() {

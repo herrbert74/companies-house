@@ -8,14 +8,20 @@ import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.Int
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+private const val PENDING_REMOVAL_TIMEOUT = 5000L // 5sec
 
 class FavouritesExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
 	@MainDispatcher val mainContext: CoroutineDispatcher,
 	@IoDispatcher val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
+
+	var removeJob: Job? = null
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
 		when (action) {
@@ -33,21 +39,31 @@ class FavouritesExecutor @Inject constructor(
 				val itemCopy = favourites[favourites.indexOf(intent.favouritesItem)].copy(isPendingRemoval = true)
 				favourites[favourites.indexOf(intent.favouritesItem)] = itemCopy
 				dispatch(Message.UpdateFavourites(favourites.toList()))
-			}
-
-			is Intent.RemoveItem -> {
-				companiesRepository.removeFavourite(intent.favouritesItem.searchHistoryItem)
-				fetchFavourites()
+				startRemoveTimer(itemCopy)
 			}
 
 			is Intent.CancelPendingRemoval -> {
+				removeJob?.cancel()
 				val favourites = getState().favourites.toMutableList()
 				val itemCopy = favourites[favourites.indexOf(intent.favouritesItem)].copy(isPendingRemoval = false)
 				favourites[favourites.indexOf(intent.favouritesItem)] = itemCopy
 				dispatch(Message.UpdateFavourites(favourites.toList()))
 			}
+
 			is Intent.DeletedInCompany -> fetchFavourites()
 		}
+	}
+
+	private fun startRemoveTimer(favouritesItem: FavouritesItem) {
+		removeJob = scope.launch(ioContext) {
+			delay(PENDING_REMOVAL_TIMEOUT)
+			removeFavourite(favouritesItem)
+		}
+	}
+
+	private fun removeFavourite(favouritesItem: FavouritesItem) {
+		companiesRepository.removeFavourite(favouritesItem.searchHistoryItem)
+		fetchFavourites()
 	}
 
 	//region favourites actions

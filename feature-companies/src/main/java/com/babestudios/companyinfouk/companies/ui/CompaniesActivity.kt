@@ -24,21 +24,12 @@ class CompaniesActivity : AppCompatActivity(), ToFlowNavigatable {
 		navigation.bind(navController)
 	}
 
-	override fun onBackPressed() {
-		if (onBackPressedDispatcher.hasEnabledCallbacks()) {
-			onBackPressedDispatcher.onBackPressed()
-		} else {
-			super.finish()
-			overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out)
-		}
-	}
-
 	override fun navigateToFlow(flow: NavigationFlow) {
 		navigation.navigateToFlow(flow)
 	}
 
-//	fun popBackStack() {
-//		findNavController(R.id.navHostFragmentCompanies)
-//	}
+	override fun popBackStack() {
+		navigation.popBackStack()
+	}
 
 }
