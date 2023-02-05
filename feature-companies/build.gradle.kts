@@ -7,7 +7,6 @@ plugins {
 }
 
 dependencies {
-	implementation(project(":data"))
 	implementation(Libs.Decompose.core)
 	implementation(Libs.Decompose.extensionsJetpack)
 	implementation(Libs.Decompose.extensionsJetBrains)
@@ -20,18 +19,6 @@ dependencies {
 	implementation(Libs.Google.PlayServices.maps)
 	implementation(Libs.Google.PlayServices.mapsCompose)
 	implementation(Libs.Views.collapsingToolbar)
-}
-
-android {
-
-	buildFeatures {
-		compose = true
-	}
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.4.0"
-	}
-
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

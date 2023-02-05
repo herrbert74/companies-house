@@ -31,6 +31,7 @@ import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -82,6 +83,14 @@ fun MainScreen(component: MainComp) {
 		containerColor = MaterialTheme.colorScheme.primaryContainer,
 	)
 
+	/**
+	 * We need to set a separate colour for SearchBar and its content to allow semi transparent content,
+	but it's not currently possible.'
+	 */
+//	val searchBarColors = SearchBarDefaults.colors(
+//		containerColor = colorResource(R.color.semiTransparentBlack),
+//	)
+
 	fun closeSearchBar() {
 		focusManager.clearFocus()
 		isSearchBarActive = false
@@ -100,13 +109,13 @@ fun MainScreen(component: MainComp) {
 					}) {
 						Icon(
 							painter = painterResource(R.drawable.ic_search),
-							contentDescription = "Localized description",
+							contentDescription = "Search icon",
 						)
 					}
 					IconButton(onClick = { component.onFavoritesClicked() }) {
 						Icon(
 							painter = painterResource(R.drawable.ic_favorite),
-							contentDescription = "Localized description",
+							contentDescription = "Favourites",
 						)
 					}
 					IconButton(onClick = { showMenu = !showMenu }) {
@@ -127,7 +136,7 @@ fun MainScreen(component: MainComp) {
 	) { paddingValues ->
 
 		if (model.searchHistoryItems.isEmpty()) {
-			EmptyRecentSearchesList(paddingValues)
+			EmptySearchList(paddingValues, stringResource(R.string.no_recent_searches))
 		} else {
 			RecentSearchesList(
 				paddingValues = paddingValues,
@@ -144,6 +153,7 @@ fun MainScreen(component: MainComp) {
 		}
 		if (isSearchBarActive) {
 			SearchBar(
+				//colors = searchBarColors,
 				query = searchQuery,
 				onQueryChange = {
 					searchQuery = it
@@ -183,7 +193,6 @@ fun MainScreen(component: MainComp) {
 					}
 				},
 			) {
-
 				if (model.isLoading) {
 					CircularProgressIndicator()
 				} else if (model.error != null) {
@@ -192,6 +201,8 @@ fun MainScreen(component: MainComp) {
 							.background(color = Color.Red)
 							.padding(paddingValues)
 					)
+				} else if(searchQuery.length > 2 && model.filteredSearchResultItems.isEmpty()){
+					EmptySearchList(paddingValues)
 				} else {
 					SearchResultList(
 						items = model.filteredSearchResultItems,
@@ -218,9 +229,13 @@ private fun MainHeader() {
 
 }
 
+/**
+ * Used for both search results and recent searches
+ */
 @Composable
-private fun EmptyRecentSearchesList(
+private fun EmptySearchList(
 	paddingValues: PaddingValues,
+	message: String = stringResource(R.string.no_search_result),
 ) {
 
 	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
@@ -238,7 +253,7 @@ private fun EmptyRecentSearchesList(
 			contentDescription = null
 		)
 		Text(
-			text = stringResource(R.string.no_recent_searches),
+			text = message,
 			style = CompaniesTypography.titleLargeBold,
 			textAlign = TextAlign.Center,
 			modifier = Modifier
@@ -345,7 +360,7 @@ private fun SearchResultList(
 ) {
 
 	val backgroundColor =
-		if (items.isEmpty()) MaterialTheme.colorScheme.background
+		if (items.isEmpty()) colorResource(android.R.color.transparent)//MaterialTheme.colorScheme.background
 		else colorResource(android.R.color.transparent)
 
 	Box(
@@ -385,7 +400,7 @@ private fun SearchResultList(
 @Preview("Empty Recent List Preview")
 @Composable
 fun EmptyRecentListPreview() {
-	EmptyRecentSearchesList(PaddingValues())
+	EmptySearchList(PaddingValues())
 }
 
 @Preview("Main List Preview")

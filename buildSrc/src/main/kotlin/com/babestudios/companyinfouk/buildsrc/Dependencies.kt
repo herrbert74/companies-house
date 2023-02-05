@@ -76,8 +76,11 @@ object Libs {
 
 				//Compile: ui-test
 				const val test = "androidx.compose.ui:ui-test-junit4"
+				const val testManifest = "androidx.compose.ui:ui-test-manifest" //For adding Activities
 
 			}
+
+			const val runtime = "androidx.compose.runtime:runtime"
 
 			//Compile: ui, runtime, animation, material-icons-core, material-ripple
 			const val material = "androidx.compose.material:material"
@@ -224,6 +227,7 @@ object Libs {
 	object SquareUp {
 
 		const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
+		const val javaPoet = "com.squareup:javapoet:1.13.0" //Needed for AGP: https://github.com/google/dagger/issues/3068
 
 		object Moshi {
 			private const val version = "1.8.0"
@@ -275,7 +279,7 @@ object Libs {
 	}
 
 	object MviKotlin {
-		private const val version = "3.0.0"
+		private const val version = "3.1.0"
 		const val core = "com.arkivanov.mvikotlin:mvikotlin:$version"
 		const val main = "com.arkivanov.mvikotlin:mvikotlin-main:$version"
 		const val rx = "com.arkivanov.mvikotlin:rx:$version"
@@ -286,7 +290,7 @@ object Libs {
 	}
 
 	object Decompose {
-		private const val VERSION = "1.0.0-alpha-06"
+		private const val VERSION = "1.0.0"
 		const val core = "com.arkivanov.decompose:decompose:$VERSION"
 		const val extensionsJetpack = "com.arkivanov.decompose:extensions-compose-jetpack:$VERSION"
 		const val extensionsJetBrains = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
@@ -334,7 +338,6 @@ object Libs {
 	}
 
 	object Views {
-		const val multiStateView = "com.github.Kennyc1012:MultiStateView:2.2.0"
 
 		object FlowBinding {
 			private const val version = "1.2.0"

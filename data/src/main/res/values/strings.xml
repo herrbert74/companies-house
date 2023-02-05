@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="company_accounts_formatted_text">Last %1$s account made up to %2$s</string>
+	<string name="company_accounts_not_found">Accounts not found</string>
+	<string name="officer_item_appointed_from_to">From %1$s to %2$s</string>
+	<string name="officer_item_appointed_from">From %1$s</string>
+	<string name="insolvency_dates">Dates</string>
+	<string name="insolvency_practitioners">Practitioners</string>
+	<string name="recent_searches">Recent Searches</string>
+</resources>

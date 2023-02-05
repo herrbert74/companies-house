@@ -1,21 +1,35 @@
 package com.babestudios.companyinfouk.ui.favourites
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickBack
-import com.babestudios.companyinfouk.companies.ui.CompaniesActivity
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.babestudios.companyinfouk.companies.ui.CompaniesRootComponent
+import com.babestudios.companyinfouk.companies.ui.CompaniesRootContent
+import com.babestudios.companyinfouk.companies.ui.Configuration
+import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
 import com.babestudios.companyinfouk.data.di.DataContractModule
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.domain.util.IoDispatcher
+import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.mock.mockCompaniesRepository
-import com.babestudios.companyinfouk.ui.CompaniesRobot
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import io.mockk.coEvery
 import io.mockk.mockk
+import javax.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,10 +44,21 @@ class FavouritesFragmentTest {
 	val hiltAndroidRule = HiltAndroidRule(this)
 
 	@get:Rule(order = 1)
-	var activityTestRule = ActivityScenarioRule(CompaniesActivity::class.java)
+	val composeTestRule = createComposeRule()
+
+	@Inject
+	lateinit var mainExecutor: MainExecutor
 
 	@BindValue
 	val companiesRepository: CompaniesRepository = mockCompaniesRepository()
+
+	@Inject
+	@MainDispatcher
+	lateinit var mainContext: CoroutineDispatcher
+
+	@Inject
+	@IoDispatcher
+	lateinit var ioContext: CoroutineDispatcher
 
 	@BindValue
 	val rawResourceHelper: RawResourceHelper = mockk()
@@ -41,13 +66,29 @@ class FavouritesFragmentTest {
 	@Before
 	fun setUp() {
 		hiltAndroidRule.inject()
+		CoroutineScope(mainContext).launch {
+			val companiesRootComponent = CompaniesRootComponent(
+				DefaultComponentContext(lifecycle = LifecycleRegistry()),
+				mainContext,
+				ioContext,
+				companiesRepository,
+				{},
+				mainExecutor,
+				{},
+				Configuration.Main,
+				{},
+			)
+			composeTestRule.setContent {
+				CompaniesRootContent(companiesRootComponent)
+			}
+		}
 	}
 
 	@Test
 	fun whenComingFromMain_thenShowsData() {
 
-		CompaniesRobot().clickFavourites()
-		CompaniesRobot().assertFavouriteIsListed()
+		composeTestRule.onNodeWithContentDescription("Favourites").performClick()
+		composeTestRule.onNodeWithText("Acme Painting").assertIsDisplayed()
 
 	}
 
@@ -57,32 +98,27 @@ class FavouritesFragmentTest {
 		coEvery {
 			companiesRepository.favourites()
 		} returns emptyList()
-		CompaniesRobot().clickFavourites()
-		CompaniesRobot().assertFavouritesEmpty(getActivity()!!)
+
+		composeTestRule.onNodeWithContentDescription("Favourites").performClick()
+		composeTestRule.onNodeWithText("This list is empty").assertIsDisplayed()
 
 	}
 
 	@Test
 	fun whenComingFromCompany_andFavouriteIsDeleted_thenDisplaysEmptyView() {
 
-		CompaniesRobot().clickFavourites()
-		CompaniesRobot().clickCompanyInFavourites()
-		CompaniesRobot().removeFavouriteInCompany()
+		composeTestRule.onNodeWithContentDescription("Favourites").performClick()
+		composeTestRule.onNodeWithText("Acme Painting").performClick()
+		composeTestRule.onNodeWithTag("Fab Favourite").performClick()
 
 		coEvery {
 			companiesRepository.favourites()
 		} returns emptyList()
-		clickBack()
-		CompaniesRobot().assertFavouritesEmpty(getActivity()!!)
 
-	}
+		Espresso.pressBack()
 
-	private fun getActivity(): AppCompatActivity? {
-		var activity: AppCompatActivity? = null
-		activityTestRule.scenario.onActivity {
-			activity = it
-		}
-		return activity
+		composeTestRule.onNodeWithText("This list is empty").assertIsDisplayed()
+
 	}
 
 }

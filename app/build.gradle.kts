@@ -10,7 +10,15 @@ plugins {
 	id("dagger.hilt.android.plugin")
 }
 
+@Suppress("UnstableApiUsage")
 android {
+
+	buildFeatures.compose = true
+
+	composeOptions {
+		kotlinCompilerExtensionVersion = "1.4.0"
+	}
+
 	defaultConfig {
 		applicationId = "com.babestudios.companyinfouk"
 		versionCode = 10
@@ -29,38 +37,14 @@ android {
 	}
 	buildTypes {
 		getByName("release") {
-			//testCoverageEnabled true
 			isDebuggable = false
 			isMinifyEnabled = true
 			signingConfig = signingConfigs.getByName("release")
 			proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 		}
 		getByName("debug") {
-			isTestCoverageEnabled = true
 			isMinifyEnabled = false
 		}
-	}
-	testOptions {
-		unitTests.isIncludeAndroidResources = true
-	}
-
-	applicationVariants.all {
-		val isTest: Boolean = gradle.startParameter.taskNames.find {
-			it.contains("test") || it.contains(
-				"Test"
-			)
-		} != null
-		if (isTest) {
-			apply(plugin = "kotlin-allopen")
-			allOpen {
-				annotation("com.babestudios.base.annotation.Mockable")
-			}
-		}
-	}
-
-	//Added due to issue with AGP 7.1.1 and Hilt. See https://issuetracker.google.com/issues/219572935
-	hilt {
-		enableAggregatingTask = false
 	}
 }
 
@@ -84,6 +68,7 @@ dependencies {
 	implementation(platform(Libs.Google.Firebase.bom))
 	implementation(Libs.Google.Firebase.crashlytics)
 	implementation(Libs.SquareUp.Retrofit2.retrofit)
+	implementation(Libs.AndroidX.Compose.runtime) //To make buildFeatures.compose = true happy ?!
 
 	kapt(Libs.AndroidX.Hilt.compiler)
 	kapt(Libs.Google.Dagger.compiler)
@@ -96,12 +81,17 @@ dependencies {
 	androidTestImplementation(Libs.Test.MockK.android)
 	androidTestImplementation(Libs.Test.barista)
 	androidTestImplementation(Libs.Google.Dagger.Hilt.androidTesting)
+	implementation(platform(Libs.AndroidX.Compose.bom))
+	androidTestImplementation(platform(Libs.AndroidX.Compose.bom))
+	androidTestImplementation(Libs.AndroidX.Compose.Ui.test)
+	debugImplementation(Libs.AndroidX.Compose.Ui.testManifest)
 	androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
 	//RecyclerView, ViewPager, NavigationViewActions: unused for now
 	//androidTestImplementation (Libs.AndroidX.Test.Espresso.contrib)
 	androidTestImplementation(Libs.AndroidX.Test.Ext.jUnit)
 	androidTestImplementation(Libs.AndroidX.Test.rules)
 	androidTestImplementation(Libs.AndroidX.Test.runner)
+	androidTestImplementation(Libs.Decompose.core)
 	androidTestImplementation(Libs.Test.barista)
 	androidTestImplementation(Libs.KotlinResult.result)
 

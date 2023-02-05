@@ -22,7 +22,6 @@ import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 @Suppress("unused")
 @Module
@@ -38,7 +37,6 @@ object AndroidTestDataModule {
 	internal fun provideCompaniesHouseRetrofit(): Retrofit {
 		return Retrofit.Builder()
 			.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)
-			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 			.addConverterFactory(AdvancedGsonConverterFactory.create())
 			.build()
 	}
@@ -54,7 +52,6 @@ object AndroidTestDataModule {
 		httpClient.addInterceptor(logging)
 		return Retrofit.Builder()
 			.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)
-			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 			.addConverterFactory(AdvancedGsonConverterFactory.create())
 			.client(httpClient.build())
 			.build()

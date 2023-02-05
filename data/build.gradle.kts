@@ -55,7 +55,6 @@ android {
 
 dependencies {
 
-	api(project(":common"))
 	api(project(":domain"))
 
 	api(Libs.baBeStudiosBase)

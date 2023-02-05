@@ -11,6 +11,8 @@ import org.gradle.kotlin.dsl.dependencies
  * It contains all the default dependencies, that are used in every feature module.
  */
 open class BaBeStudiosFeaturePlugin : Plugin<Project> {
+
+	@Suppress("UnstableApiUsage")
 	override fun apply(project: Project) {
 
 		project.plugins.apply("kotlin-kapt")
@@ -33,7 +35,6 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			add("implementation", Libs.AndroidX.Navigation.uiKtx)
 			add("implementation", Libs.AndroidX.Navigation.fragment)
 			add("implementation", Libs.KotlinResult.result)
-			add("implementation", Libs.Views.multiStateView)
 			add("implementation", Libs.MviKotlin.main)
 			add("implementation", Libs.MviKotlin.rx)
 			add("implementation", Libs.MviKotlin.utilsInternal)
@@ -59,8 +60,9 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 		if (androidExtension is BaseExtension) {
 
 			androidExtension.apply {
-				@Suppress("UnstableApiUsage")
+				buildFeatures.compose = true
 				buildFeatures.viewBinding = true
+				composeOptions.kotlinCompilerExtensionVersion = "1.4.0"
 			}
 		}
 	}

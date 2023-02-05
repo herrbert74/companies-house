@@ -1,6 +1,6 @@
 import com.babestudios.companyinfouk.buildsrc.Libs
 
-plugins{
+plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 }
 
@@ -22,16 +22,11 @@ dependencies {
 	implementation(Libs.Views.collapsingToolbar)
 }
 
+@Suppress("UnstableApiUsage")
 android {
-	@Suppress("UnstableApiUsage")
-	buildFeatures {
-		viewBinding = true
-		compose = true
-	}
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.4.0"
-	}
+	buildFeatures.viewBinding = true
+	buildFeatures.compose = true
+	composeOptions.kotlinCompilerExtensionVersion = "1.4.0"
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

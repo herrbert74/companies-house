@@ -19,18 +19,6 @@ dependencies {
 	implementation(Libs.Views.collapsingToolbar)
 }
 
-android {
-
-	buildFeatures {
-		compose = true
-	}
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.4.0"
-	}
-
-}
-
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
 	kotlinOptions.freeCompilerArgs += "-opt-in=com.arkivanov.decompose.ExperimentalDecomposeApi"
 }
