@@ -2,6 +2,7 @@
 
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,9 +22,11 @@ import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.R
 
 @Composable
-fun InsolvenciesListScreen(component: InsolvenciesComp) {
+fun InsolvenciesScreen(component: InsolvenciesComp) {
 
 	val model by component.state.subscribeAsState()
+
+	BackHandler(onBack = { component.onBackClicked() })
 
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_insolvency,

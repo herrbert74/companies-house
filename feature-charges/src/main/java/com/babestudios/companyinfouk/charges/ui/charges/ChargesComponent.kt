@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 
-interface ChargesListComp {
+interface ChargesComp {
 
 	fun onItemClicked(chargesItem: ChargesItem)
 
@@ -27,19 +27,19 @@ interface ChargesListComp {
 
 }
 
-class ChargesListComponent(
+class ChargesComponent(
 	componentContext: ComponentContext,
 	val chargesExecutor: ChargesExecutor,
 	val companyNumber: String,
-	private val output: FlowCollector<ChargesListComp.Output>
-) : ChargesListComp, ComponentContext by componentContext {
+	private val output: FlowCollector<ChargesComp.Output>
+) : ChargesComp, ComponentContext by componentContext {
 
 	private var chargesStore: ChargesStore =
 		ChargesStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), chargesExecutor).create(companyNumber)
 
 	override fun onItemClicked(chargesItem: ChargesItem) {
 		CoroutineScope(chargesExecutor.mainContext).launch {
-			output.emit(ChargesListComp.Output.Selected(chargesItem = chargesItem))
+			output.emit(ChargesComp.Output.Selected(chargesItem = chargesItem))
 		}
 	}
 
@@ -49,7 +49,7 @@ class ChargesListComponent(
 
 	override fun onBackClicked() {
 		CoroutineScope(chargesExecutor.mainContext).launch {
-			output.emit(ChargesListComp.Output.Back)
+			output.emit(ChargesComp.Output.Back)
 			chargesStore.dispose()
 		}
 	}

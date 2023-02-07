@@ -37,7 +37,6 @@ interface MainComp {
 	val state: Value<MainStore.State>
 
 	sealed class Output {
-		object Back : Output()
 		data class Selected(val companySearchResultItem: CompanySearchResultItem) : Output()
 		object Privacy : Output()
 		data class RecentSearchHistorySelected(val searchHistoryItem: SearchHistoryItem) : Output()
@@ -50,6 +49,7 @@ class MainComponent(
 	componentContext: ComponentContext,
 	val mainExecutor: MainExecutor,
 	private val output: FlowCollector<MainComp.Output>,
+	private val finishHandler: () -> Unit,
 ) : MainComp, ComponentContext by componentContext {
 
 	private var mainStore: MainStore =
@@ -122,10 +122,8 @@ class MainComponent(
 	}
 
 	override fun onBackClicked() {
-		CoroutineScope(mainExecutor.mainContext).launch {
-			output.emit(MainComp.Output.Back)
-			mainStore.dispose()
-		}
+		finishHandler.invoke()
+		mainStore.dispose()
 	}
 
 	override val state: Value<MainStore.State>

@@ -40,7 +40,6 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.company.Company
-import com.babestudios.companyinfouk.navigation.NavigationFlow
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -48,11 +47,11 @@ fun CompanyScreen(component: CompanyComp) {
 
 	val model by component.state.subscribeAsState()
 
-	BackHandler(onBack = { component.onBackClicked(model.previousConfig, model.isFavourite) })
+	BackHandler(onBack = { component.onBackClicked(model.isFavourite) })
 
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_company,
-		navigationAction = { component.onBackClicked(model.previousConfig, model.isFavourite) },
+		navigationAction = { component.onBackClicked(model.isFavourite) },
 		topAppBarActions = {},
 		title = model.company.companyName
 	) {
@@ -61,7 +60,11 @@ fun CompanyScreen(component: CompanyComp) {
 			model.isFavourite,
 			component::onToggleFavouriteClicked,
 			component::onMapClicked,
-			component::onDeepLinkClicked,
+			component::onChargesClicked,
+			component::onFilingsClicked,
+			component::onInsolvenciesClicked,
+			component::onOfficersClicked,
+			component::onPersonsClicked,
 		)
 	}
 
@@ -73,7 +76,11 @@ private fun CompanyScreenBody(
 	isFavourite: Boolean,
 	onToggleFavouriteClicked: () -> Unit,
 	onMapClicked: (String) -> Unit,
-	onDeepLinkClicked: (NavigationFlow) -> Unit,
+	onChargesClicked: (String) -> Unit,
+	onFilingsClicked: (String) -> Unit,
+	onInsolvenciesClicked: (String) -> Unit,
+	onOfficersClicked: (String) -> Unit,
+	onPersonsClicked: (String) -> Unit,
 ) {
 
 	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
@@ -122,24 +129,24 @@ private fun CompanyScreenBody(
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
-				.clickable { onDeepLinkClicked(NavigationFlow.FilingsFlow(company.companyNumber)) },
+				.clickable { onFilingsClicked(company.companyNumber) },
 			vectorImageResource = R.drawable.ic_company_filing_history,
 			text = stringResource(R.string.filing_history)
 		)
-		if(company.hasInsolvencyHistory) {
+		if (company.hasInsolvencyHistory) {
 			SingleLineCard(
 				modifier = Modifier
 					.padding(vertical = viewMarginNormal)
-					.clickable { onDeepLinkClicked(NavigationFlow.InsolvenciesFlow(company.companyNumber)) },
+					.clickable { onInsolvenciesClicked(company.companyNumber) },
 				vectorImageResource = R.drawable.ic_company_insolvency,
 				text = stringResource(R.string.insolvency)
 			)
 		}
-		if(company.hasCharges) {
+		if (company.hasCharges) {
 			SingleLineCard(
 				modifier = Modifier
 					.padding(vertical = viewMarginNormal)
-					.clickable { onDeepLinkClicked(NavigationFlow.ChargesFlow(company.companyNumber)) },
+					.clickable { onChargesClicked(company.companyNumber) },
 				vectorImageResource = R.drawable.ic_company_charges,
 				text = stringResource(R.string.charges)
 			)
@@ -147,14 +154,14 @@ private fun CompanyScreenBody(
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
-				.clickable { onDeepLinkClicked(NavigationFlow.OfficersFlow(company.companyNumber)) },
+				.clickable { onOfficersClicked(company.companyNumber) },
 			vectorImageResource = R.drawable.ic_company_officers,
 			text = stringResource(R.string.officers)
 		)
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
-				.clickable { onDeepLinkClicked(NavigationFlow.PersonsFlow(company.companyNumber)) },
+				.clickable { onPersonsClicked(company.companyNumber) },
 			vectorImageResource = R.drawable.ic_company_persons_with_control,
 			text = stringResource(R.string.persons_with_significant_control)
 		)
@@ -181,7 +188,7 @@ private fun CompanyScreenBody(
 @Composable
 fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
 	CompaniesTheme {
-		CompanyScreenBody(company, true, {}, {}, {})
+		CompanyScreenBody(company, true, {}, {}, {}, {}, {}, {}, {})
 	}
 }
 

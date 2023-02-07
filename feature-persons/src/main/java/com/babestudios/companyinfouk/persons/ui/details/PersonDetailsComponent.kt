@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.persons.ui.details
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,7 +13,7 @@ interface PersonDetailsComp {
 
 	sealed class Output {
 		object Back : Output()
-		data class OnShowMapClicked(val name: String, val address: Address) : Output()
+		data class OnShowMapClicked(val name: String, val address: String) : Output()
 	}
 
 	val selectedPerson: Person
@@ -30,7 +30,7 @@ class PersonDetailsComponent(
 	@MainDispatcher
 	val mainContext: CoroutineDispatcher,
 	override val selectedPerson: Person,
-	private val output: FlowCollector<PersonDetailsComp.Output>
+	private val output: FlowCollector<PersonDetailsComp.Output>,
 ) : PersonDetailsComp, ComponentContext by componentContext {
 
 	override fun onBackClicked() {
@@ -41,7 +41,12 @@ class PersonDetailsComponent(
 
 	override fun onShowMapClicked() {
 		CoroutineScope(mainContext).launch {
-			output.emit(PersonDetailsComp.Output.OnShowMapClicked(selectedPerson.name, selectedPerson.address))
+			output.emit(
+				PersonDetailsComp.Output.OnShowMapClicked(
+					selectedPerson.name,
+					selectedPerson.address.getAddressString()
+				)
+			)
 		}
 	}
 

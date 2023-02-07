@@ -1,10 +1,9 @@
 package com.babestudios.companyinfouk.companies.ui.company
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.babestudios.companyinfouk.companies.ui.Configuration
-import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
+import com.babestudios.companyinfouk.domain.model.company.Company
 
 interface CompanyStore : Store<Intent, State, Nothing> {
 
@@ -16,7 +15,6 @@ interface CompanyStore : Store<Intent, State, Nothing> {
 
 		//initial data
 		val companyId: String,
-		val previousConfig: Configuration,
 
 		//result data
 		val company: Company = Company(),

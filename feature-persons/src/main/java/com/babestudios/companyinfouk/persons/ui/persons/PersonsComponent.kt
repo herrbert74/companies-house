@@ -10,13 +10,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 
-interface PersonsListComp {
+interface PersonsComp {
 
 	fun onItemClicked(person: Person)
 
 	fun onLoadMore()
 
-	fun finish()
+	fun onBackClicked()
 
 	val state: Value<PersonsStore.State>
 
@@ -27,19 +27,19 @@ interface PersonsListComp {
 
 }
 
-class PersonsListComponent(
+class PersonsComponent(
 	componentContext: ComponentContext,
 	val personsExecutor: PersonsExecutor,
 	val companyNumber: String,
-	private val output: FlowCollector<PersonsListComp.Output>
-) : PersonsListComp, ComponentContext by componentContext {
+	private val output: FlowCollector<PersonsComp.Output>
+) : PersonsComp, ComponentContext by componentContext {
 
 	private var personsStore: PersonsStore =
 		PersonsStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), personsExecutor).create(companyNumber)
 
 	override fun onItemClicked(person: Person) {
 		CoroutineScope(personsExecutor.mainContext).launch {
-			output.emit(PersonsListComp.Output.Selected(person = person))
+			output.emit(PersonsComp.Output.Selected(person = person))
 		}
 	}
 
@@ -47,9 +47,9 @@ class PersonsListComponent(
 		personsStore.accept(PersonsStore.Intent.LoadMorePersons)
 	}
 
-	override fun finish() {
+	override fun onBackClicked() {
 		CoroutineScope(personsExecutor.mainContext).launch {
-			output.emit(PersonsListComp.Output.Finish)
+			output.emit(PersonsComp.Output.Finish)
 		}
 	}
 

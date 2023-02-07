@@ -24,7 +24,7 @@ import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
 
 @Composable
-fun InsolvencyDetailsListScreen(component: InsolvencyDetailsListComp) {
+fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
 
 	val insolvencyCase = component.insolvencyCase
 

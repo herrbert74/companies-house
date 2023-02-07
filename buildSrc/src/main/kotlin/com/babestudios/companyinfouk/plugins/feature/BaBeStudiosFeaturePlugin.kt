@@ -16,6 +16,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 	override fun apply(project: Project) {
 
 		project.plugins.apply("kotlin-kapt")
+		project.plugins.apply("kotlin-parcelize")
 		project.plugins.apply("dagger.hilt.android.plugin")
 		project.plugins.apply("androidx.navigation.safeargs.kotlin")
 

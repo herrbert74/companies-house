@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.insolvencies.ui.practitioner
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,7 +13,7 @@ interface PractitionerDetailsComp {
 
 	sealed class Output {
 		object Back : Output()
-		data class OnShowMapClicked(val name: String, val address: Address) : Output()
+		data class OnShowMapClicked(val name: String, val address: String) : Output()
 	}
 
 	val selectedPractitioner: Practitioner
@@ -43,7 +43,7 @@ class PractitionerDetailsComponent(
 		CoroutineScope(mainContext).launch {
 			output.emit(PractitionerDetailsComp.Output.OnShowMapClicked(
 				selectedPractitioner.name,
-				selectedPractitioner.address)
+				selectedPractitioner.address.getAddressString())
 			)
 		}
 	}

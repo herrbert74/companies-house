@@ -81,6 +81,7 @@ object Libs {
 			}
 
 			const val runtime = "androidx.compose.runtime:runtime"
+			const val animation = "androidx.compose.animation:animation-core"
 
 			//Compile: ui, runtime, animation, material-icons-core, material-ripple
 			const val material = "androidx.compose.material:material"

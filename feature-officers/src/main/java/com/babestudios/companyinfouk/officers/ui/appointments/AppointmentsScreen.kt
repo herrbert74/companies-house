@@ -30,7 +30,7 @@ import com.babestudios.companyinfouk.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.R
 
 @Composable
-fun AppointmentsListScreen(component: AppointmentsListComp) {
+fun AppointmentsScreen(component: AppointmentsComp) {
 
 	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
 	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)

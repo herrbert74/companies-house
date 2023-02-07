@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.officers.ui.details
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,11 +13,11 @@ interface OfficerDetailsComp {
 
 	sealed class Output {
 		object Back : Output()
-		data class OnShowMapClicked(val name: String, val address: Address) : Output()
-		data class OnAppointmentsClicked(val selectedCompanyId: String, val selectedOfficer: Officer) : Output()
+		data class OnShowMapClicked(val name: String, val address: String) : Output()
+		data class OnAppointmentsClicked(val selectedOfficer: Officer) : Output()
 	}
 
-	val selectedCompanyId: String
+	//val selectedCompanyId: String
 
 	val selectedOfficer: Officer
 
@@ -34,7 +34,6 @@ class OfficerDetailsComponent(
 	componentContext: ComponentContext,
 	@MainDispatcher
 	val mainContext: CoroutineDispatcher,
-	override val selectedCompanyId: String,
 	override val selectedOfficer: Officer,
 	private val output: FlowCollector<OfficerDetailsComp.Output>,
 ) : OfficerDetailsComp, ComponentContext by componentContext {
@@ -47,13 +46,18 @@ class OfficerDetailsComponent(
 
 	override fun onShowMapClicked() {
 		CoroutineScope(mainContext).launch {
-			output.emit(OfficerDetailsComp.Output.OnShowMapClicked(selectedOfficer.name, selectedOfficer.address))
+			output.emit(
+				OfficerDetailsComp.Output.OnShowMapClicked(
+					selectedOfficer.name,
+					selectedOfficer.address.getAddressString()
+				)
+			)
 		}
 	}
 
 	override fun onAppointmentsClicked() {
 		CoroutineScope(mainContext).launch {
-			output.emit(OfficerDetailsComp.Output.OnAppointmentsClicked(selectedCompanyId, selectedOfficer))
+			output.emit(OfficerDetailsComp.Output.OnAppointmentsClicked(selectedOfficer))
 		}
 	}
 

@@ -30,7 +30,7 @@ import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.domain.model.charges.Particulars
 
 @Composable
-fun ChargeDetailsListScreen(component: ChargeDetailsListComp) {
+fun ChargeDetailsListScreen(component: ChargeDetailsComp) {
 
 	val selectedCharge = component.selectedCharges
 

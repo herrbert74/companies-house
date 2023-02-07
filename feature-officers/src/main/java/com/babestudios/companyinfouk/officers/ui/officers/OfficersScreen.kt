@@ -2,6 +2,7 @@
 
 package com.babestudios.companyinfouk.officers.ui.officers
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,13 +23,15 @@ import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.R
 
 @Composable
-fun OfficersListScreen(component: OfficersListComp) {
+fun OfficersScreen(component: OfficersComp) {
 
 	val model by component.state.subscribeAsState()
 
+	BackHandler(onBack = { component.onBackClicked() })
+
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_officers,
-		navigationAction = { component.finish() },
+		navigationAction = { component.onBackClicked() },
 		topAppBarActions = {},
 		title = stringResource(R.string.filing_history)
 	) {

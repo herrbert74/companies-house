@@ -2,6 +2,7 @@
 
 package com.babestudios.companyinfouk.persons.ui.persons
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,13 +23,15 @@ import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
 
 @Composable
-fun PersonsListScreen(component: PersonsListComp) {
+fun PersonsScreen(component: PersonsComp) {
 
 	val model by component.state.subscribeAsState()
 
+	BackHandler(onBack = { component.onBackClicked() })
+
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_persons,
-		navigationAction = { component.finish() },
+		navigationAction = { component.onBackClicked() },
 		topAppBarActions = {},
 		title = stringResource(R.string.filing_history)
 	) {
@@ -36,12 +39,14 @@ fun PersonsListScreen(component: PersonsListComp) {
 			is PersonsStore.State.Loading -> {
 				CircularProgressIndicator()
 			}
+
 			is PersonsStore.State.Error -> {
 				Box(
 					Modifier
 						.background(color = Color.Red)
 				)
 			}
+
 			else -> {
 				PersonsList(
 					items = (model as PersonsStore.State.Show).personsResponse.items,

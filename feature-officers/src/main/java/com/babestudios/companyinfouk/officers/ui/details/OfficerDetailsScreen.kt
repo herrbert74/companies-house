@@ -130,7 +130,6 @@ fun OfficerDetailsScreenPreview() {
 		OfficerDetailsComponent(
 			componentContext,
 			Dispatchers.Main,
-			"",
 			Officer(
 				name = "ALDERSEY, Scherin Abada",
 				address = Address(
@@ -162,7 +161,6 @@ fun OfficerDetailsScreenDefaultsPreview() {
 			OfficerDetailsComponent(
 				componentContext,
 				Dispatchers.Main,
-				"",
 				Officer(
 					name = "ALDERSEY, Scherin Abada",
 					address = Address(

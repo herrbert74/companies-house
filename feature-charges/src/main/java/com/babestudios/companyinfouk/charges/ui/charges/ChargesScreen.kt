@@ -2,6 +2,7 @@
 
 package com.babestudios.companyinfouk.charges.ui.charges
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,9 +25,11 @@ import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.domain.model.charges.Particulars
 
 @Composable
-fun ChargesListScreen(component: ChargesListComp) {
+fun ChargesScreen(component: ChargesComp) {
 
 	val model by component.state.subscribeAsState()
+
+	BackHandler(onBack = { component.onBackClicked() })
 
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_charges,
@@ -78,7 +81,6 @@ private fun ChargesList(
 	}
 
 }
-
 
 @Preview("Charges List Preview")
 @Composable

@@ -2,6 +2,7 @@
 
 package com.babestudios.companyinfouk.filings.ui.filings
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentSize
@@ -47,6 +48,8 @@ fun FilingHistoryScreen(component: FilingHistoryComp) {
 	val categories = stringArrayResource(R.array.filing_history_categories)
 	val bodyContent = rememberSaveable { mutableStateOf(categories.first()) }
 
+	BackHandler(onBack = { component.onBackClicked() })
+
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_filing_history,
 		navigationAction = { component.onBackClicked() },
@@ -62,10 +65,7 @@ fun FilingHistoryScreen(component: FilingHistoryComp) {
 		if (model.isLoading) {
 			CircularProgressIndicator()
 		} else if (model.error != null) {
-			Box(
-				Modifier
-					.background(color = Color.Red)
-			)
+			Box(Modifier.background(color = Color.Red))
 		} else {
 			FilingHistoryList(
 				items = model.filingHistory.items,

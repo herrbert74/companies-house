@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 
-interface AppointmentsListComp {
+interface AppointmentsComp {
 
 	fun onItemClicked(appointment: Appointment)
 
@@ -28,12 +28,12 @@ interface AppointmentsListComp {
 
 }
 
-class AppointmentsListComponent(
+class AppointmentsComponent(
 	componentContext: ComponentContext,
 	private val appointmentsExecutor: AppointmentsExecutor,
 	val selectedOfficer: Officer,
-	private val output: FlowCollector<AppointmentsListComp.Output>,
-) : AppointmentsListComp, ComponentContext by componentContext {
+	private val output: FlowCollector<AppointmentsComp.Output>,
+) : AppointmentsComp, ComponentContext by componentContext {
 
 	private var appointmentsStore: AppointmentsStore =
 		AppointmentsStoreFactory(LoggingStoreFactory(DefaultStoreFactory()), appointmentsExecutor)
@@ -41,7 +41,7 @@ class AppointmentsListComponent(
 
 	override fun onItemClicked(appointment: Appointment) {
 		CoroutineScope(appointmentsExecutor.mainContext).launch {
-			output.emit(AppointmentsListComp.Output.Selected(appointment = appointment))
+			output.emit(AppointmentsComp.Output.Selected(appointment = appointment))
 		}
 	}
 
@@ -51,7 +51,7 @@ class AppointmentsListComponent(
 
 	override fun onBackClicked() {
 		CoroutineScope(appointmentsExecutor.mainContext).launch {
-			output.emit(AppointmentsListComp.Output.Back)
+			output.emit(AppointmentsComp.Output.Back)
 			appointmentsStore.dispose()
 		}
 	}

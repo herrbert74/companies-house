@@ -8,6 +8,7 @@ plugins {
 	id("org.jetbrains.kotlin.plugin.allopen")
 	id("com.google.devtools.ksp") version "1.8.0-1.0.9"
 	id("dagger.hilt.android.plugin")
+	id("kotlin-parcelize")
 }
 
 @Suppress("UnstableApiUsage")
@@ -49,6 +50,7 @@ android {
 }
 
 dependencies {
+	implementation(project(":common"))
 	implementation(project(":domain"))
 	implementation(project(":data"))
 	implementation(project(":feature-charges"))
@@ -61,7 +63,11 @@ dependencies {
 
 	implementation(Libs.baBeStudiosBase)
 	implementation(Libs.AndroidX.appcompat)
+	implementation(Libs.AndroidX.Compose.animation)
 	implementation(Libs.AndroidX.Navigation.uiKtx)
+	implementation(Libs.AndroidX.Activity.compose)
+	implementation(Libs.Decompose.core)
+	implementation(Libs.Decompose.extensionsJetBrains)
 	implementation(Libs.Google.Dagger.core)
 	implementation(Libs.Google.Dagger.Hilt.android)
 	implementation(Libs.Google.gson)

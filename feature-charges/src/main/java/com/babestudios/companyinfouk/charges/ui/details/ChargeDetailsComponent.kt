@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 
-interface ChargeDetailsListComp {
+interface ChargeDetailsComp {
 
 	fun onBackClicked()
 
@@ -18,16 +18,16 @@ interface ChargeDetailsListComp {
 	val selectedCharges: ChargesItem
 }
 
-class ChargeDetailsListComponent(
+class ChargeDetailsComponent(
 	componentContext: ComponentContext,
 	private val mainContext: CoroutineDispatcher,
 	override val selectedCharges: ChargesItem,
-	private val output: FlowCollector<ChargeDetailsListComp.Output>,
-) : ChargeDetailsListComp, ComponentContext by componentContext {
+	private val output: FlowCollector<ChargeDetailsComp.Output>,
+) : ChargeDetailsComp, ComponentContext by componentContext {
 
 	override fun onBackClicked() {
 		CoroutineScope(mainContext).launch {
-			output.emit(ChargeDetailsListComp.Output.Back)
+			output.emit(ChargeDetailsComp.Output.Back)
 		}
 	}
 

@@ -4,7 +4,6 @@ import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
-import com.babestudios.companyinfouk.companies.ui.Configuration
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
 import com.babestudios.companyinfouk.domain.model.company.Company
@@ -14,10 +13,10 @@ class CompanyStoreFactory(
 	private val companyExecutor: CompanyExecutor,
 ) {
 
-	fun create(companyId: String, previousConfig: Configuration): CompanyStore =
+	fun create(companyId: String): CompanyStore =
 		object : CompanyStore, Store<Intent, State, Nothing> by storeFactory.create(
 			name = "CompanyStore",
-			initialState = State(companyId, previousConfig),
+			initialState = State(companyId),
 			bootstrapper = CompanyBootstrapper(companyId),
 			executorFactory = { companyExecutor },
 			reducer = CompanyReducer
