@@ -15,11 +15,11 @@ class PersonsStoreFactory(
 	private val personsExecutor: PersonsExecutor
 ) {
 
-	fun create(companyNumber: String): PersonsStore =
+	fun create(companyId: String): PersonsStore =
 		object : PersonsStore, Store<Intent, State, Nothing> by storeFactory.create(
 			name = "PersonsStore",
-			initialState = State.Loading,
-			bootstrapper = PersonsBootstrapper(companyNumber),
+			initialState = State(companyId),
+			bootstrapper = PersonsBootstrapper(companyId),
 			executorFactory = { personsExecutor },
 			reducer = PersonsReducer
 		) {}
@@ -34,20 +34,20 @@ class PersonsStoreFactory(
 		override fun State.reduce(msg: Message): State =
 			when (msg) {
 				is Message.PersonsMessage -> msg.personsResult.fold(
-					success = { State.Show(companyNumber = msg.companyNumber, personsResponse = it) },
-					failure = { State.Error(it) }
+					success = { copy(isLoading = false, personsResponse = it) },
+					failure = { copy(isLoading = false, error = it) }
 				)
 				is Message.LoadMorePersonsMessage -> msg.personsResult.fold(
 					success = {
-						State.Show(
-							companyNumber = msg.companyNumber,
+						copy(
+							isLoading = false,
 							personsResponse = PersonsResponse(
-								items = (this as State.Show).personsResponse.items.plus(it.items),
+								items = personsResponse.items.plus(it.items),
 								totalResults = it.totalResults
 							)
 						)
 					},
-					failure = { State.Error(it) }
+					failure = { copy(isLoading = false, error = it) }
 				)
 			}
 	}
@@ -55,7 +55,7 @@ class PersonsStoreFactory(
 }
 
 sealed class Message {
-	data class PersonsMessage(val personsResult: ApiResult<PersonsResponse>, val companyNumber: String) : Message()
+	data class PersonsMessage(val personsResult: ApiResult<PersonsResponse>, val companyId: String) : Message()
 	data class LoadMorePersonsMessage(
 		val personsResult: ApiResult<PersonsResponse>,
 		val companyNumber: String

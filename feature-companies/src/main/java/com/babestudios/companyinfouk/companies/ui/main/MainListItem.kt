@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResultItem
@@ -29,7 +31,6 @@ internal fun CompanySearchResultItemListItem(
 	ConstraintLayout(
 		modifier = modifier
 			.fillMaxWidth(1f)
-			.wrapContentHeight(Alignment.CenterVertically)
 			.clickable { onItemClicked(item) },
 	) {
 		val (title, description, addressSnippet, companyStatus) = createRefs()
@@ -37,47 +38,48 @@ internal fun CompanySearchResultItemListItem(
 		Text(
 			textAlign = TextAlign.Start,
 			modifier = modifier
-				.padding(start = viewMarginLarge, top = viewMarginNormal)
 				.constrainAs(title) {
-					top.linkTo(parent.top)
-					bottom.linkTo(description.top)
-					start.linkTo(parent.start)
+					width = Dimension.fillToConstraints
+					linkTo(parent.top, description.top, viewMarginNormal, 0.dp)
+					linkTo(parent.start, companyStatus.start, viewMarginLarge, 0.dp, bias = 0f)
 				},
 			text = item.title ?: "",
-			style = CompaniesTypography.titleMedium
+			style = CompaniesTypography.titleMedium,
+			maxLines = 2
 		)
 		Text(
+			textAlign = TextAlign.Start,
 			modifier = modifier
-				.padding(end = viewMarginLarge, top = viewMarginNormal)
 				.constrainAs(description) {
-					top.linkTo(title.bottom)
-					linkTo(parent.start, parent.end, viewMarginLarge, viewMarginLarge, bias = 0f)
+					width = Dimension.fillToConstraints
+					linkTo(title.bottom, addressSnippet.top, viewMarginNormal, 0.dp)
+					linkTo(parent.start, companyStatus.start, viewMarginLarge, 0.dp)
 				},
-			text = item.description ?:"",
-			style = CompaniesTypography.bodyMedium
+			text = item.description ?: "",
+			style = CompaniesTypography.bodyMedium,
+			maxLines = 2
 		)
 		Text(
+			textAlign = TextAlign.Start,
 			modifier = modifier
-				.padding(top = viewMarginNormal, start = viewMarginLarge, bottom = viewMarginNormal) //End fixes bug?? with linkTo
 				.constrainAs(addressSnippet) {
-					top.linkTo(description.bottom)
-					bottom.linkTo(parent.bottom)
-					start.linkTo(parent.start)
+					width = Dimension.fillToConstraints
+					linkTo(parent.start, companyStatus.start, viewMarginLarge, 0.dp)
+					linkTo(description.bottom, parent.bottom, viewMarginNormal, viewMarginNormal)
 				},
-			text = item.addressSnippet ?:"",
+			text = item.addressSnippet ?: "",
 			style = CompaniesTypography.bodyMedium,
 			maxLines = 3,
 		)
 		Text(
 			modifier = modifier
 				.wrapContentHeight(Alignment.CenterVertically)
-				.padding(end = viewMarginLarge, bottom = viewMarginNormal, top = viewMarginNormal)
+				.padding(start = viewMarginNormal)
 				.constrainAs(companyStatus) {
-					top.linkTo(parent.top)
-					bottom.linkTo(parent.bottom)
-					end.linkTo(parent.end)
+					linkTo(parent.top, parent.bottom, viewMarginNormal, viewMarginNormal)
+					end.linkTo(parent.end, viewMarginLarge)
 				},
-			text = item.companyStatus ?:"",
+			text = item.companyStatus ?: "",
 			style = CompaniesTypography.bodyMedium,
 		)
 	}
@@ -86,6 +88,21 @@ internal fun CompanySearchResultItemListItem(
 @Preview("Item Preview")
 @Composable
 fun DefaultPreview() {
+	CompanySearchResultItemListItem(
+		modifier = Modifier,
+		item = CompanySearchResultItem(
+			title = "ALPHABET ACCOUNTANTS LTD",
+			description = "07620277 - Incorporated on  3 May 2011",
+			addressSnippet = "16  Anchor Street, Chelmsford, CM2 0JY",
+			companyStatus = "active"
+		),
+		onItemClicked = {}
+	)
+}
+
+@Preview("Small Preview", device = "id:Nexus S")
+@Composable
+fun SmallPreview() {
 	CompanySearchResultItemListItem(
 		modifier = Modifier,
 		item = CompanySearchResultItem(

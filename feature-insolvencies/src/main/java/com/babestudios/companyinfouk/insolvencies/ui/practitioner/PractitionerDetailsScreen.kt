@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.insolvencies.ui.practitioner
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
@@ -49,12 +50,14 @@ fun PractitionerDetailsScreen(component: PractitionerDetailsComp) {
 			TwoLineCard(
 				firstLineString = stringResource(R.string.insolvency_details_name),
 				secondLineString = selectedPractitionerDetails.name,
+				Modifier.fillMaxWidth(1f)
 			)
 			Divider(thickness = 1.dp)
 			selectedPractitionerDetails.appointedOn?.let {
 				TwoLineCard(
 					firstLineString = stringResource(R.string.insolvency_details_appointed_on),
 					secondLineString = it,
+					Modifier.fillMaxWidth(1f)
 				)
 				Divider(thickness = 1.dp)
 			}

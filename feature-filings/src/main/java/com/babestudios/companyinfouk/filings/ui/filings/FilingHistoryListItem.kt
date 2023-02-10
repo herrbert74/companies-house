@@ -44,6 +44,7 @@ internal fun FilingHistoryItemListItem(
 			modifier = modifier
 				.padding(start = viewMarginLarge, top = viewMarginNormal)
 				.constrainAs(date) {
+					width = Dimension.fillToConstraints
 					top.linkTo(parent.top)
 					start.linkTo(parent.start)
 				},
@@ -63,9 +64,9 @@ internal fun FilingHistoryItemListItem(
 		)
 		Text(
 			modifier = modifier
-				.padding(top = viewMarginNormal, end = viewMarginLarge * 2) //End fixes bug?? with linkTo
 				.constrainAs(description) {
-					top.linkTo(date.bottom)
+					width = Dimension.fillToConstraints
+					top.linkTo(date.bottom, viewMarginNormal)
 					linkTo(parent.start, parent.end, viewMarginLarge, viewMarginLarge, bias = 0f)
 				},
 			text = item.description.createAnnotatedStringDescription(),

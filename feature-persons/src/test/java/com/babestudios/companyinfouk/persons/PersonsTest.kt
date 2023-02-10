@@ -46,7 +46,7 @@ class PersonsTest {
 
 		personsStore =
 			PersonsStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
-				companyNumber = "123"
+				companyId = "123"
 			)
 	}
 

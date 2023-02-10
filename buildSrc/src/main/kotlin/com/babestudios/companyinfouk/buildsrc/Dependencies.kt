@@ -36,7 +36,7 @@ object Libs {
 		const val cardView = "androidx.cardview:cardview:1.0.0"
 		const val collection = "androidx.collection:collection:1.2.0"
 		const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
-		const val constraintLayoutCompose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+		const val constraintLayoutCompose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha07"
 		const val coreKtx = "androidx.core:core-ktx:1.8.0"
 		const val datastoreCore = "androidx.datastore:datastore-preferences-core:1.0.0"
 		const val datastoreRx = "androidx.datastore:datastore-preferences-rxjava2:1.0.0"

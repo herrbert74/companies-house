@@ -45,14 +45,14 @@ class PersonsExecutor @Inject constructor(
 
 
 	private fun loadMorePersons(getState: () -> State) {
-		val showState = (getState() as State.Show)
+		val showState = getState()
 		if (showState.personsResponse.items.size < showState.personsResponse.totalResults) {
 			scope.launch {
 				val personsResponse = companiesRepository.getPersons(
-					showState.companyNumber,
+					showState.companyId,
 					(showState.personsResponse.items.size).toString()
 				)
-				dispatch(Message.LoadMorePersonsMessage(personsResponse, showState.companyNumber))
+				dispatch(Message.LoadMorePersonsMessage(personsResponse, showState.companyId))
 			}
 		}
 	}

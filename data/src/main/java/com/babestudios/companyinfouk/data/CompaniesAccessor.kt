@@ -10,6 +10,7 @@ import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
 import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
+import com.babestudios.companyinfouk.data.utils.errors.model.ErrorBody
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.domain.model.common.ApiResult
@@ -26,7 +27,9 @@ import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.github.michaelbull.result.mapError
+import com.github.michaelbull.result.recoverIf
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -35,6 +38,7 @@ import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
+import retrofit2.HttpException
 import timber.log.Timber
 
 @Singleton
@@ -51,7 +55,6 @@ open class CompaniesAccessor @Inject constructor(
 	override suspend fun recentSearches(): List<SearchHistoryItem> {
 		return preferencesHelper.recentSearches
 	}
-
 
 	override suspend fun favourites(): List<SearchHistoryItem> {
 		return preferencesHelper.favourites.toList()
@@ -159,7 +162,16 @@ open class CompaniesAccessor @Inject constructor(
 				)
 				companiesHouseMapping.mapPersonsResponse(personsResponseDto)
 			}
-		}.mapError { OfflineException(PersonsResponse()) }
+		}.recoverIf(
+			predicate = {
+				val errorJson = (it as HttpException).response()?.errorBody()?.string()
+				if (!errorJson.isNullOrEmpty()) {
+					val errorBody = Gson().fromJson(errorJson, ErrorBody::class.java)
+					errorBody.errors?.first()?.error == "company-psc-not-found"
+				} else false
+			},
+			transform = { PersonsResponse() }
+		).mapError { OfflineException(PersonsResponse()) }
 	}
 
 	override suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person {

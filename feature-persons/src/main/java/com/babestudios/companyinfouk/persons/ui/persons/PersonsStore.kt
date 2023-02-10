@@ -11,17 +11,18 @@ interface PersonsStore : Store<Intent, State, Nothing> {
 		object LoadMorePersons : Intent()
 	}
 
-	sealed class State {
+	data class State(
 
-		object Loading : State()
+		//initial data
+		val companyId: String,
 
-		class Show(
-			val companyNumber: String,
-			val personsResponse: PersonsResponse,
-		) : State()
+		//result data
+		val personsResponse: PersonsResponse = PersonsResponse(),
+		val error: Throwable? = null,
 
-		class Error(val t: Throwable) : State()
+		//state
+		val isLoading: Boolean = true,
 
-	}
+		)
 
 }

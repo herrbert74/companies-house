@@ -33,23 +33,22 @@ fun PersonsScreen(component: PersonsComp) {
 		headerBackgroundResource = R.drawable.bg_persons,
 		navigationAction = { component.onBackClicked() },
 		topAppBarActions = {},
-		title = stringResource(R.string.filing_history)
+		title = stringResource(R.string.persons_with_significant_control)
 	) {
-		when (model) {
-			is PersonsStore.State.Loading -> {
-				CircularProgressIndicator()
-			}
-
-			is PersonsStore.State.Error -> {
-				Box(
-					Modifier
-						.background(color = Color.Red)
-				)
-			}
-
-			else -> {
+		if (model.isLoading) {
+			CircularProgressIndicator()
+		} else if (model.error != null) {
+			Box(
+				Modifier
+					.background(color = Color.Red)
+			)
+		} else {
+			val items = model.personsResponse.items
+			if (items.isEmpty()) {
+				EmptyPersonsList()
+			} else {
 				PersonsList(
-					items = (model as PersonsStore.State.Show).personsResponse.items,
+					items = items,
 					onItemClicked = component::onItemClicked,
 					onLoadMore = component::onLoadMore,
 				)

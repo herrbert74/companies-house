@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -31,7 +32,6 @@ import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -201,7 +201,7 @@ fun MainScreen(component: MainComp) {
 							.background(color = Color.Red)
 							.padding(paddingValues)
 					)
-				} else if(searchQuery.length > 2 && model.filteredSearchResultItems.isEmpty()){
+				} else if (searchQuery.length > 2 && model.filteredSearchResultItems.isEmpty()) {
 					EmptySearchList(paddingValues)
 				} else {
 					SearchResultList(
@@ -377,17 +377,14 @@ private fun SearchResultList(
 				.background(backgroundColor),
 			state = listState
 		) {
-			itemsIndexed(items) { index, companySearchResultItem ->
-				if (index == 0) {
-					MainHeader()
-				}
+			items(items = items, itemContent = { companySearchResultItem ->
 				CompanySearchResultItemListItem(
 					item = companySearchResultItem,
 					onItemClicked = onItemClicked,
 				)
 
 				Divider()
-			}
+			})
 		}
 
 		InfiniteListHandler(listState = listState) {
@@ -403,7 +400,7 @@ fun EmptyRecentListPreview() {
 	EmptySearchList(PaddingValues())
 }
 
-@Preview("Main List Preview")
+@Preview("Main List Preview", device = "id:Nexus S")
 @Composable
 fun MainListPreview() {
 	SearchResultList(
