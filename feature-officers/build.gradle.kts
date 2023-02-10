@@ -1,10 +1,11 @@
 import com.babestudios.companyinfouk.buildsrc.Libs
 
+android.namespace = "com.babestudios.companyinfouk.officers"
+
 plugins{
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("com.babestudios.companyinfouk.plugins.feature")
 }
-
 dependencies {
 	implementation(Libs.Decompose.core)
 	implementation(Libs.Decompose.extensionsJetpack)

@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.companies
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.ext.test
-import com.babestudios.companyinfouk.companies.ui.Configuration
 import com.babestudios.companyinfouk.companies.ui.company.CompanyExecutor
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStoreFactory
@@ -65,8 +64,8 @@ class CompanyTest {
 		)
 
 		whenIsFavourite(false)
-		companyStore = CompanyStoreFactory(DefaultStoreFactory(), companyExecutor)
-			.create("12344", Configuration.Main)
+		companyStore = CompanyStoreFactory(DefaultStoreFactory(), companyExecutor).create("12344")
+
 	}
 
 	//region tests

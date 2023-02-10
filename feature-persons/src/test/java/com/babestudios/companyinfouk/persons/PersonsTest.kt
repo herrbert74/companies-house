@@ -53,8 +53,8 @@ class PersonsTest {
 	@Test
 	fun `when get persons then repo get persons is called`() {
 		val states = personsStore.states.test()
-		states.last().shouldBeTypeOf<PersonsStore.State.Show>()
-		(states.last() as? PersonsStore.State.Show)?.personsResponse shouldBe PersonsResponse()
+
+		states.last().personsResponse shouldBe PersonsResponse()
 		coVerify(exactly = 1) { companiesHouseRepository.getPersons("123", "0") }
 	}
 
@@ -62,8 +62,8 @@ class PersonsTest {
 	fun `when load more persons then repo load more persons is called`() {
 		val states = personsStore.states.test()
 		personsStore.accept(PersonsStore.Intent.LoadMorePersons)
-		states.last().shouldBeTypeOf<PersonsStore.State.Show>()
-		(states.last() as? PersonsStore.State.Show)?.personsResponse shouldBe PersonsResponse()
+
+		states.last().personsResponse shouldBe PersonsResponse()
 		coVerify(exactly = 1) { companiesHouseRepository.getPersons("123", "0") }
 	}
 

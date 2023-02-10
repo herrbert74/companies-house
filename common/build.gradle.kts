@@ -4,6 +4,14 @@ plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 }
 
+@Suppress("UnstableApiUsage")
+android {
+	namespace = "com.babestudios.companyinfouk.common"
+	buildFeatures.viewBinding = true
+	buildFeatures.compose = true
+	composeOptions.kotlinCompilerExtensionVersion = "1.4.0"
+}
+
 dependencies {
 	implementation(project(":domain"))
 	implementation(Libs.baBeStudiosBase)
@@ -20,13 +28,6 @@ dependencies {
 	implementation(Libs.MviKotlin.core)
 	implementation(Libs.MviKotlin.rx)
 	implementation(Libs.Views.collapsingToolbar)
-}
-
-@Suppress("UnstableApiUsage")
-android {
-	buildFeatures.viewBinding = true
-	buildFeatures.compose = true
-	composeOptions.kotlinCompilerExtensionVersion = "1.4.0"
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

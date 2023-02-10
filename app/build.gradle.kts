@@ -14,6 +14,8 @@ plugins {
 @Suppress("UnstableApiUsage")
 android {
 
+	namespace = "com.babestudios.companyinfouk"
+
 	buildFeatures.compose = true
 
 	composeOptions {

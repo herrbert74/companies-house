@@ -10,7 +10,6 @@ import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesSt
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStoreFactory
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -46,16 +45,16 @@ class InsolvenciesTest {
 
 		insolvenciesStore =
 			InsolvenciesStoreFactory(DefaultStoreFactory(), insolvenciesExecutor).create(
-				companyNumber = "123"
+				selectedCompanyId = "123"
 			)
 	}
 
 	@Test
 	fun `when get insolvencies then repo get insolvencies is called`() {
 		val states = insolvenciesStore.states.test()
-		states.last().shouldBeTypeOf<InsolvenciesStore.State.Show>()
+
 		coVerify(exactly = 1) { companiesHouseRepository.getInsolvency("123") }
-		(states.last() as? InsolvenciesStore.State.Show)?.insolvencies shouldBe emptyList()
+		states.last().insolvency.cases shouldBe emptyList()
 	}
 
 }

@@ -5,6 +5,8 @@ plugins {
 	id("kotlin-parcelize")
 }
 
+android.namespace = "com.babestudios.companyinfouk.domain"
+
 dependencies {
 
 	api(Libs.Google.Dagger.core)

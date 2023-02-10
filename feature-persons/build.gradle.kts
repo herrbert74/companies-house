@@ -5,6 +5,8 @@ plugins {
 	id("com.babestudios.companyinfouk.plugins.feature")
 }
 
+android.namespace = "com.babestudios.companyinfouk.persons"
+
 dependencies {
 	implementation(Libs.Decompose.core)
 	implementation(Libs.Decompose.extensionsJetpack)

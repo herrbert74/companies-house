@@ -10,9 +10,8 @@ import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.companies.ui.CompaniesRootComponent
-import com.babestudios.companyinfouk.companies.ui.CompaniesRootContent
-import com.babestudios.companyinfouk.companies.ui.Configuration
+import com.babestudios.companyinfouk.CompaniesRootComponent
+import com.babestudios.companyinfouk.CompaniesRootContent
 import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
 import com.babestudios.companyinfouk.data.di.DataContractModule
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
@@ -74,9 +73,6 @@ class FavouritesFragmentTest {
 				companiesRepository,
 				{},
 				mainExecutor,
-				{},
-				Configuration.Main,
-				{},
 			)
 			composeTestRule.setContent {
 				CompaniesRootContent(companiesRootComponent)

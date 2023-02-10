@@ -8,6 +8,9 @@ plugins {
 val companiesHouseApiKey: String by project
 
 android {
+
+	namespace = "com.babestudios.companyinfouk.data"
+
 	buildTypes {
 		all {
 			buildConfigField("String", "COMPANIES_HOUSE_BASE_URL", "\"https://api.companieshouse.gov.uk\"")
@@ -51,13 +54,14 @@ android {
 			buildConfigField("String", "COMPANIES_HOUSE_GET_DOCUMENT_ENDPOINT", "\"document/{documentNumber}/content\"")
 		}
 	}
+
 }
 
 dependencies {
 
 	api(project(":domain"))
 
-	api(Libs.baBeStudiosBase)
+	implementation(Libs.baBeStudiosBase)
 	api(Libs.SquareUp.OkHttp3.loggingInterceptor)
 
 	implementation(Libs.Kotlin.stdLib)

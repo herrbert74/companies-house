@@ -1,17 +1,19 @@
 package com.babestudios.companyinfouk.ui.officers
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.companies.ui.CompaniesRootComponent
-import com.babestudios.companyinfouk.companies.ui.CompaniesRootContent
-import com.babestudios.companyinfouk.companies.ui.Configuration
+import com.babestudios.companyinfouk.CompaniesRootComponent
+import com.babestudios.companyinfouk.CompaniesRootContent
 import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
 import com.babestudios.companyinfouk.data.di.DataContractModule
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
@@ -72,9 +74,6 @@ class OfficersFragmentTest {
 				companiesRepository,
 				{},
 				mainExecutor,
-				{},
-				Configuration.Main,
-				{},
 			)
 			composeTestRule.setContent {
 				CompaniesRootContent(companiesRootComponent)
@@ -82,24 +81,15 @@ class OfficersFragmentTest {
 		}
 	}
 
-	/**
-	 * Compose UI testing is not possible across features until #125 (Remove Fragments) is fixed.
-	 */
 	@Test
 	fun whenDisplayingOfficers_andCompanyClicked_thenShowCompany() {
 
 		composeTestRule.onNodeWithText("Acme Painting").onParent().performClick()
 		composeTestRule.onNodeWithText("Officers").performClick()
-		composeTestRule.waitForIdle()
 		composeTestRule.onAllNodes(hasClickAction()).onFirst().performClick()
-		composeTestRule.onNodeWithText("Appointments").onParent().performClick()
-
-//		clickListItem(R.id.rvMainSearchHistory, 1)
-//		clickOn(R.id.llCompanyOfficers)
-//		clickListItem(R.id.rvOfficers, 0)
-//		clickOn(R.id.btnOfficerDetailsAppointments)
-//		clickListItem(R.id.rvOfficerAppointments, 1)
-//		assertDisplayed("04475590")
+		composeTestRule.onNodeWithText("Appointed on").onParent().onChildren().onLast().performClick()
+		composeTestRule.onAllNodes(hasClickAction()).onFirst().performClick()
+		composeTestRule.onNodeWithText("04475590").assertIsDisplayed()
 
 	}
 
