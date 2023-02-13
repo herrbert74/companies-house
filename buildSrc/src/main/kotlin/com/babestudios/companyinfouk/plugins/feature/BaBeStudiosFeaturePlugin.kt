@@ -4,6 +4,8 @@ import com.android.build.gradle.BaseExtension
 import com.babestudios.companyinfouk.buildsrc.Libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.ModuleDependency
 import org.gradle.kotlin.dsl.dependencies
 
 /**
@@ -18,23 +20,22 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 		project.plugins.apply("kotlin-kapt")
 		project.plugins.apply("kotlin-parcelize")
 		project.plugins.apply("dagger.hilt.android.plugin")
-		project.plugins.apply("androidx.navigation.safeargs.kotlin")
 
 		project.dependencies {
 			add("implementation", project.project(":domain"))
 			add("implementation", project.project(":common"))
-			add("implementation", project.project(":navigation"))
 
 			add("api", Libs.Google.Dagger.core)
 			add("api", Libs.Google.Dagger.Hilt.android)
 			add("api", Libs.MviKotlin.core)
 			add("api", Libs.MviKotlin.coroutines)
 
-			add("implementation", Libs.baBeStudiosBase)
+			add("implementation", Libs.baBeStudiosBase).apply {
+				exclude("androidx.navigation","navigation-fragment-ktx")
+				exclude("androidx.navigation","navigation-ui-ktx")
+			}
 			add("implementation", Libs.AndroidX.constraintLayout)
 			add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
-			add("implementation", Libs.AndroidX.Navigation.uiKtx)
-			add("implementation", Libs.AndroidX.Navigation.fragment)
 			add("implementation", Libs.KotlinResult.result)
 			add("implementation", Libs.MviKotlin.main)
 			add("implementation", Libs.MviKotlin.rx)
@@ -67,4 +68,12 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			}
 		}
 	}
+
+}
+
+fun Dependency?.exclude(group: String, module: String) {
+	val exclude: MutableMap<String, String> = HashMap()
+	exclude["group"] = group
+	exclude["module"] = module
+	(this as ModuleDependency).exclude(exclude)
 }

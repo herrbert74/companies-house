@@ -11,7 +11,10 @@ dependencies {
 
 	api(Libs.Google.Dagger.core)
 
-	implementation(Libs.baBeStudiosBase)
+	implementation(Libs.baBeStudiosBase) {
+		exclude("androidx.navigation","navigation-fragment-ktx")
+		exclude("androidx.navigation","navigation-ui-ktx")
+	}
 	implementation(Libs.AndroidX.annotation)
 	implementation(Libs.Google.gson)
 	implementation(Libs.Google.Dagger.Hilt.core)

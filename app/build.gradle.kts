@@ -61,12 +61,13 @@ dependencies {
 	implementation(project(":feature-insolvencies"))
 	implementation(project(":feature-officers"))
 	implementation(project(":feature-persons"))
-	implementation(project(":navigation"))
 
-	implementation(Libs.baBeStudiosBase)
+	implementation(Libs.baBeStudiosBase) {
+		exclude("androidx.navigation","navigation-fragment-ktx")
+		exclude("androidx.navigation","navigation-ui-ktx")
+	}
 	implementation(Libs.AndroidX.appcompat)
 	implementation(Libs.AndroidX.Compose.animation)
-	implementation(Libs.AndroidX.Navigation.uiKtx)
 	implementation(Libs.AndroidX.Activity.compose)
 	implementation(Libs.Decompose.core)
 	implementation(Libs.Decompose.extensionsJetBrains)

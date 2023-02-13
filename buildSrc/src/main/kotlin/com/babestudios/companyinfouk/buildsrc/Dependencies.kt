@@ -20,7 +20,6 @@ object Plugins {
 	const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.8.1"
 	const val firebaseAppDistribution = "com.google.firebase:firebase-appdistribution-gradle:3.0.0"
 	const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.dagger}"
-	const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.2"
 	const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0"
 }
 
@@ -112,17 +111,8 @@ object Libs {
 			}
 		}
 
-		object Navigation {
-			private const val version = "2.5.2"
-			const val common = "androidx.navigation:navigation-common:$version"
-			const val runtime = "androidx.navigation:navigation-runtime:$version"
-			const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
-			const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
-			const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
-		}
-
 		object WorkManager {
-			private const val version = "2.7.0"
+			private const val version = "2.8.0"
 			const val ktx = "androidx.work:work-runtime-ktx:$version"
 			const val rxJava = "androidx.work:work-rxjava2:$version"
 			const val testing = "androidx.work:work-testing:$version"

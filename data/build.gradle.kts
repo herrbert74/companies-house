@@ -61,7 +61,10 @@ dependencies {
 
 	api(project(":domain"))
 
-	implementation(Libs.baBeStudiosBase)
+	implementation(Libs.baBeStudiosBase) {
+		exclude("androidx.navigation","navigation-fragment-ktx")
+		exclude("androidx.navigation","navigation-ui-ktx")
+	}
 	api(Libs.SquareUp.OkHttp3.loggingInterceptor)
 
 	implementation(Libs.Kotlin.stdLib)

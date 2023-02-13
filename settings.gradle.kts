@@ -1,6 +1,5 @@
 include(":app")
 include(":data")
-include(":navigation")
 include(":core-detekt")
 include(":common")
 include(":domain")

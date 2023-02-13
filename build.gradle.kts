@@ -17,7 +17,6 @@ buildscript {
 		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")
 		classpath("com.google.dagger:hilt-android-gradle-plugin:2.44.2")
 		classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.2")
-		classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3")
 	}
 }
 
