@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.companies.ui.map
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,26 +32,45 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import java.io.IOException
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-private val defaultLatLng = LatLng(51.5, -0.12)
+private const val DEFAULT_LATITUDE = 51.5
+
+private const val DEFAULT_LONGITUDE = -0.12
+
+private const val DEFAULT_ZOOM = 10f
+
+private val defaultLatLng = LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+
+var location: LatLng? = null
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
 fun MapScreen(component: MapComp) {
 
-	val location = getLocationFromAddress(component.address, LocalContext.current)
+	val coroutineScope = rememberCoroutineScope()
 
-	val cameraPositionState = rememberCameraPositionState {
-		position = CameraPosition.fromLatLngZoom(location, 10f)
-	}
+	val cameraPositionState = rememberCameraPositionState()
 
 	val uiSettings by remember { mutableStateOf(MapUiSettings(zoomControlsEnabled = true)) }
 
 	val topAppBarColors = TopAppBarDefaults.topAppBarColors(
 		containerColor = MaterialTheme.colorScheme.primaryContainer,
 	)
+
+	val context = LocalContext.current
+
+	LaunchedEffect(location) {
+
+		coroutineScope.launch {
+			location = getLocationFromAddress(component.address, context)
+			cameraPositionState.position = CameraPosition.fromLatLngZoom(location!!, DEFAULT_ZOOM)
+		}
+	}
 
 	BackHandler(onBack = { component.onBackClicked() })
 
@@ -57,7 +79,6 @@ fun MapScreen(component: MapComp) {
 			TopAppBar(
 				colors = topAppBarColors,
 				title = { Text(component.name) },
-				actions = {},
 			)
 		}
 	) { paddingValues ->
@@ -70,7 +91,7 @@ fun MapScreen(component: MapComp) {
 			uiSettings = uiSettings,
 		) {
 			Marker(
-				state = MarkerState(position = location),
+				state = MarkerState(position = location ?: defaultLatLng),
 				title = component.address,
 				snippet = "Marker in Singapore"
 			)
@@ -80,28 +101,37 @@ fun MapScreen(component: MapComp) {
 }
 
 @Suppress("ReturnCount", "TooGenericExceptionCaught")
-private fun getLocationFromAddress(strAddress: String, context: Context): LatLng {
-	val coder = Geocoder(context)
-	val address: List<Address>?
-	try {
-		address = coder.getFromLocationName(strAddress, 1)
-		if (address == null) {
-			return defaultLatLng
-		}
-		val location = address[0]
-		return LatLng(location.latitude, location.longitude)
-	} catch (e: Exception) {
-		when (e) {
-			is IOException, is IndexOutOfBoundsException -> {
-				Timber.e("Map", e.localizedMessage, e)
-				return defaultLatLng
+private suspend fun getLocationFromAddress(strAddress: String, context: Context): LatLng =
+	suspendCoroutine { continuation ->
+		val coder = Geocoder(context)
+		lateinit var latLng: LatLng
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			coder.getFromLocationName(strAddress, 1) { addresses ->
+				val location = addresses[0]
+				latLng = LatLng(location.latitude, location.longitude)
+				continuation.resume(latLng)
 			}
+		} else {
+			try {
+				@Suppress("DEPRECATION")
+				val addresses: List<Address>? = coder.getFromLocationName(strAddress, 1)
+				val address = addresses?.getOrNull(0)
+				latLng = if (address == null) defaultLatLng else LatLng(address.latitude, address.longitude)
+				continuation.resume(latLng)
+			} catch (e: Exception) {
+				when (e) {
+					is IOException, is IndexOutOfBoundsException -> {
+						Timber.e("Map", e.localizedMessage, e)
+						latLng = defaultLatLng
+						continuation.resume(latLng)
+					}
 
-			else -> throw e
+					else -> throw e
+				}
+
+			}
 		}
-
 	}
-}
 
 @Preview("map Preview")
 @Composable
