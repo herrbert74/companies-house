@@ -17,16 +17,12 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 	@Suppress("UnstableApiUsage")
 	override fun apply(project: Project) {
 
-		project.plugins.apply("kotlin-kapt")
 		project.plugins.apply("kotlin-parcelize")
-		project.plugins.apply("dagger.hilt.android.plugin")
 
 		project.dependencies {
 			add("implementation", project.project(":domain"))
 			add("implementation", project.project(":common"))
 
-			add("api", Libs.Google.Dagger.core)
-			add("api", Libs.Google.Dagger.Hilt.android)
 			add("api", Libs.MviKotlin.core)
 			add("api", Libs.MviKotlin.coroutines)
 
@@ -34,26 +30,24 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 				exclude("androidx.navigation","navigation-fragment-ktx")
 				exclude("androidx.navigation","navigation-ui-ktx")
 			}
-			add("implementation", Libs.AndroidX.constraintLayout)
-			add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
+			//LifeCycle, LifecycleOwner, RepeatOnLifecycle
+			//add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
 			add("implementation", Libs.KotlinResult.result)
 			add("implementation", Libs.MviKotlin.main)
 			add("implementation", Libs.MviKotlin.rx)
-			add("implementation", Libs.MviKotlin.utilsInternal)
 			add("implementation", Libs.MviKotlin.logging)
-			add("implementation", Libs.MviKotlin.rxInternal)
-			add("implementation", Libs.Views.FlowBinding.android)
 
-			add("testImplementation", Libs.AndroidX.Test.Ext.jUnit)
+			add("implementation", Libs.AndroidX.Compose.Ui.ui)
+			add("implementation", Libs.AndroidX.Compose.Ui.graphics)
+			add("implementation", Libs.AndroidX.Compose.Ui.text)
+			add("implementation", Libs.AndroidX.Compose.Ui.unit)
+			add("implementation", Libs.AndroidX.Compose.Ui.toolingPreview)
+
+			add("testImplementation", Libs.Test.jUnit)
 			add("testImplementation", Libs.Test.MockK.core)
 			add("testImplementation", Libs.Kotlin.Coroutines.test)
-			add("testImplementation", Libs.Test.Kotest.assertions)
-
-			add("kapt", Libs.Google.Dagger.compiler)
-			add("kapt", Libs.Google.Dagger.Hilt.compiler)
-
-			add("kaptTest", Libs.Google.Dagger.compiler)
-			add("kaptTest", Libs.Google.Dagger.Hilt.compiler)
+			add("testImplementation", Libs.Test.Kotest.assertionsCore)
+			add("testImplementation", Libs.Test.Kotest.assertionsShared)
 
 		}
 
@@ -64,7 +58,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			androidExtension.apply {
 				buildFeatures.compose = true
 				buildFeatures.viewBinding = true
-				composeOptions.kotlinCompilerExtensionVersion = "1.4.0"
+				composeOptions.kotlinCompilerExtensionVersion = "1.4.2"
 			}
 		}
 	}

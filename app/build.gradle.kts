@@ -2,11 +2,9 @@ import com.babestudios.companyinfouk.buildsrc.Libs
 
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
-	id("jacoco")
 	id("com.google.firebase.crashlytics")
 	id("com.google.gms.google-services")
 	id("org.jetbrains.kotlin.plugin.allopen")
-	id("com.google.devtools.ksp") version "1.8.0-1.0.9"
 	id("dagger.hilt.android.plugin")
 	id("kotlin-parcelize")
 }
@@ -19,7 +17,7 @@ android {
 	buildFeatures.compose = true
 
 	composeOptions {
-		kotlinCompilerExtensionVersion = "1.4.0"
+		kotlinCompilerExtensionVersion = "1.4.2"
 	}
 
 	defaultConfig {
@@ -73,39 +71,29 @@ dependencies {
 	implementation(Libs.Decompose.extensionsJetBrains)
 	implementation(Libs.Google.Dagger.core)
 	implementation(Libs.Google.Dagger.Hilt.android)
-	implementation(Libs.Google.gson)
 	implementation(platform(Libs.Google.Firebase.bom))
 	implementation(Libs.Google.Firebase.crashlytics)
-	implementation(Libs.SquareUp.Retrofit2.retrofit)
 	implementation(Libs.AndroidX.Compose.runtime) //To make buildFeatures.compose = true happy ?!
 
-	kapt(Libs.AndroidX.Hilt.compiler)
 	kapt(Libs.Google.Dagger.compiler)
-	kapt(Libs.Google.Dagger.Hilt.compiler)
 
 	androidTestImplementation(Libs.Google.gson)
 	androidTestImplementation(Libs.SquareUp.Retrofit2.retrofit)
 	androidTestImplementation(Libs.Google.Firebase.analytics)
 	androidTestImplementation(Libs.SquareUp.OkHttp3.loggingInterceptor)
-	androidTestImplementation(Libs.Test.MockK.android)
-	androidTestImplementation(Libs.Test.barista)
 	androidTestImplementation(Libs.Google.Dagger.Hilt.androidTesting)
 	implementation(platform(Libs.AndroidX.Compose.bom))
 	androidTestImplementation(platform(Libs.AndroidX.Compose.bom))
 	androidTestImplementation(Libs.AndroidX.Compose.Ui.test)
 	debugImplementation(Libs.AndroidX.Compose.Ui.testManifest)
 	androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
-	//RecyclerView, ViewPager, NavigationViewActions: unused for now
-	//androidTestImplementation (Libs.AndroidX.Test.Espresso.contrib)
 	androidTestImplementation(Libs.AndroidX.Test.Ext.jUnit)
-	androidTestImplementation(Libs.AndroidX.Test.rules)
 	androidTestImplementation(Libs.AndroidX.Test.runner)
 	androidTestImplementation(Libs.Decompose.core)
-	androidTestImplementation(Libs.Test.barista)
 	androidTestImplementation(Libs.KotlinResult.result)
+	androidTestImplementation(Libs.Test.jUnit)
+	androidTestImplementation(Libs.Test.MockK.core)
 
-	kaptAndroidTest(Libs.Google.Dagger.compiler)
-	kaptAndroidTest(Libs.Google.Dagger.Hilt.compiler)
 	kaptAndroidTest(Libs.Google.Dagger.Hilt.androidTestingCompiler)
 
 }

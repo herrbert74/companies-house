@@ -5,7 +5,7 @@ object Versions {
 	const val compileSdkVersion = 33
 	const val targetSdkVersion = 33
 	const val gradlePlugin = "7.1.3"
-	const val kotlin = "1.8.0"
+	const val kotlin = "1.8.10"
 	const val coroutines = "1.6.4"
 	const val dagger = "2.44.2"
 }
@@ -68,7 +68,11 @@ object Libs {
 			object Ui {
 
 				//Compile: ui-geometry, ui-graphics, ui-text and ui-unit; runtime: ui-util
-				const val primitives = "androidx.compose.ui:ui:$composeUiVersion"
+				const val ui = "androidx.compose.ui:ui:$composeUiVersion"
+				const val graphics = "androidx.compose.ui:ui-graphics:$composeUiVersion"
+				const val text = "androidx.compose.ui:ui-text:$composeUiVersion"
+				const val unit = "androidx.compose.ui:ui-unit:$composeUiVersion"
+				const val toolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeUiVersion"
 
 				//Compile: ui, runtime, ui-tooling-preview, ui-tooling-data
 				const val tooling = "androidx.compose.ui:ui-tooling"
@@ -99,7 +103,7 @@ object Libs {
 		}
 
 		object Lifecycle {
-			private const val version = "2.5.0"
+			private const val version = "2.5.1"
 			const val common = "androidx.lifecycle:lifecycle-common:$version"
 			const val runtime = "androidx.lifecycle:lifecycle-runtime:$version"
 			const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
@@ -129,7 +133,6 @@ object Libs {
 		object Test {
 			private const val version = "1.4.0"
 
-			//Provided by androidx.test.ext:junit
 			//const val core = "androidx.test:core:$version"
 			const val coreKtx = "androidx.test:core-ktx:$version"
 			const val runner = "androidx.test:runner:$version"
@@ -145,7 +148,7 @@ object Libs {
 			}
 
 			object Ext {
-				private const val version = "1.1.3"
+				private const val version = "1.1.5"
 				const val jUnit = "androidx.test.ext:junit:$version"
 				const val jUnitKtx = "androidx.test.ext:junit-ktx:$version"
 			}
@@ -316,7 +319,8 @@ object Libs {
 		object Kotest {
 			private const val version = "5.3.1"
 			const val runner = "io.kotest:kotest-runner-junit5:$version"
-			const val assertions = "io.kotest:kotest-assertions-core:$version"
+			const val assertionsCore = "io.kotest:kotest-assertions-core:$version"
+			const val assertionsShared = "io.kotest:kotest-assertions-shared:$version"
 			const val property = "io.kotest:kotest-property:$version"
 		}
 	}

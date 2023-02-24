@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.plugins.android
 
 import com.android.build.gradle.BaseExtension
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -27,7 +28,7 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		project.repositories.maven { url = project.uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
 
 		project.plugins.apply("kotlin-android")
-		if (project.name != "navigation" && project.name != "common") {
+		if (project.name == "app" || project.name == "data" || project.name == "domain") {
 			project.plugins.apply("kotlin-kapt")
 		}
 
@@ -52,6 +53,12 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 						proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 					}
 				}
+
+				//We should use toolChain, but has no effect yet: https://issuetracker.google.com/issues/260059413
+				compileOptions {
+					sourceCompatibility = JavaVersion.VERSION_11
+					targetCompatibility = JavaVersion.VERSION_11
+				}
 			}
 		}
 
@@ -59,7 +66,7 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 
 			if (project.name == "app") {
 				add("implementation", Libs.Javax.inject)
-			} else {
+			} else if (project.name != "common") {
 				add("api", Libs.Javax.inject)
 			}
 			add("implementation", Libs.JakeWharton.timber)

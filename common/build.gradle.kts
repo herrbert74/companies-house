@@ -9,14 +9,13 @@ android {
 	namespace = "com.babestudios.companyinfouk.common"
 	buildFeatures.viewBinding = true
 	buildFeatures.compose = true
-	composeOptions.kotlinCompilerExtensionVersion = "1.4.0"
+	composeOptions.kotlinCompilerExtensionVersion = "1.4.2"
 }
 
 dependencies {
 	implementation(project(":domain"))
 	implementation(Libs.baBeStudiosBase)
 	implementation(Libs.AndroidX.appcompat)
-	implementation(Libs.AndroidX.Activity.compose)
 	implementation(platform(Libs.AndroidX.Compose.bom))
 	implementation(Libs.AndroidX.Compose.material3)
 	implementation(Libs.AndroidX.Compose.Ui.tooling)

@@ -69,24 +69,21 @@ dependencies {
 
 	implementation(Libs.Kotlin.stdLib)
 	implementation(Libs.Kotlin.Coroutines.core)
-	implementation(Libs.AndroidX.appcompat)
-	implementation(Libs.AndroidX.coreKtx)
 	implementation(Libs.Google.Dagger.core)
 	implementation(Libs.Google.Dagger.Hilt.android)
-	implementation(Libs.Javax.annotations)
 	implementation(Libs.KotlinResult.result)
 	implementation(Libs.SquareUp.Retrofit2.retrofit)
-	implementation(Libs.SquareUp.Retrofit2.converterGson)
 
 	debugImplementation(Libs.Chucker.library)
 	releaseImplementation(Libs.Chucker.noop)
 
 	testImplementation(Libs.AndroidX.Test.Ext.jUnit)
 	testImplementation(Libs.SquareUp.OkHttp3.mockWebServer)
-	testImplementation(Libs.Test.MockK.core)
-	testImplementation(Libs.Test.Kotest.assertions)
-	testImplementation(Libs.Test.robolectric)
 	testImplementation(Libs.Kotlin.Coroutines.test)
+	testImplementation(Libs.Test.jUnit)
+	testImplementation(Libs.Test.robolectric)
+	testImplementation(Libs.Test.MockK.core)
+	testImplementation(Libs.Test.Kotest.assertionsCore)
 	testImplementation(Libs.Google.Dagger.Hilt.androidTesting)
 
 	kapt(Libs.Google.Dagger.compiler)

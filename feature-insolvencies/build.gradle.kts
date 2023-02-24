@@ -12,7 +12,6 @@ dependencies {
 	implementation(Libs.Decompose.extensionsJetpack)
 	implementation(Libs.Decompose.extensionsJetBrains)
 	implementation(Libs.AndroidX.Activity.compose)
-	implementation(Libs.AndroidX.constraintLayoutCompose)
 	implementation(platform(Libs.AndroidX.Compose.bom))
 	implementation(Libs.AndroidX.Compose.Ui.tooling)
 	implementation(Libs.AndroidX.Compose.material3)
