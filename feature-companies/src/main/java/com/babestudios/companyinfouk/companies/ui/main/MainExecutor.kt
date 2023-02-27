@@ -6,6 +6,7 @@ import com.babestudios.companyinfouk.companies.ui.main.MainStore.SideEffect
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.State
 import com.babestudios.companyinfouk.companies.ui.main.Message.MoreSearchResult
 import com.babestudios.companyinfouk.companies.ui.main.Message.SearchResult
+import com.babestudios.companyinfouk.companies.ui.main.Message.SetSearchMenuItemCollapsed
 import com.babestudios.companyinfouk.companies.ui.main.Message.SetSearchMenuItemExpanded
 import com.babestudios.companyinfouk.companies.ui.main.Message.ShowRecentSearches
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
@@ -56,38 +57,31 @@ class MainExecutor @Inject constructor(
 					dispatch(SetSearchMenuItemExpanded)
 			}
 
-			is Intent.SetSearchMenuItemCollapsed -> dispatch(Message.SetSearchMenuItemCollapsed)
+			is Intent.SetSearchMenuItemCollapsed -> dispatch(SetSearchMenuItemCollapsed)
 		}
 	}
-
 
 	//region Recent searches
 
 	private fun showRecentSearches() {
 		scope.launch(ioContext) {
 			val recentSearches = companiesRepository.recentSearches()
-			val recentSearchVisitables = convertSearchHistoryToVisitables(recentSearches)
+			val recentSearchesWithSearchTime = updateHistoryWithSearchTime(recentSearches)
 			withContext(mainContext) {
-				dispatch(ShowRecentSearches(recentSearchVisitables))
+				dispatch(ShowRecentSearches(recentSearchesWithSearchTime))
 			}
 		}
 	}
 
-	private fun convertSearchHistoryToVisitables(reply: List<SearchHistoryItem>): List<SearchHistoryItem> {
-		return reply.map { item ->
-			SearchHistoryItem(
-				item.companyName,
-				item.companyNumber,
-				System.currentTimeMillis()
-			)
-		}
+	private fun updateHistoryWithSearchTime(reply: List<SearchHistoryItem>): List<SearchHistoryItem> {
+		return reply.map { item -> item.copy(searchTime = System.currentTimeMillis()) }
 	}
 
 	private fun clearRecentSearches() {
 		scope.launch(ioContext) {
 			companiesRepository.clearAllRecentSearches()
 			withContext(mainContext) {
-				dispatch(ShowRecentSearches(convertSearchHistoryToVisitables(emptyList())))
+				dispatch(ShowRecentSearches(emptyList()))
 			}
 		}
 	}
@@ -103,7 +97,7 @@ class MainExecutor @Inject constructor(
 	private fun onSearchQueryChanged(queryText: String?, getState: () -> State) {
 		when {
 			isComingBackFromCompanyScreen(queryText, getState) || getState().searchQuery == null -> return
-			queryText != null &&queryText.length > 2 -> search(queryText)
+			queryText != null && queryText.length > 2 -> search(queryText)
 			else -> {
 				dispatch(
 					SearchResult(
@@ -159,9 +153,9 @@ class MainExecutor @Inject constructor(
 
 		scope.launch(ioContext) {
 			val searchHistoryItems = companiesRepository.addRecentSearchItem(newSearchHistoryItem)
-			val recentSearchVisitables = convertSearchHistoryToVisitables(searchHistoryItems)
+			val recentSearchesWithSearchTime = updateHistoryWithSearchTime(searchHistoryItems)
 			withContext(mainContext) {
-				dispatch(Message.SearchItemClicked(recentSearchVisitables))
+				dispatch(Message.SearchItemClicked(recentSearchesWithSearchTime))
 			}
 		}
 
