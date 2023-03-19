@@ -1,18 +1,21 @@
-import com.babestudios.companyinfouk.buildsrc.Libs
-
 plugins{
 	kotlin("jvm")
 }
 
-repositories {
-	mavenCentral()
+java {
+	toolchain.languageVersion.set(JavaLanguageVersion.of(11))
 }
 
 dependencies {
-	implementation(Libs.Kotlin.stdLib)
-	api(Libs.Detekt.api)
-	testImplementation(Libs.Detekt.api)
-	testImplementation(Libs.Detekt.test)
-	testImplementation(Libs.Test.JUnit5.jupiterApi)
-	testImplementation(Libs.Test.assertJ)
+	api(libs.detekt.api)
+	testImplementation(libs.detekt.test)
+	testImplementation(libs.test.jUnit5.jupiterApi)
+	testImplementation(libs.test.kotest.assertions)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+	kotlinOptions {
+		jvmTarget = "11"
+	}
+}
+

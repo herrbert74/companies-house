@@ -19,7 +19,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.filings.R
+import com.babestudios.base.R
 
 @Composable
 internal fun FilingHistoryItemListItem(

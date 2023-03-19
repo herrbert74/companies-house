@@ -1,5 +1,3 @@
-import com.babestudios.companyinfouk.buildsrc.Libs
-
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("kotlin-parcelize")
@@ -9,19 +7,19 @@ android.namespace = "com.babestudios.companyinfouk.domain"
 
 dependencies {
 
-	api(Libs.Google.Dagger.core)
+	api(libs.google.dagger.core)
 
-	implementation(Libs.baBeStudiosBase) {
+	implementation(libs.baBeStudiosBase) {
 		exclude("androidx.navigation","navigation-fragment-ktx")
 		exclude("androidx.navigation","navigation-ui-ktx")
 	}
-	implementation(Libs.AndroidX.annotation)
-	implementation(Libs.Google.gson)
-	implementation(Libs.Google.Dagger.Hilt.core)
-	implementation(Libs.Kotlin.Coroutines.core)
-	implementation(Libs.KotlinResult.result)
-	implementation(Libs.SquareUp.OkHttp3.okHttp)
+	implementation(libs.androidx.annotation)
+	implementation(libs.google.gson)
+	implementation(libs.google.dagger.hilt.core)
+	implementation(libs.kotlinx.coroutines.core)
+	implementation(libs.kotlinResult.result)
+	implementation(libs.squareUp.okhttp3.okhttp)
 
-	kapt(Libs.Google.Dagger.compiler)
-	kapt(Libs.Google.Dagger.Hilt.compiler)
+	kapt(libs.google.dagger.compiler)
+	kapt(libs.google.dagger.hilt.compiler)
 }

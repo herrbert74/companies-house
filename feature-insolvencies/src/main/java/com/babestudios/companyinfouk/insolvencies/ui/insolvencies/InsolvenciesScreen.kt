@@ -32,7 +32,7 @@ fun InsolvenciesScreen(component: InsolvenciesComp) {
 		headerBackgroundResource = R.drawable.bg_insolvency,
 		navigationAction = { component.onBackClicked() },
 		topAppBarActions = {},
-		title = stringResource(R.string.insolvency)
+		title = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency)
 	) {
 		if (model.isLoading) {
 			CircularProgressIndicator()

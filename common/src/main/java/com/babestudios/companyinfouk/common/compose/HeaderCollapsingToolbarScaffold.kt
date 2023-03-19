@@ -27,7 +27,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.babestudios.companyinfouk.common.R
+import com.babestudios.base.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.SEMI_TRANSPARENT
 import com.babestudios.companyinfouk.domain.HALF

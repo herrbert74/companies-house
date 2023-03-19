@@ -1,5 +1,3 @@
-import com.babestudios.companyinfouk.buildsrc.Libs
-
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("com.google.firebase.crashlytics")
@@ -15,15 +13,16 @@ android {
 	namespace = "com.babestudios.companyinfouk"
 
 	buildFeatures.compose = true
+	buildFeatures.buildConfig = true
 
 	composeOptions {
-		kotlinCompilerExtensionVersion = "1.4.2"
+		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 	}
 
 	defaultConfig {
 		applicationId = "com.babestudios.companyinfouk"
-		versionCode = 10
-		versionName = "2.0"
+		versionCode = libs.versions.versionCode.get().toInt()
+		versionName = libs.versions.versionName.toString()
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner = "com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner"
 	}
@@ -60,40 +59,44 @@ dependencies {
 	implementation(project(":feature-officers"))
 	implementation(project(":feature-persons"))
 
-	implementation(Libs.baBeStudiosBase) {
+	implementation(libs.baBeStudiosBase) {
 		exclude("androidx.navigation","navigation-fragment-ktx")
 		exclude("androidx.navigation","navigation-ui-ktx")
 	}
-	implementation(Libs.AndroidX.appcompat)
-	implementation(Libs.AndroidX.Compose.animation)
-	implementation(Libs.AndroidX.Activity.compose)
-	implementation(Libs.Decompose.core)
-	implementation(Libs.Decompose.extensionsJetBrains)
-	implementation(Libs.Google.Dagger.core)
-	implementation(Libs.Google.Dagger.Hilt.android)
-	implementation(platform(Libs.Google.Firebase.bom))
-	implementation(Libs.Google.Firebase.crashlytics)
-	implementation(Libs.AndroidX.Compose.runtime) //To make buildFeatures.compose = true happy ?!
+	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.compose.animation)
+	implementation(libs.androidx.activity.compose)
+	implementation(libs.decompose.core)
+	implementation(libs.decompose.extensionsJetBrains)
+	implementation(libs.google.dagger.core)
+	implementation(libs.google.dagger.hilt.android)
+	implementation(platform(libs.google.firebase.bom))
+	implementation(libs.google.firebase.crashlytics)
+	implementation(libs.androidx.compose.runtime) //To make buildFeatures.compose = true happy ?!
 
-	kapt(Libs.Google.Dagger.compiler)
+	debugImplementation(platform(libs.androidx.compose.bom))
+	debugImplementation(libs.androidx.compose.ui.testManifest)
 
-	androidTestImplementation(Libs.Google.gson)
-	androidTestImplementation(Libs.SquareUp.Retrofit2.retrofit)
-	androidTestImplementation(Libs.Google.Firebase.analytics)
-	androidTestImplementation(Libs.SquareUp.OkHttp3.loggingInterceptor)
-	androidTestImplementation(Libs.Google.Dagger.Hilt.androidTesting)
-	implementation(platform(Libs.AndroidX.Compose.bom))
-	androidTestImplementation(platform(Libs.AndroidX.Compose.bom))
-	androidTestImplementation(Libs.AndroidX.Compose.Ui.test)
-	debugImplementation(Libs.AndroidX.Compose.Ui.testManifest)
-	androidTestImplementation(Libs.AndroidX.Test.Espresso.core)
-	androidTestImplementation(Libs.AndroidX.Test.Ext.jUnit)
-	androidTestImplementation(Libs.AndroidX.Test.runner)
-	androidTestImplementation(Libs.Decompose.core)
-	androidTestImplementation(Libs.KotlinResult.result)
-	androidTestImplementation(Libs.Test.jUnit)
-	androidTestImplementation(Libs.Test.MockK.core)
+	kapt(libs.androidx.hilt.compiler)
+	kapt(libs.google.dagger.compiler)
+	kapt(libs.google.dagger.hilt.compiler)
 
-	kaptAndroidTest(Libs.Google.Dagger.Hilt.androidTestingCompiler)
+	androidTestImplementation(libs.google.gson)
+	androidTestImplementation(libs.squareUp.retrofit2.retrofit)
+	androidTestImplementation(platform(libs.google.firebase.bom))
+	androidTestImplementation(libs.google.firebase.analytics)
+	androidTestImplementation(libs.squareUp.okhttp3.loggingInterceptor)
+	androidTestImplementation(libs.google.dagger.hilt.androidTesting)
+	androidTestImplementation(platform(libs.androidx.compose.bom))
+	androidTestImplementation(libs.androidx.compose.ui.test)
+	androidTestImplementation(libs.androidx.test.espresso.core)
+	androidTestImplementation(libs.androidx.test.ext.jUnitKtx)
+	androidTestImplementation(libs.androidx.test.runner)
+	androidTestImplementation(libs.decompose.core)
+	androidTestImplementation(libs.kotlinResult.result)
+	androidTestImplementation(libs.test.jUnit)
+	androidTestImplementation(libs.test.mockk.core)
+
+	kaptAndroidTest(libs.google.dagger.hilt.androidCompiler)
 
 }

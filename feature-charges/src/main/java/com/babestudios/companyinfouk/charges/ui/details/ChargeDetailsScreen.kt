@@ -55,8 +55,8 @@ private fun ChargeHeader(
 	charge: ChargesItem,
 ) {
 
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	ConstraintLayout(
 		modifier = modifier

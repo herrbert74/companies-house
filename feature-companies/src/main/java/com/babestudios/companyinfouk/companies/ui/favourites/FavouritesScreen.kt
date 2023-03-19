@@ -74,7 +74,7 @@ private fun FavouritesList(
 	onUndoClicked: (favouritesItem: FavouritesItem) -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	Box {
 		val listState = rememberLazyListState()
@@ -135,11 +135,11 @@ fun FavouritesListPreview() {
 	FavouritesList(
 		items = listOf(
 			FavouritesItem(
-				SearchHistoryItem("Reach Plc", "0082548", 123),
+				SearchHistoryItem("Reach Plc", "0082548", 1),
 				false
 			),
 			FavouritesItem(
-				SearchHistoryItem("Reach Plc", "0082548", 123),
+				SearchHistoryItem("Reach Plc", "0082548", 1),
 				true
 			)
 		),

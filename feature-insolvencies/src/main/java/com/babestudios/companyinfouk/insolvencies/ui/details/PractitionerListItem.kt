@@ -29,8 +29,8 @@ internal fun PractitionerListItem(
 	onItemClicked: (practitioner: Practitioner) -> Unit,
 ) {
 
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	Row(
 		modifier = Modifier
@@ -50,8 +50,8 @@ internal fun PractitionerListItem(
 					bottom = viewMarginNormal,
 					end = viewMarginLarge
 				)
-				.height(dimensionResource(R.dimen.listAvatarWidth))
-				.width(dimensionResource(R.dimen.listAvatarWidth)),
+				.height(dimensionResource(com.babestudios.base.R.dimen.listAvatarWidth))
+				.width(dimensionResource(com.babestudios.base.R.dimen.listAvatarWidth)),
 			alignment = Alignment.CenterEnd,
 			ContentScale.FillBounds,
 		)

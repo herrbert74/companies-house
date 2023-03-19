@@ -1,5 +1,3 @@
-import com.babestudios.companyinfouk.buildsrc.Libs
-
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("com.babestudios.companyinfouk.plugins.feature")
@@ -8,16 +6,16 @@ plugins {
 android.namespace = "com.babestudios.companyinfouk.filings"
 
 dependencies {
-	implementation(Libs.Decompose.core)
-	implementation(Libs.Decompose.extensionsJetpack)
-	implementation(Libs.Decompose.extensionsJetBrains)
-	implementation(Libs.AndroidX.Activity.compose)
-	implementation(Libs.AndroidX.constraintLayoutCompose)
-	implementation(platform(Libs.AndroidX.Compose.bom))
-	implementation(Libs.AndroidX.Compose.Ui.tooling)
-	implementation(Libs.AndroidX.Compose.material3)
-	implementation(Libs.AndroidX.Compose.foundationLayout)
-	implementation(Libs.Views.collapsingToolbar)
+	implementation(libs.decompose.core)
+	implementation(libs.decompose.extensionsJetpack)
+	implementation(libs.decompose.extensionsJetBrains)
+	implementation(libs.androidx.activity.compose)
+	implementation(libs.androidx.constraintLayout.compose)
+	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.compose.ui.tooling)
+	implementation(libs.androidx.compose.material3)
+	implementation(libs.androidx.compose.foundationLayout)
+	implementation(libs.view.collapsingToolbar)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

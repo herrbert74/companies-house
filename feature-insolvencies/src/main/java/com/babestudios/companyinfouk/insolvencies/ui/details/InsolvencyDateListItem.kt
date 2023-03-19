@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.domain.model.insolvency.Date
-import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.base.R
 
 @Composable
 internal fun InsolvencyDateListItem(item: Date) {

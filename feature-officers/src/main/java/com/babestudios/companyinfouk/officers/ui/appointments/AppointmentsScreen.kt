@@ -32,8 +32,8 @@ import com.babestudios.companyinfouk.officers.R
 @Composable
 fun AppointmentsScreen(component: AppointmentsComp) {
 
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	BackHandler(onBack = { component.onBackClicked() })
 	val model by component.state.subscribeAsState()
@@ -74,7 +74,7 @@ private fun AppointmentsList(
 	onLoadMore: () -> Unit,
 ) {
 
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
 
 	Box {
 

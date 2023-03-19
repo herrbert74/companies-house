@@ -218,12 +218,12 @@ fun MainScreen(component: MainComp) {
 @Composable
 private fun MainHeader() {
 
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	Text(
 		modifier = Modifier.padding(vertical = viewMarginNormal, horizontal = viewMarginLarge),
-		text = stringResource(R.string.recent_searches),
+		text = stringResource(com.babestudios.companyinfouk.common.R.string.recent_searches),
 		style = CompaniesTypography.titleMediumBold
 	)
 
@@ -238,18 +238,19 @@ private fun EmptySearchList(
 	message: String = stringResource(R.string.no_search_result),
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	Column(
 		Modifier
 			.padding(paddingValues)
 			.fillMaxSize(1f)
-			.background(colorResource(R.color.grey_1)), //Matches the empty icon background from BaBeStudiosBase
+			//Matches the empty icon background from BaBeStudiosBase
+			.background(colorResource(com.babestudios.base.R.color.grey_1)),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
 		Image(
-			painter = painterResource(R.drawable.ic_business_empty),
+			painter = painterResource(com.babestudios.base.R.drawable.ic_business_empty),
 			contentDescription = null
 		)
 		Text(
@@ -271,7 +272,7 @@ private fun RecentSearchesList(
 	onItemClicked: (id: SearchHistoryItem) -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	Box(Modifier.fillMaxSize(1f)) {
 		val listState = rememberLazyListState()
@@ -308,7 +309,7 @@ private fun RecentSearchesList(
 			},
 		) {
 			Icon(
-				painter = painterResource(R.drawable.ic_delete),
+				painter = painterResource(com.babestudios.companyinfouk.common.R.drawable.ic_delete),
 				contentDescription = "Add favourites",
 			)
 		}

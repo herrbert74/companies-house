@@ -32,9 +32,9 @@ internal fun ChargesItemListItem(
 	onItemClicked: (id: ChargesItem) -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
-	val viewMarginSmall = dimensionResource(R.dimen.viewMarginSmall)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginSmall = dimensionResource(com.babestudios.base.R.dimen.viewMarginSmall)
 
 	val painter = if (item.status == "Satisfied") {
 		painterResource(R.drawable.ic_baseline_sentiment_satisfied)
@@ -43,9 +43,9 @@ internal fun ChargesItemListItem(
 	}
 
 	val colorFilter = if (item.status == "Satisfied") {
-		ColorFilter.tint(colorResource(R.color.green))
+		ColorFilter.tint(colorResource(com.babestudios.companyinfouk.common.R.color.green))
 	} else {
-		ColorFilter.tint(colorResource(R.color.red))
+		ColorFilter.tint(colorResource(com.babestudios.companyinfouk.common.R.color.red))
 	}
 
 	ConstraintLayout(

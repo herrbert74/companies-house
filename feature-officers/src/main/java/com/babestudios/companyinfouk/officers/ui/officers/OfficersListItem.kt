@@ -19,7 +19,7 @@ import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.officers.R
+import com.babestudios.base.R
 
 @Composable
 internal fun OfficerListItem(

@@ -53,8 +53,8 @@ private fun InsolvencyDetailsList(
 	Column {
 
 		val listState = rememberLazyListState()
-		val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-		val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+		val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+		val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
 
 		LazyColumn(state = listState) {
 			itemsIndexed(items.dates) { index, date ->
@@ -66,7 +66,7 @@ private fun InsolvencyDetailsList(
 							top = viewMarginNormal,
 							bottom = viewMarginLarge
 						),
-						text = stringResource(R.string.insolvency_dates),
+						text = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency_dates),
 						style = CompaniesTypography.titleSmall
 					)
 				}
@@ -84,7 +84,7 @@ private fun InsolvencyDetailsList(
 							top = viewMarginLarge,
 							bottom = viewMarginLarge
 						),
-						text = stringResource(R.string.insolvency_practitioners),
+						text = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency_practitioners),
 						style = CompaniesTypography.titleSmall
 					)
 				}

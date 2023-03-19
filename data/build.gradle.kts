@@ -1,5 +1,3 @@
-import com.babestudios.companyinfouk.buildsrc.Libs
-
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("kotlin-parcelize")
@@ -7,9 +5,12 @@ plugins {
 
 val companiesHouseApiKey: String by project
 
+@Suppress("UnstableApiUsage")
 android {
 
 	namespace = "com.babestudios.companyinfouk.data"
+
+	buildFeatures.buildConfig = true
 
 	buildTypes {
 		all {
@@ -61,35 +62,34 @@ dependencies {
 
 	api(project(":domain"))
 
-	implementation(Libs.baBeStudiosBase) {
+	implementation(libs.baBeStudiosBase) {
 		exclude("androidx.navigation","navigation-fragment-ktx")
 		exclude("androidx.navigation","navigation-ui-ktx")
 	}
-	api(Libs.SquareUp.OkHttp3.loggingInterceptor)
+	api(libs.squareUp.okhttp3.loggingInterceptor)
 
-	implementation(Libs.Kotlin.stdLib)
-	implementation(Libs.Kotlin.Coroutines.core)
-	implementation(Libs.Google.Dagger.core)
-	implementation(Libs.Google.Dagger.Hilt.android)
-	implementation(Libs.KotlinResult.result)
-	implementation(Libs.SquareUp.Retrofit2.retrofit)
+	implementation(libs.kotlinx.coroutines.core)
+	implementation(libs.google.dagger.core)
+	implementation(libs.google.dagger.hilt.android)
+	implementation(libs.kotlinResult.result)
+	implementation(libs.squareUp.retrofit2.retrofit)
 
-	debugImplementation(Libs.Chucker.library)
-	releaseImplementation(Libs.Chucker.noop)
+	debugImplementation(libs.chucker.library)
+	releaseImplementation(libs.chucker.noop)
 
-	testImplementation(Libs.AndroidX.Test.Ext.jUnit)
-	testImplementation(Libs.SquareUp.OkHttp3.mockWebServer)
-	testImplementation(Libs.Kotlin.Coroutines.test)
-	testImplementation(Libs.Test.jUnit)
-	testImplementation(Libs.Test.robolectric)
-	testImplementation(Libs.Test.MockK.core)
-	testImplementation(Libs.Test.Kotest.assertionsCore)
-	testImplementation(Libs.Google.Dagger.Hilt.androidTesting)
+	testImplementation(libs.androidx.test.ext.jUnitKtx)
+	testImplementation(libs.squareUp.okhttp3.mockWebServer)
+	testImplementation(libs.kotlinx.coroutines.test)
+	testImplementation(libs.test.jUnit)
+	testImplementation(libs.test.robolectric)
+	testImplementation(libs.test.mockk.core)
+	testImplementation(libs.test.kotest.assertions)
+	testImplementation(libs.google.dagger.hilt.androidTesting)
 
-	kapt(Libs.Google.Dagger.compiler)
-	kapt(Libs.Google.Dagger.Hilt.compiler)
+	kapt(libs.google.dagger.compiler)
+	kapt(libs.google.dagger.hilt.compiler)
 
-	kaptTest(Libs.Google.Dagger.compiler)
+	kaptTest(libs.google.dagger.compiler)
 
 }
 

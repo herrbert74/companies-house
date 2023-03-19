@@ -1,7 +1,7 @@
 package com.babestudios.core.detekt
 
 import io.gitlab.arturbosch.detekt.test.lint
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
@@ -12,8 +12,8 @@ class NonExhaustiveWhenTest {
         val findings = NonExhaustiveWhen()
                 .lint(WHEN_STATEMENT.trimIndent())
 
-        assertThat(findings).hasSize(1)
-        assertThat(findings[0].message).isEqualTo(MESSAGE)
+        findings.size shouldBe 1
+        findings[0].message shouldBe MESSAGE
     }
 }
 

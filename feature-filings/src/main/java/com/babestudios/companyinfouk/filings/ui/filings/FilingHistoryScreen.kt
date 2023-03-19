@@ -60,7 +60,7 @@ fun FilingHistoryScreen(component: FilingHistoryComp) {
 			)
 			CategoryFilterDropdown(categories = categories.toList(), bodyContent = bodyContent, component)
 		},
-		title = stringResource(R.string.filing_history)
+		title = stringResource(com.babestudios.companyinfouk.common.R.string.filing_history)
 	) {
 		if (model.isLoading) {
 			CircularProgressIndicator()

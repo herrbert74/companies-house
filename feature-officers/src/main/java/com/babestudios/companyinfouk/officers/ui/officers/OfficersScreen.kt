@@ -33,7 +33,7 @@ fun OfficersScreen(component: OfficersComp) {
 		headerBackgroundResource = R.drawable.bg_officers,
 		navigationAction = { component.onBackClicked() },
 		topAppBarActions = {},
-		title = stringResource(R.string.officers)
+		title = stringResource(com.babestudios.companyinfouk.common.R.string.officers)
 	) {
 		if (model.isLoading) {
 			CircularProgressIndicator()

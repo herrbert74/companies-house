@@ -35,7 +35,7 @@ fun ChargesScreen(component: ChargesComp) {
 		headerBackgroundResource = R.drawable.bg_charges,
 		navigationAction = { component.onBackClicked() },
 		topAppBarActions = {},
-		title = stringResource(R.string.charges)
+		title = stringResource(com.babestudios.companyinfouk.common.R.string.charges)
 	) {
 		if (model.isLoading) {
 			CircularProgressIndicator()

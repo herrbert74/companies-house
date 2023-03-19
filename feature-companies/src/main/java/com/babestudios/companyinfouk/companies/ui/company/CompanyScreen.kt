@@ -83,8 +83,8 @@ private fun CompanyScreenBody(
 	onPersonsClicked: (String) -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
 
 	Column(
 		verticalArrangement = Arrangement.Top,
@@ -109,7 +109,7 @@ private fun CompanyScreenBody(
 		)
 		Divider(thickness = 1.dp)
 		AddressCard(
-			title = stringResource(R.string.office_address),
+			title = stringResource(com.babestudios.companyinfouk.common.R.string.office_address),
 			address = company.registeredOfficeAddress,
 			onShowMap = { onMapClicked(company.registeredOfficeAddress.getAddressString()) },
 		)
@@ -131,7 +131,7 @@ private fun CompanyScreenBody(
 				.padding(vertical = viewMarginNormal)
 				.clickable { onFilingsClicked(company.companyNumber) },
 			vectorImageResource = R.drawable.ic_company_filing_history,
-			text = stringResource(R.string.filing_history)
+			text = stringResource(com.babestudios.companyinfouk.common.R.string.filing_history)
 		)
 		if (company.hasInsolvencyHistory) {
 			SingleLineCard(
@@ -139,7 +139,7 @@ private fun CompanyScreenBody(
 					.padding(vertical = viewMarginNormal)
 					.clickable { onInsolvenciesClicked(company.companyNumber) },
 				vectorImageResource = R.drawable.ic_company_insolvency,
-				text = stringResource(R.string.insolvency)
+				text = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency)
 			)
 		}
 		if (company.hasCharges) {
@@ -148,7 +148,7 @@ private fun CompanyScreenBody(
 					.padding(vertical = viewMarginNormal)
 					.clickable { onChargesClicked(company.companyNumber) },
 				vectorImageResource = R.drawable.ic_company_charges,
-				text = stringResource(R.string.charges)
+				text = stringResource(com.babestudios.companyinfouk.common.R.string.charges)
 			)
 		}
 		SingleLineCard(
@@ -156,14 +156,14 @@ private fun CompanyScreenBody(
 				.padding(vertical = viewMarginNormal)
 				.clickable { onOfficersClicked(company.companyNumber) },
 			vectorImageResource = R.drawable.ic_company_officers,
-			text = stringResource(R.string.officers)
+			text = stringResource(com.babestudios.companyinfouk.common.R.string.officers)
 		)
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
 				.clickable { onPersonsClicked(company.companyNumber) },
 			vectorImageResource = R.drawable.ic_company_persons_with_control,
-			text = stringResource(R.string.persons_with_significant_control)
+			text = stringResource(com.babestudios.companyinfouk.common.R.string.persons_with_significant_control)
 		)
 		Spacer(modifier = Modifier.height(viewMarginLarge))
 	}

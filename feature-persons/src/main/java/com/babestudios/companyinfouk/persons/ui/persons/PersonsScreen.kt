@@ -33,7 +33,7 @@ fun PersonsScreen(component: PersonsComp) {
 		headerBackgroundResource = R.drawable.bg_persons,
 		navigationAction = { component.onBackClicked() },
 		topAppBarActions = {},
-		title = stringResource(R.string.persons_with_significant_control)
+		title = stringResource(com.babestudios.companyinfouk.common.R.string.persons_with_significant_control)
 	) {
 		if (model.isLoading) {
 			CircularProgressIndicator()

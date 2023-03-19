@@ -1,12 +1,25 @@
 package com.babestudios.companyinfouk.plugins.feature
 
 import com.android.build.gradle.BaseExtension
-import com.babestudios.companyinfouk.buildsrc.Libs
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.ModuleDependency
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.accessors.runtime.addConfiguredDependencyTo
 import org.gradle.kotlin.dsl.dependencies
+
+//We need to copy this here to correctly retrieve dependencies for exclude
+fun DependencyHandler.implementation(
+	dependencyNotation: Provider<*>,
+	dependencyConfiguration: Action<ExternalModuleDependency>,
+): Unit = addConfiguredDependencyTo(
+	this, "implementation", dependencyNotation, dependencyConfiguration
+)
 
 /**
  * This plugin should be used for all features.
@@ -17,37 +30,46 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 	@Suppress("UnstableApiUsage")
 	override fun apply(project: Project) {
 
+		val catalogs = project.extensions.getByType(VersionCatalogsExtension::class.java)
+		val libs = catalogs.named("libs")
+
 		project.plugins.apply("kotlin-parcelize")
 
 		project.dependencies {
 			add("implementation", project.project(":domain"))
 			add("implementation", project.project(":common"))
 
-			add("api", Libs.MviKotlin.core)
-			add("api", Libs.MviKotlin.coroutines)
+			libs.findLibrary("mvikotlin.core").ifPresent { add("api", it) }
+			libs.findLibrary("mvikotlin.coroutines").ifPresent { add("api", it) }
 
-			add("implementation", Libs.baBeStudiosBase).apply {
-				exclude("androidx.navigation","navigation-fragment-ktx")
-				exclude("androidx.navigation","navigation-ui-ktx")
+			libs.findLibrary("baBeStudiosBase").ifPresent {
+				implementation(it){
+					exclude("androidx.navigation", "navigation-fragment-ktx")
+					exclude("androidx.navigation", "navigation-ui-ktx")
+				}
+				/*add("implementation", it).apply {
+					exclude("androidx.navigation", "navigation-fragment-ktx")
+					exclude("androidx.navigation", "navigation-ui-ktx")
+				}*/
 			}
 			//LifeCycle, LifecycleOwner, RepeatOnLifecycle
 			//add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
-			add("implementation", Libs.KotlinResult.result)
-			add("implementation", Libs.MviKotlin.main)
-			add("implementation", Libs.MviKotlin.rx)
-			add("implementation", Libs.MviKotlin.logging)
+			libs.findLibrary("kotlinResult.result").ifPresent { add("implementation", it) }
+			libs.findLibrary("mvikotlin.main").ifPresent { add("implementation", it) }
+			libs.findLibrary("mvikotlin.rx").ifPresent { add("implementation", it) }
+			libs.findLibrary("mvikotlin.logging").ifPresent { add("implementation", it) }
 
-			add("implementation", Libs.AndroidX.Compose.Ui.ui)
-			add("implementation", Libs.AndroidX.Compose.Ui.graphics)
-			add("implementation", Libs.AndroidX.Compose.Ui.text)
-			add("implementation", Libs.AndroidX.Compose.Ui.unit)
-			add("implementation", Libs.AndroidX.Compose.Ui.toolingPreview)
+			libs.findLibrary("androidx.compose.ui").ifPresent { add("implementation", it) }
+			libs.findLibrary("androidx.compose.ui.graphics").ifPresent { add("implementation", it) }
+			libs.findLibrary("androidx.compose.ui.text").ifPresent { add("implementation", it) }
+			libs.findLibrary("androidx.compose.ui.unit").ifPresent { add("implementation", it) }
+			libs.findLibrary("androidx.compose.ui.toolingPreview").ifPresent { add("implementation", it) }
 
-			add("testImplementation", Libs.Test.jUnit)
-			add("testImplementation", Libs.Test.MockK.core)
-			add("testImplementation", Libs.Kotlin.Coroutines.test)
-			add("testImplementation", Libs.Test.Kotest.assertionsCore)
-			add("testImplementation", Libs.Test.Kotest.assertionsShared)
+			libs.findLibrary("test.jUnit").ifPresent { add("testImplementation", it) }
+			libs.findLibrary("test.mockk.core").ifPresent { add("testImplementation", it) }
+			libs.findLibrary("kotlinx.coroutines.test").ifPresent { add("testImplementation", it) }
+			libs.findLibrary("test.kotest.assertions.core").ifPresent { add("testImplementation", it) }
+			libs.findLibrary("test.kotest.assertions.shared").ifPresent { add("testImplementation", it) }
 
 		}
 
@@ -58,7 +80,8 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			androidExtension.apply {
 				buildFeatures.compose = true
 				buildFeatures.viewBinding = true
-				composeOptions.kotlinCompilerExtensionVersion = "1.4.2"
+				composeOptions.kotlinCompilerExtensionVersion =
+					libs.findVersion("androidx.compose.compiler").get().toString()
 			}
 		}
 	}

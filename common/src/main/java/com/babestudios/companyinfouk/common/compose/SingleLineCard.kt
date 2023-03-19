@@ -27,8 +27,8 @@ fun SingleLineCard(
 	textStyle: TextStyle = CompaniesTypography.titleLargeBold,
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
 
 	Row(
 		verticalAlignment = Alignment.CenterVertically,

@@ -3,29 +3,25 @@ import com.babestudios.companyinfouk.script.PropertyResolver
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
-	val kotlinVersion = "1.8.10"
-	repositories {
-		mavenCentral()
-		google()
-		gradlePluginPortal()
-	}
 	dependencies {
-		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-		//classpath("com.android.tools.build:gradle:7.4.1")
-		classpath("com.android.tools.build:gradle:7.3.1") //For IJ plugin runIde
-		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
-		classpath("com.google.gms:google-services:4.3.15")
-		classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")
-		classpath("com.google.dagger:hilt-android-gradle-plugin:2.44.2")
-		classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.4")
+		classpath(libs.gradlePlugin)
+		classpath(libs.kotlinPlugin)
+		classpath(libs.kotlinAllOpenPlugin)
+		classpath(libs.googleServicesPlugin)
 	}
 }
 
+@Suppress("DSL_SCOPE_VIOLATION") //https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-	id("io.gitlab.arturbosch.detekt").version("1.19.0")
+	alias(libs.plugins.hiltAndroid) apply false
+	alias(libs.plugins.crashlytics) apply false
 	id("scabbard.gradle") version "0.5.0"
+
+	//We apply it in BaBeStudiosAndroidPlugin -> detekt.gradle
+	alias(libs.plugins.detekt) apply false
+
 	/**
-	 * Disabled by default
+	 * Plugins disabled by default and applied on request from CLI
 	 * https://blog.dipien.com/improve-your-gradle-build-times-by-only-applying-needed-plugins-5cbe78319e17
 	 *
 	 * TLDR: Enable them by running the task like this:
@@ -34,10 +30,9 @@ plugins {
 	 * ./gradlew assembleMirrorDebug -PGRADLE_DOCTOR_ENABLED=true
 	 * ./gradlew projectDependencyGraph -PPROJECT_DEPENDENCY_GRAPH_ENABLED=true
 	 */
-	id("com.github.ben-manes.versions") version "0.44.0" apply false
-	id("com.autonomousapps.dependency-analysis") version "1.19.0" apply false
-	id("com.osacky.doctor") version "0.8.1" apply false
-
+	alias(libs.plugins.versions) apply false
+	alias(libs.plugins.dependencyAnalyis) apply false
+	alias(libs.plugins.gradleDoctor) apply false
 }
 
 val propertyResolver by extra(PropertyResolver(project))
@@ -63,9 +58,10 @@ fun teamPropsFile(propsFile: String): File {
 	return File(teamPropsDir, propsFile)
 }
 
-afterEvaluate {
-	tasks["detekt"].dependsOn(":core-detekt:assemble")
-}
+//This is needed for custom rules, which is unused now. Detekt is not applied here, so this does not work anymore.
+//afterEvaluate {
+//	tasks["detekt"].dependsOn(":core-detekt:assemble")
+//}
 
 // region Gradle Versions Plugin
 

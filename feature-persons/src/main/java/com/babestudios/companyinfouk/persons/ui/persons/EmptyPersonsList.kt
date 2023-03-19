@@ -23,17 +23,18 @@ import com.babestudios.companyinfouk.persons.R
 @Composable
 fun EmptyPersonsList() {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
 
 	Column(
 		Modifier
 			.fillMaxSize(1f)
-			.background(colorResource(R.color.grey_1)), //Matches the empty icon background from BaBeStudiosBase
+			//Matches the empty icon background from BaBeStudiosBase
+			.background(colorResource(com.babestudios.base.R.color.grey_1)),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
 		Image(
-			painter = painterResource(R.drawable.ic_business_empty),
+			painter = painterResource(com.babestudios.base.R.drawable.ic_business_empty),
 			contentDescription = null
 		)
 		Text(

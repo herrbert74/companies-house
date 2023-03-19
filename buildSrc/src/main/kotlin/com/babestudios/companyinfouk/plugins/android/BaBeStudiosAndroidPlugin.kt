@@ -1,12 +1,12 @@
 package com.babestudios.companyinfouk.plugins.android
 
 import com.android.build.gradle.BaseExtension
+import com.babestudios.companyinfouk.buildsrc.Versions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
-import com.babestudios.companyinfouk.buildsrc.Libs
-import com.babestudios.companyinfouk.buildsrc.Versions
 import org.gradle.kotlin.dsl.apply
 
 /**
@@ -22,11 +22,6 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 			project.plugins.apply("com.android.library")
 		}
 
-		project.repositories.mavenCentral()
-		project.repositories.google()
-		project.repositories.maven { url = project.uri("https://jitpack.io") }
-		project.repositories.maven { url = project.uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-
 		project.plugins.apply("kotlin-android")
 		if (project.name == "app" || project.name == "data" || project.name == "domain") {
 			project.plugins.apply("kotlin-kapt")
@@ -35,6 +30,9 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		project.apply(from = project.rootProject.file("team-props/detekt/detekt.gradle"))
 
 		val androidExtension = project.extensions.getByName("android")
+
+		val catalogs = project.extensions.getByType(VersionCatalogsExtension::class.java)
+		val libs = catalogs.named("libs")
 
 		if (androidExtension is BaseExtension) {
 
@@ -65,14 +63,16 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		project.dependencies {
 
 			if (project.name == "app") {
-				add("implementation", Libs.Javax.inject)
+				libs.findLibrary("inject").ifPresent { add("implementation", it) }
 			} else if (project.name != "common") {
-				add("api", Libs.Javax.inject)
+				libs.findLibrary("inject").ifPresent { add("api", it) }
 			}
-			add("implementation", Libs.JakeWharton.timber)
-			add("implementation", platform(Libs.Google.Firebase.bom))
-			add("implementation", Libs.Google.Firebase.analytics)
-			add("detekt", Libs.Detekt.cli)
+
+			libs.findLibrary("timber").ifPresent { add("implementation", it) }
+			libs.findLibrary("detekt.cli").ifPresent { add("detekt", it) }
+			libs.findLibrary("google.firebase.bom").ifPresent { add("implementation", platform(it)) }
+			libs.findLibrary("google.firebase.analytics").ifPresent { add("implementation", it) }
+
 			add("detektPlugins", project.project(":core-detekt"))
 
 		}

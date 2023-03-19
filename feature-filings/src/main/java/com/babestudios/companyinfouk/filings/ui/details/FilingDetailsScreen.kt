@@ -45,7 +45,7 @@ import com.babestudios.companyinfouk.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.ui.filings.createAnnotatedStringDescription
-import java.util.*
+import java.util.Locale
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -129,26 +129,26 @@ private fun FilingDetailsBody(state: ScrollState, selectedFilingDetails: FilingH
 		modifier = Modifier.verticalScroll(state)
 	) {
 		LabeledDetailCardItem(
-			labelString = stringResource(id = R.string.date),
+			labelString = stringResource(id = com.babestudios.companyinfouk.common.R.string.date),
 			detailString = selectedFilingDetails.date
 		)
 		LabeledDetailCardItem(
-			labelString = stringResource(id = R.string.category),
+			labelString = stringResource(id = com.babestudios.companyinfouk.common.R.string.category),
 			detailString = selectedFilingDetails.category.displayName
 		)
 		selectedFilingDetails.subcategory?.let {
 			LabeledDetailCardItem(
-				labelString = stringResource(id = R.string.subcategory),
+				labelString = stringResource(id = com.babestudios.companyinfouk.common.R.string.subcategory),
 				detailString = it
 			)
 		}
 		LabeledDetailCardItem(
-			labelString = stringResource(id = R.string.description),
+			labelString = stringResource(id = com.babestudios.companyinfouk.common.R.string.description),
 			detailString = selectedFilingDetails.description.createAnnotatedStringDescription(),
 			detailStyle = CompaniesTypography.titleLarge,
 		)
 		LabeledDetailCardItem(
-			labelString = stringResource(id = R.string.pages),
+			labelString = stringResource(id = com.babestudios.companyinfouk.common.R.string.pages),
 			detailString = String.format(Locale.UK, "%d", selectedFilingDetails.pages)
 		)
 		Divider(thickness = 1.dp)

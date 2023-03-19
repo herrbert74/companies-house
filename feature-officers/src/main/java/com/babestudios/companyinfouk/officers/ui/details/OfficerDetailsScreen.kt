@@ -36,7 +36,7 @@ import kotlinx.coroutines.Dispatchers
 @Suppress("LongMethod", "ComplexMethod")
 fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
 
 	TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val selectedOfficer = component.selectedOfficer
