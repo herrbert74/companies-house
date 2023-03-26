@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.plugins.android
 
 import com.android.build.gradle.BaseExtension
-import com.babestudios.companyinfouk.buildsrc.Versions
+//import com.babestudios.companyinfouk.buildsrc.Versions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -37,11 +37,11 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		if (androidExtension is BaseExtension) {
 
 			androidExtension.apply {
-				compileSdkVersion(Versions.compileSdkVersion)
+				compileSdkVersion(SdkVersions.compileSdkVersion)
 
 				defaultConfig {
-					minSdk = Versions.minSdkVersion
-					targetSdk = Versions.targetSdkVersion
+					minSdk = SdkVersions.minSdkVersion
+					targetSdk = SdkVersions.targetSdkVersion
 					consumerProguardFiles("consumer-rules.pro")
 				}
 
