@@ -4,7 +4,6 @@ import android.content.Context
 import com.babestudios.companyinfouk.data.R
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.model.ErrorMappings
 import com.google.gson.Gson
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,7 +11,7 @@ import javax.inject.Singleton
  * Not used as CH API does not send handleable exceptions
  */
 @Singleton
-class ErrorHelper @Inject constructor(@ApplicationContext context: Context) {
+class ErrorHelper @Inject constructor(context: Context) {
 	private val errorMapping: ErrorMappings
 
 	init {

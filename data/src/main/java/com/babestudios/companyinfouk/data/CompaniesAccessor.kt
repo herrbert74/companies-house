@@ -25,12 +25,10 @@ import com.babestudios.companyinfouk.domain.model.persons.Person
 import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.github.michaelbull.result.mapError
 import com.github.michaelbull.result.recoverIf
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.FileNotFoundException
 import java.io.IOException
 import javax.inject.Inject
@@ -42,14 +40,14 @@ import retrofit2.HttpException
 import timber.log.Timber
 
 @Singleton
-open class CompaniesAccessor @Inject constructor(
-	@ApplicationContext private val context: Context,
+class CompaniesAccessor @Inject constructor(
+	private val context: Context,
 	private val companiesHouseService: CompaniesHouseService,
 	private val companiesHouseDocumentService: CompaniesHouseDocumentService,
 	private var preferencesHelper: PreferencesHelper,
 	private val firebaseAnalytics: FirebaseAnalytics,
 	private val companiesHouseMapping: CompaniesHouseMapping,
-	@IoDispatcher val ioContext: CoroutineDispatcher,
+	val ioContext: CoroutineDispatcher,
 ) : CompaniesRepository {
 
 	override suspend fun recentSearches(): List<SearchHistoryItem> {

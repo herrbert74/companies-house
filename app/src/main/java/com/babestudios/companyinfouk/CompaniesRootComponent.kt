@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import com.babestudios.base.coroutines.MainDispatcher
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesComp
 import com.babestudios.companyinfouk.charges.ui.details.ChargeDetailsComp
 import com.babestudios.companyinfouk.companies.ui.company.CompanyComp
@@ -20,7 +19,6 @@ import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.domain.model.officers.Officer
 import com.babestudios.companyinfouk.domain.model.persons.Person
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsComp
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryComp
 import com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsComp
@@ -105,17 +103,16 @@ class CompaniesRootComponent internal constructor(
 
 	constructor(
 		componentContext: ComponentContext,
-		@MainDispatcher mainContext: CoroutineDispatcher,
-		@IoDispatcher ioContext: CoroutineDispatcher,
+		mainContext: CoroutineDispatcher,
+		ioContext: CoroutineDispatcher,
 		companiesRepository: CompaniesRepository,
 		finishHandler: () -> Unit,
-		mainExecutor: MainExecutor,
 	) : this(
 		componentContext = componentContext,
 		finishHandler,
 		createCompanyComp = createCompanyFactory(companiesRepository, mainContext, ioContext),
 		createFavouritesComp = createFavouritesFactory(companiesRepository, mainContext, ioContext),
-		createMainComp = createMainFactory(mainExecutor),
+		createMainComp = createMainFactory(MainExecutor(companiesRepository, mainContext, ioContext)),
 		createMapComp = createMapFactory(mainContext),
 		createPrivacyComp = createPrivacyFactory(mainContext),
 		createChargesComp = createChargesFactory(companiesRepository, mainContext, ioContext),
@@ -141,8 +138,8 @@ class CompaniesRootComponent internal constructor(
 
 	override val childStackValue = stack
 
-	private fun createChild(configuration: Configuration, componentContext: ComponentContext): CompaniesChild =
-		when (configuration) {
+	private fun createChild(configuration: Configuration, componentContext: ComponentContext): CompaniesChild {
+		return when (configuration) {
 			is Configuration.Main -> CompaniesChild.Main(
 				createMainComp(componentContext, finishHandler, FlowCollector(::onMainOutput))
 			)
@@ -152,7 +149,7 @@ class CompaniesRootComponent internal constructor(
 					componentContext,
 					configuration.companyName,
 					configuration.companyId,
-					configuration == Configuration.Favourites,
+					configuration.previousConfig == Configuration.Favourites,
 					FlowCollector(::onCompanyOutput),
 				)
 			)
@@ -248,5 +245,6 @@ class CompaniesRootComponent internal constructor(
 				)
 			)
 		}
+	}
 
 }

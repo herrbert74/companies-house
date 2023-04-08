@@ -1,30 +1,41 @@
 package com.babestudios.companyinfouk
 
 import android.app.Application
+import com.babestudios.companyinfouk.data.di.dataModule
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
+import com.babestudios.companyinfouk.domain.di.coroutineContextModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.component.KoinComponent
+import org.koin.core.context.startKoin
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
 
+open class CompaniesHouseApplication : Application(), KoinComponent {
 
-@HiltAndroidApp
-open class CompaniesHouseApplication : Application() {
-
-	@Inject
-	lateinit var companiesRepository: CompaniesRepository
+//	@Inject
+//	lateinit var companiesRepository: CompaniesRepository
 
 	//private var currentActivity: AppCompatActivity? = null
 
+	private lateinit var companiesRepository: CompaniesRepository
+
 	override fun onCreate() {
 		super.onCreate()
-		logAppOpen()
 		if (BuildConfig.DEBUG) {
 			plant(Timber.DebugTree())
 		}
+
+		startKoin {
+			androidContext(this@CompaniesHouseApplication)
+			modules( dataModule, coroutineContextModule)
+		}
+
+		//companiesRepository = getKoin().get()
+
+		//logAppOpen(companiesRepository)
 	}
 
-	private fun logAppOpen() {
+	private fun logAppOpen(companiesRepository: CompaniesRepository) {
 		companiesRepository.logAppOpen()
 	}
 

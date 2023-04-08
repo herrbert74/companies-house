@@ -3,7 +3,6 @@ plugins {
 	id("com.google.firebase.crashlytics")
 	id("com.google.gms.google-services")
 	id("org.jetbrains.kotlin.plugin.allopen")
-	id("dagger.hilt.android.plugin")
 	id("kotlin-parcelize")
 }
 
@@ -68,8 +67,6 @@ dependencies {
 	implementation(libs.androidx.activity.compose)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensionsJetBrains)
-	implementation(libs.google.dagger.core)
-	implementation(libs.google.dagger.hilt.android)
 	implementation(platform(libs.google.firebase.bom))
 	implementation(libs.google.firebase.crashlytics)
 	implementation(libs.androidx.compose.runtime) //To make buildFeatures.compose = true happy ?!
@@ -77,16 +74,11 @@ dependencies {
 	debugImplementation(platform(libs.androidx.compose.bom))
 	debugImplementation(libs.androidx.compose.ui.testManifest)
 
-	kapt(libs.androidx.hilt.compiler)
-	kapt(libs.google.dagger.compiler)
-	kapt(libs.google.dagger.hilt.compiler)
-
 	androidTestImplementation(libs.google.gson)
 	androidTestImplementation(libs.squareUp.retrofit2.retrofit)
 	androidTestImplementation(platform(libs.google.firebase.bom))
 	androidTestImplementation(libs.google.firebase.analytics)
 	androidTestImplementation(libs.squareUp.okhttp3.loggingInterceptor)
-	androidTestImplementation(libs.google.dagger.hilt.androidTesting)
 	androidTestImplementation(platform(libs.androidx.compose.bom))
 	androidTestImplementation(libs.androidx.compose.ui.test)
 	androidTestImplementation(libs.androidx.test.espresso.core)
@@ -95,8 +87,6 @@ dependencies {
 	androidTestImplementation(libs.decompose.core)
 	androidTestImplementation(libs.kotlinResult.result)
 	androidTestImplementation(libs.test.jUnit)
-	androidTestImplementation(libs.test.mockk.core)
-
-	kaptAndroidTest(libs.google.dagger.hilt.androidCompiler)
+	androidTestImplementation(libs.test.mockk.androidTest)
 
 }

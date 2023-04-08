@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.companies.ui.map
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
@@ -24,7 +23,6 @@ interface MapComp {
 @Suppress("unused")
 class MapComponent(
 	componentContext: ComponentContext,
-	@MainDispatcher
 	private val mainContext: CoroutineDispatcher,
 	override val name: String,
 	override val address: String,

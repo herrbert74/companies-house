@@ -2,8 +2,6 @@ package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore.State
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,8 +10,8 @@ import kotlinx.coroutines.withContext
 
 class InsolvenciesExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
-	@MainDispatcher val mainContext: CoroutineDispatcher,
-	@IoDispatcher val ioContext: CoroutineDispatcher,
+	val mainContext: CoroutineDispatcher,
+	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Nothing, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {

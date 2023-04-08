@@ -1,9 +1,6 @@
 package com.babestudios.companyinfouk.mock
 
-import android.content.Context
 import com.babestudios.base.ext.loadJson
-import com.babestudios.companyinfouk.data.utils.RawResourceHelper
-import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
@@ -19,7 +16,6 @@ import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.github.michaelbull.result.Ok
 import com.google.gson.GsonBuilder
-import dagger.hilt.android.qualifiers.ApplicationContext
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -39,22 +35,7 @@ fun mockCompaniesRepository(): CompaniesRepository {
 
 	val mockCompaniesRepository = mockk<CompaniesRepository>()
 
-	val favourites = listOf(
-		SearchHistoryItem(
-			"Acme Painting",
-			"1",
-			111L
-		),
-		SearchHistoryItem(
-			"You Limited",
-			"04475590",
-			111L
-		)
-	)
-
-	coEvery {
-		mockCompaniesRepository.favourites()
-	} returns favourites
+	mockCompaniesRepository.mockWithFavourites()
 
 	every {
 		mockCompaniesRepository.logAppOpen()
@@ -119,11 +100,24 @@ fun mockCompaniesRepository(): CompaniesRepository {
 
 }
 
-internal fun rawResourceHelperContract(@ApplicationContext context: Context): RawResourceHelperContract {
-	return RawResourceHelper(context)
-}
+fun CompaniesRepository.mockWithEmptyFavourites() = apply { coEvery { favourites() } returns emptyList() }
 
-val officersResponseYouLimited: OfficersResponse = OfficersResponse(
+fun CompaniesRepository.mockWithFavourites() = apply { coEvery { favourites() } returns favourites }
+
+private val favourites = listOf(
+	SearchHistoryItem(
+		"Acme Painting",
+		"1",
+		111L
+	),
+	SearchHistoryItem(
+		"You Limited",
+		"04475590",
+		111L
+	)
+)
+
+private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 	totalResults = 7, items = listOf(
 		Officer(
 			appointedOn = "2002-07-02", links = OfficerLinks(
@@ -210,13 +204,13 @@ val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 	)
 )
 
-val appointedToYouLimited = AppointedTo(
+private val appointedToYouLimited = AppointedTo(
 	companyName = "YOU LIMITED",
 	companyNumber = "04475590",
 	companyStatus = "active"
 )
 
-val officersAppointmentsYouLimited: AppointmentsResponse = AppointmentsResponse(
+private val officersAppointmentsYouLimited: AppointmentsResponse = AppointmentsResponse(
 	dateOfBirth = MonthYear(year = 1957, month = 3), items = listOf(
 		Appointment(
 			address = Address(

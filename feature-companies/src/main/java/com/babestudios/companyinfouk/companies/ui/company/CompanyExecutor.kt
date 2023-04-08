@@ -1,11 +1,9 @@
 package com.babestudios.companyinfouk.companies.ui.company
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,8 +12,8 @@ import kotlinx.coroutines.withContext
 
 class CompanyExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
-	@MainDispatcher val mainContext: CoroutineDispatcher,
-	@IoDispatcher val ioContext: CoroutineDispatcher,
+	val mainContext: CoroutineDispatcher,
+	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {

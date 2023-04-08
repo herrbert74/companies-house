@@ -2,8 +2,6 @@ package com.babestudios.companyinfouk.persons.ui.persons
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.Intent
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.State
 import javax.inject.Inject
@@ -13,8 +11,8 @@ import kotlinx.coroutines.withContext
 
 class PersonsExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
-	@MainDispatcher val mainContext: CoroutineDispatcher,
-	@IoDispatcher val ioContext: CoroutineDispatcher,
+	val mainContext: CoroutineDispatcher,
+	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {

@@ -1,6 +1,15 @@
 package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.ext.loadJson
+import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.PscHelper
+import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
@@ -8,39 +17,67 @@ import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
+import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
+import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.domain.model.filinghistory.Capital
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
 import com.google.gson.Gson
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestApplication
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import javax.inject.Inject
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
+import java.util.Locale
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@HiltAndroidTest
-@RunWith(RobolectricTestRunner::class)
-@Config(application = HiltTestApplication::class)
 class MappersTest {
 
-	@get:Rule
-	var hiltAndroidRule = HiltAndroidRule(this)
-
-	@Inject
-	lateinit var companiesHouseMapper: CompaniesHouseMapping
+	private lateinit var companiesHouseMapper: CompaniesHouseMapping
 
 	private lateinit var officersResponseYouLimited: OfficersResponse
 
 	@Before
 	fun setup() {
-		hiltAndroidRule.inject()
+
+		val rawResourceHelper = mockk<RawResourceHelperContract>(relaxed = true).apply {
+			every{getConstants(any())} returns Constants(mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
+				mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
+				mapOf("68100" to "Buying and selling of own real estate"),
+				mapOf(), mapOf(), mapOf(), mapOf(), mapOf())
+		}
+
+		val slotDate = slot<String>()
+		val slotFrom = slot<String>()
+		val slotFrom2 = slot<String>()
+		val slotTo = slot<String>()
+		val stringResourceHelper = mockk<StringResourceHelperContract>(relaxed = true).apply {
+			every { getLastAccountMadeUpToString(any(), capture(slotDate)) } answers {
+			"Last account made up to ${slotDate.captured}"
+		}
+			every { getAppointedFromString(capture(slotFrom)) } answers {
+				String.format(Locale.UK, "From %1\$s", slotFrom.captured)
+			}
+			every { getAppointedFromToString(capture(slotFrom2), capture(slotTo)) } answers {
+				String.format(Locale.UK, "From %1\$s to %2\$s", slotFrom2.captured, slotTo.captured)
+			}
+		}
+
+		val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract =
+			FilingHistoryDescriptionsHelper(rawResourceHelper)
+		val chargesHelper: ChargesHelperContract = ChargesHelper(rawResourceHelper)
+		val constantsHelper: ConstantsHelperContract = ConstantsHelper(rawResourceHelper)
+		val pscHelper: PscHelperContract = PscHelper(rawResourceHelper)
+
+		companiesHouseMapper = CompaniesHouseMapper(
+			filingHistoryDescriptionsHelper,
+			chargesHelper,
+			constantsHelper,
+			stringResourceHelper,
+			pscHelper
+		)
+
 		officersResponseYouLimited = companiesHouseMapper.mapOfficers(officersResponseDto)
 	}
 
@@ -173,7 +210,9 @@ class MappersTest {
 	//region Officer mapping
 
 	private val officersJson = this.loadJson("officers_you_limited")
-	private val officersResponseDto: OfficersResponseDto = Gson().fromJson(officersJson, OfficersResponseDto::class.java)
+	private val officersResponseDto: OfficersResponseDto = Gson().fromJson(
+		officersJson, OfficersResponseDto::class.java
+	)
 
 	@Test
 	fun `when there is an officer json then it is mapped`() {

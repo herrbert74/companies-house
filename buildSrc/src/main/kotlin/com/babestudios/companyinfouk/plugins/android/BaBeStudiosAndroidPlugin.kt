@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.plugins.android
 
 import com.android.build.gradle.BaseExtension
-//import com.babestudios.companyinfouk.buildsrc.Versions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -23,9 +22,6 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		}
 
 		project.plugins.apply("kotlin-android")
-		if (project.name == "app" || project.name == "data" || project.name == "domain") {
-			project.plugins.apply("kotlin-kapt")
-		}
 
 		project.apply(from = project.rootProject.file("team-props/detekt/detekt.gradle"))
 
@@ -62,6 +58,8 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 
 		project.dependencies {
 
+			libs.findLibrary("koin.core").ifPresent { add("implementation", it) }
+			libs.findLibrary("koin.android").ifPresent { add("implementation", it) }
 			if (project.name == "app") {
 				libs.findLibrary("inject").ifPresent { add("implementation", it) }
 			} else if (project.name != "common") {

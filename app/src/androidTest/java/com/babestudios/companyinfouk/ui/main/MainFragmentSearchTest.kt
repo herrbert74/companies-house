@@ -13,19 +13,7 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.CompaniesRootComponent
 import com.babestudios.companyinfouk.CompaniesRootContent
-import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
-import com.babestudios.companyinfouk.data.di.DataContractModule
-import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
-import com.babestudios.companyinfouk.mock.mockCompaniesRepository
-import dagger.hilt.android.testing.BindValue
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
-import io.mockk.mockk
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -33,47 +21,30 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.core.qualifier.named
 
-@HiltAndroidTest
-@UninstallModules(DataContractModule::class)
 @RunWith(AndroidJUnit4::class)
-class MainFragmentSearchTest {
+class MainFragmentSearchTest : KoinComponent {
 
-	@get:Rule(order = 0)
-	val hiltAndroidRule = HiltAndroidRule(this)
-
-	@get:Rule(order = 1)
+	@get:Rule
 	val composeTestRule = createComposeRule()
 
-	@Inject
-	lateinit var mainExecutor: MainExecutor
-
-	@BindValue
-	val companiesRepository: CompaniesRepository = mockCompaniesRepository()
-
-	@Inject
-	@MainDispatcher
-	lateinit var mainContext: CoroutineDispatcher
-
-	@Inject
-	@IoDispatcher
-	lateinit var ioContext: CoroutineDispatcher
-
-	@BindValue
-	val rawResourceHelper: RawResourceHelper = mockk()
+	private val companiesRepository: CompaniesRepository by inject()
+	private val mainContext: CoroutineDispatcher by inject(named("MainDispatcher"))
+	private val ioContext: CoroutineDispatcher by inject(named("IoDispatcher"))
 
 	@Before
 	fun setUp() {
-		hiltAndroidRule.inject()
+
 		CoroutineScope(mainContext).launch {
 			val companiesRootComponent = CompaniesRootComponent(
 				DefaultComponentContext(lifecycle = LifecycleRegistry()),
 				mainContext,
 				ioContext,
-				companiesRepository,
-				{},
-				mainExecutor,
-			)
+				companiesRepository
+			) {}
 			composeTestRule.setContent {
 				CompaniesRootContent(companiesRootComponent)
 			}

@@ -6,7 +6,6 @@ import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDes
 import com.babestudios.companyinfouk.data.local.apilookup.model.MortgageDescriptions
 import com.babestudios.companyinfouk.data.local.apilookup.model.PscDescriptions
 import com.google.gson.Gson
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 interface RawResourceHelperContract {
@@ -16,7 +15,7 @@ interface RawResourceHelperContract {
 	fun getPscDescriptions(pscDescriptions: Int): PscDescriptions
 }
 
-class RawResourceHelper @Inject constructor(@ApplicationContext val context: Context) : RawResourceHelperContract {
+class RawResourceHelper @Inject constructor(val context: Context) : RawResourceHelperContract {
 	override fun getConstants(id: Int): Constants {
 		val constantsJsonString = context.resources.openRawResource(id).bufferedReader().use { it.readText() }
 		return Gson().fromJson(constantsJsonString, Constants::class.java)

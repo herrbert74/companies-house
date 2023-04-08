@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.officers.ui.details
 import com.arkivanov.decompose.ComponentContext
 import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
@@ -32,7 +31,6 @@ interface OfficerDetailsComp {
 @Suppress("unused")
 class OfficerDetailsComponent(
 	componentContext: ComponentContext,
-	@MainDispatcher
 	val mainContext: CoroutineDispatcher,
 	override val selectedOfficer: Officer,
 	private val output: FlowCollector<OfficerDetailsComp.Output>,

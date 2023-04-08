@@ -12,8 +12,6 @@ import com.babestudios.companyinfouk.companies.ui.main.Message.ShowRecentSearche
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.github.michaelbull.result.Ok
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,8 +20,8 @@ import kotlinx.coroutines.withContext
 
 class MainExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
-	@MainDispatcher val mainContext: CoroutineDispatcher,
-	@IoDispatcher val ioContext: CoroutineDispatcher,
+	val mainContext: CoroutineDispatcher,
+	val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, SideEffect>(mainContext) {
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {

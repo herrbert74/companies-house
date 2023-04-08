@@ -69,8 +69,6 @@ dependencies {
 	api(libs.squareUp.okhttp3.loggingInterceptor)
 
 	implementation(libs.kotlinx.coroutines.core)
-	implementation(libs.google.dagger.core)
-	implementation(libs.google.dagger.hilt.android)
 	implementation(libs.kotlinResult.result)
 	implementation(libs.squareUp.retrofit2.retrofit)
 
@@ -83,13 +81,7 @@ dependencies {
 	testImplementation(libs.test.jUnit)
 	testImplementation(libs.test.robolectric)
 	testImplementation(libs.test.mockk.core)
-	testImplementation(libs.test.kotest.assertions)
-	testImplementation(libs.google.dagger.hilt.androidTesting)
-
-	kapt(libs.google.dagger.compiler)
-	kapt(libs.google.dagger.hilt.compiler)
-
-	kaptTest(libs.google.dagger.compiler)
+	testImplementation(libs.test.kotest.assertions.core)
 
 }
 

@@ -27,7 +27,7 @@ plugins {
 	 * TLDR: Enable them by running the task like this:
 	 * ./gradlew dependencyUpdates -PBEN_MANES_VERSIONS_ENABLED=true
 	 * ./gradlew buildHealth -PDEPENDENCY_ANALYSIS_ENABLED=true
-	 * ./gradlew assembleMirrorDebug -PGRADLE_DOCTOR_ENABLED=true
+	 * ./gradlew assembleDebug -PGRADLE_DOCTOR_ENABLED=true
 	 * ./gradlew projectDependencyGraph -PPROJECT_DEPENDENCY_GRAPH_ENABLED=true
 	 */
 	alias(libs.plugins.versions) apply false

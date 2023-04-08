@@ -49,16 +49,17 @@ fun CompanyScreen(component: CompanyComp) {
 
 	BackHandler(onBack = { component.onBackClicked(model.isFavourite) })
 
+	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_company,
 		navigationAction = { component.onBackClicked(model.isFavourite) },
 		topAppBarActions = {},
 		title = model.company.companyName
 	) {
+
 		CompanyScreenBody(
 			model.company,
-			model.isFavourite,
-			component::onToggleFavouriteClicked,
 			component::onMapClicked,
 			component::onChargesClicked,
 			component::onFilingsClicked,
@@ -66,6 +67,25 @@ fun CompanyScreen(component: CompanyComp) {
 			component::onOfficersClicked,
 			component::onPersonsClicked,
 		)
+
+	}
+
+	Box(Modifier.fillMaxSize(1f)) {
+		LargeFloatingActionButton(
+			modifier = Modifier
+				.align(Alignment.BottomEnd)
+				.padding(all = viewMarginLarge)
+				.testTag("Fab Favourite"),
+			onClick = { component::onToggleFavouriteClicked.invoke() },
+		) {
+			Icon(
+				painter = painterResource(
+					if (model.isFavourite) R.drawable.ic_favorite_clear else R.drawable
+						.ic_favorite
+				),
+				contentDescription = "Add favourites",
+			)
+		}
 	}
 
 }
@@ -73,8 +93,6 @@ fun CompanyScreen(component: CompanyComp) {
 @Composable
 private fun CompanyScreenBody(
 	company: Company,
-	isFavourite: Boolean,
-	onToggleFavouriteClicked: () -> Unit,
 	onMapClicked: (String) -> Unit,
 	onChargesClicked: (String) -> Unit,
 	onFilingsClicked: (String) -> Unit,
@@ -89,7 +107,9 @@ private fun CompanyScreenBody(
 	Column(
 		verticalArrangement = Arrangement.Top,
 		horizontalAlignment = Alignment.CenterHorizontally,
-		modifier = Modifier.verticalScroll(rememberScrollState())
+		modifier = Modifier
+			.verticalScroll(rememberScrollState())
+			.testTag("Company Screen Column")
 	) {
 
 		Text(
@@ -168,27 +188,13 @@ private fun CompanyScreenBody(
 		Spacer(modifier = Modifier.height(viewMarginLarge))
 	}
 
-	Box(Modifier.fillMaxSize(1f)) {
-		LargeFloatingActionButton(
-			modifier = Modifier
-				.align(Alignment.BottomEnd)
-				.padding(all = viewMarginLarge)
-				.testTag("Fab Favourite"),
-			onClick = { onToggleFavouriteClicked() },
-		) {
-			Icon(
-				painter = painterResource(if (isFavourite) R.drawable.ic_favorite_clear else R.drawable.ic_favorite),
-				contentDescription = "Add favourites",
-			)
-		}
-	}
 }
 
 @Preview
 @Composable
 fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
 	CompaniesTheme {
-		CompanyScreenBody(company, true, {}, {}, {}, {}, {}, {}, {})
+		CompanyScreenBody(company, {}, {}, {}, {}, {}) {}
 	}
 }
 

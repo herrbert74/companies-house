@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.insolvencies.ui.practitioner
 import com.arkivanov.decompose.ComponentContext
 import com.babestudios.companyinfouk.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
@@ -27,7 +26,6 @@ interface PractitionerDetailsComp {
 @Suppress("unused")
 class PractitionerDetailsComponent(
 	componentContext: ComponentContext,
-	@MainDispatcher
 	val mainContext: CoroutineDispatcher,
 	override val selectedPractitioner: Practitioner,
 	private val output: FlowCollector<PractitionerDetailsComp.Output>,

@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.companies.ui.privacy
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
@@ -20,7 +19,6 @@ interface PrivacyComp {
 @Suppress("unused")
 class PrivacyComponent(
 	componentContext: ComponentContext,
-	@MainDispatcher
 	private val mainContext: CoroutineDispatcher,
 	private val output: FlowCollector<PrivacyComp.Output>
 ) : PrivacyComp, ComponentContext by componentContext {

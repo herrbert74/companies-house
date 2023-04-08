@@ -4,30 +4,16 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.arkivanov.decompose.DefaultComponentContext
-import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
+import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 
-@AndroidEntryPoint
 class CompaniesActivity : AppCompatActivity() {
 
-	@Inject
-	lateinit var mainExecutor: MainExecutor
-
-	@Inject
-	lateinit var companiesRepository: CompaniesRepository
-
-	@Inject
-	@MainDispatcher
-	lateinit var mainContext: CoroutineDispatcher
-
-	@Inject
-	@IoDispatcher
-	lateinit var ioContext: CoroutineDispatcher
+	private val companiesRepository: CompaniesRepository by inject()
+	private val mainContext: CoroutineDispatcher by inject(named("MainDispatcher"))
+	private val ioContext: CoroutineDispatcher by inject(named("IoDispatcher"))
 
 	private lateinit var companiesRootComponent: CompaniesRootComponent
 
@@ -39,9 +25,7 @@ class CompaniesActivity : AppCompatActivity() {
 			mainContext,
 			ioContext,
 			companiesRepository,
-			{ finish() },
-			mainExecutor,
-		)
+		) { finish() }
 
 		setContent {
 			CompaniesRootContent(companiesRootComponent)

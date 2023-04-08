@@ -38,7 +38,7 @@ fun SingleLineCard(
 		Icon(
 			painter = painterResource(vectorImageResource),
 			modifier = Modifier.padding(start = viewMarginLarge, top = viewMarginNormal, bottom =  viewMarginNormal),
-			contentDescription = "Finish",
+			contentDescription = text,
 			tint = MaterialTheme.colorScheme.onSurface
 		)
 		Text(

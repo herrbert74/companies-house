@@ -1,11 +1,9 @@
 package com.babestudios.companyinfouk.companies.ui.favourites
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.util.IoDispatcher
-import com.babestudios.companyinfouk.domain.util.MainDispatcher
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.Intent
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
+import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
@@ -17,8 +15,8 @@ private const val PENDING_REMOVAL_TIMEOUT = 5000L // 5sec
 
 class FavouritesExecutor @Inject constructor(
 	private val companiesRepository: CompaniesRepository,
-	@MainDispatcher val mainContext: CoroutineDispatcher,
-	@IoDispatcher val ioContext: CoroutineDispatcher,
+	val mainContext: CoroutineDispatcher,
+	val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
 	var removeJob: Job? = null

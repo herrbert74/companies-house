@@ -27,7 +27,7 @@ interface ChargesHelperContract {
 }
 
 interface PscHelperContract {
-	fun shortDescriptionLookUp(statusString: String): String
+	fun shortDescriptionLookUp(shortDescriptionString: String): String
 	fun kindLookUp(kindString: String): String
 }
 
