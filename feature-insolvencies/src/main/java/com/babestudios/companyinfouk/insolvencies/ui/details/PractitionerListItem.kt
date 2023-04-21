@@ -13,12 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
@@ -28,9 +28,8 @@ internal fun PractitionerListItem(
 	item: Practitioner,
 	onItemClicked: (practitioner: Practitioner) -> Unit,
 ) {
-
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	Row(
 		modifier = Modifier
@@ -50,8 +49,8 @@ internal fun PractitionerListItem(
 					bottom = viewMarginNormal,
 					end = viewMarginLarge
 				)
-				.height(dimensionResource(com.babestudios.base.R.dimen.listAvatarWidth))
-				.width(dimensionResource(com.babestudios.base.R.dimen.listAvatarWidth)),
+				.height(Dimens.listAvatarWidth)
+				.width(Dimens.listAvatarWidth),
 			alignment = Alignment.CenterEnd,
 			ContentScale.FillBounds,
 		)

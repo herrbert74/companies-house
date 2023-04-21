@@ -11,14 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import com.babestudios.companyinfouk.common.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 
+//TODO Replace vectorImageResource with ImageVector
 @Composable
 fun SingleLineCard(
 	@DrawableRes vectorImageResource: Int,
@@ -27,8 +27,8 @@ fun SingleLineCard(
 	textStyle: TextStyle = CompaniesTypography.titleLargeBold,
 ) {
 
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	Row(
 		verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +55,7 @@ fun SingleLineCard(
 @Composable
 fun SingleLineCardPreview() {
 	SingleLineCard(
-		vectorImageResource = R.drawable.ic_commit,
+		vectorImageResource = android.R.drawable.ic_menu_add,
 		text = "Longyearbien Longlongyear",
 	)
 }

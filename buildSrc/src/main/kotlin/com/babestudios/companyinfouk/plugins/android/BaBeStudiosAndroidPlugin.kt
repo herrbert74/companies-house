@@ -58,14 +58,6 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 
 		project.dependencies {
 
-			libs.findLibrary("koin.core").ifPresent { add("implementation", it) }
-			libs.findLibrary("koin.android").ifPresent { add("implementation", it) }
-			if (project.name == "app") {
-				libs.findLibrary("inject").ifPresent { add("implementation", it) }
-			} else if (project.name != "common") {
-				libs.findLibrary("inject").ifPresent { add("api", it) }
-			}
-
 			libs.findLibrary("timber").ifPresent { add("implementation", it) }
 			libs.findLibrary("detekt.cli").ifPresent { add("detekt", it) }
 			libs.findLibrary("google.firebase.bom").ifPresent { add("implementation", platform(it)) }

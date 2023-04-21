@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -23,6 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Visibility
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
 
 @Composable
@@ -32,9 +32,9 @@ internal fun ChargesItemListItem(
 	onItemClicked: (id: ChargesItem) -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
-	val viewMarginSmall = dimensionResource(com.babestudios.base.R.dimen.viewMarginSmall)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
+	val viewMarginSmall = Dimens.marginSmall
 
 	val painter = if (item.status == "Satisfied") {
 		painterResource(R.drawable.ic_baseline_sentiment_satisfied)

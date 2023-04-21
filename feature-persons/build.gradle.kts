@@ -6,15 +6,22 @@ plugins {
 android.namespace = "com.babestudios.companyinfouk.persons"
 
 dependencies {
+
+	implementation(platform(libs.androidx.compose.bom))
+
+	api(libs.androidx.compose.foundationLayout)
+	api(libs.androidx.compose.runtime) //Transitive
+	api(libs.kotlinx.coroutines.core) //Transitive
+
+	implementation(libs.androidx.compose.animation.core) //Transitive
+	implementation(libs.androidx.compose.foundation) //Transitive
+	implementation(libs.baBeStudios.base.android)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensionsJetpack)
 	implementation(libs.decompose.extensionsJetBrains)
-	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.activity.compose)
-	implementation(libs.androidx.compose.ui.tooling)
-	implementation(libs.androidx.compose.material3)
-	implementation(libs.androidx.compose.foundationLayout)
 	implementation(libs.view.collapsingToolbar)
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

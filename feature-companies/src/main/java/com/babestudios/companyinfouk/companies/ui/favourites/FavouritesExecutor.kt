@@ -4,7 +4,6 @@ import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.Intent
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -13,7 +12,7 @@ import kotlinx.coroutines.withContext
 
 private const val PENDING_REMOVAL_TIMEOUT = 5000L // 5sec
 
-class FavouritesExecutor @Inject constructor(
+class FavouritesExecutor constructor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	val ioContext: CoroutineDispatcher,

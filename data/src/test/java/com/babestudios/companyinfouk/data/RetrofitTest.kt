@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data
 
-import com.babestudios.base.ext.loadJson
+import com.babestudios.base.kotlin.ext.loadJson
 import com.babestudios.companyinfouk.data.network.CompaniesHouseService
 import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
 import io.kotest.matchers.shouldBe

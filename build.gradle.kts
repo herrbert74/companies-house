@@ -31,7 +31,7 @@ plugins {
 	 * ./gradlew projectDependencyGraph -PPROJECT_DEPENDENCY_GRAPH_ENABLED=true
 	 */
 	alias(libs.plugins.versions) apply false
-	alias(libs.plugins.dependencyAnalyis) apply false
+	alias(libs.plugins.dependencyAnalyis)// apply false
 	alias(libs.plugins.gradleDoctor) apply false
 }
 
@@ -99,52 +99,54 @@ scabbard {
 }
 
 //Only works if applied :(
-//dependencyAnalysis {
-//	issues {
-//		all {
-//			onAny {
-//				exclude(
-//					"com.arkivanov.decompose:decompose",
-//					"com.arkivanov.decompose:decompose-android-debug",
-//					"com.arkivanov.decompose:decompose-android",
-//					"com.arkivanov.mvikotlin:mvikotlin",
-//					"com.arkivanov.mvikotlin:mvikotlin-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-android",
-//					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines",
-//					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines-android",
-//					"com.arkivanov.mvikotlin:mvikotlin-logging",
-//					"com.arkivanov.mvikotlin:mvikotlin-logging-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-logging-android",
-//					"com.arkivanov.mvikotlin:mvikotlin-main",
-//					"com.arkivanov.mvikotlin:mvikotlin-main-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-main-android",
-//					"com.arkivanov.mvikotlin:rx",
-//					"com.arkivanov.mvikotlin:rx-android-debug",
-//					"com.arkivanov.mvikotlin:rx-android",
-//					"com.arkivanov.decompose:extensions-compose-jetbrains",
-//					"com.arkivanov.decompose:extensions-compose-jetbrains-android-debug",
-//					"com.arkivanov.decompose:extensions-compose-jetbrains-android",
-//					"com.arkivanov.decompose:extensions-compose-jetpack",
-//					"com.arkivanov.decompose:extensions-compose-jetpack-android-debug",
-//					"com.arkivanov.decompose:extensions-compose-jetpack-android",
-//					"com.arkivanov.essenty:back-handler",
-//					"com.arkivanov.essenty:back-handler-android-debug",
-//					"com.arkivanov.essenty:back-handler-android",
-//					"com.arkivanov.essenty:instance-keeper",
-//					"com.arkivanov.essenty:instance-keeper-android-debug",
-//					"com.arkivanov.essenty:instance-keeper-android",
-//					"com.arkivanov.essenty:lifecycle",
-//					"com.arkivanov.essenty:lifecycle-android-debug",
-//					"com.arkivanov.essenty:lifecycle-android",
-//					"com.arkivanov.essenty:state-keeper",
-//					"com.arkivanov.essenty:state-keeper-android-debug",
-//					"com.arkivanov.essenty:state-keeper-android"
-//				)
-//			}
-//		}
-//	}
-//}
+dependencyAnalysis {
+	issues {
+		all {
+			onAny {
+				exclude(
+					"io.mockk:mockk-android", //Wants to remove it
+					"com.jakewharton.timber:timber", //Not used everywhere yet, but occasionally needed
+					"com.arkivanov.decompose:decompose",
+					"com.arkivanov.decompose:decompose-android-debug",
+					"com.arkivanov.decompose:decompose-android",
+					"com.arkivanov.mvikotlin:mvikotlin",
+					"com.arkivanov.mvikotlin:mvikotlin-android-debug",
+					"com.arkivanov.mvikotlin:mvikotlin-android",
+					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines",
+					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines-android-debug",
+					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines-android",
+					"com.arkivanov.mvikotlin:mvikotlin-logging",
+					"com.arkivanov.mvikotlin:mvikotlin-logging-android-debug",
+					"com.arkivanov.mvikotlin:mvikotlin-logging-android",
+					"com.arkivanov.mvikotlin:mvikotlin-main",
+					"com.arkivanov.mvikotlin:mvikotlin-main-android-debug",
+					"com.arkivanov.mvikotlin:mvikotlin-main-android",
+					"com.arkivanov.mvikotlin:rx",
+					"com.arkivanov.mvikotlin:rx-android-debug",
+					"com.arkivanov.mvikotlin:rx-android",
+					"com.arkivanov.decompose:extensions-compose-jetbrains",
+					"com.arkivanov.decompose:extensions-compose-jetbrains-android-debug",
+					"com.arkivanov.decompose:extensions-compose-jetbrains-android",
+					"com.arkivanov.decompose:extensions-compose-jetpack",
+					"com.arkivanov.decompose:extensions-compose-jetpack-android-debug",
+					"com.arkivanov.decompose:extensions-compose-jetpack-android",
+					"com.arkivanov.essenty:back-handler",
+					"com.arkivanov.essenty:back-handler-android-debug",
+					"com.arkivanov.essenty:back-handler-android",
+					"com.arkivanov.essenty:instance-keeper",
+					"com.arkivanov.essenty:instance-keeper-android-debug",
+					"com.arkivanov.essenty:instance-keeper-android",
+					"com.arkivanov.essenty:lifecycle",
+					"com.arkivanov.essenty:lifecycle-android-debug",
+					"com.arkivanov.essenty:lifecycle-android",
+					"com.arkivanov.essenty:state-keeper",
+					"com.arkivanov.essenty:state-keeper-android-debug",
+					"com.arkivanov.essenty:state-keeper-android"
+				)
+			}
+		}
+	}
+}
 
 apply(teamPropsFile("git-hooks.gradle"))
 apply(teamPropsFile("setup-root-tasks.gradle"))

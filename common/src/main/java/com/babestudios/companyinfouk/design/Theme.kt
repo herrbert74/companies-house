@@ -2,13 +2,18 @@ package com.babestudios.companyinfouk.design
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 
 val CompaniesLightColorScheme = lightColorScheme(
@@ -68,10 +73,36 @@ private val CompaniesDarkColorScheme = darkColorScheme(
 )
 
 @Composable
+fun ProvideDimens(
+	dimensions: Dimensions,
+	content: @Composable () -> Unit,
+) {
+	val dimensionSet = remember { dimensions }
+	CompositionLocalProvider(LocalAppDimens provides dimensionSet, content = content)
+}
+
+private val LocalAppDimens = staticCompositionLocalOf {
+	smallDimensions
+}
+
+@Composable
+fun ProvideColors(
+	colorScheme: ColorScheme,
+	content: @Composable () -> Unit,
+) {
+	val colorPalette = remember { colorScheme }
+	CompositionLocalProvider(LocalAppColors provides colorPalette, content = content)
+}
+
+private val LocalAppColors = staticCompositionLocalOf {
+	CompaniesLightColorScheme
+}
+
+@Composable
 fun CompaniesTheme(
 	isDarkTheme: Boolean = isSystemInDarkTheme(),
 	isDynamicColor: Boolean = false,
-	content: @Composable () -> Unit
+	content: @Composable () -> Unit,
 ) {
 
 	val dynamicColor = isDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
@@ -82,11 +113,35 @@ fun CompaniesTheme(
 		isDarkTheme -> CompaniesDarkColorScheme
 		else -> CompaniesLightColorScheme
 	}
+	val configuration = LocalConfiguration.current
+	val dimensions = if (configuration.smallestScreenWidthDp <= SMALLEST_WIDTH_600) smallDimensions else sw600Dimensions
 
-	MaterialTheme(
-		colorScheme = colorScheme,
-		typography = CompaniesTypography,
-		content = content
-	)
+	ProvideDimens(dimensions = dimensions) {
+		ProvideColors(colorScheme = colorScheme) {
+			MaterialTheme(
+				colorScheme = colorScheme,
+				typography = CompaniesTypography,
+				content = content
+			)
+		}
+	}
 
 }
+
+object CompaniesTheme {
+	val colorScheme: ColorScheme
+		@Composable
+		get() = LocalAppColors.current
+
+	val dimens: Dimensions
+		@Composable
+		get() = LocalAppDimens.current
+}
+
+val Dimens: Dimensions
+	@Composable
+	get() = CompaniesTheme.dimens
+
+val Colors: ColorScheme
+	@Composable
+	get() = CompaniesTheme.colorScheme

@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.mock
 
-import com.babestudios.base.ext.loadJson
+import com.babestudios.base.kotlin.ext.loadJson
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.MonthYear

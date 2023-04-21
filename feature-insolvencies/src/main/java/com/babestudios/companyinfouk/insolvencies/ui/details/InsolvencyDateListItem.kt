@@ -9,19 +9,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.domain.model.insolvency.Date
-import com.babestudios.base.R
 
 @Composable
 internal fun InsolvencyDateListItem(item: Date) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	Column(
 		modifier = Modifier

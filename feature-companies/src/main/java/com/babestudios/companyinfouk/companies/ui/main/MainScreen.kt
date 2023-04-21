@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -47,7 +48,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -55,11 +55,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.babestudios.companyinfouk.common.compose.InfiniteListHandler
+import com.babestudios.base.compose.InfiniteListHandler
+import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
-import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.design.titleMediumBold
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResultItem
@@ -218,8 +219,8 @@ fun MainScreen(component: MainComp) {
 @Composable
 private fun MainHeader() {
 
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	Text(
 		modifier = Modifier.padding(vertical = viewMarginNormal, horizontal = viewMarginLarge),
@@ -238,19 +239,19 @@ private fun EmptySearchList(
 	message: String = stringResource(R.string.no_search_result),
 ) {
 
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
 		Modifier
 			.padding(paddingValues)
 			.fillMaxSize(1f)
 			//Matches the empty icon background from BaBeStudiosBase
-			.background(colorResource(com.babestudios.base.R.color.grey_1)),
+			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
 		Image(
-			painter = painterResource(com.babestudios.base.R.drawable.ic_business_empty),
+			painter = painterResource(com.babestudios.base.android.R.drawable.ic_business_empty),
 			contentDescription = null
 		)
 		Text(
@@ -272,7 +273,7 @@ private fun RecentSearchesList(
 	onItemClicked: (id: SearchHistoryItem) -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
 
 	Box(Modifier.fillMaxSize(1f)) {
 		val listState = rememberLazyListState()
@@ -309,8 +310,9 @@ private fun RecentSearchesList(
 			},
 		) {
 			Icon(
-				painter = painterResource(com.babestudios.companyinfouk.common.R.drawable.ic_delete),
+				imageVector = Icons.Filled.Delete,
 				contentDescription = "Add favourites",
+				tint = Color.White
 			)
 		}
 

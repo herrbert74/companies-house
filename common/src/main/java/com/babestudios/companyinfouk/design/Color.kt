@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.babestudios.companyinfouk.design
 
 const val LIGHT_PRIMARY = 0xFF006D42
@@ -53,3 +55,8 @@ const val DARK_INVERSE_ON_SURFACE = 0xFF1b1b1d
 const val DARK_INVERSE_SURFACE = 0xFFe3e2e6
 
 const val SEMI_TRANSPARENT = 0x88000000
+const val TRANSLUCENT_BLACK = 0x33000000
+const val SEMI_TRANSPARENT_GREY = 0x66999999
+const val SEMI_TRANSPARENT_WHITE = 0x80ffffff
+const val TRANSLUCENT_WHITE = 0x33ffffff
+const val CLOUDY_WHITE = 0xccffffff

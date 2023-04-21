@@ -6,18 +6,27 @@ plugins {
 android.namespace = "com.babestudios.companyinfouk.companies"
 
 dependencies {
+	implementation(platform(libs.androidx.compose.bom))
+
+	api(libs.androidx.compose.foundationLayout)
+	api(libs.androidx.compose.runtime) //Transitive
+	api(libs.kotlinx.coroutines.core) //Transitive
+
+	implementation(libs.baBeStudios.base.android)
+	implementation(libs.androidx.activity.compose)
+	implementation(libs.androidx.compose.foundation) //Transitive
+	implementation(libs.androidx.compose.material.icons.core) //Transitive
+	implementation(libs.androidx.compose.runtime.saveable) //Transitive
+	implementation(libs.androidx.constraintLayout.compose)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensionsJetpack)
 	implementation(libs.decompose.extensionsJetBrains)
-	implementation(libs.androidx.activity.compose)
-	implementation(libs.androidx.constraintLayout.compose)
-	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.androidx.compose.ui.tooling)
-	implementation(libs.androidx.compose.material3)
-	implementation(libs.androidx.compose.foundationLayout)
 	implementation(libs.google.play.services.maps)
 	implementation(libs.google.play.services.maps.compose)
+	implementation(libs.kotlin.parcelize.runtime) //Transitive
 	implementation(libs.view.collapsingToolbar)
+
+	testImplementation(libs.test.kotest.assertions.core)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

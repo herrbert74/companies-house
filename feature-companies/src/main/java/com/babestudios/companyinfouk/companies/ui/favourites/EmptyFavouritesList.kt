@@ -11,33 +11,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.babestudios.base.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 
 @Composable
 fun EmptyFavouritesList() {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
 		Modifier
 			.fillMaxSize(1f)
-			.background(colorResource(R.color.grey_1)), //Matches the empty icon background from BaBeStudiosBase
+			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)), //Matches the empty icon
+		// background from
+		// BaBeStudiosBase
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
 		Image(
-			painter = painterResource(R.drawable.ic_business_empty_favorites),
+			painter = painterResource(com.babestudios.base.android.R.drawable.ic_business_empty_favorites),
 			contentDescription = null
 		)
 		Text(
-			text = stringResource(R.string.empty_list),
+			text = stringResource(com.babestudios.base.android.R.string.empty_list),
 			style = CompaniesTypography.titleLargeBold,
 			textAlign = TextAlign.Center,
 			modifier = Modifier

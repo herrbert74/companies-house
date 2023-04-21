@@ -23,12 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.babestudios.base.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.SEMI_TRANSPARENT
 import com.babestudios.companyinfouk.domain.HALF
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -45,9 +44,9 @@ fun HeaderCollapsingToolbarScaffold(
 	body: @Composable (CollapsingToolbarScaffoldScope.() -> Unit),
 ) {
 
-	val appBarHeight = dimensionResource(R.dimen.appBarHeight)
-	val viewMargin = dimensionResource(R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
+	val appBarHeight = Dimens.appBarHeight
+	val viewMargin = Dimens.marginNormal
+	val viewMarginLarge = Dimens.marginLarge
 
 	val state = rememberCollapsingToolbarScaffoldState()
 	val progress = state.toolbarState.progress

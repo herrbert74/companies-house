@@ -6,16 +6,13 @@ import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
 
 const val PREF_FILE_NAME = "companies_house_pref_file"
 const val PREF_FAVOURITES = "companies_house_favourites"
 const val PREF_LATEST_SEARCHES = "companies_house_latest_searches"
 const val PREF_LATEST_SEARCHES_SIZE = 10
 
-@Singleton
-class PreferencesHelper @Inject
+class PreferencesHelper
 internal constructor(private val sharedPreferences: SharedPreferences, private val gson: Gson) {
 
 	val recentSearches: List<SearchHistoryItem>

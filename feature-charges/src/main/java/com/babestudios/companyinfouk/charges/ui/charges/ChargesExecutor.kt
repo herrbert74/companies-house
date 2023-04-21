@@ -4,15 +4,14 @@ import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.Intent
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.State
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChargesExecutor @Inject constructor(
+class ChargesExecutor constructor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
-	val ioContext: CoroutineDispatcher,
+	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
 	override fun executeAction(action: BootstrapIntent, getState: () -> State) {

@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.companies
 
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.babestudios.base.ext.test
+import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.companies.ui.company.CompanyExecutor
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStoreFactory

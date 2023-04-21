@@ -6,8 +6,6 @@ import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDes
 import com.babestudios.companyinfouk.data.local.apilookup.model.MortgageDescriptions
 import com.babestudios.companyinfouk.data.local.apilookup.model.PscDescriptions
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
-import javax.inject.Inject
-import javax.inject.Singleton
 
 interface ConstantsHelperContract {
 	fun accountTypeLookUp(accountsString: String): String
@@ -31,8 +29,7 @@ interface PscHelperContract {
 	fun kindLookUp(kindString: String): String
 }
 
-@Singleton
-class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : ConstantsHelperContract {
+class ConstantsHelper constructor(rawResourceHelper: RawResourceHelperContract) : ConstantsHelperContract {
 	private val constants: Constants = rawResourceHelper.getConstants(R.raw.constants)
 
 	override fun accountTypeLookUp(accountsString: String): String {
@@ -56,8 +53,7 @@ class ConstantsHelper @Inject constructor(rawResourceHelper: RawResourceHelperCo
 	}
 }
 
-@Singleton
-class FilingHistoryDescriptionsHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract)
+class FilingHistoryDescriptionsHelper constructor(rawResourceHelper: RawResourceHelperContract)
 	: FilingHistoryDescriptionsHelperContract {
 	private val filingHistoryDescriptions: FilingHistoryDescriptions = rawResourceHelper
 			.getFilingHistoryDescriptions(R.raw.filing_history_descriptions)
@@ -67,8 +63,7 @@ class FilingHistoryDescriptionsHelper @Inject constructor(rawResourceHelper: Raw
 	}
 }
 
-@Singleton
-class ChargesHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : ChargesHelperContract {
+class ChargesHelper constructor(rawResourceHelper: RawResourceHelperContract) : ChargesHelperContract {
 	private val chargesDescriptions: MortgageDescriptions = rawResourceHelper
 			.getMortgageDescriptions(R.raw.mortgage_descriptions)
 
@@ -81,8 +76,7 @@ class ChargesHelper @Inject constructor(rawResourceHelper: RawResourceHelperCont
 	}
 }
 
-@Singleton
-class PscHelper @Inject constructor(rawResourceHelper: RawResourceHelperContract) : PscHelperContract {
+class PscHelper constructor(rawResourceHelper: RawResourceHelperContract) : PscHelperContract {
 	private val pscDescriptions: PscDescriptions = rawResourceHelper
 			.getPscDescriptions(R.raw.psc_descriptions)
 

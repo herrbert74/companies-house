@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +35,7 @@ import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.common.getAddressString
@@ -49,7 +49,7 @@ fun CompanyScreen(component: CompanyComp) {
 
 	BackHandler(onBack = { component.onBackClicked(model.isFavourite) })
 
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
 
 	HeaderCollapsingToolbarScaffold(
 		headerBackgroundResource = R.drawable.bg_company,
@@ -101,8 +101,8 @@ private fun CompanyScreenBody(
 	onPersonsClicked: (String) -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	Column(
 		verticalArrangement = Arrangement.Top,
@@ -192,13 +192,13 @@ private fun CompanyScreenBody(
 
 @Preview
 @Composable
-fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
+internal fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
 	CompaniesTheme {
 		CompanyScreenBody(company, {}, {}, {}, {}, {}) {}
 	}
 }
 
-class CompanyProvider : PreviewParameterProvider<Company> {
+private class CompanyProvider : PreviewParameterProvider<Company> {
 	override val values = sequenceOf(
 		Company(
 			companyNumber = "0234567",

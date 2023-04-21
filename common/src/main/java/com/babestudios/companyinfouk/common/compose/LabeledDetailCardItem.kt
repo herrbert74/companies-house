@@ -6,13 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.babestudios.base.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.FORTY_PERCENT
 
@@ -26,8 +25,8 @@ fun LabeledDetailCardItem(
 	labelWeight: Float = FORTY_PERCENT,
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	Row(
 		horizontalArrangement = Arrangement.Center,

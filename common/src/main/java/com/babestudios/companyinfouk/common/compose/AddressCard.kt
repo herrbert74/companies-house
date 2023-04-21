@@ -10,13 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.babestudios.base.R
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.HALF
 import com.babestudios.companyinfouk.domain.model.common.Address
@@ -29,8 +28,7 @@ fun AddressCard(
 	onShowMap: () -> Unit,
 ) {
 
-	val viewMarginLarge = dimensionResource(R.dimen.viewMarginLarge)
-	val viewMarginNormal = dimensionResource(R.dimen.viewMargin)
+	//val viewMarginNormal = Dimens.marginNormal
 
 	ConstraintLayout(
 		modifier = modifier
@@ -52,14 +50,14 @@ fun AddressCard(
 		) {
 			Text(
 				modifier = Modifier
-					.padding(horizontal = viewMarginLarge + viewMarginNormal, vertical = viewMarginNormal)
+					.padding(horizontal = Dimens.marginLarge + Dimens.marginNormal, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = title,
 				style = CompaniesTypography.bodyMedium
 			)
 			Text(
 				modifier = Modifier
-					.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+					.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = address.addressLine1,
 				style = CompaniesTypography.titleLargeBold
@@ -67,7 +65,7 @@ fun AddressCard(
 			address.addressLine2?.let {
 				Text(
 					modifier = Modifier
-						.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+						.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 						.fillMaxWidth(1f),
 					text = it,
 					style = CompaniesTypography.titleLargeBold,
@@ -75,14 +73,14 @@ fun AddressCard(
 			}
 			Text(
 				modifier = Modifier
-					.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+					.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = address.locality,
 				style = CompaniesTypography.titleLargeBold
 			)
 			Text(
 				modifier = Modifier
-					.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+					.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = address.postalCode,
 				style = CompaniesTypography.titleLargeBold
@@ -90,7 +88,7 @@ fun AddressCard(
 			address.region?.let {
 				Text(
 					modifier = Modifier
-						.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+						.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 						.fillMaxWidth(1f),
 					text = it,
 					style = CompaniesTypography.titleLargeBold
@@ -99,7 +97,7 @@ fun AddressCard(
 			address.country?.let {
 				Text(
 					modifier = Modifier
-						.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal)
+						.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 						.fillMaxWidth(1f),
 					text = it,
 					style = CompaniesTypography.titleLargeBold,

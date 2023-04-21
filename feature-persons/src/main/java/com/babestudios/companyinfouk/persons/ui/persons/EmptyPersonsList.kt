@@ -11,30 +11,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.persons.R
 
 @Composable
 fun EmptyPersonsList() {
 
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
 		Modifier
 			.fillMaxSize(1f)
 			//Matches the empty icon background from BaBeStudiosBase
-			.background(colorResource(com.babestudios.base.R.color.grey_1)),
+			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
 		Image(
-			painter = painterResource(com.babestudios.base.R.drawable.ic_business_empty),
+			painter = painterResource(com.babestudios.base.android.R.drawable.ic_business_empty),
 			contentDescription = null
 		)
 		Text(

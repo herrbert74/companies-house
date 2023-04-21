@@ -1,6 +1,6 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.base.ext.loadJson
+import com.babestudios.base.kotlin.ext.loadJson
 import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper

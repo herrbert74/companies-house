@@ -62,26 +62,29 @@ dependencies {
 
 	api(project(":domain"))
 
-	implementation(libs.baBeStudiosBase) {
-		exclude("androidx.navigation","navigation-fragment-ktx")
-		exclude("androidx.navigation","navigation-ui-ktx")
-	}
-	api(libs.squareUp.okhttp3.loggingInterceptor)
+	api(libs.google.gson)
+	api(libs.squareUp.okhttp3.okhttp) //Transitive
+	api(libs.squareUp.retrofit2.retrofit)
 
+	implementation(libs.androidx.annotation) //Transitive
+	implementation(libs.baBeStudios.base.kotlin)
+	implementation(libs.baBeStudios.base.data)
+	implementation(libs.squareUp.okhttp3.loggingInterceptor)
+	implementation(libs.kotlin.parcelize.runtime) //Transitive
 	implementation(libs.kotlinx.coroutines.core)
 	implementation(libs.kotlinResult.result)
-	implementation(libs.squareUp.retrofit2.retrofit)
+	implementation(libs.koin.core)
+	implementation(libs.koin.android)
 
 	debugImplementation(libs.chucker.library)
 	releaseImplementation(libs.chucker.noop)
 
-	testImplementation(libs.androidx.test.ext.jUnitKtx)
 	testImplementation(libs.squareUp.okhttp3.mockWebServer)
 	testImplementation(libs.kotlinx.coroutines.test)
 	testImplementation(libs.test.jUnit)
-	testImplementation(libs.test.robolectric)
-	testImplementation(libs.test.mockk.core)
+	testImplementation(libs.bundles.mockk.unit)
 	testImplementation(libs.test.kotest.assertions.core)
+	testImplementation(libs.test.kotest.assertions.shared)
 
 }
 

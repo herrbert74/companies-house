@@ -2,8 +2,6 @@ package com.babestudios.companyinfouk.data.utils.errors
 
 import com.babestudios.companyinfouk.data.utils.errors.apilookup.ErrorHelper
 import com.babestudios.companyinfouk.data.utils.errors.model.ErrorBody
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineExceptionHandler
 import retrofit2.HttpException
 
@@ -12,8 +10,7 @@ import retrofit2.HttpException
  * but usually it's a full ErrorBody with ErrorEntities array
  *
  */
-@Singleton
-class CompaniesHouseExceptionHandler @Inject constructor(
+class CompaniesHouseExceptionHandler constructor(
 	@Suppress("unused") private val errorHelper: ErrorHelper
 ) : CoroutineExceptionHandleable {
 

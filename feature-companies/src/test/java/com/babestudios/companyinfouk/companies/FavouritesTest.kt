@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.companies
 
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.babestudios.base.ext.test
+import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesExecutor
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesItem
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore

@@ -6,9 +6,8 @@ import com.babestudios.companyinfouk.data.utils.Base64Wrapper
 import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
-class CompaniesHouseInterceptor @Inject constructor(base64Wrapper: Base64Wrapper) : Interceptor {
+class CompaniesHouseInterceptor constructor(base64Wrapper: Base64Wrapper) : Interceptor {
 
 	private val authorization: String = "Basic " + base64Wrapper.encodeToString(
 		BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray(),

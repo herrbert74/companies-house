@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.data
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import com.babestudios.base.ext.getSerializedName
-import com.babestudios.base.network.OfflineException
+import com.babestudios.base.data.ext.getSerializedName
+import com.babestudios.base.data.network.OfflineException
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
@@ -31,23 +31,20 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import java.io.FileNotFoundException
 import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import timber.log.Timber
 
-@Singleton
-class CompaniesAccessor @Inject constructor(
+internal class CompaniesAccessor constructor(
 	private val context: Context,
 	private val companiesHouseService: CompaniesHouseService,
 	private val companiesHouseDocumentService: CompaniesHouseDocumentService,
 	private var preferencesHelper: PreferencesHelper,
 	private val firebaseAnalytics: FirebaseAnalytics,
 	private val companiesHouseMapping: CompaniesHouseMapping,
-	val ioContext: CoroutineDispatcher,
+	private val ioContext: CoroutineDispatcher,
 ) : CompaniesRepository {
 
 	override suspend fun recentSearches(): List<SearchHistoryItem> {

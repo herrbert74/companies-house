@@ -9,13 +9,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.domain.FORTY_PERCENT
 import com.babestudios.companyinfouk.domain.model.officers.AppointedTo
 import com.babestudios.companyinfouk.domain.model.officers.Appointment
@@ -28,8 +28,8 @@ internal fun AppointmentListItem(
 	onItemClicked: (id: Appointment) -> Unit,
 ) {
 
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	ConstraintLayout(
 		modifier = modifier

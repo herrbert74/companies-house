@@ -27,12 +27,12 @@ open class CompaniesHouseApplication : Application(), KoinComponent {
 
 		startKoin {
 			androidContext(this@CompaniesHouseApplication)
-			modules( dataModule, coroutineContextModule)
+			modules(dataModule, coroutineContextModule)
 		}
 
-		//companiesRepository = getKoin().get()
+		companiesRepository = getKoin().get()
 
-		//logAppOpen(companiesRepository)
+		logAppOpen(companiesRepository)
 	}
 
 	private fun logAppOpen(companiesRepository: CompaniesRepository) {

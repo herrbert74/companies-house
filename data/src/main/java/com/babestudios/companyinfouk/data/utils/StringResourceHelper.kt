@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.data.utils
 
 import android.content.Context
 import com.babestudios.companyinfouk.data.R
-import javax.inject.Inject
 
 interface StringResourceHelperContract {
 	fun getLastAccountMadeUpToString(accountType: String, date: String): String
@@ -14,7 +13,7 @@ interface StringResourceHelperContract {
 	fun getRecentSearchesString(): String
 }
 
-class StringResourceHelper @Inject constructor(val context: Context) : StringResourceHelperContract {
+class StringResourceHelper constructor(val context: Context) : StringResourceHelperContract {
 
 	override fun getLastAccountMadeUpToString(accountType: String, date: String): String {
 		return String.format(

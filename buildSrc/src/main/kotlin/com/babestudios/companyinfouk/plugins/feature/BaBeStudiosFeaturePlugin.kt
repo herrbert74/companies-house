@@ -13,12 +13,19 @@ import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.accessors.runtime.addConfiguredDependencyTo
 import org.gradle.kotlin.dsl.dependencies
 
-//We need to copy this here to correctly retrieve dependencies for exclude
+//We need to copy these here to correctly retrieve dependencies for exclude
 fun DependencyHandler.implementation(
 	dependencyNotation: Provider<*>,
 	dependencyConfiguration: Action<ExternalModuleDependency>,
 ): Unit = addConfiguredDependencyTo(
 	this, "implementation", dependencyNotation, dependencyConfiguration
+)
+
+fun DependencyHandler.api(
+	dependencyNotation: Provider<*>,
+	dependencyConfiguration: Action<ExternalModuleDependency>,
+): Unit = addConfiguredDependencyTo(
+	this, "api", dependencyNotation, dependencyConfiguration
 )
 
 /**
@@ -36,25 +43,20 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 		project.plugins.apply("kotlin-parcelize")
 
 		project.dependencies {
-			add("implementation", project.project(":domain"))
+			add("api", project.project(":domain"))
 			add("implementation", project.project(":common"))
 
 			libs.findLibrary("mvikotlin.core").ifPresent { add("api", it) }
 			libs.findLibrary("mvikotlin.coroutines").ifPresent { add("api", it) }
 
-			libs.findLibrary("baBeStudiosBase").ifPresent {
-				implementation(it){
-					exclude("androidx.navigation", "navigation-fragment-ktx")
-					exclude("androidx.navigation", "navigation-ui-ktx")
-				}
-				/*add("implementation", it).apply {
-					exclude("androidx.navigation", "navigation-fragment-ktx")
-					exclude("androidx.navigation", "navigation-ui-ktx")
-				}*/
-			}
-			//LifeCycle, LifecycleOwner, RepeatOnLifecycle
-			//add("implementation", Libs.AndroidX.Lifecycle.runtimeKtx)
+			libs.findLibrary("baBeStudios.base.compose").ifPresent { add("implementation", it) }
+			libs.findLibrary("baBeStudios.base.kotlin").ifPresent { add("testImplementation", it) }
+
+			//LifeCycle, LifecycleOwner, RepeatOnLifecycle; NOT USED for now
+			//libs.findLibrary("androidx.lifecycle.runtimeKtx").ifPresent { add("implementation", it) }
+
 			libs.findLibrary("kotlinResult.result").ifPresent { add("implementation", it) }
+
 			libs.findLibrary("mvikotlin.main").ifPresent { add("implementation", it) }
 			libs.findLibrary("mvikotlin.rx").ifPresent { add("implementation", it) }
 			libs.findLibrary("mvikotlin.logging").ifPresent { add("implementation", it) }
@@ -63,12 +65,20 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			libs.findLibrary("androidx.compose.ui.graphics").ifPresent { add("implementation", it) }
 			libs.findLibrary("androidx.compose.ui.text").ifPresent { add("implementation", it) }
 			libs.findLibrary("androidx.compose.ui.unit").ifPresent { add("implementation", it) }
+			libs.findLibrary("androidx.compose.ui.tooling").ifPresent { add("runtimeOnly", it) }
 			libs.findLibrary("androidx.compose.ui.toolingPreview").ifPresent { add("implementation", it) }
+			libs.findLibrary("androidx.compose.material3").ifPresent { add("implementation", it) }
+
+//	An exclude example
+//			libs.findLibrary("androidx.compose.material3").ifPresent {
+//				implementation(it){
+//					exclude("androidx.compose.material3", "material3-android")
+//				}
+//			}
 
 			libs.findLibrary("test.jUnit").ifPresent { add("testImplementation", it) }
-			libs.findLibrary("test.mockk.core").ifPresent { add("testImplementation", it) }
+			libs.findBundle("mockk.unit").ifPresent { add("testImplementation", it) }
 			libs.findLibrary("kotlinx.coroutines.test").ifPresent { add("testImplementation", it) }
-			libs.findLibrary("test.kotest.assertions.core").ifPresent { add("testImplementation", it) }
 			libs.findLibrary("test.kotest.assertions.shared").ifPresent { add("testImplementation", it) }
 
 		}
@@ -79,7 +89,6 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 
 			androidExtension.apply {
 				buildFeatures.compose = true
-				buildFeatures.viewBinding = true
 				composeOptions.kotlinCompilerExtensionVersion =
 					libs.findVersion("androidx.compose.compiler").get().toString()
 			}

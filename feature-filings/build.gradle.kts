@@ -6,16 +6,28 @@ plugins {
 android.namespace = "com.babestudios.companyinfouk.filings"
 
 dependencies {
-	implementation(libs.decompose.core)
-	implementation(libs.decompose.extensionsJetpack)
-	implementation(libs.decompose.extensionsJetBrains)
-	implementation(libs.androidx.activity.compose)
-	implementation(libs.androidx.constraintLayout.compose)
+
 	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.androidx.compose.ui.tooling)
-	implementation(libs.androidx.compose.material3)
+
+	api(libs.androidx.activity.compose)
+	api(libs.androidx.appcompat)
+	api(libs.androidx.compose.runtime) //Transitive
+	api(libs.kotlinx.coroutines.core) //Transitive
+	api(libs.squareUp.okhttp3.okhttp)
+
+	implementation(libs.androidx.activity.activity) //Transitive
+	implementation(libs.androidx.constraintLayout.compose)
+	implementation(libs.androidx.compose.animation.core) //Transitive
+	implementation(libs.androidx.compose.foundation) //Transitive
 	implementation(libs.androidx.compose.foundationLayout)
+	implementation(libs.androidx.compose.material.icons.core) //Transitive
+	implementation(libs.androidx.compose.runtime.saveable) //Transitive
+	implementation(libs.androidx.core) //Transitive
+	implementation(libs.decompose.core)
+	implementation(libs.decompose.extensionsJetBrains)
+	implementation(libs.decompose.extensionsJetpack)
 	implementation(libs.view.collapsingToolbar)
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

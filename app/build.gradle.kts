@@ -45,6 +45,11 @@ android {
 			isMinifyEnabled = false
 		}
 	}
+
+	packagingOptions {
+		resources.excludes.add("META-INF/LICENSE.md")
+		resources.excludes.add("META-INF/LICENSE-notice.md")
+	}
 }
 
 dependencies {
@@ -58,35 +63,45 @@ dependencies {
 	implementation(project(":feature-officers"))
 	implementation(project(":feature-persons"))
 
-	implementation(libs.baBeStudiosBase) {
-		exclude("androidx.navigation","navigation-fragment-ktx")
-		exclude("androidx.navigation","navigation-ui-ktx")
-	}
-	implementation(libs.androidx.appcompat)
-	implementation(libs.androidx.compose.animation)
+	implementation(libs.androidx.activity.activity) //Transitive
 	implementation(libs.androidx.activity.compose)
+	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.compose.runtime) //To make buildFeatures.compose = true happy ?!
+	implementation(libs.androidx.compose.animation.core) //Transitive
+	implementation(libs.androidx.compose.ui) //Transitive
+	implementation(libs.androidx.lifecycle.common) //Transitive
+	implementation(libs.androidx.lifecycle.viewmodel) //Transitive
+	implementation(libs.androidx.savedState) //Transitive
+	implementation(libs.androidx.core) //Transitive
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensionsJetBrains)
 	implementation(platform(libs.google.firebase.bom))
 	implementation(libs.google.firebase.crashlytics)
-	implementation(libs.androidx.compose.runtime) //To make buildFeatures.compose = true happy ?!
+	implementation(libs.koin.core)
+	implementation(libs.koin.android)
+	implementation(libs.kotlin.parcelize.runtime) //Transitive
+	implementation(libs.kotlinx.coroutines.core) //Transitive
 
-	debugImplementation(platform(libs.androidx.compose.bom))
-	debugImplementation(libs.androidx.compose.ui.testManifest)
+	debugRuntimeOnly(platform(libs.androidx.compose.bom))
+	//Needed for createComposeRule, NOT ONLY for createAndroidComposeRule, as in the docs
+	debugRuntimeOnly(libs.androidx.compose.ui.testManifest)
 
+	androidTestImplementation(libs.baBeStudios.base.kotlin)
 	androidTestImplementation(libs.google.gson)
-	androidTestImplementation(libs.squareUp.retrofit2.retrofit)
 	androidTestImplementation(platform(libs.google.firebase.bom))
 	androidTestImplementation(libs.google.firebase.analytics)
-	androidTestImplementation(libs.squareUp.okhttp3.loggingInterceptor)
 	androidTestImplementation(platform(libs.androidx.compose.bom))
-	androidTestImplementation(libs.androidx.compose.ui.test)
+	androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 	androidTestImplementation(libs.androidx.test.espresso.core)
-	androidTestImplementation(libs.androidx.test.ext.jUnitKtx)
+	//androidTestImplementation(libs.androidx.test.ext.jUnitKtx) //For ActivityScenario
 	androidTestImplementation(libs.androidx.test.runner)
 	androidTestImplementation(libs.decompose.core)
 	androidTestImplementation(libs.kotlinResult.result)
 	androidTestImplementation(libs.test.jUnit)
-	androidTestImplementation(libs.test.mockk.androidTest)
+	androidTestImplementation(libs.bundles.mockk.android)
+	androidTestImplementation(libs.androidx.compose.ui.test) //Transitive
+	androidTestImplementation(libs.androidx.compose.ui.text) //Transitive
+	androidTestImplementation(libs.androidx.test.ext.jUnit) //Transitive from androidx.compose.ui:ui-test-junit4
+	androidTestImplementation(libs.test.hamcrest) //Transitive
 
 }

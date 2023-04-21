@@ -14,7 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface CompaniesHouseService {
+internal interface CompaniesHouseService {
 	@GET(BuildConfig.COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT)
 	suspend fun searchCompanies(
 		@Query("q") searchTerm: String,

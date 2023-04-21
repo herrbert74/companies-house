@@ -5,12 +5,11 @@ import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore.Intent
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore.State
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FilingHistoryExecutor @Inject constructor(
+class FilingHistoryExecutor constructor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,

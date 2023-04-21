@@ -12,11 +12,11 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.insolvency.Date
 import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
@@ -53,8 +53,8 @@ private fun InsolvencyDetailsList(
 	Column {
 
 		val listState = rememberLazyListState()
-		val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
-		val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+		val viewMarginNormal = Dimens.marginNormal
+		val viewMarginLarge = Dimens.marginLarge
 
 		LazyColumn(state = listState) {
 			itemsIndexed(items.dates) { index, date ->

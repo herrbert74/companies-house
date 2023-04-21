@@ -18,13 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.babestudios.base.compose.InfiniteListHandler
+import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
-import com.babestudios.companyinfouk.common.compose.InfiniteListHandler
-import com.babestudios.companyinfouk.common.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.design.CompaniesTypography
+import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.R
@@ -32,8 +32,8 @@ import com.babestudios.companyinfouk.officers.R
 @Composable
 fun AppointmentsScreen(component: AppointmentsComp) {
 
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
-	val viewMarginLarge = dimensionResource(com.babestudios.base.R.dimen.viewMarginLarge)
+	val viewMarginLarge = Dimens.marginLarge
+	val viewMarginNormal = Dimens.marginNormal
 
 	BackHandler(onBack = { component.onBackClicked() })
 	val model by component.state.subscribeAsState()
@@ -74,7 +74,7 @@ private fun AppointmentsList(
 	onLoadMore: () -> Unit,
 ) {
 
-	val viewMarginNormal = dimensionResource(com.babestudios.base.R.dimen.viewMargin)
+	val viewMarginNormal = Dimens.marginNormal
 
 	Box {
 

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.data.mappers
 
-import com.babestudios.base.ext.formatShortDateFromTimeStampMillis
-import com.babestudios.base.ext.parseMySqlDate
+import com.babestudios.base.kotlin.ext.formatShortDateFromTimeStampMillis
+import com.babestudios.base.kotlin.ext.parseMySqlDate
 import com.babestudios.companyinfouk.domain.model.common.Address
 import com.babestudios.companyinfouk.domain.model.company.Company
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract

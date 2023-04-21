@@ -7,14 +7,14 @@ android.namespace = "com.babestudios.companyinfouk.domain"
 
 dependencies {
 
-	implementation(libs.baBeStudiosBase) {
-		exclude("androidx.navigation","navigation-fragment-ktx")
-		exclude("androidx.navigation","navigation-ui-ktx")
-	}
+	api(libs.baBeStudios.base.kotlin)
+	api(libs.squareUp.okhttp3.okhttp)
+
 	implementation(libs.androidx.annotation)
 	implementation(libs.google.gson)
+	implementation(libs.koin.core)
+	implementation(libs.kotlin.parcelize.runtime) //Transitive
 	implementation(libs.kotlinx.coroutines.core)
 	implementation(libs.kotlinResult.result)
-	implementation(libs.squareUp.okhttp3.okhttp)
 
 }

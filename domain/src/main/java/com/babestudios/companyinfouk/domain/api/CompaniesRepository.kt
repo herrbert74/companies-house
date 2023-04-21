@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.domain.api
 
 import android.net.Uri
-import com.babestudios.base.data.AnalyticsContract
+import com.babestudios.base.kotlin.api.AnalyticsContract
 import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.domain.model.common.ApiResult
 import com.babestudios.companyinfouk.domain.model.company.Company
