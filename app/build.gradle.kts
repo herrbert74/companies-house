@@ -11,6 +11,8 @@ android {
 
 	namespace = "com.babestudios.companyinfouk"
 
+	buildFeatures.buildConfig = true
+
 	defaultConfig {
 		applicationId = "com.babestudios.companyinfouk"
 		versionCode = libs.versions.versionCode.get().toInt()
@@ -18,8 +20,8 @@ android {
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner = "com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner"
 	}
-	signingConfigs {
 
+	signingConfigs {
 		create("release") {
 			storeFile = file("CH_RELEASE_STORE_FILE")
 			storePassword = properties["CH_RELEASE_STORE_PASSWORD"].toString()
@@ -27,6 +29,7 @@ android {
 			keyPassword = properties["CH_RELEASE_KEY_PASSWORD"].toString()
 		}
 	}
+
 	buildTypes {
 		getByName("release") {
 			isDebuggable = false
@@ -39,10 +42,11 @@ android {
 		}
 	}
 
-	packagingOptions {
+	packaging {
 		resources.excludes.add("META-INF/LICENSE.md")
 		resources.excludes.add("META-INF/LICENSE-notice.md")
 	}
+
 }
 
 dependencies {

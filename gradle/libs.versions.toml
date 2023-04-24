@@ -4,43 +4,43 @@ versionName = "3.0"
 minSdkVersion = "21"
 compileSdkVersion = "33"
 targetSdkVersion = "33"
-gradlePlugin = "7.4.1" #"8.0.0-beta05"
+gradlePlugin = "8.0.0"
 #gradlePlugin = "7.3.1" # For IntelliJ plugin runIde
-kotlin = "1.8.10"
+kotlin = "1.8.20"
 coroutines = "1.6.4"
-androidx-activity = "1.7.0"
+androidx-activity = "1.7.1"
 androidx-lifecycle = "2.6.1"
 androidx-navigation = "2.5.3"
 androidx-hilt = "1.0.0"
 androidx-work = "2.7.1"
 androidx-room = "2.4.3"
-androidx-test = "1.4.0"
-androidx-test-espresso = "3.4.0"
-androidx-compose-compiler = "1.4.3"
-androidx-compose-bom = "2023.03.00"
+androidx-test = "1.5.2"
+androidx-test-espresso = "3.5.1"
+androidx-compose-compiler = "1.4.6"
+androidx-compose-bom = "2023.04.01"
 androidx-compose-material3 = "1.1.0-rc01" #This had search bar
 #androidx-compose-animation = "1.4.0" #For fixes since the bom
 #androidx-compose-foundation = "1.4.0" #For fixes since the bom
 #androidx-compose-runtime = "1.4.0" #For fixes since the bom
 #androidx-compose-ui = "1.4.0" #For fixes since the bom
 google-dagger = "2.45"
-google-firebase-bom = "31.2.3"
+google-firebase-bom = "31.5.0"
 google-firebase-analytics = "21.2.0"
 google-firebase-crashlytics = "18.3.5"
 google-firebase-database = "31.2.3"
 google-firebase-config = "31.2.3"
 moshi = "1.14.0"
-okhttp = "4.10.0"
+okhttp = "4.11.0"
 retrofit = "2.9.0"
 facebook = "14.1.1"
 chucker = "3.5.2"
-mviKotlin = "3.1.0"
+mviKotlin = "3.2.0"
 decompose = "1.0.0"
-jUnit5 = "5.9.0"
+jUnit5 = "5.9.2"
 mockk = "1.13.3" #1.13.4 issue: https://github.com/mockk/mockk/issues/1035
-kotest = "5.4.2"
+kotest = "5.6.1"
 detekt = "1.22.0"
-kotlinResult = "1.1.16"
+kotlinResult = "1.1.17"
 flowBinding = "1.2.0"
 koin = "3.4.0"
 babestudios-base = "3.0.0"
@@ -50,7 +50,7 @@ babestudios-base = "3.0.0"
 gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradlePlugin" }
 kotlinPlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinAllOpenPlugin = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
-googleServicesPlugin = "com.google.gms:google-services:4.3.13"
+googleServicesPlugin = "com.google.gms:google-services:4.3.15"
 firebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:2.9.4"
 firebaseAppDistributionPlugin = "com.google.firebase:firebase-appdistribution-gradle:3.0.3"
 hiltPlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-dagger" }
@@ -73,14 +73,14 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 androidx-activity-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-activity-activityKtx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
-androidx-annotation = "androidx.annotation:annotation:1.4.0"
-androidx-appcompat = "androidx.appcompat:appcompat:1.5.0"
-androidx-appCompatResources = "androidx.appcompat:appcompat-resources:1.5.0"
-androidx-browser = "androidx.browser:browser:1.4.0"
+androidx-annotation = "androidx.annotation:annotation:1.6.0"
+androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
+androidx-appCompatResources = "androidx.appcompat:appcompat-resources:1.6.1"
+androidx-browser = "androidx.browser:browser:1.5.0"
 androidx-cardView = "androidx.cardview:cardview:1.0.0"
 androidx-collection = "androidx.collection:collection:1.2.0"
 androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
-androidx-constraintLayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha07"
+androidx-constraintLayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha09"
 androidx-core = "androidx.core:core:1.10.0" #Bundle
 androidx-coreKtx = "androidx.core:core-ktx:1.10.0" #Bundle
 androidx-datastore = "androidx.datastore:datastore-preferences:1.0.0"
@@ -273,5 +273,5 @@ hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "google-dag
 crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.4" }
 
 versions = { id = "com.github.ben-manes.versions", version = "0.46.0" }
-dependencyAnalyis = { id = "com.autonomousapps.dependency-analysis", version = "1.19.0" }
+dependencyAnalyis = { id = "com.autonomousapps.dependency-analysis", version = "1.20.0" }
 gradleDoctor = { id = "com.osacky.doctor", version = "0.8.1" }

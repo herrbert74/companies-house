@@ -18,7 +18,7 @@ android {
 		testInstrumentationRunner = "com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner"
 	}
 
-	packagingOptions {
+	packaging {
 		resources.excludes.add("META-INF/LICENSE.md")
 		resources.excludes.add("META-INF/LICENSE-notice.md")
 	}
