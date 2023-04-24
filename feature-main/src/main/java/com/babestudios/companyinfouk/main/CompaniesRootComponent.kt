@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk
+package com.babestudios.companyinfouk.main
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack

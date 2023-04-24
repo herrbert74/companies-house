@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk
+package com.babestudios.companyinfouk.main
 
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesComponent
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesExecutor

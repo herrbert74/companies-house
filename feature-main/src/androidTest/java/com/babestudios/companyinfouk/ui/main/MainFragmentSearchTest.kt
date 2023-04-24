@@ -11,8 +11,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.CompaniesRootComponent
-import com.babestudios.companyinfouk.CompaniesRootContent
+import com.babestudios.companyinfouk.main.CompaniesRootComponent
+import com.babestudios.companyinfouk.main.CompaniesRootContent
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

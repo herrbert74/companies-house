@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk
+package com.babestudios.companyinfouk.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

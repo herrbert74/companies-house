@@ -11,13 +11,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.CompaniesRootComponent
-import com.babestudios.companyinfouk.CompaniesRootContent
-import com.babestudios.companyinfouk.Configuration
+import com.babestudios.companyinfouk.main.CompaniesRootComponent
+import com.babestudios.companyinfouk.main.CompaniesRootContent
+import com.babestudios.companyinfouk.main.Configuration
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.mock.mockWithEmptyFavourites
 import com.babestudios.companyinfouk.mock.mockWithFavourites
-import com.babestudios.companyinfouk.navigation
+import com.babestudios.companyinfouk.main.navigation
 import io.mockk.coEvery
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

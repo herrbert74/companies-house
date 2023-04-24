@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk
+package com.babestudios.companyinfouk.main
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
@@ -14,10 +14,10 @@ sealed class Configuration : Parcelable {
 	//region Companies
 
 	@Parcelize
-	object Main : Configuration()
+	internal object Main : Configuration()
 
 	@Parcelize
-	data class Company(
+	internal data class Company(
 		val companyId: String,
 		val companyName: String,
 		val previousConfig: Configuration,
@@ -25,72 +25,72 @@ sealed class Configuration : Parcelable {
 	) : Configuration()
 
 	@Parcelize
-	object Favourites : Configuration()
+	internal object Favourites : Configuration()
 
 	@Parcelize
-	data class Map(val name: String, val address: String) : Configuration()
+	internal data class Map(val name: String, val address: String) : Configuration()
 
 	@Parcelize
-	object Privacy : Configuration()
+	internal object Privacy : Configuration()
 
 	//endregion
 
 	//region Charges
 
 	@Parcelize
-	data class Charges(val companyId: String) : Configuration()
+	internal data class Charges(val companyId: String) : Configuration()
 
 	@Parcelize
-	data class ChargesDetails(val selectedCharges: ChargesItem) : Configuration()
+	internal data class ChargesDetails(val selectedCharges: ChargesItem) : Configuration()
 
 	//endregion
 
 	//region Filings
 
 	@Parcelize
-	data class FilingHistory(val companyId: String) : Configuration()
+	internal data class FilingHistory(val companyId: String) : Configuration()
 
 	@Parcelize
-	data class FilingDetails(val filingHistoryItem: FilingHistoryItem) : Configuration()
+	internal data class FilingDetails(val filingHistoryItem: FilingHistoryItem) : Configuration()
 
 	//endregion
 
 	//region Insolvencies
 
 	@Parcelize
-	data class Insolvencies(val companyId: String) : Configuration()
+	internal data class Insolvencies(val companyId: String) : Configuration()
 
 	@Parcelize
-	data class InsolvencyDetails(
+	internal data class InsolvencyDetails(
 		val selectedCompanyId: String,
 		val selectedInsolvencyCase: InsolvencyCase,
 	) : Configuration()
 
 	@Parcelize
-	data class Practitioners(val selectedPractitioner: Practitioner) : Configuration()
+	internal data class Practitioners(val selectedPractitioner: Practitioner) : Configuration()
 
 	//endregion
 
 	//region Officers
 
 	@Parcelize
-	data class Officers(val companyId: String) : Configuration()
+	internal data class Officers(val companyId: String) : Configuration()
 
 	@Parcelize
-	data class OfficerDetails(val selectedOfficer: Officer) : Configuration()
+	internal data class OfficerDetails(val selectedOfficer: Officer) : Configuration()
 
 	@Parcelize
-	data class Appointments(val selectedOfficer: Officer) : Configuration()
+	internal data class Appointments(val selectedOfficer: Officer) : Configuration()
 
 	//endregion
 
 	//region Persons
 
 	@Parcelize
-	data class Persons(val companyId: String) : Configuration()
+	internal data class Persons(val companyId: String) : Configuration()
 
 	@Parcelize
-	data class PersonDetails(val selectedPerson: Person) : Configuration()
+	internal data class PersonDetails(val selectedPerson: Person) : Configuration()
 
 	//endregion
 

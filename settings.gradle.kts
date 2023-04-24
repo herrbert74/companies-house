@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature-main")
+
+
 include(":app")
 include(":data")
 include(":core-detekt")
