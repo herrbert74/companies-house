@@ -1,20 +1,22 @@
 package com.babestudios.companyinfouk.data.model.charges
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 import java.util.ArrayList
+import kotlinx.serialization.Serializable
 
+@Serializable
 class ChargesDto {
-	@SerializedName("etag")
+	@SerialName("etag")
 	var etag: String? = null
-	@SerializedName("items")
+	@SerialName("items")
 	var items: List<ChargesItemDto> = ArrayList()
-	@SerializedName("part_satisfied_count")
+	@SerialName("part_satisfied_count")
 	var partSatisfiedCount: Int? = 0
-	@SerializedName("satisfied_count")
+	@SerialName("satisfied_count")
 	var satisfiedCount: Int? = 0
-	@SerializedName("total_count")
+	@SerialName("total_count")
 	var totalCount: Int? = 0
-	@SerializedName("unfiltered_count")
+	@SerialName("unfiltered_count")
 	var unfilteredCount: Int? = 0
 }

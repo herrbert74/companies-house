@@ -30,6 +30,7 @@ interface PscHelperContract {
 }
 
 class ConstantsHelper constructor(rawResourceHelper: RawResourceHelperContract) : ConstantsHelperContract {
+
 	private val constants: Constants = rawResourceHelper.getConstants(R.raw.constants)
 
 	override fun accountTypeLookUp(accountsString: String): String {
@@ -51,21 +52,25 @@ class ConstantsHelper constructor(rawResourceHelper: RawResourceHelperContract) 
 	override fun officerRoleLookup(officerRoleKey: String): String {
 		return constants.officer_role[officerRoleKey] ?: officerRoleKey
 	}
+
 }
 
-class FilingHistoryDescriptionsHelper constructor(rawResourceHelper: RawResourceHelperContract)
-	: FilingHistoryDescriptionsHelperContract {
+class FilingHistoryDescriptionsHelper constructor(rawResourceHelper: RawResourceHelperContract) :
+	FilingHistoryDescriptionsHelperContract {
+
 	private val filingHistoryDescriptions: FilingHistoryDescriptions = rawResourceHelper
-			.getFilingHistoryDescriptions(R.raw.filing_history_descriptions)
+		.getFilingHistoryDescriptions(R.raw.filing_history_descriptions)
 
 	override fun filingHistoryLookUp(filingHistoryDescriptionString: String): String {
 		return filingHistoryDescriptions.description[filingHistoryDescriptionString] ?: filingHistoryDescriptionString
 	}
+
 }
 
 class ChargesHelper constructor(rawResourceHelper: RawResourceHelperContract) : ChargesHelperContract {
+
 	private val chargesDescriptions: MortgageDescriptions = rawResourceHelper
-			.getMortgageDescriptions(R.raw.mortgage_descriptions)
+		.getMortgageDescriptions(R.raw.mortgage_descriptions)
 
 	override fun statusLookUp(statusString: String): String {
 		return chargesDescriptions.status[statusString] ?: statusString
@@ -74,11 +79,12 @@ class ChargesHelper constructor(rawResourceHelper: RawResourceHelperContract) : 
 	override fun filingTypeLookUp(filingTypeString: String): String {
 		return chargesDescriptions.filing_type[filingTypeString] ?: filingTypeString
 	}
+
 }
 
 class PscHelper constructor(rawResourceHelper: RawResourceHelperContract) : PscHelperContract {
-	private val pscDescriptions: PscDescriptions = rawResourceHelper
-			.getPscDescriptions(R.raw.psc_descriptions)
+
+	private val pscDescriptions: PscDescriptions = rawResourceHelper.getPscDescriptions(R.raw.psc_descriptions)
 
 	override fun shortDescriptionLookUp(shortDescriptionString: String): String {
 		return pscDescriptions.short_description[shortDescriptionString] ?: shortDescriptionString
@@ -87,4 +93,5 @@ class PscHelper constructor(rawResourceHelper: RawResourceHelperContract) : PscH
 	override fun kindLookUp(kindString: String): String {
 		return pscDescriptions.kind[kindString] ?: kindString
 	}
+
 }

@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.data.network
 
-import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
@@ -10,24 +9,24 @@ import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.model.persons.PersonDto
 import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+import de.jensklingenberg.ktorfit.http.Query
 
-internal interface CompaniesHouseService {
-	@GET(BuildConfig.COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT)
+internal interface CompaniesHouseApi {
+	@GET("search/companies")
 	suspend fun searchCompanies(
 		@Query("q") searchTerm: String,
 		@Query("items_per_page") itemsPerPage: String,
 		@Query("start_index") startIndex: String,
 	): CompanySearchResult
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_COMPANY_ENDPOINT)
+	@GET("company/{companyNumber}")
 	suspend fun getCompany(
 		@Path("companyNumber") companyNumber: String,
 	): CompanyDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT)
+	@GET("company/{companyNumber}/filing-history")
 	suspend fun getFilingHistory(
 		@Path("companyNumber") companyNumber: String,
 		@Query("category") category: String,
@@ -35,19 +34,19 @@ internal interface CompaniesHouseService {
 		@Query("start_index") startIndex: String,
 	): FilingHistoryDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_CHARGES_ENDPOINT)
+	@GET("company/{companyNumber}/charges")
 	suspend fun getCharges(
 		@Path("companyNumber") companyNumber: String,
 		@Query("items_per_page") itemsPerPage: String,
 		@Query("start_index") startIndex: String,
 	): ChargesDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT)
+	@GET("company/{companyNumber}/insolvency")
 	suspend fun getInsolvency(
 		@Path("companyNumber") companyNumber: String,
 	): InsolvencyDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT)
+	@GET("company/{companyNumber}/officers")
 	@Suppress("LongParameterList")
 	suspend fun getOfficers(
 		@Path("companyNumber") companyNumber: String,
@@ -58,14 +57,14 @@ internal interface CompaniesHouseService {
 		@Query("start_index") startIndex: String,
 	): OfficersResponseDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT)
+	@GET("officers/{officerId}/appointments")
 	suspend fun getOfficerAppointments(
 		@Path("officerId") officerId: String,
 		@Query("items_per_page") itemsPerPage: String,
 		@Query("start_index") startIndex: String,
 	): AppointmentsResponseDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_ENDPOINT)
+	@GET("company/{companyNumber}/persons-with-significant-control")
 	suspend fun getPersons(
 		@Path("companyNumber") companyNumber: String,
 		@Query("registerView") registerView: String?,
@@ -73,19 +72,19 @@ internal interface CompaniesHouseService {
 		@Query("start_index") startIndex: String,
 	): PersonsResponseDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_INDIVIDUAL_ENDPOINT)
+	@GET("company/{companyNumber}/persons-with-significant-control/individual/{pscId}")
 	suspend fun getPersonIndividual(
 		@Path("companyNumber") companyNumber: String,
 		@Path("pscId") pscId: String,
 	): PersonDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
+	@GET("company/{companyNumber}/persons-with-significant-control/corporate-entity/{pscId}")
 	suspend fun getCorporatePerson(
 		@Path("companyNumber") companyNumber: String,
 		@Path("pscId") pscId: String,
 	): PersonDto
 
-	@GET(BuildConfig.COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT)
+	@GET("company/{companyNumber}/persons-with-significant-control/corporate-entity/{pscId}")
 	suspend fun getLegalPerson(
 		@Path("companyNumber") companyNumber: String,
 		@Path("pscId") pscId: String,

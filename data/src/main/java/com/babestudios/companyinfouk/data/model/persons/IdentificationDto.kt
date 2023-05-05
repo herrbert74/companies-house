@@ -1,19 +1,21 @@
 package com.babestudios.companyinfouk.data.model.persons
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class IdentificationDto(
-		@SerializedName("country_registered")
+		@SerialName("country_registered")
 		var countryRegistered: String? = null,
-		@SerializedName("legal_authority")
+		@SerialName("legal_authority")
 		var legalAuthority: String? = null,
-		@SerializedName("legal_form")
+		@SerialName("legal_form")
 		var legalForm: String? = null,
-		@SerializedName("place_registered")
+		@SerialName("place_registered")
 		var placeRegistered: String? = null,
-		@SerializedName("registration_number")
+		@SerialName("registration_number")
 		var registrationNumber: String? = null
 ) : Parcelable

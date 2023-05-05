@@ -2,9 +2,10 @@ package com.babestudios.companyinfouk.domain.model.search
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class SearchHistoryItem(
 		var companyName: String,
 		var companyNumber: String,

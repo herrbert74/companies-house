@@ -1,22 +1,23 @@
 package com.babestudios.companyinfouk.data.model.filinghistory
 
-
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import java.util.*
+import kotlinx.serialization.Serializable
 
+@Serializable
 class FilingHistoryDto(
-		@SerializedName("start_index")
-		val startIndex: Int? = null,
+	@SerialName("start_index")
+	val startIndex: Int? = null,
 
-		@SerializedName("items_per_page")
-		val itemsPerPage: Int? = null,
+	@SerialName("items_per_page")
+	val itemsPerPage: Int? = null,
 
-		@SerializedName("items")
-		val items: List<FilingHistoryItemDto> = ArrayList(),
+	@SerialName("items")
+	val items: List<FilingHistoryItemDto> = ArrayList(),
 
-		@SerializedName("total_count")
-		val totalCount: Int? = null,
+	@SerialName("total_count")
+	val totalCount: Int? = null,
 
-		@SerializedName("filing_history_status")
-		val filingHistoryStatus: String? = null
+	@SerialName("filing_history_status")
+	val filingHistoryStatus: String? = null,
 )

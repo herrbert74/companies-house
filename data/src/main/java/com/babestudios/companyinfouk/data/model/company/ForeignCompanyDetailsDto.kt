@@ -1,33 +1,35 @@
 package com.babestudios.companyinfouk.data.model.company
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
-class ForeignCompanyDetailsDto (
+@Serializable
+class ForeignCompanyDetailsDto(
 
-		@SerializedName("accounting_requirement")
+	@SerialName("accounting_requirement")
 	var accountingRequirement: AccountingRequirementDto? = null,
 
-		@SerializedName("accounts")
+	@SerialName("accounts")
 	var accounts: ForeignCompanyAccountsDto? = null,
 
-		@SerializedName("business_activity")
+	@SerialName("business_activity")
 	var businessActivity: String? = null,
 
-		@SerializedName("company_type")
+	@SerialName("company_type")
 	var companyType: String? = null,
 
-		@SerializedName("governed_by")
+	@SerialName("governed_by")
 	var governedBy: String? = null,
 
-		@SerializedName("is_a_credit_finance_institution")
+	@SerialName("is_a_credit_finance_institution")
 	var isACreditFinanceInstitution: String? = null,
 
-		@SerializedName("originating_registry")
+	@SerialName("originating_registry")
 	var originatingRegistry: OriginatingRegistryDto? = null,
 
-		@SerializedName("registration_number")
-	var registrationNumber: String? = null
+	@SerialName("registration_number")
+	var registrationNumber: String? = null,
 ) : Parcelable

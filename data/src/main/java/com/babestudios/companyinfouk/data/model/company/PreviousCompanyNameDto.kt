@@ -1,19 +1,21 @@
 package com.babestudios.companyinfouk.data.model.company
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class PreviousCompanyNameDto(
 
-		@SerializedName("ceased_on")
+		@SerialName("ceased_on")
 		var ceasedOn: String? = null,
 
-		@SerializedName("effective_from")
+		@SerialName("effective_from")
 		var effectiveFrom: String? = null,
 
-		@SerializedName("name")
+		@SerialName("name")
 		var name: String? = null
 
 ) : Parcelable

@@ -1,46 +1,50 @@
 package com.babestudios.companyinfouk.data.model.filinghistory
 
-
-import com.google.gson.annotations.SerializedName
+import com.babestudios.companyinfouk.data.network.DescriptionValueTransformingSerializer
+import kotlinx.serialization.SerialName
 
 import java.util.ArrayList
+import kotlinx.serialization.Serializable
 
+@Serializable
 class FilingHistoryItemDto(
-		@SerializedName("date")
-		var date: String? = null,
+	@SerialName("date")
+	var date: String? = null,
 
-		@SerializedName("type")
-		var type: String? = null,
+	@SerialName("type")
+	var type: String? = null,
 
-		@SerializedName("links")
-		var links: FilingHistoryLinksDto? = null,
+	@SerialName("links")
+	var links: FilingHistoryLinksDto? = null,
 
-		@SerializedName("category")
-		var category: CategoryDto? = null,
+	@SerialName("category")
+	var category: CategoryDto? = null,
 
-		@SerializedName("subcategory")
-		var subcategory: String? = null,
+	@SerialName("subcategory")
+	var subcategory: String? = null,
 
-		@SerializedName("action_date")
-		var actionDate: String? = null,
+	@SerialName("action_date")
+	var actionDate: String? = null,
 
-		@SerializedName("description")
-		var description: String? = null,
+	@SerialName("description")
+	var description: String? = null,
 
-		@SerializedName("description_values")
-		var descriptionValues: Map<String, Any>? = null,
+	@SerialName("description_values")
+	@Serializable(with = DescriptionValueTransformingSerializer::class)
+	var descriptionValues: DescriptionValuesDto? = null,
 
-		@SerializedName("pages")
-		var pages: Int? = null,
+	@SerialName("pages")
+	var pages: Int? = null,
 
-		@SerializedName("barcode")
-		var barcode: String? = null,
+	@SerialName("barcode")
+	var barcode: String? = null,
 
-		@SerializedName("transaction_id")
-		var transactionId: String? = null,
+	@SerialName("transaction_id")
+	var transactionId: String? = null,
 
-		@SerializedName("associated_filings")
-		var associatedFilings: List<AssociatedFilingDto> = ArrayList(),
+	@SerialName("associated_filings")
+	var associatedFilings: List<AssociatedFilingDto> = ArrayList(),
 
-		@SerializedName("paper_filed")
-		var paperFiled: Boolean? = null)
+	@SerialName("paper_filed")
+	var paperFiled: Boolean? = null,
+)

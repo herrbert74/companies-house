@@ -2,13 +2,15 @@ package com.babestudios.companyinfouk.data.model.charges
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class TransactionLinksDto(
-		@SerializedName("filing")
+		@SerialName("filing")
 		var filing: String? = null,
-		@SerializedName("insolvency_case")
+		@SerialName("insolvency_case")
 		var insolvencyCase: String? = null
 ) : Parcelable

@@ -4,5 +4,5 @@ import androidx.annotation.Keep
 
 @Keep
 data class FilingHistoryDescriptions(
-		val description: Map<String, String>
+	val description: Map<String, String>,
 )

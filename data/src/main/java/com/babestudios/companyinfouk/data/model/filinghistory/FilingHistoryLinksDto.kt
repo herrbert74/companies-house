@@ -1,13 +1,15 @@
 package com.babestudios.companyinfouk.data.model.filinghistory
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class FilingHistoryLinksDto(
-		@SerializedName("document_metadata")
-		var documentMetadata: String? = null,
-		@SerializedName("self")
-		var self: String? = null
+	@SerialName("document_metadata")
+	var documentMetadata: String? = null,
+	@SerialName("self")
+	var self: String? = null,
 ) : Parcelable

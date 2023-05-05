@@ -5,77 +5,85 @@ import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.MonthYearDto
 import com.babestudios.companyinfouk.data.model.common.SelfLinkDataDto
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
 
 import java.util.ArrayList
+import kotlinx.serialization.Serializable
 
+@Serializable
 class OfficersResponseDto(
-		@SerializedName("kind")
+		@SerialName("kind")
 		var kind: String? = null,
-		@SerializedName("items_per_page")
+		@SerialName("items_per_page")
 		var itemsPerPage: Int = 0,
-		@SerializedName("total_results")
+		@SerialName("total_results")
 		var totalResults: Int = 0,
-		@SerializedName("active_count")
+		@SerialName("active_count")
 		var activeCount: Int = 0,
-		@SerializedName("start_index")
+		@SerialName("inactive_count")
+		var inactiveCount: Int = 0,
+		@SerialName("start_index")
 		var startIndex: Int = 0,
-		@SerializedName("etag")
+		@SerialName("etag")
 		var etag: String? = null,
-		@SerializedName("items")
+		@SerialName("items")
 		var items: List<OfficerDto> = ArrayList(),
-		@SerializedName("resigned_count")
+		@SerialName("resigned_count")
 		var resignedCount: Int = 0,
-		@SerializedName("links")
+		@SerialName("links")
 		var links: SelfLinkDataDto? = null
 )
 
 @Parcelize
+@Serializable
 class OfficerDto(
-		@SerializedName("address")
+		@SerialName("address")
 		var address: AddressDto? = null,
-		@SerializedName("identification")
+		@SerialName("identification")
 		var identification: IdentificationDto? = null,
-		@SerializedName("appointed_on")
+		@SerialName("appointed_on")
 		var appointedOn: String? = null,
-		@SerializedName("links")
+		@SerialName("links")
 		var links: OfficerLinksDto? = null,
-		@SerializedName("name")
+		@SerialName("name")
 		var name: String? = null,
-		@SerializedName("officer_role")
+		@SerialName("officer_role")
 		var officerRole: String? = null,
-		@SerializedName("date_of_birth")
+		@SerialName("date_of_birth")
 		var dateOfBirth: MonthYearDto? = null,
-		@SerializedName("occupation")
+		@SerialName("occupation")
 		var occupation: String = "Unknown",
-		@SerializedName("country_of_residence")
+		@SerialName("country_of_residence")
 		var countryOfResidence: String = "Unknown",
-		@SerializedName("nationality")
+		@SerialName("nationality")
 		var nationality: String = "Unknown",
-		@SerializedName("resigned_on")
+		@SerialName("resigned_on")
 		var resignedOn: String? = null
 ) : Parcelable
 
 @Parcelize
+@Serializable
 class OfficerLinksDto(
-		@SerializedName("officer")
+		@SerialName("officer")
 		var officer: OfficerRelatedLinksDto? = null
 ) : Parcelable
 
 
 @Parcelize
+@Serializable
 class OfficerRelatedLinksDto(
-		@SerializedName("appointments")
+		@SerialName("appointments")
 		var appointments: String? = null
 ) : Parcelable
 
 @Parcelize
+@Serializable
 class IdentificationDto(
-		@SerializedName("place_registered")
+		@SerialName("place_registered")
 		var placeRegistered: String? = null,
-		@SerializedName("identification_type")
+		@SerialName("identification_type")
 		var identificationType: String? = null,
-		@SerializedName("registration_number")
+		@SerialName("registration_number")
 		var registrationNumber: String? = null
 ) : Parcelable

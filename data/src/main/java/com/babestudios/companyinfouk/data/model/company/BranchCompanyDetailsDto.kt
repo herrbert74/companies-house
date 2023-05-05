@@ -1,18 +1,20 @@
 package com.babestudios.companyinfouk.data.model.company
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class BranchCompanyDetailsDto(
-		@SerializedName("business_activity")
+		@SerialName("business_activity")
 		var businessActivity: String? = null,
 
-		@SerializedName("parent_company_name")
+		@SerialName("parent_company_name")
 		var parentCompanyName: String? = null,
 
-		@SerializedName("parent_company_number")
+		@SerialName("parent_company_number")
 		var parentCompanyNumber: String? = null
 ) : Parcelable
 

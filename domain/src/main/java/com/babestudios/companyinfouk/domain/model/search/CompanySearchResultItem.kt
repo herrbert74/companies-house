@@ -2,47 +2,49 @@ package com.babestudios.companyinfouk.domain.model.search
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.common.Address
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class CompanySearchResultItem(
 
-	@SerializedName("description_identifier")
-	var descriptionIdentifier: List<String> = ArrayList(),
+	@SerialName("description_identifier")
+	var descriptionIdentifier: List<String?> = listOf(),
 
-	@SerializedName("date_of_creation")
+	@SerialName("date_of_creation")
 	var dateOfCreation: String? = null,
 
-	@SerializedName("snippet")
+	@SerialName("snippet")
 	var snippet: String? = null,
 
-	@SerializedName("company_number")
+	@SerialName("company_number")
 	var companyNumber: String? = null,
 
-	@SerializedName("title")
+	@SerialName("title")
 	var title: String? = null,
 
-	@SerializedName("company_status")
+	@SerialName("company_status")
 	var companyStatus: String? = null,
 
-	@SerializedName("matches")
+	@SerialName("matches")
 	var matches: Matches? = null,
 
-	@SerializedName("address")
+	@SerialName("address")
 	var address: Address? = null,
 
-	@SerializedName("description")
+	@SerialName("description")
 	var description: String? = null,
 
-	@SerializedName("kind")
+	@SerialName("kind")
 	var kind: String? = null,
 
-	@SerializedName("company_type")
+	@SerialName("company_type")
 	var companyType: String? = null,
 
-	@SerializedName("address_snippet")
-	var addressSnippet: String? = null
+	@SerialName("address_snippet")
+	var addressSnippet: String? = null,
 ) : Parcelable
 
 fun List<CompanySearchResultItem>.filterSearchResults(filterState: FilterState?): List<CompanySearchResultItem> {

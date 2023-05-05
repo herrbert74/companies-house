@@ -8,6 +8,7 @@ gradlePlugin = "8.0.0"
 #gradlePlugin = "7.3.1" # For IntelliJ plugin runIde
 kotlin = "1.8.20"
 coroutines = "1.6.4"
+serialization = "1.5.0"
 androidx-activity = "1.7.1"
 androidx-lifecycle = "2.6.1"
 androidx-navigation = "2.5.3"
@@ -42,6 +43,8 @@ kotest = "5.6.1"
 detekt = "1.22.0"
 kotlinResult = "1.1.17"
 flowBinding = "1.2.0"
+ktor = "2.3.0"
+ktorfit = "1.1.0"
 koin = "3.4.0"
 babestudios-base = "3.0.0"
 
@@ -69,6 +72,8 @@ kotlin-parcelize-runtime = { module = "org.jetbrains.kotlin:kotlin-parcelize-run
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 androidx-activity-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-activity-activityKtx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
@@ -180,6 +185,20 @@ google-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlyti
 google-firebase-database = { module = "com.google.firebase:firebase-database-ktx", version.ref = "google-firebase-database" }
 google-firebase-config = { module = "com.google.firebase:firebase-config-ktx", version.ref = "google-firebase-config" }
 
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-http = { group = "io.ktor", name = "ktor-http", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization", version.ref = "ktor" }
+ktor-utils = { group = "io.ktor", name = "ktor-utils", version.ref = "ktor" }
+ktorfit-ksp = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-ksp", version.ref = "ktorfit"}
+ktorfit-lib = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-lib", version.ref = "ktorfit"}
+
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
 koin-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
@@ -268,9 +287,12 @@ mockk-unit = ["test-mockk-core", "test-mockk-dsl"]
 mockk-android = ["test-mockk-android", "test-mockk-core", "test-mockk-dsl"]
 
 [plugins]
+ksp = { id = "com.google.devtools.ksp", version = "1.8.20-1.0.11" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "google-dagger" }
 crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.4" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktorfit = { id = "de.jensklingenberg.ktorfit", version = "1.0.0" }
 
 versions = { id = "com.github.ben-manes.versions", version = "0.46.0" }
 dependencyAnalyis = { id = "com.autonomousapps.dependency-analysis", version = "1.20.0" }

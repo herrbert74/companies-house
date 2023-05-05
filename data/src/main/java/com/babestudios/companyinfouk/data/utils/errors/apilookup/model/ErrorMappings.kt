@@ -4,10 +4,10 @@ import androidx.annotation.Keep
 
 @Keep
 data class ErrorMappings(
-		val errors: Errors
+	val errors: Errors,
 )
 
 @Keep
 data class Errors(
-		val service: Map<String, String>
+	val service: Map<String, String>,
 )

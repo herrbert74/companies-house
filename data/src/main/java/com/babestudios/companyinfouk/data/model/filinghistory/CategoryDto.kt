@@ -1,40 +1,42 @@
 package com.babestudios.companyinfouk.data.model.filinghistory
 
 import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 @Keep
 enum class CategoryDto(val displayName: String) {
-	@SerializedName("")
+	@SerialName("")
 	CATEGORY_SHOW_ALL("all"),
-	@SerializedName("gazette")
+	@SerialName("gazette")
 	CATEGORY_GAZETTE("gazette"),
-	@SerializedName("confirmation-statement")
+	@SerialName("confirmation-statement")
 	CATEGORY_CONFIRMATION_STATEMENT("confirmation statement"),
-	@SerializedName("accounts")
+	@SerialName("accounts")
 	CATEGORY_ACCOUNTS("accounts"),
-	@SerializedName("annual-return")
+	@SerialName("annual-return")
 	CATEGORY_ANNUAL_RETURN("annual return"),
-	@SerializedName("officers")
+	@SerialName("officers")
 	CATEGORY_OFFICERS("officers"),
-	@SerializedName("address")
+	@SerialName("address")
 	CATEGORY_ADDRESS("address"),
-	@SerializedName("capital")
+	@SerialName("capital")
 	CATEGORY_CAPITAL("capital"),
-	@SerializedName("insolvency")
+	@SerialName("insolvency")
 	CATEGORY_INSOLVENCY("insolvency"),
-	@SerializedName("other")
+	@SerialName("other")
 	CATEGORY_OTHER("other"),
-	@SerializedName("incorporation")
+	@SerialName("incorporation")
 	CATEGORY_INCORPORATION("incorporation"),
-	@SerializedName("change-of-constitution")
+	@SerialName("change-of-constitution")
 	CATEGORY_CONSTITUTION("change of constitution"),
-	@SerializedName("auditors")
+	@SerialName("auditors")
 	CATEGORY_AUDITORS("auditors"),
-	@SerializedName("resolution")
+	@SerialName("resolution")
 	CATEGORY_RESOLUTION("resolution"),
-	@SerializedName("mortgage")
-	CATEGORY_MORTGAGE("mortgage");
+	@SerialName("mortgage")
+	CATEGORY_MORTGAGE("mortgage"),
+	@SerialName("persons-with-significant-control")
+	CATEGORY_PERSONS("persons with significant control");
 
 	override fun toString(): String {
 		return displayName

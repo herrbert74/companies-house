@@ -2,15 +2,17 @@ package com.babestudios.companyinfouk.data.model.charges
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class ScottishAlterationsDto(
-		@SerializedName("has_alterations_to_order")
+		@SerialName("has_alterations_to_order")
 		var hasAlterationsToOrder: String? = null,
-		@SerializedName("has_alterations_to_prohibitions")
+		@SerialName("has_alterations_to_prohibitions")
 		var hasAlterationsToProhibitions: String? = null,
-		@SerializedName("has_restricting_provisions")
+		@SerialName("has_restricting_provisions")
 		var hasRestrictingProvisions: String? = null
 ) : Parcelable

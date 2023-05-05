@@ -5,110 +5,117 @@ import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import com.babestudios.companyinfouk.data.model.common.MonthYearDto
 import com.babestudios.companyinfouk.data.model.common.SelfLinkDataDto
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Serializable
 class AppointmentsResponseDto {
-	@SerializedName("date_of_birth")
+	@SerialName("date_of_birth")
 	var dateOfBirth: MonthYearDto? = null
 
-	@SerializedName("etag")
+	@SerialName("etag")
 	var etag: String? = null
 
-	@SerializedName("is_corporate_officer")
-	var isCorporateOfficer: String? = null
+	@SerialName("is_corporate_officer")
+	var isCorporateOfficer: Boolean? = null
 
-	@SerializedName("items")
+	@SerialName("items")
 	var items: List<AppointmentDto>? = null
 
-	@SerializedName("items_per_page")
+	@SerialName("items_per_page")
 	var itemsPerPage: Int = 0
 
-	@SerializedName("kind")
+	@SerialName("kind")
 	var kind: String = ""
 
-	@SerializedName("links")
+	@SerialName("links")
 	var links: SelfLinkDataDto = SelfLinkDataDto("")
 
-	@SerializedName("name")
+	@SerialName("name")
 	var name: String = ""
 
-	@SerializedName("start_index")
+	@SerialName("start_index")
 	var startIndex: Int = 0
 
-	@SerializedName("total_results")
+	@SerialName("total_results")
 	var totalResults: Int = 0
 }
 
 @Parcelize
+@Serializable
 data class AppointmentDto(
-		@SerializedName("address")
+		@SerialName("address")
 		var address: AddressDto? = null,
-		@SerializedName("appointed_before")
+		@SerialName("appointed_before")
 		var appointedBefore: String? = null,
-		@SerializedName("appointed_on")
+		@SerialName("appointed_on")
 		var appointedOn: String? = null,
-		@SerializedName("appointed_to")
+		@SerialName("appointed_to")
 		var appointedTo: AppointedToDto? = null,
-		@SerializedName("country_of_residence")
+		@SerialName("country_of_residence")
 		var countryOfResidence: String? = null,
-		@SerializedName("former_names")
+		@SerialName("former_names")
 		var formerNames: List<FormerNameDto>? = null,
-		@SerializedName("identification")
+		@SerialName("identification")
 		var identification: IdentificationDto? = null,
-		@SerializedName("is_pre_1992_appointment")
+		@SerialName("is_pre_1992_appointment")
 		var isPre1992Appointment: String? = null,
-		@SerializedName("links")
+		@SerialName("links")
 		var links: AppointmentLinksDto? = null,
-		@SerializedName("name")
+		@SerialName("name")
 		var name: String? = null,
-		@SerializedName("name_elements")
+		@SerialName("name_elements")
 		var nameElements: NameElementsDto? = null,
-		@SerializedName("nationality")
+		@SerialName("nationality")
 		var nationality: String? = null,
-		@SerializedName("occupation")
+		@SerialName("occupation")
 		var occupation: String? = null,
-		@SerializedName("officer_role")
+		@SerialName("officer_role")
 		var officerRole: String? = null,
-		@SerializedName("resigned_on")
+		@SerialName("resigned_on")
 		var resignedOn: String? = null
 ) : Parcelable
 
 @Parcelize
+@Serializable
 class AppointedToDto(
-		@SerializedName("company_name")
+		@SerialName("company_name")
 		var companyName: String? = null,
-		@SerializedName("company_number")
+		@SerialName("company_number")
 		var companyNumber: String? = null,
-		@SerializedName("company_status")
+		@SerialName("company_status")
 		var companyStatus: String? = null
 ) : Parcelable
 
 @Parcelize
+@Serializable
 class AppointmentLinksDto(
-		@SerializedName("company")
+		@SerialName("company")
 		var company: String? = null
 ) : Parcelable
 
 
 @Parcelize
+@Serializable
 class FormerNameDto(
-		@SerializedName("forenames")
+		@SerialName("forenames")
 		var forenames: String? = null,
-		@SerializedName("surname")
+		@SerialName("surname")
 		var surname: String? = null
 ) : Parcelable
 
 @Parcelize
+@Serializable
 class NameElementsDto(
-		@SerializedName("forename")
+		@SerialName("forename")
 		var forename: String? = null,
-		@SerializedName("honours")
+		@SerialName("honours")
 		var honours: String? = null,
-		@SerializedName("other_forenames")
+		@SerialName("other_forenames")
 		var otherForenames: String? = null,
-		@SerializedName("surname")
+		@SerialName("surname")
 		var surname: String? = null,
-		@SerializedName("title")
+		@SerialName("title")
 		var title: String? = null
 ) : Parcelable

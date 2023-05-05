@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Capital(
-		var figure: String = "",
-		var currency: String = ""
-): Parcelable
+	var figure: String = "",
+	var currency: String = "",
+) : Parcelable

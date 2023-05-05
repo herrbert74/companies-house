@@ -2,13 +2,15 @@ package com.babestudios.companyinfouk.data.model.common
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class MonthYearDto(
-		@SerializedName("year")
+		@SerialName("year")
 		var year: Int? = null,
-		@SerializedName("month")
+		@SerialName("month")
 		var month: Int? = null
 ) : Parcelable

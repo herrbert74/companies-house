@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.data.mappers
 import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
 import com.babestudios.companyinfouk.data.model.filinghistory.CategoryDto
+import com.babestudios.companyinfouk.data.model.filinghistory.DescriptionValuesDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryItemDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryLinksDto
@@ -13,7 +14,7 @@ import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryLin
 
 fun mapFilingHistoryDto(
 	input: FilingHistoryDto,
-	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract
+	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
 ): FilingHistory {
 	return FilingHistory(
 		input.startIndex ?: 0,
@@ -26,24 +27,25 @@ fun mapFilingHistoryDto(
 
 private fun mapFilingHistoryItemList(
 	items: List<FilingHistoryItemDto>?,
-	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract
+	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
 ) = mapNullInputList(items) { itemDto ->
-		mapFilingHistoryItemDto(
-			itemDto,
-			filingHistoryDescriptionsHelper,
-			{ linksDto ->
-				mapFilingHistoryLinks(linksDto)
-			},
-			{ categoryDto ->
-				mapFilingHistoryCategoryDto(categoryDto)
-			})
-	}
+	mapFilingHistoryItemDto(
+		itemDto,
+		filingHistoryDescriptionsHelper,
+		{ linksDto ->
+			mapFilingHistoryLinks(linksDto)
+		},
+		{ categoryDto ->
+			mapFilingHistoryCategoryDto(categoryDto)
+		}
+	)
+}
 
 private fun mapFilingHistoryItemDto(
 	input: FilingHistoryItemDto,
 	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
 	mapFilingHistoryLinks: (FilingHistoryLinksDto?) -> FilingHistoryLinks,
-	mapCategoryDto: (CategoryDto?) -> Category
+	mapCategoryDto: (CategoryDto?) -> Category,
 ): FilingHistoryItem {
 	return FilingHistoryItem(
 		input.date.orEmpty(),
@@ -80,7 +82,8 @@ private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 		CategoryDto.CATEGORY_AUDITORS -> Category.CATEGORY_AUDITORS
 		CategoryDto.CATEGORY_RESOLUTION -> Category.CATEGORY_RESOLUTION
 		CategoryDto.CATEGORY_MORTGAGE -> Category.CATEGORY_MORTGAGE
-		else -> Category.CATEGORY_SHOW_ALL
+		CategoryDto.CATEGORY_PERSONS -> Category.CATEGORY_PERSONS
+		null -> Category.CATEGORY_SHOW_ALL
 	}
 }
 
@@ -101,28 +104,28 @@ fun mapFilingHistoryCategory(input: Category): CategoryDto {
 		Category.CATEGORY_AUDITORS -> CategoryDto.CATEGORY_AUDITORS
 		Category.CATEGORY_RESOLUTION -> CategoryDto.CATEGORY_RESOLUTION
 		Category.CATEGORY_MORTGAGE -> CategoryDto.CATEGORY_MORTGAGE
+		Category.CATEGORY_PERSONS -> CategoryDto.CATEGORY_PERSONS
 	}
 }
 
-@Suppress("SwallowedException")
-fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: Map<String, Any>?): String {
-	@Suppress("RegExpRedundantEscape")
+fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: DescriptionValuesDto?): String {
 	val matchResult = "\\{.*?\\}".toRegex().findAll(description) //Search anything within braces
 	var result = description
 	matchResult.iterator().forEach {
 		val key = it.groupValues[0].replace("""[{}]""".toRegex(), "") //Remove braces from key
 		//Replace from mapping, throw away objects like Capital, which is not used
-		result = result.replace(it.groupValues[0], descriptionValues?.get(key) as? String ?: "")
+		result = result.replace(it.groupValues[0], descriptionValues?.pairs?.get(key) ?: "")
 	}
 	//Simply replace "legacy" and "miscellaneous" descriptions with the descriptionValue.description
+	@Suppress("SwallowedException")
 	result = try {
 		result.replace(
 			"(legacy|miscellaneous)".toRegex(RegexOption.IGNORE_CASE),
-			descriptionValues?.get("description") as? String ?: ""
+			descriptionValues?.pairs?.get("description") ?: ""
 		)
 	} catch (e: IllegalArgumentException) {
 		//Above replace calls through to replaceAll, which uses regexes, but some legacy strings are invalid
-		descriptionValues?.get("description") as? String ?: ""
+		descriptionValues?.pairs?.get("description") ?: ""
 	}
 	return result
 }

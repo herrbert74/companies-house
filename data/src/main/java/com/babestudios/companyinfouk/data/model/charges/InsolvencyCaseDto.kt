@@ -2,15 +2,17 @@ package com.babestudios.companyinfouk.data.model.charges
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class InsolvencyCaseDto(
-		@SerializedName("case_number")
+		@SerialName("case_number")
 		var caseNumber: String? = null,
-		@SerializedName("links")
+		@SerialName("links")
 		var links: InsolvencyLinksDto? = null,
-		@SerializedName("transaction_id")
+		@SerialName("transaction_id")
 		var transactionId: String? = null
 ) : Parcelable

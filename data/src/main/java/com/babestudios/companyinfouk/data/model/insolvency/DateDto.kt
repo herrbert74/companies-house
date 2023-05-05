@@ -2,13 +2,15 @@ package com.babestudios.companyinfouk.data.model.insolvency
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class DateDto (
-	@SerializedName("date")
+	@SerialName("date")
 	var date: String? = null,
-	@SerializedName("type")
+	@SerialName("type")
 	var type: String? = null
 ): Parcelable

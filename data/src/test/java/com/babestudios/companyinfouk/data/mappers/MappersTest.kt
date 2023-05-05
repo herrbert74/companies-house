@@ -10,8 +10,10 @@ import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescripti
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelper
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
 import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
+import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDescriptions
 import com.babestudios.companyinfouk.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.data.model.company.CompanyDto
+import com.babestudios.companyinfouk.data.model.filinghistory.DescriptionValuesDto
 import com.babestudios.companyinfouk.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
@@ -20,15 +22,15 @@ import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.domain.model.filinghistory.Capital
 import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
-import com.google.gson.Gson
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import java.util.Locale
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.junit.Before
 import org.junit.Test
 
@@ -38,14 +40,26 @@ class MappersTest {
 
 	private lateinit var officersResponseYouLimited: OfficersResponse
 
+	private var json = Json {
+		isLenient = true
+		ignoreUnknownKeys = true
+	}
+
 	@Before
 	fun setup() {
 
 		val rawResourceHelper = mockk<RawResourceHelperContract>(relaxed = true).apply {
-			every{getConstants(any())} returns Constants(mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
+			every { getConstants(any()) } returns Constants(
+				mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
 				mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
 				mapOf("68100" to "Buying and selling of own real estate"),
-				mapOf(), mapOf(), mapOf(), mapOf(), mapOf())
+				mapOf(), mapOf(), mapOf(), mapOf(), mapOf()
+			)
+			every { getFilingHistoryDescriptions(any()) } returns FilingHistoryDescriptions(
+				mapOf(
+					"capital-allotment-shares" to "**Statement of capital following an allotment of shares** on {date}"
+				)
+			)
 		}
 
 		val slotDate = slot<String>()
@@ -54,8 +68,8 @@ class MappersTest {
 		val slotTo = slot<String>()
 		val stringResourceHelper = mockk<StringResourceHelperContract>(relaxed = true).apply {
 			every { getLastAccountMadeUpToString(any(), capture(slotDate)) } answers {
-			"Last account made up to ${slotDate.captured}"
-		}
+				"Last account made up to ${slotDate.captured}"
+			}
 			every { getAppointedFromString(capture(slotFrom)) } answers {
 				String.format(Locale.UK, "From %1\$s", slotFrom.captured)
 			}
@@ -79,17 +93,17 @@ class MappersTest {
 		)
 
 		officersResponseYouLimited = companiesHouseMapper.mapOfficers(officersResponseDto)
+
 	}
 
 	//region Appointments mapping
 
 	private val appointmentsJson = this.loadJson("appointments_allan_david_horley")
-	private val appointmentsResponseDto = Gson().fromJson(appointmentsJson, AppointmentsResponseDto::class.java)
+	private val appointmentsResponseDto = json.decodeFromString<AppointmentsResponseDto>(appointmentsJson)
 
 	@Test
 	fun `when there is an appointment json then it is mapped`() {
-		val appointmentsResponseAllanDavidHorley =
-			companiesHouseMapper.mapAppointments(appointmentsResponseDto)
+		val appointmentsResponseAllanDavidHorley = companiesHouseMapper.mapAppointments(appointmentsResponseDto)
 		appointmentsResponseAllanDavidHorley.totalResults shouldBe 3
 		appointmentsResponseAllanDavidHorley.items[0].name shouldBe "Allan David HORLEY"
 	}
@@ -100,8 +114,8 @@ class MappersTest {
 
 	@Test
 	fun `when there is a charges json then it is mapped`() {
-		val json = this.loadJson("charges_pfb_hire")
-		val chargesDto = Gson().fromJson(json, ChargesDto::class.java)
+		val jsonString = this.loadJson("charges_pfb_hire")
+		val chargesDto = json.decodeFromString<ChargesDto>(jsonString)
 		val chargesPfbHire = companiesHouseMapper.mapChargesHistory(chargesDto)
 		chargesPfbHire.totalCount shouldBe 9
 		chargesPfbHire.items[0].personsEntitled shouldContain "Art Share"
@@ -112,7 +126,7 @@ class MappersTest {
 	//region Company mapping
 
 	private val companyJson = this.loadJson("company_candour")
-	private val companyDto: CompanyDto = Gson().fromJson(companyJson, CompanyDto::class.java)
+	private val companyDto = json.decodeFromString<CompanyDto>(companyJson)
 
 	@Test
 	fun `when there is a company json then it is mapped`() {
@@ -141,10 +155,15 @@ class MappersTest {
 
 	@Test
 	fun `when there is a filing history json then it is mapped`() {
-		val json = this.loadJson("filing_pfb_hire")
-		val filingHistoryDto = Gson().fromJson(json, FilingHistoryDto::class.java)
+		val jsonString = this.loadJson("filing_pfb_hire")
+		val filingHistoryDto = json.decodeFromString<FilingHistoryDto>(jsonString)
 		val filingHistoryPfbHire = companiesHouseMapper.mapFilingHistory(filingHistoryDto)
 		filingHistoryPfbHire.totalCount shouldBe 47
+
+		//This one should (for now) unused 'capital' field removed
+		filingHistoryPfbHire.items[19].description shouldBe
+			"**Statement of capital following an allotment of shares** on 2014-07-31"
+
 		filingHistoryPfbHire.filingHistoryStatus shouldBe "filing-history-available"
 	}
 
@@ -155,26 +174,20 @@ class MappersTest {
 	@Test
 	fun `when there is a place holder in filing history item then it is mapped`() {
 		val description = "test {replace}"
-		val descriptionValues = mapOf("replace" to "value")
+		val descriptionValues = DescriptionValuesDto(mapOf("replace" to ("value")))
 		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
 		result shouldBe "test value"
 	}
 
 	@Test
-	fun `when there is a capital place holder in filing history item then it is not mapped`() {
-		val description = "**Statement of capital following an allotment of shares** on {date}"
-		val descriptionValues = mapOf("date" to "01/01/2020", "capital" to Capital("11.1", "GBP"))
-		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
-		result shouldBe "**Statement of capital following an allotment of shares** on 01/01/2020"
-	}
-
-	@Test
 	fun `when there are three place holders in filing history item then it is mapped`() {
 		val description = "**Registered office address changed** from {old_address} to {new_address} on {change_date}"
-		val descriptionValues = mapOf(
-			"new_address" to "20-22 Wenlock Road London N1 7GU",
-			"old_address" to "99 Evesham Road London N11 2RR England",
-			"change_date" to "2020-07-08"
+		val descriptionValues = DescriptionValuesDto(
+			mapOf(
+				"new_address" to "20-22 Wenlock Road London N1 7GU",
+				"old_address" to "99 Evesham Road London N11 2RR England",
+				"change_date" to "2020-07-08"
+			)
 		)
 		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
 		result shouldBe "**Registered office address changed** from 99 Evesham Road London N11 2RR England to 20-22 " +
@@ -187,7 +200,12 @@ class MappersTest {
 	@Test
 	fun `when there is an invalid regex in legacy filing history item then it is not causing an exception`() {
 		val description = "legacy"
-		val descriptionValues = mapOf("description" to "Ad 01/01/08\\gbp si 10@1=10\\gbp ic 100/110\\")
+		val descriptionValues = DescriptionValuesDto(
+			mapOf(
+				"description" to "Ad 01/01/08\\gbp si 10@1=10\\gbp ic " +
+					"100/110\\"
+			)
+		)
 		val result = formatFilingHistoryDescriptionDto(description, descriptionValues)
 		result shouldBe "Ad 01/01/08\\gbp si 10@1=10\\gbp ic 100/110\\"
 	}
@@ -198,8 +216,8 @@ class MappersTest {
 
 	@Test
 	fun `when there is an insolvency json then it is mapped`() {
-		val json = this.loadJson("insolvency_london_airways")
-		val insolvencyDto = Gson().fromJson(json, InsolvencyDto::class.java)
+		val jsonString = this.loadJson("insolvency_london_airways")
+		val insolvencyDto = json.decodeFromString<InsolvencyDto>(jsonString)
 		val insolvencyLondonAirways = companiesHouseMapper.mapInsolvency(insolvencyDto)
 		insolvencyLondonAirways.cases[0].dates[0].date shouldBe "1995-01-18"
 		insolvencyLondonAirways.cases[0].practitioners[0].name shouldBe "Alan Redvers Price"
@@ -210,9 +228,7 @@ class MappersTest {
 	//region Officer mapping
 
 	private val officersJson = this.loadJson("officers_you_limited")
-	private val officersResponseDto: OfficersResponseDto = Gson().fromJson(
-		officersJson, OfficersResponseDto::class.java
-	)
+	private val officersResponseDto = json.decodeFromString<OfficersResponseDto>(officersJson)
 
 	@Test
 	fun `when there is an officer json then it is mapped`() {
@@ -247,7 +263,7 @@ class MappersTest {
 	//region Person mapping
 
 	private val personsJson = this.loadJson("persons_yorkshire_air_ambulance")
-	private val personsResponseDto: PersonsResponseDto = Gson().fromJson(personsJson, PersonsResponseDto::class.java)
+	private val personsResponseDto = json.decodeFromString<PersonsResponseDto>(personsJson)
 
 	@Test
 	fun `when there is an personsResponse json then it is mapped`() {

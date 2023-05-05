@@ -1,6 +1,13 @@
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("kotlin-parcelize")
+	kotlin("plugin.serialization").version("1.8.20")
+	alias(libs.plugins.ktorfit)
+	alias(libs.plugins.ksp)
+}
+
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+	version = libs.versions.ktorfit.get()
 }
 
 val companiesHouseApiKey: String by project
@@ -14,45 +21,7 @@ android {
 
 	buildTypes {
 		all {
-			buildConfigField("String", "COMPANIES_HOUSE_BASE_URL", "\"https://api.companieshouse.gov.uk\"")
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_DOCUMENT_API_BASE_URL", "\"https://document-api.companieshouse.gov.uk\""
-			)
 			buildConfigField("String", "COMPANIES_HOUSE_API_KEY", companiesHouseApiKey)
-
-			buildConfigField("String", "COMPANIES_HOUSE_SEARCH_COMPANIES_ENDPOINT", "\"search/companies\"")
-			buildConfigField("String", "COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE", "\"50\"")
-
-			buildConfigField("String", "COMPANIES_HOUSE_GET_COMPANY_ENDPOINT", "\"company/{companyNumber}\"")
-
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_GET_FILING_HISTORY_ENDPOINT", "\"company/{companyNumber}/filing-history\""
-			)
-			buildConfigField("String", "COMPANIES_HOUSE_GET_CHARGES_ENDPOINT", "\"company/{companyNumber}/charges\"")
-			buildConfigField("String", "COMPANIES_HOUSE_GET_OFFICERS_ENDPOINT", "\"company/{companyNumber}/officers\"")
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_GET_OFFICERS_APPOINTMENTS_ENDPOINT", "\"officers/{officerId}/appointments\""
-			)
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_GET_INSOLVENCY_ENDPOINT", "\"company/{companyNumber}/insolvency\""
-			)
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_GET_PERSONS_ENDPOINT",
-				"\"company/{companyNumber}/persons-with-significant-control\""
-			)
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_GET_PERSONS_INDIVIDUAL_ENDPOINT",
-				"\"company/{companyNumber}/persons-with-significant-control/individual/{pscId}\""
-			)
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_GET_PERSONS_CORPORATE_ENDPOINT",
-				"\"company/{companyNumber}/persons-with-significant-control/corporate-entity/{pscId}\""
-			)
-			buildConfigField(
-				"String", "COMPANIES_HOUSE_GET_PERSONS_LEGAL_ENDPOINT",
-				"\"company/{companyNumber}/persons-with-significant-control/legal-entity/{pscId}\""
-			)
-			buildConfigField("String", "COMPANIES_HOUSE_GET_DOCUMENT_ENDPOINT", "\"document/{documentNumber}/content\"")
 		}
 	}
 
@@ -62,27 +31,39 @@ dependencies {
 
 	api(project(":domain"))
 
-	api(libs.google.gson)
 	api(libs.squareUp.okhttp3.okhttp) //Transitive
-	api(libs.squareUp.retrofit2.retrofit)
+	api(libs.kotlinx.serialization.core) //Transitive
 
 	implementation(libs.androidx.annotation) //Transitive
 	implementation(libs.baBeStudios.base.kotlin)
 	implementation(libs.baBeStudios.base.data)
-	implementation(libs.squareUp.okhttp3.loggingInterceptor)
+	implementation(libs.google.gson) //Transitive from Base
 	implementation(libs.kotlin.parcelize.runtime) //Transitive
 	implementation(libs.kotlinx.coroutines.core)
 	implementation(libs.kotlinResult.result)
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)
+	implementation(libs.ktor.client.okhttp)
+	implementation(libs.ktor.client.core)
+	implementation(libs.ktor.client.content.negotiation)
+	implementation(libs.ktor.client.logging)
+	implementation(libs.ktor.http) //Transitive
+	implementation(libs.ktor.serialization) //Transitive
+	implementation(libs.ktor.utils) //Transitive
+	implementation(libs.ktor.serialization.kotlinx.json)
+	implementation(libs.ktorfit.lib)
+	implementation(libs.kotlinx.serialization.json)
+
+	ksp(libs.ktorfit.ksp)
 
 	debugImplementation(libs.chucker.library)
 	releaseImplementation(libs.chucker.noop)
 
-	testImplementation(libs.squareUp.okhttp3.mockWebServer)
-	testImplementation(libs.kotlinx.coroutines.test)
-	testImplementation(libs.test.jUnit)
 	testImplementation(libs.bundles.mockk.unit)
+
+	testImplementation(libs.kotlinx.coroutines.test)
+	testImplementation(libs.ktor.client.mock)
+	testImplementation(libs.test.jUnit)
 	testImplementation(libs.test.kotest.assertions.core)
 	testImplementation(libs.test.kotest.assertions.shared)
 

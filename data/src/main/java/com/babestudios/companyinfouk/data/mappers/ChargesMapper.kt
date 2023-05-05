@@ -52,7 +52,7 @@ fun mapChargesItemDto(
 		input.chargeCode.orEmpty(),
 		input.createdOn.orEmpty(),
 		input.deliveredOn.orEmpty(),
-		input.personsEntitled[0].name.orEmpty(),
+		input.personsEntitled?.get(0)?.name.orEmpty(),
 		input.resolvedOn.orEmpty(),
 		input.satisfiedOn.orEmpty(),
 		chargesHelper.statusLookUp(input.status.orEmpty()),

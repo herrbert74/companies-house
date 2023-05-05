@@ -3,24 +3,26 @@ package com.babestudios.companyinfouk.data.model.persons
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.common.SelfLinkDataDto
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
 import java.util.*
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class PersonsResponseDto(
-		@SerializedName("start_index")
+		@SerialName("start_index")
 		var startIndex: Long? = null,
-		@SerializedName("links")
+		@SerialName("links")
 		var links: SelfLinkDataDto? = null,
-		@SerializedName("active_count")
+		@SerialName("active_count")
 		var activeCount: Long? = null,
-		@SerializedName("items")
+		@SerialName("items")
 		var items: List<PersonDto> = ArrayList(),
-		@SerializedName("ceased_count")
+		@SerialName("ceased_count")
 		var ceasedCount: Long? = null,
-		@SerializedName("items_per_page")
+		@SerialName("items_per_page")
 		var itemsPerPage: Long? = null,
-		@SerializedName("total_results")
+		@SerialName("total_results")
 		var totalResults: Long? = null
 ) : Parcelable

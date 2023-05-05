@@ -3,91 +3,92 @@ package com.babestudios.companyinfouk.data.model.company
 import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.common.AddressDto
 import java.util.ArrayList
-
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class CompanyDto(
 
-		@SerializedName("accounts")
+		@SerialName("accounts")
 		var accounts: AccountsDto? = null,
 
-		@SerializedName("annual_return")
+		@SerialName("annual_return")
 		var annualReturn: AnnualReturnDto? = null,
 
-		@SerializedName("branch_company_details")
+		@SerialName("branch_company_details")
 		var branchCompanyDetails: BranchCompanyDetailsDto? = null,
 
-		@SerializedName("can_file")
-		var canFile: String? = null,
+		@SerialName("can_file")
+		var canFile: Boolean? = null,
 
-		@SerializedName("company_name")
+		@SerialName("company_name")
 		var companyName: String? = null,
 
-		@SerializedName("company_number")
+		@SerialName("company_number")
 		var companyNumber: String? = null,
 
-		@SerializedName("company_status")
+		@SerialName("company_status")
 		var companyStatus: String? = null,
 
-		@SerializedName("company_status_detail")
+		@SerialName("company_status_detail")
 		var companyStatusDetail: String? = null,
 
-		@SerializedName("confirmation_statement")
+		@SerialName("confirmation_statement")
 		var confirmationStatement: ConfirmationStatementDto? = null,
 
-		@SerializedName("date_of_cessation")
+		@SerialName("date_of_cessation")
 		var dateOfCessation: String? = null,
 
-		@SerializedName("date_of_creation")
+		@SerialName("date_of_creation")
 		var dateOfCreation: String? = null,
 
-		@SerializedName("etag")
+		@SerialName("etag")
 		var etag: String? = null,
 
-		@SerializedName("foreign_company_details")
+		@SerialName("foreign_company_details")
 		var foreignCompanyDetails: ForeignCompanyDetailsDto? = null,
 
-		@SerializedName("has_been_liquidated")
-		var hasBeenLiquidated: String? = null,
+		@SerialName("has_been_liquidated")
+		var hasBeenLiquidated: Boolean? = null,
 
-		@SerializedName("has_charges")
+		@SerialName("has_charges")
 		var hasCharges: Boolean = true,
 
-		@SerializedName("has_insolvency_history")
+		@SerialName("has_insolvency_history")
 		var hasInsolvencyHistory: Boolean = true,
 
-		@SerializedName("is_community_interest_company")
+		@SerialName("is_community_interest_company")
 		var isCommunityInterestCompany: String? = null,
 
-		@SerializedName("jurisdiction")
+		@SerialName("jurisdiction")
 		var jurisdiction: String? = null,
 
-		@SerializedName("last_full_members_list_date")
+		@SerialName("last_full_members_list_date")
 		var lastFullMembersListDate: String? = null,
 
-		@SerializedName("links")
+		@SerialName("links")
 		var links: CompanyLinksDto? = null,
 
-		@SerializedName("partial_data_available")
+		@SerialName("partial_data_available")
 		var partialDataAvailable: String? = null,
 
-		@SerializedName("previous_company_names")
+		@SerialName("previous_company_names")
 		var previousCompanyNames: List<PreviousCompanyNameDto> = ArrayList(),
 
-		@SerializedName("registered_office_address")
+		@SerialName("registered_office_address")
 		var registeredOfficeAddress: AddressDto? = null,
 
-		@SerializedName("registered_office_is_in_dispute")
-		var registeredOfficeIsInDispute: String? = null,
+		@SerialName("registered_office_is_in_dispute")
+		var registeredOfficeIsInDispute: Boolean? = null,
 
-		@SerializedName("sic_codes")
+		@SerialName("sic_codes")
 		var sicCodes: List<String> = ArrayList(),
 
-		@SerializedName("type")
+		@SerialName("type")
 		var type: String? = null,
 
-		@SerializedName("undeliverable_registered_office_address")
-		var undeliverableRegisteredOfficeAddress: String? = null
+		@SerialName("undeliverable_registered_office_address")
+		var undeliverableRegisteredOfficeAddress: Boolean? = null
 ) : Parcelable

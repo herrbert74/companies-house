@@ -3,14 +3,12 @@ package com.babestudios.companyinfouk.data
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import com.babestudios.base.data.ext.getSerializedName
 import com.babestudios.base.data.network.OfflineException
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
-import com.babestudios.companyinfouk.data.utils.errors.model.ErrorBody
+import com.babestudios.companyinfouk.data.network.CompaniesHouseApi
+import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentApi
 import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.domain.model.charges.Charges
 import com.babestudios.companyinfouk.domain.model.common.ApiResult
@@ -26,21 +24,21 @@ import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
 import com.github.michaelbull.result.mapError
-import com.github.michaelbull.result.recoverIf
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.gson.Gson
 import java.io.FileNotFoundException
 import java.io.IOException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.SerialName
 import okhttp3.ResponseBody
-import retrofit2.HttpException
 import timber.log.Timber
+
+internal const val COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE = "50"
 
 internal class CompaniesAccessor constructor(
 	private val context: Context,
-	private val companiesHouseService: CompaniesHouseService,
-	private val companiesHouseDocumentService: CompaniesHouseDocumentService,
+	private val companiesHouseApi: CompaniesHouseApi,
+	private val companiesHouseDocumentApi: CompaniesHouseDocumentApi,
 	private var preferencesHelper: PreferencesHelper,
 	private val firebaseAnalytics: FirebaseAnalytics,
 	private val companiesHouseMapping: CompaniesHouseMapping,
@@ -56,10 +54,10 @@ internal class CompaniesAccessor constructor(
 	}
 
 	override suspend fun searchCompanies(queryText: CharSequence, startItem: String): CompanySearchResult {
-		return companiesHouseService
+		return companiesHouseApi
 			.searchCompanies(
 				queryText.toString(),
-				BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+				COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 				startItem
 			)
 	}
@@ -70,7 +68,7 @@ internal class CompaniesAccessor constructor(
 
 	override suspend fun getCompany(companyNumber: String): Company {
 		return withContext(ioContext) {
-			val companyDto = companiesHouseService.getCompany(companyNumber)
+			val companyDto = companiesHouseApi.getCompany(companyNumber)
 			companiesHouseMapping.mapCompany(companyDto)
 		}
 	}
@@ -82,10 +80,10 @@ internal class CompaniesAccessor constructor(
 	): ApiResult<FilingHistory> {
 		return apiRunCatching {
 			withContext(ioContext) {
-				val historyDto = companiesHouseService.getFilingHistory(
+				val historyDto = companiesHouseApi.getFilingHistory(
 					companyNumber,
-					mapFilingHistoryCategory(category).getSerializedName(),
-					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					mapFilingHistoryCategory(category).getSerialName(),
+					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
 				companiesHouseMapping.mapFilingHistory(historyDto)
@@ -93,12 +91,24 @@ internal class CompaniesAccessor constructor(
 		}.mapError { OfflineException(FilingHistory()) }
 	}
 
+	//TODO Extract to base-data
+	private fun Enum<*>.getSerialName(): String {
+		return try {
+			val f = this.javaClass.getField(this.name)
+			val a = f.getAnnotation(SerialName::class.java)
+			a?.value ?: ""
+		} catch (ignored: Throwable) {
+			""
+		}
+
+	}
+
 	override suspend fun getCharges(companyNumber: String, startItem: String): ApiResult<Charges> {
 		return apiRunCatching {
 			withContext(ioContext) {
-				val chargesDto = companiesHouseService.getCharges(
+				val chargesDto = companiesHouseApi.getCharges(
 					companyNumber,
-					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
 				companiesHouseMapping.mapChargesHistory(chargesDto)
@@ -109,7 +119,7 @@ internal class CompaniesAccessor constructor(
 	override suspend fun getInsolvency(companyNumber: String): ApiResult<Insolvency> {
 		return apiRunCatching {
 			withContext(ioContext) {
-				val insolvencyDto = companiesHouseService.getInsolvency(companyNumber)
+				val insolvencyDto = companiesHouseApi.getInsolvency(companyNumber)
 				companiesHouseMapping.mapInsolvency(insolvencyDto)
 			}
 		}.mapError { OfflineException(Insolvency()) }
@@ -119,12 +129,12 @@ internal class CompaniesAccessor constructor(
 
 		return apiRunCatching {
 			withContext(ioContext) {
-				val officersResponseDto = companiesHouseService.getOfficers(
+				val officersResponseDto = companiesHouseApi.getOfficers(
 					companyNumber,
 					null,
 					null,
 					null,
-					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
 				companiesHouseMapping.mapOfficers(officersResponseDto)
@@ -136,9 +146,9 @@ internal class CompaniesAccessor constructor(
 	override suspend fun getOfficerAppointments(officerId: String, startItem: String): ApiResult<AppointmentsResponse> {
 		return apiRunCatching {
 			withContext(ioContext) {
-				val appointmentsResponseDto = companiesHouseService.getOfficerAppointments(
+				val appointmentsResponseDto = companiesHouseApi.getOfficerAppointments(
 					officerId,
-					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
 				companiesHouseMapping.mapAppointments(appointmentsResponseDto)
@@ -149,43 +159,34 @@ internal class CompaniesAccessor constructor(
 	override suspend fun getPersons(companyNumber: String, startItem: String): ApiResult<PersonsResponse> {
 		return apiRunCatching {
 			withContext(ioContext) {
-				val personsResponseDto = companiesHouseService.getPersons(
+				val personsResponseDto = companiesHouseApi.getPersons(
 					companyNumber,
 					null,
-					BuildConfig.COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
+					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
 				companiesHouseMapping.mapPersonsResponse(personsResponseDto)
 			}
-		}.recoverIf(
-			predicate = {
-				val errorJson = (it as HttpException).response()?.errorBody()?.string()
-				if (!errorJson.isNullOrEmpty()) {
-					val errorBody = Gson().fromJson(errorJson, ErrorBody::class.java)
-					errorBody.errors?.first()?.error == "company-psc-not-found"
-				} else false
-			},
-			transform = { PersonsResponse() }
-		).mapError { OfflineException(PersonsResponse()) }
+		}.mapError { OfflineException(PersonsResponse()) }
 	}
 
 	override suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person {
 		return withContext(ioContext) {
-			val personDto = companiesHouseService.getCorporatePerson(companyNumber, pscId)
+			val personDto = companiesHouseApi.getCorporatePerson(companyNumber, pscId)
 			companiesHouseMapping.mapPerson(personDto)
 		}
 	}
 
 	override suspend fun getLegalPerson(companyNumber: String, pscId: String): Person {
 		return withContext(ioContext) {
-			val personDto = companiesHouseService.getLegalPerson(companyNumber, pscId)
+			val personDto = companiesHouseApi.getLegalPerson(companyNumber, pscId)
 			companiesHouseMapping.mapPerson(personDto)
 		}
 	}
 
 	override suspend fun getDocument(documentId: String): ResponseBody {
 		return withContext(ioContext) {
-			companiesHouseDocumentService.getDocument("application/pdf", documentId)
+			companiesHouseDocumentApi.getDocument("application/pdf", documentId)
 		}
 	}
 

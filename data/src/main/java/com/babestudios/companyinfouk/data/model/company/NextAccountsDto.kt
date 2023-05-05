@@ -7,12 +7,11 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
-class LastAccountsDto(
-		@SerialName("made_up_to")
-		var madeUpTo: String? = null,
+class NextAccountsDto(
+		@SerialName("due_on")
+		var dueOn: String? = null,
 
-		@SerialName("type")
-		var type: String? = null,
+		var overdue: Boolean? = null,
 
 		@SerialName("period_start_on")
 		var periodStartOn: String? = null,

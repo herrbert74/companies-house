@@ -1,13 +1,15 @@
 package com.babestudios.companyinfouk.domain.model.search
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CompanySearchResult (
 
-	@SerializedName("total_results")
+	@SerialName("total_results")
 	var totalResults: Int = 0,
 
-	@SerializedName("items")
+	@SerialName("items")
 	var items: List<CompanySearchResultItem> = emptyList()
 
 )

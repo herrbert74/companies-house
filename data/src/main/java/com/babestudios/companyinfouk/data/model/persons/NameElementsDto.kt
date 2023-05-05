@@ -2,17 +2,19 @@ package com.babestudios.companyinfouk.data.model.persons
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class NameElementsDto(
-		@SerializedName("surname")
+		@SerialName("surname")
 		var surname: String? = null,
-		@SerializedName("title")
+		@SerialName("title")
 		var title: String? = null,
-		@SerializedName("middle_name")
+		@SerialName("middle_name")
 		var middleName: String? = null,
-		@SerializedName("forename")
+		@SerialName("forename")
 		var forename: String? = null
 ) : Parcelable

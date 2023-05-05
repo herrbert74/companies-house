@@ -3,19 +3,21 @@ package com.babestudios.companyinfouk.data.model.insolvency
 
 import android.os.Parcelable
 import com.babestudios.companyinfouk.data.model.common.AddressDto
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class PractitionerDto(
-		@SerializedName("address")
+		@SerialName("address")
 		var address: AddressDto? = null,
-		@SerializedName("appointed_on")
+		@SerialName("appointed_on")
 		var appointedOn: String? = null,
-		@SerializedName("ceased_to_act_on")
+		@SerialName("ceased_to_act_on")
 		var ceasedToActOn: String? = null,
-		@SerializedName("name")
+		@SerialName("name")
 		var name: String? = null,
-		@SerializedName("role")
+		@SerialName("role")
 		var role: String? = null
 ) : Parcelable

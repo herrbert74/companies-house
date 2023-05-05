@@ -1,16 +1,18 @@
 package com.babestudios.companyinfouk.data.model.insolvency
 
 import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 import java.util.ArrayList
+import kotlinx.serialization.Serializable
 
 @Keep
+@Serializable
 class InsolvencyDto {
-	@SerializedName("cases")
+	@SerialName("cases")
 	var cases: List<InsolvencyCaseDto> = ArrayList()
-	@SerializedName("etag")
+	@SerialName("etag")
 	var etag: String? = null
-	@SerializedName("status")
-	var status: List<Any> = ArrayList()
+	@SerialName("status")
+	var status: List<String> = ArrayList()
 }

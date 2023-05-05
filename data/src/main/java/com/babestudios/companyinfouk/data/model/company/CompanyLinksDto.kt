@@ -1,34 +1,36 @@
 package com.babestudios.companyinfouk.data.model.company
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class CompanyLinksDto(
 
-		@SerializedName("charges")
+		@SerialName("charges")
 		var charges: String? = null,
 
-		@SerializedName("filing_history")
+		@SerialName("filing_history")
 		var filingHistory: String? = null,
 
-		@SerializedName("insolvency")
+		@SerialName("insolvency")
 		var insolvency: String? = null,
 
-		@SerializedName("officers")
+		@SerialName("officers")
 		var officers: String? = null,
 
-		@SerializedName("persons_with_significant_control")
+		@SerialName("persons_with_significant_control")
 		var personsWithSignificantControl: String? = null,
 
-		@SerializedName("persons_with_significant_control_statements")
+		@SerialName("persons_with_significant_control_statements")
 		var personsWithSignificantControlStatements: String? = null,
 
-		@SerializedName("registers")
+		@SerialName("registers")
 		var registers: String? = null,
 
-		@SerializedName("self")
+		@SerialName("self")
 		var self: String? = null
 
 ) : Parcelable

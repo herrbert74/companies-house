@@ -2,15 +2,17 @@ package com.babestudios.companyinfouk.data.model.company
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 class AccountingRequirementDto(
 
-		@SerializedName("foreign_account_type")
+		@SerialName("foreign_account_type")
 		var foreignAccountType: String? = null,
 
-		@SerializedName("terms_of_account_publication")
+		@SerialName("terms_of_account_publication")
 		var termsOfAccountPublication: String? = null
 ) : Parcelable

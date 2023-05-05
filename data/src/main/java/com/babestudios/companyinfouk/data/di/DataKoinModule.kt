@@ -15,11 +15,8 @@ import com.babestudios.companyinfouk.data.local.apilookup.PscHelper
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentService
-import com.babestudios.companyinfouk.data.network.CompaniesHouseService
-import com.babestudios.companyinfouk.data.network.converters.AdvancedGsonConverterFactory
-import com.babestudios.companyinfouk.data.network.interceptors.CompaniesHouseInterceptor
-import com.babestudios.companyinfouk.data.utils.Base64Wrapper
+import com.babestudios.companyinfouk.data.network.CompaniesHouseApi
+import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentApi
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.StringResourceHelper
@@ -28,54 +25,43 @@ import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import de.jensklingenberg.ktorfit.Ktorfit
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.api.createClientPlugin
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.URLProtocol
+import io.ktor.serialization.kotlinx.json.json
+import io.ktor.util.encodeBase64
+import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.withOptions
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import retrofit2.Retrofit
+import timber.log.Timber
+
+private const val NETWORK_TIMEOUT = 30_000L
 
 val dataModule = module {
-
-	single(named("CompaniesHouseRetrofit")) {
-		val logging = HttpLoggingInterceptor()
-		logging.level = HttpLoggingInterceptor.Level.BODY
-
-		val httpClient = OkHttpClient.Builder()
-		httpClient.addInterceptor(logging)
-		httpClient.addInterceptor(
-			ChuckerInterceptor.Builder(androidContext())
-				.collector(ChuckerCollector(androidContext(), showNotification = false))
-				.build()
-		)
-		httpClient.addInterceptor(CompaniesHouseInterceptor(Base64Wrapper()))
-		Retrofit.Builder()
-			.baseUrl(BuildConfig.COMPANIES_HOUSE_BASE_URL)
-			.addConverterFactory(AdvancedGsonConverterFactory.create())
-			.client(httpClient.build())
-			.build()
-	}
 
 	singleOf(::CompaniesHouseMapper) { bind<CompaniesHouseMapping>() }
 
 	single {
-		val retrofit: Retrofit = get(named("CompaniesHouseRetrofit"))
-		retrofit.create(CompaniesHouseService::class.java)
-	}
-
-	single {
 		CompaniesAccessor(
 			androidContext(),
+			get(named("CompaniesHouseApi")),
+			get(named("CompaniesHouseDocumentApi")),
 			get(),
 			get(),
 			get(),
-			get(),
-			get(),
-			get(named("IoDispatcher"))
+			get(named("IoDispatcher")),
 		)
 	}.withOptions {
 		bind<CompaniesRepository>()
@@ -102,30 +88,89 @@ val dataModule = module {
 	single { FirebaseAnalytics.getInstance(androidContext()) }
 
 	single {
-		val retrofit: Retrofit = get(named("CompaniesHouseDocumentRetrofit"))
-		retrofit.create(CompaniesHouseDocumentService::class.java)
-	}
-
-	single {
-		GsonBuilder()
-			.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
-			.create()
+		Json {
+			prettyPrint = true
+			isLenient = true
+			ignoreUnknownKeys = true
+		}
 	}
 
 	single { PreferencesHelper(get(), get()) }
 
-	single(named("CompaniesHouseDocumentRetrofit")) {
-		val logging = HttpLoggingInterceptor()
-		logging.level = HttpLoggingInterceptor.Level.BODY
-
-		val httpClient = OkHttpClient.Builder()
-		httpClient.addInterceptor(logging)
-		httpClient.addInterceptor(CompaniesHouseInterceptor(Base64Wrapper()))
-		Retrofit.Builder()
-			.baseUrl(BuildConfig.COMPANIES_HOUSE_DOCUMENT_API_BASE_URL)
-			.addConverterFactory(AdvancedGsonConverterFactory.create())
-			.client(httpClient.build())
+	single {
+		ChuckerInterceptor.Builder(androidContext())
+			.collector(ChuckerCollector(androidContext(), showNotification = false))
 			.build()
 	}
 
+	single {
+		OkHttp.create {
+			addInterceptor(get<ChuckerInterceptor>())
+
+		}
+	}
+
+	single(named("CompaniesHouseClient")) {
+		HttpClient(get()) {
+			install(HttpTimeout) { requestTimeoutMillis = NETWORK_TIMEOUT }
+			install(customHeaderPlugin)
+			install(ContentNegotiation) { json(get()) }
+			install(Logging) {
+				logger = object : Logger {
+					override fun log(message: String) {
+						Timber.d("AA-430 log: $message")
+					}
+				}
+				level = LogLevel.ALL
+			}
+			defaultRequest {
+				host = "api.companieshouse.gov.uk"
+				url {
+					protocol = URLProtocol.HTTPS
+				}
+			}
+		}
+	}
+
+	single(named("CompaniesHouseDocumentClient")) {
+		HttpClient(get()) {
+			install(HttpTimeout) { requestTimeoutMillis = NETWORK_TIMEOUT }
+			install(customHeaderPlugin)
+			install(ContentNegotiation) { json(get()) }
+			install(Logging) {
+				logger = object : Logger {
+					override fun log(message: String) {
+						Timber.d("AA-430 log: $message")
+					}
+				}
+				level = LogLevel.ALL
+			}
+			defaultRequest {
+				host = "document-api.companieshouse.gov.uk"
+				url {
+					protocol = URLProtocol.HTTPS
+				}
+			}
+		}
+	}
+
+	single(named("CompaniesHouseApi")) {
+		val ktorfit = Ktorfit.Builder().httpClient(get<HttpClient>(named("CompaniesHouseClient"))).build()
+		ktorfit.create<CompaniesHouseApi>()
+	}
+
+	single(named("CompaniesHouseDocumentApi")) {
+		val ktorfit = Ktorfit.Builder().httpClient(get<HttpClient>(named("CompaniesHouseDocumentClient"))).build()
+		ktorfit.create<CompaniesHouseDocumentApi>()
+	}
+
+}
+
+val customHeaderPlugin = createClientPlugin("CustomHeaderPlugin") {
+	onRequest { request, _ ->
+		request.headers.append(
+			"Authorization",
+			"Basic ${BuildConfig.COMPANIES_HOUSE_API_KEY.toByteArray().encodeBase64()}"
+		)
+	}
 }

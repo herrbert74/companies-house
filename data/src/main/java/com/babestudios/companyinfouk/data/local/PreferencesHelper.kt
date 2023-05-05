@@ -1,11 +1,12 @@
 package com.babestudios.companyinfouk.data.local
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.google.gson.Gson
 import com.google.gson.JsonParseException
-import java.util.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import timber.log.Timber
 
 const val PREF_FILE_NAME = "companies_house_pref_file"
 const val PREF_FAVOURITES = "companies_house_favourites"
@@ -13,7 +14,7 @@ const val PREF_LATEST_SEARCHES = "companies_house_latest_searches"
 const val PREF_LATEST_SEARCHES_SIZE = 10
 
 class PreferencesHelper
-internal constructor(private val sharedPreferences: SharedPreferences, private val gson: Gson) {
+internal constructor(private val sharedPreferences: SharedPreferences, private val json: Json) {
 
 	val recentSearches: List<SearchHistoryItem>
 		get() {
@@ -21,9 +22,9 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			var searchItems: Array<SearchHistoryItem>? = null
 			if (latestSearches?.isEmpty() == false) {
 				try {
-					searchItems = gson.fromJson(latestSearches, Array<SearchHistoryItem>::class.java)
+					searchItems = json.decodeFromString<Array<SearchHistoryItem>>(latestSearches)
 				} catch (e: JsonParseException) {
-					Log.d("test", "getRecentSearches error: " + e.localizedMessage)
+					Timber.d("getRecentSearches error: " + e.localizedMessage)
 				}
 			}
 			return searchItems.orEmpty().toList()
@@ -35,9 +36,9 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			var favouritesArray: Array<SearchHistoryItem> = arrayOf()
 			if (favourites?.isEmpty() == false) {
 				try {
-					favouritesArray = gson.fromJson(favourites, Array<SearchHistoryItem>::class.java)
+					favouritesArray = json.decodeFromString(favourites)
 				} catch (e: JsonParseException) {
-					Log.d("test", "getFavourites error: " + e.localizedMessage)
+					Timber.d("getFavourites error: " + e.localizedMessage)
 				}
 			}
 			return favouritesArray
@@ -52,7 +53,7 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 		if (latestSearches.size > PREF_LATEST_SEARCHES_SIZE) {
 			latestSearches.removeAt(latestSearches.lastIndex)
 		}
-		val latestSearchesString = gson.toJson(latestSearches)
+		val latestSearchesString = json.encodeToString(latestSearches)
 		sharedPreferences.edit().putString(PREF_LATEST_SEARCHES, latestSearchesString).apply()
 		return ArrayList(latestSearches)
 	}
@@ -67,7 +68,7 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			false
 		} else {
 			favouritesList.add(searchHistoryItem)
-			val favouritesString = gson.toJson(favouritesList.toTypedArray())
+			val favouritesString = json.encodeToString(favouritesList.toTypedArray())
 			sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply()
 			true
 		}
@@ -82,7 +83,7 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 		if (favouritesList.contains(favouriteToDelete)) {
 			favouritesList.remove(favouriteToDelete)
 		}
-		val favouritesString = gson.toJson(favouritesList.toTypedArray())
+		val favouritesString = json.encodeToString(favouritesList.toTypedArray())
 		sharedPreferences.edit().putString(PREF_FAVOURITES, favouritesString).apply()
 	}
 
