@@ -1,11 +1,8 @@
 package com.babestudios.companyinfouk.data.model.charges
 
-import android.os.Parcelable
 import kotlinx.serialization.SerialName
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-@Parcelize
 @Serializable
 data class ParticularsDto(
 	@SerialName("chargor_acting_as_bare_trustee")
@@ -22,4 +19,4 @@ data class ParticularsDto(
 	var floatingChargeCoversAll: Boolean? = null,
 	@SerialName("type")
 	var type: String? = null,
-) : Parcelable
+)

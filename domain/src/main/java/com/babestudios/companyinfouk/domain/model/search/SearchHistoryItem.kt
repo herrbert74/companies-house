@@ -1,16 +1,13 @@
 package com.babestudios.companyinfouk.domain.model.search
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-@Parcelize
 @Serializable
 data class SearchHistoryItem(
-		var companyName: String,
-		var companyNumber: String,
-		private val searchTime: Long
-) : Parcelable {
+	var companyName: String,
+	var companyNumber: String,
+	private val searchTime: Long,
+) {
 
 	override fun equals(other: Any?): Boolean {
 		if (other == null) {

@@ -1,12 +1,9 @@
 package com.babestudios.companyinfouk.domain.model.search
 
-import android.os.Parcelable
 import com.babestudios.companyinfouk.domain.model.common.Address
 import kotlinx.serialization.SerialName
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-@Parcelize
 @Serializable
 data class CompanySearchResultItem(
 
@@ -45,7 +42,7 @@ data class CompanySearchResultItem(
 
 	@SerialName("address_snippet")
 	var addressSnippet: String? = null,
-) : Parcelable
+)
 
 fun List<CompanySearchResultItem>.filterSearchResults(filterState: FilterState?): List<CompanySearchResultItem> {
 	return this

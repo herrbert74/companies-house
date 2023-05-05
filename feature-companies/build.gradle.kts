@@ -23,7 +23,6 @@ dependencies {
 	implementation(libs.decompose.extensionsJetBrains)
 	implementation(libs.google.play.services.maps)
 	implementation(libs.google.play.services.maps.compose)
-	implementation(libs.kotlin.parcelize.runtime) //Transitive
 	implementation(libs.view.collapsingToolbar)
 
 	testImplementation(libs.test.kotest.assertions.core)

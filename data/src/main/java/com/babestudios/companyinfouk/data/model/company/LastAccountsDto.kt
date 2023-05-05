@@ -1,23 +1,20 @@
 package com.babestudios.companyinfouk.data.model.company
 
-import android.os.Parcelable
 import kotlinx.serialization.SerialName
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-@Parcelize
 @Serializable
 class LastAccountsDto(
-		@SerialName("made_up_to")
-		var madeUpTo: String? = null,
+	@SerialName("made_up_to")
+	var madeUpTo: String? = null,
 
-		@SerialName("type")
-		var type: String? = null,
+	@SerialName("type")
+	var type: String? = null,
 
-		@SerialName("period_start_on")
-		var periodStartOn: String? = null,
+	@SerialName("period_start_on")
+	var periodStartOn: String? = null,
 
-		@SerialName("period_end_on")
-		var periodEndOn: String? = null,
-) : Parcelable
+	@SerialName("period_end_on")
+	var periodEndOn: String? = null,
+)
 

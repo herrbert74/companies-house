@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.domain.model.persons
 
-
 import android.os.Parcelable
 import androidx.annotation.Keep
 import com.babestudios.companyinfouk.domain.model.common.Address
@@ -23,9 +22,9 @@ data class Person(
 
 @Parcelize
 data class Identification(
-		val countryRegistered: String? = null,
-		val legalAuthority: String,
-		val legalForm: String,
-		val placeRegistered: String? = null,
-		val registrationNumber: String? = null
+	val countryRegistered: String? = null,
+	val legalAuthority: String,
+	val legalForm: String,
+	val placeRegistered: String? = null,
+	val registrationNumber: String? = null,
 ) : Parcelable

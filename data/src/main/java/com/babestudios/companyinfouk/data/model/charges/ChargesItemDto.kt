@@ -1,14 +1,11 @@
 package com.babestudios.companyinfouk.data.model.charges
 
-import android.os.Parcelable
 import androidx.annotation.Keep
 import com.babestudios.companyinfouk.data.model.common.SelfLinkDataDto
-import kotlinx.serialization.SerialName
-import kotlinx.parcelize.Parcelize
 import java.util.*
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Parcelize
 @Serializable
 data class ChargesItemDto(
 	@SerialName("acquired_on")
@@ -53,4 +50,4 @@ data class ChargesItemDto(
 	var status: String? = null,
 	@SerialName("transactions")
 	var transactions: List<TransactionDto>? = ArrayList(),
-) : Parcelable
+)

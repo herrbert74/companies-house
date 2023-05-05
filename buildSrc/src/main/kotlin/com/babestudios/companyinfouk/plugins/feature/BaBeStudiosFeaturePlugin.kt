@@ -40,8 +40,6 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 		val catalogs = project.extensions.getByType(VersionCatalogsExtension::class.java)
 		val libs = catalogs.named("libs")
 
-		project.plugins.apply("kotlin-parcelize")
-
 		project.dependencies {
 			add("api", project.project(":domain"))
 			add("implementation", project.project(":common"))

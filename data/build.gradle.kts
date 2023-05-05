@@ -38,7 +38,6 @@ dependencies {
 	implementation(libs.baBeStudios.base.kotlin)
 	implementation(libs.baBeStudios.base.data)
 	implementation(libs.google.gson) //Transitive from Base
-	implementation(libs.kotlin.parcelize.runtime) //Transitive
 	implementation(libs.kotlinx.coroutines.core)
 	implementation(libs.kotlinResult.result)
 	implementation(libs.koin.core)
