@@ -20,10 +20,10 @@ import com.babestudios.companyinfouk.common.compose.AddressCard
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.domain.model.persons.Identification
-import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.shared.domain.model.persons.Identification
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
 import kotlinx.coroutines.Dispatchers
 

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.charges.ui.details
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector

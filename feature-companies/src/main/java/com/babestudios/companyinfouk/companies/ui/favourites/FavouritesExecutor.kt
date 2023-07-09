@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.companies.ui.favourites
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.Intent
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore.State
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

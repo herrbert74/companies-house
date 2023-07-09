@@ -1,19 +1,19 @@
 package com.babestudios.companyinfouk.mock
 
 import com.babestudios.base.kotlin.ext.loadJson
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.domain.model.company.Company
-import com.babestudios.companyinfouk.domain.model.officers.AppointedTo
-import com.babestudios.companyinfouk.domain.model.officers.Appointment
-import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
-import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.domain.model.officers.OfficerLinks
-import com.babestudios.companyinfouk.domain.model.officers.OfficerRelatedLinks
-import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointedTo
+import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerLinks
+import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerRelatedLinks
+import com.babestudios.companyinfouk.shared.domain.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.github.michaelbull.result.Ok
 import com.google.gson.GsonBuilder
 import io.mockk.coEvery
@@ -120,9 +120,12 @@ private val favourites = listOf(
 private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 	totalResults = 7, items = listOf(
 		Officer(
-			appointedOn = "2002-07-02", links = OfficerLinks(
+			appointedOn = "2002-07-02",
+			links = OfficerLinks(
 				officer =
-				OfficerRelatedLinks(appointments = "/officers/M0nRpSZPlPTwBusql3sNK6Efzr8/appointments")
+				OfficerRelatedLinks(
+					appointments = "/officers/M0nRpSZPlPTwBusql3sNK6Efzr8/appointments"
+				)
 			), name = "STEVENSON, Elizabeth Mary", officerRole = "Secretary", dateOfBirth = MonthYear(
 				year = null,
 				month = null
@@ -134,8 +137,11 @@ private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 			address = Address(
 				addressLine1 = "1 Harewood Street", addressLine2 = null, country = "England", locality = "Leeds",
 				postalCode = "LS2 7AD", region = "West Yorkshire"
-			), appointedOn = "2017-09-02", links = OfficerLinks(
-				officer = OfficerRelatedLinks(appointments = "/officers/5SU_9GfEsP_Z_H7rb1fNFmEZvKs/appointments")
+			), appointedOn = "2017-09-02",
+			links = OfficerLinks(
+				officer = OfficerRelatedLinks(
+					appointments = "/officers/5SU_9GfEsP_Z_H7rb1fNFmEZvKs/appointments"
+				)
 			), name = "STEVENSON, Benjamin Thomas",
 			officerRole = "Director", dateOfBirth = MonthYear(year = 1985, month = 7),
 			occupation = "Company Director",
@@ -149,7 +155,8 @@ private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 				addressLine2 = "Ketton", country = "England", locality = "Stamford", postalCode = "PE9 3RH",
 				region = "Lincolnshire"
 			),
-			appointedOn = "2002-07-02", links = OfficerLinks(
+			appointedOn = "2002-07-02",
+			links = OfficerLinks(
 				officer = OfficerRelatedLinks
 					(appointments = "/officers/M0nRpSZPlPTwBusql3sNK6Efzr8/appointments")
 			), name = "STEVENSON, Elizabeth Mary", officerRole = "Director",
@@ -161,7 +168,8 @@ private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 			address = Address(
 				addressLine1 = "84 Temple Chambers", addressLine2 = "Temple Avenue", country = "Unknown",
 				locality = "London", postalCode = "EC4Y 0HP", region = ""
-			), appointedOn = "2002-07-02", links = OfficerLinks(
+			), appointedOn = "2002-07-02",
+			links = OfficerLinks(
 				officer = OfficerRelatedLinks(appointments = "/officers/yijMAlD-g9qcqcbX0w6AFDbcWtQ/appointments")
 			), name = "LONDON LAW SECRETARIAL LIMITED", officerRole = "Nominee Secretary",
 			dateOfBirth = MonthYear(year = null, month = null), occupation = "Unknown",
@@ -172,7 +180,8 @@ private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 			address = Address(
 				addressLine1 = "84 Temple Chambers", addressLine2 = "Temple Avenue", country = "", locality = "London",
 				postalCode = "EC4Y 0HP", region = ""
-			), appointedOn = "2002-07-02", links = OfficerLinks(
+			), appointedOn = "2002-07-02",
+			links = OfficerLinks(
 				officer = OfficerRelatedLinks(appointments = "/officers/It1fdjIyCDqgLpk3nYKsWymv32U/appointments")
 			), name = "LONDON LAW SERVICES LIMITED", officerRole = "Nominee Director",
 			dateOfBirth = MonthYear(year = null, month = null), occupation = "Unknown",
@@ -183,7 +192,8 @@ private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 			address = Address(
 				addressLine1 = "Edmonds Drive", addressLine2 = "Ketton", country = "England", locality = "Stamford",
 				postalCode = "PE9 3TH", region = "Lincolnshire"
-			), appointedOn = "2012-11-09", links = OfficerLinks(
+			), appointedOn = "2012-11-09",
+			links = OfficerLinks(
 				officer = OfficerRelatedLinks(appointments = "/officers/mqkD15s6orcvxGCwF0zIaU7bw1I/appointments")
 			), name = "STEVENSON, Benjamin Thomas", officerRole = "Director",
 			dateOfBirth = MonthYear(year = 1985, month = 6), occupation = "Company Director",
@@ -194,7 +204,8 @@ private val officersResponseYouLimited: OfficersResponse = OfficersResponse(
 			address = Address(
 				addressLine1 = "Huckleberry House", addressLine2 = "4a Edmunds Drive", country = "",
 				locality = "Ketton", postalCode = "PE9 3TH", region = "Lincolnshire"
-			), appointedOn = "2002-07-02", links = OfficerLinks(
+			), appointedOn = "2002-07-02",
+			links = OfficerLinks(
 				officer = OfficerRelatedLinks(appointments = "/officers/w01KCApAVX3NeT_TR6yliDQ44lU/appointments")
 			), name = "STEVENSON, Leslie Alan", officerRole = "Director",
 			dateOfBirth = MonthYear(year = 1950, month = 4), occupation = "Director",

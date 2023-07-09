@@ -21,8 +21,8 @@ import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
-import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
-import com.babestudios.companyinfouk.domain.model.charges.Particulars
+import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
 
 @Composable
 fun ChargesScreen(component: ChargesComp) {

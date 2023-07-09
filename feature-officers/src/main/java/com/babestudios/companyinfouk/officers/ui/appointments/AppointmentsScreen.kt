@@ -26,7 +26,7 @@ import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaff
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
-import com.babestudios.companyinfouk.domain.model.officers.Appointment
+import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.R
 
 @Composable

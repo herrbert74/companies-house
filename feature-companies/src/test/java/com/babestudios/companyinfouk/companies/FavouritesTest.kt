@@ -7,8 +7,8 @@ import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesExecutor
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesItem
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore
 import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStoreFactory
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import io.kotest.matchers.collections.shouldContain
 import io.mockk.coEvery
 import io.mockk.coVerify

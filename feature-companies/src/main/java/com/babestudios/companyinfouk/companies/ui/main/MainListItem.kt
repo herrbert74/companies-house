@@ -15,7 +15,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResultItem
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResultItem
 
 @Composable
 internal fun CompanySearchResultItemListItem(

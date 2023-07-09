@@ -12,13 +12,13 @@ import com.babestudios.companyinfouk.companies.ui.main.MainComp
 import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
 import com.babestudios.companyinfouk.companies.ui.map.MapComp
 import com.babestudios.companyinfouk.companies.ui.privacy.PrivacyComp
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
-import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsComp
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryComp
 import com.babestudios.companyinfouk.insolvencies.ui.details.InsolvencyDetailsComp
@@ -29,6 +29,7 @@ import com.babestudios.companyinfouk.officers.ui.details.OfficerDetailsComp
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersComp
 import com.babestudios.companyinfouk.persons.ui.details.PersonDetailsComp
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsComp
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.FlowCollector
 
@@ -106,6 +107,7 @@ class CompaniesRootComponent internal constructor(
 		mainContext: CoroutineDispatcher,
 		ioContext: CoroutineDispatcher,
 		companiesRepository: CompaniesRepository,
+		companiesDocumentRepository: CompaniesDocumentRepository,
 		finishHandler: () -> Unit,
 	) : this(
 		componentContext = componentContext,
@@ -118,7 +120,7 @@ class CompaniesRootComponent internal constructor(
 		createChargesComp = createChargesFactory(companiesRepository, mainContext, ioContext),
 		createChargeDetailsComp = createChargeDetailsFactory(mainContext),
 		createFilingHistoryComp = createFilingsHistoryFactory(companiesRepository, mainContext, ioContext),
-		createFilingDetailsComp = createFilingDetailsFactory(companiesRepository, mainContext, ioContext),
+		createFilingDetailsComp = createFilingDetailsFactory(companiesDocumentRepository, mainContext, ioContext),
 		createInsolvenciesComp = createInsolvenciesFactory(companiesRepository, mainContext, ioContext),
 		createInsolvencyDetailsComp = createInsolvencyDetailsFactory(mainContext),
 		createPractitionerDetailsComp = createPractitionerDetailsFactory(mainContext),

@@ -1,13 +1,7 @@
 package com.babestudios.companyinfouk.data.utils.errors.model
 
-import androidx.annotation.Keep
+data class ErrorBody(val errors: List<ErrorEntity>? = null) : ErrorEntity()
 
-@Keep
-data class ErrorBody(
-	val errors: List<ErrorEntity>? = null
-) : ErrorEntity()
-
-@Keep
 @Suppress("ConstructorParameterNaming")
 open class ErrorEntity(
 	val error: String? = null,

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.data
 
 import com.babestudios.base.kotlin.ext.loadJson
-import com.babestudios.companyinfouk.data.network.CompaniesHouseApi
+import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.kotest.matchers.shouldBe
 import io.ktor.client.HttpClient

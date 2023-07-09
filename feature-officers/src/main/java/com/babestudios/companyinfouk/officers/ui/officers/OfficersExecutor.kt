@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.officers.ui.officers
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.Intent
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersStore.State
 import kotlinx.coroutines.CoroutineDispatcher

@@ -6,8 +6,8 @@ import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesExecutor
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesStoreFactory
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.charges.Charges
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery

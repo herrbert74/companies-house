@@ -2,12 +2,12 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
-import com.babestudios.companyinfouk.data.model.officers.AppointedToDto
-import com.babestudios.companyinfouk.data.model.officers.AppointmentDto
-import com.babestudios.companyinfouk.data.model.officers.AppointmentsResponseDto
-import com.babestudios.companyinfouk.domain.model.officers.AppointedTo
-import com.babestudios.companyinfouk.domain.model.officers.Appointment
-import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.shared.data.model.officers.AppointedToDto
+import com.babestudios.companyinfouk.shared.data.model.officers.AppointmentDto
+import com.babestudios.companyinfouk.shared.data.model.officers.AppointmentsResponseDto
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointedTo
+import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointmentsResponse
 
 fun mapAppointmentsResponseDto(
 	input: AppointmentsResponseDto,

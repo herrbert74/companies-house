@@ -11,7 +11,7 @@ import com.babestudios.companyinfouk.companies.ui.main.MainComponent
 import com.babestudios.companyinfouk.companies.ui.main.MainExecutor
 import com.babestudios.companyinfouk.companies.ui.map.MapComponent
 import com.babestudios.companyinfouk.companies.ui.privacy.PrivacyComponent
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsComponent
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsExecutor
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryComponent
@@ -28,6 +28,7 @@ import com.babestudios.companyinfouk.officers.ui.officers.OfficersExecutor
 import com.babestudios.companyinfouk.persons.ui.details.PersonDetailsComponent
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsExecutor
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsComponent
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import kotlinx.coroutines.CoroutineDispatcher
 
 /**
@@ -138,13 +139,13 @@ internal fun createFilingsHistoryFactory(
 }
 
 internal fun createFilingDetailsFactory(
-	companiesRepository: CompaniesRepository,
+	companiesDocumentRepository: CompaniesDocumentRepository,
 	mainContext: CoroutineDispatcher,
 	ioContext: CoroutineDispatcher,
 ): CreateFilingDetailsComp = { childContext, filingHistoryItem, output ->
 	FilingDetailsComponent(
 		componentContext = childContext,
-		filingDetailsExecutor = FilingDetailsExecutor(companiesRepository, mainContext, ioContext),
+		filingDetailsExecutor = FilingDetailsExecutor(companiesDocumentRepository, mainContext, ioContext),
 		filingHistoryItem = filingHistoryItem,
 		output = output,
 	)

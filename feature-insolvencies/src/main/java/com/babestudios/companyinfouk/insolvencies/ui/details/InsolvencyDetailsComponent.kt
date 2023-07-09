@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector

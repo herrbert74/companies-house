@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.R
 
 @Composable

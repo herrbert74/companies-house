@@ -2,14 +2,14 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
-import com.babestudios.companyinfouk.data.model.charges.ChargesDto
-import com.babestudios.companyinfouk.data.model.charges.ChargesItemDto
-import com.babestudios.companyinfouk.data.model.charges.ParticularsDto
-import com.babestudios.companyinfouk.data.model.charges.TransactionDto
-import com.babestudios.companyinfouk.domain.model.charges.Charges
-import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
-import com.babestudios.companyinfouk.domain.model.charges.Particulars
-import com.babestudios.companyinfouk.domain.model.charges.Transaction
+import com.babestudios.companyinfouk.shared.data.model.charges.ChargesDto
+import com.babestudios.companyinfouk.shared.data.model.charges.ChargesItemDto
+import com.babestudios.companyinfouk.shared.data.model.charges.ParticularsDto
+import com.babestudios.companyinfouk.shared.data.model.charges.TransactionDto
+import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
+import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
+import com.babestudios.companyinfouk.shared.domain.model.charges.Transaction
 
 fun mapChargesDto(
 	input: ChargesDto,

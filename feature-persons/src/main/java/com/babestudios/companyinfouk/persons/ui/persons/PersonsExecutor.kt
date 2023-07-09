@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.persons.ui.persons
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.Intent
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.State
 import kotlinx.coroutines.CoroutineDispatcher

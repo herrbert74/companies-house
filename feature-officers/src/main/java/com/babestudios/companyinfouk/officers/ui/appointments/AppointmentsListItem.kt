@@ -16,9 +16,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.FORTY_PERCENT
-import com.babestudios.companyinfouk.domain.model.officers.AppointedTo
-import com.babestudios.companyinfouk.domain.model.officers.Appointment
+import com.babestudios.companyinfouk.shared.domain.FORTY_PERCENT
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointedTo
+import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.R
 
 @Composable

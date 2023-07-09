@@ -32,7 +32,7 @@ import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaff
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 
 @Composable
 fun FavouritesScreen(component: FavouritesComp) {

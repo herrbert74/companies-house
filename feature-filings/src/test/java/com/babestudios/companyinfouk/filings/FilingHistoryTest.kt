@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.filings
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryExecutor
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStoreFactory

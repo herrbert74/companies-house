@@ -1,20 +1,21 @@
 package com.babestudios.companyinfouk.data.local
 
 import android.content.SharedPreferences
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.google.gson.JsonParseException
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import timber.log.Timber
+import org.lighthousegames.logging.logging
 
 const val PREF_FILE_NAME = "companies_house_pref_file"
 const val PREF_FAVOURITES = "companies_house_favourites"
 const val PREF_LATEST_SEARCHES = "companies_house_latest_searches"
 const val PREF_LATEST_SEARCHES_SIZE = 10
 
-class PreferencesHelper
-internal constructor(private val sharedPreferences: SharedPreferences, private val json: Json) {
+class PreferencesHelper internal constructor(private val sharedPreferences: SharedPreferences, private val json: Json) {
+
+	private val log = logging()
 
 	val recentSearches: List<SearchHistoryItem>
 		get() {
@@ -23,8 +24,8 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			if (latestSearches?.isEmpty() == false) {
 				try {
 					searchItems = json.decodeFromString<Array<SearchHistoryItem>>(latestSearches)
-				} catch (e: JsonParseException) {
-					Timber.d("getRecentSearches error: " + e.localizedMessage)
+				} catch (e: SerializationException) {
+					log.d { "getRecentSearches error: " + e.localizedMessage }
 				}
 			}
 			return searchItems.orEmpty().toList()
@@ -37,8 +38,8 @@ internal constructor(private val sharedPreferences: SharedPreferences, private v
 			if (favourites?.isEmpty() == false) {
 				try {
 					favouritesArray = json.decodeFromString(favourites)
-				} catch (e: JsonParseException) {
-					Timber.d("getFavourites error: " + e.localizedMessage)
+				} catch (e: SerializationException) {
+					log.d { "getFavourites error: " + e.localizedMessage }
 				}
 			}
 			return favouritesArray

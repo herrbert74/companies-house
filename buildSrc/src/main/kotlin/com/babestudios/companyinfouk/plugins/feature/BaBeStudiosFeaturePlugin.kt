@@ -41,7 +41,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 		val libs = catalogs.named("libs")
 
 		project.dependencies {
-			add("api", project.project(":domain"))
+			add("api", project.project(":shared"))
 			add("implementation", project.project(":common"))
 
 			libs.findLibrary("mvikotlin.core").ifPresent { add("api", it) }

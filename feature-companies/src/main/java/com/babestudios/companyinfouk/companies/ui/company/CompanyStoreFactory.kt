@@ -6,7 +6,7 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
-import com.babestudios.companyinfouk.domain.model.company.Company
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
 
 class CompanyStoreFactory(
 	private val storeFactory: StoreFactory,

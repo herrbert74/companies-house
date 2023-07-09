@@ -9,9 +9,9 @@ import com.babestudios.companyinfouk.companies.ui.main.Message.SearchResult
 import com.babestudios.companyinfouk.companies.ui.main.Message.SetSearchMenuItemCollapsed
 import com.babestudios.companyinfouk.companies.ui.main.Message.SetSearchMenuItemExpanded
 import com.babestudios.companyinfouk.companies.ui.main.Message.ShowRecentSearches
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.github.michaelbull.result.Ok
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch

@@ -1,17 +1,18 @@
 package com.babestudios.companyinfouk.filings.ui.details
 
-import android.net.Uri
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsStore.Intent
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsStore.State
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
+import com.eygraber.uri.Uri
+import com.eygraber.uri.toUri
+import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
 
 class FilingDetailsExecutor constructor(
-	private val companiesRepository: CompaniesRepository,
+	private val companiesRepository: CompaniesDocumentRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, Nothing, State, Message, Nothing>(mainContext) {
@@ -27,14 +28,14 @@ class FilingDetailsExecutor constructor(
 
 	private fun fetchDocument(state: State) {
 		scope.launch(ioContext) {
-			val documentUri = companiesRepository.getDocument(state.documentId)
-			withContext(mainContext) { dispatch(Message.DocumentDownloaded(documentUri)) }
+			val documentResponse = companiesRepository.getDocument(state.documentId)
+			withContext(mainContext) { dispatch(Message.DocumentDownloaded(documentResponse)) }
 		}
 	}
 
-	private fun writeDocument(responseBody: ResponseBody, uri: Uri) {
+	private fun writeDocument(responseBody: HttpResponse, uri: android.net.Uri) {
 		scope.launch(ioContext) {
-			val documentUri = companiesRepository.writeDocumentPdf(responseBody, uri)
+			val documentUri = companiesRepository.writeDocumentPdf(responseBody, uri.toUri())
 			withContext(mainContext) { dispatch(Message.DocumentWritten(documentUri)) }
 		}
 	}

@@ -27,31 +27,31 @@ internal val navigation = StackNavigation<Configuration>()
 //region Companies
 
 internal fun onMainOutput(output: MainComp.Output): Unit = when (output) {
-		is MainComp.Output.Selected ->
-			navigation.push(
-				Configuration.Company(
-					output.companySearchResultItem.companyNumber!!,
-					output.companySearchResultItem.title!!,
-					Configuration.Main,
-					Random.nextLong()
-				)
+	is MainComp.Output.Selected ->
+		navigation.push(
+			Configuration.Company(
+				output.companySearchResultItem.companyNumber!!,
+				output.companySearchResultItem.title!!,
+				Configuration.Main,
+				Random.nextLong()
 			)
+		)
 
-		is MainComp.Output.Privacy -> navigation.push(Configuration.Privacy)
+	is MainComp.Output.Privacy -> navigation.push(Configuration.Privacy)
 
-		is MainComp.Output.RecentSearchHistorySelected -> {
-			navigation.push(
-				Configuration.Company(
-					output.searchHistoryItem.companyNumber,
-					output.searchHistoryItem.companyName,
-					Configuration.Main,
-					Random.nextLong()
-				)
+	is MainComp.Output.RecentSearchHistorySelected -> {
+		navigation.push(
+			Configuration.Company(
+				output.searchHistoryItem.companyNumber,
+				output.searchHistoryItem.companyName,
+				Configuration.Main,
+				Random.nextLong()
 			)
-		}
-
-		MainComp.Output.Favourites -> navigation.push(Configuration.Favourites)
+		)
 	}
+
+	MainComp.Output.Favourites -> navigation.push(Configuration.Favourites)
+}
 
 internal fun onCompanyOutput(output: CompanyComp.Output) = when (output) {
 	is CompanyComp.Output.Map -> navigation.push(Configuration.Map(output.name, output.address))

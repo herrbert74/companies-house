@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.model.charges.Transaction
+import com.babestudios.companyinfouk.shared.domain.model.charges.Transaction
 
 @Composable
 internal fun TransactionListItem(

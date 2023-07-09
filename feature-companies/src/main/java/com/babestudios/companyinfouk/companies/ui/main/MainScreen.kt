@@ -63,8 +63,8 @@ import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.design.titleMediumBold
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResultItem
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResultItem
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 
 //TODO transparent search when there are no results
 @Composable

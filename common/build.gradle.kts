@@ -10,7 +10,7 @@ android {
 }
 
 dependencies {
-	api(project(":domain"))
+	api(project(":shared"))
 
 	api(libs.androidx.compose.material3)
 	api(libs.androidx.compose.ui) //Transitive

@@ -2,13 +2,12 @@ package com.babestudios.companyinfouk
 
 import android.app.Application
 import com.babestudios.companyinfouk.data.di.dataModule
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.di.coroutineContextModule
+import com.babestudios.companyinfouk.shared.data.androidDataModule
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.di.coroutineContextModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
-import timber.log.Timber
-import timber.log.Timber.Forest.plant
 
 open class CompaniesHouseApplication : Application(), KoinComponent {
 
@@ -21,13 +20,13 @@ open class CompaniesHouseApplication : Application(), KoinComponent {
 
 	override fun onCreate() {
 		super.onCreate()
-		if (BuildConfig.DEBUG) {
-			plant(Timber.DebugTree())
-		}
+//		if (BuildConfig.DEBUG) {
+//			plant(Timber.DebugTree())
+//		}
 
 		startKoin {
 			androidContext(this@CompaniesHouseApplication)
-			modules(dataModule, coroutineContextModule)
+			modules(androidDataModule, dataModule, coroutineContextModule)
 		}
 
 		companiesRepository = getKoin().get()

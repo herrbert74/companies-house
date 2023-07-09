@@ -14,7 +14,8 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.main.CompaniesRootComponent
 import com.babestudios.companyinfouk.main.CompaniesRootContent
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ class OfficersFragmentTest : KoinComponent {
 	val composeTestRule = createComposeRule()
 
 	private val companiesRepository: CompaniesRepository by inject()
+	private val companiesDocumentRepository: CompaniesDocumentRepository by inject()
 	private val mainContext: CoroutineDispatcher by inject(named("MainDispatcher"))
 	private val ioContext: CoroutineDispatcher by inject(named("IoDispatcher"))
 
@@ -44,7 +46,8 @@ class OfficersFragmentTest : KoinComponent {
 				DefaultComponentContext(lifecycle = LifecycleRegistry()),
 				mainContext,
 				ioContext,
-				companiesRepository
+				companiesRepository,
+				companiesDocumentRepository
 			) {}
 			composeTestRule.setContent {
 				CompaniesRootContent(companiesRootComponent)

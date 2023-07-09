@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.filings.ui.filings
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.babestudios.companyinfouk.domain.model.filinghistory.Category
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistory
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore.Intent
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore.State
 

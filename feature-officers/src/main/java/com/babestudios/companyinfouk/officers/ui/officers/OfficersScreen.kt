@@ -19,7 +19,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
-import com.babestudios.companyinfouk.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.R
 
 @Composable

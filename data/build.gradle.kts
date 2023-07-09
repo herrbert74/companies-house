@@ -2,8 +2,8 @@ plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("kotlin-parcelize")
 	kotlin("plugin.serialization").version("1.8.20")
-	alias(libs.plugins.ktorfit)
 	alias(libs.plugins.ksp)
+	alias(libs.plugins.ktorfit)
 }
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
@@ -29,7 +29,9 @@ android {
 
 dependencies {
 
-	api(project(":domain"))
+	ksp(libs.ktorfit.ksp)
+
+	api(project(":shared"))
 
 	api(libs.squareUp.okhttp3.okhttp) //Transitive
 	api(libs.kotlinx.serialization.core) //Transitive
@@ -52,8 +54,7 @@ dependencies {
 	implementation(libs.ktor.serialization.kotlinx.json)
 	implementation(libs.ktorfit.lib)
 	implementation(libs.kotlinx.serialization.json)
-
-	ksp(libs.ktorfit.ksp)
+	implementation(libs.uriKmp)
 
 	debugImplementation(libs.chucker.library)
 	releaseImplementation(libs.chucker.noop)

@@ -7,7 +7,7 @@ targetSdkVersion = "33"
 gradlePlugin = "8.0.0"
 #gradlePlugin = "7.3.1" # For IntelliJ plugin runIde
 kotlin = "1.8.20"
-coroutines = "1.6.4"
+coroutines = "1.7.1"
 serialization = "1.5.0"
 androidx-activity = "1.7.1"
 androidx-lifecycle = "2.6.1"
@@ -31,12 +31,13 @@ google-firebase-crashlytics = "18.3.5"
 google-firebase-database = "31.2.3"
 google-firebase-config = "31.2.3"
 moshi = "1.14.0"
-okhttp = "4.11.0"
+okhttp = "5.0.0-alpha.11"
 retrofit = "2.9.0"
 facebook = "14.1.1"
 chucker = "3.5.2"
 mviKotlin = "3.2.0"
 decompose = "1.0.0"
+parcelize-darwin = "0.1.4"
 jUnit5 = "5.9.2"
 mockk = "1.13.3" #1.13.4 issue: https://github.com/mockk/mockk/issues/1035
 kotest = "5.6.1"
@@ -190,6 +191,7 @@ ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref =
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-http = { group = "io.ktor", name = "ktor-http", version.ref = "ktor" }
@@ -236,6 +238,8 @@ decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "
 decompose-extensionsJetpack = { module = "com.arkivanov.decompose:extensions-compose-jetpack", version.ref = "decompose" }
 decompose-extensionsJetBrains = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 
+parcelize-darwin-runtime = { module = "com.arkivanov.parcelize.darwin:runtime", version.ref = "parcelize-darwin" }
+
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
 detekt-cli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
 detekt-test = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
@@ -257,6 +261,9 @@ flowBinding-material = { module = "io.github.reactivecircus.flowbinding:flowbind
 
 view-collapsingToolbar = "me.onebone:toolbar-compose:2.3.5"
 
+#Utilities
+uriKmp = "com.eygraber:uri-kmp:0.0.12"
+
 test-jUnit = "junit:junit:4.13.2"
 test-robolectric = "org.robolectric:robolectric:4.9.2"
 test-barista = "com.adevinta.android:barista:4.3.0"
@@ -276,7 +283,7 @@ test-kotest-property = { module = "io.kotest:kotest-property", version.ref = "ko
 test-hamcrest2 = "org.hamcrest:hamcrest:2.2"
 test-hamcrest = "org.hamcrest:hamcrest-core:1.3"
 
-timber = "com.jakewharton.timber:timber:5.0.1"
+logging = "org.lighthousegames:logging:1.3.0"
 inject = "javax.inject:javax.inject:1"
 lottie = "com.airbnb.android:lottie:5.2.0"
 revenueCat = "com.revenuecat.purchases:purchases:5.6.1"
@@ -293,6 +300,7 @@ hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "google-dag
 crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.4" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version = "1.0.0" }
+parcelize-darwin = { id = "com.arkivanov.parcelize.darwin", version.ref = "parcelize-darwin" }
 
 versions = { id = "com.github.ben-manes.versions", version = "0.46.0" }
 dependencyAnalyis = { id = "com.autonomousapps.dependency-analysis", version = "1.20.0" }

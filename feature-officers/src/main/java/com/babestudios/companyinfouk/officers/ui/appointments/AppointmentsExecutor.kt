@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.officers.ui.appointments
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore.Intent
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore.State
 import kotlinx.coroutines.CoroutineDispatcher

@@ -1,49 +1,42 @@
 package com.babestudios.companyinfouk.data
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import com.babestudios.base.data.network.OfflineException
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
-import com.babestudios.companyinfouk.data.network.CompaniesHouseApi
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentApi
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.charges.Charges
-import com.babestudios.companyinfouk.domain.model.common.ApiResult
-import com.babestudios.companyinfouk.domain.model.common.apiRunCatching
-import com.babestudios.companyinfouk.domain.model.company.Company
-import com.babestudios.companyinfouk.domain.model.filinghistory.Category
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
-import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
-import com.babestudios.companyinfouk.domain.model.persons.Person
-import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
+import com.babestudios.companyinfouk.shared.domain.model.common.ApiResult
+import com.babestudios.companyinfouk.shared.domain.model.common.apiRunCatching
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.shared.domain.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.github.michaelbull.result.mapError
 import com.google.firebase.analytics.FirebaseAnalytics
-import java.io.FileNotFoundException
-import java.io.IOException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
-import okhttp3.ResponseBody
-import timber.log.Timber
+//import org.lighthousegames.logging.logging
 
 internal const val COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE = "50"
 
 internal class CompaniesAccessor constructor(
-	private val context: Context,
 	private val companiesHouseApi: CompaniesHouseApi,
-	private val companiesHouseDocumentApi: CompaniesHouseDocumentApi,
 	private var preferencesHelper: PreferencesHelper,
 	private val firebaseAnalytics: FirebaseAnalytics,
 	private val companiesHouseMapping: CompaniesHouseMapping,
 	private val ioContext: CoroutineDispatcher,
 ) : CompaniesRepository {
+
+	//private val log = logging()
 
 	override suspend fun recentSearches(): List<SearchHistoryItem> {
 		return preferencesHelper.recentSearches
@@ -75,7 +68,7 @@ internal class CompaniesAccessor constructor(
 
 	override suspend fun getFilingHistory(
 		companyNumber: String,
-		category: Category,
+		category: com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category,
 		startItem: String,
 	): ApiResult<FilingHistory> {
 		return apiRunCatching {
@@ -139,7 +132,11 @@ internal class CompaniesAccessor constructor(
 				)
 				companiesHouseMapping.mapOfficers(officersResponseDto)
 			}
-		}.mapError { OfflineException(OfficersResponse()) }
+		}.mapError {
+			OfflineException(
+				OfficersResponse()
+			)
+		}
 
 	}
 
@@ -181,41 +178,6 @@ internal class CompaniesAccessor constructor(
 		return withContext(ioContext) {
 			val personDto = companiesHouseApi.getLegalPerson(companyNumber, pscId)
 			companiesHouseMapping.mapPerson(personDto)
-		}
-	}
-
-	override suspend fun getDocument(documentId: String): ResponseBody {
-		return withContext(ioContext) {
-			companiesHouseDocumentApi.getDocument("application/pdf", documentId)
-		}
-	}
-
-	@Suppress("BlockingMethodInNonBlockingContext") // https://youtrack.jetbrains.com/issue/KTIJ-838
-	override suspend fun writeDocumentPdf(responseBody: ResponseBody, uri: Uri): Uri {
-		return withContext(ioContext) {
-			val outputStream = context.contentResolver.openOutputStream(uri)
-			val inputStream = responseBody.byteStream()
-			try {
-				@Suppress("MagicNumber")
-				val fileReader = ByteArray(4096)
-				while (true) {
-					val read = inputStream.read(fileReader)
-					if (read == -1) {
-						break
-					}
-					outputStream?.write(fileReader, 0, read)
-				}
-				outputStream?.flush()
-			} catch (e: FileNotFoundException) {
-				Timber.e("File not found: ${e.localizedMessage}")
-			} catch (e: IOException) {
-				Timber.d("Error during closing input stream ${e.localizedMessage}")
-			} finally {
-				inputStream.close()
-
-				outputStream?.close()
-			}
-			uri
 		}
 	}
 

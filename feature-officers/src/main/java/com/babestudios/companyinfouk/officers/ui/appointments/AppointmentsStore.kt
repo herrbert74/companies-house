@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.officers.ui.appointments
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
-import com.babestudios.companyinfouk.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore.Intent
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore.State
 

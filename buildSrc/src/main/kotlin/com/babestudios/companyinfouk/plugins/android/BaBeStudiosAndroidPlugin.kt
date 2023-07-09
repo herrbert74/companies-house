@@ -58,7 +58,7 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 
 		project.dependencies {
 
-			libs.findLibrary("timber").ifPresent { add("implementation", it) }
+			libs.findLibrary("logging").ifPresent { add("implementation", it) }
 			libs.findLibrary("detekt.cli").ifPresent { add("detekt", it) }
 			libs.findLibrary("google.firebase.bom").ifPresent { add("implementation", platform(it)) }
 			libs.findLibrary("google.firebase.analytics").ifPresent { add("implementation", it) }

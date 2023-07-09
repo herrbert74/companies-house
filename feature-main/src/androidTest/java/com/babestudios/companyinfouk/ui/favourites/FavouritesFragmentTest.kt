@@ -14,10 +14,11 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.main.CompaniesRootComponent
 import com.babestudios.companyinfouk.main.CompaniesRootContent
 import com.babestudios.companyinfouk.main.Configuration
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.mock.mockWithEmptyFavourites
 import com.babestudios.companyinfouk.mock.mockWithFavourites
 import com.babestudios.companyinfouk.main.navigation
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import io.mockk.coEvery
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +27,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
@@ -37,6 +39,7 @@ class FavouritesFragmentTest : KoinComponent {
 	val composeTestRule = createComposeRule()
 
 	private val companiesRepository: CompaniesRepository by inject()
+	private val companiesDocumentRepository: CompaniesDocumentRepository by inject()
 	private val mainContext: CoroutineDispatcher by inject(named("MainDispatcher"))
 	private val ioContext: CoroutineDispatcher by inject(named("IoDispatcher"))
 
@@ -48,7 +51,8 @@ class FavouritesFragmentTest : KoinComponent {
 				DefaultComponentContext(lifecycle = LifecycleRegistry()),
 				mainContext,
 				ioContext,
-				companiesRepository
+				companiesRepository,
+				companiesDocumentRepository
 			) {}
 			composeTestRule.setContent {
 				CompaniesRootContent(companiesRootComponent)

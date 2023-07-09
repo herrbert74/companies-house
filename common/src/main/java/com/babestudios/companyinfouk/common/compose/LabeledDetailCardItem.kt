@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
-import com.babestudios.companyinfouk.domain.FORTY_PERCENT
+import com.babestudios.companyinfouk.shared.domain.FORTY_PERCENT
 
 @Composable
 fun LabeledDetailCardItem(

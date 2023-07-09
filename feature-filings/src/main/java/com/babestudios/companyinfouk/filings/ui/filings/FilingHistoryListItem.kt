@@ -17,8 +17,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.model.filinghistory.Category
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 
 @Composable
 internal fun FilingHistoryItemListItem(

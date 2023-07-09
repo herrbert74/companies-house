@@ -36,7 +36,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import org.lighthousegames.logging.logging
 
 private const val DEFAULT_LATITUDE = 51.5
 
@@ -118,15 +118,15 @@ private suspend fun getLocationFromAddress(strAddress: String, context: Context)
 				val address = addresses?.getOrNull(0)
 				latLng = if (address == null) defaultLatLng else LatLng(address.latitude, address.longitude)
 				continuation.resume(latLng)
-			} catch (e: Exception) {
-				when (e) {
+			} catch (exception: Exception) {
+				when (exception) {
 					is IOException, is IndexOutOfBoundsException -> {
-						Timber.e("Map", e.localizedMessage, e)
+						logging().e(exception) { exception.localizedMessage }
 						latLng = defaultLatLng
 						continuation.resume(latLng)
 					}
 
-					else -> throw e
+					else -> throw exception
 				}
 
 			}

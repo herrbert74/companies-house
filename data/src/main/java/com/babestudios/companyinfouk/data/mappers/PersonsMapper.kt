@@ -2,11 +2,11 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
-import com.babestudios.companyinfouk.data.model.persons.PersonDto
-import com.babestudios.companyinfouk.data.model.persons.PersonsResponseDto
-import com.babestudios.companyinfouk.domain.model.persons.Identification
-import com.babestudios.companyinfouk.domain.model.persons.Person
-import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.shared.data.model.persons.PersonDto
+import com.babestudios.companyinfouk.shared.data.model.persons.PersonsResponseDto
+import com.babestudios.companyinfouk.shared.domain.model.persons.Identification
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
 
 fun mapPersonsResponseDto(
 	input: PersonsResponseDto,

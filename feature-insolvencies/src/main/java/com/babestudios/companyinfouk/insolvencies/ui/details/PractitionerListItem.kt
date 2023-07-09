@@ -19,8 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
 
 @Composable

@@ -17,8 +17,8 @@ import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
-import com.babestudios.companyinfouk.domain.HALF
-import com.babestudios.companyinfouk.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.HALF
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
 
 @Composable
 fun AddressCard(

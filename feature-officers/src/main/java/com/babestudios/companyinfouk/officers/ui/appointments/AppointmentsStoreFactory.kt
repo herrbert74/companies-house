@@ -4,9 +4,9 @@ import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
-import com.babestudios.companyinfouk.domain.model.common.ApiResult
-import com.babestudios.companyinfouk.domain.model.officers.AppointmentsResponse
-import com.babestudios.companyinfouk.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.model.common.ApiResult
+import com.babestudios.companyinfouk.shared.domain.model.officers.AppointmentsResponse
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore.Intent
 import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore.State
 import com.github.michaelbull.result.fold

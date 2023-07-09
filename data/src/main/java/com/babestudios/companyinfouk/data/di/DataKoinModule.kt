@@ -3,6 +3,7 @@ package com.babestudios.companyinfouk.data.di
 import android.content.Context
 import com.babestudios.companyinfouk.data.BuildConfig
 import com.babestudios.companyinfouk.data.CompaniesAccessor
+import com.babestudios.companyinfouk.data.CompaniesDocumentAccessor
 import com.babestudios.companyinfouk.data.local.PREF_FILE_NAME
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
@@ -15,13 +16,14 @@ import com.babestudios.companyinfouk.data.local.apilookup.PscHelper
 import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
-import com.babestudios.companyinfouk.data.network.CompaniesHouseApi
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentApi
+import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
+import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseDocumentApi
 import com.babestudios.companyinfouk.data.utils.RawResourceHelper
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 import com.babestudios.companyinfouk.data.utils.StringResourceHelper
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -45,19 +47,17 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.withOptions
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import timber.log.Timber
+import org.lighthousegames.logging.logging
 
 private const val NETWORK_TIMEOUT = 30_000L
 
 val dataModule = module {
 
-	singleOf(::CompaniesHouseMapper) { bind<CompaniesHouseMapping>() }
+	//region Repository
 
 	single {
 		CompaniesAccessor(
-			androidContext(),
 			get(named("CompaniesHouseApi")),
-			get(named("CompaniesHouseDocumentApi")),
 			get(),
 			get(),
 			get(),
@@ -66,6 +66,20 @@ val dataModule = module {
 	}.withOptions {
 		bind<CompaniesRepository>()
 	}
+
+	single {
+		CompaniesDocumentAccessor(
+			androidContext(),
+			get(named("CompaniesHouseDocumentApi")),
+			get(named("IoDispatcher")),
+		)
+	}.withOptions {
+		bind<CompaniesDocumentRepository>()
+	}
+
+	//endregion
+
+	singleOf(::CompaniesHouseMapper) { bind<CompaniesHouseMapping>() }
 
 	single {
 		RawResourceHelper(androidContext())
@@ -85,6 +99,7 @@ val dataModule = module {
 		bind<StringResourceHelperContract>()
 	}
 	single { androidContext().getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE) }
+
 	single { FirebaseAnalytics.getInstance(androidContext()) }
 
 	single {
@@ -106,7 +121,6 @@ val dataModule = module {
 	single {
 		OkHttp.create {
 			addInterceptor(get<ChuckerInterceptor>())
-
 		}
 	}
 
@@ -118,7 +132,7 @@ val dataModule = module {
 			install(Logging) {
 				logger = object : Logger {
 					override fun log(message: String) {
-						Timber.d("AA-430 log: $message")
+						logging().d { "AA-430 log: $message" }
 					}
 				}
 				level = LogLevel.ALL
@@ -140,7 +154,7 @@ val dataModule = module {
 			install(Logging) {
 				logger = object : Logger {
 					override fun log(message: String) {
-						Timber.d("AA-430 log: $message")
+						logging().d { "AA-430 log: $message" }
 					}
 				}
 				level = LogLevel.ALL

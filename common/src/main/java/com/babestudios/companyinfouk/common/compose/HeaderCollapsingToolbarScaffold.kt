@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.SEMI_TRANSPARENT
-import com.babestudios.companyinfouk.domain.HALF
+import com.babestudios.companyinfouk.shared.domain.HALF
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldScope
 import me.onebone.toolbar.ScrollStrategy

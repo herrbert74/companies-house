@@ -2,18 +2,18 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
-import com.babestudios.companyinfouk.data.model.common.AddressDto
-import com.babestudios.companyinfouk.data.model.common.MonthYearDto
-import com.babestudios.companyinfouk.data.model.officers.OfficerDto
-import com.babestudios.companyinfouk.data.model.officers.OfficerLinksDto
-import com.babestudios.companyinfouk.data.model.officers.OfficersResponseDto
+import com.babestudios.companyinfouk.shared.data.model.common.AddressDto
+import com.babestudios.companyinfouk.shared.data.model.common.MonthYearDto
+import com.babestudios.companyinfouk.shared.data.model.officers.OfficerDto
+import com.babestudios.companyinfouk.shared.data.model.officers.OfficerLinksDto
+import com.babestudios.companyinfouk.shared.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.domain.model.officers.OfficerLinks
-import com.babestudios.companyinfouk.domain.model.officers.OfficerRelatedLinks
-import com.babestudios.companyinfouk.domain.model.officers.OfficersResponse
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerLinks
+import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerRelatedLinks
+import com.babestudios.companyinfouk.shared.domain.model.officers.OfficersResponse
 import java.util.regex.Pattern
 
 fun mapOfficersResponseDto(
@@ -81,7 +81,11 @@ private fun extractOfficerAppointmentsId(appointmentsUrl: String) : String {
 }
 
 private fun mapOfficerLinksDto(input: OfficerLinksDto?) =
-	OfficerLinks(OfficerRelatedLinks(input?.officer?.appointments ?: ""))
+	OfficerLinks(
+		OfficerRelatedLinks(
+			input?.officer?.appointments ?: ""
+		)
+	)
 
 
 internal fun mapMonthYearDto(input: MonthYearDto?): MonthYear {

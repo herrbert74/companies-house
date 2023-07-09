@@ -3,10 +3,10 @@ package com.babestudios.companyinfouk.data
 import android.content.Context
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
-import com.babestudios.companyinfouk.data.network.CompaniesHouseApi
-import com.babestudios.companyinfouk.data.network.CompaniesHouseDocumentApi
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
+import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseDocumentApi
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery

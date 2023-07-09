@@ -6,9 +6,9 @@ import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.companies.ui.company.CompanyExecutor
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStoreFactory
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.company.Company
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify

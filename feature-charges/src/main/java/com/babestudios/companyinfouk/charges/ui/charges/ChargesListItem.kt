@@ -23,7 +23,7 @@ import androidx.constraintlayout.compose.Visibility
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 
 @Composable
 internal fun ChargesItemListItem(

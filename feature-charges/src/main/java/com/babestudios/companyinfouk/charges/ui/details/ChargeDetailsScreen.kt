@@ -25,9 +25,9 @@ import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.FORTY_PERCENT
-import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
-import com.babestudios.companyinfouk.domain.model.charges.Particulars
+import com.babestudios.companyinfouk.shared.domain.FORTY_PERCENT
+import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
 
 @Composable
 fun ChargeDetailsListScreen(component: ChargeDetailsComp) {

@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.data.local.apilookup
 
 import com.babestudios.companyinfouk.data.R
-import com.babestudios.companyinfouk.data.local.apilookup.model.Constants
-import com.babestudios.companyinfouk.data.local.apilookup.model.FilingHistoryDescriptions
-import com.babestudios.companyinfouk.data.local.apilookup.model.MortgageDescriptions
-import com.babestudios.companyinfouk.data.local.apilookup.model.PscDescriptions
+import com.babestudios.companyinfouk.shared.domain.model.enumerations.Constants
+import com.babestudios.companyinfouk.shared.domain.model.enumerations.FilingHistoryDescriptions
+import com.babestudios.companyinfouk.shared.domain.model.enumerations.MortgageDescriptions
+import com.babestudios.companyinfouk.shared.domain.model.enumerations.PscDescriptions
 import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
 
 interface ConstantsHelperContract {

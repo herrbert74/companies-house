@@ -3,8 +3,8 @@ package com.babestudios.companyinfouk.insolvencies
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesExecutor
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStoreFactory

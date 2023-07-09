@@ -2,12 +2,12 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.kotlin.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.kotlin.ext.parseMySqlDate
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.company.Company
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
-import com.babestudios.companyinfouk.data.model.common.AddressDto
-import com.babestudios.companyinfouk.data.model.company.AccountsDto
-import com.babestudios.companyinfouk.data.model.company.CompanyDto
+import com.babestudios.companyinfouk.shared.data.model.common.AddressDto
+import com.babestudios.companyinfouk.shared.data.model.company.AccountsDto
+import com.babestudios.companyinfouk.shared.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 
 fun mapCompanyDto(

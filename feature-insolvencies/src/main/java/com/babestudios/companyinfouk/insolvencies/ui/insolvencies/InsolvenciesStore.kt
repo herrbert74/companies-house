@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore.State
 
 interface InsolvenciesStore : Store<Nothing, State, Nothing> {

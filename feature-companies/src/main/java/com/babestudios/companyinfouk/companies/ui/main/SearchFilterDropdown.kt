@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.babestudios.companyinfouk.domain.model.search.FilterState
+import com.babestudios.companyinfouk.shared.domain.model.search.FilterState
 
 @Composable
 fun SearchFilterDropdown(

@@ -4,8 +4,8 @@ import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
-import com.babestudios.companyinfouk.domain.model.common.ApiResult
-import com.babestudios.companyinfouk.domain.model.charges.Charges
+import com.babestudios.companyinfouk.shared.domain.model.common.ApiResult
+import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.Intent
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore.State
 import com.github.michaelbull.result.fold

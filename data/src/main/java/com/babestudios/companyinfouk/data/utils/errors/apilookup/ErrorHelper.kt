@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk.data.utils.errors.apilookup
 
 import android.content.Context
 import com.babestudios.companyinfouk.data.R
-import com.babestudios.companyinfouk.data.utils.errors.apilookup.model.ErrorMappings
+import com.babestudios.companyinfouk.shared.domain.model.enumerations.ErrorMappings
 import com.google.gson.Gson
 
 /**

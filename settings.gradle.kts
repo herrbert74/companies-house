@@ -1,20 +1,18 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":feature-main")
-
-
 include(":app")
 include(":data")
 include(":core-detekt")
 include(":common")
-include(":domain")
 include(":feature-charges")
 include(":feature-companies")
 include(":feature-insolvencies")
+include(":feature-main")
 include(":feature-officers")
 include(":feature-persons")
 include(":feature-insolvencies")
 include(":feature-filings")
+include(":shared")
 
 pluginManagement {
 	repositories {
@@ -25,7 +23,7 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
 	repositories {
 		mavenCentral()
 		google()

@@ -41,8 +41,8 @@ import com.babestudios.companyinfouk.common.compose.LabeledDetailCardItem
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
-import com.babestudios.companyinfouk.domain.model.filinghistory.Category
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.ui.filings.createAnnotatedStringDescription
 import java.util.Locale
@@ -171,9 +171,9 @@ fun CheckPermissionAndWriteDocument(
 }
 
 @Suppress("SwallowedException")
-private fun showDocument(pdfBytes: Uri, context: Context, pdfWillNotSaveMessage: String) {
+private fun showDocument(pdfUri: Uri, context: Context, pdfWillNotSaveMessage: String) {
 	val target = Intent(Intent.ACTION_VIEW)
-	target.setDataAndType(pdfBytes, "application/pdf")
+	target.setDataAndType(pdfUri, "application/pdf")
 	target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 	target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 	val intent = Intent.createChooser(target, "Open File")

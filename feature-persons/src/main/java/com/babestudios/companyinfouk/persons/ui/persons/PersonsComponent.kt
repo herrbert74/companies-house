@@ -5,7 +5,7 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.companyinfouk.common.ext.asValue
-import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch

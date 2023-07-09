@@ -27,7 +27,8 @@ android {
 
 dependencies {
 
-	api(project(":domain"))
+	api(project(":shared"))
+
 	implementation(project(":feature-charges"))
 	implementation(project(":feature-companies"))
 	implementation(project(":feature-filings"))

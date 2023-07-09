@@ -15,8 +15,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.model.insolvency.Date
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Date
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 
 @Composable
 internal fun InsolvenciesListItem(

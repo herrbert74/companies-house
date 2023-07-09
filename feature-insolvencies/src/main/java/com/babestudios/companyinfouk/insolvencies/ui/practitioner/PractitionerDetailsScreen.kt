@@ -20,8 +20,8 @@ import com.babestudios.companyinfouk.common.compose.AddressCard
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
 import kotlinx.coroutines.Dispatchers
 

@@ -105,7 +105,7 @@ dependencyAnalysis {
 			onAny {
 				exclude(
 					"io.mockk:mockk-android", //Wants to remove it
-					"com.jakewharton.timber:timber", //Not used everywhere yet, but occasionally needed
+					"org.lighthousegames:logging", //Not used everywhere yet, but occasionally needed
 					"com.arkivanov.decompose:decompose",
 					"com.arkivanov.decompose:decompose-android-debug",
 					"com.arkivanov.decompose:decompose-android",

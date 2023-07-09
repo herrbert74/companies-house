@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.persons.ui.persons
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.babestudios.companyinfouk.domain.model.persons.PersonsResponse
+import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.Intent
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore.State
 

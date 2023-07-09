@@ -1,12 +1,12 @@
 package com.babestudios.companyinfouk.main
 
 import android.os.Parcelable
-import com.babestudios.companyinfouk.domain.model.charges.ChargesItem
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
-import com.babestudios.companyinfouk.domain.model.officers.Officer
-import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import kotlinx.parcelize.Parcelize
 
 sealed class Configuration : Parcelable {

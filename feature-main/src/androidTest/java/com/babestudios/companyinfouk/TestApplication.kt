@@ -2,7 +2,7 @@ package com.babestudios.companyinfouk
 
 import android.app.Application
 import com.babestudios.companyinfouk.di.androidTestDataModule
-import com.babestudios.companyinfouk.domain.di.coroutineContextModule
+import com.babestudios.companyinfouk.shared.domain.di.coroutineContextModule
 import org.koin.core.context.startKoin
 
 class TestApplication : Application() {

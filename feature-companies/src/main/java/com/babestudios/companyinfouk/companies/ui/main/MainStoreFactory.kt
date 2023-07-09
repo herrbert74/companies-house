@@ -4,14 +4,14 @@ import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
-import com.babestudios.companyinfouk.domain.model.common.ApiResult
+import com.babestudios.companyinfouk.shared.domain.model.common.ApiResult
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.Intent
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.SideEffect
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.State
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResult
-import com.babestudios.companyinfouk.domain.model.search.FilterState
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.domain.model.search.filterSearchResults
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
+import com.babestudios.companyinfouk.shared.domain.model.search.FilterState
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.search.filterSearchResults
 import com.github.michaelbull.result.fold
 
 class MainStoreFactory(

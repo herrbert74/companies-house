@@ -4,9 +4,9 @@ import com.arkivanov.mvikotlin.core.store.Store
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.Intent
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.SideEffect
 import com.babestudios.companyinfouk.companies.ui.main.MainStore.State
-import com.babestudios.companyinfouk.domain.model.search.CompanySearchResultItem
-import com.babestudios.companyinfouk.domain.model.search.FilterState
-import com.babestudios.companyinfouk.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResultItem
+import com.babestudios.companyinfouk.shared.domain.model.search.FilterState
+import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 
 interface MainStore : Store<Intent, State, SideEffect> {
 

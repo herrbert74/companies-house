@@ -3,7 +3,7 @@ package com.babestudios.companyinfouk.companies.ui.company
 import com.arkivanov.mvikotlin.core.store.Store
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.companies.ui.company.CompanyStore.State
-import com.babestudios.companyinfouk.domain.model.company.Company
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
 
 interface CompanyStore : Store<Intent, State, Nothing> {
 

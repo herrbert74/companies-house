@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.persons.ui.details
 
 import com.arkivanov.decompose.ComponentContext
-import com.babestudios.companyinfouk.domain.model.common.getAddressString
-import com.babestudios.companyinfouk.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.domain.model.common.getAddressString
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector

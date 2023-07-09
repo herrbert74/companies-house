@@ -38,7 +38,7 @@ import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.design.CompaniesTypography
-import com.babestudios.companyinfouk.domain.model.filinghistory.FilingHistoryItem
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
 
 @Composable

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore.State
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch

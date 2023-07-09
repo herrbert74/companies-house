@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface RootComp
+class RootComponent
+class Output
+class RootContent <<Composable>>
+class Screen <<Composable>>
+class RootActivity
+class Child <<sealed>>
+class FeatureChild
+interface FeatureComp
+class FeatureComponent
+class Configuration <<sealed>>
+class FeatureConfiguration
+class StackNavigation<Configuration>
+circle createComponent <<internal function>>
+circle navigation <<internal function>>
+circle onFeatureOutput <<internal function>>
+
+RootComponent : createChild(configuration) : Child
+FeatureComponent : componentContext: ComponentContext
+
+RootComp <|-- RootComponent
+Child <|-- FeatureChild
+FeatureComponent *-- FeatureChild : contains
+FeatureComponent *-- Screen : contains
+FeatureComp <|-- FeatureComponent
+Configuration <|-- FeatureConfiguration
+FeatureComp <.. createComponent : creates
+FeatureComponent <.. createComponent : creates
+Child <.. RootComponent : creates
+Configuration <.. RootComponent : receives
+Child <.. RootContent : receives
+Output <.. onFeatureOutput : receives
+Configuration <.. onFeatureOutput : creates
+onFeatureOutput <.. RootComponent : uses
+createComponent <.. RootComponent : uses
+navigation <.. onFeatureOutput : adds Config to stack
+Screen <.. RootContent : adds to stack
+RootComp <|-- RootActivity
+RootContent <|-- RootActivity
+StackNavigation <|-- navigation
+
+@enduml

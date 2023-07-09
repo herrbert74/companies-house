@@ -2,16 +2,16 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
 import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
-import com.babestudios.companyinfouk.data.model.common.AddressDto
-import com.babestudios.companyinfouk.data.model.insolvency.DateDto
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyCaseDto
-import com.babestudios.companyinfouk.data.model.insolvency.InsolvencyDto
-import com.babestudios.companyinfouk.data.model.insolvency.PractitionerDto
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.insolvency.Date
-import com.babestudios.companyinfouk.domain.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
-import com.babestudios.companyinfouk.domain.model.insolvency.Practitioner
+import com.babestudios.companyinfouk.shared.data.model.common.AddressDto
+import com.babestudios.companyinfouk.shared.data.model.insolvency.DateDto
+import com.babestudios.companyinfouk.shared.data.model.insolvency.InsolvencyCaseDto
+import com.babestudios.companyinfouk.shared.data.model.insolvency.InsolvencyDto
+import com.babestudios.companyinfouk.shared.data.model.insolvency.PractitionerDto
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Date
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Insolvency
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 
 fun mapInsolvencyDto(input: InsolvencyDto, constantsHelper: ConstantsHelperContract) =
 	Insolvency(

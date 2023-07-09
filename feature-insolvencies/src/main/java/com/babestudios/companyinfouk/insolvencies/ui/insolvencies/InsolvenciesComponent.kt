@@ -5,7 +5,7 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.companyinfouk.common.ext.asValue
-import com.babestudios.companyinfouk.domain.model.insolvency.InsolvencyCase
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch

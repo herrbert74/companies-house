@@ -24,11 +24,11 @@ import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaff
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.domain.PREVIEW_MONTH
-import com.babestudios.companyinfouk.domain.PREVIEW_YEAR
-import com.babestudios.companyinfouk.domain.model.common.Address
-import com.babestudios.companyinfouk.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.domain.model.officers.Officer
+import com.babestudios.companyinfouk.shared.domain.PREVIEW_MONTH
+import com.babestudios.companyinfouk.shared.domain.PREVIEW_YEAR
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
+import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.R
 import kotlinx.coroutines.Dispatchers
 

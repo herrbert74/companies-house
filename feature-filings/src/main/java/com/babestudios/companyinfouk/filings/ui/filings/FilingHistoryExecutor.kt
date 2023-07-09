@@ -1,8 +1,8 @@
 package com.babestudios.companyinfouk.filings.ui.filings
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.domain.api.CompaniesRepository
-import com.babestudios.companyinfouk.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore.Intent
 import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore.State
 import kotlinx.coroutines.CoroutineDispatcher

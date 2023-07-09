@@ -26,6 +26,8 @@ dependencies {
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensionsJetBrains)
 	implementation(libs.decompose.extensionsJetpack)
+	implementation(libs.uriKmp)
+	implementation(libs.ktor.client.core)
 	implementation(libs.view.collapsingToolbar)
 
 }
