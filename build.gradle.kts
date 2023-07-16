@@ -13,7 +13,6 @@ buildscript {
 
 @Suppress("DSL_SCOPE_VIOLATION") //https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-	alias(libs.plugins.hiltAndroid) apply false
 	alias(libs.plugins.crashlytics) apply false
 	id("scabbard.gradle") version "0.5.0"
 

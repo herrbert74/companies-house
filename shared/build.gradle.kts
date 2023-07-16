@@ -4,6 +4,8 @@ plugins {
 	id("kotlin-parcelize")
 	kotlin("plugin.serialization").version("1.8.20")
 	alias(libs.plugins.parcelize.darwin)
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.ktorfit)
 }
 
 kotlin {
@@ -26,6 +28,7 @@ kotlin {
 	}
 
 	sourceSets {
+
 		val commonMain by getting {
 			dependencies {
 				//Domain
@@ -134,4 +137,9 @@ android {
 		debugImplementation(libs.chucker.library)
 		releaseImplementation(libs.chucker.noop)
 	}
+}
+
+dependencies {
+	add("kspCommonMainMetadata", libs.ktorfit.ksp)
+	add("kspAndroid", libs.ktorfit.ksp)
 }
