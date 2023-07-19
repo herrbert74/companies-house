@@ -1,16 +1,6 @@
 package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.kotlin.ext.loadJson
-import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
-import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
-import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
-import com.babestudios.companyinfouk.data.local.apilookup.PscHelper
-import com.babestudios.companyinfouk.data.local.apilookup.PscHelperContract
-import com.babestudios.companyinfouk.shared.domain.model.enumerations.Constants
-import com.babestudios.companyinfouk.shared.domain.model.enumerations.FilingHistoryDescriptions
 import com.babestudios.companyinfouk.shared.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.shared.data.model.company.CompanyDto
 import com.babestudios.companyinfouk.shared.data.model.filinghistory.DescriptionValuesDto
@@ -19,24 +9,15 @@ import com.babestudios.companyinfouk.shared.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.shared.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.shared.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.shared.data.model.persons.PersonsResponseDto
-import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
-import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficersResponse
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.slot
-import java.util.Locale
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.junit.Before
 import org.junit.Test
 
 class MappersTest {
-
-	private lateinit var companiesHouseMapper: CompaniesHouseMapping
 
 	private lateinit var officersResponseYouLimited: OfficersResponse
 
@@ -48,51 +29,37 @@ class MappersTest {
 	@Before
 	fun setup() {
 
-		val rawResourceHelper = mockk<RawResourceHelperContract>(relaxed = true).apply {
-			every { getConstants(any()) } returns Constants(
-				mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
-				mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
-				mapOf("68100" to "Buying and selling of own real estate"),
-				mapOf(), mapOf(), mapOf(), mapOf(), mapOf()
-			)
-			every { getFilingHistoryDescriptions(any()) } returns FilingHistoryDescriptions(
-				mapOf(
-					"capital-allotment-shares" to "**Statement of capital following an allotment of shares** on {date}"
-				)
-			)
-		}
+//		val rawResourceHelper = mockk<RawResourceHelperContract>(relaxed = true).apply {
+//			every { getConstants(any()) } returns Constants(
+//				mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
+//				mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(), mapOf(),
+//				mapOf("68100" to "Buying and selling of own real estate"),
+//				mapOf(), mapOf(), mapOf(), mapOf(), mapOf()
+//			)
+//			every { getFilingHistoryDescriptions(any()) } returns FilingHistoryDescriptions(
+//				mapOf(
+//					"capital-allotment-shares" to "**Statement of capital following an allotment of shares** on {date}"
+//				)
+//			)
+//		}
 
-		val slotDate = slot<String>()
-		val slotFrom = slot<String>()
-		val slotFrom2 = slot<String>()
-		val slotTo = slot<String>()
-		val stringResourceHelper = mockk<StringResourceHelperContract>(relaxed = true).apply {
-			every { getLastAccountMadeUpToString(any(), capture(slotDate)) } answers {
-				"Last account made up to ${slotDate.captured}"
-			}
-			every { getAppointedFromString(capture(slotFrom)) } answers {
-				String.format(Locale.UK, "From %1\$s", slotFrom.captured)
-			}
-			every { getAppointedFromToString(capture(slotFrom2), capture(slotTo)) } answers {
-				String.format(Locale.UK, "From %1\$s to %2\$s", slotFrom2.captured, slotTo.captured)
-			}
-		}
+//		val slotDate = slot<String>()
+//		val slotFrom = slot<String>()
+//		val slotFrom2 = slot<String>()
+//		val slotTo = slot<String>()
+//		val stringResourceHelper = mockk<StringResourceHelperContract>(relaxed = true).apply {
+//			every { getLastAccountMadeUpToString(any(), capture(slotDate)) } answers {
+//				"Last account made up to ${slotDate.captured}"
+//			}
+//			every { getAppointedFromString(capture(slotFrom)) } answers {
+//				String.format(Locale.UK, "From %1\$s", slotFrom.captured)
+//			}
+//			every { getAppointedFromToString(capture(slotFrom2), capture(slotTo)) } answers {
+//				String.format(Locale.UK, "From %1\$s to %2\$s", slotFrom2.captured, slotTo.captured)
+//			}
+//		}
 
-		val filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract =
-			FilingHistoryDescriptionsHelper(rawResourceHelper)
-		val chargesHelper: ChargesHelperContract = ChargesHelper(rawResourceHelper)
-		val constantsHelper: ConstantsHelperContract = ConstantsHelper(rawResourceHelper)
-		val pscHelper: PscHelperContract = PscHelper(rawResourceHelper)
-
-		companiesHouseMapper = CompaniesHouseMapper(
-			filingHistoryDescriptionsHelper,
-			chargesHelper,
-			constantsHelper,
-			stringResourceHelper,
-			pscHelper
-		)
-
-		officersResponseYouLimited = companiesHouseMapper.mapOfficers(officersResponseDto)
+		officersResponseYouLimited = officersResponseDto.toOfficersResponse()
 
 	}
 
@@ -103,7 +70,7 @@ class MappersTest {
 
 	@Test
 	fun `when there is an appointment json then it is mapped`() {
-		val appointmentsResponseAllanDavidHorley = companiesHouseMapper.mapAppointments(appointmentsResponseDto)
+		val appointmentsResponseAllanDavidHorley = appointmentsResponseDto.toAppointmentsResponse()
 		appointmentsResponseAllanDavidHorley.totalResults shouldBe 3
 		appointmentsResponseAllanDavidHorley.items[0].name shouldBe "Allan David HORLEY"
 	}
@@ -116,7 +83,7 @@ class MappersTest {
 	fun `when there is a charges json then it is mapped`() {
 		val jsonString = this.loadJson("charges_pfb_hire")
 		val chargesDto = json.decodeFromString<ChargesDto>(jsonString)
-		val chargesPfbHire = companiesHouseMapper.mapChargesHistory(chargesDto)
+		val chargesPfbHire = chargesDto.toCharges()
 		chargesPfbHire.totalCount shouldBe 9
 		chargesPfbHire.items[0].personsEntitled shouldContain "Art Share"
 	}
@@ -130,7 +97,7 @@ class MappersTest {
 
 	@Test
 	fun `when there is a company json then it is mapped`() {
-		val companyCandour = companiesHouseMapper.mapCompany(companyDto)
+		val companyCandour = companyDto.toCompany()
 		companyCandour.natureOfBusiness shouldBe "68100 Buying and selling of own real estate"
 		companyCandour.lastAccountsMadeUpTo shouldBe "Last account made up to 31 Mar 2019"
 		companyCandour.companyName shouldBe "CANDOUR GROUP LIMITED"
@@ -139,13 +106,13 @@ class MappersTest {
 
 	@Test
 	fun `when addressline2 is null then it is mapped to null`() {
-		val companyCandour = companiesHouseMapper.mapCompany(companyDto)
+		val companyCandour = companyDto.toCompany()
 		companyCandour.registeredOfficeAddress.addressLine2 shouldBe null
 	}
 
 	@Test
 	fun `when address region is null then it is mapped to null`() {
-		val companyCandour = companiesHouseMapper.mapCompany(companyDto)
+		val companyCandour = companyDto.toCompany()
 		companyCandour.registeredOfficeAddress.region shouldBe null
 	}
 
@@ -157,7 +124,7 @@ class MappersTest {
 	fun `when there is a filing history json then it is mapped`() {
 		val jsonString = this.loadJson("filing_pfb_hire")
 		val filingHistoryDto = json.decodeFromString<FilingHistoryDto>(jsonString)
-		val filingHistoryPfbHire = companiesHouseMapper.mapFilingHistory(filingHistoryDto)
+		val filingHistoryPfbHire = filingHistoryDto.toFilingHistory()
 		filingHistoryPfbHire.totalCount shouldBe 47
 
 		//This one should (for now) unused 'capital' field removed
@@ -218,7 +185,7 @@ class MappersTest {
 	fun `when there is an insolvency json then it is mapped`() {
 		val jsonString = this.loadJson("insolvency_london_airways")
 		val insolvencyDto = json.decodeFromString<InsolvencyDto>(jsonString)
-		val insolvencyLondonAirways = companiesHouseMapper.mapInsolvency(insolvencyDto)
+		val insolvencyLondonAirways = insolvencyDto.toInsolvency()
 		insolvencyLondonAirways.cases[0].dates[0].date shouldBe "1995-01-18"
 		insolvencyLondonAirways.cases[0].practitioners[0].name shouldBe "Alan Redvers Price"
 	}
@@ -267,7 +234,7 @@ class MappersTest {
 
 	@Test
 	fun `when there is an personsResponse json then it is mapped`() {
-		val personsResponseYouLimited = companiesHouseMapper.mapPersonsResponse(personsResponseDto)
+		val personsResponseYouLimited = personsResponseDto.toPersonsResponse()
 		personsResponseYouLimited.totalResults shouldBe 5
 		personsResponseYouLimited.items[0].name shouldBe "Mr Peter Sunderland"
 		personsResponseYouLimited.items[0].dateOfBirth shouldBe MonthYear(year = 1942, month = 3)

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.shared.data.model.common.AddressDto
 import com.babestudios.companyinfouk.shared.data.model.insolvency.DateDto
 import com.babestudios.companyinfouk.shared.data.model.insolvency.InsolvencyCaseDto
@@ -13,56 +13,41 @@ import com.babestudios.companyinfouk.shared.domain.model.insolvency.Insolvency
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 
-fun mapInsolvencyDto(input: InsolvencyDto, constantsHelper: ConstantsHelperContract) =
+fun InsolvencyDto.toInsolvency() =
 	Insolvency(
-		mapNullInputList(input.cases) { case ->
-			mapInsolvencyCaseDto(
-				case,
+		mapNullInputList(cases) { case ->
+			case.toInsolvencyCase(
 				{ dates ->
-					mapNullInputList(dates) { date -> mapDateDto(date, constantsHelper) }
+					mapNullInputList(dates) { date -> date.toDate() }
 				},
-				{ practitioners ->
-					mapNullInputList(practitioners) { practitioner ->
-						mapPractitionerDto(practitioner) { addressDto -> mapAddressDto(addressDto) }
-					}
-				},
-				constantsHelper,
-			)
+			) { practitioners ->
+				mapNullInputList(practitioners) { practitioner ->
+					practitioner.toPractitioner { addressDto -> addressDto.toAddress() }
+				}
+			}
 		}
 	)
 
-fun mapInsolvencyCaseDto(
-	input: InsolvencyCaseDto?,
+fun InsolvencyCaseDto?.toInsolvencyCase(
 	mapDateDto: (List<DateDto>?) -> List<Date>,
 	mapPractitionerDto: (List<PractitionerDto>?) -> List<Practitioner>,
-	constantsHelper: ConstantsHelperContract,
 ): InsolvencyCase {
 	return InsolvencyCase(
-		mapDateDto(input?.dates),
-		mapPractitionerDto(input?.practitioners),
-		constantsHelper.insolvencyCaseType(input?.type ?: ""),
+		mapDateDto(this?.dates),
+		mapPractitionerDto(this?.practitioners),
+		ConstantsHelper.insolvencyCaseType(this?.type ?: ""),
 	)
 }
 
-fun mapDateDto(
-	input: DateDto?,
-	constantsHelper: ConstantsHelperContract,
-): Date {
-	return Date(
-		input?.date.orEmpty(),
-		constantsHelper.insolvencyCaseDateType(input?.type ?: ""),
-	)
-}
+fun DateDto?.toDate() = Date(
+	this?.date.orEmpty(),
+	ConstantsHelper.insolvencyCaseDateType(this?.type ?: ""),
+)
 
-fun mapPractitionerDto(
-	input: PractitionerDto?,
-	mapAddressDto: (AddressDto?) -> Address,
-): Practitioner {
-	return Practitioner(
-		mapAddressDto(input?.address),
-		input?.appointedOn,
-		input?.ceasedToActOn,
-		input?.name ?: "",
-		input?.role,
-	)
-}
+fun PractitionerDto?.toPractitioner(mapAddressDto: (AddressDto?) -> Address) = Practitioner(
+	mapAddressDto(this?.address),
+	this?.appointedOn,
+	this?.ceasedToActOn,
+	this?.name ?: "",
+	this?.role,
+)

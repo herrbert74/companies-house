@@ -1,11 +1,9 @@
 package com.babestudios.companyinfouk.data.local.apilookup
 
-import com.babestudios.companyinfouk.data.R
-import com.babestudios.companyinfouk.shared.domain.model.enumerations.Constants
-import com.babestudios.companyinfouk.shared.domain.model.enumerations.FilingHistoryDescriptions
-import com.babestudios.companyinfouk.shared.domain.model.enumerations.MortgageDescriptions
-import com.babestudios.companyinfouk.shared.domain.model.enumerations.PscDescriptions
-import com.babestudios.companyinfouk.data.utils.RawResourceHelperContract
+import com.babestudios.companyinfouk.shared.domain.ConstantMaps
+import com.babestudios.companyinfouk.shared.domain.FilingHistoryDescriptionsMaps
+import com.babestudios.companyinfouk.shared.domain.MortgageDescriptionMaps
+import com.babestudios.companyinfouk.shared.domain.model.PscDescriptionMaps
 
 interface ConstantsHelperContract {
 	fun accountTypeLookUp(accountsString: String): String
@@ -29,69 +27,42 @@ interface PscHelperContract {
 	fun kindLookUp(kindString: String): String
 }
 
-class ConstantsHelper constructor(rawResourceHelper: RawResourceHelperContract) : ConstantsHelperContract {
+object ConstantsHelper {
 
-	private val constants: Constants = rawResourceHelper.getConstants(R.raw.constants)
+	fun accountTypeLookUp(accountsString: String) = ConstantMaps.accountType[accountsString] ?: accountsString
 
-	override fun accountTypeLookUp(accountsString: String): String {
-		return constants.account_type[accountsString] ?: accountsString
-	}
+	fun sicLookUp(sicString: String) = ConstantMaps.sicDescriptions[sicString] ?: sicString
 
-	override fun sicLookUp(sicString: String): String {
-		return constants.sic_descriptions[sicString] ?: sicString
-	}
+	fun insolvencyCaseType(caseTypeKey: String) = ConstantMaps.insolvencyCaseType[caseTypeKey] ?: caseTypeKey
 
-	override fun insolvencyCaseType(caseTypeKey: String): String {
-		return constants.insolvency_case_type[caseTypeKey] ?: caseTypeKey
-	}
+	fun insolvencyCaseDateType(caseDateTypeKey: String) =
+		ConstantMaps.insolvencyCaseDateType[caseDateTypeKey] ?: caseDateTypeKey
 
-	override fun insolvencyCaseDateType(caseDateTypeKey: String): String {
-		return constants.insolvency_case_date_type[caseDateTypeKey] ?: caseDateTypeKey
-	}
-
-	override fun officerRoleLookup(officerRoleKey: String): String {
-		return constants.officer_role[officerRoleKey] ?: officerRoleKey
-	}
+	fun officerRoleLookup(officerRoleKey: String) = ConstantMaps.officerRole[officerRoleKey] ?: officerRoleKey
 
 }
 
-class FilingHistoryDescriptionsHelper constructor(rawResourceHelper: RawResourceHelperContract) :
-	FilingHistoryDescriptionsHelperContract {
+object FilingHistoryDescriptionsHelper {
 
-	private val filingHistoryDescriptions: FilingHistoryDescriptions = rawResourceHelper
-		.getFilingHistoryDescriptions(R.raw.filing_history_descriptions)
-
-	override fun filingHistoryLookUp(filingHistoryDescriptionString: String): String {
-		return filingHistoryDescriptions.description[filingHistoryDescriptionString] ?: filingHistoryDescriptionString
-	}
+	fun filingHistoryLookUp(filingHistoryDescriptionString: String) =
+		FilingHistoryDescriptionsMaps.description[filingHistoryDescriptionString] ?: filingHistoryDescriptionString
 
 }
 
-class ChargesHelper constructor(rawResourceHelper: RawResourceHelperContract) : ChargesHelperContract {
+object ChargesHelper {
 
-	private val chargesDescriptions: MortgageDescriptions = rawResourceHelper
-		.getMortgageDescriptions(R.raw.mortgage_descriptions)
+	fun statusLookUp(statusString: String) = MortgageDescriptionMaps.status[statusString] ?: statusString
 
-	override fun statusLookUp(statusString: String): String {
-		return chargesDescriptions.status[statusString] ?: statusString
-	}
-
-	override fun filingTypeLookUp(filingTypeString: String): String {
-		return chargesDescriptions.filing_type[filingTypeString] ?: filingTypeString
-	}
+	fun filingTypeLookUp(filingTypeString: String) =
+		MortgageDescriptionMaps.filingType[filingTypeString] ?: filingTypeString
 
 }
 
-class PscHelper constructor(rawResourceHelper: RawResourceHelperContract) : PscHelperContract {
+object PscHelper {
 
-	private val pscDescriptions: PscDescriptions = rawResourceHelper.getPscDescriptions(R.raw.psc_descriptions)
+	fun shortDescriptionLookUp(shortDescriptionString: String) =
+		PscDescriptionMaps.shortDescription[shortDescriptionString] ?: shortDescriptionString
 
-	override fun shortDescriptionLookUp(shortDescriptionString: String): String {
-		return pscDescriptions.short_description[shortDescriptionString] ?: shortDescriptionString
-	}
-
-	override fun kindLookUp(kindString: String): String {
-		return pscDescriptions.kind[kindString] ?: kindString
-	}
+	fun kindLookUp(kindString: String) = PscDescriptionMaps.kind[kindString] ?: kindString
 
 }

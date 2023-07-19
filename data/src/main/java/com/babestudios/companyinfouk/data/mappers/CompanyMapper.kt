@@ -2,69 +2,51 @@ package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.kotlin.ext.formatShortDateFromTimeStampMillis
 import com.babestudios.base.kotlin.ext.parseMySqlDate
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
+import com.babestudios.companyinfouk.data.utils.StringResourceHelper
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.company.Company
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
 import com.babestudios.companyinfouk.shared.data.model.common.AddressDto
 import com.babestudios.companyinfouk.shared.data.model.company.AccountsDto
 import com.babestudios.companyinfouk.shared.data.model.company.CompanyDto
-import com.babestudios.companyinfouk.data.utils.StringResourceHelperContract
 
-fun mapCompanyDto(
-	input: CompanyDto,
-	constantsHelper: ConstantsHelperContract,
-	stringResourceHelper: StringResourceHelperContract,
-): Company {
-	return Company(
-		input.companyName ?: "",
-		mapAccountsDto(input.accounts, constantsHelper, stringResourceHelper),
-		input.companyNumber ?: "",
-		input.dateOfCreation ?: "",
-		input.hasCharges,
-		input.hasInsolvencyHistory,
-		mapAddressDto(input.registeredOfficeAddress),
-		mapNatureOfBusiness(input.sicCodes, constantsHelper)
-	)
-}
+fun CompanyDto.toCompany() = Company(
+	companyName ?: "",
+	accounts.toAccountsString(),
+	companyNumber ?: "",
+	dateOfCreation ?: "",
+	hasCharges,
+	hasInsolvencyHistory,
+	registeredOfficeAddress.toAddress(),
+	sicCodes.mapNatureOfBusiness()
+)
 
-private fun mapAccountsDto(
-	input: AccountsDto?,
-	constantsHelper: ConstantsHelperContract,
-	stringResourceHelper: StringResourceHelperContract,
-): String {
-	return input?.lastAccounts?.madeUpTo?.let {
+private fun AccountsDto?.toAccountsString(): String {
+	return this?.lastAccounts?.madeUpTo?.let {
 		val madeUpToDate = it.parseMySqlDate()
 		madeUpToDate?.let { date ->
 			val formattedDate = date.time.formatShortDateFromTimeStampMillis()
-			stringResourceHelper.getLastAccountMadeUpToString(
-				constantsHelper.accountTypeLookUp(input.lastAccounts?.type ?: ""),
+			StringResourceHelper.getLastAccountMadeUpToString(
+				ConstantsHelper.accountTypeLookUp(lastAccounts?.type ?: ""),
 				formattedDate
 			)
-		} ?: stringResourceHelper.getCompanyAccountsNotFoundString()
-	} ?: stringResourceHelper.getCompanyAccountsNotFoundString()
+		} ?: StringResourceHelper.getCompanyAccountsNotFoundString()
+	} ?: StringResourceHelper.getCompanyAccountsNotFoundString()
 }
 
-internal fun mapAddressDto(
-	input: AddressDto?,
-): Address {
-	return Address(
-		input?.addressLine1.orEmpty(),
-		input?.addressLine2,
-		input?.country.orEmpty(),
-		input?.locality.orEmpty(),
-		input?.postalCode.orEmpty(),
-		input?.region,
-	)
-}
+internal fun AddressDto?.toAddress() = Address(
+	this?.addressLine1.orEmpty(),
+	this?.addressLine2,
+	this?.country.orEmpty(),
+	this?.locality.orEmpty(),
+	this?.postalCode.orEmpty(),
+	this?.region,
+)
 
-private fun mapNatureOfBusiness(
-	input: List<String>?,
-	constantsHelper: ConstantsHelperContract,
-): String {
-	return if (input?.isNotEmpty() == true) {
-		"${input[0]} ${constantsHelper.sicLookUp(input[0])}"
+private fun List<String>?.mapNatureOfBusiness(): String {
+	return if (this?.isNotEmpty() == true) {
+		"${this[0]} ${ConstantsHelper.sicLookUp(this[0])}"
 	} else {
-		//TODO Create a string provider to get this from strings.xml, but don't rely on context here
 		"No data"
 	}
 }

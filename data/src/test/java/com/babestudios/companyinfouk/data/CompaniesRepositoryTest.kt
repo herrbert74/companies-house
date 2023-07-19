@@ -40,12 +40,9 @@ class CompaniesRepositoryTest {
 	@Before
 	fun setUp() {
 		companiesRepository = CompaniesAccessor(
-			context,
 			mockCompaniesHouseApi,
-			mockCompaniesHouseDocumentApi,
 			mockPreferencesHelper,
 			firebaseAnalytics,
-			companiesHouseMapping,
 			testCoroutineDispatcher,
 		)
 

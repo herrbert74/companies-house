@@ -1,108 +1,95 @@
 package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
-import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.FilingHistoryDescriptionsHelper
 import com.babestudios.companyinfouk.shared.data.model.filinghistory.CategoryDto
 import com.babestudios.companyinfouk.shared.data.model.filinghistory.DescriptionValuesDto
 import com.babestudios.companyinfouk.shared.data.model.filinghistory.FilingHistoryDto
 import com.babestudios.companyinfouk.shared.data.model.filinghistory.FilingHistoryItemDto
 import com.babestudios.companyinfouk.shared.data.model.filinghistory.FilingHistoryLinksDto
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistory
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryLinks
 
-fun mapFilingHistoryDto(
-	input: FilingHistoryDto,
-	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
-): FilingHistory {
-	return FilingHistory(
-		input.startIndex ?: 0,
-		input.itemsPerPage ?: 0,
-		mapFilingHistoryItemList(input.items, filingHistoryDescriptionsHelper),
-		input.totalCount ?: 0,
-		input.filingHistoryStatus.orEmpty()
-	)
-}
+fun FilingHistoryDto.toFilingHistory() = FilingHistory(
+	startIndex ?: 0,
+	itemsPerPage ?: 0,
+	mapFilingHistoryItemList(items),
+	totalCount ?: 0,
+	filingHistoryStatus.orEmpty()
+)
 
 private fun mapFilingHistoryItemList(
 	items: List<FilingHistoryItemDto>?,
-	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
 ) = mapNullInputList(items) { itemDto ->
-	mapFilingHistoryItemDto(
-		itemDto,
-		filingHistoryDescriptionsHelper,
+	itemDto.mapFilingHistoryItemDto(
 		{ linksDto ->
 			mapFilingHistoryLinks(linksDto)
-		},
-		{ categoryDto ->
-			mapFilingHistoryCategoryDto(categoryDto)
 		}
-	)
+	) { categoryDto -> mapFilingHistoryCategoryDto(categoryDto) }
 }
 
-private fun mapFilingHistoryItemDto(
-	input: FilingHistoryItemDto,
-	filingHistoryDescriptionsHelper: FilingHistoryDescriptionsHelperContract,
+private fun FilingHistoryItemDto.mapFilingHistoryItemDto(
 	mapFilingHistoryLinks: (FilingHistoryLinksDto?) -> FilingHistoryLinks,
-	mapCategoryDto: (CategoryDto?) -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category,
-): com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem {
-	return com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem(
-		input.date.orEmpty(),
-		input.type.orEmpty(),
-		mapFilingHistoryLinks(input.links),
-		mapCategoryDto(input.category),
-		input.subcategory,
-		formatFilingHistoryDescriptionDto(
-			filingHistoryDescriptionsHelper.filingHistoryLookUp(input.description.orEmpty()),
-			input.descriptionValues
-		),
-		input.pages ?: 0
-	)
-}
+	mapCategoryDto: (CategoryDto?) -> Category,
+): FilingHistoryItem = FilingHistoryItem(
+	date.orEmpty(),
+	type.orEmpty(),
+	mapFilingHistoryLinks(links),
+	mapCategoryDto(category),
+	subcategory,
+	formatFilingHistoryDescriptionDto(
+		FilingHistoryDescriptionsHelper.filingHistoryLookUp(description.orEmpty()),
+		descriptionValues
+	),
+	pages ?: 0
+)
 
 private fun mapFilingHistoryLinks(input: FilingHistoryLinksDto?): FilingHistoryLinks {
 	return FilingHistoryLinks(input?.documentMetadata.orEmpty(), input?.self.orEmpty())
 }
 
-private fun mapFilingHistoryCategoryDto(input: CategoryDto?): com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category {
+private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 	return when (input) {
-		CategoryDto.CATEGORY_SHOW_ALL -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_SHOW_ALL
-		CategoryDto.CATEGORY_GAZETTE -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_GAZETTE
-		CategoryDto.CATEGORY_CONFIRMATION_STATEMENT -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_CONFIRMATION_STATEMENT
-		CategoryDto.CATEGORY_ACCOUNTS -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_ACCOUNTS
-		CategoryDto.CATEGORY_ANNUAL_RETURN -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_ANNUAL_RETURN
-		CategoryDto.CATEGORY_OFFICERS -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_OFFICERS
-		CategoryDto.CATEGORY_ADDRESS -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_ADDRESS
-		CategoryDto.CATEGORY_CAPITAL -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_CAPITAL
-		CategoryDto.CATEGORY_INSOLVENCY -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_INSOLVENCY
-		CategoryDto.CATEGORY_OTHER -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_OTHER
-		CategoryDto.CATEGORY_INCORPORATION -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_INCORPORATION
-		CategoryDto.CATEGORY_CONSTITUTION -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_CONSTITUTION
-		CategoryDto.CATEGORY_AUDITORS -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_AUDITORS
-		CategoryDto.CATEGORY_RESOLUTION -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_RESOLUTION
-		CategoryDto.CATEGORY_MORTGAGE -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_MORTGAGE
-		CategoryDto.CATEGORY_PERSONS -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_PERSONS
-		null -> com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_SHOW_ALL
+		CategoryDto.CATEGORY_SHOW_ALL -> Category.CATEGORY_SHOW_ALL
+		CategoryDto.CATEGORY_GAZETTE -> Category.CATEGORY_GAZETTE
+		CategoryDto.CATEGORY_CONFIRMATION_STATEMENT -> Category.CATEGORY_CONFIRMATION_STATEMENT
+		CategoryDto.CATEGORY_ACCOUNTS -> Category.CATEGORY_ACCOUNTS
+		CategoryDto.CATEGORY_ANNUAL_RETURN -> Category.CATEGORY_ANNUAL_RETURN
+		CategoryDto.CATEGORY_OFFICERS -> Category.CATEGORY_OFFICERS
+		CategoryDto.CATEGORY_ADDRESS -> Category.CATEGORY_ADDRESS
+		CategoryDto.CATEGORY_CAPITAL -> Category.CATEGORY_CAPITAL
+		CategoryDto.CATEGORY_INSOLVENCY -> Category.CATEGORY_INSOLVENCY
+		CategoryDto.CATEGORY_OTHER -> Category.CATEGORY_OTHER
+		CategoryDto.CATEGORY_INCORPORATION -> Category.CATEGORY_INCORPORATION
+		CategoryDto.CATEGORY_CONSTITUTION -> Category.CATEGORY_CONSTITUTION
+		CategoryDto.CATEGORY_AUDITORS -> Category.CATEGORY_AUDITORS
+		CategoryDto.CATEGORY_RESOLUTION -> Category.CATEGORY_RESOLUTION
+		CategoryDto.CATEGORY_MORTGAGE -> Category.CATEGORY_MORTGAGE
+		CategoryDto.CATEGORY_PERSONS -> Category.CATEGORY_PERSONS
+		null -> Category.CATEGORY_SHOW_ALL
 	}
 }
 
-fun mapFilingHistoryCategory(input: com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category): CategoryDto {
+fun mapFilingHistoryCategory(input: Category): CategoryDto {
 	return when (input) {
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_SHOW_ALL -> CategoryDto.CATEGORY_SHOW_ALL
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_GAZETTE -> CategoryDto.CATEGORY_GAZETTE
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_CONFIRMATION_STATEMENT -> CategoryDto.CATEGORY_CONFIRMATION_STATEMENT
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_ACCOUNTS -> CategoryDto.CATEGORY_ACCOUNTS
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_ANNUAL_RETURN -> CategoryDto.CATEGORY_ANNUAL_RETURN
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_OFFICERS -> CategoryDto.CATEGORY_OFFICERS
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_ADDRESS -> CategoryDto.CATEGORY_ADDRESS
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_CAPITAL -> CategoryDto.CATEGORY_CAPITAL
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_INSOLVENCY -> CategoryDto.CATEGORY_INSOLVENCY
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_OTHER -> CategoryDto.CATEGORY_OTHER
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_INCORPORATION -> CategoryDto.CATEGORY_INCORPORATION
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_CONSTITUTION -> CategoryDto.CATEGORY_CONSTITUTION
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_AUDITORS -> CategoryDto.CATEGORY_AUDITORS
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_RESOLUTION -> CategoryDto.CATEGORY_RESOLUTION
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_MORTGAGE -> CategoryDto.CATEGORY_MORTGAGE
-		com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category.CATEGORY_PERSONS -> CategoryDto.CATEGORY_PERSONS
+		Category.CATEGORY_SHOW_ALL -> CategoryDto.CATEGORY_SHOW_ALL
+		Category.CATEGORY_GAZETTE -> CategoryDto.CATEGORY_GAZETTE
+		Category.CATEGORY_CONFIRMATION_STATEMENT -> CategoryDto.CATEGORY_CONFIRMATION_STATEMENT
+		Category.CATEGORY_ACCOUNTS -> CategoryDto.CATEGORY_ACCOUNTS
+		Category.CATEGORY_ANNUAL_RETURN -> CategoryDto.CATEGORY_ANNUAL_RETURN
+		Category.CATEGORY_OFFICERS -> CategoryDto.CATEGORY_OFFICERS
+		Category.CATEGORY_ADDRESS -> CategoryDto.CATEGORY_ADDRESS
+		Category.CATEGORY_CAPITAL -> CategoryDto.CATEGORY_CAPITAL
+		Category.CATEGORY_INSOLVENCY -> CategoryDto.CATEGORY_INSOLVENCY
+		Category.CATEGORY_OTHER -> CategoryDto.CATEGORY_OTHER
+		Category.CATEGORY_INCORPORATION -> CategoryDto.CATEGORY_INCORPORATION
+		Category.CATEGORY_CONSTITUTION -> CategoryDto.CATEGORY_CONSTITUTION
+		Category.CATEGORY_AUDITORS -> CategoryDto.CATEGORY_AUDITORS
+		Category.CATEGORY_RESOLUTION -> CategoryDto.CATEGORY_RESOLUTION
+		Category.CATEGORY_MORTGAGE -> CategoryDto.CATEGORY_MORTGAGE
+		Category.CATEGORY_PERSONS -> CategoryDto.CATEGORY_PERSONS
 	}
 }
 

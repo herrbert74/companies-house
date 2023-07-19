@@ -19,13 +19,13 @@ import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
 
 interface CompaniesHouseMapping {
 
-	fun mapFilingHistory(input: FilingHistoryDto): FilingHistory
-	fun mapChargesHistory(input: ChargesDto): Charges
-	fun mapCompany(input: CompanyDto): Company
-	fun mapInsolvency(input: InsolvencyDto): Insolvency
-	fun mapOfficers(input: OfficersResponseDto): OfficersResponse
-	fun mapAppointments(input: AppointmentsResponseDto): AppointmentsResponse
-	fun mapPersonsResponse(input: PersonsResponseDto): PersonsResponse
-	fun mapPerson(input: PersonDto): Person
+	fun FilingHistoryDto.mapFilingHistory(): FilingHistory
+	fun ChargesDto.mapChargesHistory(): Charges
+	fun CompanyDto.mapCompany(): Company
+	fun InsolvencyDto.mapInsolvency(): Insolvency
+	fun OfficersResponseDto.mapOfficers(): OfficersResponse
+	fun AppointmentsResponseDto.mapAppointments(): AppointmentsResponse
+	fun PersonsResponseDto.mapPersonsResponse(): PersonsResponse
+	fun PersonDto.mapPerson(): Person
 
 }

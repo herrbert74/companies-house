@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
-import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.ConstantsHelper
 import com.babestudios.companyinfouk.shared.data.model.officers.AppointedToDto
 import com.babestudios.companyinfouk.shared.data.model.officers.AppointmentDto
 import com.babestudios.companyinfouk.shared.data.model.officers.AppointmentsResponseDto
@@ -9,42 +9,32 @@ import com.babestudios.companyinfouk.shared.domain.model.officers.AppointedTo
 import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.shared.domain.model.officers.AppointmentsResponse
 
-fun mapAppointmentsResponseDto(
-	input: AppointmentsResponseDto,
-	constantsHelper: ConstantsHelperContract,
-): AppointmentsResponse {
-	return AppointmentsResponse(
-		mapMonthYearDto(input.dateOfBirth),
-		mapAppointmentList(input.items, constantsHelper),
-		input.name,
-		input.totalResults,
-	)
-}
+fun AppointmentsResponseDto.toAppointmentsResponse() = AppointmentsResponse(
+	dateOfBirth.toMonthYear(),
+	mapAppointmentList(items),
+	name,
+	totalResults,
+)
 
-private fun mapAppointmentList(appointments: List<AppointmentDto>?, constantsHelper: ConstantsHelperContract) =
+private fun mapAppointmentList(appointments: List<AppointmentDto>?) =
 	mapNullInputList(appointments) { appointmentDto ->
-		mapAppointmentDto(
-			appointmentDto,
-			constantsHelper,
-		)
+		appointmentDto.toAppointment()
 	}
 
-private fun mapAppointmentDto(input: AppointmentDto?, constantsHelper: ConstantsHelperContract) =
-	Appointment(
-		mapAddressDto(input?.address),
-		input?.appointedOn ?: "Unknown",
-		mapAppointedToDto(input?.appointedTo),
-		input?.countryOfResidence,
-		input?.name ?: "",
-		input?.nationality,
-		input?.occupation,
-		constantsHelper.officerRoleLookup(input?.officerRole ?: ""),
-		input?.resignedOn,
-	)
+private fun AppointmentDto?.toAppointment() = Appointment(
+	this?.address.toAddress(),
+	this?.appointedOn ?: "Unknown",
+	this?.appointedTo.mapAppointedToDto(),
+	this?.countryOfResidence,
+	this?.name ?: "",
+	this?.nationality,
+	this?.occupation,
+	ConstantsHelper.officerRoleLookup(this?.officerRole ?: ""),
+	this?.resignedOn,
+)
 
-private fun mapAppointedToDto(input: AppointedToDto?): AppointedTo =
-	AppointedTo(
-		input?.companyName ?: "",
-		input?.companyNumber ?: "",
-		input?.companyStatus ?: "",
-	)
+private fun AppointedToDto?.mapAppointedToDto() = AppointedTo(
+	this?.companyName ?: "",
+	this?.companyNumber ?: "",
+	this?.companyStatus ?: "",
+)

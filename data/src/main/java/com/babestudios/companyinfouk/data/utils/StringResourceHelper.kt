@@ -1,50 +1,34 @@
 package com.babestudios.companyinfouk.data.utils
 
-import android.content.Context
-import com.babestudios.companyinfouk.data.R
+import com.babestudios.companyinfouk.shared.domain.ACCOUNT_DATE_PLACEHOLDER
+import com.babestudios.companyinfouk.shared.domain.ACCOUNT_TYPE_PLACEHOLDER
+import com.babestudios.companyinfouk.shared.domain.COMPANY_ACCOUNTS_FORMATTED_TEXT
+import com.babestudios.companyinfouk.shared.domain.COMPANY_ACCOUNTS_NOT_FOUND
+import com.babestudios.companyinfouk.shared.domain.FROM_PLACEHOLDER
+import com.babestudios.companyinfouk.shared.domain.OFFICER_ITEM_APPOINTED_FROM
+import com.babestudios.companyinfouk.shared.domain.OFFICER_ITEM_APPOINTED_FROM_TO
+import com.babestudios.companyinfouk.shared.domain.TO_PLACEHOLDER
 
-interface StringResourceHelperContract {
-	fun getLastAccountMadeUpToString(accountType: String, date: String): String
-	fun getCompanyAccountsNotFoundString(): String
-	fun getAppointedFromToString(from: String, to: String): String
-	fun getAppointedFromString(from: String): String
-	fun getInsolvencyDatesString(): String
-	fun getPractitionerString(): String
-	fun getRecentSearchesString(): String
-}
+/**
+ * This class used to read string resources, and format them with parameters. Now only the formatting left,
+ * after moving to constants. Whenever reading is needed again, look up the history.
+ * This is now blocked by moko-resources:
+ * https://github.com/icerockdev/moko-resources/issues/311
+ */
+object StringResourceHelper {
 
-class StringResourceHelper constructor(val context: Context) : StringResourceHelperContract {
+	fun getLastAccountMadeUpToString(accountType: String, date: String) =
+		COMPANY_ACCOUNTS_FORMATTED_TEXT
+			.replace(ACCOUNT_TYPE_PLACEHOLDER, accountType)
+			.replace(ACCOUNT_DATE_PLACEHOLDER, date)
 
-	override fun getLastAccountMadeUpToString(accountType: String, date: String): String {
-		return String.format(
-			context.resources.getString(R.string.company_accounts_formatted_text),
-			accountType,
-			date
-		).replace("  ", " ")
-	}
+	fun getCompanyAccountsNotFoundString() = COMPANY_ACCOUNTS_NOT_FOUND
 
-	override fun getCompanyAccountsNotFoundString(): String {
-		return context.resources.getString(R.string.company_accounts_not_found)
-	}
+	fun getAppointedFromToString(from: String, to: String) =
+		OFFICER_ITEM_APPOINTED_FROM_TO
+			.replace(FROM_PLACEHOLDER, from)
+			.replace(TO_PLACEHOLDER, to)
 
-	override fun getAppointedFromToString(from: String, to: String): String {
-		return String.format(context.getString(R.string.officer_item_appointed_from_to), from, to)
-	}
-
-	override fun getAppointedFromString(from: String): String {
-		return String.format(context.getString(R.string.officer_item_appointed_from), from)
-	}
-
-	override fun getInsolvencyDatesString(): String {
-		return context.resources.getString(R.string.insolvency_dates)
-	}
-
-	override fun getPractitionerString(): String {
-		return context.resources.getString(R.string.insolvency_practitioners)
-	}
-
-	override fun getRecentSearchesString(): String {
-		return context.getString(R.string.recent_searches)
-	}
+	fun getAppointedFromString(from: String) = OFFICER_ITEM_APPOINTED_FROM.replace(FROM_PLACEHOLDER, from)
 
 }

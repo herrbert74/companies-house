@@ -5,6 +5,14 @@ import com.babestudios.base.data.network.OfflineException
 import com.babestudios.companyinfouk.data.local.PreferencesHelper
 import com.babestudios.companyinfouk.data.mappers.CompaniesHouseMapping
 import com.babestudios.companyinfouk.data.mappers.mapFilingHistoryCategory
+import com.babestudios.companyinfouk.data.mappers.toAppointmentsResponse
+import com.babestudios.companyinfouk.data.mappers.toCharges
+import com.babestudios.companyinfouk.data.mappers.toCompany
+import com.babestudios.companyinfouk.data.mappers.toFilingHistory
+import com.babestudios.companyinfouk.data.mappers.toInsolvency
+import com.babestudios.companyinfouk.data.mappers.toOfficersResponse
+import com.babestudios.companyinfouk.data.mappers.toPerson
+import com.babestudios.companyinfouk.data.mappers.toPersonsResponse
 import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
@@ -32,7 +40,6 @@ internal class CompaniesAccessor constructor(
 	private val companiesHouseApi: CompaniesHouseApi,
 	private var preferencesHelper: PreferencesHelper,
 	private val firebaseAnalytics: FirebaseAnalytics,
-	private val companiesHouseMapping: CompaniesHouseMapping,
 	private val ioContext: CoroutineDispatcher,
 ) : CompaniesRepository {
 
@@ -62,7 +69,7 @@ internal class CompaniesAccessor constructor(
 	override suspend fun getCompany(companyNumber: String): Company {
 		return withContext(ioContext) {
 			val companyDto = companiesHouseApi.getCompany(companyNumber)
-			companiesHouseMapping.mapCompany(companyDto)
+			companyDto.toCompany()
 		}
 	}
 
@@ -79,7 +86,7 @@ internal class CompaniesAccessor constructor(
 					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
-				companiesHouseMapping.mapFilingHistory(historyDto)
+				historyDto.toFilingHistory()
 			}
 		}.mapError { OfflineException(FilingHistory()) }
 	}
@@ -104,7 +111,7 @@ internal class CompaniesAccessor constructor(
 					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
-				companiesHouseMapping.mapChargesHistory(chargesDto)
+				chargesDto.toCharges()
 			}
 		}.mapError { OfflineException(Charges()) }
 	}
@@ -113,7 +120,7 @@ internal class CompaniesAccessor constructor(
 		return apiRunCatching {
 			withContext(ioContext) {
 				val insolvencyDto = companiesHouseApi.getInsolvency(companyNumber)
-				companiesHouseMapping.mapInsolvency(insolvencyDto)
+				insolvencyDto.toInsolvency()
 			}
 		}.mapError { OfflineException(Insolvency()) }
 	}
@@ -130,7 +137,7 @@ internal class CompaniesAccessor constructor(
 					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
-				companiesHouseMapping.mapOfficers(officersResponseDto)
+				officersResponseDto.toOfficersResponse()
 			}
 		}.mapError {
 			OfflineException(
@@ -148,7 +155,7 @@ internal class CompaniesAccessor constructor(
 					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
-				companiesHouseMapping.mapAppointments(appointmentsResponseDto)
+				appointmentsResponseDto.toAppointmentsResponse()
 			}
 		}.mapError { OfflineException(AppointmentsResponse()) }
 	}
@@ -162,7 +169,7 @@ internal class CompaniesAccessor constructor(
 					COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,
 					startItem
 				)
-				companiesHouseMapping.mapPersonsResponse(personsResponseDto)
+				personsResponseDto.toPersonsResponse()
 			}
 		}.mapError { OfflineException(PersonsResponse()) }
 	}
@@ -170,14 +177,14 @@ internal class CompaniesAccessor constructor(
 	override suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person {
 		return withContext(ioContext) {
 			val personDto = companiesHouseApi.getCorporatePerson(companyNumber, pscId)
-			companiesHouseMapping.mapPerson(personDto)
+			personDto.toPerson()
 		}
 	}
 
 	override suspend fun getLegalPerson(companyNumber: String, pscId: String): Person {
 		return withContext(ioContext) {
 			val personDto = companiesHouseApi.getLegalPerson(companyNumber, pscId)
-			companiesHouseMapping.mapPerson(personDto)
+			personDto.toPerson()
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.data.mappers
 
 import com.babestudios.base.data.mapNullInputList
-import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelperContract
+import com.babestudios.companyinfouk.data.local.apilookup.ChargesHelper
 import com.babestudios.companyinfouk.shared.data.model.charges.ChargesDto
 import com.babestudios.companyinfouk.shared.data.model.charges.ChargesItemDto
 import com.babestudios.companyinfouk.shared.data.model.charges.ParticularsDto
@@ -11,75 +11,51 @@ import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
 import com.babestudios.companyinfouk.shared.domain.model.charges.Transaction
 
-fun mapChargesDto(
-	input: ChargesDto,
-	chargesHelper: ChargesHelperContract
-): Charges {
-	return Charges(
-		mapChargesList(input.items, chargesHelper),
-		input.totalCount ?: 0,
-	)
-}
+fun ChargesDto.toCharges() = Charges(
+	items.mapChargesList(),
+	totalCount ?: 0,
+)
 
-private fun mapChargesList(
-	items: List<ChargesItemDto>?,
-	chargesHelper: ChargesHelperContract
-) = mapNullInputList(items) { chargesItemDto ->
-	mapChargesItemDto(
-		chargesItemDto,
-		chargesHelper,
+private fun List<ChargesItemDto>?.mapChargesList() = mapNullInputList(this) { chargesItemDto ->
+	chargesItemDto.toChargesItem(
 		{ transactionDtoList ->
 			mapNullInputList(transactionDtoList) { transactionsDto ->
 				transactionsDto.deliveredOn.orEmpty()
-				mapTransactionDto(
-					transactionsDto,
-					chargesHelper
-				)
+				transactionsDto.toTransaction()
 			}
-		},
-		{ particularsDto ->
-			mapParticularsDto(particularsDto)
-		})
+		}
+	) { particularsDto ->
+		particularsDto.toParticulars()
+	}
 }
 
-fun mapChargesItemDto(
-	input: ChargesItemDto,
-	chargesHelper: ChargesHelperContract,
+fun ChargesItemDto.toChargesItem(
 	mapTransactionsDto: (List<TransactionDto>?) -> List<Transaction>,
 	mapParticulars: (ParticularsDto?) -> Particulars,
 ): ChargesItem {
 	return ChargesItem(
-		input.chargeCode.orEmpty(),
-		input.createdOn.orEmpty(),
-		input.deliveredOn.orEmpty(),
-		input.personsEntitled?.get(0)?.name.orEmpty(),
-		input.resolvedOn.orEmpty(),
-		input.satisfiedOn.orEmpty(),
-		chargesHelper.statusLookUp(input.status.orEmpty()),
-		mapTransactionsDto(input.transactions),
-		mapParticulars(input.particulars),
+		chargeCode.orEmpty(),
+		createdOn.orEmpty(),
+		deliveredOn.orEmpty(),
+		personsEntitled?.get(0)?.name.orEmpty(),
+		resolvedOn.orEmpty(),
+		satisfiedOn.orEmpty(),
+		ChargesHelper.statusLookUp(status.orEmpty()),
+		mapTransactionsDto(transactions),
+		mapParticulars(particulars),
 	)
 }
 
-fun mapTransactionDto(
-	input: TransactionDto,
-	chargesHelper: ChargesHelperContract,
-): Transaction {
-	return Transaction(
-		input.deliveredOn.orEmpty(),
-		chargesHelper.filingTypeLookUp(input.filingType.orEmpty())
-	)
-}
+fun TransactionDto.toTransaction() = Transaction(
+	deliveredOn.orEmpty(),
+	ChargesHelper.filingTypeLookUp(filingType.orEmpty())
+)
 
-fun mapParticularsDto(
-	input: ParticularsDto?,
-): Particulars {
-	return Particulars(
-		input?.containsFixedCharge,
-		input?.containsFloatingCharge,
-		input?.containsNegativePledge,
-		input?.description ?: "",
-		input?.floatingChargeCoversAll,
-		input?.type ?: "",
-	)
-}
+fun ParticularsDto?.toParticulars() = Particulars(
+	this?.containsFixedCharge,
+	this?.containsFloatingCharge,
+	this?.containsNegativePledge,
+	this?.description ?: "",
+	this?.floatingChargeCoversAll,
+	this?.type ?: "",
+)

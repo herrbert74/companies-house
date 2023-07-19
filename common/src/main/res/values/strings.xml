@@ -21,14 +21,9 @@
 	<string name="officer_details_country_of_residence">Country of residence</string>
 	<string name="officer_details_name">Name</string>
 
-
 	<string name="officer_details_unknown">Unknown</string>
 	<string name="insolvency_details_address">Address</string>
 	<string name="company_name">Company name</string>
 	<string name="company_status">Company status</string>
-
-	<string name="insolvency_dates">Dates</string>
-	<string name="insolvency_practitioners">Practitioners</string>
-	<string name="recent_searches">Recent Searches</string>
 
 </resources>

@@ -63,6 +63,7 @@ import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.design.titleMediumBold
+import com.babestudios.companyinfouk.shared.domain.RECENT_SEARCHES
 import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResultItem
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 
@@ -224,7 +225,7 @@ private fun MainHeader() {
 
 	Text(
 		modifier = Modifier.padding(vertical = viewMarginNormal, horizontal = viewMarginLarge),
-		text = stringResource(com.babestudios.companyinfouk.common.R.string.recent_searches),
+		text = RECENT_SEARCHES,
 		style = CompaniesTypography.titleMediumBold
 	)
 

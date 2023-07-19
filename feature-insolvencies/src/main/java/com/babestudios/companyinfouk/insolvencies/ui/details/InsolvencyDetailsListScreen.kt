@@ -22,6 +22,8 @@ import com.babestudios.companyinfouk.shared.domain.model.insolvency.Date
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_DATES
+import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_PRACTITIONERS
 
 @Composable
 fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
@@ -66,7 +68,7 @@ private fun InsolvencyDetailsList(
 							top = viewMarginNormal,
 							bottom = viewMarginLarge
 						),
-						text = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency_dates),
+						text = INSOLVENCY_DATES,
 						style = CompaniesTypography.titleSmall
 					)
 				}
@@ -84,7 +86,7 @@ private fun InsolvencyDetailsList(
 							top = viewMarginLarge,
 							bottom = viewMarginLarge
 						),
-						text = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency_practitioners),
+						text = INSOLVENCY_PRACTITIONERS,
 						style = CompaniesTypography.titleSmall
 					)
 				}
