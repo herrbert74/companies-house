@@ -3,13 +3,15 @@ package com.babestudios.companyinfouk.filings
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
-import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryLinks
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsExecutor
 import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsStore
 import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStoreFactory
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import io.kotest.matchers.shouldBe
+import io.ktor.client.statement.DefaultHttpResponse
+import io.ktor.client.statement.HttpResponse
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +22,7 @@ import org.junit.Test
 
 class FilingHistoryDetailsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mockk<CompaniesDocumentRepository>()
 
 	private lateinit var filingDetailsExecutor: FilingDetailsExecutor
 
@@ -36,7 +38,7 @@ class FilingHistoryDetailsTest {
 		coEvery {
 			companiesHouseRepository.getDocument(any())
 		} answers {
-			documentResponseBody
+			mockk()//.documentResponseBody
 		}
 
 		filingDetailsExecutor = FilingDetailsExecutor(

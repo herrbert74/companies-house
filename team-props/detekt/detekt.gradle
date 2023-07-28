@@ -3,10 +3,10 @@ apply plugin: 'io.gitlab.arturbosch.detekt'
 detekt {
     reports {
         xml {
-            enabled = false
+            required = false
         }
         txt {
-            enabled = false
+            required = false
         }
     }
     toolVersion = libs.versions.detekt

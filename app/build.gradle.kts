@@ -52,7 +52,6 @@ android {
 dependencies {
 
 	implementation(project(":shared"))
-	implementation(project(":data"))
 
 	runtimeOnly(project(":feature-main"))
 

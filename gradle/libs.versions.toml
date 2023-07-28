@@ -33,20 +33,22 @@ moshi = "1.14.0"
 okhttp = "5.0.0-alpha.11"
 retrofit = "2.9.0"
 facebook = "14.1.1"
-chucker = "3.5.2"
+chucker = "4.0.0"
 mviKotlin = "3.2.1"
 decompose = "1.0.0"
 parcelize-darwin = "0.1.4"
 jUnit5 = "5.9.3"
 mockk = "1.13.3" #1.13.4 issue: https://github.com/mockk/mockk/issues/1035
+mockmp = "1.14.0"
 kotest = "5.6.2"
 detekt = "1.22.0"
-kotlinResult = "1.1.17"
+kotlinResult = "1.1.18"
 flowBinding = "1.2.0"
 ktor = "2.3.2"
 ktorfit = "1.4.3"
 koin = "3.4.2"
-babestudios-base = "3.0.0"
+multiplatform-settings = "1.0.0"
+babestudios-base = "3.1.0-beta01"
 
 [libraries]
 
@@ -59,10 +61,10 @@ firebaseAppDistributionPlugin = "com.google.firebase:firebase-appdistribution-gr
 #hiltPlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-dagger" }
 #navigationSafeArgsPlugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
 
-baBeStudios-base-kotlin = { module ="org.bitbucket.herrbert74.babestudiosbase:base-kotlin", version.ref = "babestudios-base"}
-baBeStudios-base-data = { module ="org.bitbucket.herrbert74.babestudiosbase:base-data", version.ref = "babestudios-base"}
-baBeStudios-base-android = { module ="org.bitbucket.herrbert74.babestudiosbase:base-android", version.ref = "babestudios-base"}
-baBeStudios-base-compose = { module ="org.bitbucket.herrbert74.babestudiosbase:base-compose", version.ref = "babestudios-base"}
+baBeStudios-base-kotlin = { module ="com.babestudios:base-kotlin", version.ref = "babestudios-base"}
+baBeStudios-base-data = { module ="com.babestudios:base-data", version.ref = "babestudios-base"}
+baBeStudios-base-android = { module ="com.babestudios:base-android", version.ref = "babestudios-base"}
+baBeStudios-base-compose = { module ="com.babestudios:base-compose", version.ref = "babestudios-base"}
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-jUnit = { module = "org.jetbrains.kotlin:kotlin-test-jUnit", version.ref = "kotlin" }
@@ -154,8 +156,8 @@ androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-int
 androidx-test-ext-jUnit = "androidx.test.ext:junit:1.1.5"
 androidx-test-ext-jUnitKtx = "androidx.test.ext:junit-ktx:1.1.5"
 
-google-material = "com.google.android.material:material:1.7.0"
-google-gson = "com.google.code.gson:gson:2.9.1"
+google-material = "com.google.android.material:material:1.9.0"
+google-gson = "com.google.code.gson:gson:2.10.1"
 google-guava = "com.google.guava:guava:31.1-android"
 google-flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 google-fundingChoices = "com.google.android.ump:user-messaging-platform:2.0.0"
@@ -222,8 +224,8 @@ squareUp-retrofit2-converterMoshi = { module = "com.squareup.retrofit2:converter
 facebook-core = { module = "com.facebook.android:facebook-core", version.ref = "facebook" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebook" }
 
-chucker-library = { module = "com.github.ChuckerTeam.Chucker:library", version.ref = "chucker" }
-chucker-noop = { module = "com.github.ChuckerTeam.Chucker:library-no-op", version.ref = "chucker" }
+chucker-library = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
+chucker-noop = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 
 mvikotlin-core = { module = "com.arkivanov.mvikotlin:mvikotlin", version.ref = "mviKotlin" }
 mvikotlin-main = { module = "com.arkivanov.mvikotlin:mvikotlin-main", version.ref = "mviKotlin" }
@@ -236,6 +238,9 @@ mvikotlin-logging = { module = "com.arkivanov.mvikotlin:mvikotlin-logging", vers
 decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensionsJetpack = { module = "com.arkivanov.decompose:extensions-compose-jetpack", version.ref = "decompose" }
 decompose-extensionsJetBrains = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
+
+multiplatformSettings-core = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
+multiplatformSettings-noargs = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
 
 parcelize-darwin-runtime = { module = "com.arkivanov.parcelize.darwin:runtime", version.ref = "parcelize-darwin" }
 
@@ -273,6 +278,9 @@ test-jUnit5-vintageEngine = { module = "org.junit.jupiter:junit-vintage-engine",
 test-mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 test-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 test-mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
+test-mockmp-runtime = { module = "org.kodein.mock:mockmp-runtime", version.ref = "mockmp" }
+test-mockmp-testHelper = { module = "org.kodein.mock:mockmp-test-helper", version.ref = "mockmp" }
+test-mockmp-processor = { module = "org.kodein.mock:mockmp-processor", version.ref = "mockmp" }
 test-kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 test-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 test-kotest-assertions-shared = { module = "io.kotest:kotest-assertions-shared", version.ref = "kotest" }
@@ -300,6 +308,7 @@ crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.4" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version = "1.0.0" }
 parcelize-darwin = { id = "com.arkivanov.parcelize.darwin", version.ref = "parcelize-darwin" }
+mockmp-core = { id = "org.kodein.mock.mockmp", version.ref = "mockmp" }
 
 versions = { id = "com.github.ben-manes.versions", version = "0.47.0" }
 dependencyAnalyis = { id = "com.autonomousapps.dependency-analysis", version = "1.20.0" }

@@ -16,3 +16,5 @@ actual fun getPlatform(): Platform = AndroidPlatform()
 
 actual typealias Parcelable = android.os.Parcelable
 actual typealias Parcelize = kotlinx.parcelize.Parcelize
+
+actual val companiesHouseApiKey: String = BuildConfig.COMPANIES_HOUSE_API_KEY

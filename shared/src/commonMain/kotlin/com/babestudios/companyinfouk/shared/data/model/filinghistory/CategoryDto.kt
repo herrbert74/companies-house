@@ -2,41 +2,54 @@ package com.babestudios.companyinfouk.shared.data.model.filinghistory
 
 import kotlinx.serialization.SerialName
 
-enum class CategoryDto(val displayName: String) {
-	@SerialName("")
-	CATEGORY_SHOW_ALL("all"),
-	@SerialName("gazette")
-	CATEGORY_GAZETTE("gazette"),
-	@SerialName("confirmation-statement")
-	CATEGORY_CONFIRMATION_STATEMENT("confirmation statement"),
-	@SerialName("accounts")
-	CATEGORY_ACCOUNTS("accounts"),
-	@SerialName("annual-return")
-	CATEGORY_ANNUAL_RETURN("annual return"),
-	@SerialName("officers")
-	CATEGORY_OFFICERS("officers"),
-	@SerialName("address")
-	CATEGORY_ADDRESS("address"),
-	@SerialName("capital")
-	CATEGORY_CAPITAL("capital"),
-	@SerialName("insolvency")
-	CATEGORY_INSOLVENCY("insolvency"),
-	@SerialName("other")
-	CATEGORY_OTHER("other"),
-	@SerialName("incorporation")
-	CATEGORY_INCORPORATION("incorporation"),
-	@SerialName("change-of-constitution")
-	CATEGORY_CONSTITUTION("change of constitution"),
-	@SerialName("auditors")
-	CATEGORY_AUDITORS("auditors"),
-	@SerialName("resolution")
-	CATEGORY_RESOLUTION("resolution"),
-	@SerialName("mortgage")
-	CATEGORY_MORTGAGE("mortgage"),
-	@SerialName("persons-with-significant-control")
-	CATEGORY_PERSONS("persons with significant control");
+enum class CategoryDto {
 
-	override fun toString(): String {
-		return displayName
-	}
+	@SerialName("")
+	CATEGORY_SHOW_ALL,
+
+	@SerialName("gazette")
+	CATEGORY_GAZETTE,
+
+	@SerialName("confirmation-statement")
+	CATEGORY_CONFIRMATION_STATEMENT,
+
+	@SerialName("accounts")
+	CATEGORY_ACCOUNTS,
+
+	@SerialName("annual-return")
+	CATEGORY_ANNUAL_RETURN,
+
+	@SerialName("officers")
+	CATEGORY_OFFICERS,
+
+	@SerialName("address")
+	CATEGORY_ADDRESS,
+
+	@SerialName("capital")
+	CATEGORY_CAPITAL,
+
+	@SerialName("insolvency")
+	CATEGORY_INSOLVENCY,
+
+	@SerialName("other")
+	CATEGORY_OTHER,
+
+	@SerialName("incorporation")
+	CATEGORY_INCORPORATION,
+
+	@SerialName("change-of-constitution")
+	CATEGORY_CONSTITUTION,
+
+	@SerialName("auditors")
+	CATEGORY_AUDITORS,
+
+	@SerialName("resolution")
+	CATEGORY_RESOLUTION,
+
+	@SerialName("mortgage")
+	CATEGORY_MORTGAGE,
+
+	@SerialName("persons-with-significant-control")
+	CATEGORY_PERSONS;
+
 }

@@ -1,7 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 include(":app")
-include(":data")
 include(":core-detekt")
 include(":common")
 include(":feature-charges")
@@ -25,6 +24,7 @@ pluginManagement {
 dependencyResolutionManagement {
 	repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
 	repositories {
+		mavenLocal()
 		mavenCentral()
 		google()
 		maven("https://jitpack.io")

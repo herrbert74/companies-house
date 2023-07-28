@@ -6,6 +6,13 @@ plugins {
 	alias(libs.plugins.parcelize.darwin)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
+	id("org.kodein.mock.mockmp") version "1.14.0"
+}
+
+val companiesHouseApiKey: String by project
+
+mockmp {
+	usesHelper = true
 }
 
 kotlin {
@@ -31,13 +38,9 @@ kotlin {
 
 		val commonMain by getting {
 			dependencies {
-				//Domain
 
-				/**
-				 * TODO Use base-kotlin
-				 * https://github.com/jitpack/jitpack.io/issues/3853
-				 */
-				//api(libs.baBeStudios.base.kotlin)
+				api(libs.baBeStudios.base.data)
+				api(libs.baBeStudios.base.kotlin)
 
 				implementation(libs.koin.core)
 				implementation(libs.kotlin.parcelize.runtime) //Transitive
@@ -63,6 +66,8 @@ kotlin {
 				implementation(libs.kotlinx.serialization.json)
 				implementation(libs.logging)
 				implementation(libs.uriKmp)
+				implementation(libs.multiplatformSettings.core)
+				implementation(libs.multiplatformSettings.noargs)
 
 				//ksp(libs.ktorfit.ksp)
 
@@ -80,14 +85,26 @@ kotlin {
 		val commonTest by getting {
 			dependencies {
 				implementation(kotlin("test"))
+
+				implementation(libs.test.kotest.assertions.core)
+				implementation(libs.test.kotest.assertions.shared)
+				implementation(libs.kotlinx.coroutines.test)
+				implementation(libs.test.mockmp.runtime)
+				implementation(libs.test.mockmp.testHelper)
+				implementation(libs.ktor.client.mock)
+
 			}
+			kotlin.srcDir("build/generated/ksp/jvm/jvmTest/kotlin") //for mockmp
 		}
 		val androidMain by getting {
+
 			dependencies {
 
 				//data
 				implementation(libs.koin.core)
 				implementation(libs.koin.android)
+				implementation(project.dependencies.platform(libs.google.firebase.bom))
+				implementation(libs.google.firebase.analytics)
 
 				api(libs.squareUp.okhttp3.okhttp)
 				//implementation(libs.kotlinx.coroutines.core)
@@ -122,16 +139,28 @@ kotlin {
 }
 
 android {
+
 	namespace = "com.babestudios.companyinfouk.shared"
 	compileSdk = 33
+
 	defaultConfig {
 		minSdk = 21
 	}
+
+	@Suppress("UnstableApiUsage")
+	buildFeatures.buildConfig = true
 
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
 	}
+
+	buildTypes {
+		all {
+			buildConfigField("String", "COMPANIES_HOUSE_API_KEY", companiesHouseApiKey)
+		}
+	}
+
 
 	dependencies {
 		debugImplementation(libs.chucker.library)
@@ -142,4 +171,10 @@ android {
 dependencies {
 	add("kspCommonMainMetadata", libs.ktorfit.ksp)
 	add("kspAndroid", libs.ktorfit.ksp)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
+	if (name.startsWith("compileTestKotlin")) {
+		dependsOn("kspTestKotlinJvm")
+	}
 }

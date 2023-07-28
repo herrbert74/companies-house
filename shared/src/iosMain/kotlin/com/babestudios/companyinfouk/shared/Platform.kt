@@ -14,3 +14,5 @@ actual fun getPlatform(): Platform = IOSPlatform()
 
 actual typealias Parcelable = com.arkivanov.parcelize.darwin.Parcelable
 actual typealias Parcelize = com.arkivanov.parcelize.darwin.Parcelize
+
+actual val companiesHouseApiKey: String = "TODO"

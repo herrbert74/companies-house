@@ -15,3 +15,5 @@ expect interface Parcelable
 @OptionalExpectation
 @Target(AnnotationTarget.CLASS)
 expect annotation class Parcelize()
+
+expect val companiesHouseApiKey : String

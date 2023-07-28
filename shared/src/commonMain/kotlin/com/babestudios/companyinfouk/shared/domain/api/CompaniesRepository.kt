@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.shared.domain.api
 
+import com.babestudios.base.kotlin.api.AnalyticsContract
 import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
 import com.babestudios.companyinfouk.shared.domain.model.common.ApiResult
 import com.babestudios.companyinfouk.shared.domain.model.company.Company
@@ -12,7 +13,6 @@ import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
-import com.babestudios.companyinfouk.shared.kotlin.api.AnalyticsContract
 
 interface CompaniesRepository : AnalyticsContract {
 
