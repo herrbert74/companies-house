@@ -1,34 +1,55 @@
 @startuml
 'https://plantuml.com/class-diagram
+skinparam defaultFontSize 32
+skinparam ArrowFontSize 20
 
-interface RootComp
-class RootComponent
-class Output
-class RootContent <<Composable>>
-class Screen <<Composable>>
-class RootActivity
-class Child <<sealed>>
-class FeatureChild
-interface FeatureComp
-class FeatureComponent
-class Configuration <<sealed>>
-class FeatureConfiguration
-class StackNavigation<Configuration>
-circle createComponent <<internal function>>
-circle navigation <<internal function>>
-circle onFeatureOutput <<internal function>>
+package shared.main {
+	interface RootComp
+	class RootComponent
+	RootComponent : createChild(configuration) : Child
+	class StackNavigation<Configuration>
+	circle navigation <<internal function>>
+	circle onFeatureOutput <<internal function>>
+	class Child <<sealed>>
+	class FeatureChild
+	class Configuration <<sealed>>
+	class FeatureConfiguration
 
-RootComponent : createChild(configuration) : Child
-FeatureComponent : componentContext: ComponentContext
+	circle createComponent <<internal function>>
+}
+
+package shared.feature {
+	interface FeatureComp
+	class FeatureExecutor
+	class FeatureComponent
+	class Output
+	FeatureComponent : componentContext: ComponentContext
+}
+
+package main {
+	class RootActivity
+	class RootContent <<Composable>>
+}
+
+package feature {
+	class Screen <<Composable>>
+}
+
+shared.feature <-down- shared.main
+feature <-down- main
+shared.main <-down- main
+shared.feature <-down- feature
 
 RootComp <|-- RootComponent
 Child <|-- FeatureChild
 FeatureComponent *-- FeatureChild : contains
 FeatureComponent *-- Screen : contains
+FeatureExecutor *-- FeatureComponent : contains
 FeatureComp <|-- FeatureComponent
 Configuration <|-- FeatureConfiguration
 FeatureComp <.. createComponent : creates
 FeatureComponent <.. createComponent : creates
+FeatureExecutor <.. createComponent : uses
 Child <.. RootComponent : creates
 Configuration <.. RootComponent : receives
 Child <.. RootContent : receives
@@ -38,7 +59,9 @@ onFeatureOutput <.. RootComponent : uses
 createComponent <.. RootComponent : uses
 navigation <.. onFeatureOutput : adds Config to stack
 Screen <.. RootContent : adds to stack
-RootComp <|-- RootActivity
+RootComp <|-- RootContent
+FeatureConfiguration <.. RootContent : uses
+RootComponent *-- RootActivity : contains
 RootContent <|-- RootActivity
 StackNavigation <|-- navigation
 
