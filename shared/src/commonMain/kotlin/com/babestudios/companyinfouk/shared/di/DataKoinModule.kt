@@ -4,6 +4,7 @@ import com.babestudios.companyinfouk.shared.AnalyticsFactory
 import com.babestudios.companyinfouk.shared.companiesHouseApiKey
 import com.babestudios.companyinfouk.shared.data.CompaniesAccessor
 import com.babestudios.companyinfouk.shared.data.CompaniesDocumentAccessor
+import com.babestudios.companyinfouk.shared.data.local.Prefs
 import com.babestudios.companyinfouk.shared.data.local.PrefsAccessor
 import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
 import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseDocumentApi
@@ -44,18 +45,14 @@ val dataModule = module {
 			AnalyticsFactory() ,
 			get(named("IoDispatcher")),
 		)
-	}.withOptions {
-		bind<CompaniesRepository>()
-	}
+	}.withOptions { bind<CompaniesRepository>() }
 
 	single {
 		CompaniesDocumentAccessor(
 			get(named("CompaniesHouseDocumentApi")),
 			get(named("IoDispatcher")),
 		)
-	}.withOptions {
-		bind<CompaniesDocumentRepository>()
-	}
+	}.withOptions { bind<CompaniesDocumentRepository>() }
 
 	//endregion
 
@@ -69,7 +66,7 @@ val dataModule = module {
 		}
 	}
 
-	single { PrefsAccessor(get(), get()) }
+	single { PrefsAccessor(get(), get()) }.withOptions { bind<Prefs>() }
 
 	single(named("CompaniesHouseClient")) {
 		HttpClient(getPlatform().engine) {

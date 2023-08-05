@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.shared.data.model.persons
 
 import com.babestudios.companyinfouk.shared.data.model.common.SelfLinkDataDto
-import java.util.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

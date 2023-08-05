@@ -28,6 +28,7 @@ enum class Category(val displayName: String, val serialName: String) {
 	CATEGORY_OTHER("other", "other"),
 	CATEGORY_INCORPORATION("incorporation", "incorporation"),
 	CATEGORY_CONSTITUTION("change of constitution", "change-of-constitution"),
+	CATEGORY_NAME("change of name", "change-of-name"),
 	CATEGORY_AUDITORS("auditors", "auditors"),
 	CATEGORY_RESOLUTION("resolution", "resolution"),
 	CATEGORY_MORTGAGE("mortgage", "mortgage"),

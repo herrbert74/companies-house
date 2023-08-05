@@ -64,6 +64,7 @@ private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 		CategoryDto.CATEGORY_OTHER -> Category.CATEGORY_OTHER
 		CategoryDto.CATEGORY_INCORPORATION -> Category.CATEGORY_INCORPORATION
 		CategoryDto.CATEGORY_CONSTITUTION -> Category.CATEGORY_CONSTITUTION
+		CategoryDto.CATEGORY_NAME -> Category.CATEGORY_NAME
 		CategoryDto.CATEGORY_AUDITORS -> Category.CATEGORY_AUDITORS
 		CategoryDto.CATEGORY_RESOLUTION -> Category.CATEGORY_RESOLUTION
 		CategoryDto.CATEGORY_MORTGAGE -> Category.CATEGORY_MORTGAGE

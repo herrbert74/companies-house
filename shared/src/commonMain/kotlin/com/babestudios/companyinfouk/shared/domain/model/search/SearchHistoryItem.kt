@@ -13,9 +13,9 @@ data class SearchHistoryItem(
 		if (other == null) {
 			return false
 		}
-		if (!SearchHistoryItem::class.java.isAssignableFrom(other.javaClass)) {
-			return false
-		}
+//		if (!SearchHistoryItem::class.java.isAssignableFrom(other.javaClass)) {
+//			return false
+//		}
 		val searchHistoryItem = other as SearchHistoryItem?
 		return this.companyNumber == searchHistoryItem?.companyNumber
 	}

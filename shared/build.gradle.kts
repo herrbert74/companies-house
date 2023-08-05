@@ -2,11 +2,11 @@ plugins {
 	kotlin("multiplatform")
 	id("com.android.library")
 	id("kotlin-parcelize")
-	kotlin("plugin.serialization").version("1.8.20")
+	kotlin("plugin.serialization") version libs.versions.kotlin
 	alias(libs.plugins.parcelize.darwin)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
-	id("org.kodein.mock.mockmp") version "1.14.0"
+	id("org.kodein.mock.mockmp") version libs.versions.mockmp
 }
 
 val companiesHouseApiKey: String by project
@@ -16,7 +16,7 @@ mockmp {
 }
 
 kotlin {
-	android {
+	androidTarget {
 		compilations.all {
 			kotlinOptions {
 				jvmTarget = "17"
@@ -147,7 +147,6 @@ android {
 		minSdk = 21
 	}
 
-	@Suppress("UnstableApiUsage")
 	buildFeatures.buildConfig = true
 
 	compileOptions {
@@ -170,11 +169,35 @@ android {
 
 dependencies {
 	add("kspCommonMainMetadata", libs.ktorfit.ksp)
-	add("kspAndroid", libs.ktorfit.ksp)
+//	add("kspAndroid", libs.ktorfit.ksp)
+//	add("kspIosArm64", libs.ktorfit.ksp)
+//	add("kspIosSimulatorArm64", libs.ktorfit.ksp)
+//	add("kspIosX64", libs.ktorfit.ksp)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
 	if (name.startsWith("compileTestKotlin")) {
 		dependsOn("kspTestKotlinJvm")
 	}
+	//Work around for Cannot change attributes of dependency configuration ... after it has been resolved
+	//https://stackoverflow.com/questions/72471375/cannot-change-attributes-of-dependency-configuration-appreleaseunittestcompil
+//	if(name != "kspCommonMainKotlinMetadata") {
+//		dependsOn("kspCommonMainKotlinMetadata")
+//	}
+}
+
+//Work around for 'Consumable configurations must have unique attributes'
+//https://youtrack.jetbrains.com/issue/KT-55751/MPP-Gradle-Consumable-configurations-must-have-unique-attributes
+//val myAttribute: Attribute<String> = Attribute.of("myOwnAttribute", String::class.java)
+//configurations.named("releaseFrameworkIosFat").configure {
+//	attributes {
+//		// put a unique attribute
+//		attribute(myAttribute, "release-all")
+//	}
+//}
+
+//Partial solution for generating common code
+//https://github.com/google/ksp/issues/567
+kotlin.sourceSets.commonMain {
+	kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
 }

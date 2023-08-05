@@ -40,6 +40,9 @@ enum class CategoryDto {
 	@SerialName("change-of-constitution")
 	CATEGORY_CONSTITUTION,
 
+	@SerialName("change-of-name")
+	CATEGORY_NAME,
+
 	@SerialName("auditors")
 	CATEGORY_AUDITORS,
 

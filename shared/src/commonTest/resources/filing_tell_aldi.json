@@ -1,0 +1,76 @@
+{
+  "total_count": 3,
+  "filing_history_status": "filing-history-available",
+  "items": [
+    {
+      "category": "change-of-name",
+      "date": "2023-01-20",
+      "description": "certificate-change-of-name-company",
+      "description_values": {
+        "description": "Company name changed helping hands trust LTD\\certificate issued on 20/01/23"
+      },
+      "links": {
+        "self": "/company/14190543/filing-history/MzM2NjYwMzgyOGFkaXF6a2N4",
+        "document_metadata": "https://frontend-doc-api.company-information.service.gov.uk/document/gC-gKYvd4yGueZh5-gLNFV_Xy3jsiEzQ2rhV09MmiFU"
+      },
+      "subcategory": "certificate",
+      "type": "CERTNM",
+      "associated_filings": [
+        {
+          "category": "change-of-name",
+          "date": "2023-01-20",
+          "description": "change-of-name-by-resolution",
+          "type": "NM01"
+        }
+      ],
+      "resolutions": [
+        {
+          "category": "change-of-name",
+          "description": "resolution-change-of-name",
+          "description_values": {
+            "resolution_date": "2022-08-05"
+          },
+          "subcategory": "resolution",
+          "type": "RES15"
+        }
+      ],
+      "pages": 3,
+      "barcode": "XBVJ9ZNS",
+      "transaction_id": "MzM2NjYwMzgyOGFkaXF6a2N4"
+    },
+    {
+      "action_date": "2023-01-01",
+      "category": "persons-with-significant-control",
+      "date": "2023-01-19",
+      "description": "cessation-of-a-person-with-significant-control",
+      "description_values": {
+        "psc_name": "Taha Ejaz",
+        "cessation_date": "2023-01-01"
+      },
+      "links": {
+        "self": "/company/14190543/filing-history/MzM2NjUyMDY2NWFkaXF6a2N4",
+        "document_metadata": "https://frontend-doc-api.company-information.service.gov.uk/document/cZ-_8HfSp-rTuzqjiuqNx5FhEOFO6WXP0O7siwaC2MQ"
+      },
+      "subcategory": "termination",
+      "type": "PSC07",
+      "pages": 1,
+      "barcode": "XBVJ9Z0J",
+      "transaction_id": "MzM2NjUyMDY2NWFkaXF6a2N4"
+    },
+    {
+      "category": "incorporation",
+      "date": "2022-06-23",
+      "description": "incorporation-company",
+      "links": {
+        "self": "/company/14190543/filing-history/MzM0MzMyMTkzN2FkaXF6a2N4",
+        "document_metadata": "https://frontend-doc-api.company-information.service.gov.uk/document/H9qJqpiRyAiGAzir_FWrLnUZet8vX5U5G4f1jNHXxBk"
+      },
+      "type": "NEWINC",
+      "pages": 26,
+      "barcode": "XB6Q5JPK",
+      "transaction_id": "MzM0MzMyMTkzN2FkaXF6a2N4"
+    }
+  ],
+  "start_index": 0,
+  "items_per_page": 50
+}

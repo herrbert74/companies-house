@@ -12,7 +12,6 @@ import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerLinks
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerRelatedLinks
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficersResponse
-//import java.util.regex.Pattern
 
 fun OfficersResponseDto.toOfficersResponse() = OfficersResponse(totalResults, items.mapOfficerList())
 

@@ -112,6 +112,20 @@ class MappersTest {
 		filingHistoryPfbHire.filingHistoryStatus shouldBe "filing-history-available"
 	}
 
+	@Test
+	fun `when there is a filing history with change of name then it is mapped`() {
+		val jsonString = readCommonResource("filing_tell_aldi.json")
+		val filingHistoryDto = json.decodeFromString<FilingHistoryDto>(jsonString)
+		val filingHistoryWithNameChange = filingHistoryDto.toFilingHistory()
+		filingHistoryWithNameChange.totalCount shouldBe 3
+
+		//This one should (for now) unused 'capital' field removed
+		filingHistoryWithNameChange.items[0].description shouldBe
+			"**Certificate of change of name**"
+
+		filingHistoryWithNameChange.filingHistoryStatus shouldBe "filing-history-available"
+	}
+
 	//endregion
 
 	//region format filing description

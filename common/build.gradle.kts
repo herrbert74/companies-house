@@ -2,7 +2,6 @@ plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 }
 
-@Suppress("UnstableApiUsage")
 android {
 	namespace = "com.babestudios.companyinfouk.common"
 	buildFeatures.compose = true
@@ -12,6 +11,7 @@ android {
 dependencies {
 	api(project(":shared"))
 
+	implementation(platform(libs.androidx.compose.bom))
 	api(libs.androidx.compose.material3)
 	api(libs.androidx.compose.ui) //Transitive
 	api(libs.androidx.compose.ui.text) //Transitive

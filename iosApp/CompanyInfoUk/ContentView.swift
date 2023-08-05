@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var searchText = ""
+    
     var body: some View {
         VStack {
+            NavigationStack {
+                Text("Searching for \(searchText)")
+                    .navigationTitle("Searchable Example")
+            }
+            .searchable(text: $searchText)
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
