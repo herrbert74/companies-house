@@ -23,6 +23,7 @@ import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
+import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
 
 @Composable
 fun ChargesScreen(component: ChargesComp) {

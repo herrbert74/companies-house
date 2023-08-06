@@ -21,6 +21,7 @@ import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.R
+import com.babestudios.companyinfouk.shared.screen.officers.OfficersComp
 
 @Composable
 fun OfficersScreen(component: OfficersComp) {

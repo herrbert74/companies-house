@@ -28,6 +28,7 @@ import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.officers.R
+import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsComp
 
 @Composable
 fun AppointmentsScreen(component: AppointmentsComp) {

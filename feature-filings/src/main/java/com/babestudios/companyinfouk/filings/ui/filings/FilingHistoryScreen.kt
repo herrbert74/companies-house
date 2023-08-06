@@ -40,6 +40,7 @@ import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaff
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
+import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryComp
 
 @Composable
 fun FilingHistoryScreen(component: FilingHistoryComp) {

@@ -11,7 +11,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.main.CompaniesRootComponent
+import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import com.babestudios.companyinfouk.main.CompaniesRootContent
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
@@ -22,7 +22,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named

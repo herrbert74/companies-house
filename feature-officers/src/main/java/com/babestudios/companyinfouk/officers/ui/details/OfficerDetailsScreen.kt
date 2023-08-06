@@ -30,6 +30,8 @@ import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.officers.R
+import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComponent
 import kotlinx.coroutines.Dispatchers
 
 @Composable

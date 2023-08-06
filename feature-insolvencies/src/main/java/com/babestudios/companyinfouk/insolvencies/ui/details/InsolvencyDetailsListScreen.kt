@@ -24,6 +24,7 @@ import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_DATES
 import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_PRACTITIONERS
+import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
 
 @Composable
 fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {

@@ -20,6 +20,7 @@ import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesComp
 
 @Composable
 fun InsolvenciesScreen(component: InsolvenciesComp) {

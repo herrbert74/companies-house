@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.design.CompaniesTheme
+import com.babestudios.companyinfouk.shared.screen.map.MapComp
+import com.babestudios.companyinfouk.shared.screen.map.MapComponent
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap

@@ -25,6 +25,8 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.CompaniesTheme
+import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComp
+import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComponent
 import kotlinx.coroutines.Dispatchers
 
 @SuppressLint("SetJavaScriptEnabled")

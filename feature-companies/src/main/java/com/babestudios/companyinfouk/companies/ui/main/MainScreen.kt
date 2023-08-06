@@ -66,6 +66,7 @@ import com.babestudios.companyinfouk.design.titleMediumBold
 import com.babestudios.companyinfouk.shared.domain.RECENT_SEARCHES
 import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResultItem
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.screen.main.MainComp
 
 //TODO transparent search when there are no results
 @Composable

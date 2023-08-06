@@ -5,9 +5,9 @@ import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.persons.ui.persons.PersonsExecutor
-import com.babestudios.companyinfouk.persons.ui.persons.PersonsStore
-import com.babestudios.companyinfouk.persons.ui.persons.PersonsStoreFactory
+import com.babestudios.companyinfouk.shared.screen.persons.PersonsExecutor
+import com.babestudios.companyinfouk.shared.screen.persons.PersonsStore
+import com.babestudios.companyinfouk.shared.screen.persons.PersonsStoreFactory
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery

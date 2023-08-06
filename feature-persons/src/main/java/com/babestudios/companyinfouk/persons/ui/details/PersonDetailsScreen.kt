@@ -25,6 +25,8 @@ import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.persons.Identification
 import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
+import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsComp
+import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsComponent
 import kotlinx.coroutines.Dispatchers
 
 @Composable

@@ -45,6 +45,9 @@ import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.ui.filings.createAnnotatedStringDescription
+import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsComp
+import com.eygraber.uri.toAndroidUri
+import com.eygraber.uri.toUri
 import java.util.Locale
 
 @Composable
@@ -65,7 +68,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 
 	val createDocumentLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.CreateDocument("application/pdf")
-	) { uri -> if (uri != null) component.savePdf(uri) }
+	) { uri -> if (uri != null) component.savePdf(uri.toUri()) }
 
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
@@ -112,7 +115,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 			wasCreateDocumentCalled.value = true
 		}
 		if (model.savedPdfUri != null && !wasCreateDocumentShown.value) {
-			showDocument(model.savedPdfUri!!, context, pdfWillNotSaveMessage)
+			showDocument(model.savedPdfUri!!.toAndroidUri(), context, pdfWillNotSaveMessage)
 			wasCreateDocumentShown.value = true
 		} else {
 			FilingDetailsBody(state, selectedFilingDetails)

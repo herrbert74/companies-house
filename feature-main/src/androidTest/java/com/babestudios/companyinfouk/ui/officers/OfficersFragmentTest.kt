@@ -12,7 +12,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.main.CompaniesRootComponent
+import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import com.babestudios.companyinfouk.main.CompaniesRootContent
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository

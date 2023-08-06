@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import com.arkivanov.decompose.DefaultComponentContext
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named

@@ -5,9 +5,9 @@ import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistory
-import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryExecutor
-import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStore
-import com.babestudios.companyinfouk.filings.ui.filings.FilingHistoryStoreFactory
+import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryExecutor
+import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryStore
+import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryStoreFactory
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery

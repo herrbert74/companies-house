@@ -3,10 +3,10 @@ package com.babestudios.companyinfouk.companies
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
-import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesExecutor
-import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesItem
-import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStore
-import com.babestudios.companyinfouk.companies.ui.favourites.FavouritesStoreFactory
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesExecutor
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesItem
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStoreFactory
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import io.kotest.matchers.collections.shouldContain

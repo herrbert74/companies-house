@@ -33,6 +33,8 @@ import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesComp
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesItem
 
 @Composable
 fun FavouritesScreen(component: FavouritesComp) {

@@ -5,13 +5,11 @@ import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryLinks
-import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsExecutor
-import com.babestudios.companyinfouk.filings.ui.details.FilingDetailsStore
-import com.babestudios.companyinfouk.filings.ui.details.FilingHistoryDetailsStoreFactory
+import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsExecutor
+import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsStore
+import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingHistoryDetailsStoreFactory
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import io.kotest.matchers.shouldBe
-import io.ktor.client.statement.DefaultHttpResponse
-import io.ktor.client.statement.HttpResponse
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

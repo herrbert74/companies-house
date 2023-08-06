@@ -22,6 +22,8 @@ import com.babestudios.companyinfouk.officers.ui.details.OfficerDetailsScreen
 import com.babestudios.companyinfouk.officers.ui.officers.OfficersScreen
 import com.babestudios.companyinfouk.persons.ui.details.PersonDetailsScreen
 import com.babestudios.companyinfouk.persons.ui.persons.PersonsScreen
+import com.babestudios.companyinfouk.shared.root.CompaniesChild
+import com.babestudios.companyinfouk.shared.root.CompaniesRootComp
 
 @Composable
 internal fun CompaniesRootContent(component: CompaniesRootComp) {

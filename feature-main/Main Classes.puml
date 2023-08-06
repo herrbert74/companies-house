@@ -3,27 +3,29 @@
 skinparam defaultFontSize 32
 skinparam ArrowFontSize 20
 
-package shared.main {
-	interface RootComp
-	class RootComponent
-	RootComponent : createChild(configuration) : Child
-	class StackNavigation<Configuration>
-	circle navigation <<internal function>>
-	circle onFeatureOutput <<internal function>>
-	class Child <<sealed>>
-	class FeatureChild
-	class Configuration <<sealed>>
-	class FeatureConfiguration
-
-	circle createComponent <<internal function>>
-}
-
 package shared.feature {
+	class FeatureStoreFactory
+	class FeatureStore
 	interface FeatureComp
 	class FeatureExecutor
 	class FeatureComponent
 	class Output
 	FeatureComponent : componentContext: ComponentContext
+}
+
+package shared.main {
+	interface RootComp
+	class RootComponent
+	RootComponent : createChild(configuration) : Child
+	class StackNavigation<Configuration>
+	object OutputHandler {
+	~ navigation
+	~ onFeatureOutput()
+	}
+	class Child <<sealed>>
+	class Configuration <<sealed>>
+
+	circle createComponent <<internal function>>
 }
 
 package main {
@@ -35,34 +37,37 @@ package feature {
 	class Screen <<Composable>>
 }
 
-shared.feature <-down- shared.main
-feature <-down- main
-shared.main <-down- main
-shared.feature <-down- feature
+shared.feature <-[hidden]down- shared.main
+feature <-[hidden]down- main
+shared.main <-[hidden]down- main
+RootComponent <-[hidden]down- feature
+FeatureComponent <-[hidden]down- Configuration
 
 RootComp <|-- RootComponent
-Child <|-- FeatureChild
-FeatureComponent *-- FeatureChild : contains
+FeatureStore *-- FeatureStoreFactory : creates
+FeatureExecutor *-- FeatureStoreFactory : contains
+FeatureComponent *-- Child : contains
 FeatureComponent *-- Screen : contains
 FeatureExecutor *-- FeatureComponent : contains
+FeatureStore *-- FeatureComponent : contains
+FeatureStoreFactory *-- FeatureComponent : uses
 FeatureComp <|-- FeatureComponent
-Configuration <|-- FeatureConfiguration
 FeatureComp <.. createComponent : creates
 FeatureComponent <.. createComponent : creates
 FeatureExecutor <.. createComponent : uses
 Child <.. RootComponent : creates
 Configuration <.. RootComponent : receives
 Child <.. RootContent : receives
-Output <.. onFeatureOutput : receives
-Configuration <.. onFeatureOutput : creates
-onFeatureOutput <.. RootComponent : uses
+Output <.. OutputHandler::onFeatureOutput : receives
+Output <.. FeatureComponent : emits
+Configuration <.. OutputHandler::onFeatureOutput : creates
+OutputHandler::onFeatureOutput <.. RootComponent : uses
 createComponent <.. RootComponent : uses
-navigation <.. onFeatureOutput : adds Config to stack
+OutputHandler::navigation <.. OutputHandler::onFeatureOutput : adds Config to stack
 Screen <.. RootContent : adds to stack
 RootComp <|-- RootContent
-FeatureConfiguration <.. RootContent : uses
 RootComponent *-- RootActivity : contains
 RootContent <|-- RootActivity
-StackNavigation <|-- navigation
+StackNavigation <|-- OutputHandler::navigation
 
 @enduml

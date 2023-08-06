@@ -28,6 +28,7 @@ import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.shared.domain.FORTY_PERCENT
 import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
+import com.babestudios.companyinfouk.shared.screen.chargedetails.ChargeDetailsComp
 
 @Composable
 fun ChargeDetailsListScreen(component: ChargeDetailsComp) {

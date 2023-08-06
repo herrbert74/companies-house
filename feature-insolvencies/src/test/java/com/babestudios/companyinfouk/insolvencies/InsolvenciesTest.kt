@@ -5,9 +5,9 @@ import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Insolvency
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesExecutor
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStore
-import com.babestudios.companyinfouk.insolvencies.ui.insolvencies.InsolvenciesStoreFactory
+import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesExecutor
+import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesStore
+import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesStoreFactory
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery

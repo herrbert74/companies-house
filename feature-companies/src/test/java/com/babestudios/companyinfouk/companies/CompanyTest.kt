@@ -3,9 +3,9 @@ package com.babestudios.companyinfouk.companies
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
-import com.babestudios.companyinfouk.companies.ui.company.CompanyExecutor
-import com.babestudios.companyinfouk.companies.ui.company.CompanyStore
-import com.babestudios.companyinfouk.companies.ui.company.CompanyStoreFactory
+import com.babestudios.companyinfouk.shared.screen.company.CompanyExecutor
+import com.babestudios.companyinfouk.shared.screen.company.CompanyStore
+import com.babestudios.companyinfouk.shared.screen.company.CompanyStoreFactory
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.company.Company
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem

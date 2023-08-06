@@ -3,9 +3,9 @@ package com.babestudios.companyinfouk.charges
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
-import com.babestudios.companyinfouk.charges.ui.charges.ChargesExecutor
-import com.babestudios.companyinfouk.charges.ui.charges.ChargesStore
-import com.babestudios.companyinfouk.charges.ui.charges.ChargesStoreFactory
+import com.babestudios.companyinfouk.shared.screen.charges.ChargesExecutor
+import com.babestudios.companyinfouk.shared.screen.charges.ChargesStore
+import com.babestudios.companyinfouk.shared.screen.charges.ChargesStoreFactory
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
 import com.github.michaelbull.result.Ok

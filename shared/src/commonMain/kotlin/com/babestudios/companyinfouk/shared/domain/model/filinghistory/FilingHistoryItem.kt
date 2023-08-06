@@ -12,4 +12,4 @@ data class FilingHistoryItem(
 	val subcategory: String? = null,
 	val description: String = "",
 	val pages: Int = 0,
-):Parcelable
+) : Parcelable

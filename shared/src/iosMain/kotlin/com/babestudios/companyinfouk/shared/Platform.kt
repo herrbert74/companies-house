@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.shared
 
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.darwin.Darwin
+import kotlin.system.getTimeMillis
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {

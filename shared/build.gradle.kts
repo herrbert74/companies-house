@@ -42,6 +42,9 @@ kotlin {
 				api(libs.baBeStudios.base.data)
 				api(libs.baBeStudios.base.kotlin)
 
+				implementation(libs.decompose.core)
+				implementation(libs.decompose.extensionsJetBrains)
+				implementation(libs.decompose.extensionsJetpack)
 				implementation(libs.koin.core)
 				implementation(libs.kotlin.parcelize.runtime) //Transitive
 				implementation(libs.kotlinx.coroutines.core)
@@ -64,6 +67,11 @@ kotlin {
 				implementation(libs.ktor.serialization.kotlinx.json)
 				implementation(libs.ktorfit.lib)
 				implementation(libs.kotlinx.serialization.json)
+				implementation(libs.mvikotlin.core)
+				implementation(libs.mvikotlin.coroutines)
+				implementation(libs.mvikotlin.main)
+				implementation(libs.mvikotlin.rx)
+				implementation(libs.mvikotlin.logging)
 				implementation(libs.logging)
 				implementation(libs.uriKmp)
 				implementation(libs.multiplatformSettings.core)

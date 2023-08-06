@@ -23,6 +23,8 @@ import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComponent
 import kotlinx.coroutines.Dispatchers
 
 @Composable

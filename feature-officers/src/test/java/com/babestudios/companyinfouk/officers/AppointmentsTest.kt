@@ -7,9 +7,9 @@ import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.shared.domain.model.officers.AppointmentsResponse
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
-import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsExecutor
-import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStore
-import com.babestudios.companyinfouk.officers.ui.appointments.AppointmentsStoreFactory
+import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsExecutor
+import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsStore
+import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsStoreFactory
 import com.github.michaelbull.result.Ok
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery

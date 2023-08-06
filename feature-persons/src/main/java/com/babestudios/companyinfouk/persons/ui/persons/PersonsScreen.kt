@@ -21,6 +21,7 @@ import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
+import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
 
 @Composable
 fun PersonsScreen(component: PersonsComp) {

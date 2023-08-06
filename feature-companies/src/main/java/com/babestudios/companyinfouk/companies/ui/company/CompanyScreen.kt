@@ -40,6 +40,7 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.shared.domain.model.company.Company
+import com.babestudios.companyinfouk.shared.screen.company.CompanyComp
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
