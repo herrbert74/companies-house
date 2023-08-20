@@ -35,7 +35,8 @@ retrofit = "2.9.0"
 #facebook = "16.1.2"
 chucker = "4.0.0"
 mviKotlin = "3.2.1"
-decompose = "1.0.0"
+decompose = "2.0.1"
+essenty = "1.1.0"
 parcelize-darwin = "0.1.4"
 jUnit5 = "5.9.3"
 mockk = "1.13.3" #1.13.4 issue: https://github.com/mockk/mockk/issues/1035
@@ -46,7 +47,7 @@ kotlinResult = "1.1.18"
 flowBinding = "1.2.0"
 ktor = "2.3.2"
 ktorfit = "1.5.0"
-koin = "3.4.2"
+koin = "3.4.3"
 multiplatform-settings = "1.0.0"
 babestudios-base = "3.1.0-beta01"
 
@@ -56,8 +57,9 @@ gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradl
 kotlinPlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinAllOpenPlugin = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 googleServicesPlugin = "com.google.gms:google-services:4.3.15"
-firebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:2.9.7"
+firebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:2.9.8"
 firebaseAppDistributionPlugin = "com.google.firebase:firebase-appdistribution-gradle:4.0.0"
+buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.13.3" }
 #hiltPlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-dagger" }
 #navigationSafeArgsPlugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
 
@@ -83,7 +85,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-annotation = "androidx.annotation:annotation:1.6.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
 androidx-appCompatResources = "androidx.appcompat:appcompat-resources:1.6.1"
-androidx-browser = "androidx.browser:browser:1.5.0"
+androidx-browser = "androidx.browser:browser:1.6.0"
 androidx-cardView = "androidx.cardview:cardview:1.0.0"
 androidx-collection = "androidx.collection:collection:1.2.0"
 androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
@@ -94,7 +96,7 @@ androidx-datastore = "androidx.datastore:datastore-preferences:1.0.0"
 androidx-fragmentKtx = "androidx.fragment:fragment-ktx:1.6.1"
 androidx-media = "androidx.media:media:1.6.0"
 androidx-mediaRouter = "androidx.mediarouter:mediarouter:1.4.0"
-androidx-preferenceKtx = "androidx.preference:preference-ktx:1.2.0"
+androidx-preferenceKtx = "androidx.preference:preference-ktx:1.2.1"
 androidx-recyclerView = "androidx.recyclerview:recyclerview:1.3.1"
 #androidx-splash = "androidx.core:core-splashscreen:1.0.1"
 androidx-startup = "androidx.startup:startup-runtime:1.1.1"
@@ -239,6 +241,8 @@ decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "
 decompose-extensionsJetpack = { module = "com.arkivanov.decompose:extensions-compose-jetpack", version.ref = "decompose" }
 decompose-extensionsJetBrains = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 
+essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
+
 multiplatformSettings-core = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 multiplatformSettings-noargs = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
 
@@ -265,7 +269,7 @@ flowBinding-material = { module = "io.github.reactivecircus.flowbinding:flowbind
 
 view-collapsingToolbar = "me.onebone:toolbar-compose:2.3.5"
 
-#Utilities
+# Multiplatform
 uriKmp = "com.eygraber:uri-kmp:0.0.13"
 
 test-jUnit = "junit:junit:4.13.2"
@@ -305,6 +309,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 #hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "google-dagger" }
 crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.4" }
+
+# Multiplatform
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version = "1.0.0" }
 parcelize-darwin = { id = "com.arkivanov.parcelize.darwin", version.ref = "parcelize-darwin" }

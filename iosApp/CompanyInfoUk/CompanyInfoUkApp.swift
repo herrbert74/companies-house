@@ -1,17 +1,17 @@
-//
-//  CompanyInfoUkApp.swift
-//  CompanyInfoUk
-//
-//  Created by Zsolt Bertalan on 29/07/2023.
-//
-
 import SwiftUI
+import shared
 
 @main
 struct CompanyInfoUkApp: App {
+    
+    init() {
+        HelperKt.doInitKoin()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
     }
+
 }

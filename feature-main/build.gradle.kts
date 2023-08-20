@@ -3,7 +3,6 @@ plugins {
 	id("kotlin-parcelize")
 }
 
-@Suppress("UnstableApiUsage")
 android {
 
 	namespace = "com.babestudios.companyinfouk.main"

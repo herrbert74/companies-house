@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.shared.di
 
 import com.babestudios.companyinfouk.shared.AnalyticsFactory
-import com.babestudios.companyinfouk.shared.companiesHouseApiKey
+import com.babestudios.companyinfouk.shared.BuildKonfig
 import com.babestudios.companyinfouk.shared.data.CompaniesAccessor
 import com.babestudios.companyinfouk.shared.data.CompaniesDocumentAccessor
 import com.babestudios.companyinfouk.shared.data.local.Prefs
@@ -128,7 +128,7 @@ val customHeaderPlugin = createClientPlugin("CustomHeaderPlugin") {
 	onRequest { request, _ ->
 		request.headers.append(
 			"Authorization",
-			"Basic ${companiesHouseApiKey.toByteArray().encodeBase64()}"
+			"Basic ${BuildKonfig.COMPANIES_HOUSE_API_KEY.toByteArray().encodeBase64()}"
 		)
 	}
 }

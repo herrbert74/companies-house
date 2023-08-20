@@ -1,29 +1,34 @@
-//
-//  ContentView.swift
-//  CompanyInfoUk
-//
-//  Created by Zsolt Bertalan on 29/07/2023.
-//
-
 import SwiftUI
+import shared
 
 struct ContentView: View {
     
     @State private var searchText = ""
     
+    let rootParameters = RootParameters()
+    //let companiesRepository = rootParameters.companiesRepository
+    //let companiesDocumentRepository = rootParameters.companiesDocumentRepository
+    //let mainContext = rootParameters.mainContext
+    //let ioContext = rootParameters.ioContext
+    
+    @State private var componentHolder =
+    ComponentHolder {
+        CompaniesRootComponent(
+            componentContext: $0,
+            mainContext: RootParameters().mainContext,
+            ioContext: RootParameters().ioContext,
+            companiesRepository: RootParameters().companiesRepository,
+            companiesDocumentRepository: RootParameters().companiesDocumentRepository,
+            finishHandler: {}
+            //storeFactory: DefaultStoreFactory()
+        )
+    }
+    
     var body: some View {
-        VStack {
-            NavigationStack {
-                Text("Searching for \(searchText)")
-                    .navigationTitle("Searchable Example")
-            }
-            .searchable(text: $searchText)
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        RootView(componentHolder.component)
+            .onAppear { LifecycleRegistryExtKt.resume(self.componentHolder.lifecycle) }
+            .onDisappear { LifecycleRegistryExtKt.stop(self.componentHolder.lifecycle) }
+        
     }
 }
 

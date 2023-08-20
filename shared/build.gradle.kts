@@ -1,3 +1,14 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath(libs.buildKonfig)
+	}
+}
+
 plugins {
 	kotlin("multiplatform")
 	id("com.android.library")
@@ -7,12 +18,25 @@ plugins {
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
 	id("org.kodein.mock.mockmp") version libs.versions.mockmp
+	id("com.codingfeline.buildkonfig") version "0.13.3"
 }
 
 val companiesHouseApiKey: String by project
 
+buildkonfig {
+	packageName = "com.babestudios.companyinfouk.shared"
+
+	defaultConfigs {
+		buildConfigField(STRING, "COMPANIES_HOUSE_API_KEY", companiesHouseApiKey)
+	}
+}
+
 mockmp {
 	usesHelper = true
+}
+
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+	version = "1.5.0"
 }
 
 kotlin {
@@ -31,6 +55,9 @@ kotlin {
 	).forEach {
 		it.binaries.framework {
 			baseName = "shared"
+			export(libs.decompose.core)
+			export(libs.mvikotlin.core)
+			export(libs.essenty.lifecycle)
 		}
 	}
 
@@ -43,8 +70,6 @@ kotlin {
 				api(libs.baBeStudios.base.kotlin)
 
 				implementation(libs.decompose.core)
-				implementation(libs.decompose.extensionsJetBrains)
-				implementation(libs.decompose.extensionsJetpack)
 				implementation(libs.koin.core)
 				implementation(libs.kotlin.parcelize.runtime) //Transitive
 				implementation(libs.kotlinx.coroutines.core)
@@ -52,10 +77,6 @@ kotlin {
 				implementation(libs.kotlinResult.result)
 
 				//Data
-				//implementation(libs.androidx.annotation) //Transitive
-				//implementation(libs.baBeStudios.base.kotlin)
-				//implementation(libs.baBeStudios.base.data)
-				//implementation(libs.google.gson) //Transitive from Base
 				implementation(libs.kotlinResult.result)
 				implementation(libs.koin.core)
 				implementation(libs.ktor.client.core)
@@ -76,8 +97,6 @@ kotlin {
 				implementation(libs.uriKmp)
 				implementation(libs.multiplatformSettings.core)
 				implementation(libs.multiplatformSettings.noargs)
-
-				//ksp(libs.ktorfit.ksp)
 
 //
 //				testImplementation(libs.bundles.mockk.unit)
@@ -132,6 +151,9 @@ kotlin {
 
 			dependencies {
 				implementation(libs.parcelize.darwin.runtime)
+				api(libs.decompose.core)
+				api(libs.mvikotlin.core)
+				api(libs.essenty.lifecycle)
 			}
 		}
 		val iosX64Test by getting
@@ -162,13 +184,6 @@ android {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 
-	buildTypes {
-		all {
-			buildConfigField("String", "COMPANIES_HOUSE_API_KEY", companiesHouseApiKey)
-		}
-	}
-
-
 	dependencies {
 		debugImplementation(libs.chucker.library)
 		releaseImplementation(libs.chucker.noop)
@@ -189,9 +204,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
 	}
 	//Work around for Cannot change attributes of dependency configuration ... after it has been resolved
 	//https://stackoverflow.com/questions/72471375/cannot-change-attributes-of-dependency-configuration-appreleaseunittestcompil
-//	if(name != "kspCommonMainKotlinMetadata") {
-//		dependsOn("kspCommonMainKotlinMetadata")
-//	}
+	if(name != "kspCommonMainKotlinMetadata") {
+		dependsOn("kspCommonMainKotlinMetadata")
+	}
 }
 
 //Work around for 'Consumable configurations must have unique attributes'

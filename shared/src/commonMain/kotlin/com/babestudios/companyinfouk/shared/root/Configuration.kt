@@ -14,7 +14,7 @@ sealed class Configuration : Parcelable {
 	//region Companies
 
 	@Parcelize
-	internal data object Main : Configuration()
+	data object Main : Configuration()
 
 	@Parcelize
 	internal data class Company(
