@@ -3,6 +3,9 @@ import shared
 
 struct MainView: View {
     
+    @EnvironmentObject var theme : Theme
+    @EnvironmentObject var themeManeger : ThemeManager
+    
     private let component: MainComp
     
     @ObservedObject
@@ -20,33 +23,116 @@ struct MainView: View {
     var body: some View {
         VStack {
             NavigationStack {
-                Text("Searching for \(searchQuery)").navigationTitle("Searchable Example")
+                Text("Searching for \(searchQuery)").navigationTitle("Search for companies")
+                if (state.value.isLoading) {
+                    Image("ic_business_empty")
+                    Text("List is empty")
+                }
+                else {
+                    Image("ic_business_empty")
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                    Text(StringConstantsKt.RECENT_SEARCHES).displayLargeStyle()
+                    Text("no_recent_searches")
+                    //Image("ic_business_empty")
+                    List(state.value.searchResults, id: \.self) {item in
+                        VStack(alignment:.leading){
+                            Text(item.companyNumber ?? "")
+                            Text(item.title ?? "")
+                        }
+                    }
+                }
             }
             .searchable(text: $searchQuery)
             .onChange(of: searchQuery) { newValue in
                 component.onSearchQueryChanged(searchQuery:searchQuery)
             }
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("\(state.value.totalResults)")
+            //            Image(systemName: "globe")
+            //                .imageScale(.large)
+            //                .foregroundColor(.accentColor)
+            //            Text("\(state.value.totalResults)")
+            
         }
         .padding()
     }
 }
 
 struct MainView_Previews: PreviewProvider {
+    
+    static let themeManager = ThemeManager()
+
     static var previews: some View {
         MainView(StubMainComp())
+            .environmentObject(themeManager.current)
     }
     
     class StubMainComp: MainComp {
         let state: Value<MainStoreState> =
         valueOf(
             MainStoreState(
-                searchHistoryItems: [],
+                searchHistoryItems: [
+                    SearchHistoryItem(
+                        companyName: "Heart",
+                        companyNumber: "1111",
+                        searchTime: 0
+                    ),
+                    SearchHistoryItem(
+                        companyName: "Heart2",
+                        companyNumber: "1111",
+                        searchTime: 0
+                    ),
+                    SearchHistoryItem(
+                        companyName: "Heart3",
+                        companyNumber: "1111",
+                        searchTime: 0
+                    )
+                ],
                 totalResults: 50,
-                searchResults: [],
+                searchResults: [
+                    CompanySearchResultItem(
+                        descriptionIdentifier: [],
+                        dateOfCreation: nil,
+                        snippet: nil,
+                        companyNumber: "1111",
+                        title: "Heart",
+                        companyStatus:nil,
+                        matches: nil,
+                        address: nil,
+                        description: nil,
+                        kind: nil,
+                        companyType: nil,
+                        addressSnippet: nil
+                    ),
+                    CompanySearchResultItem(
+                        descriptionIdentifier: [],
+                        dateOfCreation: nil,
+                        snippet: nil,
+                        companyNumber: "1112",
+                        title: "White Heart",
+                        companyStatus:nil,
+                        matches: nil,
+                        address: nil,
+                        description: nil,
+                        kind: nil,
+                        companyType: nil,
+                        addressSnippet: nil
+                    ),
+                    CompanySearchResultItem(
+                        descriptionIdentifier: [],
+                        dateOfCreation: nil,
+                        snippet: nil,
+                        companyNumber: "1113",
+                        title: "Purple Heart",
+                        companyStatus:nil,
+                        matches: nil,
+                        address: nil,
+                        description: nil,
+                        kind: nil,
+                        companyType: nil,
+                        addressSnippet: nil
+                    )
+                ],
                 filteredSearchResultItems: [],
                 error: nil,
                 isLoading: false,
