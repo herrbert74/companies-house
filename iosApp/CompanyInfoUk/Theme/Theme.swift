@@ -1,5 +1,9 @@
 import SwiftUI
 
+//Used for theme with some modifications:
+//https://medium.com/geekculture/adapting-material-theming-from-jetpack-compose-to-swiftui-e1bb3f40651c
+//Use this article for switching the theme dynamically as well!
+
 struct Typography{
     
     var displayLarge:Font
@@ -84,21 +88,21 @@ extension Theme {
         spacing: Spacing(largeSpacing: 24, mediumSpacing: 16, smallSpacing: 8, extraLargeSpacing: 32),
         
         typography: Typography(
-            displayLarge: Font.custom("NunitoSans-Bold", size: 57),
-            displayMedium:Font.custom("NunitoSans-Bold", size: 45),
-            displaySmall: Font.custom("NunitoSans-Bold", size: 36),
-            headlineLarge: Font.custom("NunitoSans-Bold", size: 32),
-            headlineMedium: Font.custom("NunitoSans-Bold", size: 28),
-            headlineSmall: Font.custom("NunitoSans-Bold", size: 24),
-            titleLarge: Font.custom("NunitoSans-Bold", size: 22),
-            titleMedium: Font.custom("NunitoSans-Bold", size: 16),
-            titleSmall: Font.custom("NunitoSans-Bold", size: 14),
-            bodyLarge: Font.custom("NunitoSans-Regular", size: 16),
-            bodyMedium: Font.custom("NunitoSans-Regular", size: 14),
-            bodySmall: Font.custom("NunitoSans-Regular", size: 12),
-            labelLarge: Font.custom("NunitoSans-Regular", size: 14),
-            labelMedium: Font.custom("NunitoSans-Regular", size: 12),
-            labelSmall: Font.custom("NunitoSans-Regular", size: 11)
+            displayLarge: Font.custom("Raleway-Bold", size: 57),
+            displayMedium:Font.custom("Raleway-Bold", size: 45),
+            displaySmall: Font.custom("Raleway-Bold", size: 36),
+            headlineLarge: Font.custom("Raleway-Bold", size: 32),
+            headlineMedium: Font.custom("Raleway-Bold", size: 28),
+            headlineSmall: Font.custom("Raleway-Bold", size: 24),
+            titleLarge: Font.custom("Raleway-Bold", size: 22),
+            titleMedium: Font.custom("Raleway-Bold", size: 16),
+            titleSmall: Font.custom("Raleway-Bold", size: 14),
+            bodyLarge: Font.custom("Raleway-Regular", size: 16),
+            bodyMedium: Font.custom("Raleway-Regular", size: 14),
+            bodySmall: Font.custom("Raleway-Regular", size: 12),
+            labelLarge: Font.custom("Raleway-Regular", size: 14),
+            labelMedium: Font.custom("Raleway-Regular", size: 12),
+            labelSmall: Font.custom("Raleway-Regular", size: 11)
         )
     )
     
@@ -122,21 +126,21 @@ extension Theme {
         spacing: Spacing(largeSpacing: 24, mediumSpacing: 16, smallSpacing: 8, extraLargeSpacing: 32),
         
         typography: Typography(
-            displayLarge: Font.custom("NunitoSans-Bold", size: 57),
-            displayMedium:Font.custom("NunitoSans-Bold", size: 45),
-            displaySmall: Font.custom("NunitoSans-Bold", size: 36),
-            headlineLarge: Font.custom("NunitoSans-Bold", size: 32),
-            headlineMedium: Font.custom("NunitoSans-Bold", size: 28),
-            headlineSmall: Font.custom("NunitoSans-Bold", size: 24),
-            titleLarge: Font.custom("NunitoSans-Bold", size: 22),
-            titleMedium: Font.custom("NunitoSans-Bold", size: 16),
-            titleSmall: Font.custom("NunitoSans-Bold", size: 14),
-            bodyLarge: Font.custom("NunitoSans-Regular", size: 16),
-            bodyMedium: Font.custom("NunitoSans-Regular", size: 14),
-            bodySmall: Font.custom("NunitoSans-Regular", size: 12),
-            labelLarge: Font.custom("NunitoSans-Regular", size: 14),
-            labelMedium: Font.custom("NunitoSans-Regular", size: 12),
-            labelSmall: Font.custom("NunitoSans-Regular", size: 11)
+            displayLarge: Font.custom("Raleway-Bold", size: 57),
+            displayMedium:Font.custom("Raleway-Bold", size: 45),
+            displaySmall: Font.custom("Raleway-Bold", size: 36),
+            headlineLarge: Font.custom("Raleway-Bold", size: 32),
+            headlineMedium: Font.custom("Raleway-Bold", size: 28),
+            headlineSmall: Font.custom("Raleway-Bold", size: 24),
+            titleLarge: Font.custom("Raleway-Bold", size: 22),
+            titleMedium: Font.custom("Raleway-Bold", size: 16),
+            titleSmall: Font.custom("Raleway-Bold", size: 14),
+            bodyLarge: Font.custom("Raleway-Regular", size: 16),
+            bodyMedium: Font.custom("Raleway-Regular", size: 14),
+            bodySmall: Font.custom("Raleway-Regular", size: 12),
+            labelLarge: Font.custom("Raleway-Regular", size: 14),
+            labelMedium: Font.custom("Raleway-Regular", size: 12),
+            labelSmall: Font.custom("Raleway-Regular", size: 11)
         )
         
     )

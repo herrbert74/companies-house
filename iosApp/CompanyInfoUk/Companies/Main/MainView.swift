@@ -8,12 +8,12 @@ struct MainView: View {
     
     private let component: MainComp
     
-    @ObservedObject
-    private var state: ObservableValue<MainStoreState>
+    @StateValue
+    private var state: MainStoreState
     
     init(_ component: MainComp) {
         self.component = component
-        self.state = ObservableValue(component.state)
+        _state = StateValue(component.state)
     }
     
     @State private var searchQuery = ""
@@ -24,7 +24,7 @@ struct MainView: View {
         VStack {
             NavigationStack {
                 Text("Searching for \(searchQuery)").navigationTitle("Search for companies")
-                if (state.value.isLoading) {
+                if (state.isLoading) {
                     Image("ic_business_empty")
                     Text("List is empty")
                 }
@@ -36,10 +36,12 @@ struct MainView: View {
                     Text(StringConstantsKt.RECENT_SEARCHES).displayLargeStyle()
                     Text("no_recent_searches")
                     //Image("ic_business_empty")
-                    List(state.value.searchResults, id: \.self) {item in
+                    List(state.searchResults, id: \.self) {item in
                         VStack(alignment:.leading){
                             Text(item.companyNumber ?? "")
                             Text(item.title ?? "")
+                        }.onTapGesture {
+                            component.onItemClicked(companySearchResultItem: item)
                         }
                     }
                 }
@@ -68,8 +70,7 @@ struct MainView_Previews: PreviewProvider {
     }
     
     class StubMainComp: MainComp {
-        let state: Value<MainStoreState> =
-        valueOf(
+        let state: Value<MainStoreState> = valueOf(
             MainStoreState(
                 searchHistoryItems: [
                     SearchHistoryItem(
