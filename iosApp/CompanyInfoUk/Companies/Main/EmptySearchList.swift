@@ -5,6 +5,8 @@ struct EmptySearchList: View {
     
     @EnvironmentObject var theme : Theme
  
+    var message: String = LocalizedStringKey("no_search_result").stringValue()
+    
     var body: some View {
         VStack {
             Image("ic_business_empty")
@@ -12,7 +14,7 @@ struct EmptySearchList: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding([.leading, .trailing], 48)
-            Text("no_search_result")
+            Text(message)
                 .padding([.top, .leading, .trailing], 24)
                 .multilineTextAlignment(.center)
                 .headlineLargeStyle()

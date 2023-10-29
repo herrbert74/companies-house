@@ -22,7 +22,7 @@ import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsCo
 import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
 import kotlin.random.Random
 
-internal val navigation = StackNavigation<Configuration>()
+val navigation = StackNavigation<Configuration>()
 
 //region Companies
 

@@ -19,7 +19,8 @@ struct RootView: View {
         
         switch activeChild {
         case let main as CompaniesChild.Main: MainView(main.component)
-        case let child as CompaniesChild.Company: CompanyView(child.component)
+        case let company as CompaniesChild.Company: CompanyView(company.component)
+        case let charges as CompaniesChild.Charges: ChargesView(charges.component)
         default: EmptyView()
         }
         //        StackView(

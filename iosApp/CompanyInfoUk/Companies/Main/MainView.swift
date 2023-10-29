@@ -23,37 +23,44 @@ struct MainView: View {
     var body: some View {
         VStack {
             NavigationStack {
-                Text("Searching for \(searchQuery)").navigationTitle("Search for companies")
-                if (state.isLoading) {
-                    Image("ic_business_empty")
-                    Text("List is empty")
-                }
-                else {
-                    Image("ic_business_empty")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    Text(StringConstantsKt.RECENT_SEARCHES).displayLargeStyle()
-                    Text("no_recent_searches")
-                    //Image("ic_business_empty")
-                    List(state.searchResults, id: \.self) {item in
-                        VStack(alignment:.leading){
-                            Text(item.companyNumber ?? "")
-                            Text(item.title ?? "")
-                        }.onTapGesture {
-                            component.onItemClicked(companySearchResultItem: item)
+                //Text("Searching for \(searchQuery)")//.navigationTitle("Search for companies")
+                ZStack{
+                    if (state.searchHistoryItems.isEmpty) {
+                        EmptySearchList(message: LocalizedStringKey("no_recent_searches").stringValue())
+                    } else {
+                        RecentSearchesList(
+                            state.searchHistoryItems,
+                            onItemClicked: component.onRecentSearchesItemClicked,
+                            onDeleteRecentSearch: component.onClearRecentSearchesClicked,
+                            isClearRecentsDialogVisible: true)
+                    }
+                    if(!searchQuery.isEmpty){
+                        if (state.isLoading) {
+                            Text("Loading")
+                        }
+                        else {
+                            Image("ic_business_empty")
+                                .renderingMode(.original)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                            Text(StringConstantsKt.RECENT_SEARCHES).displayLargeStyle()
+                            Text("no_recent_searches")
+                            List(state.searchResults, id: \.self) {item in
+                                VStack(alignment:.leading){
+                                    Text(item.companyNumber ?? "")
+                                    Text(item.title ?? "")
+                                }.onTapGesture {
+                                    component.onItemClicked(companySearchResultItem: item)
+                                }
+                            }
                         }
                     }
                 }
             }
             .searchable(text: $searchQuery)
-            .onChange(of: searchQuery) { newValue in
-                component.onSearchQueryChanged(searchQuery:searchQuery)
+            .onChange(of: searchQuery) {
+                component.onSearchQueryChanged(searchQuery: searchQuery)
             }
-            //            Image(systemName: "globe")
-            //                .imageScale(.large)
-            //                .foregroundColor(.accentColor)
-            //            Text("\(state.value.totalResults)")
             
         }
         .padding()

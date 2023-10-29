@@ -17,6 +17,7 @@ plugins {
 	alias(libs.plugins.parcelize.darwin)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
+	alias(libs.plugins.touchlab.skie)
 	id("org.kodein.mock.mockmp") version libs.versions.mockmp
 	id("com.codingfeline.buildkonfig") version "0.13.3"
 }

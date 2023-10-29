@@ -3,20 +3,23 @@ import shared
 
 struct RecentSearchesList: View {
     
-    var onItemClicked: () -> Void
+    var onItemClicked: (SearchHistoryItem) -> Void
+    var onDeleteRecentSearch: () -> Void
     
     @EnvironmentObject var theme : Theme
     
     private let items: [SearchHistoryItem]
-    @State private var isClearRecentsDialogVisible = true
+    @State private var isClearRecentsDialogVisible = false
     
     init(
         _ items: [SearchHistoryItem],
-        onItemClicked: @escaping () -> Void,
+        onItemClicked: @escaping (SearchHistoryItem) -> Void,
+        onDeleteRecentSearch: @escaping () -> Void,
         isClearRecentsDialogVisible: Bool
     ) {
         self.items = items
         self.onItemClicked = onItemClicked
+        self.onDeleteRecentSearch = onDeleteRecentSearch
         self.isClearRecentsDialogVisible = isClearRecentsDialogVisible
     }
     
@@ -32,33 +35,44 @@ struct RecentSearchesList: View {
                         Text(item.companyNumber)
                         Text(item.companyName)
                     }
+                    .listRowBackground(theme.colors.primaryContainer)
                 }
+                .scrollContentBackground(.hidden)
             }
             HStack {
                 Spacer()
                 VStack {
                     Spacer()
                     Button(action: {
-                        self.onItemClicked()
+                        isClearRecentsDialogVisible = true
                     }) {
-                        Image(systemName: "trash.circle.fill")
-                            .font(.system(size: 100))
-                            .foregroundColor(theme.colors.primary)
+                        Image(systemName: "trash.fill")
+                            .font(.system(size: 36))
+                            .foregroundColor(theme.colors.onPrimary)
                             .shadow(color: .gray, radius: 0.2, x: 1, y: 1)
-                            .padding(32)
+                            .padding(24)
                         
                     }
+                    .background(theme.colors.primary)
+                    .clipShape(Circle())
+                    //.frame(width: 48, height: 48)
+                    .padding(24)
                 }
             }
-        }.alert(
-            Text("Dialog"),
+        }
+        .alert(
+            Text("delete_recent_searches"),
             isPresented: $isClearRecentsDialogVisible
         ) {
+            Button("Cancel") {
+                isClearRecentsDialogVisible = false
+            }
             Button("OK") {
-                // Handle the acknowledgement.
+                isClearRecentsDialogVisible = false
+                onDeleteRecentSearch()
             }
         } message: {
-           Text("Please check your credentials and try again.")
+           Text("are_you_sure_you_want_to_delete_all_recent_searches")
         }
     }
     
@@ -87,7 +101,8 @@ struct RecentSearchesList_Previews: PreviewProvider {
                     searchTime: 0
                 )
             ],
-            onItemClicked: {},
+            onItemClicked: {_ in },
+            onDeleteRecentSearch: { },
             isClearRecentsDialogVisible: true
         )
         .environmentObject(themeManager.current)

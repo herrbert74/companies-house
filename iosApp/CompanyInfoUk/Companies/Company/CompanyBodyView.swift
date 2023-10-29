@@ -6,6 +6,12 @@ struct CompanyBodyView: View {
     @EnvironmentObject var theme : Theme
     
     private let company: Company
+    private let onMapClicked: (String) -> Void
+    private let onChargesClicked: (String) -> Void
+    private let onFilingsClicked: (String) -> Void
+    private let onInsolvenciesClicked: (String) -> Void
+    private let onOfficersClicked: (String) -> Void
+    private let onPersonsClicked: (String) -> Void
     
     init(
         company: Company,
@@ -17,18 +23,54 @@ struct CompanyBodyView: View {
         onPersonsClicked: @escaping (String) -> Void
     ) {
         self.company = company
+        self.onMapClicked = onMapClicked
+        self.onChargesClicked = onChargesClicked
+        self.onFilingsClicked = onFilingsClicked
+        self.onInsolvenciesClicked = onInsolvenciesClicked
+        self.onOfficersClicked = onOfficersClicked
+        self.onPersonsClicked = onPersonsClicked
     }
     
     var body: some View {
         
         VStack(alignment: .leading) {
-            Text("\(company.companyName)").displaySmallStyle().padding()
+            Text("\(company.companyNumber)").titleLargeStyle()
+            Divider()
             Text("incorporated_on \(company.dateOfCreation)").bodyMediumStyle()
             Divider()
-            Text("\(company.companyNumber)").bodyMediumStyle()
+            
+            AddressCard(company: company, onShowMap: { })
+            
             Divider()
-            Text("Company Address").bodyMediumStyle()
-            Text("\(company.registeredOfficeAddress.addressLine1)").bodyLargeStyle()
+            
+            TwoLineView(firstLineString: "Nature of business", secondLineString: "\(company.natureOfBusiness)", theme: theme).padding(.bottom, 8).frame(maxWidth: .infinity)
+            
+            Divider()
+            
+            TwoLineView(firstLineString: "Accounts", secondLineString: "\(company.lastAccountsMadeUpTo)", theme: theme).padding(.bottom, 8).frame(maxWidth: .infinity)
+            
+            Divider()
+            
+            Button(action: { onChargesClicked(company.companyNumber) }) {
+                Text("Charges")
+            }
+            Divider()
+            Button(action: { onFilingsClicked(company.companyNumber) }) {
+                Text("Filings")
+            }
+            Divider()
+            Button(action: { onInsolvenciesClicked(company.companyNumber) }) {
+                Text("Insolvencies")
+            }
+            Divider()
+            Button(action: { onOfficersClicked(company.companyNumber) }) {
+                Text("Officers")
+            }
+            Divider()
+            Button(action: { onPersonsClicked(company.companyNumber) }) {
+                Text("Persons")
+            }
+            
         }.padding()
     }
     

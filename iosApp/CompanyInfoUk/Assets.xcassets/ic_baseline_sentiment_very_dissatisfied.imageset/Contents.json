@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_baseline_sentiment_very_dissatisfied.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

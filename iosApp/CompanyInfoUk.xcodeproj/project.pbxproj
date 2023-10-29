@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B304D68B2AD04CE4004415A8 /* ChargesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B304D68A2AD04CE4004415A8 /* ChargesList.swift */; };
+		B304D68E2AD33D7B004415A8 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B304D68D2AD33D7B004415A8 /* StringExtensions.swift */; };
 		B3128C0E2A8F71A400CE3697 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3128C0D2A8F71A400CE3697 /* RootView.swift */; };
 		B3128C142A8F7F4500CE3697 /* MutableStateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3128C132A8F7F4500CE3697 /* MutableStateBuilder.swift */; };
+		B3179C8E2ABF7DBE002C930C /* AddressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179C8D2ABF7DBE002C930C /* AddressCard.swift */; };
+		B3179C902ABF8BA3002C930C /* TwoLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3179C8F2ABF8BA3002C930C /* TwoLineView.swift */; };
+		B3263F262AE5B08E00FCBD1F /* CompanySearchResultCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3263F252AE5B08E00FCBD1F /* CompanySearchResultCard.swift */; };
 		B33565662A9BE29D0011378C /* RecentSearchesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33565652A9BE29D0011378C /* RecentSearchesList.swift */; };
 		B335656B2A9D13E30011378C /* CompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B335656A2A9D13E30011378C /* CompanyView.swift */; };
 		B335656D2A9D15680011378C /* CompanyBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B335656C2A9D15680011378C /* CompanyBodyView.swift */; };
@@ -18,6 +23,9 @@
 		B37574E12AA4C0B5003B018C /* ObservableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37574E02AA4C0B5003B018C /* ObservableValue.swift */; };
 		B37574E22AA4D2D1003B018C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B37574E42AA4D2D1003B018C /* Localizable.strings */; };
 		B375EB462A890C8B0004E629 /* ComponentHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B375EB452A890C8B0004E629 /* ComponentHolder.swift */; };
+		B37B9ABD2AC70A4400A8D637 /* ChargesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37B9AB62AC70A4400A8D637 /* ChargesView.swift */; };
+		B37B9AC12ACB173300A8D637 /* ParallaxHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37B9AC02ACB173300A8D637 /* ParallaxHeader.swift */; };
+		B37B9AC32ACB20D100A8D637 /* ChargesListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37B9AC22ACB20D100A8D637 /* ChargesListItem.swift */; };
 		B3ADF12A2A93F3C8003CE0CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ADF1292A93F3C8003CE0CD /* Theme.swift */; };
 		B3CB0D9A2A9FCAE800049902 /* StateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CB0D992A9FCAE800049902 /* StateValue.swift */; };
 		B3CB0D9C2A9FCD5D00049902 /* SimpleChildStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CB0D9B2A9FCD5D00049902 /* SimpleChildStack.swift */; };
@@ -51,8 +59,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B304D68A2AD04CE4004415A8 /* ChargesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargesList.swift; sourceTree = "<group>"; };
+		B304D68D2AD33D7B004415A8 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		B3128C0D2A8F71A400CE3697 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B3128C132A8F7F4500CE3697 /* MutableStateBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutableStateBuilder.swift; sourceTree = "<group>"; };
+		B3179C8D2ABF7DBE002C930C /* AddressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCard.swift; sourceTree = "<group>"; };
+		B3179C8F2ABF8BA3002C930C /* TwoLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineView.swift; sourceTree = "<group>"; };
+		B3263F252AE5B08E00FCBD1F /* CompanySearchResultCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanySearchResultCard.swift; sourceTree = "<group>"; };
 		B33565652A9BE29D0011378C /* RecentSearchesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSearchesList.swift; sourceTree = "<group>"; };
 		B335656A2A9D13E30011378C /* CompanyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyView.swift; sourceTree = "<group>"; };
 		B335656C2A9D15680011378C /* CompanyBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyBodyView.swift; sourceTree = "<group>"; };
@@ -63,6 +76,9 @@
 		B37574E02AA4C0B5003B018C /* ObservableValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableValue.swift; sourceTree = "<group>"; };
 		B37574E32AA4D2D1003B018C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B375EB452A890C8B0004E629 /* ComponentHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHolder.swift; sourceTree = "<group>"; };
+		B37B9AB62AC70A4400A8D637 /* ChargesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChargesView.swift; sourceTree = "<group>"; };
+		B37B9AC02ACB173300A8D637 /* ParallaxHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxHeader.swift; sourceTree = "<group>"; };
+		B37B9AC22ACB20D100A8D637 /* ChargesListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargesListItem.swift; sourceTree = "<group>"; };
 		B3ADF1292A93F3C8003CE0CD /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		B3CB0D992A9FCAE800049902 /* StateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateValue.swift; sourceTree = "<group>"; };
 		B3CB0D9B2A9FCD5D00049902 /* SimpleChildStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChildStack.swift; sourceTree = "<group>"; };
@@ -106,6 +122,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B304D68C2AD33D66004415A8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B304D68D2AD33D7B004415A8 /* StringExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B317C7D62ABCDD1D009677B0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B3179C8D2ABF7DBE002C930C /* AddressCard.swift */,
+				B3179C8F2ABF8BA3002C930C /* TwoLineView.swift */,
+				B37B9AC02ACB173300A8D637 /* ParallaxHeader.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		B33565692A9D12490011378C /* Company */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +190,9 @@
 		B3CCEC1A2A8E77C600072DAF /* Charges */ = {
 			isa = PBXGroup;
 			children = (
+				B37B9AB62AC70A4400A8D637 /* ChargesView.swift */,
+				B37B9AC22ACB20D100A8D637 /* ChargesListItem.swift */,
+				B304D68A2AD04CE4004415A8 /* ChargesList.swift */,
 			);
 			path = Charges;
 			sourceTree = "<group>";
@@ -166,6 +203,7 @@
 				B3CCEC1C2A8E780A00072DAF /* MainView.swift */,
 				B37170092A94EDFD00971D22 /* EmptySearchList.swift */,
 				B33565652A9BE29D0011378C /* RecentSearchesList.swift */,
+				B3263F252AE5B08E00FCBD1F /* CompanySearchResultCard.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -193,6 +231,8 @@
 		B3D79C9F2A75723D0015BEB9 /* CompanyInfoUk */ = {
 			isa = PBXGroup;
 			children = (
+				B304D68C2AD33D66004415A8 /* Extensions */,
+				B317C7D62ABCDD1D009677B0 /* Views */,
 				B3CB0D982A9FCACA00049902 /* DecomposeHelpers */,
 				B33960102A9AA41C006D83E7 /* Font */,
 				B371700B2A94FD6100971D22 /* Info.plist */,
@@ -301,7 +341,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					B3D79C9C2A75723D0015BEB9 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -391,20 +431,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3ADF12A2A93F3C8003CE0CD /* Theme.swift in Sources */,
+				B3179C902ABF8BA3002C930C /* TwoLineView.swift in Sources */,
 				B3D79CA32A75723D0015BEB9 /* ContentView.swift in Sources */,
 				B37574E12AA4C0B5003B018C /* ObservableValue.swift in Sources */,
 				B335656B2A9D13E30011378C /* CompanyView.swift in Sources */,
 				B3CB0D9C2A9FCD5D00049902 /* SimpleChildStack.swift in Sources */,
 				B3CB0D9E2A9FCD8F00049902 /* MutableValue.swift in Sources */,
+				B37B9AC12ACB173300A8D637 /* ParallaxHeader.swift in Sources */,
+				B37B9ABD2AC70A4400A8D637 /* ChargesView.swift in Sources */,
+				B304D68B2AD04CE4004415A8 /* ChargesList.swift in Sources */,
 				B3CCEC1D2A8E780A00072DAF /* MainView.swift in Sources */,
 				B3CB0D9A2A9FCAE800049902 /* StateValue.swift in Sources */,
+				B304D68E2AD33D7B004415A8 /* StringExtensions.swift in Sources */,
 				B375EB462A890C8B0004E629 /* ComponentHolder.swift in Sources */,
 				B33565662A9BE29D0011378C /* RecentSearchesList.swift in Sources */,
 				B3D79CA12A75723D0015BEB9 /* CompanyInfoUkApp.swift in Sources */,
 				B3128C142A8F7F4500CE3697 /* MutableStateBuilder.swift in Sources */,
+				B3179C8E2ABF7DBE002C930C /* AddressCard.swift in Sources */,
 				B3CB0DA02A9FCDD100049902 /* StackView.swift in Sources */,
 				B335656D2A9D15680011378C /* CompanyBodyView.swift in Sources */,
 				B3128C0E2A8F71A400CE3697 /* RootView.swift in Sources */,
+				B3263F262AE5B08E00FCBD1F /* CompanySearchResultCard.swift in Sources */,
+				B37B9AC32ACB20D100A8D637 /* ChargesListItem.swift in Sources */,
 				B371700A2A94EDFD00971D22 /* EmptySearchList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -487,8 +535,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -503,7 +553,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -548,7 +598,9 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -557,7 +609,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

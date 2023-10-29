@@ -17,6 +17,7 @@ dependencies {
 	api(libs.androidx.compose.ui.text) //Transitive
 	api(libs.androidx.compose.runtime) //Transitive
 	api(libs.androidx.compose.foundationLayout) //Transitive
+	api(libs.androidx.compose.foundationLayout.android) //Transitive
 	api(libs.androidx.appcompat)
 	api(libs.view.collapsingToolbar)
 
