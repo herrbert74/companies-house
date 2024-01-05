@@ -13,7 +13,7 @@ dependencies {
 
 	implementation(platform(libs.androidx.compose.bom))
 	api(libs.androidx.compose.material3)
-	api(libs.androidx.compose.ui) //Transitive
+	api(libs.androidx.compose.ui.ui) //Transitive
 	api(libs.androidx.compose.ui.text) //Transitive
 	api(libs.androidx.compose.runtime) //Transitive
 	api(libs.androidx.compose.foundationLayout) //Transitive

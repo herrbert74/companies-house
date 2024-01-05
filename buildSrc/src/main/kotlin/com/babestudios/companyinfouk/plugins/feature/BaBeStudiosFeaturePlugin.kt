@@ -59,7 +59,7 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			libs.findLibrary("mvikotlin.rx").ifPresent { add("implementation", it) }
 			libs.findLibrary("mvikotlin.logging").ifPresent { add("implementation", it) }
 
-			libs.findLibrary("androidx.compose.ui").ifPresent { add("implementation", it) }
+			libs.findLibrary("androidx.compose.ui.ui").ifPresent { add("implementation", it) }
 			libs.findLibrary("androidx.compose.ui.graphics").ifPresent { add("implementation", it) }
 			libs.findLibrary("androidx.compose.ui.text").ifPresent { add("implementation", it) }
 			libs.findLibrary("androidx.compose.ui.unit").ifPresent { add("implementation", it) }

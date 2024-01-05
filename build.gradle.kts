@@ -4,7 +4,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
 	dependencies {
-		classpath(libs.gradlePlugin)
+		classpath(libs.androidGradlePlugin)
 		classpath(libs.kotlinPlugin)
 		classpath(libs.kotlinAllOpenPlugin)
 		classpath(libs.googleServicesPlugin)

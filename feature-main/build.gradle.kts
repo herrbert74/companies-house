@@ -45,7 +45,7 @@ dependencies {
 
 	implementation(libs.androidx.activity.compose) //Transitive
 	implementation(libs.androidx.compose.animation.core) //Transitive
-	implementation(libs.androidx.compose.ui)
+	implementation(libs.androidx.compose.ui.ui)
 	implementation(libs.androidx.core) //Transitive
 	implementation(libs.androidx.lifecycle.common) //Transitive
 	implementation(libs.androidx.lifecycle.viewmodel) //Transitive

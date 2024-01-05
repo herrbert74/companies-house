@@ -12,3 +12,5 @@
 app/companieshouse.jks
 app/app-release.apk
 app/release
+*.xcworkspace
+xcuserdata

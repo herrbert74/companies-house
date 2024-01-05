@@ -98,3 +98,6 @@
 # Gson
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
+
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+-dontwarn org.slf4j.impl.StaticMDCBinder

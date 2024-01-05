@@ -59,6 +59,8 @@ kotlin {
 			export(libs.decompose.core)
 			export(libs.mvikotlin.core)
 			export(libs.essenty.lifecycle)
+			export(libs.baBeStudios.base.kotlin)
+			export(libs.baBeStudios.base.data)
 		}
 	}
 
