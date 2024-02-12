@@ -31,7 +31,7 @@ plugins {
 	 */
 	alias(libs.plugins.versions) apply false
 	//Capability conflicts with Skie!!!
-	alias(libs.plugins.dependencyAnalyis) apply false
+	alias(libs.plugins.dependencyAnalysis) apply false
 	alias(libs.plugins.gradleDoctor) apply false
 }
 

@@ -7,8 +7,8 @@ Companies House does have an application, but it is outdated and doesn't contain
 * You need the latest Android Studio. I usually switch between beta and canary channels, so if you prefer another version you will have to change the Gradle build tools version in the project gradle file.
 * Register an account and get an authentication code as described [here](https://developer.companieshouse.gov.uk/api/docs/index/gettingStarted.html).
 * OR add this test API key in the next step: '-zPqEtWGqxMG7BZoxyjigSEarXFjTRU0UGqQT-S8'.
-* Place the authentication code into your local gradle configuration file (on windows it's under c:\Users\\[User]\\.gradle\gradle.properties by default) with the name
-"companiesHouseApiKey", e.g. 'companiesHouseApiKey="YOUR API KEY HERE"'.
+* Place the authentication code into your local gradle configuration file (on Windows it's under c:\Users\\[User]\\.gradle\gradle.
+  properties by default) with the name "companiesHouseApiKey", e.g. 'companiesHouseApiKey="YOUR API KEY HERE"'.
 * Also available on Google Play (older version, only updated when I add functionality changes):
 https://play.google.com/store/apps/details?id=com.babestudios.companyinfouk
 

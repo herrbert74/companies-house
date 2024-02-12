@@ -1,3 +1,4 @@
+import com.babestudios.companyinfouk.plugins.android.SdkVersions
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 buildscript {
@@ -36,10 +37,7 @@ mockmp {
 	usesHelper = true
 }
 
-configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-	version = "1.5.0"
-}
-
+//TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements
 kotlin {
 	androidTarget {
 		compilations.all {
@@ -174,10 +172,10 @@ kotlin {
 android {
 
 	namespace = "com.babestudios.companyinfouk.shared"
-	compileSdk = 33
+	compileSdk = SdkVersions.compileSdkVersion
 
 	defaultConfig {
-		minSdk = 21
+		minSdk = SdkVersions.minSdkVersion
 	}
 
 	buildFeatures.buildConfig = true

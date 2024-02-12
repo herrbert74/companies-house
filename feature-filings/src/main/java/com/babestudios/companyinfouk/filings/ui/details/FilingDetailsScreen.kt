@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -175,13 +176,13 @@ fun CheckPermissionAndWriteDocument(
 
 @Suppress("SwallowedException")
 private fun showDocument(pdfUri: Uri, context: Context, pdfWillNotSaveMessage: String) {
-	val target = Intent(Intent.ACTION_VIEW)
+	val target = Intent(Intent.ACTION_OPEN_DOCUMENT)
 	target.setDataAndType(pdfUri, "application/pdf")
 	target.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 	target.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 	val intent = Intent.createChooser(target, "Open File")
 	try {
-		(context.getActivity() as AppCompatActivity).startActivityWithRightSlide(intent)
+		(context.getActivity() as ComponentActivity).startActivityWithRightSlide(intent)
 	} catch (e: ActivityNotFoundException) {
 		Toast.makeText(
 			context,
@@ -191,10 +192,10 @@ private fun showDocument(pdfUri: Uri, context: Context, pdfWillNotSaveMessage: S
 	}
 }
 
-fun Context.getActivity(): AppCompatActivity? {
+fun Context.getActivity(): ComponentActivity? {
 	var currentContext = this
 	while (currentContext is ContextWrapper) {
-		if (currentContext is AppCompatActivity) {
+		if (currentContext is ComponentActivity) {
 			return currentContext
 		}
 		currentContext = currentContext.baseContext

@@ -5,9 +5,9 @@ package com.babestudios.companyinfouk.shared.domain
  * This was done to simplify KMP resource handling, as moko-resources does not work with configuration cache:
  * https://github.com/icerockdev/moko-resources/issues/311
  */
-const val ACCOUNT_TYPE_PLACEHOLDER = "account_type"
-const val ACCOUNT_DATE_PLACEHOLDER = "account_date"
-const val COMPANY_ACCOUNTS_FORMATTED_TEXT = "Last $ACCOUNT_TYPE_PLACEHOLDER " +
+const val ACCOUNT_TYPE_PLACEHOLDER = "account_type "
+const val ACCOUNT_DATE_PLACEHOLDER = "account_date "
+const val COMPANY_ACCOUNTS_FORMATTED_TEXT = "Last $ACCOUNT_TYPE_PLACEHOLDER" +
 	"account made up to $ACCOUNT_DATE_PLACEHOLDER"
 const val COMPANY_ACCOUNTS_NOT_FOUND = "Accounts not found"
 const val FROM_PLACEHOLDER = "from_date"
