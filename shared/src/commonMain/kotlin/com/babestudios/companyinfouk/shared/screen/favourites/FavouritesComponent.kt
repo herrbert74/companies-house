@@ -5,7 +5,9 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.logging.store.LoggingStoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.companyinfouk.shared.ext.asValue
+import com.arkivanov.mvikotlin.extensions.coroutines.labels
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 
@@ -19,10 +21,14 @@ interface FavouritesComp {
 
 	fun onBackClicked()
 
+	fun goBack()
+
 	val state: Value<FavouritesStore.State>
 
+	val sideEffects: Flow<FavouritesStore.SideEffect>
+
 	sealed class Output {
-		object Back : Output()
+		data object Back : Output()
 		data class Selected(val favouritesItem: FavouritesItem) : Output()
 	}
 
@@ -31,7 +37,7 @@ interface FavouritesComp {
 class FavouritesComponent(
 	componentContext: ComponentContext,
 	val favouritesExecutor: FavouritesExecutor,
-	private val output: FlowCollector<FavouritesComp.Output>
+	private val output: FlowCollector<FavouritesComp.Output>,
 ) : FavouritesComp, ComponentContext by componentContext {
 
 	private var favouritesStore: FavouritesStore =
@@ -53,6 +59,12 @@ class FavouritesComponent(
 
 	override fun onBackClicked() {
 		CoroutineScope(favouritesExecutor.mainContext).launch {
+			favouritesStore.accept(FavouritesStore.Intent.ExpeditePendingRemovals)
+		}
+	}
+
+	override fun goBack() {
+		CoroutineScope(favouritesExecutor.mainContext).launch {
 			output.emit(FavouritesComp.Output.Back)
 			favouritesStore.dispose()
 		}
@@ -60,5 +72,8 @@ class FavouritesComponent(
 
 	override val state: Value<FavouritesStore.State>
 		get() = favouritesStore.asValue()
+
+	override val sideEffects: Flow<FavouritesStore.SideEffect>
+		get() = favouritesStore.labels
 
 }

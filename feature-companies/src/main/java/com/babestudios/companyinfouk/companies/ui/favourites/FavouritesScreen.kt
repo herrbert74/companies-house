@@ -16,11 +16,12 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,11 +36,15 @@ import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesComp
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesItem
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore.SideEffect.Initial
 
 @Composable
 fun FavouritesScreen(component: FavouritesComp) {
 
 	val model by component.state.subscribeAsState()
+
+	val sideEffect by component.sideEffects.collectAsState(Initial)
 
 	BackHandler(onBack = { component.onBackClicked() })
 
@@ -63,6 +68,10 @@ fun FavouritesScreen(component: FavouritesComp) {
 				onDeleteClicked = component::onDeleteClicked,
 				onUndoClicked = component::onUndoDeleteClicked,
 			)
+		}
+		if (sideEffect == FavouritesStore.SideEffect.Back) {
+			println("zsoltbertalan* Scaffold: show side effect")
+			component.goBack()
 		}
 	}
 
@@ -123,7 +132,7 @@ private fun FavouritesList(
 						}
 					}
 
-					Divider()
+					HorizontalDivider()
 				}
 			}
 		}

@@ -5,6 +5,7 @@ import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore.Intent
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore.SideEffect
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore.State
 
 class FavouritesStoreFactory(
@@ -13,7 +14,7 @@ class FavouritesStoreFactory(
 ) {
 
 	fun create(): FavouritesStore =
-		object : FavouritesStore, Store<Intent, State, Nothing> by storeFactory.create(
+		object : FavouritesStore, Store<Intent, State, SideEffect> by storeFactory.create(
 			name = "FavouritesStore",
 			initialState = State(),
 			bootstrapper = FavouritesBootstrapper(),
@@ -43,5 +44,5 @@ sealed class Message {
 }
 
 sealed class BootstrapIntent {
-	object LoadFavourites : BootstrapIntent()
+	data object LoadFavourites : BootstrapIntent()
 }

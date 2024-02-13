@@ -18,15 +18,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
@@ -176,7 +176,7 @@ fun MainScreen(component: MainComp) {
 							searchQuery = ""
 							component.onSearchQueryChanged(null)
 						},
-						imageVector = Icons.Default.ArrowBack,
+						imageVector = Icons.AutoMirrored.Filled.ArrowBack,
 						contentDescription = null
 					)
 				},
@@ -299,7 +299,7 @@ private fun RecentSearchesList(
 					flipLineStyles = true
 				)
 
-				Divider()
+				HorizontalDivider()
 			}
 		}
 
@@ -388,7 +388,7 @@ private fun SearchResultList(
 					onItemClicked = onItemClicked,
 				)
 
-				Divider()
+				HorizontalDivider()
 			})
 		}
 

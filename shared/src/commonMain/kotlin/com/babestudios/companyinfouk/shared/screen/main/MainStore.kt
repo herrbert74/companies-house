@@ -44,7 +44,7 @@ interface MainStore : Store<Intent, State, SideEffect> {
 		)
 
 	sealed class SideEffect {
-		object ShowDeleteRecentSearchesDialog : SideEffect()
+		data object ShowDeleteRecentSearchesDialog : SideEffect()
 	}
 
 }

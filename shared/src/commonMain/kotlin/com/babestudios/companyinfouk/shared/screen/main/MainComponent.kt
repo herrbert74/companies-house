@@ -38,9 +38,9 @@ interface MainComp {
 
 	sealed class Output {
 		data class Selected(val companySearchResultItem: CompanySearchResultItem) : Output()
-		object Privacy : Output()
+		data object Privacy : Output()
 		data class RecentSearchHistorySelected(val searchHistoryItem: SearchHistoryItem) : Output()
-		object Favourites : Output()
+		data object Favourites : Output()
 	}
 
 }
