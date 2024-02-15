@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -13,16 +14,16 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,16 +42,19 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.LabeledDetailCardItem
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
+import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
-import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
-import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.ui.filings.createAnnotatedStringDescription
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
+import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsComp
 import com.eygraber.uri.toAndroidUri
 import com.eygraber.uri.toUri
 import java.util.Locale
+import kotlin.math.min
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -73,6 +78,8 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
+
+	val scaffoldState = rememberCollapsingToolbarScaffoldState()
 
 	val context = LocalContext.current
 	val pdfWillNotSaveMessage = stringResource(R.string.filing_history_details_wont_save_pdf)
@@ -103,11 +110,16 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 				Icon(
 					painter = painterResource(R.drawable.ic_picture_as_pdf),
 					contentDescription = "Localized description",
-					tint = MaterialTheme.colorScheme.onPrimary
+					tint = Color(
+						min(1f, Colors.onSurface.red + scaffoldState.toolbarState.progress),
+						min(1f, Colors.onSurface.green + scaffoldState.toolbarState.progress),
+						min(1f, Colors.onSurface.blue + scaffoldState.toolbarState.progress)
+					)
 				)
 			}
 		},
-		title = stringResource(id = R.string.filing_history_details)
+		title = stringResource(id = R.string.filing_history_details),
+		scaffoldState
 	) {
 		if (model.downloadedPdfResponseBody != null && !wasCreateDocumentCalled.value) {
 			CheckPermissionAndWriteDocument(
@@ -149,13 +161,13 @@ private fun FilingDetailsBody(state: ScrollState, selectedFilingDetails: FilingH
 		LabeledDetailCardItem(
 			labelString = stringResource(id = com.babestudios.companyinfouk.common.R.string.description),
 			detailString = selectedFilingDetails.description.createAnnotatedStringDescription(),
-			detailStyle = CompaniesTypography.titleLarge,
+			detailStyle = CompaniesTypography.titleLarge.merge(Colors.onBackground),
 		)
 		LabeledDetailCardItem(
 			labelString = stringResource(id = com.babestudios.companyinfouk.common.R.string.pages),
 			detailString = String.format(Locale.UK, "%d", selectedFilingDetails.pages)
 		)
-		Divider(thickness = 1.dp)
+		HorizontalDivider(thickness = 1.dp)
 	}
 }
 
@@ -203,21 +215,44 @@ fun Context.getActivity(): ComponentActivity? {
 	return null
 }
 
-@Preview("FilingDetailsBody Preview")
+@Preview
 @Composable
 fun FilingDetailsBodyPreview() {
 	CompaniesTheme {
-		FilingDetailsBody(
-			ScrollState(0),
-			FilingHistoryItem(
-				date = "2016-01-31",
-				category = Category.CATEGORY_CONFIRMATION_STATEMENT,
-				type = "AA",
-				description = "**Termination of appointment** of Abdul Gafoor Kannathody Kunjumuihhamed as a director" +
-					" on " +
-					"2020-04-02",
-				pages = 2,
-			),
-		)
+		Box(Modifier.background(color = Colors.background)) {
+			FilingDetailsBody(
+				ScrollState(0),
+				FilingHistoryItem(
+					date = "2016-01-31",
+					category = Category.CATEGORY_CONFIRMATION_STATEMENT,
+					type = "AA",
+					description = "**Termination of appointment** of Abdul Gafoor Kannathody Kunjumuihhamed as a director" +
+						" on " +
+						"2020-04-02",
+					pages = 2,
+				),
+			)
+		}
+	}
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun FilingDetailsBodyDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			FilingDetailsBody(
+				ScrollState(0),
+				FilingHistoryItem(
+					date = "2016-01-31",
+					category = Category.CATEGORY_CONFIRMATION_STATEMENT,
+					type = "AA",
+					description = "**Termination of appointment** of Abdul Gafoor Kannathody Kunjumuihhamed as a director" +
+						" on " +
+						"2020-04-02",
+					pages = 2,
+				),
+			)
+		}
 	}
 }

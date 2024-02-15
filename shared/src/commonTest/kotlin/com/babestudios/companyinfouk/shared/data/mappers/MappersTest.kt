@@ -94,6 +94,14 @@ class MappersTest {
 		companyCandour.registeredOfficeAddress.region shouldBe null
 	}
 
+	@Test
+	fun `when there is a company json with last account type then it is mapped`() {
+		 val companyJson = readCommonResource("company_candour_last_account_type.json")
+		 val companyDto = json.decodeFromString<CompanyDto>(companyJson)
+		val companyCandour = companyDto.toCompany()
+		companyCandour.lastAccountsMadeUpTo shouldBe "Last Total Exemption Full account made up to 31 Mar 2023"
+	}
+
 	//endregion
 
 	//region Full Filing History map

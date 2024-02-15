@@ -1,6 +1,8 @@
 package com.babestudios.companyinfouk.companies.ui.company
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Text
@@ -33,9 +35,12 @@ import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaff
 import com.babestudios.companyinfouk.common.compose.SingleLineCard
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
+import com.babestudios.companyinfouk.design.component.BodyMediumText
+import com.babestudios.companyinfouk.design.component.TitleLargeBoldText
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.common.getAddressString
@@ -113,40 +118,38 @@ private fun CompanyScreenBody(
 			.testTag("Company Screen Column")
 	) {
 
-		Text(
+		TitleLargeBoldText(
 			text = company.companyNumber,
 			modifier = Modifier
 				.align(Alignment.Start)
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
-			style = CompaniesTypography.titleLargeBold,
 		)
-		Divider(thickness = 1.dp)
-		Text(
+		HorizontalDivider(thickness = 1.dp)
+		BodyMediumText(
 			text = String.format(stringResource(R.string.incorporated_on), company.dateOfCreation),
 			modifier = Modifier
 				.align(Alignment.Start)
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
-			style = CompaniesTypography.bodyMedium,
 		)
-		Divider(thickness = 1.dp)
+		HorizontalDivider(thickness = 1.dp)
 		AddressCard(
 			title = stringResource(com.babestudios.companyinfouk.common.R.string.office_address),
 			address = company.registeredOfficeAddress,
 			onShowMap = { onMapClicked(company.registeredOfficeAddress.getAddressString()) },
 		)
-		Divider(thickness = 1.dp)
+		HorizontalDivider(thickness = 1.dp)
 		TwoLineCard(
 			stringResource(R.string.company_nature_of_business),
 			company.natureOfBusiness,
 			Modifier.fillMaxWidth(1f)
 		)
-		Divider(thickness = 1.dp)
+		HorizontalDivider(thickness = 1.dp)
 		TwoLineCard(
 			stringResource(R.string.company_accounts),
 			company.lastAccountsMadeUpTo,
 			Modifier.fillMaxWidth(1f)
 		)
-		Divider(thickness = 1.dp)
+		HorizontalDivider(thickness = 1.dp)
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
@@ -191,11 +194,27 @@ private fun CompanyScreenBody(
 
 }
 
-@Preview
+@Preview()
 @Composable
 internal fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
-	CompaniesTheme {
-		CompanyScreenBody(company, {}, {}, {}, {}, {}) {}
+	CompaniesTheme{
+		Box(Modifier.background(Colors.background)) {
+			CompaniesTheme {
+				CompanyScreenBody(company, {}, {}, {}, {}, {}) {}
+			}
+		}
+	}
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+internal fun CompanyScreenDarkPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
+	CompaniesTheme{
+		Box(Modifier.background(Colors.background)) {
+			CompaniesTheme {
+				CompanyScreenBody(company, {}, {}, {}, {}, {}) {}
+			}
+		}
 	}
 }
 

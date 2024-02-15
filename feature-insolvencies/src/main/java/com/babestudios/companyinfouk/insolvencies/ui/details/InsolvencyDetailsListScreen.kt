@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER, FunctionNaming")
-
 package com.babestudios.companyinfouk.insolvencies.ui.details
 
 import androidx.activity.compose.BackHandler
@@ -8,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,13 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
+import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_DATES
+import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_PRACTITIONERS
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Date
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
-import com.babestudios.companyinfouk.insolvencies.R
-import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_DATES
-import com.babestudios.companyinfouk.shared.domain.INSOLVENCY_PRACTITIONERS
 import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
 
 @Composable
@@ -74,7 +72,7 @@ private fun InsolvencyDetailsList(
 					)
 				}
 				InsolvencyDateListItem(item = date)
-				Divider()
+				HorizontalDivider()
 			}
 		}
 
@@ -92,7 +90,7 @@ private fun InsolvencyDetailsList(
 					)
 				}
 				PractitionerListItem(item = practitioner, onItemClicked)
-				Divider()
+				HorizontalDivider()
 			}
 		}
 

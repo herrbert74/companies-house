@@ -1,6 +1,9 @@
 package com.babestudios.companyinfouk.common.compose
 
+import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -10,6 +13,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.babestudios.companyinfouk.design.Colors
+import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
@@ -20,8 +25,8 @@ fun LabeledDetailCardItem(
 	labelString: String,
 	detailString: CharSequence,
 	modifier: Modifier = Modifier,
-	labelStyle: TextStyle = CompaniesTypography.bodyMedium,
-	detailStyle: TextStyle = CompaniesTypography.titleLargeBold,
+	labelStyle: TextStyle = CompaniesTypography.bodyMedium.merge(Colors.onBackground),
+	detailStyle: TextStyle = CompaniesTypography.titleLargeBold.merge(Colors.onBackground),
 	labelWeight: Float = FORTY_PERCENT,
 ) {
 
@@ -65,29 +70,80 @@ fun LabeledDetailCardItem(
 
 //Annotated preview in FilingDetailsScreen
 
-@Preview("Normal")
+@Preview
 @Composable
 fun NormalPreview() {
-	LabeledDetailCardItem(
-		labelString = "Date of birth",
-		detailString = "1974-09-01",
-	)
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			LabeledDetailCardItem(
+				labelString = "Date of birth",
+				detailString = "1974-09-01",
+			)
+		}
+	}
 }
 
-@Preview("Long label")
+@Preview
 @Composable
 fun LongLabelPreview() {
-	LabeledDetailCardItem(
-		labelString = "Date of birth, but very long",
-		detailString = "1974-09-01",
-	)
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			LabeledDetailCardItem(
+				labelString = "Date of birth, but very long",
+				detailString = "1974-09-01",
+			)
+		}
+	}
 }
 
-@Preview("Long detail")
+@Preview
 @Composable
 fun LongDetailPreview() {
-	LabeledDetailCardItem(
-		labelString = "Name",
-		detailString = "Longyearbien Longlongyear",
-	)
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			LabeledDetailCardItem(
+				labelString = "Name",
+				detailString = "Longyearbien Longlongyear",
+			)
+		}
+	}
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun NormalDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			LabeledDetailCardItem(
+				labelString = "Date of birth",
+				detailString = "1974-09-01",
+			)
+		}
+	}
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun LongLabelDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			LabeledDetailCardItem(
+				labelString = "Date of birth, but very long",
+				detailString = "1974-09-01",
+			)
+		}
+	}
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun LongDetailDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			LabeledDetailCardItem(
+				labelString = "Name",
+				detailString = "Longyearbien Longlongyear",
+			)
+		}
+	}
 }

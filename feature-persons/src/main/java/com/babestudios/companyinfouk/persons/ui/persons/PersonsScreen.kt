@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER, FunctionNaming")
-
 package com.babestudios.companyinfouk.persons.ui.persons
 
 import androidx.activity.compose.BackHandler
@@ -9,7 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,8 +17,8 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
-import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.persons.R
+import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
 
 @Composable
@@ -80,7 +78,7 @@ private fun PersonsList(
 					onItemClicked = onItemClicked,
 				)
 
-				Divider()
+				HorizontalDivider()
 			}
 		}
 

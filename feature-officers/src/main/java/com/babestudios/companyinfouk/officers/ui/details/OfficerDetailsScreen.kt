@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -24,12 +24,12 @@ import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaff
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.Dimens
+import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.shared.domain.PREVIEW_MONTH
 import com.babestudios.companyinfouk.shared.domain.PREVIEW_YEAR
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
-import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComp
 import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComponent
 import kotlinx.coroutines.Dispatchers
@@ -62,33 +62,33 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 				secondLineString = selectedOfficer.name,
 				Modifier.fillMaxWidth(1f)
 			)
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = stringResource(R.string.officer_details_appointed_on),
 				secondLineString = selectedOfficer.appointedOn ?: "Unknown",
 				Modifier.fillMaxWidth(1f)
 			)
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			selectedOfficer.resignedOn?.let {
 				TwoLineCard(
 					firstLineString = stringResource(R.string.officer_appointments_resigned_on),
 					secondLineString = it,
 					Modifier.fillMaxWidth(1f)
 				)
-				Divider(thickness = 1.dp)
+				HorizontalDivider(thickness = 1.dp)
 			}
 			TwoLineCard(
 				firstLineString = "Nationality",
 				secondLineString = selectedOfficer.nationality,
 				Modifier.fillMaxWidth(1f)
 			)
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = stringResource(R.string.officer_details_occupation),
 				secondLineString = selectedOfficer.occupation,
 				Modifier.fillMaxWidth(1f)
 			)
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			val (month, year) = selectedOfficer.dateOfBirth.month to selectedOfficer.dateOfBirth.year
 			TwoLineCard(
 				firstLineString = "Date of birth",
@@ -99,15 +99,15 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 				},
 				Modifier.fillMaxWidth(1f)
 			)
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			TwoLineCard(
 				firstLineString = "Country of residence",
 				secondLineString = selectedOfficer.countryOfResidence,
 				Modifier.fillMaxWidth(1f)
 			)
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			AddressCard(address = selectedOfficer.address) { component.onShowMapClicked() }
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			Button(
 				onClick = { component.onAppointmentsClicked() },
 				modifier = Modifier

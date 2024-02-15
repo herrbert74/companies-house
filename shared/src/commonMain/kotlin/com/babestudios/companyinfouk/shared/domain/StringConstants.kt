@@ -7,7 +7,7 @@ package com.babestudios.companyinfouk.shared.domain
  */
 const val ACCOUNT_TYPE_PLACEHOLDER = "account_type "
 const val ACCOUNT_DATE_PLACEHOLDER = "account_date "
-const val COMPANY_ACCOUNTS_FORMATTED_TEXT = "Last $ACCOUNT_TYPE_PLACEHOLDER" +
+const val COMPANY_ACCOUNTS_FORMATTED_TEXT = "Last $ACCOUNT_TYPE_PLACEHOLDER " +
 	"account made up to $ACCOUNT_DATE_PLACEHOLDER"
 const val COMPANY_ACCOUNTS_NOT_FOUND = "Accounts not found"
 const val FROM_PLACEHOLDER = "from_date"

@@ -1,7 +1,6 @@
-@file:Suppress("UNUSED_PARAMETER, FunctionNaming")
-
 package com.babestudios.companyinfouk.companies.ui.main
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +29,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
@@ -59,6 +57,8 @@ import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
+import com.babestudios.companyinfouk.design.Colors
+import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
@@ -83,7 +83,8 @@ fun MainScreen(component: MainComp) {
 	val searchFilterString = rememberSaveable { mutableStateOf(searchFilterOptions.first()) }
 
 	val topAppBarColors = TopAppBarDefaults.topAppBarColors(
-		containerColor = MaterialTheme.colorScheme.primaryContainer,
+		containerColor = Colors.surface,
+		scrolledContainerColor = Colors.surfaceContainer,
 	)
 
 	/**
@@ -113,16 +114,22 @@ fun MainScreen(component: MainComp) {
 						Icon(
 							painter = painterResource(R.drawable.ic_search),
 							contentDescription = "Search icon",
+							tint = Colors.onPrimaryContainer
 						)
 					}
 					IconButton(onClick = { component.onFavoritesClicked() }) {
 						Icon(
 							painter = painterResource(R.drawable.ic_favorite),
 							contentDescription = "Favourites",
+							tint = Colors.onPrimaryContainer
 						)
 					}
 					IconButton(onClick = { showMenu = !showMenu }) {
-						Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.privacy_policy))
+						Icon(
+							Icons.Default.MoreVert,
+							contentDescription = stringResource(R.string.privacy_policy),
+							tint = Colors.onPrimaryContainer
+						)
 					}
 					DropdownMenu(
 						expanded = showMenu,
@@ -185,7 +192,7 @@ fun MainScreen(component: MainComp) {
 						Text(
 							searchFilterString.value,
 							style = CompaniesTypography.titleSmall.merge(
-								TextStyle(color = MaterialTheme.colorScheme.onPrimaryContainer)
+								TextStyle(color = Colors.onPrimaryContainer)
 							)
 						)
 						SearchFilterDropdown(
@@ -314,7 +321,7 @@ private fun RecentSearchesList(
 			Icon(
 				imageVector = Icons.Filled.Delete,
 				contentDescription = "Add favourites",
-				tint = Color.White
+				tint = Colors.onPrimaryContainer
 			)
 		}
 
@@ -399,31 +406,36 @@ private fun SearchResultList(
 	}
 }
 
-@Preview("Empty Recent List Preview")
+@Preview("Empty Recent List Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun EmptyRecentListPreview() {
-	EmptySearchList(PaddingValues())
+	CompaniesTheme {
+		EmptySearchList(PaddingValues())
+	}
 }
 
-@Preview("Main List Preview", device = "id:Nexus S")
+//@Preview("Main List Preview", device = "id:Nexus S")
+@Preview("Main List Preview Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun MainListPreview() {
-	SearchResultList(
-		items = listOf(
-			CompanySearchResultItem(
-				title = "ALPHABET ACCOUNTANTS LTD",
-				description = "07620277 - Incorporated on  3 May 2011",
-				addressSnippet = "16 Anchor Street, Chelmsford, CM2 0JY",
-				companyStatus = "active"
+	CompaniesTheme {
+		SearchResultList(
+			items = listOf(
+				CompanySearchResultItem(
+					title = "ALPHABET ACCOUNTANTS LTD",
+					description = "07620277 - Incorporated on  3 May 2011",
+					addressSnippet = "16 Anchor Street, Chelmsford, CM2 0JY",
+					companyStatus = "active"
+				),
+				CompanySearchResultItem(
+					title = "ALPHABET ACCOUNTANTS LTD",
+					description = "07620277 - Incorporated on  3 May 2011",
+					addressSnippet = "16 Anchor Street, Chelmsford, CM2 0JY",
+					companyStatus = "active"
+				)
 			),
-			CompanySearchResultItem(
-				title = "ALPHABET ACCOUNTANTS LTD",
-				description = "07620277 - Incorporated on  3 May 2011",
-				addressSnippet = "16 Anchor Street, Chelmsford, CM2 0JY",
-				companyStatus = "active"
-			)
-		),
-		onItemClicked = {},
-		onLoadMore = {}
-	)
+			onItemClicked = {},
+			onLoadMore = {}
+		)
+	}
 }

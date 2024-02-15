@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
@@ -23,8 +24,8 @@ fun TwoLineCard(
 	firstLineString: String,
 	secondLineString: String,
 	modifier: Modifier = Modifier,
-	firstLineStyle: TextStyle = CompaniesTypography.bodyMedium,
-	secondLineStyle: TextStyle = CompaniesTypography.titleLargeBold,
+	firstLineStyle: TextStyle = CompaniesTypography.bodyMedium.merge(Colors.onBackground),
+	secondLineStyle: TextStyle = CompaniesTypography.titleLargeBold.merge(Colors.onBackground),
 	/**
 	 * By default this displays a normal sized title in the first line,
 	 * and a bold, large title in the second, plus the first line has an extra margin.

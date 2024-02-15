@@ -20,7 +20,7 @@ object StringResourceHelper {
 	fun getLastAccountMadeUpToString(accountType: String, date: String) =
 		COMPANY_ACCOUNTS_FORMATTED_TEXT
 			.replace(ACCOUNT_TYPE_PLACEHOLDER, accountType)
-			.replace(ACCOUNT_DATE_PLACEHOLDER, date)
+			.replace(ACCOUNT_DATE_PLACEHOLDER, date).replace("  ", " ")
 
 	fun getCompanyAccountsNotFoundString() = COMPANY_ACCOUNTS_NOT_FOUND
 

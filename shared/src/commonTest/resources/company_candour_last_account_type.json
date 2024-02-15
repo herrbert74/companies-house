@@ -1,0 +1,69 @@
+{
+  "status": "active",
+  "jurisdiction": "england-wales",
+  "date_of_creation": "2014-03-25",
+  "company_number": "08957400",
+  "undeliverable_registered_office_address": false,
+  "has_been_liquidated": false,
+  "accounts": {
+    "last_accounts": {
+      "type": "total-exemption-full",
+      "made_up_to": "2023-03-31",
+      "period_end_on": "2023-03-31",
+      "period_start_on": "2022-04-01"
+    },
+    "next_accounts": {
+      "due_on": "2024-12-31",
+      "overdue": false,
+      "period_end_on": "2024-03-31",
+      "period_start_on": "2023-04-01"
+    },
+    "accounting_reference_date": {
+      "day": "31",
+      "month": "03"
+    },
+    "next_made_up_to": "2024-03-31",
+    "overdue": false,
+    "next_due": "2024-12-31"
+  },
+  "registered_office_address": {
+    "postal_code": "ME14 5DA",
+    "region": "Kent",
+    "address_line_2": "17-21 Ashford Road",
+    "country": "England",
+    "address_line_1": "Victoria Court",
+    "locality": "Maidstone"
+  },
+  "type": "ltd",
+  "company_name": "CANDOUR GROUP LIMITED",
+  "etag": "5d8eb84845ce905796393727e431c320755d116e",
+  "has_insolvency_history": false,
+  "company_status": "active",
+  "sic_codes": [
+    "68100"
+  ],
+  "last_full_members_list_date": "2016-03-25",
+  "previous_company_names": [
+    {
+      "name": "LONDON & KENT ESTATES LIMITED",
+      "ceased_on": "2020-04-20",
+      "effective_from": "2014-03-25"
+    }
+  ],
+  "has_charges": false,
+  "confirmation_statement": {
+    "next_due": "2024-04-08",
+    "next_made_up_to": "2024-03-25",
+    "overdue": false,
+    "last_made_up_to": "2023-03-25"
+  },
+  "links": {
+    "self": "/company/08957400",
+    "filing_history": "/company/08957400/filing-history",
+    "officers": "/company/08957400/officers",
+    "persons_with_significant_control": "/company/08957400/persons-with-significant-control"
+  },
+  "registered_office_is_in_dispute": false,
+  "has_super_secure_pscs": false,
+  "can_file": true
+}

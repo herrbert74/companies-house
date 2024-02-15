@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER, FunctionNaming")
-
 package com.babestudios.companyinfouk.companies.ui.favourites
 
 import androidx.activity.compose.BackHandler

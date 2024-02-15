@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER, FunctionNaming")
-
 package com.babestudios.companyinfouk.charges.ui.charges
 
 import androidx.activity.compose.BackHandler
@@ -9,7 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -65,13 +63,13 @@ private fun ChargesList(
 			Modifier.simpleVerticalScrollbar(listState),
 			state = listState
 		) {
-			itemsIndexed(items) { _, ChargesItem ->
+			itemsIndexed(items) { _, chargesItem ->
 				ChargesItemListItem(
-					item = ChargesItem,
+					item = chargesItem,
 					onItemClicked = onItemClicked,
 				)
 
-				Divider()
+				HorizontalDivider()
 			}
 		}
 

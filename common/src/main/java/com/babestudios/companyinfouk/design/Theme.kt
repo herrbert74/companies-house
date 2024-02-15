@@ -45,7 +45,8 @@ val CompaniesLightColorScheme = lightColorScheme(
 	inversePrimary = Color(LIGHT_INVERSE_PRIMARY),
 	outlineVariant = Color(LIGHT_OUTLINE_VARIANT),
 	scrim = Color(LIGHT_SCRIM),
-	surfaceTint = Color(LIGHT_SURFACE_TINT)
+	surfaceTint = Color(LIGHT_SURFACE_TINT),
+	surfaceContainer = Color(LIGHT_SURFACE_CONTAINER),
 )
 private val CompaniesDarkColorScheme = darkColorScheme(
 
@@ -77,7 +78,8 @@ private val CompaniesDarkColorScheme = darkColorScheme(
 	inversePrimary = Color(DARK_INVERSE_PRIMARY),
 	outlineVariant = Color(DARK_OUTLINE_VARIANT),
 	scrim = Color(DARK_SCRIM),
-	surfaceTint = Color(DARK_SURFACE_TINT)
+	surfaceTint = Color(DARK_SURFACE_TINT),
+	surfaceContainer = Color(DARK_SURFACE_CONTAINER),
 )
 
 @Composable

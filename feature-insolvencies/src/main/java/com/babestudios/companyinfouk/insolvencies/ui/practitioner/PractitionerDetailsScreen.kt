@@ -1,12 +1,13 @@
 package com.babestudios.companyinfouk.insolvencies.ui.practitioner
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,9 +21,9 @@ import com.babestudios.companyinfouk.common.compose.AddressCard
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
+import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
-import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
 import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComponent
 import kotlinx.coroutines.Dispatchers
@@ -54,14 +55,14 @@ fun PractitionerDetailsScreen(component: PractitionerDetailsComp) {
 				secondLineString = selectedPractitionerDetails.name,
 				Modifier.fillMaxWidth(1f)
 			)
-			Divider(thickness = 1.dp)
+			HorizontalDivider(thickness = 1.dp)
 			selectedPractitionerDetails.appointedOn?.let {
 				TwoLineCard(
 					firstLineString = stringResource(R.string.insolvency_details_appointed_on),
 					secondLineString = it,
 					Modifier.fillMaxWidth(1f)
 				)
-				Divider(thickness = 1.dp)
+				HorizontalDivider(thickness = 1.dp)
 			}
 			AddressCard(address = selectedPractitionerDetails.address) {
 				component.onShowMapClicked()
@@ -74,6 +75,33 @@ fun PractitionerDetailsScreen(component: PractitionerDetailsComp) {
 @Preview("PractitionerDetails Preview")
 @Composable
 fun PractitionerDetailsScreenPreview() {
+	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
+	CompaniesTheme {
+		PractitionerDetailsScreen(
+			PractitionerDetailsComponent(
+				componentContext,
+				Dispatchers.Main,
+				Practitioner(
+					name = "John Doe",
+					address = Address(
+						addressLine1 = "Suite A",
+						addressLine2 = "4-6 Canfield Place",
+						locality = "London",
+						postalCode = "NW6 3BT",
+						country = "United Kingdom"
+					),
+					appointedOn = "2016-02-26",
+					ceasedToActOn = "2017-02-26",
+					role = "practitioner"
+				),
+			) { }
+		)
+	}
+}
+
+@Preview("PractitionerDetails Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PractitionerDetailsScreenDarkPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		PractitionerDetailsScreen(

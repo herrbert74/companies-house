@@ -2,16 +2,16 @@ package com.babestudios.companyinfouk.common.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,12 +26,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.SEMI_TRANSPARENT
 import com.babestudios.companyinfouk.shared.domain.HALF
+import kotlin.math.min
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldScope
+import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
@@ -41,6 +44,7 @@ fun HeaderCollapsingToolbarScaffold(
 	navigationAction: () -> Unit,
 	topAppBarActions: @Composable (RowScope.() -> Unit),
 	title: String,
+	state: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
 	body: @Composable (CollapsingToolbarScaffoldScope.() -> Unit),
 ) {
 
@@ -48,17 +52,23 @@ fun HeaderCollapsingToolbarScaffold(
 	val viewMargin = Dimens.marginNormal
 	val viewMarginLarge = Dimens.marginLarge
 
-	val state = rememberCollapsingToolbarScaffoldState()
 	val progress = state.toolbarState.progress
-	val bgColor = MaterialTheme.colorScheme.primary
+	val surface = Colors.surface
+	val surfaceContainer = Colors.surfaceContainer
+	val onSurface = Colors.onSurface
 	val topAppBarColors = TopAppBarDefaults.topAppBarColors(
-		containerColor = Color(bgColor.red, bgColor.green, bgColor.blue, 1 - progress),
+		containerColor = Color(surface.red, surface.green, surface.blue, 1 - progress),
+		scrolledContainerColor = Color(
+			surfaceContainer.red, surfaceContainer.green, surfaceContainer.blue, 1 - progress
+		),
 	)
 
 	CollapsingToolbarScaffold(
 		state = state,
 		scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-		modifier = Modifier.fillMaxSize(),
+		modifier = Modifier
+			.fillMaxSize()
+			.background(color = Colors.background),
 		toolbar = {
 			Image(
 				painter = painterResource(headerBackgroundResource),
@@ -68,7 +78,7 @@ fun HeaderCollapsingToolbarScaffold(
 					.height(appBarHeight)
 					.graphicsLayer {
 						// change alpha of Image as the toolbar expands
-						alpha = state.toolbarState.progress
+						alpha = progress
 					},
 				contentScale = ContentScale.Crop,
 				contentDescription = null,
@@ -80,9 +90,13 @@ fun HeaderCollapsingToolbarScaffold(
 				navigationIcon = {
 					IconButton(onClick = navigationAction) {
 						Icon(
-							imageVector = Icons.Filled.ArrowBack,
+							imageVector = Icons.AutoMirrored.Filled.ArrowBack,
 							contentDescription = "Finish",
-							tint = MaterialTheme.colorScheme.onPrimary
+							tint = Color(
+								min(1f, onSurface.red + progress),
+								min(1f, onSurface.green + progress),
+								min(1f, onSurface.blue + progress)
+							)
 						)
 					}
 				},
@@ -102,7 +116,15 @@ fun HeaderCollapsingToolbarScaffold(
 						whenCollapsed = Alignment.CenterStart,
 						whenExpanded = Alignment.BottomStart
 					),
-				style = CompaniesTypography.titleLarge.merge(TextStyle(color = Color.White))
+				style = CompaniesTypography.titleLarge.merge(
+					TextStyle(
+						color = Color(
+							min(1f, onSurface.red + progress),
+							min(1f, onSurface.green + progress),
+							min(1f, onSurface.blue + progress)
+						)
+					)
+				)
 			)
 		},
 	) {

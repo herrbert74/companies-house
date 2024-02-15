@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
@@ -41,7 +42,7 @@ internal fun PersonsListItem(
 				.padding(start = viewMarginNormal),
 			maxLines = 1,
 			overflow = TextOverflow.Ellipsis,
-			style = CompaniesTypography.titleSmall
+			style = CompaniesTypography.titleSmall.merge(Colors.onBackground)
 		)
 
 		Spacer(modifier = Modifier.height(viewMarginNormal))
@@ -53,7 +54,7 @@ internal fun PersonsListItem(
 				.padding(start = viewMarginNormal),
 			maxLines = 1,
 			overflow = TextOverflow.Ellipsis,
-			style = CompaniesTypography.bodyMedium
+			style = CompaniesTypography.bodyMedium.merge(Colors.onBackground)
 		)
 
 		Spacer(modifier = Modifier.height(viewMarginNormal))

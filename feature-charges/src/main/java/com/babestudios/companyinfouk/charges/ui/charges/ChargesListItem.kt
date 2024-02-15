@@ -1,7 +1,10 @@
 package com.babestudios.companyinfouk.charges.ui.charges
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -21,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Visibility
 import com.babestudios.companyinfouk.charges.R
+import com.babestudios.companyinfouk.design.Colors
+import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
@@ -69,7 +74,7 @@ internal fun ChargesItemListItem(
 					)
 				},
 			text = stringResource(R.string.charge_details_charge_code),
-			style = CompaniesTypography.bodyMedium
+			style = CompaniesTypography.bodyMedium.merge(Colors.onBackground)
 		)
 
 		Text(
@@ -82,7 +87,7 @@ internal fun ChargesItemListItem(
 				},
 			maxLines = 1,
 			overflow = TextOverflow.Ellipsis,
-			style = CompaniesTypography.titleMedium
+			style = CompaniesTypography.titleMedium.merge(Colors.onBackground)
 		)
 
 		Text(
@@ -94,7 +99,7 @@ internal fun ChargesItemListItem(
 					bottom.linkTo(createdOn.top)
 				},
 			text = stringResource(R.string.charge_details_created_on),
-			style = CompaniesTypography.bodyMedium
+			style = CompaniesTypography.bodyMedium.merge(Colors.onBackground)
 		)
 
 		Text(
@@ -107,7 +112,7 @@ internal fun ChargesItemListItem(
 				},
 			maxLines = 1,
 			overflow = TextOverflow.Ellipsis,
-			style = CompaniesTypography.titleMedium
+			style = CompaniesTypography.titleMedium.merge(Colors.onBackground)
 		)
 
 		val satisfiedVisibility = if (item.status == "Satisfied") Visibility.Visible else Visibility.Gone
@@ -123,7 +128,7 @@ internal fun ChargesItemListItem(
 					visibility = satisfiedVisibility
 				},
 			text = stringResource(R.string.charge_details_satisfied_on),
-			style = CompaniesTypography.bodyMedium
+			style = CompaniesTypography.bodyMedium.merge(Colors.onBackground)
 		)
 
 		Text(
@@ -137,7 +142,7 @@ internal fun ChargesItemListItem(
 				},
 			maxLines = 1,
 			overflow = TextOverflow.Ellipsis,
-			style = CompaniesTypography.titleMedium
+			style = CompaniesTypography.titleMedium.merge(Colors.onBackground)
 		)
 
 		Text(
@@ -149,7 +154,7 @@ internal fun ChargesItemListItem(
 					bottom.linkTo(personsEntitled.top)
 				},
 			text = stringResource(R.string.charge_details_persons_entitled),
-			style = CompaniesTypography.bodyMedium
+			style = CompaniesTypography.bodyMedium.merge(Colors.onBackground)
 		)
 
 		Text(
@@ -162,7 +167,7 @@ internal fun ChargesItemListItem(
 				},
 			maxLines = 1,
 			overflow = TextOverflow.Ellipsis,
-			style = CompaniesTypography.titleMedium
+			style = CompaniesTypography.titleMedium.merge(Colors.onBackground)
 		)
 
 		Image(
@@ -182,31 +187,76 @@ internal fun ChargesItemListItem(
 	}
 }
 
-@Preview("Satisfied Item Preview")
+@Preview("Satisfied Charges Item Preview")
 @Composable
 fun SatisfiedItemPreview() {
-	ChargesItemListItem(
-		ChargesItem(
-			createdOn = "2012-03-12",
-			satisfiedOn = "2013-03-12",
-			chargeCode = "095699920001",
-			personsEntitled = "John Doe",
-			status = "Satisfied"
-		),
-		onItemClicked = {}
-	)
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			ChargesItemListItem(
+				ChargesItem(
+					createdOn = "2012-03-12",
+					satisfiedOn = "2013-03-12",
+					chargeCode = "095699920001",
+					personsEntitled = "John Doe",
+					status = "Satisfied"
+				),
+				onItemClicked = {}
+			)
+		}
+	}
 }
 
-@Preview("Dissatisfied Item Preview")
+@Preview("Satisfied Charges Item Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun SatisfiedItemDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			ChargesItemListItem(
+				ChargesItem(
+					createdOn = "2012-03-12",
+					satisfiedOn = "2013-03-12",
+					chargeCode = "095699920001",
+					personsEntitled = "John Doe",
+					status = "Satisfied"
+				),
+				onItemClicked = {}
+			)
+		}
+	}
+}
+
+@Preview("Dissatisfied Charges Item Preview")
 @Composable
 fun DissatisfiedItemPreview() {
-	ChargesItemListItem(
-		ChargesItem(
-			createdOn = "2012-03-12",
-			chargeCode = "095699920001",
-			personsEntitled = "John Doe",
-			status = "Outstanding"
-		),
-		onItemClicked = {}
-	)
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			ChargesItemListItem(
+				ChargesItem(
+					createdOn = "2012-03-12",
+					chargeCode = "095699920001",
+					personsEntitled = "John Doe",
+					status = "Outstanding"
+				),
+				onItemClicked = {}
+			)
+		}
+	}
+}
+
+@Preview("Dissatisfied Charges Item Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun DissatisfiedItemDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			ChargesItemListItem(
+				ChargesItem(
+					createdOn = "2012-03-12",
+					chargeCode = "095699920001",
+					personsEntitled = "John Doe",
+					status = "Outstanding"
+				),
+				onItemClicked = {}
+			)
+		}
+	}
 }

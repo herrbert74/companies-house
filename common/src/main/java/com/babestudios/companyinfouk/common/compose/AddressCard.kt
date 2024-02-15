@@ -1,6 +1,9 @@
 package com.babestudios.companyinfouk.common.compose
 
+import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,9 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
+import com.babestudios.companyinfouk.design.component.BodyMediumText
+import com.babestudios.companyinfouk.design.component.TitleLargeBoldText
 import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.shared.domain.HALF
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
@@ -48,59 +54,52 @@ fun AddressCard(
 					start.linkTo(parent.start)
 				}
 		) {
-			Text(
+			BodyMediumText(
 				modifier = Modifier
 					.padding(horizontal = Dimens.marginLarge + Dimens.marginNormal, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = title,
-				style = CompaniesTypography.bodyMedium
 			)
-			Text(
+			TitleLargeBoldText(
 				modifier = Modifier
 					.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = address.addressLine1,
-				style = CompaniesTypography.titleLargeBold
 			)
 			address.addressLine2?.let {
-				Text(
+				TitleLargeBoldText(
 					modifier = Modifier
 						.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 						.fillMaxWidth(1f),
 					text = it,
-					style = CompaniesTypography.titleLargeBold,
 				)
 			}
-			Text(
+			TitleLargeBoldText(
 				modifier = Modifier
 					.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = address.locality,
-				style = CompaniesTypography.titleLargeBold
 			)
-			Text(
+			TitleLargeBoldText(
 				modifier = Modifier
 					.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 					.fillMaxWidth(1f),
 				text = address.postalCode,
-				style = CompaniesTypography.titleLargeBold
 			)
 			address.region?.let {
-				Text(
+				TitleLargeBoldText(
 					modifier = Modifier
 						.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 						.fillMaxWidth(1f),
 					text = it,
-					style = CompaniesTypography.titleLargeBold
 				)
 			}
 			address.country?.let {
-				Text(
+				TitleLargeBoldText(
 					modifier = Modifier
 						.padding(horizontal = Dimens.marginLarge, vertical = Dimens.marginNormal)
 						.fillMaxWidth(1f),
 					text = it,
-					style = CompaniesTypography.titleLargeBold,
 				)
 			}
 		}
@@ -119,19 +118,40 @@ fun AddressCard(
 	}
 }
 
-@Preview("PractitionerDetails Preview")
+@Preview("AddressCard Preview")
 @Composable
-fun PractitionerDetailsScreenPreview() {
+fun AddressCardPreview() {
 	CompaniesTheme {
-		AddressCard(
-			address = Address(
-				addressLine1 = "Suite A",
-				addressLine2 = "4-6 Canfield Place",
-				locality = "London",
-				postalCode = "NW6 3BT",
-				country = "United Kingdom"
-			),
-			onShowMap = { }
-		)
+		Box(Modifier.background(color = Colors.background)) {
+			AddressCard(
+				address = Address(
+					addressLine1 = "Suite A",
+					addressLine2 = "4-6 Canfield Place",
+					locality = "London",
+					postalCode = "NW6 3BT",
+					country = "United Kingdom"
+				),
+				onShowMap = { }
+			)
+		}
+	}
+}
+
+@Preview("AddressCard Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun AddressCardDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			AddressCard(
+				address = Address(
+					addressLine1 = "Suite A",
+					addressLine2 = "4-6 Canfield Place",
+					locality = "London",
+					postalCode = "NW6 3BT",
+					country = "United Kingdom"
+				),
+				onShowMap = { }
+			)
+		}
 	}
 }

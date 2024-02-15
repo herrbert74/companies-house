@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER, FunctionNaming")
-
 package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 
 import androidx.activity.compose.BackHandler
@@ -10,6 +8,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,8 +17,8 @@ import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
-import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.insolvencies.R
+import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesComp
 
 @Composable
@@ -66,13 +65,13 @@ private fun InsolvenciesList(
 			Modifier.simpleVerticalScrollbar(listState),
 			state = listState
 		) {
-			itemsIndexed(items) { _, InsolvencyCase ->
+			itemsIndexed(items) { _, insolvencyCase ->
 				InsolvenciesListItem(
-					item = InsolvencyCase,
+					item = insolvencyCase,
 					onItemClicked = onItemClicked,
 				)
 
-				Divider()
+				HorizontalDivider()
 			}
 		}
 

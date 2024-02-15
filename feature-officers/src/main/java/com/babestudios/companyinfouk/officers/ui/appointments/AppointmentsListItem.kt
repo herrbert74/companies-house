@@ -1,6 +1,9 @@
 package com.babestudios.companyinfouk.officers.ui.appointments
 
+import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,8 +17,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.babestudios.companyinfouk.design.Colors
+import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
+import com.babestudios.companyinfouk.design.component.BodyMediumText
+import com.babestudios.companyinfouk.design.component.TitleMediumText
 import com.babestudios.companyinfouk.shared.domain.FORTY_PERCENT
 import com.babestudios.companyinfouk.shared.domain.model.officers.AppointedTo
 import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
@@ -34,7 +41,6 @@ internal fun AppointmentListItem(
 	ConstraintLayout(
 		modifier = modifier
 			.fillMaxWidth(1f)
-			.fillMaxHeight(1f)
 			.wrapContentHeight(Alignment.CenterVertically)
 			.clickable { onItemClicked(item) },
 	) {
@@ -42,7 +48,7 @@ internal fun AppointmentListItem(
 		val (appointedOn, companyName, companyStatus, role, resignedOn) = createRefs()
 		val guideline = createGuidelineFromStart(FORTY_PERCENT)
 
-		Text(
+		BodyMediumText(
 			textAlign = TextAlign.Start,
 			modifier = modifier
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal)
@@ -51,9 +57,8 @@ internal fun AppointmentListItem(
 					start.linkTo(parent.start)
 				},
 			text = stringResource(R.string.officer_details_appointed_on),
-			style = CompaniesTypography.bodyMedium
 		)
-		Text(
+		TitleMediumText(
 			modifier = modifier
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal)
 				.constrainAs(appointedOn) {
@@ -61,9 +66,8 @@ internal fun AppointmentListItem(
 					start.linkTo(guideline)
 				},
 			text = item.appointedOn ?: "",
-			style = CompaniesTypography.titleMedium
 		)
-		Text(
+		BodyMediumText(
 			modifier = modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(cpnCompanyName) {
@@ -71,9 +75,8 @@ internal fun AppointmentListItem(
 					start.linkTo(parent.start)
 				},
 			text = "Company Name",
-			style = CompaniesTypography.bodyMedium,
 		)
-		Text(
+		TitleMediumText(
 			modifier = modifier
 				.wrapContentHeight(Alignment.CenterVertically)
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal, end = viewMarginLarge)
@@ -84,10 +87,8 @@ internal fun AppointmentListItem(
 					width = Dimension.fillToConstraints
 				},
 			text = item.appointedTo.companyName,
-			style = CompaniesTypography.titleMedium,
-			maxLines = 3,
 		)
-		Text(
+		BodyMediumText(
 			modifier = modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(cpnCompanyStatus) {
@@ -95,9 +96,8 @@ internal fun AppointmentListItem(
 					start.linkTo(parent.start)
 				},
 			text = "Company Status",
-			style = CompaniesTypography.bodyMedium
 		)
-		Text(
+		TitleMediumText(
 			modifier = modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(companyStatus) {
@@ -105,9 +105,8 @@ internal fun AppointmentListItem(
 					start.linkTo(guideline)
 				},
 			text = item.appointedTo.companyStatus,
-			style = CompaniesTypography.titleMedium
 		)
-		Text(
+		BodyMediumText(
 			modifier = modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(cpnRole) {
@@ -115,9 +114,8 @@ internal fun AppointmentListItem(
 					start.linkTo(parent.start)
 				},
 			text = stringResource(R.string.officer_appointments_role),
-			style = CompaniesTypography.bodyMedium
 		)
-		Text(
+		TitleMediumText(
 			modifier = modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(role) {
@@ -125,10 +123,9 @@ internal fun AppointmentListItem(
 					start.linkTo(guideline)
 				},
 			text = item.officerRole,
-			style = CompaniesTypography.titleMedium
 		)
 		if (item.resignedOn != null) {
-			Text(
+			BodyMediumText(
 				modifier = modifier
 					.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 					.constrainAs(cpnResignedOn) {
@@ -137,9 +134,8 @@ internal fun AppointmentListItem(
 						bottom.linkTo(parent.bottom)
 					},
 				text = stringResource(R.string.officer_appointments_resigned_on),
-				style = CompaniesTypography.bodyMedium
 			)
-			Text(
+			TitleMediumText(
 				modifier = modifier
 					.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 					.constrainAs(resignedOn) {
@@ -147,24 +143,47 @@ internal fun AppointmentListItem(
 						start.linkTo(guideline)
 					},
 				text = item.resignedOn!!,
-				style = CompaniesTypography.titleMedium
 			)
 		}
 	}
 }
 
-@Preview("Item Preview")
+@Preview
 @Composable
-fun DefaultPreview() {
-	AppointmentListItem(
-		Appointment(
-			appointedOn = "2012-8-12",
-			appointedTo = AppointedTo(
-				companyName = "Heart Foundation Multiple Lines Too Long", companyStatus = "active"
-			),
-			officerRole = "Director",
-			resignedOn = "2013-10-12"
-		),
-		onItemClicked = {}
-	)
+fun AppointmentListItemPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			AppointmentListItem(
+				Appointment(
+					appointedOn = "2012-8-12",
+					appointedTo = AppointedTo(
+						companyName = "Heart Foundation Multiple Lines Too Long", companyStatus = "active"
+					),
+					officerRole = "Director",
+					resignedOn = "2013-10-12"
+				),
+				onItemClicked = {}
+			)
+		}
+	}
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun AppointmentListItemDarkPreview() {
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.background)) {
+			AppointmentListItem(
+				Appointment(
+					appointedOn = "2012-8-12",
+					appointedTo = AppointedTo(
+						companyName = "Heart Foundation Multiple Lines Too Long", companyStatus = "active"
+					),
+					officerRole = "Director",
+					resignedOn = "2013-10-12"
+				),
+				onItemClicked = {}
+			)
+		}
+	}
 }

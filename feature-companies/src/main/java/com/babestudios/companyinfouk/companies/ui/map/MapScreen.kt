@@ -7,7 +7,6 @@ import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -23,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.shared.screen.map.MapComp
 import com.babestudios.companyinfouk.shared.screen.map.MapComponent
@@ -61,7 +61,7 @@ fun MapScreen(component: MapComp) {
 	val uiSettings by remember { mutableStateOf(MapUiSettings(zoomControlsEnabled = true)) }
 
 	val topAppBarColors = TopAppBarDefaults.topAppBarColors(
-		containerColor = MaterialTheme.colorScheme.primaryContainer,
+		containerColor = Colors.primaryContainer,
 	)
 
 	val context = LocalContext.current

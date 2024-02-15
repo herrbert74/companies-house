@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER, FunctionNaming")
-
 package com.babestudios.companyinfouk.officers.ui.appointments
 
 import androidx.activity.compose.BackHandler
@@ -12,8 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,11 +20,10 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.design.titleLargeBold
-import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
+import com.babestudios.companyinfouk.design.component.TitleLargeBoldText
 import com.babestudios.companyinfouk.officers.R
+import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsComp
 
 @Composable
@@ -51,11 +47,10 @@ fun AppointmentsScreen(component: AppointmentsComp) {
 			Box(Modifier.background(color = Color.Red))
 		} else {
 			Column {
-				Text(
+				TitleLargeBoldText(
 					modifier = Modifier
 						.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
 					text = model.selectedOfficer.name,
-					style = CompaniesTypography.titleLargeBold,
 				)
 				AppointmentsList(
 					items = model.appointmentsResponse.items,
@@ -86,13 +81,13 @@ private fun AppointmentsList(
 			contentPadding = PaddingValues(top = viewMarginNormal),
 			state = listState
 		) {
-			itemsIndexed(items) { _, Appointment ->
+			itemsIndexed(items) { _, appointment ->
 				AppointmentListItem(
-					item = Appointment,
+					item = appointment,
 					onItemClicked = onItemClicked,
 				)
 
-				Divider()
+				HorizontalDivider()
 			}
 		}
 
