@@ -53,6 +53,12 @@ enum class CategoryDto {
 	CATEGORY_MORTGAGE,
 
 	@SerialName("persons-with-significant-control")
-	CATEGORY_PERSONS;
+	CATEGORY_PERSONS,
+
+	@SerialName("miscellaneous")
+	CATEGORY_MISCELLANEOUS,
+
+	@SerialName("document-replacement")
+	CATEGORY_DOCUMENT_REPLACEMENT;
 
 }

@@ -76,7 +76,7 @@ val dataModule = module {
 			install(Logging) {
 				logger = object : Logger {
 					override fun log(message: String) {
-						logging().d { "AA-430 log: $message" }
+						logging().d { "CompaniesHouseClient log: $message" }
 					}
 				}
 				level = LogLevel.ALL
@@ -98,7 +98,7 @@ val dataModule = module {
 			install(Logging) {
 				logger = object : Logger {
 					override fun log(message: String) {
-						logging().d { "AA-430 log: $message" }
+						logging().d { "CompaniesHouseDocumentClient log: $message" }
 					}
 				}
 				level = LogLevel.ALL

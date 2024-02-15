@@ -32,7 +32,9 @@ enum class Category(val displayName: String, val serialName: String) {
 	CATEGORY_AUDITORS("auditors", "auditors"),
 	CATEGORY_RESOLUTION("resolution", "resolution"),
 	CATEGORY_MORTGAGE("mortgage", "mortgage"),
-	CATEGORY_PERSONS("persons with significant control", "persons-with-significant-control");
+	CATEGORY_PERSONS("persons with significant control", "persons-with-significant-control"),
+	CATEGORY_MISCELLANEOUS("miscellaneous", "miscellaneous"),
+	CATEGORY_DOCUMENT_REPLACEMENT("document replacement", "document-replacement");
 
 	override fun toString(): String {
 		return displayName

@@ -69,6 +69,8 @@ private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 		CategoryDto.CATEGORY_RESOLUTION -> Category.CATEGORY_RESOLUTION
 		CategoryDto.CATEGORY_MORTGAGE -> Category.CATEGORY_MORTGAGE
 		CategoryDto.CATEGORY_PERSONS -> Category.CATEGORY_PERSONS
+		CategoryDto.CATEGORY_MISCELLANEOUS -> Category.CATEGORY_MISCELLANEOUS //Winnow Solutions
+		CategoryDto.CATEGORY_DOCUMENT_REPLACEMENT -> Category.CATEGORY_DOCUMENT_REPLACEMENT //Winnow Solutions
 		null -> Category.CATEGORY_SHOW_ALL
 	}
 }
