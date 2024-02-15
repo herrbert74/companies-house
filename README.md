@@ -18,13 +18,13 @@ You can drill down from the main screen to the following:
 
 1. Top level: main screen with list of companies (One of Search/Recent Searches/Favourites; starts with empty search screen).
 
-1. Company screen.
+2. Company screen.
 
-1. Specialized screens (Filing History/Charges/Insolvency/Officers/Persons with Significant Control).
+3. Specialized screens (Filing History/Charges/Insolvency/Officers/Persons with Significant Control).
 
-1. Specialized detail screens.
+4. Specialized detail screens.
 
-1. Only from the Officer Details screen: Officer appointments. Links to Company screen.
+5. Only from the Officer Details screen: Officer appointments. Links to Company screen.
 
 ### Other features ###
 
@@ -34,26 +34,23 @@ You can drill down from the main screen to the following:
 
 ### Technical highlights ###
 
-* 100% Kotlin.
-* Retrofit 2 with Coroutines is used for networking and events.
-* Unidirectional Data Flow architecture with MVIKotlin. 
-* Dagger 2 for easy testing.
-* Large part of the ViewModels are unit tested.
-* ConstraintLayout is used on Details screens.
-* Architecture Components Navigation.
-* Kotlin Gradle DSL with Feature and Android plugins in buildSrc to avoid duplicate declarations.
+* **Kotlin Multiplatform** with Android and iOS apps.
+* **Koin** for dependency injection.
+* **Ktor** with Ktorfit is used for networking.
+* **Coroutines** is used for networking and events.
+* **Compose** and **SwiftUI** is used for UI.
+* Unidirectional Data Flow architecture with **MVIKotlin**.
+* Routing functionality and pluggable UI with **Decompose**.
+* **Version catalog** is used for dependency management.
+* Extensively unit tested with **JUnit**, but there is no full coverage. Some **Espresso test** are also present.
+* **Kotlin Gradle DSL** with Feature and Android plugins in buildSrc to avoid duplicate declarations.
 * Modularized with the following modules:
-    * **_BuidSrc directory_** is the standard Gradle way to separate links to third party libraries.
-    * **_Base module_** in a separate project to maintain reusability.
-    * **_Common module_** contains project specific Kotlin extension functions and part of the model
-    * **_Navigation module_** contains the abstraction for navigation to make navigation between features possible. This currently has to be duplicated in the app module.
-    * **_Data module_** contains network calls (no caching at the moment) and the rest of the model
-    * **_Injection module_** contains a Core Component and abstractions to use ti everywhere.
-    * **_Feature modules_** contain the features.
-    * **_App module_** sits on top, containing the final navigation, Application class and Espresso tests. 
-
-### Roadmap ###
-
-* Add company registers and company exemptions.
-* More UI tests with Espresso.
-* Check the Issues tab for more.
+  * The **shared** module has the domain classes (api and model), dependency injection, the data (network) implementations, and 
+    **Decompose** components.
+  * The **buildSrc directory** is the standard Gradle way to separate links to third party libraries.
+  * **Base modules** are in a separate project to maintain reusability (BaBeStudios Base).
+  * **Common module** contains project specific resources, Composables and the design elements.
+  * **Feature modules** contain the UI features: charges, filings, companies, insolvencies, officers and persons. Main feature is the 
+    entry point to the app: that holds the single Activity and the UI tests.
+  * The **app module** sits on top, containing only the Application class.
+  * **iOSApp module** contains the iOS app.
