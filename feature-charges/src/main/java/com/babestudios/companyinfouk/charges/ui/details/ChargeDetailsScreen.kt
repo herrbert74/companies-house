@@ -268,7 +268,10 @@ private fun ChargeDetailsList(
 			Modifier.simpleVerticalScrollbar(listState),
 			state = listState
 		) {
-			itemsIndexed(charge.transactions) { index, transaction ->
+			itemsIndexed(
+				items = charge.transactions,
+				key = { _, item -> item.hashCode() }
+			) { index, transaction ->
 				if (index == 0) {
 					ChargeHeader(charge = charge)
 				}

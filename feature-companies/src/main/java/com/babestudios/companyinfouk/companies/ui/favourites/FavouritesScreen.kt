@@ -6,10 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -53,7 +54,12 @@ fun FavouritesScreen(component: FavouritesComp) {
 		title = stringResource(R.string.favourites)
 	) {
 		if (model.isLoading) {
-			CircularProgressIndicator()
+			Box(
+				contentAlignment = Alignment.Center,
+				modifier = Modifier.fillMaxSize()
+			) {
+				CircularProgressIndicator()
+			}
 		} else if (model.error != null) {
 			Box(
 				Modifier
@@ -94,44 +100,48 @@ private fun FavouritesList(
 			LazyColumn(
 				state = listState,
 			) {
-				itemsIndexed(items) { _, favouritesItem ->
-					Row(
-						Modifier.fillMaxWidth(1f),
-						verticalAlignment = Alignment.CenterVertically,
-						horizontalArrangement = Arrangement.Start
-					) {
-						TwoLineCard(
-							modifier = Modifier
-								.clickable { onItemClicked(favouritesItem) }
-								.weight(1f),
-							firstLineString = favouritesItem.searchHistoryItem.companyName,
-							secondLineString = favouritesItem.searchHistoryItem.companyNumber,
-							flipLineStyles = true
-						)
-						if (favouritesItem.isPendingRemoval) {
-							Text(
-								text = "UNDO",
+				items(
+					items = items,
+					key = { item -> item.hashCode() },
+					itemContent = { favouritesItem ->
+						Row(
+							Modifier.fillMaxWidth(1f),
+							verticalAlignment = Alignment.CenterVertically,
+							horizontalArrangement = Arrangement.Start
+						) {
+							TwoLineCard(
 								modifier = Modifier
-									.padding(end = viewMarginLarge)
-									.clickable { onUndoClicked(favouritesItem) }
+									.clickable { onItemClicked(favouritesItem) }
+									.weight(1f),
+								firstLineString = favouritesItem.searchHistoryItem.companyName,
+								secondLineString = favouritesItem.searchHistoryItem.companyNumber,
+								flipLineStyles = true
 							)
-						} else {
-							IconButton(
-								onClick = { onDeleteClicked(favouritesItem) }, modifier = Modifier.padding(
-									end =
-									viewMarginLarge
+							if (favouritesItem.isPendingRemoval) {
+								Text(
+									text = "UNDO",
+									modifier = Modifier
+										.padding(end = viewMarginLarge)
+										.clickable { onUndoClicked(favouritesItem) }
 								)
-							) {
-								Icon(
-									Icons.Filled.Delete,
-									contentDescription = "Delete Favourite",
-								)
+							} else {
+								IconButton(
+									onClick = { onDeleteClicked(favouritesItem) }, modifier = Modifier.padding(
+										end =
+										viewMarginLarge
+									)
+								) {
+									Icon(
+										Icons.Filled.Delete,
+										contentDescription = "Delete Favourite",
+									)
+								}
 							}
 						}
-					}
 
-					HorizontalDivider()
-				}
+						HorizontalDivider()
+					}
+				)
 			}
 		}
 

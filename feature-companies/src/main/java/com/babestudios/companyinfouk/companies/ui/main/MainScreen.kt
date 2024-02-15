@@ -204,7 +204,12 @@ fun MainScreen(component: MainComp) {
 				},
 			) {
 				if (model.isLoading) {
-					CircularProgressIndicator()
+					Box(
+						contentAlignment = Alignment.Center,
+						modifier = Modifier.fillMaxSize()
+					) {
+						CircularProgressIndicator()
+					}
 				} else if (model.error != null) {
 					Box(
 						Modifier
@@ -293,7 +298,10 @@ private fun RecentSearchesList(
 				.padding(paddingValues),
 			state = listState
 		) {
-			itemsIndexed(items) { index, searchHistoryItem ->
+			itemsIndexed(
+				items = items,
+				key = { _, item -> item.hashCode() }
+			) { index, searchHistoryItem ->
 				if (index == 0) {
 					MainHeader()
 				}
@@ -389,14 +397,17 @@ private fun SearchResultList(
 				.background(backgroundColor),
 			state = listState
 		) {
-			items(items = items, itemContent = { companySearchResultItem ->
-				CompanySearchResultItemListItem(
-					item = companySearchResultItem,
-					onItemClicked = onItemClicked,
-				)
+			items(
+				items = items,
+				key = { item -> item.hashCode() },
+				itemContent = { companySearchResultItem ->
+					CompanySearchResultItemListItem(
+						item = companySearchResultItem,
+						onItemClicked = onItemClicked,
+					)
 
-				HorizontalDivider()
-			})
+					HorizontalDivider()
+				})
 		}
 
 		InfiniteListHandler(listState = listState) {

@@ -3,8 +3,11 @@ package com.babestudios.companyinfouk.filings.ui.filings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
@@ -13,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringArrayResource
@@ -63,7 +67,12 @@ fun FilingHistoryScreen(component: FilingHistoryComp) {
 		state
 	) {
 		if (model.isLoading) {
-			CircularProgressIndicator()
+			Box(
+				contentAlignment = Alignment.Center,
+				modifier = Modifier.fillMaxSize()
+			) {
+				CircularProgressIndicator()
+			}
 		} else if (model.error != null) {
 			Box(Modifier.background(color = Color.Red))
 		} else {
@@ -92,7 +101,10 @@ private fun FilingHistoryList(
 			Modifier.simpleVerticalScrollbar(listState),
 			state = listState
 		) {
-			itemsIndexed(items) { _, filingHistoryItem ->
+			items(
+				items = items,
+				key = { item -> item.hashCode() }
+			) { filingHistoryItem ->
 				FilingHistoryItemListItem(
 					item = filingHistoryItem,
 					onItemClicked = onItemClicked,

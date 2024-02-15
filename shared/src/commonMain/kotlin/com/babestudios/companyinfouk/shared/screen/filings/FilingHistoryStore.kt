@@ -9,7 +9,7 @@ import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryStore.St
 interface FilingHistoryStore : Store<Intent, State, Nothing> {
 
 	sealed class Intent {
-		object LoadMoreFilingHistory : Intent()
+		data object LoadMoreFilingHistory : Intent()
 		data class FilingHistoryCategorySelected(val categoryOrdinal: Int) : Intent()
 	}
 

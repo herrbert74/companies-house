@@ -58,7 +58,10 @@ private fun InsolvencyDetailsList(
 		val viewMarginLarge = Dimens.marginLarge
 
 		LazyColumn(state = listState) {
-			itemsIndexed(items.dates) { index, date ->
+			itemsIndexed(
+				items = items.dates,
+				key = { _, item -> item.hashCode() },
+			) { index, date ->
 
 				if (index == 0) {
 					Text(
@@ -77,7 +80,10 @@ private fun InsolvencyDetailsList(
 		}
 
 		LazyColumn(state = listState) {
-			itemsIndexed(items.practitioners) { index, practitioner ->
+			itemsIndexed(
+				items.practitioners,
+				key = { _, item -> item.hashCode() },
+			) { index, practitioner ->
 				if (index == 0) {
 					Text(
 						modifier = Modifier.padding(
