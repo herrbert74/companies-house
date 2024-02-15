@@ -62,7 +62,7 @@ fun CategoryFilterDropdown(
 		onDismissRequest = { expanded.value = false },
 		modifier = Modifier
 			.wrapContentWidth()
-			.background(Colors.inverseSurface)
+			.background(Colors.surfaceVariant)
 	) {
 		categories.forEachIndexed { index, category ->
 			DropdownMenuItem(

@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.shared.domain.model.search.FilterState
 
@@ -54,7 +53,7 @@ fun SearchFilterDropdown(
 		onDismissRequest = { expanded.value = false },
 		modifier = Modifier
 			.wrapContentWidth()
-			.background(Color.LightGray)
+			.background(Colors.surfaceVariant)
 	) {
 		searchFilterOptions.forEachIndexed { index, filterOption ->
 			DropdownMenuItem(
