@@ -1,10 +1,7 @@
 package com.babestudios.companyinfouk.shared.domain.model.common
 
-import com.babestudios.companyinfouk.shared.Parcelable
-import com.babestudios.companyinfouk.shared.Parcelize
 import kotlinx.serialization.Serializable
 
-@Parcelize
 @Serializable
 data class Address(
 	val addressLine1: String = "",
@@ -13,7 +10,7 @@ data class Address(
 	val locality: String = "",
 	val postalCode: String = "",
 	val region: String? = null,
-) : Parcelable
+)
 
 fun Address.getAddressString(): String {
 	return this.addressLine2 ?: run {

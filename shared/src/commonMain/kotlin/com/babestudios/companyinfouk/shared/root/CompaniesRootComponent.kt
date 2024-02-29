@@ -134,7 +134,8 @@ class CompaniesRootComponent internal constructor(
 	private val stack = childStack(
 		source = navigation,
 		initialStack = { listOf(Configuration.Main) },
-		handleBackButton = true,
+		saveStack = { null },
+		restoreStack = { null },
 		childFactory = ::createChild
 	)
 

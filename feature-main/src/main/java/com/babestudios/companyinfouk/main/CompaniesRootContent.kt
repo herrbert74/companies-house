@@ -1,9 +1,9 @@
 package com.babestudios.companyinfouk.main
 
 import androidx.compose.runtime.Composable
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.scale
+import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.babestudios.companyinfouk.charges.ui.charges.ChargesScreen
 import com.babestudios.companyinfouk.charges.ui.details.ChargeDetailsListScreen
 import com.babestudios.companyinfouk.companies.ui.company.CompanyScreen

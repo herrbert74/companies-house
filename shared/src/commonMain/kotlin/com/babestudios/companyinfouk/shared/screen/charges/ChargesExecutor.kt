@@ -8,13 +8,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChargesExecutor constructor(
+class ChargesExecutor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.LoadCharges -> {
 				companiesRepository.logScreenView("ChargesFragment")
@@ -23,9 +23,9 @@ class ChargesExecutor constructor(
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
-			is Intent.LoadMoreCharges -> loadMoreCharges(getState)
+			is Intent.LoadMoreCharges -> loadMoreCharges(::state)
 		}
 	}
 

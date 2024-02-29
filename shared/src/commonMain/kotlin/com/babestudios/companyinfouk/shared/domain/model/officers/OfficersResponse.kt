@@ -1,16 +1,15 @@
 package com.babestudios.companyinfouk.shared.domain.model.officers
 
-import com.babestudios.companyinfouk.shared.Parcelable
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.shared.Parcelize
+import kotlinx.serialization.Serializable
 
 data class OfficersResponse(
 	val totalResults: Int = 0,
 	val items: List<Officer> = emptyList(),
 )
 
-@Parcelize
+@Serializable
 data class Officer(
 	val address: Address = Address(),
 	val appointedOn: String? = null,
@@ -24,14 +23,10 @@ data class Officer(
 	val resignedOn: String? = null,
 	val fromToString: String,
 	val appointmentsId: String, //Not present in the Dto, converted from a url
-) : Parcelable
+)
 
-@Parcelize
-data class OfficerLinks(
-	val officer: OfficerRelatedLinks? = null
-) : Parcelable
+@Serializable
+data class OfficerLinks(val officer: OfficerRelatedLinks? = null)
 
-@Parcelize
-data class OfficerRelatedLinks(
-	val appointments: String? = null
-) : Parcelable
+@Serializable
+data class OfficerRelatedLinks(val appointments: String? = null)

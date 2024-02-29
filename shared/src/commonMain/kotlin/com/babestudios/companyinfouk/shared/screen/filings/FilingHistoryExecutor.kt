@@ -9,13 +9,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FilingHistoryExecutor constructor(
+class FilingHistoryExecutor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.LoadFilingHistory -> {
 				companiesRepository.logScreenView("FilingHistoryFragment")
@@ -24,12 +24,12 @@ class FilingHistoryExecutor constructor(
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
-			is Intent.LoadMoreFilingHistory -> loadMoreFilingHistory(getState)
+			is Intent.LoadMoreFilingHistory -> loadMoreFilingHistory(state())
 			is Intent.FilingHistoryCategorySelected -> fetchFilingHistory(
-				getState().selectedCompanyId,
-				Category.values()[intent.categoryOrdinal]
+				state().selectedCompanyId,
+				Category.entries[intent.categoryOrdinal]
 			)
 		}
 	}
@@ -50,16 +50,15 @@ class FilingHistoryExecutor constructor(
 	}
 
 
-	private fun loadMoreFilingHistory(getState: () -> State) {
-		val showState = getState()
-		if (showState.filingHistory.items.size < showState.filingHistory.totalCount) {
+	private fun loadMoreFilingHistory(state: State) {
+		if (state.filingHistory.items.size < state.filingHistory.totalCount) {
 			scope.launch {
 				val filingHistory = companiesRepository.getFilingHistory(
-					showState.selectedCompanyId,
-					showState.filingCategoryFilter,
-					(showState.filingHistory.items.size).toString()
+					state.selectedCompanyId,
+					state.filingCategoryFilter,
+					(state.filingHistory.items.size).toString()
 				)
-				dispatch(Message.LoadMoreFilingHistoryMessage(filingHistory, showState.selectedCompanyId))
+				dispatch(Message.LoadMoreFilingHistoryMessage(filingHistory, state.selectedCompanyId))
 			}
 		}
 	}

@@ -12,13 +12,13 @@ dependencies {
 	api(libs.kotlinx.coroutines.core) //Transitive
 
 	implementation(libs.androidx.appcompat)
-	implementation(libs.decompose.core)
-	implementation(libs.decompose.extensionsJetpack)
-	implementation(libs.decompose.extensionsJetBrains)
 	implementation(libs.androidx.activity.compose)
-	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.androidx.compose.foundation) //Transitive
+	implementation(libs.androidx.compose.animation.core) //Transitive
 	implementation(libs.androidx.constraintLayout.compose)
+	implementation(libs.androidx.compose.foundation) //Transitive
+	implementation(libs.decompose.extensions)
+	implementation(libs.decompose.core)
+	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.view.collapsingToolbar)
 }
 

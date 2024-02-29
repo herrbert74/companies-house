@@ -13,6 +13,3 @@ class AndroidPlatform : Platform, KoinComponent {
 }
 
 actual fun getPlatform(): Platform = AndroidPlatform()
-
-actual typealias Parcelable = android.os.Parcelable
-actual typealias Parcelize = kotlinx.parcelize.Parcelize

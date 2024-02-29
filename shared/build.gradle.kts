@@ -13,9 +13,7 @@ buildscript {
 plugins {
 	kotlin("multiplatform")
 	id("com.android.library")
-	id("kotlin-parcelize")
 	kotlin("plugin.serialization") version libs.versions.kotlin
-	alias(libs.plugins.parcelize.darwin)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
 	alias(libs.plugins.touchlab.skie)
@@ -69,44 +67,38 @@ kotlin {
 
 				api(libs.baBeStudios.base.data)
 				api(libs.baBeStudios.base.kotlin)
+				api(libs.essenty.lifecycle)
 
 				implementation(libs.decompose.core)
+				implementation(libs.essenty.backHandler)
+				implementation(libs.essenty.instanceKeeper)
+				implementation(libs.essenty.stateKeeper)
+				implementation(libs.klock)
+				//implementation(libs.koin.android)
 				implementation(libs.koin.core)
-				implementation(libs.kotlin.parcelize.runtime) //Transitive
 				implementation(libs.kotlinx.coroutines.core)
 				implementation(libs.kotlinx.serialization.core) //Transitive
 				implementation(libs.kotlinResult.result)
-
-				//Data
-				implementation(libs.kotlinResult.result)
-				implementation(libs.koin.core)
 				implementation(libs.ktor.client.core)
 				implementation(libs.ktor.client.content.negotiation)
 				implementation(libs.ktor.client.logging)
+				implementation(libs.ktor.io) //Transitive
 				implementation(libs.ktor.http) //Transitive
 				implementation(libs.ktor.serialization) //Transitive
 				implementation(libs.ktor.utils) //Transitive
 				implementation(libs.ktor.serialization.kotlinx.json)
+				implementation(libs.ktorfit.annotations)
 				implementation(libs.ktorfit.lib)
+				implementation(libs.ktorfit.lib.light)
 				implementation(libs.kotlinx.serialization.json)
 				implementation(libs.mvikotlin.core)
 				implementation(libs.mvikotlin.coroutines)
 				implementation(libs.mvikotlin.main)
-				implementation(libs.mvikotlin.rx)
 				implementation(libs.mvikotlin.logging)
 				implementation(libs.logging)
 				implementation(libs.uriKmp)
 				implementation(libs.multiplatformSettings.core)
 				implementation(libs.multiplatformSettings.noargs)
-
-//
-//				testImplementation(libs.bundles.mockk.unit)
-//
-//				testImplementation(libs.kotlinx.coroutines.test)
-//				testImplementation(libs.ktor.client.mock)
-//				testImplementation(libs.test.jUnit)
-//				testImplementation(libs.test.kotest.assertions.core)
-//				testImplementation(libs.test.kotest.assertions.shared)
 
 			}
 		}
@@ -114,6 +106,7 @@ kotlin {
 			dependencies {
 				implementation(kotlin("test"))
 
+				implementation(libs.test.jUnit)
 				implementation(libs.test.kotest.assertions.core)
 				implementation(libs.test.kotest.assertions.shared)
 				implementation(libs.kotlinx.coroutines.test)
@@ -128,19 +121,22 @@ kotlin {
 
 			dependencies {
 
-				//data
+				api(libs.squareUp.okhttp3.okhttp)
+
 				implementation(libs.koin.core)
 				implementation(libs.koin.android)
 				implementation(project.dependencies.platform(libs.google.firebase.bom))
 				implementation(libs.google.firebase.analytics)
-
-				api(libs.squareUp.okhttp3.okhttp)
-				//implementation(libs.kotlinx.coroutines.core)
 				implementation(libs.ktor.client.okhttp)
+				implementation(libs.test.jUnit)
 
 			}
 		}
-		val androidUnitTest by getting
+		val androidUnitTest by getting {
+			dependencies {
+				implementation(libs.test.jUnit)
+			}
+		}
 		val iosX64Main by getting
 		val iosArm64Main by getting
 		val iosSimulatorArm64Main by getting
@@ -151,7 +147,6 @@ kotlin {
 			iosSimulatorArm64Main.dependsOn(this)
 
 			dependencies {
-				implementation(libs.parcelize.darwin.runtime)
 				api(libs.decompose.core)
 				api(libs.mvikotlin.core)
 				api(libs.essenty.lifecycle)
@@ -205,7 +200,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
 	}
 	//Work around for Cannot change attributes of dependency configuration ... after it has been resolved
 	//https://stackoverflow.com/questions/72471375/cannot-change-attributes-of-dependency-configuration-appreleaseunittestcompil
-	if(name != "kspCommonMainKotlinMetadata") {
+	if (name != "kspCommonMainKotlinMetadata") {
 		dependsOn("kspCommonMainKotlinMetadata")
 	}
 }
@@ -224,4 +219,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
 //https://github.com/google/ksp/issues/567
 kotlin.sourceSets.commonMain {
 	kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+}
+
+//https://youtrack.jetbrains.com/issue/KT-61573
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
+	kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
 }

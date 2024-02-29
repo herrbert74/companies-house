@@ -17,8 +17,7 @@ dependencies {
 	implementation(libs.androidx.compose.foundation) //Transitive
 	implementation(libs.baBeStudios.base.android)
 	implementation(libs.decompose.core)
-	implementation(libs.decompose.extensionsJetpack)
-	implementation(libs.decompose.extensionsJetBrains)
+	implementation(libs.decompose.extensions)
 	implementation(libs.androidx.activity.compose)
 	implementation(libs.view.collapsingToolbar)
 

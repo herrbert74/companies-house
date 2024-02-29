@@ -14,7 +14,7 @@ buildscript {
 @Suppress("DSL_SCOPE_VIOLATION") //https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
 	alias(libs.plugins.crashlytics) apply false
-	id("scabbard.gradle") version "0.5.0"
+	//id("scabbard.gradle") version "0.5.0"
 
 	//We apply it in BaBeStudiosAndroidPlugin -> detekt.gradle
 	alias(libs.plugins.detekt) apply false
@@ -26,12 +26,12 @@ plugins {
 	 * TLDR: Enable them by running the task like this:
 	 * ./gradlew dependencyUpdates -PBEN_MANES_VERSIONS_ENABLED=true --no-configuration-cache
 	 * ./gradlew buildHealth -PDEPENDENCY_ANALYSIS_ENABLED=true --no-configuration-cache
-	 * ./gradlew assembleMirrorDebug -PGRADLE_DOCTOR_ENABLED=true
+	 * ./gradlew assembleDebug -PGRADLE_DOCTOR_ENABLED=true
 	 * ./gradlew projectDependencyGraph -PPROJECT_DEPENDENCY_GRAPH_ENABLED=true
 	 */
 	alias(libs.plugins.versions) apply false
 	//Capability conflicts with Skie!!!
-	alias(libs.plugins.dependencyAnalysis) apply false
+	alias(libs.plugins.dependencyAnalysis) apply true
 	alias(libs.plugins.gradleDoctor) apply false
 }
 
@@ -94,59 +94,39 @@ tasks.withType<DependencyUpdatesTask> {
 
 // endregion
 
-scabbard {
-	enabled = true
-}
+//scabbard {
+//	enabled = true
+//}
 
 //Only works if applied :(
-//dependencyAnalysis {
-//	issues {
-//		all {
-//			onAny {
-//				exclude(
-//					"io.mockk:mockk-android", //Wants to remove it
-//					"org.lighthousegames:logging", //Not used everywhere yet, but occasionally needed
+dependencyAnalysis {
+	issues {
+		all {
+			onAny {
+				exclude(
+					"org.jetbrains.kotlin:kotlin-stdlib", //This might be a bug from the plugin
+					"io.mockk:mockk-android", //Wants to remove it
+					"org.lighthousegames:logging", //Not used everywhere yet, but occasionally needed
 //					"com.arkivanov.decompose:decompose",
 //					"com.arkivanov.decompose:decompose-android-debug",
 //					"com.arkivanov.decompose:decompose-android",
-//					"com.arkivanov.mvikotlin:mvikotlin",
-//					"com.arkivanov.mvikotlin:mvikotlin-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-android",
-//					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines",
-//					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines-android",
-//					"com.arkivanov.mvikotlin:mvikotlin-logging",
-//					"com.arkivanov.mvikotlin:mvikotlin-logging-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-logging-android",
-//					"com.arkivanov.mvikotlin:mvikotlin-main",
-//					"com.arkivanov.mvikotlin:mvikotlin-main-android-debug",
-//					"com.arkivanov.mvikotlin:mvikotlin-main-android",
-//					"com.arkivanov.mvikotlin:rx",
-//					"com.arkivanov.mvikotlin:rx-android-debug",
-//					"com.arkivanov.mvikotlin:rx-android",
 //					"com.arkivanov.decompose:extensions-compose-jetbrains",
 //					"com.arkivanov.decompose:extensions-compose-jetbrains-android-debug",
 //					"com.arkivanov.decompose:extensions-compose-jetbrains-android",
 //					"com.arkivanov.decompose:extensions-compose-jetpack",
 //					"com.arkivanov.decompose:extensions-compose-jetpack-android-debug",
 //					"com.arkivanov.decompose:extensions-compose-jetpack-android",
-//					"com.arkivanov.essenty:back-handler",
-//					"com.arkivanov.essenty:back-handler-android-debug",
-//					"com.arkivanov.essenty:back-handler-android",
-//					"com.arkivanov.essenty:instance-keeper",
-//					"com.arkivanov.essenty:instance-keeper-android-debug",
-//					"com.arkivanov.essenty:instance-keeper-android",
-//					"com.arkivanov.essenty:lifecycle",
-//					"com.arkivanov.essenty:lifecycle-android-debug",
-//					"com.arkivanov.essenty:lifecycle-android",
-//					"com.arkivanov.essenty:state-keeper",
-//					"com.arkivanov.essenty:state-keeper-android-debug",
-//					"com.arkivanov.essenty:state-keeper-android"
-//				)
-//			}
-//		}
-//	}
-//}
+					"com.eygraber:uri-kmp-android-debug",
+					"org.lighthousegames:logging-android-debug",
+					"de.jensklingenberg.ktorfit:ktorfit-annotations-android-debug",
+					"de.jensklingenberg.ktorfit:ktorfit-lib-light-android-debug",
+					"com.russhwolf:multiplatform-settings-android-debug",
+					"com.russhwolf:multiplatform-settings-no-arg-android-debug",
+				)
+			}
+		}
+	}
+}
 
 apply(teamPropsFile("git-hooks.gradle"))
 apply(teamPropsFile("setup-root-tasks.gradle"))

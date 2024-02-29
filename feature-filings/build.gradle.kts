@@ -9,13 +9,13 @@ dependencies {
 
 	implementation(platform(libs.androidx.compose.bom))
 
+	api(libs.androidx.activity.activity) //Transitive
 	api(libs.androidx.activity.compose)
-	api(libs.androidx.appcompat)
 	api(libs.androidx.compose.runtime) //Transitive
 	api(libs.kotlinx.coroutines.core) //Transitive
 	api(libs.squareUp.okhttp3.okhttp)
+	api(libs.view.collapsingToolbar)
 
-	implementation(libs.androidx.activity.activity) //Transitive
 	implementation(libs.androidx.constraintLayout.compose)
 	implementation(libs.androidx.compose.animation.core) //Transitive
 	implementation(libs.androidx.compose.foundation) //Transitive
@@ -24,11 +24,9 @@ dependencies {
 	implementation(libs.androidx.compose.runtime.saveable) //Transitive
 	implementation(libs.androidx.core) //Transitive
 	implementation(libs.decompose.core)
-	implementation(libs.decompose.extensionsJetBrains)
-	implementation(libs.decompose.extensionsJetpack)
+	implementation(libs.decompose.extensions)
 	implementation(libs.uriKmp)
 	implementation(libs.ktor.client.core)
-	implementation(libs.view.collapsingToolbar)
 
 }
 

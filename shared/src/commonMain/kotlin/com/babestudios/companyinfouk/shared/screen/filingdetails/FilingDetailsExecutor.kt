@@ -10,16 +10,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FilingDetailsExecutor constructor(
+class FilingDetailsExecutor(
 	private val companiesRepository: CompaniesDocumentRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, Nothing, State, Message, Nothing>(mainContext) {
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
-			is Intent.FetchDocument -> fetchDocument(getState())
-			is Intent.WriteDocument -> writeDocument(getState().downloadedPdfResponseBody!!, intent.uri)
+			is Intent.FetchDocument -> fetchDocument(state())
+			is Intent.WriteDocument -> writeDocument(state().downloadedPdfResponseBody!!, intent.uri)
 		}
 	}
 

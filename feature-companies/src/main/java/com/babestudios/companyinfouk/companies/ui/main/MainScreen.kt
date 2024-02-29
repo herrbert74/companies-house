@@ -52,7 +52,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
@@ -439,8 +439,8 @@ fun MainListPreview() {
 					companyStatus = "active"
 				),
 				CompanySearchResultItem(
-					title = "ALPHABET ACCOUNTANTS LTD",
-					description = "07620277 - Incorporated on  3 May 2011",
+					title = "ALPHABET ACCOUNTANTS LTD 2",
+					description = "07620278 - Incorporated on  3 May 2011",
 					addressSnippet = "16 Anchor Street, Chelmsford, CM2 0JY",
 					companyStatus = "active"
 				)

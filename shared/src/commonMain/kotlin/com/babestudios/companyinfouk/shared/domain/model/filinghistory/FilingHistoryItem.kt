@@ -1,9 +1,8 @@
 package com.babestudios.companyinfouk.shared.domain.model.filinghistory
 
-import com.babestudios.companyinfouk.shared.Parcelable
-import com.babestudios.companyinfouk.shared.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class FilingHistoryItem(
 	val date: String = "",
 	val type: String = "",
@@ -12,4 +11,4 @@ data class FilingHistoryItem(
 	val subcategory: String? = null,
 	val description: String = "",
 	val pages: Int = 0,
-) : Parcelable
+)

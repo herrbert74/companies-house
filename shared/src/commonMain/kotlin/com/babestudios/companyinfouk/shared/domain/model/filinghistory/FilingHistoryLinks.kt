@@ -1,10 +1,9 @@
 package com.babestudios.companyinfouk.shared.domain.model.filinghistory
 
-import com.babestudios.companyinfouk.shared.Parcelable
-import com.babestudios.companyinfouk.shared.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class FilingHistoryLinks(
 		val documentMetadata: String = "",
 		val self: String = "",
-) : Parcelable
+)

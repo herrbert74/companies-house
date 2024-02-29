@@ -1,9 +1,8 @@
 package com.babestudios.companyinfouk.shared.domain.model.charges
 
-import com.babestudios.companyinfouk.shared.Parcelable
-import com.babestudios.companyinfouk.shared.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 class Particulars(
 	var containsFixedCharge: Boolean? = false,
 	var containsFloatingCharge: Boolean? = false,
@@ -11,4 +10,4 @@ class Particulars(
 	var description: String = "",
 	var floatingChargeCoversAll: Boolean? = false,
 	var type: String = ""
-) : Parcelable
+)

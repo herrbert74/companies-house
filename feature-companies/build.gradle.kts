@@ -14,13 +14,13 @@ dependencies {
 
 	implementation(libs.baBeStudios.base.android)
 	implementation(libs.androidx.activity.compose)
+	implementation(libs.androidx.compose.animation.core) //Transitive
 	implementation(libs.androidx.compose.foundation) //Transitive
 	implementation(libs.androidx.compose.material.icons.core) //Transitive
 	implementation(libs.androidx.compose.runtime.saveable) //Transitive
 	implementation(libs.androidx.constraintLayout.compose)
 	implementation(libs.decompose.core)
-	implementation(libs.decompose.extensionsJetpack)
-	implementation(libs.decompose.extensionsJetBrains)
+	implementation(libs.decompose.extensions)
 	implementation(libs.google.play.services.maps)
 	implementation(libs.google.play.services.maps.compose)
 	implementation(libs.view.collapsingToolbar)

@@ -18,43 +18,37 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainExecutor constructor(
+class MainExecutor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, SideEffect>(mainContext) {
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.ShowRecentSearches -> {
 				companiesRepository.logScreenView("Main")
-				if (getState().searchQuery == null)
+				if (state().searchQuery == null)
 					showRecentSearches()
 				else
-					getState().searchQuery?.let { onSearchQueryChanged(it, getState) }
+					state().searchQuery?.let { onSearchQueryChanged(it, state()) }
 			}
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
 			Intent.ShowRecentSearches -> showRecentSearches()
 
 			Intent.ClearRecentSearchesClicked ->
-				if (getState().searchHistoryItems.isNotEmpty()) publish(SideEffect.ShowDeleteRecentSearchesDialog)
+				if (state().searchHistoryItems.isNotEmpty()) publish(SideEffect.ShowDeleteRecentSearchesDialog)
 
 			Intent.ClearRecentSearches -> clearRecentSearches()
-
-			is Intent.SearchQueryChanged -> onSearchQueryChanged(intent.queryText, getState)
-			is Intent.LoadMoreSearch -> loadMoreSearch(getState)
+			is Intent.SearchQueryChanged -> onSearchQueryChanged(intent.queryText, state())
+			is Intent.LoadMoreSearch -> loadMoreSearch(state())
 			is Intent.SearchItemClicked -> searchItemClicked(intent.name, intent.number)
 			is Intent.SetFilterState -> dispatch(Message.SetFilterState(intent.filterState))
-
-			is Intent.SetSearchMenuItemExpanded -> {
-				if (getState().searchQuery == null)
-					dispatch(SetSearchMenuItemExpanded)
-			}
-
+			is Intent.SetSearchMenuItemExpanded -> if (state().searchQuery == null) dispatch(SetSearchMenuItemExpanded)
 			is Intent.SetSearchMenuItemCollapsed -> dispatch(SetSearchMenuItemCollapsed)
 		}
 	}
@@ -92,9 +86,9 @@ class MainExecutor constructor(
 
 	//region Search
 
-	private fun onSearchQueryChanged(queryText: String?, getState: () -> State) {
+	private fun onSearchQueryChanged(queryText: String?, state: State) {
 		when {
-			isComingBackFromCompanyScreen(queryText, getState) || getState().searchQuery == null -> return
+			isComingBackFromCompanyScreen(queryText, state) || state.searchQuery == null -> return
 			queryText != null && queryText.length > 2 -> search(queryText)
 			else -> {
 				dispatch(
@@ -107,8 +101,8 @@ class MainExecutor constructor(
 		}
 	}
 
-	private fun isComingBackFromCompanyScreen(newQueryText: String?, getState: () -> State) =
-		getState().searchQuery != null && getState().searchQuery == newQueryText
+	private fun isComingBackFromCompanyScreen(newQueryText: String?, state: State) =
+		state.searchQuery != null && state.searchQuery == newQueryText
 
 	fun search(queryText: String) {
 		companiesRepository.logSearch(queryText)
@@ -125,8 +119,7 @@ class MainExecutor constructor(
 		}
 	}
 
-	private fun loadMoreSearch(getState: () -> State) {
-		val state = getState()
+	private fun loadMoreSearch(state: State) {
 		if (state.searchResults.size < state.totalResults) {
 			scope.launch(ioContext) {
 				val searchQuery = state.searchQuery

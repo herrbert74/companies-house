@@ -9,22 +9,22 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CompanyExecutor constructor(
+class CompanyExecutor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.LoadCompany -> fetchCompany(action.companyId)
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
 			Intent.FabFavouritesClicked ->
-				flipCompanyFavoriteState(getState().companyId, getState().company.companyName)
+				flipCompanyFavoriteState(state().companyId, state().company.companyName)
 		}
 	}
 

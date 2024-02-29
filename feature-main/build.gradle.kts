@@ -46,15 +46,13 @@ dependencies {
 	implementation(libs.androidx.activity.compose) //Transitive
 	implementation(libs.androidx.compose.animation.core) //Transitive
 	implementation(libs.androidx.compose.ui.ui)
-	implementation(libs.androidx.core) //Transitive
 	implementation(libs.androidx.lifecycle.common) //Transitive
 	implementation(libs.androidx.lifecycle.viewmodel) //Transitive
 	implementation(libs.androidx.savedState) //Transitive
 	implementation(libs.decompose.core)
-	implementation(libs.decompose.extensionsJetBrains)
+	implementation(libs.decompose.extensions)
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)
-	implementation(libs.kotlin.parcelize.runtime) //Transitive
 
 	runtimeOnly(libs.androidx.compose.ui.tooling)
 
@@ -62,7 +60,6 @@ dependencies {
 	//Needed for createComposeRule, NOT ONLY for createAndroidComposeRule, as in the docs
 	debugRuntimeOnly(libs.androidx.compose.ui.testManifest)
 
-	androidTestImplementation(libs.baBeStudios.base.kotlin)
 	androidTestImplementation(libs.google.gson)
 	androidTestImplementation(platform(libs.google.firebase.bom))
 	androidTestImplementation(libs.google.firebase.analytics)
@@ -72,6 +69,7 @@ dependencies {
 	//androidTestImplementation(libs.androidx.test.ext.jUnitKtx) //For ActivityScenario
 	androidTestImplementation(libs.androidx.test.runner)
 	androidTestImplementation(libs.decompose.core)
+	androidTestImplementation(libs.essenty.lifecycle)
 	androidTestImplementation(libs.kotlinResult.result)
 	androidTestImplementation(libs.test.jUnit)
 	androidTestImplementation(libs.bundles.mockk.android)

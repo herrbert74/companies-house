@@ -6,7 +6,6 @@ plugins {
 	id("kotlin-parcelize")
 }
 
-@Suppress("UnstableApiUsage")
 android {
 
 	namespace = "com.babestudios.companyinfouk"
@@ -55,8 +54,6 @@ dependencies {
 
 	runtimeOnly(project(":feature-main"))
 
-	//implementation(libs.decompose.core)
-	//implementation(libs.decompose.extensionsJetBrains)
 	implementation(platform(libs.google.firebase.bom))
 	implementation(libs.google.firebase.crashlytics)
 	implementation(libs.koin.core)

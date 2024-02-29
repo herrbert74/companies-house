@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.shared.domain.model.common
 
-import com.babestudios.companyinfouk.shared.Parcelable
-import com.babestudios.companyinfouk.shared.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
-data class MonthYear(val year: Int?, val month: Int?) : Parcelable
+@Serializable
+data class MonthYear(val year: Int?, val month: Int?)

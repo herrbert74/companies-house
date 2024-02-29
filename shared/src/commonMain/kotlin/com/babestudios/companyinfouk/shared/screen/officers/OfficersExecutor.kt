@@ -8,13 +8,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class OfficersExecutor constructor(
+class OfficersExecutor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.LoadOfficers -> {
 				companiesRepository.logScreenView("OfficersFragment")
@@ -23,9 +23,9 @@ class OfficersExecutor constructor(
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
-			is Intent.LoadMoreOfficers -> loadMoreOfficers(getState)
+			is Intent.LoadMoreOfficers -> loadMoreOfficers(state())
 		}
 	}
 
@@ -40,15 +40,14 @@ class OfficersExecutor constructor(
 		}
 	}
 
-	private fun loadMoreOfficers(getState: () -> State) {
-		val showState = getState()
-		if (showState.officersResponse.items.size < showState.officersResponse.totalResults) {
+	private fun loadMoreOfficers(state: State) {
+		if (state.officersResponse.items.size < state.officersResponse.totalResults) {
 			scope.launch {
 				val officersResponse = companiesRepository.getOfficers(
-					showState.companyId,
-					(showState.officersResponse.items.size).toString()
+					state.companyId,
+					(state.officersResponse.items.size).toString()
 				)
-				dispatch(Message.LoadMoreOfficersMessage(officersResponse, showState.companyId))
+				dispatch(Message.LoadMoreOfficersMessage(officersResponse, state.companyId))
 			}
 		}
 	}

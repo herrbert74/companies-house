@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.shared.domain.model.charges
 
-import com.babestudios.companyinfouk.shared.Parcelable
-import com.babestudios.companyinfouk.shared.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
-data class Transaction(var deliveredOn: String = "", var filingType: String = "") : Parcelable
+@Serializable
+data class Transaction(var deliveredOn: String = "", var filingType: String = "")

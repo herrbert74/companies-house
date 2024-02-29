@@ -21,7 +21,7 @@ class FavouritesExecutor(
 
 	private var removeJob: MutableMap<FavouritesItem, Job> = mutableMapOf()
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.LoadFavourites -> {
 				companiesRepository.logScreenView("FavouritesFragment")
@@ -30,10 +30,10 @@ class FavouritesExecutor(
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
 			is Intent.InitPendingRemoval -> {
-				val favourites = getState().favourites.toMutableList()
+				val favourites = state().favourites.toMutableList()
 				val itemCopy = favourites[favourites.indexOf(intent.favouritesItem)].copy(isPendingRemoval = true)
 				favourites[favourites.indexOf(intent.favouritesItem)] = itemCopy
 				dispatch(Message.UpdateFavourites(favourites.toList()))
@@ -42,7 +42,7 @@ class FavouritesExecutor(
 
 			is Intent.CancelPendingRemoval -> {
 				removeJob[intent.favouritesItem]?.cancel()
-				val favourites = getState().favourites.toMutableList()
+				val favourites = state().favourites.toMutableList()
 				val itemCopy = favourites[favourites.indexOf(intent.favouritesItem)].copy(isPendingRemoval = false)
 				favourites[favourites.indexOf(intent.favouritesItem)] = itemCopy
 				dispatch(Message.UpdateFavourites(favourites.toList()))

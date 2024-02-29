@@ -8,13 +8,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AppointmentsExecutor constructor(
+class AppointmentsExecutor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.LoadAppointments -> {
 				companiesRepository.logScreenView("AppointmentsFragment")
@@ -23,9 +23,9 @@ class AppointmentsExecutor constructor(
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
-			is Intent.LoadMoreAppointments -> loadMoreAppointments(getState)
+			is Intent.LoadMoreAppointments -> loadMoreAppointments(state())
 		}
 	}
 
@@ -40,13 +40,12 @@ class AppointmentsExecutor constructor(
 		}
 	}
 
-	private fun loadMoreAppointments(getState: () -> State) {
-		val showState = getState()
-		if (showState.appointmentsResponse.items.size < showState.appointmentsResponse.totalResults) {
+	private fun loadMoreAppointments(state: State) {
+		if (state.appointmentsResponse.items.size < state.appointmentsResponse.totalResults) {
 			scope.launch {
 				val appointmentsResponse = companiesRepository.getOfficerAppointments(
-					showState.selectedOfficer.appointmentsId,
-					(showState.appointmentsResponse.items.size).toString()
+					state.selectedOfficer.appointmentsId,
+					(state.appointmentsResponse.items.size).toString()
 				)
 				dispatch(Message.LoadMoreAppointmentsMessage(appointmentsResponse))
 			}

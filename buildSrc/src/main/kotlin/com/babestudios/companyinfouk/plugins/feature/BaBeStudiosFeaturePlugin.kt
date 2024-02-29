@@ -50,14 +50,10 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 			libs.findLibrary("baBeStudios.base.compose").ifPresent { add("implementation", it) }
 			libs.findLibrary("baBeStudios.base.kotlin").ifPresent { add("testImplementation", it) }
 
-			//LifeCycle, LifecycleOwner, RepeatOnLifecycle; NOT USED for now
-			//libs.findLibrary("androidx.lifecycle.runtimeKtx").ifPresent { add("implementation", it) }
-
 			libs.findLibrary("kotlinResult.result").ifPresent { add("implementation", it) }
 
 			libs.findLibrary("mvikotlin.main").ifPresent { add("implementation", it) }
-			libs.findLibrary("mvikotlin.rx").ifPresent { add("implementation", it) }
-			libs.findLibrary("mvikotlin.logging").ifPresent { add("implementation", it) }
+			libs.findLibrary("essenty.lifecycle").ifPresent { add("implementation", it) }
 
 			libs.findLibrary("androidx.compose.ui.ui").ifPresent { add("implementation", it) }
 			libs.findLibrary("androidx.compose.ui.graphics").ifPresent { add("implementation", it) }

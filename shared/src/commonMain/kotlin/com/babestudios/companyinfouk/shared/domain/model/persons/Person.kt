@@ -1,11 +1,10 @@
 package com.babestudios.companyinfouk.shared.domain.model.persons
 
-import com.babestudios.companyinfouk.shared.Parcelable
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
-import com.babestudios.companyinfouk.shared.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class Person(
 	val notifiedOn: String,
 	val ceasedOn: String? = null,
@@ -17,13 +16,13 @@ data class Person(
 	val nationality: String? = null,
 	val name: String,
 	val identification: Identification? = null,
-) : Parcelable
+)
 
-@Parcelize
+@Serializable
 data class Identification(
 	val countryRegistered: String? = null,
 	val legalAuthority: String,
 	val legalForm: String,
 	val placeRegistered: String? = null,
 	val registrationNumber: String? = null,
-) : Parcelable
+)

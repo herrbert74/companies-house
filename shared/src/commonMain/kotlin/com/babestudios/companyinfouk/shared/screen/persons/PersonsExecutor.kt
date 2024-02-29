@@ -8,13 +8,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PersonsExecutor constructor(
+class PersonsExecutor(
 	private val companiesRepository: CompaniesRepository,
 	val mainContext: CoroutineDispatcher,
 	private val ioContext: CoroutineDispatcher,
 ) : CoroutineExecutor<Intent, BootstrapIntent, State, Message, Nothing>(mainContext) {
 
-	override fun executeAction(action: BootstrapIntent, getState: () -> State) {
+	override fun executeAction(action: BootstrapIntent) {
 		when (action) {
 			is BootstrapIntent.LoadPersons -> {
 				companiesRepository.logScreenView("PersonsFragment")
@@ -23,9 +23,9 @@ class PersonsExecutor constructor(
 		}
 	}
 
-	override fun executeIntent(intent: Intent, getState: () -> State) {
+	override fun executeIntent(intent: Intent) {
 		when (intent) {
-			is Intent.LoadMorePersons -> loadMorePersons(getState)
+			is Intent.LoadMorePersons -> loadMorePersons(state())
 		}
 	}
 
@@ -41,15 +41,14 @@ class PersonsExecutor constructor(
 	}
 
 
-	private fun loadMorePersons(getState: () -> State) {
-		val showState = getState()
-		if (showState.personsResponse.items.size < showState.personsResponse.totalResults) {
+	private fun loadMorePersons(state: State) {
+		if (state.personsResponse.items.size < state.personsResponse.totalResults) {
 			scope.launch {
 				val personsResponse = companiesRepository.getPersons(
-					showState.companyId,
-					(showState.personsResponse.items.size).toString()
+					state.companyId,
+					(state.personsResponse.items.size).toString()
 				)
-				dispatch(Message.LoadMorePersonsMessage(personsResponse, showState.companyId))
+				dispatch(Message.LoadMorePersonsMessage(personsResponse, state.companyId))
 			}
 		}
 	}
