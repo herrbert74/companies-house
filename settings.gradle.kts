@@ -22,11 +22,26 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-	repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 	repositories {
-		mavenLocal()
 		mavenCentral()
-		google()
+		exclusiveContent {
+			forRepository { google() }
+			filter {
+				includeGroupAndSubgroups("androidx")
+				includeGroupAndSubgroups("com.android")
+				includeGroupAndSubgroups("com.google.android")
+				includeGroup("com.google.firebase")
+				includeGroup("com.google.testing.platform")
+			}
+		}
+
+		exclusiveContent {
+			forRepository { mavenLocal() }
+			filter {
+				includeGroup("com.babestudios")
+			}
+		}
 		maven("https://jitpack.io")
 		maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 	}
