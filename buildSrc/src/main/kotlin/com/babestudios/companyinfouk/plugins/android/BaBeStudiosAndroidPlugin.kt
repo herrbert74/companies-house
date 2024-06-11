@@ -33,11 +33,11 @@ open class BaBeStudiosAndroidPlugin : Plugin<Project> {
 		if (androidExtension is BaseExtension) {
 
 			androidExtension.apply {
-				compileSdkVersion(SdkVersions.compileSdkVersion)
+				libs.findVersion("compileSdkVersion").ifPresent { compileSdkVersion(it.toString().toInt()) }
 
 				defaultConfig {
-					minSdk = SdkVersions.minSdkVersion
-					targetSdk = SdkVersions.targetSdkVersion
+					libs.findVersion("minSdkVersion").ifPresent { minSdk = it.toString().toInt() }
+					libs.findVersion("targetSdkVersion").ifPresent { targetSdk = it.toString().toInt() }
 					consumerProguardFiles("consumer-rules.pro")
 				}
 

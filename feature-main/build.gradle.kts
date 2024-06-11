@@ -1,6 +1,7 @@
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
 	id("kotlin-parcelize")
+	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
 }
 
 android {
@@ -8,10 +9,6 @@ android {
 	namespace = "com.babestudios.companyinfouk.main"
 
 	buildFeatures.compose = true
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-	}
 
 	defaultConfig {
 		testInstrumentationRunner = "com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner"

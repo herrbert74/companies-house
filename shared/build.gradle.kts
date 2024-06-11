@@ -1,4 +1,3 @@
-import com.babestudios.companyinfouk.plugins.android.SdkVersions
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 buildscript {
@@ -167,10 +166,10 @@ kotlin {
 android {
 
 	namespace = "com.babestudios.companyinfouk.shared"
-	compileSdk = SdkVersions.compileSdkVersion
+	compileSdk = libs.versions.compileSdkVersion.get().toInt()
 
 	defaultConfig {
-		minSdk = SdkVersions.minSdkVersion
+		minSdk = libs.versions.minSdkVersion.get().toInt()
 	}
 
 	buildFeatures.buildConfig = true
@@ -223,5 +222,5 @@ kotlin.sourceSets.commonMain {
 
 //https://youtrack.jetbrains.com/issue/KT-61573
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
-	kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+	compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
 }

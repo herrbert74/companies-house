@@ -1,11 +1,11 @@
 plugins {
 	id("com.babestudios.companyinfouk.plugins.android")
+	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
 }
 
 android {
 	namespace = "com.babestudios.companyinfouk.common"
 	buildFeatures.compose = true
-	composeOptions.kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 }
 
 dependencies {
@@ -47,5 +47,5 @@ dependencies {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	kotlinOptions.freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+	compilerOptions.freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
 }

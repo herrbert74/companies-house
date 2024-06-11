@@ -34,11 +34,14 @@ fun DependencyHandler.api(
  */
 open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 
-	@Suppress("UnstableApiUsage")
 	override fun apply(project: Project) {
 
 		val catalogs = project.extensions.getByType(VersionCatalogsExtension::class.java)
 		val libs = catalogs.named("libs")
+
+		//TODO How to make this work? It is currently hard coded in the modules
+		//project.pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
+		//project.pluginManager.apply(libs.findPlugin("compose.compiler").get().get().pluginId)
 
 		project.dependencies {
 			add("api", project.project(":shared"))
@@ -83,8 +86,6 @@ open class BaBeStudiosFeaturePlugin : Plugin<Project> {
 
 			androidExtension.apply {
 				buildFeatures.compose = true
-				composeOptions.kotlinCompilerExtensionVersion =
-					libs.findVersion("androidx.compose.compiler").get().toString()
 			}
 		}
 	}
