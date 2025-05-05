@@ -34,7 +34,7 @@ object Libs {
 
 			object ViewModel {
 				const val ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
-				const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha04"
+				const val savedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0"
 			}
 		}
 
