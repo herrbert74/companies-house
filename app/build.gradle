@@ -109,7 +109,7 @@ dependencies {
 	implementation 'com.uber.autodispose:autodispose-ktx:1.2.0'
 	implementation 'com.uber.autodispose:autodispose-lifecycle-ktx:1.2.0'
 	implementation 'com.uber.autodispose:autodispose-android-ktx:1.2.0'
-	implementation 'com.uber.autodispose:autodispose-rxlifecycle:1.4.0'
+	implementation 'com.uber.autodispose:autodispose-rxlifecycle:1.4.1'
 
 	//RxLifeCycle
 	implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
