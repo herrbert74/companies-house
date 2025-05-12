@@ -1,8 +1,8 @@
 android.namespace = "com.babestudios.companyinfouk.officers"
 
 plugins{
-	id("com.babestudios.companyinfouk.plugins.android")
-	id("com.babestudios.companyinfouk.plugins.feature")
+	id("android-library-convention")
+	id("ui-convention")
 	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
 }
 dependencies {

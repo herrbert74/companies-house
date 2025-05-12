@@ -1,6 +1,6 @@
 plugins {
-	id("com.babestudios.companyinfouk.plugins.android")
 	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
+	id("android-library-convention")
 }
 
 android {

@@ -14,11 +14,17 @@ include(":feature-filings")
 include(":shared")
 
 pluginManagement {
+	includeBuild("build-logic")
 	repositories {
 		gradlePluginPortal()
 		google()
 		mavenCentral()
 	}
+}
+
+plugins {
+	//For toolChains
+	id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
 dependencyResolutionManagement {

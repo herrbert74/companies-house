@@ -1,8 +1,11 @@
 plugins {
-	id("com.babestudios.companyinfouk.plugins.android")
+//	id("com.babestudios.companyinfouk.plugins.android")
+	alias(libs.plugins.android.application)
+	id("org.jetbrains.kotlin.android")
+	//alias(libs.plugins.kotlin.multiplatform)
 	id("com.google.firebase.crashlytics")
-	id("com.google.gms.google-services")
-	id("org.jetbrains.kotlin.plugin.allopen")
+//	id("com.google.gms.google-services")
+//	id("org.jetbrains.kotlin.plugin.allopen")
 	id("kotlin-parcelize")
 }
 
@@ -16,6 +19,9 @@ android {
 		applicationId = "com.babestudios.companyinfouk"
 		versionCode = libs.versions.versionCode.get().toInt()
 		versionName = libs.versions.versionName.toString()
+		minSdk = libs.versions.minSdkVersion.get().toInt()
+		compileSdk = libs.versions.compileSdkVersion.get().toInt()
+		targetSdk = libs.versions.targetSdkVersion.get().toInt()
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner = "com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner"
 	}
@@ -46,6 +52,10 @@ android {
 		resources.excludes.add("META-INF/LICENSE-notice.md")
 	}
 
+}
+
+kotlin {
+	jvmToolchain(21)
 }
 
 dependencies {

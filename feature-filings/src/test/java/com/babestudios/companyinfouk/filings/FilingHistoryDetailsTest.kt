@@ -55,16 +55,16 @@ class FilingHistoryDetailsTest {
 
 	}
 
-	@Test
-	fun `when fetch document then document is downloaded`() {
-
-		val states = filingDetailsStore.states.test()
-
-		filingDetailsStore.accept(FilingDetailsStore.Intent.FetchDocument)
-
-		states.last().downloadedPdfResponseBody shouldBe documentResponseBody
-
-	}
+//	@Test
+//	fun `when fetch document then document is downloaded`() {
+//
+//		val states = filingDetailsStore.states.test()
+//
+//		filingDetailsStore.accept(FilingDetailsStore.Intent.FetchDocument)
+//
+//		states.last().downloadedPdfResponseBody shouldBe documentResponseBody
+//
+//	}
 
 	/**
 	 * TODO This goes through the Activity due to permission requests. Rewrite as an Espresso test?

@@ -1,5 +1,5 @@
 plugins {
-	id("com.babestudios.companyinfouk.plugins.android")
+	id("android-library-convention")
 	id("kotlin-parcelize")
 	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
 }

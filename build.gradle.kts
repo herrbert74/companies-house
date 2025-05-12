@@ -1,18 +1,20 @@
-import com.babestudios.companyinfouk.PluginGradleProperty
-import com.babestudios.companyinfouk.script.PropertyResolver
+//import com.babestudios.companyinfouk.PluginGradleProperty
+//import com.babestudios.companyinfouk.script.PropertyResolver
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
-buildscript {
-	dependencies {
-		classpath(libs.androidGradlePlugin)
-		classpath(libs.kotlinPlugin)
-		classpath(libs.kotlinAllOpenPlugin)
-		classpath(libs.googleServicesPlugin)
-	}
-}
+//buildscript {
+//	dependencies {
+//		classpath(libs.androidGradlePlugin)
+//		classpath(libs.kotlinPlugin)
+//		classpath(libs.kotlinAllOpenPlugin)
+//		classpath(libs.googleServicesPlugin)
+//	}
+//}
 
-@Suppress("DSL_SCOPE_VIOLATION") //https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
+	alias(libs.plugins.android.application) apply false
+	alias(libs.plugins.android.library) apply false
+	alias(libs.plugins.kotlin.multiplatform) apply false
 	alias(libs.plugins.crashlytics) apply false
 	//id("scabbard.gradle") version "0.5.0"
 
@@ -31,27 +33,29 @@ plugins {
 	 */
 	alias(libs.plugins.versions) apply false
 	//Capability conflicts with Skie!!!
-	alias(libs.plugins.dependencyAnalysis) apply true
+	alias(libs.plugins.dependency.analysis) apply true
 	alias(libs.plugins.gradleDoctor) apply false
+	//alias(libs.plugins.kotlin.multiplatform) apply false
+//	alias(libs.plugins.android.kotlin.multiplatform.library) apply false
 }
 
-val propertyResolver by extra(PropertyResolver(project))
-
-if (propertyResolver.getBooleanProp(PluginGradleProperty.BEN_MANES_VERSIONS_ENABLED)) {
-	apply(plugin = "com.github.ben-manes.versions")
-}
-
-if (propertyResolver.getBooleanProp(PluginGradleProperty.DEPENDENCY_ANALYSIS_ENABLED)) {
-	apply(plugin = "com.autonomousapps.dependency-analysis")
-}
-
-if (propertyResolver.getBooleanProp(PluginGradleProperty.GRADLE_DOCTOR_ENABLED)) {
-	apply(plugin = "com.osacky.doctor")
-}
-
-if (propertyResolver.getBooleanProp(PluginGradleProperty.PROJECT_DEPENDENCY_GRAPH_ENABLED)) {
-	apply("https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle")
-}
+//val propertyResolver by extra(PropertyResolver(project))
+//
+//if (propertyResolver.getBooleanProp(PluginGradleProperty.BEN_MANES_VERSIONS_ENABLED)) {
+//	apply(plugin = "com.github.ben-manes.versions")
+//}
+//
+//if (propertyResolver.getBooleanProp(PluginGradleProperty.DEPENDENCY_ANALYSIS_ENABLED)) {
+//	apply(plugin = "com.autonomousapps.dependency-analysis")
+//}
+//
+//if (propertyResolver.getBooleanProp(PluginGradleProperty.GRADLE_DOCTOR_ENABLED)) {
+//	apply(plugin = "com.osacky.doctor")
+//}
+//
+//if (propertyResolver.getBooleanProp(PluginGradleProperty.PROJECT_DEPENDENCY_GRAPH_ENABLED)) {
+//	apply("https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle")
+//}
 
 fun teamPropsFile(propsFile: String): File {
 	val teamPropsDir = file("team-props")
