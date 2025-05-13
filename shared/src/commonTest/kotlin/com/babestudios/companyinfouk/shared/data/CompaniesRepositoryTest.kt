@@ -13,6 +13,7 @@ import kotlinx.coroutines.test.runTest
 import org.kodein.mock.Mock
 import org.kodein.mock.Mocker
 import org.kodein.mock.UsesMocks
+import org.kodein.mock.generated.injectMocks
 
 @UsesMocks(CompaniesHouseApi::class, Prefs::class)
 class CompaniesRepositoryTest {
@@ -35,7 +36,7 @@ class CompaniesRepositoryTest {
 	fun setUp() {
 
 		mocker.reset()
-		this.injectMocks(mocker)
+		mocker.injectMocks(this)
 
 		companiesRepository = CompaniesAccessor(
 			mockCompaniesHouseApi,

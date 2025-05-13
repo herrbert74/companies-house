@@ -17,7 +17,7 @@ plugins {
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
 	//alias(libs.plugins.touchlab.skie)
-	//id("org.kodein.mock.mockmp") version libs.versions.mockmp
+	id("org.kodein.mock.mockmp") version libs.versions.mockmp
 	alias(libs.plugins.buildKonfig)
 }
 
@@ -30,12 +30,6 @@ buildkonfig {
 		buildConfigField(STRING, "COMPANIES_HOUSE_API_KEY", companiesHouseApiKey)
 	}
 }
-
-//mockmp {
-//	onTest {
-//		withHelper()
-//	}
-//}
 
 //TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements
 kotlin {
@@ -102,7 +96,6 @@ kotlin {
 				implementation(libs.uriKmp)
 				implementation(libs.multiplatformSettings.core)
 				implementation(libs.multiplatformSettings.noargs)
-
 			}
 		}
 		val commonTest by getting {
@@ -196,6 +189,13 @@ dependencies {
 //	add("kspIosSimulatorArm64", libs.ktorfit.ksp)
 //	add("kspIosX64", libs.ktorfit.ksp)
 }
+
+mockmp {
+	onTest {
+		withHelper()
+	}
+}
+
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
 	if (name.startsWith("compileTestKotlin")) {
 		dependsOn("kspTestKotlinJvm")
