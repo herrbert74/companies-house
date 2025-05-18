@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.companies
+package com.babestudios.companyinfouk.shared.screen.companies
 
 import com.arkivanov.mvikotlin.extensions.coroutines.labels
 import com.arkivanov.mvikotlin.extensions.coroutines.states
@@ -10,23 +10,26 @@ import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesExecutor
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesItem
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStoreFactory
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verify
+import dev.mokkery.verify.VerifyMode.Companion.exactly
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
 import org.lighthousegames.logging.KmLogging
 
 class FavouritesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mock<CompaniesRepository>()
 
 	private lateinit var favouritesExecutor: FavouritesExecutor
 	private lateinit var favouritesStore: FavouritesStore
@@ -38,13 +41,13 @@ class FavouritesTest {
 
 	private val testCoroutineDispatcher = StandardTestDispatcher()
 
-	@Before
+	@BeforeTest
 	fun setUp() {
 		KmLogging.setLoggers()
 		every { companiesHouseRepository.removeFavourite(searchHistoryItemTui) } returns Unit
 		every { companiesHouseRepository.removeFavourite(searchHistoryItemReach) } returns Unit
-		coEvery { companiesHouseRepository.logScreenView(any()) } returns Unit
-		coEvery { companiesHouseRepository.favourites() } returns listOf(searchHistoryItemTui)
+		every { companiesHouseRepository.logScreenView(any()) } returns Unit
+		everySuspend { companiesHouseRepository.favourites() } returns listOf(searchHistoryItemTui)
 
 		favouritesExecutor = FavouritesExecutor(
 			companiesHouseRepository,
@@ -65,28 +68,28 @@ class FavouritesTest {
 		states.last().favourites shouldContain FavouritesItem(searchHistoryItemTui, true)
 
 		advanceUntilIdle()
-		coVerify(exactly = 1) { companiesHouseRepository.removeFavourite(searchHistoryItemTui) }
+		verifySuspend(exactly(1)) { companiesHouseRepository.removeFavourite(searchHistoryItemTui) }
 	}
 
 	@Test
-	fun `when remove multiple favourites the repo removes all of them after delay`()
-	= runTest(testCoroutineDispatcher) {
+	fun `when remove multiple favourites the repo removes all of them after delay`() =
+		runTest(testCoroutineDispatcher) {
 
-		coEvery { companiesHouseRepository.favourites() } returns searchHistoryItems
-		favouritesStore = FavouritesStoreFactory(DefaultStoreFactory(), favouritesExecutor).create()
-		val states = favouritesStore.states.test()
-		advanceUntilIdle()
+			everySuspend { companiesHouseRepository.favourites() } returns searchHistoryItems
+			favouritesStore = FavouritesStoreFactory(DefaultStoreFactory(), favouritesExecutor).create()
+			val states = favouritesStore.states.test()
+			advanceUntilIdle()
 
-		favouritesStore.accept(FavouritesStore.Intent.InitPendingRemoval(FavouritesItem(searchHistoryItemTui)))
-		favouritesStore.accept(FavouritesStore.Intent.InitPendingRemoval(FavouritesItem(searchHistoryItemReach)))
-		states.last().favourites shouldContain FavouritesItem(searchHistoryItemTui, true)
-		states.last().favourites shouldContain FavouritesItem(searchHistoryItemReach, true)
+			favouritesStore.accept(FavouritesStore.Intent.InitPendingRemoval(FavouritesItem(searchHistoryItemTui)))
+			favouritesStore.accept(FavouritesStore.Intent.InitPendingRemoval(FavouritesItem(searchHistoryItemReach)))
+			states.last().favourites shouldContain FavouritesItem(searchHistoryItemTui, true)
+			states.last().favourites shouldContain FavouritesItem(searchHistoryItemReach, true)
 
-		advanceUntilIdle()
-		coVerify(exactly = 1) { companiesHouseRepository.removeFavourite(searchHistoryItemTui) }
-		coVerify(exactly = 1) { companiesHouseRepository.removeFavourite(searchHistoryItemReach) }
+			advanceUntilIdle()
+			verifySuspend(exactly(1)) { companiesHouseRepository.removeFavourite(searchHistoryItemTui) }
+			verifySuspend(exactly(1)) { companiesHouseRepository.removeFavourite(searchHistoryItemReach) }
 
-	}
+		}
 
 	@Test
 	fun `when undo remove favourite the repo does not remove favourite`() = runTest(testCoroutineDispatcher) {
@@ -100,13 +103,13 @@ class FavouritesTest {
 		states.last().favourites shouldContain FavouritesItem(searchHistoryItemTui, false)
 
 		advanceUntilIdle()
-		coVerify(exactly = 0) { companiesHouseRepository.removeFavourite(searchHistoryItemTui) }
+		verifySuspend(exactly(0)) { companiesHouseRepository.removeFavourite(searchHistoryItemTui) }
 	}
 
 	@Test
 	fun `when remove favourite and leaving the screen the repo removes favourite`() = runTest(testCoroutineDispatcher) {
 
-		coEvery { companiesHouseRepository.favourites() } returns searchHistoryItems
+		everySuspend { companiesHouseRepository.favourites() } returns searchHistoryItems
 		favouritesStore = FavouritesStoreFactory(DefaultStoreFactory(), favouritesExecutor).create()
 		val labels = favouritesStore.labels.test()
 		advanceUntilIdle()
@@ -115,7 +118,7 @@ class FavouritesTest {
 		favouritesStore.accept(FavouritesStore.Intent.ExpeditePendingRemovals)
 		advanceUntilIdle()
 
-		verify(exactly = 1) { companiesHouseRepository.removeFavourite(any()) }
+		verify(exactly(1)) { companiesHouseRepository.removeFavourite(any()) }
 		labels.last() shouldBe FavouritesStore.SideEffect.Back
 
 	}

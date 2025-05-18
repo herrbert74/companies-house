@@ -6,21 +6,21 @@ import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Insolvency
 import com.github.michaelbull.result.Ok
+import dev.mokkery.answering.calls
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode.Companion.exactly
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
-import org.kodein.mock.Mock
-import org.kodein.mock.UsesMocks
-import org.kodein.mock.generated.injectMocks
-import org.kodein.mock.tests.TestsWithMocks
 
-@UsesMocks(CompaniesRepository::class)
-class InsolvenciesTest : TestsWithMocks() {
+class InsolvenciesTest {
 
-	@Mock
-	lateinit var companiesHouseRepository: CompaniesRepository
+	private val companiesHouseRepository = mock<CompaniesRepository>()
 
 	private lateinit var insolvenciesExecutor: InsolvenciesExecutor
 
@@ -28,19 +28,15 @@ class InsolvenciesTest : TestsWithMocks() {
 
 	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
-	override fun setUpMocks() = mocker.injectMocks(this)
+	@BeforeTest
+	fun setUp() {
+		every {
+			companiesHouseRepository.logScreenView(any())
+		} calls { }
 
-	override fun initMocksBeforeTest() {
-		super.initMocksBeforeTest()
-		mocker.every {
-			companiesHouseRepository.logScreenView(isAny())
-		} returns Unit
-
-		runBlocking(testCoroutineDispatcher) {
-			mocker.everySuspending {
-				companiesHouseRepository.getInsolvency("123")
-			} returns Ok(Insolvency(cases = emptyList()))
-		}
+		everySuspend {
+			companiesHouseRepository.getInsolvency("123")
+		} calls  { Ok(Insolvency(cases = emptyList())) }
 
 		insolvenciesExecutor = InsolvenciesExecutor(
 			companiesHouseRepository,
@@ -48,20 +44,17 @@ class InsolvenciesTest : TestsWithMocks() {
 			testCoroutineDispatcher
 		)
 
-		insolvenciesStore = InsolvenciesStoreFactory(DefaultStoreFactory(), insolvenciesExecutor)
-			.create(selectedCompanyId = "123")
-
+		insolvenciesStore =
+			InsolvenciesStoreFactory(DefaultStoreFactory(), insolvenciesExecutor).create(
+				selectedCompanyId = "123"
+			)
 	}
 
 	@Test
-	fun `when get insolvencies then repo get insolvencies is called`() = runTest {
-
+	fun `when get insolvencies then repo get insolvencies is called`() {
 		val states = insolvenciesStore.states.test()
 
-		mocker.verifyWithSuspend {
-			companiesHouseRepository.logScreenView(isAny())
-			companiesHouseRepository.getInsolvency("123")
-		}
+		verifySuspend(exactly(1)) { companiesHouseRepository.getInsolvency("123") }
 		states.last().insolvency.cases shouldBe emptyList()
 	}
 

@@ -1,13 +1,11 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 buildscript {
 	repositories {
 		mavenCentral()
 	}
-//	dependencies {
-//		classpath(libs.buildKonfig)
-//	}
 }
 
 plugins {
@@ -16,8 +14,8 @@ plugins {
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
+	alias(libs.plugins.mokkery)
 	//alias(libs.plugins.touchlab.skie)
-	id("org.kodein.mock.mockmp") version libs.versions.mockmp
 	alias(libs.plugins.buildKonfig)
 }
 
@@ -37,7 +35,7 @@ kotlin {
 		languageVersion.set(JavaLanguageVersion.of(21))
 	}
 	androidTarget {
-		compilerOptions{
+		compilerOptions {
 			jvmTarget.set(JvmTarget.JVM_21)
 		}
 	}
@@ -106,12 +104,9 @@ kotlin {
 				implementation(libs.test.kotest.assertions.core)
 				implementation(libs.test.kotest.assertions.shared)
 				implementation(libs.kotlinx.coroutines.test)
-				implementation(libs.test.mockmp.runtime)
-				implementation(libs.test.mockmp.testHelper)
 				implementation(libs.ktor.client.mock)
 
 			}
-			kotlin.srcDir("build/generated/ksp/jvm/jvmTest/kotlin") //for mockmp
 		}
 		val androidMain by getting {
 
@@ -157,6 +152,11 @@ kotlin {
 //			iosArm64Test.dependsOn(this)
 //			iosSimulatorArm64Test.dependsOn(this)
 		}
+
+		all {
+			languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+		}
+
 	}
 }
 
@@ -188,12 +188,6 @@ dependencies {
 //	add("kspIosArm64", libs.ktorfit.ksp)
 //	add("kspIosSimulatorArm64", libs.ktorfit.ksp)
 //	add("kspIosX64", libs.ktorfit.ksp)
-}
-
-mockmp {
-	onTest {
-		withHelper()
-	}
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
@@ -234,4 +228,8 @@ kotlin.sourceSets.commonMain {
 //https://youtrack.jetbrains.com/issue/KT-61573
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
 	compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+	compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
 }

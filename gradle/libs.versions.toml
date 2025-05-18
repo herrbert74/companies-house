@@ -48,7 +48,7 @@ essenty = "2.0.0-alpha07"
 parcelize-darwin = "0.2.3"
 jUnit5 = "5.10.2"
 mockk = "1.13.8" #1.13.4 issue: https://github.com/mockk/mockk/issues/1035
-mockmp = "2.0.2"
+mokkery = "2.7.2"
 kotest = "5.6.2"
 detekt = "1.22.0"
 kotlinResult = "1.1.18"
@@ -324,9 +324,6 @@ test-jUnit5-vintageEngine = { module = "org.junit.jupiter:junit-vintage-engine",
 test-mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 test-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 test-mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
-test-mockmp-runtime = { module = "org.kodein.mock:mockmp-runtime", version.ref = "mockmp" }
-test-mockmp-testHelper = { module = "org.kodein.mock:mockmp-test-helper", version.ref = "mockmp" }
-test-mockmp-processor = { module = "org.kodein.mock:mockmp-processor", version.ref = "mockmp" }
 test-kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 test-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 test-kotest-assertions-shared = { module = "io.kotest:kotest-assertions-shared", version.ref = "kotest" }
@@ -364,7 +361,7 @@ crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.1" }
 #serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 parcelize-darwin = { id = "com.arkivanov.parcelize.darwin", version.ref = "parcelize-darwin" }
-mockmp-core = { id = "org.kodein.mock.mockmp", version.ref = "mockmp" }
+mokkery = { id = "dev.mokkery", version.ref = "mokkery" }
 touchlab-skie = { id = "co.touchlab.skie", version.ref = "skie" }
 realm = { id = "io.realm.kotlin", version.ref = "realm" }
 

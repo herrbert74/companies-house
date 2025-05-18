@@ -5,24 +5,21 @@ import com.babestudios.companyinfouk.shared.data.local.Prefs
 import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
+import dev.mokkery.answering.returns
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
-import org.kodein.mock.Mock
-import org.kodein.mock.Mocker
-import org.kodein.mock.UsesMocks
-import org.kodein.mock.generated.injectMocks
 
-@UsesMocks(CompaniesHouseApi::class, Prefs::class)
 class CompaniesRepositoryTest {
 
-	@Mock
-	lateinit var mockCompaniesHouseApi: CompaniesHouseApi
+	private val mockCompaniesHouseApi = mock<CompaniesHouseApi>()
 
-	@Mock
-	lateinit var mockPrefsAccessor: Prefs
+	private val mockPrefsAccessor = mock<Prefs>()
 
 	private lateinit var companiesRepository: CompaniesRepository
 
@@ -30,13 +27,8 @@ class CompaniesRepositoryTest {
 
 	private val companySearchResult = CompanySearchResult()
 
-	private val mocker = Mocker()
-
 	@BeforeTest
 	fun setUp() {
-
-		mocker.reset()
-		mocker.injectMocks(this)
 
 		companiesRepository = CompaniesAccessor(
 			mockCompaniesHouseApi,
@@ -50,13 +42,13 @@ class CompaniesRepositoryTest {
 	@Test
 	fun `when searchCompanies then calls service and returns result`() = runTest {
 
-		mocker.everySuspending {
+		everySuspend {
 			mockCompaniesHouseApi.searchCompanies("Games", "50", "0")
 		} returns companySearchResult
 
 		val data = companiesRepository.searchCompanies("Games", "0")
 
-		mocker.verifyWithSuspend {
+		verifySuspend {
 			mockCompaniesHouseApi.searchCompanies(
 				"Games",
 				COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE,

@@ -6,8 +6,8 @@ import com.babestudios.companyinfouk.shared.data.CompaniesAccessor
 import com.babestudios.companyinfouk.shared.data.CompaniesDocumentAccessor
 import com.babestudios.companyinfouk.shared.data.local.Prefs
 import com.babestudios.companyinfouk.shared.data.local.PrefsAccessor
-import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
-import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseDocumentApi
+import com.babestudios.companyinfouk.shared.data.network.createCompaniesHouseApi
+import com.babestudios.companyinfouk.shared.data.network.createCompaniesHouseDocumentApi
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.getPlatform
@@ -114,12 +114,12 @@ val dataModule = module {
 
 	single(named("CompaniesHouseApi")) {
 		val ktorfit = Ktorfit.Builder().httpClient(get<HttpClient>(named("CompaniesHouseClient"))).build()
-		ktorfit.create<CompaniesHouseApi>()
+		ktorfit.createCompaniesHouseApi()
 	}
 
 	single(named("CompaniesHouseDocumentApi")) {
 		val ktorfit = Ktorfit.Builder().httpClient(get<HttpClient>(named("CompaniesHouseDocumentClient"))).build()
-		ktorfit.create<CompaniesHouseDocumentApi>()
+		ktorfit.createCompaniesHouseDocumentApi()
 	}
 
 }
