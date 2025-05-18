@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 package com.babestudios.companyinfouk.shared.root
 
 import com.babestudios.companyinfouk.shared.screen.charges.ChargesComponent

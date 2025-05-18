@@ -14,6 +14,7 @@ import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
 import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 
+@Suppress("TooManyFunctions")
 interface CompaniesRepository : AnalyticsContract {
 
 	//Companies House API

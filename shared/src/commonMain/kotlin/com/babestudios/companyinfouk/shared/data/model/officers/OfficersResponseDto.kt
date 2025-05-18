@@ -6,6 +6,7 @@ import com.babestudios.companyinfouk.shared.data.model.common.SelfLinkDataDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Suppress("LongParameterList")
 @Serializable
 class OfficersResponseDto(
 	@SerialName("kind")
@@ -30,6 +31,7 @@ class OfficersResponseDto(
 	var links: SelfLinkDataDto? = null,
 )
 
+@Suppress("LongParameterList")
 @Serializable
 class OfficerDto(
 	@SerialName("address")

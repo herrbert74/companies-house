@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 
+@Suppress("TooManyFunctions")
 interface MainComp {
 
 	fun onItemClicked(companySearchResultItem: CompanySearchResultItem)
@@ -45,6 +46,7 @@ interface MainComp {
 
 }
 
+@Suppress("TooManyFunctions")
 class MainComponent(
 	componentContext: ComponentContext,
 	val mainExecutor: MainExecutor,

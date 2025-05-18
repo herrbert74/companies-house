@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 package com.babestudios.companyinfouk.shared.root
 
 import com.arkivanov.decompose.router.stack.StackNavigation

@@ -4,6 +4,7 @@ import com.babestudios.companyinfouk.shared.data.model.common.AddressDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Suppress("LongParameterList")
 @Serializable
 class CompanyDto(
 

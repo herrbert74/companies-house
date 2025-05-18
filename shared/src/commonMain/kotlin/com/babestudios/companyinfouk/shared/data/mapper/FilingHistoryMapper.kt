@@ -50,6 +50,7 @@ private fun mapFilingHistoryLinks(input: FilingHistoryLinksDto?): FilingHistoryL
 	return FilingHistoryLinks(input?.documentMetadata.orEmpty(), input?.self.orEmpty())
 }
 
+@Suppress("CyclomaticComplexMethod")
 private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 	return when (input) {
 		CategoryDto.CATEGORY_SHOW_ALL -> Category.CATEGORY_SHOW_ALL
