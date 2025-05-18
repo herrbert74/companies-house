@@ -337,7 +337,7 @@ logging = { module = "org.lighthousegames:logging", version.ref = "lighthousegam
 timber = "com.jakewharton.timber:timber:5.0.1"
 inject = "javax.inject:javax.inject:1"
 lottie = "com.airbnb.android:lottie:6.0.1"
-revenueCat = "com.revenuecat.purchases:purchases:6.9.4"
+revenueCat = "com.revenuecat.purchases:purchases:6.9.8"
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
 core = { group = "androidx.test", name = "core", version.ref = "core" }
 
