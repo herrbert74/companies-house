@@ -81,7 +81,7 @@ compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compil
 kotlinPlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinAllOpenPlugin = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 googleServicesPlugin = "com.google.gms:google-services:4.4.2"
-firebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:3.0.1"
+firebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:3.0.3"
 firebaseAppDistributionPlugin = "com.google.firebase:firebase-appdistribution-gradle:5.0.0"
 #google-dagger-hilt-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-dagger" }
 #navigationSafeArgsPlugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
