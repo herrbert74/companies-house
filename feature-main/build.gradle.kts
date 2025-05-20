@@ -2,6 +2,7 @@ plugins {
 	id("android-library-convention")
 	id("kotlin-parcelize")
 	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
+	alias(libs.plugins.mokkery)
 }
 
 android {
@@ -12,6 +13,7 @@ android {
 
 	defaultConfig {
 		testInstrumentationRunner = "com.babestudios.companyinfouk.CompaniesHouseAndroidJUnitRunner"
+		testOptions.targetSdk = libs.versions.targetSdkVersion.get().toInt()
 	}
 
 	packaging {
@@ -69,7 +71,6 @@ dependencies {
 	androidTestImplementation(libs.essenty.lifecycle)
 	androidTestImplementation(libs.kotlinResult.result)
 	androidTestImplementation(libs.test.jUnit)
-	androidTestImplementation(libs.bundles.mockk.android)
 	androidTestImplementation(libs.androidx.compose.ui.test) //Transitive
 	androidTestImplementation(libs.androidx.compose.ui.text) //Transitive
 	androidTestImplementation(libs.androidx.test.ext.jUnit) //Transitive from androidx.compose.ui:ui-test-junit4

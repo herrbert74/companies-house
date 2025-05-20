@@ -16,16 +16,19 @@ import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchRes
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.github.michaelbull.result.Ok
 import com.google.gson.GsonBuilder
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.matcher.eq
+import dev.mokkery.mock
 
 fun mockCompaniesRepository(): CompaniesRepository {
 	val gson = GsonBuilder()
 		.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
 		.create()
 
-	val mockCompaniesRepository = mockk<CompaniesRepository>()
+	val mockCompaniesRepository = mock<CompaniesRepository>()
 
 	mockCompaniesRepository.mockWithFavourites()
 

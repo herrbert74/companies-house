@@ -19,7 +19,8 @@ import com.babestudios.companyinfouk.mock.mockWithEmptyFavourites
 import com.babestudios.companyinfouk.mock.mockWithFavourites
 import com.babestudios.companyinfouk.shared.root.navigation
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
-import io.mockk.coEvery
+import dev.mokkery.answering.returns
+import dev.mokkery.everySuspend
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -102,7 +103,7 @@ class FavouritesFragmentTest : KoinComponent {
 		composeTestRule.onNodeWithText("Acme Painting").performClick()
 		composeTestRule.onNodeWithTag("Fab Favourite").performClick()
 
-		coEvery {
+		everySuspend {
 			companiesRepository.favourites()
 		} returns emptyList()
 
