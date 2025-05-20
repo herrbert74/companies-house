@@ -355,7 +355,7 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "google-dagger" }
-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.1" }
+crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.3" }
 
 # Multiplatform
 #serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
