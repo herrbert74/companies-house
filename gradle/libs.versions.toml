@@ -309,7 +309,7 @@ flowBinding-material = { module = "io.github.reactivecircus.flowbinding:flowbind
 
 view-collapsingToolbar = "me.onebone:toolbar-compose:2.3.5"
 coil = "io.coil-kt:coil-compose:2.6.0"
-klock = "com.soywiz.korlibs.klock:klock:4.0.9"
+klock = "com.soywiz.korlibs.klock:klock:4.0.10"
 
 # Multiplatform
 uriKmp = { module = "com.eygraber:uri-kmp", version.ref = "uri-kmp" }
