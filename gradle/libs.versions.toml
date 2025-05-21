@@ -6,18 +6,18 @@ compileSdkVersion = "35"
 targetSdkVersion = "35"
 androidGradlePlugin = "8.10.0"
 #androidGradlePlugin = "7.3.1" # For IntelliJ plugin runIde
-kotlin = "2.1.20"
+kotlin = "2.1.21"
 #ksp = "2.1.10-1.0.31"
-ksp = "2.1.20-2.0.1"
-coroutines = "1.10.1"
+ksp = "2.1.21-2.0.1"
+coroutines = "1.10.2"
 serialization = "1.6.2"
-kotlinx-collections = "0.3.7"
-androidx-activity = "1.9.0"
-androidx-lifecycle = "2.8.7"
+kotlinx-collections = "0.4.0"
+androidx-activity = "1.10.1"
+androidx-lifecycle = "2.9.0"
 androidx-navigation = "2.7.7"
 androidx-hilt = "1.2.0"
 androidx-work = "2.9.0"
-androidx-test-core = "1.5.0"
+androidx-test-core = "1.6.1"
 androidx-test-rules = "1.5.0"
 androidx-test-runner = "1.5.2"
 androidx-test-espresso = "3.5.1"
@@ -27,7 +27,7 @@ androidx-compose-bom = "2024.05.00"
 #androidx-compose-animation = "1.4.0" #For fixes since the bom
 #androidx-compose-foundation = "1.4.0" #For fixes since the bom
 #androidx-compose-runtime = "1.4.0" #For fixes since the bom
-androidx-compose-ui = "1.6.1" #For fixes since the bom
+androidx-compose-ui = "1.8.2" #For fixes since the bom
 buildKonfig = "0.17.1"
 dependency-analysis = "2.17.0"
 google-dagger = "2.51"
@@ -37,8 +37,8 @@ google-firebase-crashlytics = "18.3.5"
 google-firebase-database = "31.2.3"
 google-firebase-config = "31.2.3"
 jdk = "21"
-moshi = "1.15.1"
-okhttp = "5.0.0-alpha.12"
+moshi = "1.15.2"
+okhttp = "5.0.0-alpha.14"
 retrofit = "2.11.0"
 #facebook = "16.1.2"
 chucker = "4.0.0"
@@ -48,22 +48,22 @@ essenty = "2.0.0-alpha07"
 parcelize-darwin = "0.2.3"
 jUnit5 = "5.10.2"
 mockk = "1.13.8" #1.13.4 issue: https://github.com/mockk/mockk/issues/1035
-mockmp = "2.0.2"
+mokkery = "2.7.2"
 kotest = "5.6.2"
-detekt = "1.22.0"
+detekt = "1.23.8"
 kotlinResult = "1.1.18"
 flowBinding = "1.2.0"
 ktor = "3.1.3"
-ktorfit = "2.5.1"
+ktorfit = "2.5.2"
 koin = "3.5.6"
 lighthousegames-logging = "1.3.0"
 multiplatform-settings = "1.0.0"
 realm = "2.0.0"
 skie = "0.10.1"
-uri-kmp = "0.0.16"
+uri-kmp = "0.0.19"
 
 babestudios-base = "3.1.1"
-kotlinStdlib = "2.1.10"
+kotlinStdlib = "2.1.21"
 core = "1.6.1"
 
 [libraries]
@@ -81,7 +81,7 @@ compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compil
 kotlinPlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinAllOpenPlugin = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "kotlin" }
 googleServicesPlugin = "com.google.gms:google-services:4.4.2"
-firebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:3.0.1"
+firebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:3.0.3"
 firebaseAppDistributionPlugin = "com.google.firebase:firebase-appdistribution-gradle:5.0.0"
 #google-dagger-hilt-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "google-dagger" }
 #navigationSafeArgsPlugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
@@ -117,7 +117,7 @@ androidx-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 androidx-constraintLayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.1.1"
 androidx-core = "androidx.core:core:1.13.1" #Bundle
 androidx-coreKtx = "androidx.core:core-ktx:1.13.1" #Bundle
-androidx-datastore = "androidx.datastore:datastore-preferences:1.1.1"
+androidx-datastore = "androidx.datastore:datastore-preferences:1.1.7"
 androidx-fragmentKtx = "androidx.fragment:fragment-ktx:1.7.1"
 androidx-media = "androidx.media:media:1.7.0"
 androidx-mediaRouter = "androidx.mediarouter:mediarouter:1.7.0"
@@ -197,7 +197,7 @@ google-material = "com.google.android.material:material:1.12.0"
 google-gson = "com.google.code.gson:gson:2.10.1"
 
 google-play-appUpdateKtx = "com.google.android.play:app-update-ktx:2.1.0"
-google-play-services-analytics = "com.google.android.gms:play-services-analytics:18.1.0"
+google-play-services-analytics = "com.google.android.gms:play-services-analytics:18.1.1"
 google-play-services-location = "com.google.android.gms:play-services-location:21.3.0"
 google-play-services-maps = "com.google.android.gms:play-services-maps:18.2.0"
 google-play-services-maps-compose = "com.google.maps.android:maps-compose:2.11.4"
@@ -324,9 +324,6 @@ test-jUnit5-vintageEngine = { module = "org.junit.jupiter:junit-vintage-engine",
 test-mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 test-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 test-mockk-dsl = { module = "io.mockk:mockk-dsl", version.ref = "mockk" }
-test-mockmp-runtime = { module = "org.kodein.mock:mockmp-runtime", version.ref = "mockmp" }
-test-mockmp-testHelper = { module = "org.kodein.mock:mockmp-test-helper", version.ref = "mockmp" }
-test-mockmp-processor = { module = "org.kodein.mock:mockmp-processor", version.ref = "mockmp" }
 test-kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 test-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 test-kotest-assertions-shared = { module = "io.kotest:kotest-assertions-shared", version.ref = "kotest" }
@@ -340,7 +337,7 @@ logging = { module = "org.lighthousegames:logging", version.ref = "lighthousegam
 timber = "com.jakewharton.timber:timber:5.0.1"
 inject = "javax.inject:javax.inject:1"
 lottie = "com.airbnb.android:lottie:6.0.1"
-revenueCat = "com.revenuecat.purchases:purchases:6.9.4"
+revenueCat = "com.revenuecat.purchases:purchases:6.9.8"
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
 core = { group = "androidx.test", name = "core", version.ref = "core" }
 
@@ -358,13 +355,13 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "google-dagger" }
-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.1" }
+crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.3" }
 
 # Multiplatform
 #serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 parcelize-darwin = { id = "com.arkivanov.parcelize.darwin", version.ref = "parcelize-darwin" }
-mockmp-core = { id = "org.kodein.mock.mockmp", version.ref = "mockmp" }
+mokkery = { id = "dev.mokkery", version.ref = "mokkery" }
 touchlab-skie = { id = "co.touchlab.skie", version.ref = "skie" }
 realm = { id = "io.realm.kotlin", version.ref = "realm" }
 

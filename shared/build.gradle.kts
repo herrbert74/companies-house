@@ -5,9 +5,6 @@ buildscript {
 	repositories {
 		mavenCentral()
 	}
-//	dependencies {
-//		classpath(libs.buildKonfig)
-//	}
 }
 
 plugins {
@@ -16,9 +13,10 @@ plugins {
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
+	alias(libs.plugins.mokkery)
 	//alias(libs.plugins.touchlab.skie)
-	//id("org.kodein.mock.mockmp") version libs.versions.mockmp
 	alias(libs.plugins.buildKonfig)
+	alias(libs.plugins.detekt)
 }
 
 val companiesHouseApiKey: String by project
@@ -31,11 +29,14 @@ buildkonfig {
 	}
 }
 
-//mockmp {
-//	onTest {
-//		withHelper()
-//	}
-//}
+detekt {
+	source.setFrom(
+		"src/commonMain/kotlin",
+		"src/commonTest/kotlin",
+		"src/androidMain/kotlin",
+		"src/iosMain/kotlin",
+	)
+}
 
 //TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements
 kotlin {
@@ -43,7 +44,7 @@ kotlin {
 		languageVersion.set(JavaLanguageVersion.of(21))
 	}
 	androidTarget {
-		compilerOptions{
+		compilerOptions {
 			jvmTarget.set(JvmTarget.JVM_21)
 		}
 	}
@@ -102,7 +103,6 @@ kotlin {
 				implementation(libs.uriKmp)
 				implementation(libs.multiplatformSettings.core)
 				implementation(libs.multiplatformSettings.noargs)
-
 			}
 		}
 		val commonTest by getting {
@@ -113,12 +113,9 @@ kotlin {
 				implementation(libs.test.kotest.assertions.core)
 				implementation(libs.test.kotest.assertions.shared)
 				implementation(libs.kotlinx.coroutines.test)
-				implementation(libs.test.mockmp.runtime)
-				implementation(libs.test.mockmp.testHelper)
 				implementation(libs.ktor.client.mock)
 
 			}
-			kotlin.srcDir("build/generated/ksp/jvm/jvmTest/kotlin") //for mockmp
 		}
 		val androidMain by getting {
 
@@ -164,6 +161,11 @@ kotlin {
 //			iosArm64Test.dependsOn(this)
 //			iosSimulatorArm64Test.dependsOn(this)
 		}
+
+		all {
+			languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+		}
+
 	}
 }
 
@@ -196,6 +198,7 @@ dependencies {
 //	add("kspIosSimulatorArm64", libs.ktorfit.ksp)
 //	add("kspIosX64", libs.ktorfit.ksp)
 }
+
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
 	if (name.startsWith("compileTestKotlin")) {
 		dependsOn("kspTestKotlinJvm")
@@ -234,4 +237,8 @@ kotlin.sourceSets.commonMain {
 //https://youtrack.jetbrains.com/issue/KT-61573
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
 	compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+	compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
 }

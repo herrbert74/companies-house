@@ -3,7 +3,7 @@ plugins {
 	alias(libs.plugins.android.application)
 	id("org.jetbrains.kotlin.android")
 	//alias(libs.plugins.kotlin.multiplatform)
-	id("com.google.firebase.crashlytics")
+	alias(libs.plugins.crashlytics)
 //	id("com.google.gms.google-services")
 //	id("org.jetbrains.kotlin.plugin.allopen")
 	id("kotlin-parcelize")

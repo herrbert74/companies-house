@@ -16,16 +16,19 @@ import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchRes
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.github.michaelbull.result.Ok
 import com.google.gson.GsonBuilder
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.matcher.eq
+import dev.mokkery.mock
 
 fun mockCompaniesRepository(): CompaniesRepository {
 	val gson = GsonBuilder()
 		.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
 		.create()
 
-	val mockCompaniesRepository = mockk<CompaniesRepository>()
+	val mockCompaniesRepository = mock<CompaniesRepository>()
 
 	mockCompaniesRepository.mockWithFavourites()
 
@@ -41,27 +44,27 @@ fun mockCompaniesRepository(): CompaniesRepository {
 		mockCompaniesRepository.logSearch(any())
 	} returns Unit
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.recentSearches()
 	} returns favourites
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.getCompany("1")
 	} returns Company(companyName = "Acme Painting", companyNumber = "1")
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.getCompany("04475590")
 	} returns Company(companyName = "You Limited", companyNumber = "04475590")
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.isFavourite(favourites[0])
 	} returns true
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.isFavourite(favourites[1])
 	} returns false
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.removeFavourite(any())
 	} returns Unit
 
@@ -71,23 +74,23 @@ fun mockCompaniesRepository(): CompaniesRepository {
 //	val jsonSearchResultForYou = readResource("./src/androidTest/resources/search_result_you.json")
 	val companySearchItemForYou = gson.fromJson(jsonSearchResultForYou, CompanySearchResult::class.java)
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.searchCompanies(eq("you"), any())
 	} returns companySearchItemForYou
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.searchCompanies(eq("xyzabc"), any())
 	} returns CompanySearchResult()
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.searchCompanies(eq(""), any())
 	} returns CompanySearchResult()
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.getOfficers(eq("1"), any())
 	} returns Ok(officersResponseYouLimited)
 
-	coEvery {
+	everySuspend {
 		mockCompaniesRepository.getOfficerAppointments(eq("M0nRpSZPlPTwBusql3sNK6Efzr8"), any())
 	} returns Ok(officersAppointmentsYouLimited)
 
@@ -95,9 +98,9 @@ fun mockCompaniesRepository(): CompaniesRepository {
 
 }
 
-fun CompaniesRepository.mockWithEmptyFavourites() = apply { coEvery { favourites() } returns emptyList() }
+fun CompaniesRepository.mockWithEmptyFavourites() = apply { everySuspend { favourites() } returns emptyList() }
 
-fun CompaniesRepository.mockWithFavourites() = apply { coEvery { favourites() } returns favourites }
+fun CompaniesRepository.mockWithFavourites() = apply { everySuspend { favourites() } returns favourites }
 
 private val favourites = listOf(
 	SearchHistoryItem(

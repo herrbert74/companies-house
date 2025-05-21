@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.mock
 
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
-import io.mockk.mockk
+import dev.mokkery.mock
 
 fun mockCompaniesDocumentRepository(): CompaniesDocumentRepository {
 
-	return mockk()
+	return mock()
 
 }

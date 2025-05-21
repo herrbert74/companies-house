@@ -21,5 +21,6 @@ kotlin {
 
 dependencies {
 	"implementation"(libs.findLibrary("logging").get())
+	"detekt"(libs.findLibrary("detekt.cli").get())
 	"detektPlugins"(libs.findLibrary("detekt.compose").get())
 }

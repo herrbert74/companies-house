@@ -1,25 +1,26 @@
-package com.babestudios.companyinfouk.charges
+package com.babestudios.companyinfouk.shared.screen.charges
 
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
-import com.babestudios.companyinfouk.shared.screen.charges.ChargesExecutor
-import com.babestudios.companyinfouk.shared.screen.charges.ChargesStore
-import com.babestudios.companyinfouk.shared.screen.charges.ChargesStoreFactory
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.charges.Charges
 import com.github.michaelbull.result.Ok
+import dev.mokkery.answering.calls
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode.Companion.exactly
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlinx.coroutines.Dispatchers
-import org.junit.Before
-import org.junit.Test
 
 class ChargesTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mock<CompaniesRepository>()
 
 	private lateinit var chargesExecutor: ChargesExecutor
 
@@ -27,13 +28,13 @@ class ChargesTest {
 
 	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
-	@Before
+	@BeforeTest
 	fun setUp() {
-		coEvery { companiesHouseRepository.logScreenView(any()) } answers { }
+		every { companiesHouseRepository.logScreenView(any()) } calls { }
 
-		coEvery {
+		everySuspend {
 			companiesHouseRepository.getCharges("123", "0")
-		} answers { Ok(Charges()) }
+		} calls { Ok(Charges()) }
 
 		chargesExecutor = ChargesExecutor(
 			companiesHouseRepository,
@@ -54,7 +55,7 @@ class ChargesTest {
 
 		states.last().isLoading shouldBe false
 		states.last().chargesResponse shouldBe Charges()
-		coVerify(exactly = 1) { companiesHouseRepository.getCharges("123", "0") }
+		verifySuspend(exactly(1)) { companiesHouseRepository.getCharges("123", "0") }
 	}
 
 	@Test
@@ -65,7 +66,7 @@ class ChargesTest {
 
 		states.last().isLoading shouldBe false
 		states.last().chargesResponse shouldBe Charges()
-		coVerify(exactly = 1) { companiesHouseRepository.getCharges("123", "0") }
+		verifySuspend(exactly(1)) { companiesHouseRepository.getCharges("123", "0") }
 	}
 
 }

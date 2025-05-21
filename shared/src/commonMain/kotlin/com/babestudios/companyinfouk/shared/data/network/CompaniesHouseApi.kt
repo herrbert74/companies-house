@@ -13,6 +13,7 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 
+@Suppress("TooManyFunctions")
 /*internal*/ interface CompaniesHouseApi {
 
 	@GET("search/companies")

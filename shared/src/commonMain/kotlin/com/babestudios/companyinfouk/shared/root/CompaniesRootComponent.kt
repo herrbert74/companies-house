@@ -79,6 +79,7 @@ interface CompaniesRootComp {
 	val childStackValue: Value<ChildStack<Configuration, CompaniesChild>>
 }
 
+@Suppress("LongParameterList", "TooManyFunctions")
 class CompaniesRootComponent internal constructor(
 	componentContext: ComponentContext,
 	private val finishHandler: () -> Unit,
@@ -141,113 +142,174 @@ class CompaniesRootComponent internal constructor(
 
 	override val childStackValue = stack
 
+	@Suppress("CyclomaticComplexMethod")
 	private fun createChild(configuration: Configuration, componentContext: ComponentContext): CompaniesChild {
 		return when (configuration) {
-			is Configuration.Main -> CompaniesChild.Main(
-				createMainComp(componentContext, finishHandler, FlowCollector(::onMainOutput))
-			)
-
-			is Configuration.Company -> CompaniesChild.Company(
-				createCompanyComp(
-					componentContext,
-					configuration.companyName,
-					configuration.companyId,
-					configuration.previousConfig == Configuration.Favourites,
-					FlowCollector(::onCompanyOutput),
-				)
-			)
-
-			is Configuration.Favourites -> CompaniesChild.Favourites(
-				createFavouritesComp(componentContext, FlowCollector(::onFavouritesOutput))
-			)
-
-			is Configuration.Map -> CompaniesChild.Map(
-				createMapComp(componentContext, configuration.name, configuration.address, FlowCollector(::onMapOutput))
-			)
-
-			is Configuration.Privacy -> CompaniesChild.Privacy(
-				createPrivacyComp(componentContext, FlowCollector(::onPrivacyOutput))
-			)
-
-			is Configuration.Charges -> CompaniesChild.Charges(
-				createChargesComp(componentContext, configuration.companyId, FlowCollector(::onChargesOutput))
-			)
-
-			is Configuration.ChargesDetails -> CompaniesChild.ChargesDetails(
-				createChargeDetailsComp(
-					componentContext,
-					configuration.selectedCharges,
-					FlowCollector(::onChargeDetailsOutput)
-				)
-			)
-
-			is Configuration.FilingHistory -> CompaniesChild.FilingHistory(
-				createFilingHistoryComp(
-					componentContext,
-					configuration.companyId,
-					FlowCollector(::onFilingHistoryOutput)
-				)
-			)
-
-			is Configuration.FilingDetails -> CompaniesChild.FilingDetails(
-				createFilingDetailsComp(
-					componentContext,
-					configuration.filingHistoryItem,
-					FlowCollector(::onFilingDetailsOutput)
-				)
-			)
-
-			is Configuration.Insolvencies -> CompaniesChild.Insolvencies(
-				createInsolvenciesComp(componentContext, configuration.companyId, FlowCollector(::onInsolvenciesOutput))
-			)
-
-			is Configuration.InsolvencyDetails -> CompaniesChild.InsolvencyDetails(
-				createInsolvencyDetailsComp(
-					componentContext,
-					configuration.selectedCompanyId,
-					configuration.selectedInsolvencyCase,
-					FlowCollector(::onInsolvencyDetailsOutput)
-				)
-			)
-
-			is Configuration.Practitioners -> CompaniesChild.Practitioners(
-				createPractitionerDetailsComp(
-					componentContext, configuration.selectedPractitioner, FlowCollector(::onPractitionerDetailsOutput)
-				)
-			)
-
-			is Configuration.Officers -> CompaniesChild.Officers(
-				createOfficersComp(componentContext, configuration.companyId, FlowCollector(::onOfficersOutput))
-			)
-
-			is Configuration.OfficerDetails -> CompaniesChild.OfficerDetails(
-				createOfficerDetailsComp(
-					componentContext,
-					configuration.selectedOfficer,
-					FlowCollector(::onOfficerDetailsOutput)
-				)
-			)
-
-			is Configuration.Appointments -> CompaniesChild.Appointments(
-				createAppointmentsComp(
-					componentContext,
-					configuration.selectedOfficer,
-					FlowCollector(::onAppointmentsOutput)
-				)
-			)
-
-			is Configuration.Persons -> CompaniesChild.Persons(
-				createPersonsComp(componentContext, configuration.companyId, FlowCollector(::onPersonsListOutput))
-			)
-
-			is Configuration.PersonDetails -> CompaniesChild.PersonDetails(
-				createPersonDetailsComp(
-					componentContext,
-					configuration.selectedPerson,
-					FlowCollector(::onPersonDetailsOutput)
-				)
-			)
+			is Configuration.Main -> createMainChild(componentContext)
+			is Configuration.Company -> createCompanyChild(componentContext, configuration)
+			is Configuration.Favourites -> createFavouritesChild(componentContext)
+			is Configuration.Map -> createMapChild(componentContext, configuration)
+			is Configuration.Privacy -> createPrivacyChild(componentContext)
+			is Configuration.Charges -> createChargesChild(componentContext, configuration)
+			is Configuration.ChargesDetails -> createChargesDetailsChild(componentContext, configuration)
+			is Configuration.FilingHistory -> createFilingHistoryChild(componentContext, configuration)
+			is Configuration.FilingDetails -> createFilingDetailsChild(componentContext, configuration)
+			is Configuration.Insolvencies -> createInsolvenciesChild(componentContext, configuration)
+			is Configuration.InsolvencyDetails -> createInsolvencyDetailsChild(componentContext, configuration)
+			is Configuration.Practitioners -> createPractitionersChild(componentContext, configuration)
+			is Configuration.Officers -> createOfficersChild(componentContext, configuration)
+			is Configuration.OfficerDetails -> createOfficerDetailsChild(componentContext, configuration)
+			is Configuration.Appointments -> createAppointmentsChild(componentContext, configuration)
+			is Configuration.Persons -> createPersonsChild(componentContext, configuration)
+			is Configuration.PersonDetails -> createPersonDetailsChild(componentContext, configuration)
 		}
 	}
+
+	private fun createMainChild(componentContext: ComponentContext) = CompaniesChild.Main(
+		createMainComp(componentContext, finishHandler, FlowCollector(::onMainOutput))
+	)
+
+	private fun createCompanyChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Company,
+	) = CompaniesChild.Company(
+		createCompanyComp(
+			componentContext,
+			configuration.companyName,
+			configuration.companyId,
+			configuration.previousConfig == Configuration.Favourites,
+			FlowCollector(::onCompanyOutput),
+		)
+	)
+
+	private fun createFavouritesChild(componentContext: ComponentContext) = CompaniesChild.Favourites(
+		createFavouritesComp(componentContext, FlowCollector(::onFavouritesOutput))
+	)
+
+	private fun createMapChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Map,
+	) = CompaniesChild.Map(
+		createMapComp(componentContext, configuration.name, configuration.address, FlowCollector(::onMapOutput))
+	)
+
+	private fun createPrivacyChild(componentContext: ComponentContext) = CompaniesChild.Privacy(
+		createPrivacyComp(componentContext, FlowCollector(::onPrivacyOutput))
+	)
+
+	private fun createChargesChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Charges,
+	) = CompaniesChild.Charges(
+		createChargesComp(componentContext, configuration.companyId, FlowCollector(::onChargesOutput))
+	)
+
+	private fun createChargesDetailsChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.ChargesDetails,
+	) = CompaniesChild.ChargesDetails(
+		createChargeDetailsComp(
+			componentContext,
+			configuration.selectedCharges,
+			FlowCollector(::onChargeDetailsOutput)
+		)
+	)
+
+	private fun createFilingHistoryChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.FilingHistory,
+	) = CompaniesChild.FilingHistory(
+		createFilingHistoryComp(
+			componentContext,
+			configuration.companyId,
+			FlowCollector(::onFilingHistoryOutput)
+		)
+	)
+
+	private fun createFilingDetailsChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.FilingDetails,
+	) = CompaniesChild.FilingDetails(
+		createFilingDetailsComp(
+			componentContext,
+			configuration.filingHistoryItem,
+			FlowCollector(::onFilingDetailsOutput)
+		)
+	)
+
+	private fun createInsolvenciesChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Insolvencies,
+	) = CompaniesChild.Insolvencies(
+		createInsolvenciesComp(componentContext, configuration.companyId, FlowCollector(::onInsolvenciesOutput))
+	)
+
+	private fun createInsolvencyDetailsChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.InsolvencyDetails,
+	) = CompaniesChild.InsolvencyDetails(
+		createInsolvencyDetailsComp(
+			componentContext,
+			configuration.selectedCompanyId,
+			configuration.selectedInsolvencyCase,
+			FlowCollector(::onInsolvencyDetailsOutput)
+		)
+	)
+
+	private fun createPractitionersChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Practitioners,
+	) = CompaniesChild.Practitioners(
+		createPractitionerDetailsComp(
+			componentContext, configuration.selectedPractitioner, FlowCollector(::onPractitionerDetailsOutput)
+		)
+	)
+
+	private fun createOfficersChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Officers,
+	) = CompaniesChild.Officers(
+		createOfficersComp(componentContext, configuration.companyId, FlowCollector(::onOfficersOutput))
+	)
+
+	private fun createOfficerDetailsChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.OfficerDetails,
+	) = CompaniesChild.OfficerDetails(
+		createOfficerDetailsComp(
+			componentContext,
+			configuration.selectedOfficer,
+			FlowCollector(::onOfficerDetailsOutput)
+		)
+	)
+
+	private fun createAppointmentsChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Appointments,
+	) = CompaniesChild.Appointments(
+		createAppointmentsComp(
+			componentContext,
+			configuration.selectedOfficer,
+			FlowCollector(::onAppointmentsOutput)
+		)
+	)
+
+	private fun createPersonsChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.Persons,
+	) = CompaniesChild.Persons(
+		createPersonsComp(componentContext, configuration.companyId, FlowCollector(::onPersonsListOutput))
+	)
+
+	private fun createPersonDetailsChild(
+		componentContext: ComponentContext,
+		configuration: Configuration.PersonDetails,
+	) = CompaniesChild.PersonDetails(
+		createPersonDetailsComp(
+			componentContext,
+			configuration.selectedPerson,
+			FlowCollector(::onPersonDetailsOutput)
+		)
+	)
 
 }

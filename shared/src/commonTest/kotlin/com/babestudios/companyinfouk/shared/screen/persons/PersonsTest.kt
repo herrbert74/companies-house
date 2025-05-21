@@ -1,25 +1,26 @@
-package com.babestudios.companyinfouk.persons
+package com.babestudios.companyinfouk.shared.screen.persons
 
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.persons.PersonsResponse
-import com.babestudios.companyinfouk.shared.screen.persons.PersonsExecutor
-import com.babestudios.companyinfouk.shared.screen.persons.PersonsStore
-import com.babestudios.companyinfouk.shared.screen.persons.PersonsStoreFactory
 import com.github.michaelbull.result.Ok
+import dev.mokkery.answering.calls
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode.Companion.exactly
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlinx.coroutines.Dispatchers
-import org.junit.Before
-import org.junit.Test
 
 class PersonsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mock<CompaniesRepository>()
 
 	private lateinit var filingHistoryExecutor: PersonsExecutor
 
@@ -27,15 +28,15 @@ class PersonsTest {
 
 	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
-	@Before
+	@BeforeTest
 	fun setUp() {
-		coEvery {
+		every {
 			companiesHouseRepository.logScreenView(any())
-		} answers { }
+		} calls { }
 
-		coEvery {
+		everySuspend {
 			companiesHouseRepository.getPersons("123", "0")
-		} answers { Ok(PersonsResponse()) }
+		} calls { Ok(PersonsResponse()) }
 
 		filingHistoryExecutor = PersonsExecutor(
 			companiesHouseRepository,
@@ -54,7 +55,7 @@ class PersonsTest {
 		val states = personsStore.states.test()
 
 		states.last().personsResponse shouldBe PersonsResponse()
-		coVerify(exactly = 1) { companiesHouseRepository.getPersons("123", "0") }
+		verifySuspend(exactly(1)) { companiesHouseRepository.getPersons("123", "0") }
 	}
 
 	@Test
@@ -63,7 +64,7 @@ class PersonsTest {
 		personsStore.accept(PersonsStore.Intent.LoadMorePersons)
 
 		states.last().personsResponse shouldBe PersonsResponse()
-		coVerify(exactly = 1) { companiesHouseRepository.getPersons("123", "0") }
+		verifySuspend(exactly(1)) { companiesHouseRepository.getPersons("123", "0") }
 	}
 
 }

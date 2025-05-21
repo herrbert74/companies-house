@@ -1,4 +1,4 @@
-package com.babestudios.companyinfouk.officers
+package com.babestudios.companyinfouk.shared.screen.officers
 
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
@@ -11,17 +11,21 @@ import com.babestudios.companyinfouk.shared.screen.officerappointments.Appointme
 import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsStore
 import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsStoreFactory
 import com.github.michaelbull.result.Ok
+import dev.mokkery.answering.calls
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode.Companion.exactly
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlinx.coroutines.Dispatchers
-import org.junit.Before
-import org.junit.Test
 
 class AppointmentsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesRepository>()
+	private val companiesHouseRepository = mock<CompaniesRepository>()
 
 	private lateinit var appointmentsExecutor: AppointmentsExecutor
 
@@ -31,15 +35,15 @@ class AppointmentsTest {
 
 	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
-	@Before
+	@BeforeTest
 	fun setUp() {
-		coEvery {
+		every {
 			companiesHouseRepository.logScreenView(any())
-		} answers { }
+		} calls { }
 
-		coEvery {
+		everySuspend {
 			companiesHouseRepository.getOfficerAppointments("1", any())
-		} answers { Ok(AppointmentsResponse(name = "", totalResults = 5, items = listOf(appointment))) }
+		} calls { Ok(AppointmentsResponse(name = "", totalResults = 5, items = listOf(appointment))) }
 
 		appointmentsExecutor = AppointmentsExecutor(
 			companiesHouseRepository,
@@ -56,8 +60,8 @@ class AppointmentsTest {
 	fun `when get officer appointments then repo get officer appointments is called`() {
 		val states = appointmentsStore.states.test()
 		states.last().appointmentsResponse.items shouldBe listOf(appointment)
-		coVerify(exactly = 1) { companiesHouseRepository.logScreenView("AppointmentsFragment") }
-		coVerify(exactly = 1) { companiesHouseRepository.getOfficerAppointments("1", "0") }
+		verifySuspend(exactly(1)) { companiesHouseRepository.logScreenView("AppointmentsFragment") }
+		verifySuspend(exactly(1)) { companiesHouseRepository.getOfficerAppointments("1", "0") }
 	}
 
 	@Test
@@ -65,7 +69,7 @@ class AppointmentsTest {
 		val states = appointmentsStore.states.test()
 		appointmentsStore.accept(AppointmentsStore.Intent.LoadMoreAppointments)
 		states.last().appointmentsResponse.items shouldBe listOf(appointment, appointment)
-		coVerify(exactly = 1) { companiesHouseRepository.getOfficerAppointments("1", "0") }
+		verifySuspend(exactly(1)) { companiesHouseRepository.getOfficerAppointments("1", "0") }
 	}
 
 

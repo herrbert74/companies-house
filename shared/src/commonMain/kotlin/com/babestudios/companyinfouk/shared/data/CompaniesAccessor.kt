@@ -34,6 +34,7 @@ import kotlinx.coroutines.withContext
 
 internal const val COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE = "50"
 
+@Suppress("TooManyFunctions")
 internal class CompaniesAccessor(
 	private val companiesHouseApi: CompaniesHouseApi,
 	private var prefsAccessor: Prefs,

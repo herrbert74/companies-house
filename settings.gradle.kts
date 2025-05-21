@@ -36,7 +36,9 @@ dependencyResolutionManagement {
 			filter {
 				includeGroupAndSubgroups("androidx")
 				includeGroupAndSubgroups("com.android")
-				includeGroupAndSubgroups("com.google.android")
+				includeGroupAndSubgroups("com.google.android.gms")
+				includeGroupAndSubgroups("com.google.android.material")
+				includeGroupAndSubgroups("com.google.android.datatransport")
 				includeGroup("com.google.firebase")
 				includeGroup("com.google.testing.platform")
 			}

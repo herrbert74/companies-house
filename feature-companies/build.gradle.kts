@@ -26,6 +26,7 @@ dependencies {
 	implementation(libs.google.play.services.maps.compose)
 	implementation(libs.view.collapsingToolbar)
 
+	detekt(libs.detekt.cli)
 	testImplementation(libs.test.kotest.assertions.core)
 }
 
@@ -35,10 +36,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
 	compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

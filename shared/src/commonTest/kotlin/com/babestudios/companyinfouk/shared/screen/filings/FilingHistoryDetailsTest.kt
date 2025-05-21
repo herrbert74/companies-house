@@ -1,26 +1,23 @@
-package com.babestudios.companyinfouk.filings
+package com.babestudios.companyinfouk.shared.screen.filings
 
-import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.babestudios.base.kotlin.ext.test
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryLinks
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsExecutor
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsStore
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingHistoryDetailsStoreFactory
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
-import io.kotest.matchers.shouldBe
-import io.mockk.coEvery
-import io.mockk.mockk
+import dev.mokkery.answering.calls
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import kotlin.test.BeforeTest
 import kotlinx.coroutines.Dispatchers
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.ResponseBody.Companion.toResponseBody
-import org.junit.Before
-import org.junit.Test
+
 
 class FilingHistoryDetailsTest {
 
-	private val companiesHouseRepository = mockk<CompaniesDocumentRepository>()
+	private val companiesHouseRepository = mock<CompaniesDocumentRepository>()
 
 	private lateinit var filingDetailsExecutor: FilingDetailsExecutor
 
@@ -28,15 +25,15 @@ class FilingHistoryDetailsTest {
 
 	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
-	private val documentResponseBody = "test".toResponseBody("text/plain".toMediaType())
+//	private val documentResponseBody = "test".toResponseBody("text/plain".toMediaType())
 
-	@Before
+	@BeforeTest
 	fun setUp() {
 
-		coEvery {
+		everySuspend {
 			companiesHouseRepository.getDocument(any())
-		} answers {
-			mockk()//.documentResponseBody
+		} calls {
+			mock()//.documentResponseBody
 		}
 
 		filingDetailsExecutor = FilingDetailsExecutor(

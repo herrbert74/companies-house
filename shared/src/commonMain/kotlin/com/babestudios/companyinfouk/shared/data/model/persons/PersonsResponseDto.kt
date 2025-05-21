@@ -4,6 +4,7 @@ import com.babestudios.companyinfouk.shared.data.model.common.SelfLinkDataDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Suppress("LongParameterList")
 @Serializable
 class PersonsResponseDto(
 	@SerialName("start_index")

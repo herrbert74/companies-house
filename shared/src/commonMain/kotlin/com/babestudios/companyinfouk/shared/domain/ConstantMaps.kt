@@ -6,6 +6,7 @@ package com.babestudios.companyinfouk.shared.domain
  * This was done to simplify KMP resource handling, as moko-resources does not work with configuration cache:
  * https://github.com/icerockdev/moko-resources/issues/311
  */
+@Suppress("LargeClass")
 object ConstantMaps {
 
 	val identificationType = mapOf(
