@@ -259,7 +259,7 @@ koin-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidTest = { group = "io.insert-koin", name = "koin-android-test", version.ref = "koin" }
 
-squareUp-leakCanary = "com.squareup.leakcanary:leakcanary-android:2.12"
+squareUp-leakCanary = "com.squareup.leakcanary:leakcanary-android:2.14"
 squareUp-javaPoet = "com.squareup:javapoet:1.13.0"
 squareUp-okhttp3-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 squareUp-okhttp3-mockWebServer = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
