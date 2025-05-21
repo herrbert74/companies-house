@@ -1,6 +1,6 @@
 //import com.babestudios.companyinfouk.PluginGradleProperty
 //import com.babestudios.companyinfouk.script.PropertyResolver
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+//import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 //buildscript {
 //	dependencies {
@@ -31,7 +31,7 @@ plugins {
 	 * ./gradlew assembleDebug -PGRADLE_DOCTOR_ENABLED=true
 	 * ./gradlew projectDependencyGraph -PPROJECT_DEPENDENCY_GRAPH_ENABLED=true
 	 */
-	alias(libs.plugins.versions) apply false
+//	alias(libs.plugins.versions) apply false
 	//Capability conflicts with Skie!!!
 	alias(libs.plugins.dependency.analysis) apply true
 	alias(libs.plugins.gradleDoctor) apply false
@@ -80,21 +80,21 @@ fun isNonStable(version: String): Boolean {
 // Exclude updates where candidate version is not stable but current version is stable,
 // or candidate is not under our control.
  **/
-tasks.withType<DependencyUpdatesTask> {
-	resolutionStrategy {
-		componentSelection {
-			all {
-				if ((isNonStable(candidate.version)
-						&& !isNonStable(currentVersion))
-					|| this.candidate.displayName.contains("desugar")
-					|| this.candidate.displayName.contains("aapt2")
-					|| this.candidate.displayName.contains("jacoco")) {
-					reject("Release candidate")
-				}
-			}
-		}
-	}
-}
+//tasks.withType<DependencyUpdatesTask> {
+//	resolutionStrategy {
+//		componentSelection {
+//			all {
+//				if ((isNonStable(candidate.version)
+//						&& !isNonStable(currentVersion))
+//					|| this.candidate.displayName.contains("desugar")
+//					|| this.candidate.displayName.contains("aapt2")
+//					|| this.candidate.displayName.contains("jacoco")) {
+//					reject("Release candidate")
+//				}
+//			}
+//		}
+//	}
+//}
 
 // endregion
 

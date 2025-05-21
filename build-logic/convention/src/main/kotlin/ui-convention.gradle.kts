@@ -41,7 +41,7 @@ dependencies {
 //	"implementation"(libs.findLibrary("google.dagger.hilt.android").get())
 	"api"(libs.findLibrary("inject").get())
 	"implementation"(libs.findLibrary("kotlinResult.result").get())
-	"implementation"(libs.findLibrary("timber").get())
+//	"implementation"(libs.findLibrary("timber").get())
 
 //	"ksp"(libs.findLibrary("androidx.hilt.compiler").get())
 //	"ksp"(libs.findLibrary("androidx.room.compiler").get())
@@ -52,7 +52,7 @@ dependencies {
 	"testImplementation"(libs.findLibrary("test.jUnit").get())
 	"testImplementation"(libs.findLibrary("test.kotest.assertions.shared").get())
 	"testImplementation"(libs.findLibrary("test.kotest.assertions.core").get())
-	"testImplementation"(libs.findLibrary("test.mockk.core").get())
+//	"testImplementation"(libs.findLibrary("test.mockk.core").get())
 	"testImplementation"(libs.findLibrary("kotlinx.coroutines.test").get())
 }
 
