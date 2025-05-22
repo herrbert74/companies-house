@@ -3,7 +3,6 @@ package com.babestudios.companyinfouk.shared.data.local
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.lighthousegames.logging.logging
 
