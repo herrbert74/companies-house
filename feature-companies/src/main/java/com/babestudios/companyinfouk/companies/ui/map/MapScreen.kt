@@ -38,7 +38,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.lighthousegames.logging.logging
+import com.diamondedge.logging.logging
 
 private const val DEFAULT_LATITUDE = 51.5
 

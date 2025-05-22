@@ -30,7 +30,7 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.withOptions
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.lighthousegames.logging.logging
+import com.diamondedge.logging.logging
 
 private const val NETWORK_TIMEOUT = 30_000L
 

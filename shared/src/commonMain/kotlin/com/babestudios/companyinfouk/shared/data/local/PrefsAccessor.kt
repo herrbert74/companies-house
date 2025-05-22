@@ -4,7 +4,7 @@ import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryIte
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import org.lighthousegames.logging.logging
+import com.diamondedge.logging.logging
 
 const val PREF_FAVOURITES = "companies_house_favourites"
 const val PREF_LATEST_SEARCHES = "companies_house_latest_searches"
