@@ -3,5 +3,10 @@
   "extends": [
     "config:recommended"
   ],
-  "ignoreDeps": ["hamcrest", "hamcrest-core", "kotlin-result", "kotlin-result-coroutines"]
+  "ignoreDeps": [
+    "org.hamcrest:hamcrest",
+    "org.hamcrest:hamcrest-core",
+    "com.michael-bull.kotlin-result:kotlin-result",
+    "com.michael-bull.kotlin-result:kotlin-result-coroutines"
+  ]
 }
