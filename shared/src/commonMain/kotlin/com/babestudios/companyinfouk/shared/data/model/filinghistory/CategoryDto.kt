@@ -59,6 +59,10 @@ enum class CategoryDto {
 	CATEGORY_MISCELLANEOUS,
 
 	@SerialName("document-replacement")
-	CATEGORY_DOCUMENT_REPLACEMENT;
+	CATEGORY_DOCUMENT_REPLACEMENT,
+
+	//Legacy
+	@SerialName("return")
+	CATEGORY_RETURN;
 
 }

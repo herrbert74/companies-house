@@ -72,6 +72,7 @@ private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 		CategoryDto.CATEGORY_PERSONS -> Category.CATEGORY_PERSONS
 		CategoryDto.CATEGORY_MISCELLANEOUS -> Category.CATEGORY_MISCELLANEOUS //Winnow Solutions
 		CategoryDto.CATEGORY_DOCUMENT_REPLACEMENT -> Category.CATEGORY_DOCUMENT_REPLACEMENT //Winnow Solutions
+		CategoryDto.CATEGORY_RETURN -> Category.CATEGORY_RETURN //Legacy
 		null -> Category.CATEGORY_SHOW_ALL
 	}
 }
