@@ -11,6 +11,6 @@ class AssociatedFilingDto(
 	var date: String? = null,
 
 	@SerialName("action_date")
-	var actionDate: Long? = null,
+	var actionDate: String? = null,
 
 	)
