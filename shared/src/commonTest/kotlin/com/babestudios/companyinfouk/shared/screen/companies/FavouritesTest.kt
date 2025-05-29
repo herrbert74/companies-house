@@ -10,6 +10,7 @@ import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesExecutor
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesItem
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStoreFactory
+import com.diamondedge.logging.KmLogging
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.everySuspend
@@ -25,7 +26,6 @@ import kotlin.test.Test
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.lighthousegames.logging.KmLogging
 
 class FavouritesTest {
 
