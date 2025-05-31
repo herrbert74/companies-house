@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,37 +27,42 @@ import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.shared.screen.map.MapComp
 import com.babestudios.companyinfouk.shared.screen.map.MapComponent
+import com.diamondedge.logging.logging
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 import java.io.IOException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.diamondedge.logging.logging
 
 private const val DEFAULT_LATITUDE = 51.5
 
 private const val DEFAULT_LONGITUDE = -0.12
 
-private const val DEFAULT_ZOOM = 10f
+private const val DEFAULT_ZOOM = 12f
+
+private val log = logging()
 
 private val defaultLatLng = LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
-
-var location: LatLng? = null
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
 fun MapScreen(component: MapComp) {
 
+	var location by remember { mutableStateOf<LatLng?>(null) }
+
 	val coroutineScope = rememberCoroutineScope()
 
-	val cameraPositionState = rememberCameraPositionState()
+	val cameraPositionState = rememberCameraPositionState {
+		if (location != null)
+			position = CameraPosition.fromLatLngZoom(location!!, DEFAULT_ZOOM)
+	}
 
 	val uiSettings by remember { mutableStateOf(MapUiSettings(zoomControlsEnabled = true)) }
 
@@ -66,7 +72,7 @@ fun MapScreen(component: MapComp) {
 
 	val context = LocalContext.current
 
-	LaunchedEffect(location) {
+	LaunchedEffect(coroutineScope) {
 
 		coroutineScope.launch {
 			location = getLocationFromAddress(component.address, context)
@@ -93,9 +99,9 @@ fun MapScreen(component: MapComp) {
 			uiSettings = uiSettings,
 		) {
 			Marker(
-				state = MarkerState(position = location ?: defaultLatLng),
-				title = component.address,
-				snippet = "Marker in Singapore"
+				state = rememberUpdatedMarkerState(position = location ?: defaultLatLng),
+				title = component.name,
+				snippet = component.address
 			)
 		}
 	}
@@ -123,7 +129,7 @@ private suspend fun getLocationFromAddress(strAddress: String, context: Context)
 			} catch (exception: Exception) {
 				when (exception) {
 					is IOException, is IndexOutOfBoundsException -> {
-						logging().e(exception) { exception.localizedMessage }
+						log.e(exception) { exception.localizedMessage }
 						latLng = defaultLatLng
 						continuation.resume(latLng)
 					}

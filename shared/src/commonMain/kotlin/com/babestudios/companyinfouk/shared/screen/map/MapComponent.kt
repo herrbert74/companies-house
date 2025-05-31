@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 interface MapComp {
 
 	sealed class Output {
-		object Back : Output()
+		data object Back : Output()
 	}
 
 	val name: String
