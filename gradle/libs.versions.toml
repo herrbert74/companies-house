@@ -343,7 +343,7 @@ android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.3" }
+crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.4" }
 dependency-analysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependency-analysis" } #fine-grained plugin
 #dependency-analysis-build-health = { id = "com.autonomousapps.build-health", version.ref = "dependency-analysis" } #settings plugin
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
