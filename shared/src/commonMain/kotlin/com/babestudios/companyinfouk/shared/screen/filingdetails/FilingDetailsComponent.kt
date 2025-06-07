@@ -16,7 +16,7 @@ interface FilingDetailsComp {
 	val state: Value<FilingDetailsStore.State>
 
 	sealed class Output {
-		object Back : Output()
+		data object Back : Output()
 	}
 
 	val filingHistoryItem: FilingHistoryItem

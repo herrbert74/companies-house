@@ -2,17 +2,23 @@ package com.babestudios.companyinfouk.shared.data
 
 import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseDocumentApi
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
+import com.diamondedge.logging.logging
 import com.eygraber.uri.Uri
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsChannel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
+import kotlinx.io.IOException
+import kotlinx.io.files.FileNotFoundException
 
 class CompaniesDocumentAccessor(
 	private val companiesHouseDocumentApi: CompaniesHouseDocumentApi,
 	private val ioContext: CoroutineDispatcher,
 ) : CompaniesDocumentRepository {
 
-	//private val log = logging()
+	private val log = logging()
 
 	override suspend fun getDocument(documentId: String): HttpResponse {
 		return withContext(ioContext) {
@@ -21,33 +27,18 @@ class CompaniesDocumentAccessor(
 	}
 
 	override suspend fun writeDocumentPdf(responseBody: HttpResponse, uri: Uri): Uri {
-		return uri
 
-		/*return withContext(Dispatchers.IO) {
-			val outputStream = context.contentResolver.openOutputStream(uri)
-			val inputStream = responseBody.bodyAsChannel()//responseBody.byteStream()
+		return withContext(Dispatchers.IO) {
+			val byteReadChannel = responseBody.bodyAsChannel()
 			try {
-				@Suppress("MagicNumber")
-				val fileReader = ByteArray(4096)
-				while (true) {
-					val read = inputStream.read(1, fileReader)
-					if (read == -1) {
-						break
-					}
-					outputStream?.write(fileReader, 0, read)
-				}
-				outputStream?.flush()
-			} catch (e: FileNotFoundException) {
-				log.e {"File not found: ${e.localizedMessage}"}
-			} catch (e: IOException) {
-				log.d{"Error during closing input stream ${e.localizedMessage}"}
-			} finally {
-				inputStream.close()
-
-				outputStream?.close()
+				byteReadChannel.writeToFile(uri)
+			} catch (fileNotFoundException: FileNotFoundException) {
+				log.e(fileNotFoundException) { "zsoltbertalan* File not found: ${fileNotFoundException.message}" }
+			} catch (ioException: IOException) {
+				log.e(ioException) { "zsoltbertalan* Error during closing input stream ${ioException.message}" }
 			}
 			uri
-		}*/
+		}
 	}
 
 }

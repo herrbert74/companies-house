@@ -11,6 +11,7 @@ import com.babestudios.companyinfouk.shared.data.network.createCompaniesHouseDoc
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.getPlatform
+import com.diamondedge.logging.logging
 import com.russhwolf.settings.Settings
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
@@ -30,7 +31,6 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.withOptions
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import com.diamondedge.logging.logging
 
 private const val NETWORK_TIMEOUT = 30_000L
 

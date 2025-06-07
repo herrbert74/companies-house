@@ -50,11 +50,14 @@ import com.babestudios.companyinfouk.filings.ui.filings.createAnnotatedStringDes
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsComp
+import com.diamondedge.logging.logging
 import com.eygraber.uri.toAndroidUri
 import com.eygraber.uri.toUri
 import java.util.Locale
 import kotlin.math.min
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+
+private val log = logging()
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -130,9 +133,9 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 		if (model.savedPdfUri != null && !wasCreateDocumentShown.value) {
 			showDocument(model.savedPdfUri!!.toAndroidUri(), context, pdfWillNotSaveMessage)
 			wasCreateDocumentShown.value = true
-		} else {
-			FilingDetailsBody(state, selectedFilingDetails)
 		}
+
+		FilingDetailsBody(state, selectedFilingDetails)
 	}
 
 }
@@ -182,11 +185,11 @@ fun CheckPermissionAndWriteDocument(
 		ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
 			createDocumentLauncher.launch("${documentId}.pdf")
 		}
+
 		else -> permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 	}
 }
 
-@Suppress("SwallowedException")
 private fun showDocument(pdfUri: Uri, context: Context, pdfWillNotSaveMessage: String) {
 	val target = Intent(Intent.ACTION_OPEN_DOCUMENT)
 	target.setDataAndType(pdfUri, "application/pdf")
@@ -196,6 +199,7 @@ private fun showDocument(pdfUri: Uri, context: Context, pdfWillNotSaveMessage: S
 	try {
 		(context.getActivity() as ComponentActivity).startActivityWithRightSlide(intent)
 	} catch (e: ActivityNotFoundException) {
+		log.e(e) { "Error showing PDF Document: ${e.message}" }
 		Toast.makeText(
 			context,
 			pdfWillNotSaveMessage,
