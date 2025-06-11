@@ -321,7 +321,7 @@ private fun RecentSearchesList(
 		LargeFloatingActionButton(
 			modifier = Modifier
 				.align(Alignment.BottomEnd)
-				.padding(all = viewMarginLarge),
+				.padding(bottom = viewMarginLarge + paddingValues.calculateBottomPadding(), end = viewMarginLarge),
 			onClick = {
 				isClearRecentsDialogVisible.value = true
 			},
