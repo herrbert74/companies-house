@@ -30,7 +30,7 @@ androidx-test-runner = "1.6.2"
 androidx-test-espresso = "3.6.1"
 androidx-compose-compiler = "1.5.12"
 androidx-compose-bom = "2025.06.00"
-#androidx-compose-material3 = "1.1.1" #This had search bar
+androidx-compose-material3 = "1.4.0-alpha15" #This had search bar
 #androidx-compose-animation = "1.4.0" #For fixes since the bom
 #androidx-compose-foundation = "1.4.0" #For fixes since the bom
 #androidx-compose-runtime = "1.4.0" #For fixes since the bom
@@ -186,8 +186,8 @@ androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-runtime-saveable = { module = "androidx.compose.runtime:runtime-saveable" }
 androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 
-#androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
-androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
+#androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 
 androidx-test-coreKtx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
