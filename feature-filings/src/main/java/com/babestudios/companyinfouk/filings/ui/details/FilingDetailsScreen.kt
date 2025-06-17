@@ -21,9 +21,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -48,6 +50,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,6 +84,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 	val selectedFilingDetails = component.filingHistoryItem
 	val model by component.state.subscribeAsState()
 	val appBarHeight = Dimens.appBarHeight
+	val statusBarHeight = with(LocalDensity.current) { WindowInsets.statusBars.getTop(this).toDp()}
 
 	/**
 	 * This flag is to prevent calling create document twice when invalidate is called after coming back from Platform
@@ -119,6 +123,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val collapsedFraction = scrollBehavior.state.collapsedFraction
 	val progress = min(1f, collapsedFraction)
+	val appBarCollapsedHeight = TopAppBarDefaults.MediumAppBarCollapsedHeight
 
 	Scaffold(
 		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -127,7 +132,8 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 				Image(
 					painter = painterResource(R.drawable.bg_filing_history),
 					modifier = Modifier
-						.height(appBarHeight.value.times(1 - progress).dp)
+						.height(((appBarHeight).times(1 - progress))
+							.plus((appBarCollapsedHeight.plus(statusBarHeight)).times(progress)))
 						.fillMaxWidth()
 						.graphicsLayer {
 							// change alpha of Image as the toolbar expands
@@ -142,7 +148,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 					title = { expanded ->
 						Text(
 							stringResource(id = R.string.filing_history_details),
-							modifier = Modifier.padding(bottom = if (expanded) 50.dp else 0.dp),
+							modifier = Modifier.padding(bottom = if (expanded) Dimens.marginDoubleLarge else 0.dp),
 							color = Color(
 								min(1f, Colors.onSurface.red + 1 - progress),
 								min(1f, Colors.onSurface.green + 1 - progress),
@@ -181,7 +187,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 							)
 						}
 					},
-					expandedHeight = appBarHeight - 40.dp,
+					expandedHeight = appBarHeight - statusBarHeight,
 					scrollBehavior = scrollBehavior,
 				)
 			}
