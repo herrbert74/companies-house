@@ -14,56 +14,38 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TwoRowsTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.LabeledDetailCardItem
 import com.babestudios.companyinfouk.common.ext.startActivityWithRightSlide
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.CompaniesTypography
-import com.babestudios.companyinfouk.design.Dimens
-import com.babestudios.companyinfouk.design.SEMI_TRANSPARENT
 import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.filings.ui.filings.createAnnotatedStringDescription
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.Category
@@ -83,8 +65,6 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 
 	val selectedFilingDetails = component.filingHistoryItem
 	val model by component.state.subscribeAsState()
-	val appBarHeight = Dimens.appBarHeight
-	val statusBarHeight = with(LocalDensity.current) { WindowInsets.statusBars.getTop(this).toDp()}
 
 	/**
 	 * This flag is to prevent calling create document twice when invalidate is called after coming back from Platform
@@ -100,8 +80,6 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
-
-	//val scaffoldState = rememberCollapsingToolbarScaffoldState()
 
 	val context = LocalContext.current
 	val pdfWillNotSaveMessage = stringResource(R.string.filing_history_details_wont_save_pdf)
@@ -120,78 +98,28 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 		}
 	}
 
-	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-	val collapsedFraction = scrollBehavior.state.collapsedFraction
-	val progress = min(1f, collapsedFraction)
-	val appBarCollapsedHeight = TopAppBarDefaults.MediumAppBarCollapsedHeight
-
-	Scaffold(
-		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-		topBar = {
-			Box {
-				Image(
-					painter = painterResource(R.drawable.bg_filing_history),
-					modifier = Modifier
-						.height(((appBarHeight).times(1 - progress))
-							.plus((appBarCollapsedHeight.plus(statusBarHeight)).times(progress)))
-						.fillMaxWidth()
-						.graphicsLayer {
-							// change alpha of Image as the toolbar expands
-							alpha = 1 - progress
-						},
-					contentScale = ContentScale.Crop,
-					contentDescription = null,
-					colorFilter = ColorFilter.tint(Color(SEMI_TRANSPARENT), BlendMode.Darken)
-				)
-				TwoRowsTopAppBar(
-					colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-					title = { expanded ->
-						Text(
-							stringResource(id = R.string.filing_history_details),
-							modifier = Modifier.padding(bottom = if (expanded) Dimens.marginDoubleLarge else 0.dp),
-							color = Color(
-								min(1f, Colors.onSurface.red + 1 - progress),
-								min(1f, Colors.onSurface.green + 1 - progress),
-								min(1f, Colors.onSurface.blue + 1 - progress)
-							)
-						)
-
-					},
-					navigationIcon = {
-						IconButton(onClick = { component.onBackClicked() }) {
-							Icon(
-								imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-								contentDescription = "Finish",
-								tint = Color(
-									min(1f, Colors.onSurface.red + 1 - progress),
-									min(1f, Colors.onSurface.green + 1 - progress),
-									min(1f, Colors.onSurface.blue + 1 - progress)
-								)
-							)
-						}
-					},
-					actions = {
-						IconButton(onClick = {
-							wasCreateDocumentCalled.value = false
-							wasCreateDocumentShown.value = false
-							component.downloadPdf()
-						}) {
-							Icon(
-								painter = painterResource(R.drawable.ic_picture_as_pdf),
-								contentDescription = "Localized description",
-								tint = Color(
-									min(1f, Colors.onSurface.red + 1 - progress),
-									min(1f, Colors.onSurface.green + 1 - progress),
-									min(1f, Colors.onSurface.blue + 1 - progress)
-								)
-							)
-						}
-					},
-					expandedHeight = appBarHeight - statusBarHeight,
-					scrollBehavior = scrollBehavior,
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_filing_history,
+		titleStringRes = R.string.filing_history_details,
+		onBackClicked = { component.onBackClicked() },
+		actions = { progress ->
+			IconButton(onClick = {
+				wasCreateDocumentCalled.value = false
+				wasCreateDocumentShown.value = false
+				component.downloadPdf()
+			}) {
+				Icon(
+					painter = painterResource(R.drawable.ic_picture_as_pdf),
+					contentDescription = "Localized description",
+					tint = Color(
+						min(1f, Colors.onSurface.red + 1 - progress),
+						min(1f, Colors.onSurface.green + 1 - progress),
+						min(1f, Colors.onSurface.blue + 1 - progress)
+					)
 				)
 			}
-		}
+		},
+
 	) { paddingValues ->
 		if (model.downloadedPdfResponseBody != null && !wasCreateDocumentCalled.value) {
 			CheckPermissionAndWriteDocument(
