@@ -24,7 +24,6 @@ dependencies {
 	implementation(libs.decompose.extensions)
 	implementation(libs.google.play.services.maps)
 	implementation(libs.google.play.services.maps.compose)
-	implementation(libs.view.collapsingToolbar)
 
 	detekt(libs.detekt.cli)
 	testImplementation(libs.test.kotest.assertions.core)

@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,17 +31,15 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.companyinfouk.common.compose.AddressCard
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.SingleLineCard
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.BodyMediumText
 import com.babestudios.companyinfouk.design.component.TitleLargeBoldText
-import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.common.getAddressString
 import com.babestudios.companyinfouk.shared.domain.model.company.Company
@@ -57,15 +55,15 @@ fun CompanyScreen(component: CompanyComp) {
 
 	val viewMarginLarge = Dimens.marginLarge
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_company,
-		navigationAction = { component.onBackClicked(model.isFavourite) },
-		topAppBarActions = {},
-		title = model.company.companyName
-	) {
-
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_company,
+		title = model.company.companyName,
+		onBackClicked = { component.onBackClicked(model.isFavourite) },
+		actions = {},
+	) { paddingValues ->
 		CompanyScreenBody(
 			model.company,
+			paddingValues,
 			component::onMapClicked,
 			component::onChargesClicked,
 			component::onFilingsClicked,
@@ -74,31 +72,30 @@ fun CompanyScreen(component: CompanyComp) {
 			component::onPersonsClicked,
 		)
 
-	}
-
-	Box(Modifier.fillMaxSize(1f)) {
-		LargeFloatingActionButton(
-			modifier = Modifier
-				.align(Alignment.BottomEnd)
-				.padding(all = viewMarginLarge)
-				.testTag("Fab Favourite"),
-			onClick = { component::onToggleFavouriteClicked.invoke() },
-		) {
-			Icon(
-				painter = painterResource(
-					if (model.isFavourite) R.drawable.ic_favorite_clear else R.drawable
-						.ic_favorite
-				),
-				contentDescription = "Add favourites",
-			)
+		Box(Modifier.fillMaxSize(1f)) {
+			LargeFloatingActionButton(
+				modifier = Modifier
+					.align(Alignment.BottomEnd)
+					.padding(bottom = viewMarginLarge + paddingValues.calculateBottomPadding(), end = viewMarginLarge)
+					.testTag("Fab Favourite"),
+				onClick = { component::onToggleFavouriteClicked.invoke() },
+			) {
+				Icon(
+					painter = painterResource(
+						if (model.isFavourite) R.drawable.ic_favorite_clear else R.drawable
+							.ic_favorite
+					),
+					contentDescription = "Add favourites",
+				)
+			}
 		}
 	}
-
 }
 
 @Composable
 private fun CompanyScreenBody(
 	company: Company,
+	paddingValues: PaddingValues,
 	onMapClicked: (String) -> Unit,
 	onChargesClicked: (String) -> Unit,
 	onFilingsClicked: (String) -> Unit,
@@ -115,6 +112,7 @@ private fun CompanyScreenBody(
 		horizontalAlignment = Alignment.CenterHorizontally,
 		modifier = Modifier
 			.verticalScroll(rememberScrollState())
+			.padding(paddingValues)
 			.testTag("Company Screen Column")
 	) {
 
@@ -194,13 +192,13 @@ private fun CompanyScreenBody(
 
 }
 
-@Preview()
+@Preview
 @Composable
 internal fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
-	CompaniesTheme{
+	CompaniesTheme {
 		Box(Modifier.background(Colors.background)) {
 			CompaniesTheme {
-				CompanyScreenBody(company, {}, {}, {}, {}, {}) {}
+				CompanyScreenBody(company, PaddingValues(), {}, {}, {}, {}, {}) {}
 			}
 		}
 	}
@@ -209,10 +207,10 @@ internal fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) comp
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 internal fun CompanyScreenDarkPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
-	CompaniesTheme{
+	CompaniesTheme {
 		Box(Modifier.background(Colors.background)) {
 			CompaniesTheme {
-				CompanyScreenBody(company, {}, {}, {}, {}, {}) {}
+				CompanyScreenBody(company, PaddingValues(), {}, {}, {}, {}, {}) {}
 			}
 		}
 	}

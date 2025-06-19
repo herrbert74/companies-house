@@ -100,7 +100,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_filing_history,
-		titleStringRes = R.string.filing_history_details,
+		title = stringResource(R.string.filing_history_details),
 		onBackClicked = { component.onBackClicked() },
 		actions = { progress ->
 			IconButton(onClick = {

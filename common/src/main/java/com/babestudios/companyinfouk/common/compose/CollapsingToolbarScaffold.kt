@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.common.compose
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +28,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.Dimens
@@ -39,7 +37,7 @@ import kotlin.math.min
 @Composable
 fun CollapsingToolbarScaffold(
 	@DrawableRes backgroundDrawable: Int,
-	@StringRes titleStringRes: Int,
+	title: String,
 	onBackClicked: () -> Unit,
 	actions: @Composable RowScope.(Float) -> Unit,
 	body: @Composable ((PaddingValues) -> Unit),
@@ -74,7 +72,7 @@ fun CollapsingToolbarScaffold(
 					colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
 					title = { expanded ->
 						Text(
-							stringResource(id = titleStringRes),
+							title,
 							modifier = Modifier.padding(bottom = if (expanded) Dimens.marginDoubleLarge else 0.dp),
 							color = Color(
 								min(1f, Colors.onSurface.red + 1 - progress),
