@@ -1,9 +1,9 @@
 package com.babestudios.companyinfouk.charges.ui.details
 
-import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -16,12 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.charges.R
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.Dimens
@@ -39,14 +39,15 @@ fun ChargeDetailsListScreen(component: ChargeDetailsComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_charges,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
-		title = stringResource(R.string.charge_details_title)
-	) {
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_charges,
+		title = stringResource(R.string.charge_details_title),
+		onBackClicked = { component.onBackClicked() },
+		actions = {},
+	) { paddingValues ->
 		ChargeDetailsList(
 			charge = selectedCharge,
+			paddingValues = paddingValues
 		)
 	}
 
@@ -260,8 +261,9 @@ private fun ChargeHeader(
 @Composable
 private fun ChargeDetailsList(
 	charge: ChargesItem,
+	paddingValues: PaddingValues,
 ) {
-	Box {
+	Box(modifier = Modifier.padding(paddingValues)) {
 		val listState = rememberLazyListState()
 
 		LazyColumn(
@@ -287,39 +289,9 @@ private fun ChargeDetailsList(
 	}
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 fun ChargeHeaderPreview() {
-	CompaniesTheme {
-		Box(Modifier.background(color = Colors.background)) {
-			ChargeHeader(
-				charge = ChargesItem(
-					chargeCode = "2",
-					status = "Outstanding",
-					deliveredOn = "2011-01-13",
-					satisfiedOn = "2012-01-13",
-					createdOn = "2011-01-10",
-					particulars = Particulars(
-						type = "short-particulars",
-						containsFixedCharge = true,
-						floatingChargeCoversAll = false,
-						containsFloatingCharge = true,
-						containsNegativePledge = true,
-						description = "The subcontracts relating to the vehicles or other goods now or hereafter owned by the lessor" +
-							" and comprised in the principal contracts, the full benefit of all monies under the subcontracts, the " +
-							"benefit of all guarantees, the benefit of all insurances, the benefit of all supplemental or collateral " +
-							"agreements, see image for full details."
-					),
-					personsEntitled = "Man Financial Services PLC",
-				)
-			)
-		}
-	}
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun ChargeHeaderDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			ChargeHeader(

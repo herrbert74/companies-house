@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins{
 	id("android-library-convention")
 	id("ui-convention")
@@ -20,17 +22,16 @@ dependencies {
 	implementation(libs.decompose.extensions)
 	implementation(libs.decompose.core)
 	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.view.collapsingToolbar)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile>().configureEach {
 	compilerOptions.freeCompilerArgs.add("-opt-in=com.arkivanov.decompose.ExperimentalDecomposeApi")
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile>().configureEach {
 	compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile>().configureEach {
 	compilerOptions.freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
 }

@@ -44,7 +44,7 @@ fun CollapsingToolbarScaffold(
 ) {
 
 	val appBarHeight = Dimens.appBarHeight
-	val statusBarHeight = with(LocalDensity.current) { WindowInsets.statusBars.getTop(this).toDp()}
+	val statusBarHeight = with(LocalDensity.current) { WindowInsets.statusBars.getTop(this).toDp() }
 	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val collapsedFraction = scrollBehavior.state.collapsedFraction
 	val progress = min(1f, collapsedFraction)
@@ -57,8 +57,10 @@ fun CollapsingToolbarScaffold(
 				Image(
 					painter = painterResource(backgroundDrawable),
 					modifier = Modifier
-						.height(((appBarHeight).times(1 - progress))
-							.plus((appBarCollapsedHeight.plus(statusBarHeight)).times(progress)))
+						.height(
+							((appBarHeight).times(1 - progress))
+								.plus((appBarCollapsedHeight.plus(statusBarHeight)).times(progress))
+						)
 						.fillMaxWidth()
 						.graphicsLayer {
 							// change alpha of Image as the toolbar expands
@@ -103,7 +105,7 @@ fun CollapsingToolbarScaffold(
 				)
 			}
 		}
-	) {paddingValues ->
+	) { paddingValues ->
 		body(paddingValues)
 	}
 }
