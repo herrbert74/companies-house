@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,8 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.companies.R
 import com.babestudios.companyinfouk.design.Dimens
@@ -47,16 +49,16 @@ fun FavouritesScreen(component: FavouritesComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_favourites,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
-		title = stringResource(R.string.favourites)
-	) {
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_favourites,
+		title = stringResource(R.string.favourites),
+		onBackClicked = { component.onBackClicked() },
+		actions = {},
+	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize()
+				modifier = Modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
@@ -64,10 +66,12 @@ fun FavouritesScreen(component: FavouritesComp) {
 			Box(
 				Modifier
 					.background(color = Color.Red)
+					.padding(paddingValues)
 			)
 		} else {
 			FavouritesList(
 				items = model.favourites,
+				paddingValues = paddingValues,
 				onItemClicked = component::onItemClicked,
 				onDeleteClicked = component::onDeleteClicked,
 				onUndoClicked = component::onUndoDeleteClicked,
@@ -84,6 +88,7 @@ fun FavouritesScreen(component: FavouritesComp) {
 @Composable
 private fun FavouritesList(
 	items: List<FavouritesItem>,
+	paddingValues: PaddingValues,
 	onItemClicked: (favouritesItem: FavouritesItem) -> Unit,
 	onDeleteClicked: (favouritesItem: FavouritesItem) -> Unit,
 	onUndoClicked: (favouritesItem: FavouritesItem) -> Unit,
@@ -91,7 +96,10 @@ private fun FavouritesList(
 
 	val viewMarginLarge = Dimens.marginLarge
 
-	Box {
+	Box(
+		modifier = Modifier
+			.padding(paddingValues)
+	) {
 		val listState = rememberLazyListState()
 
 		if (items.isEmpty()) {
@@ -162,6 +170,7 @@ fun FavouritesListPreview() {
 				true
 			)
 		),
+		paddingValues = PaddingValues(0.dp),
 		onItemClicked = {},
 		onDeleteClicked = {},
 		onUndoClicked = {},
