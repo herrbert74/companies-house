@@ -15,7 +15,6 @@ dependencies {
 	api(libs.androidx.compose.runtime) //Transitive
 	api(libs.kotlinx.coroutines.core) //Transitive
 	api(libs.squareUp.okhttp3.okhttp)
-	api(libs.view.collapsingToolbar)
 
 	implementation(libs.androidx.constraintLayout.compose)
 	implementation(libs.androidx.compose.animation.core) //Transitive
