@@ -3,7 +3,9 @@ package com.babestudios.companyinfouk.insolvencies.ui.insolvencies
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -17,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.simpleVerticalScrollbar
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesComp
@@ -29,27 +31,28 @@ fun InsolvenciesScreen(component: InsolvenciesComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_insolvency,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
-		title = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency)
-	) {
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_insolvency,
+		title = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency),
+		onBackClicked = { component.onBackClicked() },
+		actions = {},
+	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize()
+				modifier = Modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
 		} else if (model.error != null) {
 			Box(
 				Modifier
-					.background(color = Color.Red)
+					.background(color = Color.Red).padding(paddingValues)
 			)
 		} else {
 			InsolvenciesList(
 				items = model.insolvency.cases,
+				paddingValues = paddingValues,
 				onItemClicked = component::onInsolvencyCaseClicked,
 			)
 		}
@@ -60,10 +63,11 @@ fun InsolvenciesScreen(component: InsolvenciesComp) {
 @Composable
 private fun InsolvenciesList(
 	items: List<InsolvencyCase>,
+	paddingValues: PaddingValues,
 	onItemClicked: (id: InsolvencyCase) -> Unit,
 ) {
 
-	Box {
+	Box(modifier = Modifier.padding(paddingValues)) {
 
 		val listState = rememberLazyListState()
 

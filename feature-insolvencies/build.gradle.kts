@@ -19,7 +19,6 @@ dependencies {
 	implementation(libs.androidx.compose.foundation) //Transitive
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
-	implementation(libs.view.collapsingToolbar)
 
 }
 

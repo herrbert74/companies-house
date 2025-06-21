@@ -2,6 +2,7 @@ package com.babestudios.companyinfouk.insolvencies.ui.details
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -12,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.insolvencies.R
@@ -31,14 +32,15 @@ fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_insolvency,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
-		title = stringResource(R.string.insolvency_details)
-	) {
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_insolvency,
+		title = stringResource(R.string.insolvency_details),
+		onBackClicked = { component.onBackClicked() },
+		actions = {},
+	) {paddingValues ->
 		InsolvencyDetailsList(
 			items = insolvencyCase,
+			paddingValues = paddingValues,
 			onItemClicked = component::onItemClicked
 		)
 	}
@@ -48,10 +50,11 @@ fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
 @Composable
 private fun InsolvencyDetailsList(
 	items: InsolvencyCase,
+	paddingValues: PaddingValues,
 	onItemClicked: (id: Practitioner) -> Unit,
 ) {
 
-	Column {
+	Column(modifier = Modifier.padding(paddingValues)) {
 
 		val listState = rememberLazyListState()
 		val viewMarginNormal = Dimens.marginNormal
@@ -129,6 +132,7 @@ fun InsolvencyDetailsListPreview() {
 				)
 			),
 		),
+		paddingValues = PaddingValues(),
 		onItemClicked = {}
 	)
 }
