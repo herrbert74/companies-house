@@ -31,6 +31,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -102,51 +103,53 @@ fun MainScreen(component: MainComp) {
 
 	Scaffold(
 		topBar = {
-			TopAppBar(
-				colors = topAppBarColors,
-				title = { Text("Company Info UK") },
-				actions = {
-					IconButton(onClick = {
-						isSearchBarActive = !isSearchBarActive
-						if (isSearchBarActive) component.setSearchMenuItemExpanded()
-						else component.setSearchMenuItemCollapsed()
-					}) {
-						Icon(
-							painter = painterResource(R.drawable.ic_search),
-							contentDescription = "Search icon",
-							tint = Colors.onPrimaryContainer
-						)
-					}
-					IconButton(onClick = { component.onFavoritesClicked() }) {
-						Icon(
-							painter = painterResource(R.drawable.ic_favorite),
-							contentDescription = "Favourites",
-							tint = Colors.onPrimaryContainer
-						)
-					}
-					IconButton(onClick = { showMenu = !showMenu }) {
-						Icon(
-							Icons.Default.MoreVert,
-							contentDescription = stringResource(R.string.privacy_policy),
-							tint = Colors.onPrimaryContainer
-						)
-					}
-					DropdownMenu(
-						expanded = showMenu,
-						onDismissRequest = { showMenu = false }
-					) {
-						DropdownMenuItem(
-							onClick = { component.onPrivacyClicked() },
-							text = { Text(stringResource(R.string.privacy_policy)) }
-						)
-					}
-				},
-			)
+			if (!isSearchBarActive) {
+				TopAppBar(
+					colors = topAppBarColors,
+					title = { Text("Company Info UK") },
+					actions = {
+						IconButton(onClick = {
+							isSearchBarActive = !isSearchBarActive
+							if (isSearchBarActive) component.setSearchMenuItemExpanded()
+							else component.setSearchMenuItemCollapsed()
+						}) {
+							Icon(
+								painter = painterResource(R.drawable.ic_search),
+								contentDescription = "Search icon",
+								tint = Colors.onPrimaryContainer
+							)
+						}
+						IconButton(onClick = { component.onFavoritesClicked() }) {
+							Icon(
+								painter = painterResource(R.drawable.ic_favorite),
+								contentDescription = "Favourites",
+								tint = Colors.onPrimaryContainer
+							)
+						}
+						IconButton(onClick = { showMenu = !showMenu }) {
+							Icon(
+								Icons.Default.MoreVert,
+								contentDescription = stringResource(R.string.privacy_policy),
+								tint = Colors.onPrimaryContainer
+							)
+						}
+						DropdownMenu(
+							expanded = showMenu,
+							onDismissRequest = { showMenu = false }
+						) {
+							DropdownMenuItem(
+								onClick = { component.onPrivacyClicked() },
+								text = { Text(stringResource(R.string.privacy_policy)) }
+							)
+						}
+					},
+				)
+			}
 		}
 	) { paddingValues ->
 
 		if (model.searchHistoryItems.isEmpty()) {
-			EmptySearchList(paddingValues, stringResource(R.string.no_recent_searches))
+			EmptySearchList(stringResource(R.string.no_recent_searches))
 		} else {
 			RecentSearchesList(
 				paddingValues = paddingValues,
@@ -163,45 +166,53 @@ fun MainScreen(component: MainComp) {
 		}
 		if (isSearchBarActive) {
 			SearchBar(
-				//colors = searchBarColors,
-				query = searchQuery,
-				onQueryChange = {
-					searchQuery = it
-					component.onSearchQueryChanged(it)
-				},
-				onSearch = { closeSearchBar() },
-				active = true,
-				onActiveChange = {
-					isSearchBarActive = it
-					if (!isSearchBarActive) focusManager.clearFocus()
-				},
-				placeholder = { Text(stringResource(R.string.search_prompt)) },
-				leadingIcon = {
-					Icon(
-						modifier = Modifier.clickable {
-							isSearchBarActive = false
-							searchQuery = ""
-							component.onSearchQueryChanged(null)
+				modifier = Modifier.fillMaxWidth(),
+				inputField = {
+					SearchBarDefaults.InputField(
+						query = searchQuery,
+						onQueryChange = {
+							searchQuery = it
+							component.onSearchQueryChanged(it)
 						},
-						imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-						contentDescription = null
+						onSearch = { closeSearchBar() },
+						enabled = true,
+						onExpandedChange = {
+							isSearchBarActive = it
+							if (!isSearchBarActive) focusManager.clearFocus()
+						},
+						expanded = isSearchBarActive,
+						//colors = searchBarColors,
+						placeholder = { Text(stringResource(R.string.search_prompt)) },
+						leadingIcon = {
+							Icon(
+								modifier = Modifier.clickable {
+									isSearchBarActive = false
+									searchQuery = ""
+									component.onSearchQueryChanged(null)
+								},
+								imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+								contentDescription = null
+							)
+						},
+						trailingIcon = {
+							Row(verticalAlignment = Alignment.CenterVertically) {
+								Text(
+									searchFilterString.value,
+									style = CompaniesTypography.titleSmall.merge(
+										TextStyle(color = Colors.onPrimaryContainer)
+									)
+								)
+								SearchFilterDropdown(
+									bodyContent = searchFilterString,
+									searchFilterOptions = searchFilterOptions,
+									setFilterState = component::setFilterState
+								)
+							}
+						},
 					)
 				},
-				trailingIcon = {
-					Row(verticalAlignment = Alignment.CenterVertically) {
-						Text(
-							searchFilterString.value,
-							style = CompaniesTypography.titleSmall.merge(
-								TextStyle(color = Colors.onPrimaryContainer)
-							)
-						)
-						SearchFilterDropdown(
-							bodyContent = searchFilterString,
-							searchFilterOptions = searchFilterOptions,
-							setFilterState = component::setFilterState
-						)
-					}
-				},
+				expanded = isSearchBarActive,
+				onExpandedChange = { isSearchBarActive = it },
 			) {
 				if (model.isLoading) {
 					Box(
@@ -214,10 +225,9 @@ fun MainScreen(component: MainComp) {
 					Box(
 						Modifier
 							.background(color = Color.Red)
-							.padding(paddingValues)
 					)
 				} else if (searchQuery.length > 2 && model.filteredSearchResultItems.isEmpty()) {
-					EmptySearchList(paddingValues)
+					EmptySearchList()
 				} else {
 					SearchResultList(
 						items = model.filteredSearchResultItems,
@@ -249,7 +259,6 @@ private fun MainHeader() {
  */
 @Composable
 private fun EmptySearchList(
-	paddingValues: PaddingValues,
 	message: String = stringResource(R.string.no_search_result),
 ) {
 
@@ -257,7 +266,6 @@ private fun EmptySearchList(
 
 	Column(
 		Modifier
-			.padding(paddingValues)
 			.fillMaxSize(1f)
 			//Matches the empty icon background from BaBeStudiosBase
 			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)),
@@ -421,7 +429,7 @@ private fun SearchResultList(
 @Composable
 fun EmptyRecentListPreview() {
 	CompaniesTheme {
-		EmptySearchList(PaddingValues())
+		EmptySearchList()
 	}
 }
 
