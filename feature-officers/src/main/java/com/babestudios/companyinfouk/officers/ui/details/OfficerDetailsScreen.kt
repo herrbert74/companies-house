@@ -15,12 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.common.compose.AddressCard
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.Dimens
@@ -46,16 +46,17 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_officers,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_officers,
+		onBackClicked = { component.onBackClicked() },
 		title = stringResource(R.string.officer_details)
-	) {
+	) { paddingValues ->
 		Column(
 			verticalArrangement = Arrangement.Top,
 			horizontalAlignment = Alignment.CenterHorizontally,
-			modifier = Modifier.verticalScroll(state)
+			modifier = Modifier
+				.verticalScroll(state)
+				.padding(paddingValues)
 		) {
 			TwoLineCard(
 				firstLineString = "Name",
@@ -124,39 +125,9 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 
 }
 
-@Preview("Officer Details Preview")
+@PreviewLightDark
 @Composable
 fun OfficerDetailsScreenPreview() {
-	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
-	OfficerDetailsScreen(
-		OfficerDetailsComponent(
-			componentContext,
-			Dispatchers.Main,
-			Officer(
-				name = "ALDERSEY, Scherin Abada",
-				address = Address(
-					addressLine1 = "Suite A",
-					addressLine2 = "4-6 Canfield Place",
-					locality = "London",
-					postalCode = "NW6 3BT",
-				),
-				dateOfBirth = MonthYear(PREVIEW_YEAR, PREVIEW_MONTH),
-				occupation = "Director",
-				nationality = "German",
-				countryOfResidence = "United Kingdom",
-				officerRole = "director",
-				appointedOn = "2012-08-14",
-				resignedOn = "2015-08-14",
-				appointmentsId = "6fsh143wgC_U_M4LV9DfpGKskM0",
-				fromToString = "From 2012-08-14"
-			)
-		) { }
-	)
-}
-
-@Preview("Officer Details Default Preview")
-@Composable
-fun OfficerDetailsScreenDefaultsPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		OfficerDetailsScreen(
@@ -177,6 +148,7 @@ fun OfficerDetailsScreenDefaultsPreview() {
 					countryOfResidence = "United Kingdom",
 					officerRole = "director",
 					appointedOn = "2012-08-14",
+					resignedOn = "2015-08-14",
 					appointmentsId = "6fsh143wgC_U_M4LV9DfpGKskM0",
 					fromToString = "From 2012-08-14"
 				)

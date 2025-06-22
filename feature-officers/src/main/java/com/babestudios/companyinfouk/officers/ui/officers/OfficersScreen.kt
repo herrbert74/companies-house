@@ -3,7 +3,9 @@ package com.babestudios.companyinfouk.officers.ui.officers
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -18,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.shared.screen.officers.OfficersComp
@@ -30,16 +32,15 @@ fun OfficersScreen(component: OfficersComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_officers,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_officers,
+		onBackClicked = { component.onBackClicked() },
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.officers)
-	) {
+	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize()
+				modifier = Modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
@@ -47,10 +48,12 @@ fun OfficersScreen(component: OfficersComp) {
 			Box(
 				Modifier
 					.background(color = Color.Red)
+					.padding(paddingValues)
 			)
 		} else {
 			OfficersList(
 				items = model.officersResponse.items,
+				paddingValues,
 				onItemClicked = component::onItemClicked,
 				onLoadMore = component::onLoadMore,
 			)
@@ -62,11 +65,12 @@ fun OfficersScreen(component: OfficersComp) {
 @Composable
 private fun OfficersList(
 	items: List<Officer>,
+	paddingValues: PaddingValues,
 	onItemClicked: (id: Officer) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 
-	Box {
+	Box(modifier = Modifier.padding(paddingValues)) {
 
 		val listState = rememberLazyListState()
 

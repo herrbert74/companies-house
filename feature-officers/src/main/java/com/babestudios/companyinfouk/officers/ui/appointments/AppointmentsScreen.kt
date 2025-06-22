@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.TitleLargeBoldText
 import com.babestudios.companyinfouk.officers.R
@@ -37,23 +37,22 @@ fun AppointmentsScreen(component: AppointmentsComp) {
 	BackHandler(onBack = { component.onBackClicked() })
 	val model by component.state.subscribeAsState()
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_officers,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_officers,
+		onBackClicked = { component.onBackClicked() },
 		title = stringResource(R.string.officer_appointments_title)
-	) {
+	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize()
+				modifier = Modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
 		} else if (model.error != null) {
-			Box(Modifier.background(color = Color.Red))
+			Box(Modifier.background(color = Color.Red).padding(paddingValues))
 		} else {
-			Column {
+			Column(Modifier.padding(paddingValues)) {
 				TitleLargeBoldText(
 					modifier = Modifier
 						.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
