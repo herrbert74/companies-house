@@ -42,7 +42,6 @@ fun PractitionerDetailsScreen(component: PractitionerDetailsComp) {
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(R.string.practitioner_details),
 		onBackClicked = { component.onBackClicked() },
-		actions = {},
 	) { paddingValues ->
 		Column(
 			verticalArrangement = Arrangement.Top,

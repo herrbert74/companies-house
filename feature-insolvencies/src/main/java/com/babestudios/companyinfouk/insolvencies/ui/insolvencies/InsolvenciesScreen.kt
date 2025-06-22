@@ -35,7 +35,6 @@ fun InsolvenciesScreen(component: InsolvenciesComp) {
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency),
 		onBackClicked = { component.onBackClicked() },
-		actions = {},
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(

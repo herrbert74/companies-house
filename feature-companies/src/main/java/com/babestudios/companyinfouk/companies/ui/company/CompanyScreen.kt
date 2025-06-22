@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.companies.ui.company
 
-import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,12 +19,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
@@ -51,7 +51,11 @@ fun CompanyScreen(component: CompanyComp) {
 
 	val model by component.state.subscribeAsState()
 
-	BackHandler(onBack = { component.onBackClicked(model.isFavourite) })
+	val onBackLambda = remember(model.isFavourite) {
+		{ component.onBackClicked(model.isFavourite) }
+	}
+
+	BackHandler(onBack = onBackLambda)
 
 	val viewMarginLarge = Dimens.marginLarge
 
@@ -59,7 +63,6 @@ fun CompanyScreen(component: CompanyComp) {
 		backgroundDrawable = R.drawable.bg_company,
 		title = model.company.companyName,
 		onBackClicked = { component.onBackClicked(model.isFavourite) },
-		actions = {},
 	) { paddingValues ->
 		CompanyScreenBody(
 			model.company,
@@ -73,12 +76,17 @@ fun CompanyScreen(component: CompanyComp) {
 		)
 
 		Box(Modifier.fillMaxSize(1f)) {
+			val onToggleFavouriteClickedLambda = remember {
+				{
+					component.onToggleFavouriteClicked()
+				}
+			}
 			LargeFloatingActionButton(
 				modifier = Modifier
 					.align(Alignment.BottomEnd)
 					.padding(bottom = viewMarginLarge + paddingValues.calculateBottomPadding(), end = viewMarginLarge)
 					.testTag("Fab Favourite"),
-				onClick = { component::onToggleFavouriteClicked.invoke() },
+				onClick = onToggleFavouriteClickedLambda,
 			) {
 				Icon(
 					painter = painterResource(
@@ -107,6 +115,49 @@ private fun CompanyScreenBody(
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
+	val incorporatedOnText = stringResource(R.string.incorporated_on)
+
+	val formattedIncorporatedOnText = remember(company.dateOfCreation, incorporatedOnText) {
+		String.format(incorporatedOnText, company.dateOfCreation)
+	}
+
+	val officeAddressTitle = stringResource(com.babestudios.companyinfouk.common.R.string.office_address)
+
+	val registeredOfficeAddressString = remember(company.registeredOfficeAddress) {
+		company.registeredOfficeAddress.getAddressString()
+	}
+
+	val onShowMapLambda = remember(registeredOfficeAddressString, onMapClicked) {
+		{ onMapClicked(registeredOfficeAddressString) }
+	}
+
+	val natureOfBusinessTitle = stringResource(R.string.company_nature_of_business)
+	val accountsTitle = stringResource(R.string.company_accounts)
+	val filingHistoryText = stringResource(com.babestudios.companyinfouk.common.R.string.filing_history)
+	val insolvencyText = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency)
+	val chargesText = stringResource(com.babestudios.companyinfouk.common.R.string.charges)
+	val officersText = stringResource(com.babestudios.companyinfouk.common.R.string.officers)
+	val personsWithControlText =
+		stringResource(com.babestudios.companyinfouk.common.R.string.persons_with_significant_control)
+
+	// These lambdas ensure that if other parts of `company` change but `companyNumber` doesn't,
+	// the SingleLineCard doesn't recompose due to an unstable lambda.
+	val onFilingsClickedLambda = remember(company.companyNumber, onFilingsClicked) {
+		{ onFilingsClicked(company.companyNumber) }
+	}
+	val onInsolvenciesClickedLambda = remember(company.companyNumber, onInsolvenciesClicked) {
+		{ onInsolvenciesClicked(company.companyNumber) }
+	}
+	val onChargesClickedLambda = remember(company.companyNumber, onChargesClicked) {
+		{ onChargesClicked(company.companyNumber) }
+	}
+	val onOfficersClickedLambda = remember(company.companyNumber, onOfficersClicked) {
+		{ onOfficersClicked(company.companyNumber) }
+	}
+	val onPersonsClickedLambda = remember(company.companyNumber, onPersonsClicked) {
+		{ onPersonsClicked(company.companyNumber) }
+	}
+
 	Column(
 		verticalArrangement = Arrangement.Top,
 		horizontalAlignment = Alignment.CenterHorizontally,
@@ -124,26 +175,26 @@ private fun CompanyScreenBody(
 		)
 		HorizontalDivider(thickness = 1.dp)
 		BodyMediumText(
-			text = String.format(stringResource(R.string.incorporated_on), company.dateOfCreation),
+			text = formattedIncorporatedOnText,
 			modifier = Modifier
 				.align(Alignment.Start)
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
 		)
 		HorizontalDivider(thickness = 1.dp)
 		AddressCard(
-			title = stringResource(com.babestudios.companyinfouk.common.R.string.office_address),
+			title = officeAddressTitle,
 			address = company.registeredOfficeAddress,
-			onShowMap = { onMapClicked(company.registeredOfficeAddress.getAddressString()) },
+			onShowMap = onShowMapLambda,
 		)
 		HorizontalDivider(thickness = 1.dp)
 		TwoLineCard(
-			stringResource(R.string.company_nature_of_business),
+			natureOfBusinessTitle,
 			company.natureOfBusiness,
 			Modifier.fillMaxWidth(1f)
 		)
 		HorizontalDivider(thickness = 1.dp)
 		TwoLineCard(
-			stringResource(R.string.company_accounts),
+			accountsTitle,
 			company.lastAccountsMadeUpTo,
 			Modifier.fillMaxWidth(1f)
 		)
@@ -151,67 +202,53 @@ private fun CompanyScreenBody(
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
-				.clickable { onFilingsClicked(company.companyNumber) },
+				.clickable(onClick = onFilingsClickedLambda),
 			vectorImageResource = R.drawable.ic_company_filing_history,
-			text = stringResource(com.babestudios.companyinfouk.common.R.string.filing_history)
+			text = filingHistoryText
 		)
 		if (company.hasInsolvencyHistory) {
 			SingleLineCard(
 				modifier = Modifier
 					.padding(vertical = viewMarginNormal)
-					.clickable { onInsolvenciesClicked(company.companyNumber) },
+					.clickable(onClick = onInsolvenciesClickedLambda),
 				vectorImageResource = R.drawable.ic_company_insolvency,
-				text = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency)
+				text = insolvencyText
 			)
 		}
 		if (company.hasCharges) {
 			SingleLineCard(
 				modifier = Modifier
 					.padding(vertical = viewMarginNormal)
-					.clickable { onChargesClicked(company.companyNumber) },
+					.clickable(onClick = onChargesClickedLambda),
 				vectorImageResource = R.drawable.ic_company_charges,
-				text = stringResource(com.babestudios.companyinfouk.common.R.string.charges)
+				text = chargesText
 			)
 		}
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
-				.clickable { onOfficersClicked(company.companyNumber) },
+				.clickable(onClick = onOfficersClickedLambda),
 			vectorImageResource = R.drawable.ic_company_officers,
-			text = stringResource(com.babestudios.companyinfouk.common.R.string.officers)
+			text = officersText
 		)
 		SingleLineCard(
 			modifier = Modifier
 				.padding(vertical = viewMarginNormal)
-				.clickable { onPersonsClicked(company.companyNumber) },
+				.clickable(onClick = onPersonsClickedLambda),
 			vectorImageResource = R.drawable.ic_company_persons_with_control,
-			text = stringResource(com.babestudios.companyinfouk.common.R.string.persons_with_significant_control)
+			text = personsWithControlText
 		)
 		Spacer(modifier = Modifier.height(viewMarginLarge))
 	}
 
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 internal fun CompanyScreenPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
 	CompaniesTheme {
 		Box(Modifier.background(Colors.background)) {
-			CompaniesTheme {
-				CompanyScreenBody(company, PaddingValues(), {}, {}, {}, {}, {}) {}
-			}
-		}
-	}
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-internal fun CompanyScreenDarkPreview(@PreviewParameter(CompanyProvider::class) company: Company) {
-	CompaniesTheme {
-		Box(Modifier.background(Colors.background)) {
-			CompaniesTheme {
-				CompanyScreenBody(company, PaddingValues(), {}, {}, {}, {}, {}) {}
-			}
+			CompanyScreenBody(company, PaddingValues(), {}, {}, {}, {}, {}) {}
 		}
 	}
 }

@@ -39,7 +39,7 @@ fun CollapsingToolbarScaffold(
 	@DrawableRes backgroundDrawable: Int,
 	title: String,
 	onBackClicked: () -> Unit,
-	actions: @Composable RowScope.(Float) -> Unit,
+	actions: @Composable RowScope.(Float) -> Unit = {},
 	body: @Composable ((PaddingValues) -> Unit),
 ) {
 

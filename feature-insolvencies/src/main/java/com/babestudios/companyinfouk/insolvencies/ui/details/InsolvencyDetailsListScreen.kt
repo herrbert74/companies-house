@@ -36,7 +36,6 @@ fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(R.string.insolvency_details),
 		onBackClicked = { component.onBackClicked() },
-		actions = {},
 	) {paddingValues ->
 		InsolvencyDetailsList(
 			items = insolvencyCase,

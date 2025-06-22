@@ -38,7 +38,6 @@ fun ChargesScreen(component: ChargesComp) {
 		backgroundDrawable = R.drawable.bg_charges,
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.charges),
 		onBackClicked = { component.onBackClicked() },
-		actions = {},
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(

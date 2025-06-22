@@ -53,7 +53,6 @@ fun FavouritesScreen(component: FavouritesComp) {
 		backgroundDrawable = R.drawable.bg_favourites,
 		title = stringResource(R.string.favourites),
 		onBackClicked = { component.onBackClicked() },
-		actions = {},
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(

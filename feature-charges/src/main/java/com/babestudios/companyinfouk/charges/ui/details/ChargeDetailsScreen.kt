@@ -43,7 +43,6 @@ fun ChargeDetailsListScreen(component: ChargeDetailsComp) {
 		backgroundDrawable = R.drawable.bg_charges,
 		title = stringResource(R.string.charge_details_title),
 		onBackClicked = { component.onBackClicked() },
-		actions = {},
 	) { paddingValues ->
 		ChargeDetailsList(
 			charge = selectedCharge,
