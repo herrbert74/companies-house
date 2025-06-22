@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
@@ -12,12 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.babestudios.companyinfouk.common.compose.AddressCard
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.persons.R
@@ -39,16 +40,17 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_persons,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_persons,
+		onBackClicked = { component.onBackClicked() },
 		title = stringResource(id = R.string.person_details)
-	) {
+	) { paddingValues ->
 		Column(
 			verticalArrangement = Arrangement.Top,
 			horizontalAlignment = Alignment.CenterHorizontally,
-			modifier = Modifier.verticalScroll(state)
+			modifier = Modifier
+				.verticalScroll(state)
+				.padding(paddingValues)
 		) {
 			TwoLineCard(
 				firstLineString = "Name",
@@ -94,7 +96,8 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 			)
 			HorizontalDivider(thickness = 1.dp)
 			if ((selectedPerson.countryOfResidence?.isBlank() == false
-					&& selectedPerson.countryOfResidence != selectedPerson.address.country)) {
+					&& selectedPerson.countryOfResidence != selectedPerson.address.country)
+			) {
 				TwoLineCard(
 					firstLineString = "Country of residence",
 					secondLineString = selectedPerson.countryOfResidence ?: "",
@@ -140,41 +143,9 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 
 }
 
-@Preview("Person Details Preview")
+@PreviewLightDark
 @Composable
 fun PersonDetailsScreenPreview() {
-	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
-	PersonDetailsScreen(
-		PersonDetailsComponent(
-			componentContext,
-			Dispatchers.Main,
-			Person(
-				name = "Robert Who",
-				notifiedOn = "2016-04-06",
-				address = Address(
-					addressLine1 = "10 South Lane",
-					locality = "Elland",
-					postalCode = "HX5 0HQ",
-					region = "West Yorkshire"
-				),
-				nationality = "British",
-				countryOfResidence = "England",
-				dateOfBirth = MonthYear(2, 1),
-				kind = "Individual",
-				naturesOfControl =
-				listOf("Ownership of shares - 75% or more", "Ownership of voting rights - 75% or more"),
-				identification = Identification(
-					placeRegistered = "England",
-					legalAuthority = "Limited Company, England And Wales", legalForm = "Limited Company"
-				)
-			)
-		) { }
-	)
-}
-
-@Preview("Person Details Default Preview")
-@Composable
-fun PersonDetailsScreenDefaultsPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		PersonDetailsScreen(
@@ -183,15 +154,23 @@ fun PersonDetailsScreenDefaultsPreview() {
 				Dispatchers.Main,
 				Person(
 					name = "Robert Who",
-					notifiedOn = "23 January 2021",
+					notifiedOn = "2016-04-06",
 					address = Address(
 						addressLine1 = "10 South Lane",
 						locality = "Elland",
 						postalCode = "HX5 0HQ",
 						region = "West Yorkshire"
 					),
+					nationality = "British",
+					countryOfResidence = "England",
+					dateOfBirth = MonthYear(2, 1),
 					kind = "Individual",
-					naturesOfControl = listOf("Ownership of shares - 75% or more"),
+					naturesOfControl =
+						listOf("Ownership of shares - 75% or more", "Ownership of voting rights - 75% or more"),
+					identification = Identification(
+						placeRegistered = "England",
+						legalAuthority = "Limited Company, England And Wales", legalForm = "Limited Company"
+					)
 				)
 			) { }
 		)

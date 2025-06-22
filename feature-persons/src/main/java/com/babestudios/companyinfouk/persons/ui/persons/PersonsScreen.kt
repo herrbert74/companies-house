@@ -3,7 +3,9 @@ package com.babestudios.companyinfouk.persons.ui.persons
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -18,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
-import com.babestudios.companyinfouk.common.compose.HeaderCollapsingToolbarScaffold
+import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
@@ -30,16 +32,15 @@ fun PersonsScreen(component: PersonsComp) {
 
 	BackHandler(onBack = { component.onBackClicked() })
 
-	HeaderCollapsingToolbarScaffold(
-		headerBackgroundResource = R.drawable.bg_persons,
-		navigationAction = { component.onBackClicked() },
-		topAppBarActions = {},
+	CollapsingToolbarScaffold(
+		backgroundDrawable = R.drawable.bg_persons,
+		onBackClicked = { component.onBackClicked() },
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.persons_with_significant_control)
-	) {
+	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize()
+				modifier = Modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
@@ -47,14 +48,16 @@ fun PersonsScreen(component: PersonsComp) {
 			Box(
 				Modifier
 					.background(color = Color.Red)
+					.padding(paddingValues)
 			)
 		} else {
 			val items = model.personsResponse.items
 			if (items.isEmpty()) {
-				EmptyPersonsList()
+				EmptyPersonsList(paddingValues)
 			} else {
 				PersonsList(
 					items = items,
+					paddingValues,
 					onItemClicked = component::onItemClicked,
 					onLoadMore = component::onLoadMore,
 				)
@@ -67,11 +70,12 @@ fun PersonsScreen(component: PersonsComp) {
 @Composable
 private fun PersonsList(
 	items: List<Person>,
+	paddingValues: PaddingValues,
 	onItemClicked: (id: Person) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 
-	Box {
+	Box(Modifier.padding(paddingValues)) {
 
 		val listState = rememberLazyListState()
 

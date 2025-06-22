@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -21,7 +22,7 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.persons.R
 
 @Composable
-fun EmptyPersonsList() {
+fun EmptyPersonsList(paddingValues: PaddingValues) {
 
 	val viewMarginLarge = Dimens.marginLarge
 
@@ -29,7 +30,8 @@ fun EmptyPersonsList() {
 		Modifier
 			.fillMaxSize(1f)
 			//Matches the empty icon background from BaBeStudiosBase
-			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)),
+			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1))
+			.padding(paddingValues),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
@@ -51,5 +53,5 @@ fun EmptyPersonsList() {
 @Preview("Empty Favourites List Preview")
 @Composable
 fun EmptyFavouritesListPreview() {
-	EmptyPersonsList()
+	EmptyPersonsList(PaddingValues())
 }
