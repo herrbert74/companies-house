@@ -306,7 +306,7 @@ klock = "com.soywiz.korlibs.klock:klock:4.0.10"
 uriKmp = { module = "com.eygraber:uri-kmp", version.ref = "uri-kmp" }
 
 test-jUnit = "junit:junit:4.13.2"
-test-robolectric = "org.robolectric:robolectric:4.14.1"
+test-robolectric = "org.robolectric:robolectric:4.15.1"
 test-barista = "com.adevinta.android:barista:4.3.0"
 test-jUnit5-jupiterApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jUnit5" }
 #test-jUnit5-jupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jUnit5" }
