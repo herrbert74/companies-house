@@ -10,7 +10,7 @@ targetSdkVersion = "35"
 
 #platform
 
-androidGradlePlugin = "8.10.1"
+androidGradlePlugin = "8.11.0"
 #androidGradlePlugin = "7.3.1" # For IntelliJ plugin runIde
 kotlin = "2.1.21"
 #ksp = "2.1.10-1.0.31"
