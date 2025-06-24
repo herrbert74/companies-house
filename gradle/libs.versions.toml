@@ -106,7 +106,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 kotlinx-collections-immutable-jvm = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm", version.ref ="kotlinx-collections" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.2"
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.0-0.6.x-compat"
 
 androidx-activity-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-activity-activityKtx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
