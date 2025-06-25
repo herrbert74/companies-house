@@ -20,7 +20,6 @@ dependencies {
 	api(libs.androidx.compose.runtime) //Transitive
 	api(libs.androidx.compose.foundationLayout) //Transitive
 	api(libs.androidx.compose.foundationLayout.android) //Transitive
-	api(libs.view.collapsingToolbar)
 
 //An exclude example
 //	api(

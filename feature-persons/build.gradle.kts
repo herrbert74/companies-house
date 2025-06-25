@@ -21,7 +21,6 @@ dependencies {
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
 	implementation(libs.androidx.activity.compose)
-	implementation(libs.view.collapsingToolbar)
 
 }
 

@@ -19,7 +19,6 @@ dependencies {
 	implementation(libs.decompose.extensions)
 	implementation(libs.androidx.activity.compose)
 	implementation(libs.androidx.constraintLayout.compose)
-	implementation(libs.view.collapsingToolbar)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
