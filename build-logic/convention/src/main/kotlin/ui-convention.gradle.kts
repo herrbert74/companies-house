@@ -39,7 +39,7 @@ dependencies {
 //	"implementation"(libs.findLibrary("coil.compose.base").get())
 //	"api"(libs.findLibrary("google.dagger.core").get())
 //	"implementation"(libs.findLibrary("google.dagger.hilt.android").get())
-	"api"(libs.findLibrary("inject").get())
+//	"api"(libs.findLibrary("inject").get())
 	"implementation"(libs.findLibrary("kotlinResult.result").get())
 //	"implementation"(libs.findLibrary("timber").get())
 
