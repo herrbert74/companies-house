@@ -1,6 +1,9 @@
 @file:Suppress("TooManyFunctions")
+@file:OptIn(DelicateDecomposeApi::class)
+
 package com.babestudios.companyinfouk.shared.root
 
+import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
