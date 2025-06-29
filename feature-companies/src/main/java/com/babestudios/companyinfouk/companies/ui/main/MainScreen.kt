@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.companies.ui.main
 
 import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_TYPE_NORMAL
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,6 +54,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
@@ -66,6 +68,7 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.design.titleMediumBold
 import com.babestudios.companyinfouk.shared.domain.RECENT_SEARCHES
 import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResultItem
+import com.babestudios.companyinfouk.shared.domain.model.search.FilterState
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.shared.screen.main.MainComp
 
@@ -188,7 +191,9 @@ fun MainScreen(component: MainComp) {
 								modifier = Modifier.clickable {
 									isSearchBarActive = false
 									searchQuery = ""
+									searchFilterString.value = searchFilterOptions.first()
 									component.onSearchQueryChanged(null)
+									component.setFilterState(FilterState.FILTER_SHOW_ALL)
 								},
 								imageVector = Icons.AutoMirrored.Filled.ArrowBack,
 								contentDescription = null
@@ -425,7 +430,8 @@ private fun SearchResultList(
 	}
 }
 
-@Preview("Empty Recent List Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun EmptyRecentListPreview() {
 	CompaniesTheme {
@@ -433,8 +439,21 @@ fun EmptyRecentListPreview() {
 	}
 }
 
-//@Preview("Main List Preview", device = "id:Nexus S")
-@Preview("Main List Preview Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun ClearRecentsDialogPreview() {
+	CompaniesTheme {
+		ClearRecentsDialog(
+			isClearRecentsDialogVisible = remember { mutableStateOf(true) },
+			onClearRecentSearchesClicked = {}
+		)
+	}
+}
+
+@Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
+@PreviewLightDark
 @Composable
 fun MainListPreview() {
 	CompaniesTheme {

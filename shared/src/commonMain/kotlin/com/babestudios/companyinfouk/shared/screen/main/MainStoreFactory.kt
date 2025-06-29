@@ -100,10 +100,10 @@ sealed class Message {
 	data class MoreSearchResult(val searchResult: ApiResult<CompanySearchResult>) : Message()
 	class SetFilterState(val filterState: FilterState) : Message()
 	class SearchItemClicked(val searchHistoryItems: List<SearchHistoryItem>) : Message()
-	object SetSearchMenuItemExpanded : Message()
-	object SetSearchMenuItemCollapsed : Message()
+	data object SetSearchMenuItemExpanded : Message()
+	data object SetSearchMenuItemCollapsed : Message()
 }
 
 sealed class BootstrapIntent {
-	object ShowRecentSearches : BootstrapIntent()
+	data object ShowRecentSearches : BootstrapIntent()
 }

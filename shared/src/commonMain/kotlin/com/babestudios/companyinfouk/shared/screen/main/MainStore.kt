@@ -11,17 +11,17 @@ import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryIte
 interface MainStore : Store<Intent, State, SideEffect> {
 
 	sealed class Intent {
-		object ShowRecentSearches : Intent()
-		object ClearRecentSearchesClicked : Intent()
-		object ClearRecentSearches : Intent()
+		data object ShowRecentSearches : Intent()
+		data object ClearRecentSearchesClicked : Intent()
+		data object ClearRecentSearches : Intent()
 
 		data class SearchQueryChanged(val queryText: String?) : Intent()
-		object LoadMoreSearch : Intent()
+		data object LoadMoreSearch : Intent()
 		data class SearchItemClicked(val name: String, val number: String) : Intent()
 
 		data class SetFilterState(val filterState: FilterState) : Intent()
-		object SetSearchMenuItemExpanded : Intent()
-		object SetSearchMenuItemCollapsed : Intent()
+		data object SetSearchMenuItemExpanded : Intent()
+		data object SetSearchMenuItemCollapsed : Intent()
 	}
 
 	data class State(
