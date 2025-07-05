@@ -67,41 +67,6 @@ fun teamPropsFile(propsFile: String): File {
 //	tasks["detekt"].dependsOn(":core-detekt:assemble")
 //}
 
-// region Gradle Versions Plugin
-
-fun isNonStable(version: String): Boolean {
-	val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
-	val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-	val isStable = stableKeyword || regex.matches(version)
-	return isStable.not()
-}
-
-/**
-// Exclude updates where candidate version is not stable but current version is stable,
-// or candidate is not under our control.
- **/
-//tasks.withType<DependencyUpdatesTask> {
-//	resolutionStrategy {
-//		componentSelection {
-//			all {
-//				if ((isNonStable(candidate.version)
-//						&& !isNonStable(currentVersion))
-//					|| this.candidate.displayName.contains("desugar")
-//					|| this.candidate.displayName.contains("aapt2")
-//					|| this.candidate.displayName.contains("jacoco")) {
-//					reject("Release candidate")
-//				}
-//			}
-//		}
-//	}
-//}
-
-// endregion
-
-//scabbard {
-//	enabled = true
-//}
-
 //Only works if applied :(
 dependencyAnalysis {
 	issues {

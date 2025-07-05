@@ -1,5 +1,7 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import de.jensklingenberg.ktorfit.gradle.KtorfitPluginExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
 	repositories {
@@ -41,11 +43,11 @@ detekt {
 //TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements
 kotlin {
 	jvmToolchain {
-		languageVersion.set(JavaLanguageVersion.of(21))
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 	androidTarget {
 		compilerOptions {
-			jvmTarget.set(JvmTarget.JVM_21)
+			jvmTarget = JvmTarget.JVM_21
 		}
 	}
 
@@ -62,6 +64,14 @@ kotlin {
 			export(libs.baBeStudios.base.kotlin)
 			export(libs.baBeStudios.base.data)
 		}
+	}
+
+	compilerOptions {
+
+		//https://youtrack.jetbrains.com/issue/KT-61573
+		freeCompilerArgs.add("-Xexpect-actual-classes")
+
+		freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
 	}
 
 	sourceSets {
@@ -193,13 +203,9 @@ android {
 
 dependencies {
 	add("kspCommonMainMetadata", libs.ktorfit.ksp)
-//	add("kspAndroid", libs.ktorfit.ksp)
-//	add("kspIosArm64", libs.ktorfit.ksp)
-//	add("kspIosSimulatorArm64", libs.ktorfit.ksp)
-//	add("kspIosX64", libs.ktorfit.ksp)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>() {
+tasks.withType<KotlinJvmCompile> {
 	if (name.startsWith("compileTestKotlin")) {
 		dependsOn("kspTestKotlinJvm")
 	}
@@ -218,6 +224,20 @@ tasks {
 	}
 }
 
+/**
+ * This sets the Compiler Plugin version, not the Kotlin version.
+ *
+ * This should not be needed in the future, just a hard coded value not updated in Ktorfit Gradle plugin. See
+ * KTORFIT_COMPILER_PLUGIN_VERSION.
+ * https://github.com/Foso/Ktorfit/blob/master/ktorfit-gradle-plugin/src/main/java/de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin.kt
+ *
+ * Also see
+ * https://github.com/Foso/Ktorfit/issues/870
+ */
+configure<KtorfitPluginExtension> {
+	kotlinVersion.set("2.3.0")
+}
+
 //Work around for 'Consumable configurations must have unique attributes'
 //https://youtrack.jetbrains.com/issue/KT-55751/MPP-Gradle-Consumable-configurations-must-have-unique-attributes
 //val myAttribute: Attribute<String> = Attribute.of("myOwnAttribute", String::class.java)
@@ -232,13 +252,4 @@ tasks {
 //https://github.com/google/ksp/issues/567
 kotlin.sourceSets.commonMain {
 	kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
-}
-
-//https://youtrack.jetbrains.com/issue/KT-61573
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
-	compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
 }

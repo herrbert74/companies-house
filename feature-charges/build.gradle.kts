@@ -23,15 +23,3 @@ dependencies {
 	implementation(libs.decompose.core)
 	implementation(platform(libs.androidx.compose.bom))
 }
-
-tasks.withType<KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=com.arkivanov.decompose.ExperimentalDecomposeApi")
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
-}

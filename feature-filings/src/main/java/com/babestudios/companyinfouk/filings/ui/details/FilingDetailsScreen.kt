@@ -53,7 +53,7 @@ import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHis
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsComp
 import com.diamondedge.logging.logging
 import com.eygraber.uri.toAndroidUri
-import com.eygraber.uri.toUri
+import com.eygraber.uri.toKmpUri
 import java.util.Locale
 import kotlin.math.min
 
@@ -76,7 +76,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 
 	val createDocumentLauncher = rememberLauncherForActivityResult(
 		ActivityResultContracts.CreateDocument("application/pdf")
-	) { uri -> if (uri != null) component.savePdf(uri.toUri()) }
+	) { uri -> if (uri != null) component.savePdf(uri.toKmpUri()) }
 
 	BackHandler(onBack = { component.onBackClicked() })
 	val state = rememberScrollState()
