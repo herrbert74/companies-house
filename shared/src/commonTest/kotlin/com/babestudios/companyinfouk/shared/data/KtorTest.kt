@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.shared.data
 
 import com.babestudios.base.kotlin.io.readCommonResource
-import com.babestudios.companyinfouk.shared.data.network.CompaniesHouseApi
+import com.babestudios.companyinfouk.shared.data.network.createCompaniesHouseApi
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.kotest.matchers.shouldBe
 import io.ktor.client.HttpClient
@@ -29,7 +29,7 @@ class KtorTest {
 
 	@BeforeTest
 	fun setUp() {
-		mockedResponse = readCommonResource("search_result_you.json").toString()
+		mockedResponse = readCommonResource("search_result_you.json")
 		mockEngine = MockEngine {
 			respond(
 				content = mockedResponse,
@@ -53,7 +53,7 @@ class KtorTest {
 	fun testSearchCompanies() = runTest {
 
 		val ktorfit = Ktorfit.Builder().httpClient(client).build()
-		val companiesHouseService = ktorfit.create<CompaniesHouseApi>()
+		val companiesHouseService = ktorfit.createCompaniesHouseApi()
 
 		val companySearchResult = companiesHouseService.searchCompanies("GAMES", "100", "0")
 

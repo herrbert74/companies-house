@@ -8,6 +8,17 @@ android {
 	buildFeatures.compose = true
 }
 
+kotlin {
+	compilerOptions {
+		freeCompilerArgs.addAll(
+			listOf(
+				"-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+				"-Xopt-in=androidx.compose.material3.ExperimentalMaterial3ExpressiveApi"
+			)
+		)
+	}
+}
+
 dependencies {
 	api(project(":shared"))
 
@@ -43,12 +54,4 @@ dependencies {
 	implementation(libs.kotlinx.coroutines.core) //Transitive
 
 	runtimeOnly(libs.androidx.compose.ui.tooling)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3ExpressiveApi")
 }

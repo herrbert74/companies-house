@@ -5,6 +5,7 @@ plugins{
 	id("ui-convention")
 	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
 }
+
 dependencies {
 
 	implementation(platform(libs.androidx.compose.bom))
@@ -19,16 +20,4 @@ dependencies {
 	implementation(libs.decompose.extensions)
 	implementation(libs.androidx.activity.compose)
 	implementation(libs.androidx.constraintLayout.compose)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=com.arkivanov.decompose.ExperimentalDecomposeApi")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
 }

@@ -8,6 +8,12 @@ java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
+kotlin {
+	compilerOptions {
+		jvmTarget = JvmTarget.JVM_21
+	}
+}
+
 dependencies {
 	api(libs.detekt.api)
 	api(libs.kotlin.compiler.embeddable) //Transitive
@@ -15,10 +21,3 @@ dependencies {
 	testImplementation(libs.test.jUnit5.jupiterApi)
 	testImplementation(libs.test.kotest.assertions.shared)
 }
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions{
-		jvmTarget.set(JvmTarget.JVM_21)
-	}
-}
-

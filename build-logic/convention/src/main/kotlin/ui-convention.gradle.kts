@@ -10,6 +10,13 @@ android {
 	composeConfiguration(this)
 }
 
+kotlin {
+	compilerOptions {
+		freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+		freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
+	}
+}
+
 dependencies {
 	"api"(project(":shared"))
 	"implementation"(project(":common"))
@@ -54,8 +61,4 @@ dependencies {
 	"testImplementation"(libs.findLibrary("test.kotest.assertions.core").get())
 //	"testImplementation"(libs.findLibrary("test.mockk.core").get())
 	"testImplementation"(libs.findLibrary("kotlinx.coroutines.test").get())
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	compilerOptions.freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
 }
