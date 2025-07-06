@@ -1,7 +1,7 @@
 plugins {
 	id("android-library-convention")
 	id("ui-convention")
-	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
+	alias(libs.plugins.kotlin.composeCompiler) //TODO Move to Feature plugin
 }
 
 android.namespace = "com.babestudios.companyinfouk.companies"
@@ -9,22 +9,22 @@ android.namespace = "com.babestudios.companyinfouk.companies"
 dependencies {
 	implementation(platform(libs.androidx.compose.bom))
 
-	api(libs.androidx.compose.foundationLayout)
-	api(libs.androidx.compose.runtime) //Transitive
-	api(libs.kotlinx.coroutines.core) //Transitive
+	api(libs.androidx.composeFoundationLayout)
+	api(libs.androidx.composeRuntime) //Transitive
+	api(libs.kotlinx.coroutinesCore) //Transitive
 
-	implementation(libs.baBeStudios.base.android)
-	implementation(libs.androidx.activity.compose)
-	implementation(libs.androidx.compose.animation.core) //Transitive
-	implementation(libs.androidx.compose.foundation) //Transitive
-	implementation(libs.androidx.compose.material.icons.core) //Transitive
-	implementation(libs.androidx.compose.runtime.saveable) //Transitive
+	implementation(libs.baBeStudios.baseAndroid)
+	implementation(libs.androidx.activityCompose)
+	implementation(libs.androidx.composeAnimationCore) //Transitive
+	implementation(libs.androidx.composeFoundation) //Transitive
+	implementation(libs.androidx.composeMaterialIconsCore) //Transitive
+	implementation(libs.androidx.composeRuntimeSaveable) //Transitive
 	implementation(libs.androidx.constraintLayout.compose)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
-	implementation(libs.google.play.services.maps)
-	implementation(libs.google.play.services.maps.compose)
+	implementation(libs.googlePlay.servicesMaps)
+	implementation(libs.googlePlay.servicesMapsCompose)
 
 	detekt(libs.detekt.cli)
-	testImplementation(libs.test.kotest.assertions.core)
+	testImplementation(libs.kotest.assertionsCore)
 }

@@ -1,6 +1,6 @@
 plugins {
 //	id("com.babestudios.companyinfouk.plugins.android")
-	alias(libs.plugins.android.application)
+	alias(libs.plugins.androidApplication)
 	id("org.jetbrains.kotlin.android")
 	//alias(libs.plugins.kotlin.multiplatform)
 	alias(libs.plugins.crashlytics)
@@ -55,7 +55,9 @@ android {
 }
 
 kotlin {
-	jvmToolchain(21)
+	jvmToolchain {
+		languageVersion.set(JavaLanguageVersion.of(libs.versions.jdk.get()))
+	}
 }
 
 dependencies {
@@ -64,8 +66,8 @@ dependencies {
 
 	runtimeOnly(project(":feature-main"))
 
-	implementation(platform(libs.google.firebase.bom))
-	implementation(libs.google.firebase.crashlytics)
+	implementation(platform(libs.firebaseBom))
+	implementation(libs.firebaseCrashlytics)
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)
 

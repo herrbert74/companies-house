@@ -1,24 +1,22 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins{
 	id("android-library-convention")
 	id("ui-convention")
-	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
+	alias(libs.plugins.kotlin.composeCompiler) //TODO Move to Feature plugin
 }
 
 android.namespace = "com.babestudios.companyinfouk.charges"
 
 dependencies {
 
-	api(libs.androidx.compose.foundationLayout)
-	api(libs.androidx.compose.runtime) //Transitive
-	api(libs.kotlinx.coroutines.core) //Transitive
+	api(libs.androidx.composeFoundationLayout)
+	api(libs.androidx.composeRuntime) //Transitive
+	api(libs.kotlinx.coroutinesCore) //Transitive
 
 	implementation(libs.androidx.appcompat)
-	implementation(libs.androidx.activity.compose)
-	implementation(libs.androidx.compose.animation.core) //Transitive
+	implementation(libs.androidx.activityCompose)
+	implementation(libs.androidx.composeAnimationCore) //Transitive
 	implementation(libs.androidx.constraintLayout.compose)
-	implementation(libs.androidx.compose.foundation) //Transitive
+	implementation(libs.androidx.composeFoundation) //Transitive
 	implementation(libs.decompose.extensions)
 	implementation(libs.decompose.core)
 	implementation(platform(libs.androidx.compose.bom))

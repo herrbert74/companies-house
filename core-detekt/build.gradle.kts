@@ -16,8 +16,8 @@ kotlin {
 
 dependencies {
 	api(libs.detekt.api)
-	api(libs.kotlin.compiler.embeddable) //Transitive
+	api(libs.kotlin.compilerEmbeddable) //Transitive
 	testImplementation(libs.detekt.test)
-	testImplementation(libs.test.jUnit5.jupiterApi)
-	testImplementation(libs.test.kotest.assertions.shared)
+	testImplementation(libs.jUnit5.jupiterApi)
+	testImplementation(libs.kotest.assertionsShared)
 }

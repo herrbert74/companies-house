@@ -12,8 +12,8 @@
 //}
 
 plugins {
-	alias(libs.plugins.android.application) apply false
-	alias(libs.plugins.android.library) apply false
+	alias(libs.plugins.androidApplication) apply false
+	alias(libs.plugins.androidLibrary) apply false
 	alias(libs.plugins.kotlin.multiplatform) apply false
 	alias(libs.plugins.crashlytics) apply false
 	//id("scabbard.gradle") version "0.5.0"
@@ -33,7 +33,7 @@ plugins {
 	 */
 //	alias(libs.plugins.versions) apply false
 	//Capability conflicts with Skie!!!
-	alias(libs.plugins.dependency.analysis) apply true
+	alias(libs.plugins.dependencyAnalysis) apply true
 	alias(libs.plugins.gradleDoctor) apply false
 	//alias(libs.plugins.kotlin.multiplatform) apply false
 //	alias(libs.plugins.android.kotlin.multiplatform.library) apply false

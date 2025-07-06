@@ -1,7 +1,7 @@
 plugins {
 	id("android-library-convention")
 	id("ui-convention")
-	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
+	alias(libs.plugins.kotlin.composeCompiler) //TODO Move to Feature plugin
 }
 
 android.namespace = "com.babestudios.companyinfouk.filings"
@@ -10,22 +10,22 @@ dependencies {
 
 	implementation(platform(libs.androidx.compose.bom))
 
-	api(libs.androidx.activity.activity) //Transitive
-	api(libs.androidx.activity.compose)
-	api(libs.androidx.compose.runtime) //Transitive
-	api(libs.kotlinx.coroutines.core) //Transitive
-	api(libs.squareUp.okhttp3.okhttp)
+	api(libs.androidx.activity) //Transitive
+	api(libs.androidx.activityCompose)
+	api(libs.androidx.composeRuntime) //Transitive
+	api(libs.kotlinx.coroutinesCore) //Transitive
+	api(libs.okhttp3)
 
 	implementation(libs.androidx.constraintLayout.compose)
-	implementation(libs.androidx.compose.animation.core) //Transitive
-	implementation(libs.androidx.compose.foundation) //Transitive
-	implementation(libs.androidx.compose.foundationLayout)
-	implementation(libs.androidx.compose.material.icons.core) //Transitive
-	implementation(libs.androidx.compose.runtime.saveable) //Transitive
+	implementation(libs.androidx.composeAnimationCore) //Transitive
+	implementation(libs.androidx.composeFoundation) //Transitive
+	implementation(libs.androidx.composeFoundationLayout)
+	implementation(libs.androidx.composeMaterialIconsCore) //Transitive
+	implementation(libs.androidx.composeRuntimeSaveable) //Transitive
 	implementation(libs.androidx.core) //Transitive
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
 	implementation(libs.uriKmp)
-	implementation(libs.ktor.client.core)
+	implementation(libs.ktor.clientCore)
 
 }

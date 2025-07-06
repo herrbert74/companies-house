@@ -10,10 +10,10 @@ kotlin {
 
 dependencies {
 	//Plugins used as library references here
-	implementation(libs.android.gradle.plugin)
-	implementation(libs.detekt.plugin)
-	implementation(libs.dependency.analysis.plugin)
-	implementation(libs.jetbrains.kotlin.jvm.plugin)
-	implementation(libs.kotlin.android.plugin)
-	implementation(libs.ksp.plugin)
+	implementation(libs.androidGradlePlugin)
+	implementation(libs.detektPlugin)
+	implementation(libs.dependencyAnalysisPlugin)
+	implementation(libs.kotlinJvmPlugin)
+	implementation(libs.kotlinAndroidPlugin)
+	implementation(libs.kspPlugin)
 }

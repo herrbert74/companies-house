@@ -1,5 +1,5 @@
 plugins {
-	alias(libs.plugins.compose.compiler) //TODO Move to Feature plugin
+	alias(libs.plugins.kotlin.composeCompiler) //TODO Move to Feature plugin
 	id("android-library-convention")
 }
 
@@ -24,13 +24,13 @@ dependencies {
 
 	implementation(platform(libs.androidx.compose.bom))
 
-	api(libs.androidx.activity.activity) //Transitive
-	api(libs.androidx.compose.material3)
-	api(libs.androidx.compose.ui.ui) //Transitive
-	api(libs.androidx.compose.ui.text) //Transitive
-	api(libs.androidx.compose.runtime) //Transitive
-	api(libs.androidx.compose.foundationLayout) //Transitive
-	api(libs.androidx.compose.foundationLayout.android) //Transitive
+	api(libs.androidx.activity) //Transitive
+	api(libs.androidx.composeMaterial3)
+	api(libs.androidx.composeUi) //Transitive
+	api(libs.androidx.composeUiText) //Transitive
+	api(libs.androidx.composeRuntime) //Transitive
+	api(libs.androidx.composeFoundationLayout) //Transitive
+	api(libs.androidx.composeFoundationLayoutAndroid) //Transitive
 
 //An exclude example
 //	api(
@@ -39,19 +39,19 @@ dependencies {
 //		exclude("androidx.compose.material3", "material3-android")
 //	}
 
-	implementation(libs.baBeStudios.base.android)
+	implementation(libs.baBeStudios.baseAndroid)
 
-	debugImplementation(platform(libs.google.firebase.bom))
+	debugImplementation(platform(libs.firebaseBom))
 
 	implementation(libs.androidx.annotation) //Transitive
-	implementation(libs.androidx.compose.animation.core) //Transitive
-	implementation(libs.androidx.compose.foundation) //Transitive
-	implementation(libs.androidx.compose.material.icons.core) //Transitive
-	implementation(libs.androidx.compose.ui.graphics) //Transitive
-	implementation(libs.androidx.compose.ui.toolingPreview) //Transitive
-	implementation(libs.androidx.compose.ui.unit) //Transitive
+	implementation(libs.androidx.composeAnimationCore) //Transitive
+	implementation(libs.androidx.composeFoundation) //Transitive
+	implementation(libs.androidx.composeMaterialIconsCore) //Transitive
+	implementation(libs.androidx.composeUiGraphics) //Transitive
+	implementation(libs.androidx.composeUiToolingPreview) //Transitive
+	implementation(libs.androidx.composeUiUnit) //Transitive
 	implementation(libs.androidx.constraintLayout.compose)
-	implementation(libs.kotlinx.coroutines.core) //Transitive
+	implementation(libs.kotlinx.coroutinesCore) //Transitive
 
-	runtimeOnly(libs.androidx.compose.ui.tooling)
+	runtimeOnly(libs.androidx.composeUiTooling)
 }

@@ -20,7 +20,7 @@ kotlin {
 }
 
 dependencies {
-	"implementation"(libs.findLibrary("logging").get())
+	"implementation"(libs.findLibrary("diamondedge-logging").get())
 	"detekt"(libs.findLibrary("detekt.cli").get())
 	"detektPlugins"(libs.findLibrary("detekt.compose").get())
 }
