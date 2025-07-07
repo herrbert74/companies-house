@@ -271,7 +271,7 @@ kotlinx-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-te
 kotlinx-collectionsImmutableJvm = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm", version.ref ="kotlinx-collections" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.0-0.6.x-compat"
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.1-0.6.x-compat"
 
 #ktor-clientAndroid = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 #ktor-clientAuth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
