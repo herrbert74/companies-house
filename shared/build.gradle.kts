@@ -1,5 +1,4 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
-import de.jensklingenberg.ktorfit.gradle.KtorfitPluginExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
@@ -102,7 +101,6 @@ kotlin {
 			implementation(libs.ktor.utils) //Transitive
 			implementation(libs.ktor.serializationKotlinxJson)
 			implementation(libs.ktorfit.annotations)
-			implementation(libs.ktorfit.lib)
 			implementation(libs.ktorfit.libLight)
 			implementation(libs.kotlinx.serialization.json)
 			implementation(libs.mvikotlin.core)
@@ -166,25 +164,6 @@ android {
 		debugImplementation(libs.chucker.library)
 		releaseImplementation(libs.chucker.noop)
 	}
-}
-
-dependencies {
-	add("kspCommonMainMetadata", libs.ktorfit.ksp)
-}
-
-
-/**
- * This sets the Compiler Plugin version, not the Kotlin version.
- *
- * This should not be needed in the future, just a hard coded value not updated in Ktorfit Gradle plugin. See
- * KTORFIT_COMPILER_PLUGIN_VERSION.
- * https://github.com/Foso/Ktorfit/blob/master/ktorfit-gradle-plugin/src/main/java/de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin.kt
- *
- * Also see
- * https://github.com/Foso/Ktorfit/issues/870
- */
-configure<KtorfitPluginExtension> {
-	kotlinVersion.set("2.3.0")
 }
 
 // region KSP commonMain configuration
