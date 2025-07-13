@@ -90,7 +90,7 @@ kotlin {
 			//implementation(libs.koin.android)
 			implementation(libs.koin.core)
 			implementation(libs.kotlinx.coroutinesCore)
-			implementation(libs.kotlinx.serialization.core) //Transitive
+			implementation(libs.kotlinx.serializationCore) //Transitive
 			implementation(libs.kotlinResult.result)
 			implementation(libs.ktor.clientCore)
 			implementation(libs.ktor.clientContentNegotiation)
@@ -102,7 +102,7 @@ kotlin {
 			implementation(libs.ktor.serializationKotlinxJson)
 			implementation(libs.ktorfit.annotations)
 			implementation(libs.ktorfit.libLight)
-			implementation(libs.kotlinx.serialization.json)
+			implementation(libs.kotlinx.serializationJson)
 			implementation(libs.mvikotlin.core)
 			implementation(libs.mvikotlin.coroutines)
 			implementation(libs.mvikotlin.main)

@@ -21,7 +21,7 @@ dependencies {
 	"api"(project(":shared"))
 	"implementation"(project(":common"))
 
-	"implementation"(platform(libs.findLibrary("androidx.compose.bom").get()))
+	"implementation"(platform(libs.findLibrary("androidx.composeBom").get()))
 
 	"implementation"(libs.findLibrary("androidx.composeFoundation").get())
 	"implementation"(libs.findLibrary("androidx.composeFoundationLayout").get())

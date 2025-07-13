@@ -8,15 +8,13 @@ android.namespace = "com.babestudios.companyinfouk.filings"
 
 dependencies {
 
-	implementation(platform(libs.androidx.compose.bom))
-
 	api(libs.androidx.activity) //Transitive
 	api(libs.androidx.activityCompose)
 	api(libs.androidx.composeRuntime) //Transitive
 	api(libs.kotlinx.coroutinesCore) //Transitive
 	api(libs.okhttp3)
 
-	implementation(libs.androidx.constraintLayout.compose)
+	implementation(libs.androidx.constraintLayoutCompose)
 	implementation(libs.androidx.composeAnimationCore) //Transitive
 	implementation(libs.androidx.composeFoundation) //Transitive
 	implementation(libs.androidx.composeFoundationLayout)

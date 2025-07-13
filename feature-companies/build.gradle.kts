@@ -7,8 +7,6 @@ plugins {
 android.namespace = "com.babestudios.companyinfouk.companies"
 
 dependencies {
-	implementation(platform(libs.androidx.compose.bom))
-
 	api(libs.androidx.composeFoundationLayout)
 	api(libs.androidx.composeRuntime) //Transitive
 	api(libs.kotlinx.coroutinesCore) //Transitive
@@ -19,7 +17,7 @@ dependencies {
 	implementation(libs.androidx.composeFoundation) //Transitive
 	implementation(libs.androidx.composeMaterialIconsCore) //Transitive
 	implementation(libs.androidx.composeRuntimeSaveable) //Transitive
-	implementation(libs.androidx.constraintLayout.compose)
+	implementation(libs.androidx.constraintLayoutCompose)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
 	implementation(libs.googlePlay.servicesMaps)

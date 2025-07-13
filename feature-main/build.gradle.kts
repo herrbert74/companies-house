@@ -55,14 +55,13 @@ dependencies {
 
 	runtimeOnly(libs.androidx.composeUiTooling)
 
-	debugRuntimeOnly(platform(libs.androidx.compose.bom))
 	//Needed for createComposeRule, NOT ONLY for createAndroidComposeRule, as in the docs
 	debugRuntimeOnly(libs.androidx.composeUiTestManifest)
 
 	androidTestImplementation(libs.gson)
 	androidTestImplementation(platform(libs.firebaseBom))
 	androidTestImplementation(libs.firebaseAnalytics)
-	androidTestImplementation(platform(libs.androidx.compose.bom))
+	androidTestImplementation(platform(libs.androidx.composeBom))
 	androidTestImplementation(libs.androidx.composeUiTestJunit4)
 	androidTestImplementation(libs.androidx.testEspresso.core)
 	//androidTestImplementation(libs.androidx.test.ext.jUnitKtx) //For ActivityScenario

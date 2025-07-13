@@ -8,8 +8,6 @@ plugins{
 
 dependencies {
 
-	implementation(platform(libs.androidx.compose.bom))
-
 	api(libs.androidx.composeFoundationLayout)
 	api(libs.androidx.composeRuntime) //Transitive
 	api(libs.kotlinx.coroutinesCore) //Transitive
@@ -19,5 +17,5 @@ dependencies {
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
 	implementation(libs.androidx.activityCompose)
-	implementation(libs.androidx.constraintLayout.compose)
+	implementation(libs.androidx.constraintLayoutCompose)
 }

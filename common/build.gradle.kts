@@ -22,7 +22,7 @@ kotlin {
 dependencies {
 	api(project(":shared"))
 
-	implementation(platform(libs.androidx.compose.bom))
+	implementation(platform(libs.androidx.composeBom))
 
 	api(libs.androidx.activity) //Transitive
 	api(libs.androidx.composeMaterial3)
@@ -50,7 +50,7 @@ dependencies {
 	implementation(libs.androidx.composeUiGraphics) //Transitive
 	implementation(libs.androidx.composeUiToolingPreview) //Transitive
 	implementation(libs.androidx.composeUiUnit) //Transitive
-	implementation(libs.androidx.constraintLayout.compose)
+	implementation(libs.androidx.constraintLayoutCompose)
 	implementation(libs.kotlinx.coroutinesCore) //Transitive
 
 	runtimeOnly(libs.androidx.composeUiTooling)

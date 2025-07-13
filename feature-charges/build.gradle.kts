@@ -15,9 +15,8 @@ dependencies {
 	implementation(libs.androidx.appcompat)
 	implementation(libs.androidx.activityCompose)
 	implementation(libs.androidx.composeAnimationCore) //Transitive
-	implementation(libs.androidx.constraintLayout.compose)
+	implementation(libs.androidx.constraintLayoutCompose)
 	implementation(libs.androidx.composeFoundation) //Transitive
 	implementation(libs.decompose.extensions)
 	implementation(libs.decompose.core)
-	implementation(platform(libs.androidx.compose.bom))
 }

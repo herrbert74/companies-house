@@ -8,8 +8,6 @@ android.namespace = "com.babestudios.companyinfouk.insolvencies"
 
 dependencies {
 
-	implementation(platform(libs.androidx.compose.bom))
-
 	api(libs.androidx.composeFoundationLayout)
 	api(libs.androidx.composeRuntime) //Transitive
 	api(libs.kotlinx.coroutinesCore) //Transitive
