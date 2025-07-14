@@ -1,8 +1,8 @@
 plugins {
 	alias(libs.plugins.androidLibrary)
-	id("io.gitlab.arturbosch.detekt")
-	id("com.autonomousapps.dependency-analysis")
-	kotlin("android")
+	alias(libs.plugins.detekt)
+	alias(libs.plugins.dependencyAnalysis)
+	alias(libs.plugins.kotlin.android)
 }
 
 apply(from = project.rootProject.file("team-props/detekt/detekt.gradle"))
@@ -21,6 +21,6 @@ kotlin {
 
 dependencies {
 	implementation(libs.diamondedge.logging)
-	"detekt"(libs.detekt.cli)
-	"detektPlugins"(libs.detekt.compose)
+	detekt(libs.detekt.cli)
+	detektPlugins(libs.detekt.compose)
 }
