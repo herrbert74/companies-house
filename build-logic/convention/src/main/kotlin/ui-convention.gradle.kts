@@ -1,13 +1,13 @@
-import com.babestudios.companyinfouk.convention.composeConfiguration
-import com.babestudios.companyinfouk.convention.libs
-
 plugins {
-	id("com.android.library")
+	alias(libs.plugins.androidLibrary)
+	//id("com.android.library")
 	kotlin("android")
 }
 
 android {
-	composeConfiguration(this)
+	buildFeatures {
+		compose = true
+	}
 }
 
 kotlin {
@@ -18,33 +18,33 @@ kotlin {
 }
 
 dependencies {
-	"api"(project(":shared"))
-	"implementation"(project(":common"))
+	api(project(":shared"))
+	implementation(project(":common"))
 
-	"implementation"(platform(libs.findLibrary("androidx.composeBom").get()))
+	implementation(platform(libs.androidx.composeBom))
 
-	"implementation"(libs.findLibrary("androidx.composeFoundation").get())
-	"implementation"(libs.findLibrary("androidx.composeFoundationLayout").get())
-	"implementation"(libs.findLibrary("androidx.composeRuntimeSaveable").get())
-	"implementation"(libs.findLibrary("androidx.composeUi").get())
-	"implementation"(libs.findLibrary("androidx.composeUiGraphics").get())
-	"implementation"(libs.findLibrary("androidx.composeUiText").get())
-	"implementation"(libs.findLibrary("androidx.composeUiUnit").get())
-	"implementation"(libs.findLibrary("androidx.composeUiTooling").get())
-//	"implementation"(libs.findLibrary("androidx.composeUiToolingPreview").get())
-	"implementation"(libs.findLibrary("androidx.composeMaterialIconsCore").get())
-	"implementation"(libs.findLibrary("androidx.composeMaterial3").get())
-	"api"(libs.findLibrary("androidx.composeRuntime").get())
-	"api"(libs.findLibrary("androidx.lifecycleViewmodel").get())
+	implementation(libs.androidx.composeFoundation)
+	implementation(libs.androidx.composeFoundationLayout)
+	implementation(libs.androidx.composeRuntimeSaveable)
+	implementation(libs.androidx.composeUi)
+	implementation(libs.androidx.composeUiGraphics)
+	implementation(libs.androidx.composeUiText)
+	implementation(libs.androidx.composeUiUnit)
+	implementation(libs.androidx.composeUiTooling)
+//	implementation(libs.androidx.composeUiToolingPreview)
+	implementation(libs.androidx.composeMaterialIconsCore)
+	implementation(libs.androidx.composeMaterial3)
+	api(libs.androidx.composeRuntime)
+	api(libs.androidx.lifecycleViewmodel)
 
-	"implementation"(libs.findLibrary("baBeStudios.baseCompose").get())
+	implementation(libs.baBeStudios.baseCompose)
 
-	"implementation"(libs.findLibrary("kotlinx.collectionsImmutableJvm").get())
-	"api"(libs.findLibrary("kotlinx.coroutinesCore").get())
-	"implementation"(libs.findLibrary("kotlinResult.result").get())
+	implementation(libs.kotlinx.collectionsImmutableJvm)
+	api(libs.kotlinx.coroutinesCore)
+	implementation(libs.kotlinResult.result)
 
-	"testImplementation"(libs.findLibrary("jUnit").get())
-	"testImplementation"(libs.findLibrary("kotest.assertionsShared").get())
-	"testImplementation"(libs.findLibrary("kotest.assertionsCore").get())
-	"testImplementation"(libs.findLibrary("kotlinx.coroutinesTest").get())
+	testImplementation(libs.jUnit)
+	testImplementation(libs.kotest.assertionsShared)
+	testImplementation(libs.kotest.assertionsCore)
+	testImplementation(libs.kotlinx.coroutinesTest)
 }

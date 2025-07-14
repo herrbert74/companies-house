@@ -13,8 +13,9 @@ include(":feature-insolvencies")
 include(":feature-filings")
 include(":shared")
 
+includeBuild("build-logic")
+
 pluginManagement {
-	includeBuild("build-logic")
 	repositories {
 		gradlePluginPortal()
 		google()
