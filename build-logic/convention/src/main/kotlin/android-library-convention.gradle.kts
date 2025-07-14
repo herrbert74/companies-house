@@ -1,9 +1,5 @@
-import com.babestudios.companyinfouk.convention.commonConfiguration
-import com.babestudios.companyinfouk.convention.configureKotlinAndroid
-import com.babestudios.companyinfouk.convention.libs
-
 plugins {
-	id("com.android.library")
+	alias(libs.plugins.androidLibrary)
 	id("io.gitlab.arturbosch.detekt")
 	id("com.autonomousapps.dependency-analysis")
 	kotlin("android")
@@ -12,15 +8,19 @@ plugins {
 apply(from = project.rootProject.file("team-props/detekt/detekt.gradle"))
 
 android {
-	commonConfiguration(this)
+	compileSdk = libs.versions.compileSdkVersion.get().toInt()
+	defaultConfig {
+		minSdk = libs.versions.minSdkVersion.get().toInt()
+		consumerProguardFiles("consumer-rules.pro")
+	}
 }
 
 kotlin {
-	configureKotlinAndroid(this)
+	jvmToolchain(libs.versions.jdk.get().toInt())
 }
 
 dependencies {
-	"implementation"(libs.findLibrary("diamondedge.logging").get())
-	"detekt"(libs.findLibrary("detekt.cli").get())
-	"detektPlugins"(libs.findLibrary("detekt.compose").get())
+	implementation(libs.diamondedge.logging)
+	"detekt"(libs.detekt.cli)
+	"detektPlugins"(libs.detekt.compose)
 }
