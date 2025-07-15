@@ -59,21 +59,23 @@ dependencies {
 	//Needed for createComposeRule, NOT ONLY for createAndroidComposeRule, as in the docs
 	debugRuntimeOnly(libs.androidx.composeUiTestManifest)
 
-	androidTestImplementation(libs.gson)
-	androidTestImplementation(platform(libs.firebaseBom))
-	androidTestImplementation(libs.firebaseAnalytics)
 	androidTestImplementation(platform(libs.androidx.composeBom))
+	androidTestImplementation(platform(libs.firebaseBom))
+
 	androidTestImplementation(libs.androidx.composeUiTestJunit4)
 	androidTestImplementation(libs.androidx.testEspresso.core)
-	//androidTestImplementation(libs.androidx.test.ext.jUnitKtx) //For ActivityScenario
 	androidTestImplementation(libs.androidx.testRunner)
-	androidTestImplementation(libs.decompose.core)
-	androidTestImplementation(libs.essenty.lifecycle)
-	androidTestImplementation(libs.kotlinResult.result)
-	androidTestImplementation(libs.jUnit)
 	androidTestImplementation(libs.androidx.composeUiTest) //Transitive
 	androidTestImplementation(libs.androidx.composeUiText) //Transitive
 	androidTestImplementation(libs.androidx.testExtJUnit) //Transitive from androidx.compose.ui:ui-test-junit4
+	//androidTestImplementation(libs.androidx.testExtJUnitKtx) //For ActivityScenario
+	androidTestImplementation(libs.decompose.core)
+	androidTestImplementation(libs.essenty.lifecycle)
+	androidTestImplementation(libs.firebaseAnalytics)
+	androidTestImplementation(libs.gson)
 	androidTestImplementation(libs.hamcrest) //Transitive
+	androidTestImplementation(libs.jUnit)
+	androidTestImplementation(libs.kotlinResult.result)
+	androidTestImplementation(libs.mokkery.core)
 
 }

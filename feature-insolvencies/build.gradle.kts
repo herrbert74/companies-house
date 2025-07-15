@@ -17,5 +17,6 @@ dependencies {
 	implementation(libs.androidx.composeFoundation) //Transitive
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
+	implementation(libs.essenty.lifecycle)
 
 }

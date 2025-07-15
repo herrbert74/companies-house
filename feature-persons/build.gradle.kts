@@ -19,6 +19,7 @@ dependencies {
 	implementation(libs.baBeStudios.baseCompose)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
+	implementation(libs.essenty.lifecycle)
 	implementation(libs.kotlinx.datetime)
 
 }

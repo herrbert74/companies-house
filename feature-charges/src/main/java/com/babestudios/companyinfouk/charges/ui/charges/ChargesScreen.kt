@@ -1,5 +1,6 @@
 package com.babestudios.companyinfouk.charges.ui.charges
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,11 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
 import com.babestudios.base.compose.simpleVerticalScrollbar
 import com.babestudios.companyinfouk.charges.R
 import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
+import com.babestudios.companyinfouk.design.Colors
+import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
 import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
@@ -94,52 +98,57 @@ private fun ChargesList(
 
 }
 
-@Preview("Charges List Preview")
+@PreviewLightDark
 @Composable
 fun ChargesListPreview() {
-	ChargesList(
-		items = listOf(
-			ChargesItem(
-				chargeCode = "03453457345734",
-				status = "Outstanding",
-				deliveredOn = "2011-01-13",
-				satisfiedOn = "2012-01-13",
-				createdOn = "2011-01-10",
-				particulars = Particulars(
-					type = "short-particulars",
-					containsFixedCharge = true,
-					floatingChargeCoversAll = false,
-					containsFloatingCharge = true,
-					containsNegativePledge = true,
-					description = "The subcontracts relating to the vehicles or other goods now or hereafter owned by the lessor" +
-						" and comprised in the principal contracts, the full benefit of all monies under the subcontracts, the " +
-						"benefit of all guarantees, the benefit of all insurances, the benefit of all supplemental or collateral " +
-						"agreements, see image for full details."
+	CompaniesTheme {
+		Box(Modifier.background(color = Colors.surface)) {
+			ChargesList(
+				items = listOf(
+					ChargesItem(
+						chargeCode = "03453457345734",
+						status = "Outstanding",
+						deliveredOn = "2011-01-13",
+						satisfiedOn = "2012-01-13",
+						createdOn = "2011-01-10",
+						particulars = Particulars(
+							type = "short-particulars",
+							containsFixedCharge = true,
+							floatingChargeCoversAll = false,
+							containsFloatingCharge = true,
+							containsNegativePledge = true,
+							description = "The subcontracts relating to the vehicles or other goods now or hereafter owned by the lessor" +
+								" and comprised in the principal contracts, the full benefit of all monies under the subcontracts, the " +
+								"benefit of all guarantees, the benefit of all insurances, the benefit of all supplemental or collateral " +
+								"agreements, see image for full details."
+						),
+						personsEntitled = "Man Financial Services PLC",
+					),
+					ChargesItem(
+						chargeCode = "03453457345733",
+						status = "Satisfied",
+						deliveredOn = "2011-01-13",
+						satisfiedOn = "2012-01-13",
+						createdOn = "2011-01-10",
+						particulars = Particulars(
+							type = "short-particulars",
+							containsFixedCharge = true,
+							floatingChargeCoversAll = false,
+							containsFloatingCharge = true,
+							containsNegativePledge = true,
+							description = "The subcontracts relating to the vehicles or other goods now or hereafter owned by the lessor" +
+								" and comprised in the principal contracts, the full benefit of all monies under the subcontracts, the " +
+								"benefit of all guarantees, the benefit of all insurances, the benefit of all supplemental or collateral " +
+								"agreements, see image for full details."
+						),
+						personsEntitled = "Man Financial Services PLC",
+					)
 				),
-				personsEntitled = "Man Financial Services PLC",
-			),
-			ChargesItem(
-				chargeCode = "03453457345733",
-				status = "Satisfied",
-				deliveredOn = "2011-01-13",
-				satisfiedOn = "2012-01-13",
-				createdOn = "2011-01-10",
-				particulars = Particulars(
-					type = "short-particulars",
-					containsFixedCharge = true,
-					floatingChargeCoversAll = false,
-					containsFloatingCharge = true,
-					containsNegativePledge = true,
-					description = "The subcontracts relating to the vehicles or other goods now or hereafter owned by the lessor" +
-						" and comprised in the principal contracts, the full benefit of all monies under the subcontracts, the " +
-						"benefit of all guarantees, the benefit of all insurances, the benefit of all supplemental or collateral " +
-						"agreements, see image for full details."
-				),
-				personsEntitled = "Man Financial Services PLC",
+				paddingValues = PaddingValues(),
+				onItemClicked = {},
+				onLoadMore = {}
 			)
-		),
-		paddingValues = PaddingValues(),
-		onItemClicked = {},
-		onLoadMore = {}
-	)
+		}
+	}
+
 }

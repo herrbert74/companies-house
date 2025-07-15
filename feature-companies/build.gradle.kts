@@ -20,9 +20,9 @@ dependencies {
 	implementation(libs.androidx.constraintLayoutCompose)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
+	implementation(libs.essenty.lifecycle)
 	implementation(libs.googlePlay.servicesMaps)
 	implementation(libs.googlePlay.servicesMapsCompose)
 
 	detekt(libs.detekt.cli)
-	testImplementation(libs.kotest.assertionsCore)
 }

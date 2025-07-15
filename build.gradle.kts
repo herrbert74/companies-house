@@ -1,24 +1,13 @@
 //import com.babestudios.companyinfouk.PluginGradleProperty
 //import com.babestudios.companyinfouk.script.PropertyResolver
-//import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-
-//buildscript {
-//	dependencies {
-//		classpath(libs.androidGradlePlugin)
-//		classpath(libs.kotlinPlugin)
-//		classpath(libs.kotlinAllOpenPlugin)
-//		classpath(libs.googleServicesPlugin)
-//	}
-//}
 
 plugins {
 	alias(libs.plugins.androidApplication) apply false
 	alias(libs.plugins.androidLibrary) apply false
 	alias(libs.plugins.kotlin.multiplatform) apply false
 	alias(libs.plugins.crashlytics) apply false
-	//id("scabbard.gradle") version "0.5.0"
 
-	//We apply it in BaBeStudiosAndroidPlugin -> detekt.gradle
+	//We apply it in library convention plugin -> detekt.gradle
 	alias(libs.plugins.detekt) apply false
 
 	/**
@@ -73,24 +62,8 @@ dependencyAnalysis {
 		all {
 			onAny {
 				exclude(
-					"org.jetbrains.kotlin:kotlin-stdlib", //This might be a bug from the plugin
-					"io.mockk:mockk-android", //Wants to remove it
-					"org.lighthousegames:logging", //Not used everywhere yet, but occasionally needed
-//					"com.arkivanov.decompose:decompose",
-//					"com.arkivanov.decompose:decompose-android-debug",
-//					"com.arkivanov.decompose:decompose-android",
-//					"com.arkivanov.decompose:extensions-compose-jetbrains",
-//					"com.arkivanov.decompose:extensions-compose-jetbrains-android-debug",
-//					"com.arkivanov.decompose:extensions-compose-jetbrains-android",
-//					"com.arkivanov.decompose:extensions-compose-jetpack",
-//					"com.arkivanov.decompose:extensions-compose-jetpack-android-debug",
-//					"com.arkivanov.decompose:extensions-compose-jetpack-android",
-					"com.eygraber:uri-kmp-android-debug",
-					"org.lighthousegames:logging-android-debug",
-					"de.jensklingenberg.ktorfit:ktorfit-annotations-android-debug",
-					"de.jensklingenberg.ktorfit:ktorfit-lib-light-android-debug",
-					"com.russhwolf:multiplatform-settings-android-debug",
-					"com.russhwolf:multiplatform-settings-no-arg-android-debug",
+//					"io.mockk:mockk-android", //Wants to remove it
+					"com.diamondedge:logging", //Not used everywhere yet, but occasionally needed
 				)
 			}
 		}
