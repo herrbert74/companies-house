@@ -52,6 +52,7 @@ dependencies {
 	implementation(libs.decompose.extensions)
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)
+	implementation(libs.kotlinx.datetime)
 
 	runtimeOnly(libs.androidx.composeUiTooling)
 

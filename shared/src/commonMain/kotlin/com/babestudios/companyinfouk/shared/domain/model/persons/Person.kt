@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.shared.domain.model.persons
 
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
-import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
+import kotlinx.datetime.YearMonth
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,7 +10,7 @@ data class Person(
 	val ceasedOn: String? = null,
 	val kind: String,
 	val countryOfResidence: String? = null,
-	val dateOfBirth: MonthYear = MonthYear(null, null),
+	val dateOfBirth: YearMonth = YearMonth(0, 1),
 	val address: Address,
 	val naturesOfControl: List<String>,
 	val nationality: String? = null,

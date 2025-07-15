@@ -23,12 +23,13 @@ import com.babestudios.companyinfouk.common.compose.TwoLineCard
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
-import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.persons.Identification
 import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsComp
 import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsComponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.datetime.Month
+import kotlinx.datetime.YearMonth
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -87,7 +88,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 			val (month, year) = selectedPerson.dateOfBirth.month to selectedPerson.dateOfBirth.year
 			TwoLineCard(
 				firstLineString = "Date of birth",
-				secondLineString = if (month == null || year == null) {
+				secondLineString = if (year == 0 && month == Month(1)) {
 					"Unknown"
 				} else {
 					"$month / $year"
@@ -163,7 +164,7 @@ fun PersonDetailsScreenPreview() {
 					),
 					nationality = "British",
 					countryOfResidence = "England",
-					dateOfBirth = MonthYear(2, 1),
+					dateOfBirth = YearMonth(2, 1),
 					kind = "Individual",
 					naturesOfControl =
 						listOf("Ownership of shares - 75% or more", "Ownership of voting rights - 75% or more"),

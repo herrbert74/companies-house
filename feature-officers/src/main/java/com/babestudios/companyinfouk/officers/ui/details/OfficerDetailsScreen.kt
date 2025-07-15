@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.DefaultComponentContext
@@ -28,11 +29,12 @@ import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.shared.domain.PREVIEW_MONTH
 import com.babestudios.companyinfouk.shared.domain.PREVIEW_YEAR
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
-import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComp
 import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.datetime.Month
+import kotlinx.datetime.YearMonth
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
@@ -93,7 +95,7 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 			val (month, year) = selectedOfficer.dateOfBirth.month to selectedOfficer.dateOfBirth.year
 			TwoLineCard(
 				firstLineString = "Date of birth",
-				secondLineString = if (month == null || year == null) {
+				secondLineString = if (year == 0 && month == Month(1)) {
 					"Unknown"
 				} else {
 					"$month / $year"
@@ -142,7 +144,39 @@ fun OfficerDetailsScreenPreview() {
 						locality = "London",
 						postalCode = "NW6 3BT",
 					),
-					dateOfBirth = MonthYear(PREVIEW_YEAR, PREVIEW_MONTH),
+					dateOfBirth = YearMonth(PREVIEW_YEAR, PREVIEW_MONTH),
+					occupation = "Director",
+					nationality = "German",
+					countryOfResidence = "United Kingdom",
+					officerRole = "director",
+					appointedOn = "2012-08-14",
+					resignedOn = "2015-08-14",
+					appointmentsId = "6fsh143wgC_U_M4LV9DfpGKskM0",
+					fromToString = "From 2012-08-14"
+				)
+			) { }
+		)
+	}
+}
+
+@Preview
+@Composable
+fun OfficerDetailsScreenUnknownBirthdayPreview() {
+	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
+	CompaniesTheme {
+		OfficerDetailsScreen(
+			OfficerDetailsComponent(
+				componentContext,
+				Dispatchers.Main,
+				Officer(
+					name = "ALDERSEY, Scherin Abada",
+					address = Address(
+						addressLine1 = "Suite A",
+						addressLine2 = "4-6 Canfield Place",
+						locality = "London",
+						postalCode = "NW6 3BT",
+					),
+					dateOfBirth = YearMonth(0, 1),
 					occupation = "Director",
 					nationality = "German",
 					countryOfResidence = "United Kingdom",

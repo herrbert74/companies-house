@@ -16,7 +16,7 @@ coroutines = "1.10.2"
 jdk = "21"
 kotlin = "2.2.0"
 kotlinx-collections = "0.4.0"
-#kotlinx-datetime = "0.7.1-0.6.x-compat"
+kotlinx-datetime = "0.7.1-0.6.x-compat"
 kotlinx-serialization = "1.9.0"
 ksp = "2.2.0-2.0.2"
 
@@ -278,8 +278,6 @@ jUnit5-jupiterApi = { module = "org.junit.jupiter:junit-jupiter-api", version.re
 #jUnit5-jupiterParams = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jUnit5" }
 #jUnit5-vintageEngine = { module = "org.junit.jupiter:junit-vintage-engine", version.ref = "jUnit5" }
 
-klock = "com.soywiz.korlibs.klock:klock:4.0.10"
-
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 #koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
 #koin-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
@@ -306,7 +304,7 @@ kotlinResult-result = { module = "com.michael-bull.kotlin-result:kotlin-result",
 kotlinx-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-collectionsImmutableJvm = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm", version.ref ="kotlinx-collections" }
-#kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serializationCore = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 

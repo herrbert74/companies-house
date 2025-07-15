@@ -7,11 +7,11 @@ import com.babestudios.companyinfouk.shared.data.model.officers.OfficerDto
 import com.babestudios.companyinfouk.shared.data.model.officers.OfficerLinksDto
 import com.babestudios.companyinfouk.shared.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.shared.data.util.StringResourceHelper
-import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerLinks
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficerRelatedLinks
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficersResponse
+import kotlinx.datetime.YearMonth
 
 fun OfficersResponseDto.toOfficersResponse() = OfficersResponse(totalResults, items.mapOfficerList())
 
@@ -54,4 +54,4 @@ private fun OfficerLinksDto?.toOfficerLinks() =
 		)
 	)
 
-internal fun MonthYearDto?.toMonthYear() = MonthYear(this?.year, this?.month)
+internal fun MonthYearDto?.toMonthYear() = YearMonth(this?.year ?: 0, this?.month ?: 1)

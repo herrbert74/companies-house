@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.shared.domain.model.officers
 
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
-import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
+import kotlinx.datetime.YearMonth
 
 data class AppointmentsResponse(
-	var dateOfBirth: MonthYear? = null,
+	var dateOfBirth: YearMonth? = null,
 	var items: List<Appointment> = emptyList(),
 	var name: String = "",
 	var totalResults: Int = 0,

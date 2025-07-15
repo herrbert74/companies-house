@@ -86,10 +86,9 @@ kotlin {
 			implementation(libs.essenty.backHandler)
 			implementation(libs.essenty.instanceKeeper)
 			implementation(libs.essenty.stateKeeper)
-			implementation(libs.klock)
-			//implementation(libs.koin.android)
 			implementation(libs.koin.core)
 			implementation(libs.kotlinx.coroutinesCore)
+			implementation(libs.kotlinx.datetime)
 			implementation(libs.kotlinx.serializationCore) //Transitive
 			implementation(libs.kotlinResult.result)
 			implementation(libs.ktor.clientCore)

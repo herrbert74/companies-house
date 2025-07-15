@@ -12,12 +12,13 @@ dependencies {
 	api(libs.androidx.composeRuntime) //Transitive
 	api(libs.kotlinx.coroutinesCore) //Transitive
 
+	implementation(libs.androidx.activityCompose)
 	implementation(libs.androidx.composeAnimationCore) //Transitive
 	implementation(libs.androidx.composeFoundation) //Transitive
 	implementation(libs.baBeStudios.baseAndroid)
 	implementation(libs.baBeStudios.baseCompose)
 	implementation(libs.decompose.core)
 	implementation(libs.decompose.extensions)
-	implementation(libs.androidx.activityCompose)
+	implementation(libs.kotlinx.datetime)
 
 }

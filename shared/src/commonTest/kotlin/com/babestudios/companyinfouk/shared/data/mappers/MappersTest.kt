@@ -17,12 +17,12 @@ import com.babestudios.companyinfouk.shared.data.model.insolvency.InsolvencyDto
 import com.babestudios.companyinfouk.shared.data.model.officers.AppointmentsResponseDto
 import com.babestudios.companyinfouk.shared.data.model.officers.OfficersResponseDto
 import com.babestudios.companyinfouk.shared.data.model.persons.PersonsResponseDto
-import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
 import com.babestudios.companyinfouk.shared.domain.model.officers.OfficersResponse
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlinx.datetime.YearMonth
 import kotlinx.serialization.json.Json
 
 class MappersTest {
@@ -201,8 +201,8 @@ class MappersTest {
 	fun `when there is an officer json then it is mapped`() {
 		officersResponseYouLimited.totalResults shouldBe 7
 		officersResponseYouLimited.items[0].name shouldBe "STEVENSON, Elizabeth Mary"
-		officersResponseYouLimited.items[0].dateOfBirth shouldBe MonthYear(null, null)
-		officersResponseYouLimited.items[1].dateOfBirth shouldBe MonthYear(year = 1985, month = 7)
+		officersResponseYouLimited.items[0].dateOfBirth shouldBe YearMonth(0, 1)
+		officersResponseYouLimited.items[1].dateOfBirth shouldBe YearMonth(year = 1985, month = 7)
 		officersResponseYouLimited.items[0].appointmentsId shouldBe "M0nRpSZPlPTwBusql3sNK6Efzr8"
 	}
 
@@ -238,7 +238,7 @@ class MappersTest {
 		val personsResponseYouLimited = personsResponseDto.toPersonsResponse()
 		personsResponseYouLimited.totalResults shouldBe 5
 		personsResponseYouLimited.items[0].name shouldBe "Mr Peter Sunderland"
-		personsResponseYouLimited.items[0].dateOfBirth shouldBe MonthYear(year = 1942, month = 3)
+		personsResponseYouLimited.items[0].dateOfBirth shouldBe YearMonth(year = 1942, month = 3)
 	}
 
 	//endregion

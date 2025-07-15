@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.shared.domain.model.officers
 
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
-import com.babestudios.companyinfouk.shared.domain.model.common.MonthYear
+import kotlinx.datetime.YearMonth
 import kotlinx.serialization.Serializable
 
 data class OfficersResponse(
@@ -16,7 +16,7 @@ data class Officer(
 	val links: OfficerLinks = OfficerLinks(),
 	val name: String = "",
 	val officerRole: String = "",
-	val dateOfBirth: MonthYear = MonthYear(null, null),
+	val dateOfBirth: YearMonth = YearMonth(0, 1),
 	val occupation: String = "Unknown",
 	val countryOfResidence: String = "Unknown",
 	val nationality: String = "Unknown",
