@@ -153,4 +153,4 @@ jobs:
       - name: Run detekt
         env:
           companiesHouseApiKey: ${{ secrets.COMPANIESHOUSEAPIKEY }}
-        run: ./gradlew detekt "-PcompaniesHouseApiKey=\"$companiesHouseApiKey\""
+        run: ./gradlew detektAll "-PcompaniesHouseApiKey=\"$companiesHouseApiKey\""

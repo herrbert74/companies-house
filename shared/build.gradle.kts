@@ -17,7 +17,6 @@ plugins {
 	alias(libs.plugins.mokkery)
 	//alias(libs.plugins.touchlab.skie)
 	alias(libs.plugins.buildKonfig)
-	alias(libs.plugins.detekt)
 }
 
 val companiesHouseApiKey: String by project
@@ -28,15 +27,6 @@ buildkonfig {
 	defaultConfigs {
 		buildConfigField(STRING, "COMPANIES_HOUSE_API_KEY", companiesHouseApiKey)
 	}
-}
-
-detekt {
-	source.setFrom(
-		"src/commonMain/kotlin",
-		"src/commonTest/kotlin",
-		"src/androidMain/kotlin",
-		"src/iosMain/kotlin",
-	)
 }
 
 //TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements

@@ -7,8 +7,7 @@ plugins {
 	alias(libs.plugins.kotlin.multiplatform) apply false
 	alias(libs.plugins.crashlytics) apply false
 
-	//We apply it in library convention plugin -> detekt.gradle
-	alias(libs.plugins.detekt) apply false
+	id("detekt-convention")
 
 	/**
 	 * Plugins disabled by default and applied on request from CLI

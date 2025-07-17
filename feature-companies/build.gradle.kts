@@ -24,5 +24,4 @@ dependencies {
 	implementation(libs.googlePlay.servicesMaps)
 	implementation(libs.googlePlay.servicesMapsCompose)
 
-	detekt(libs.detekt.cli)
 }
