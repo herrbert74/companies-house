@@ -1,11 +1,8 @@
 plugins {
 	alias(libs.plugins.androidLibrary)
-	alias(libs.plugins.detekt)
 	alias(libs.plugins.dependencyAnalysis)
 	alias(libs.plugins.kotlin.android)
 }
-
-apply(from = project.rootProject.file("team-props/detekt/detekt.gradle"))
 
 android {
 	compileSdk = libs.versions.compileSdkVersion.get().toInt()
@@ -21,6 +18,4 @@ kotlin {
 
 dependencies {
 	implementation(libs.diamondedge.logging)
-	detekt(libs.detekt.cli)
-	detektPlugins(libs.detekt.compose)
 }

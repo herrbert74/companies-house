@@ -1,11 +1,7 @@
 plugins {
-//	id("com.babestudios.companyinfouk.plugins.android")
 	alias(libs.plugins.androidApplication)
 	id("org.jetbrains.kotlin.android")
-	//alias(libs.plugins.kotlin.multiplatform)
 	alias(libs.plugins.crashlytics)
-//	id("com.google.gms.google-services")
-//	id("org.jetbrains.kotlin.plugin.allopen")
 	id("kotlin-parcelize")
 }
 

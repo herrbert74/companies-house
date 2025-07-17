@@ -15,5 +15,5 @@ dependencies {
 	implementation(libs.dependencyAnalysisPlugin)
 	implementation(libs.kotlinJvmPlugin)
 	implementation(libs.kotlinAndroidPlugin)
-	implementation(libs.kspPlugin)
+//	implementation(libs.kspPlugin)
 }
