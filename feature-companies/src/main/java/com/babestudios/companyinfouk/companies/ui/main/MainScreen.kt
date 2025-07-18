@@ -71,10 +71,16 @@ import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchRes
 import com.babestudios.companyinfouk.shared.domain.model.search.FilterState
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.shared.screen.main.MainComp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 //TODO transparent search when there are no results
 @Composable
-fun MainScreen(component: MainComp) {
+fun MainScreen(
+	component: MainComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 	var searchQuery by rememberSaveable { mutableStateOf("") }
@@ -105,6 +111,7 @@ fun MainScreen(component: MainComp) {
 	}
 
 	Scaffold(
+		modifier = modifier,
 		topBar = {
 			if (!isSearchBarActive) {
 				TopAppBar(
@@ -156,14 +163,14 @@ fun MainScreen(component: MainComp) {
 		} else {
 			RecentSearchesList(
 				paddingValues = paddingValues,
-				items = model.searchHistoryItems,
-				isClearRecentsDialogVisible = isClearRecentsDialogVisible,
-				onItemClicked = component::onRecentSearchesItemClicked,
+				items = model.searchHistoryItems.toImmutableList(),
+				onShowClearRecentsDialog = { isClearRecentsDialogVisible.value = true },
+				onItemClick = component::onRecentSearchesItemClicked,
 			)
 			if (isClearRecentsDialogVisible.value) {
 				ClearRecentsDialog(
-					isClearRecentsDialogVisible = isClearRecentsDialogVisible,
-					onClearRecentSearchesClicked = component::onClearRecentSearchesClicked,
+					onClearRecentSearchesClick = component::onClearRecentSearchesClicked,
+					onDismiss = { isClearRecentsDialogVisible.value = false }
 				)
 			}
 		}
@@ -208,7 +215,6 @@ fun MainScreen(component: MainComp) {
 									)
 								)
 								SearchFilterDropdown(
-									bodyContent = searchFilterString,
 									searchFilterOptions = searchFilterOptions,
 									setFilterState = component::setFilterState
 								)
@@ -235,8 +241,8 @@ fun MainScreen(component: MainComp) {
 					EmptySearchList()
 				} else {
 					SearchResultList(
-						items = model.filteredSearchResultItems,
-						onItemClicked = component::onItemClicked,
+						items = model.filteredSearchResultItems.toImmutableList(),
+						onItemClick = component::onItemClicked,
 						onLoadMore = component::loadMoreSearch,
 					)
 				}
@@ -295,9 +301,9 @@ private fun EmptySearchList(
 @Composable
 private fun RecentSearchesList(
 	paddingValues: PaddingValues,
-	items: List<SearchHistoryItem>,
-	isClearRecentsDialogVisible: MutableState<Boolean>,
-	onItemClicked: (id: SearchHistoryItem) -> Unit,
+	items: ImmutableList<SearchHistoryItem>,
+	onShowClearRecentsDialog: () -> Unit,
+	onItemClick: (id: SearchHistoryItem) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -320,7 +326,7 @@ private fun RecentSearchesList(
 				}
 				TwoLineCard(
 					modifier = Modifier
-						.clickable { onItemClicked(searchHistoryItem) }
+						.clickable { onItemClick(searchHistoryItem) }
 						.fillMaxWidth(1f),
 					firstLineString = searchHistoryItem.companyName,
 					secondLineString = searchHistoryItem.companyNumber,
@@ -336,7 +342,7 @@ private fun RecentSearchesList(
 				.align(Alignment.BottomEnd)
 				.padding(bottom = viewMarginLarge + paddingValues.calculateBottomPadding(), end = viewMarginLarge),
 			onClick = {
-				isClearRecentsDialogVisible.value = true
+				onShowClearRecentsDialog()
 			},
 		) {
 			Icon(
@@ -351,12 +357,12 @@ private fun RecentSearchesList(
 
 @Composable
 fun ClearRecentsDialog(
-	isClearRecentsDialogVisible: MutableState<Boolean>,
-	onClearRecentSearchesClicked: () -> Unit,
+	onClearRecentSearchesClick: () -> Unit,
+	onDismiss: () -> Unit,
 ) {
 	AlertDialog(
 		onDismissRequest = {
-			isClearRecentsDialogVisible.value = false
+			onDismiss()
 		},
 		title = {
 			Text(text = stringResource(R.string.delete_recent_searches))
@@ -367,8 +373,8 @@ fun ClearRecentsDialog(
 		confirmButton = {
 			Button(
 				onClick = {
-					isClearRecentsDialogVisible.value = false
-					onClearRecentSearchesClicked()
+					onClearRecentSearchesClick()
+					onDismiss()
 				}) {
 				Text(stringResource(android.R.string.ok))
 			}
@@ -376,7 +382,7 @@ fun ClearRecentsDialog(
 		dismissButton = {
 			Button(
 				onClick = {
-					isClearRecentsDialogVisible.value = false
+					onDismiss()
 				}) {
 				Text(stringResource(android.R.string.cancel))
 			}
@@ -387,8 +393,8 @@ fun ClearRecentsDialog(
 
 @Composable
 private fun SearchResultList(
-	items: List<CompanySearchResultItem>,
-	onItemClicked: (id: CompanySearchResultItem) -> Unit,
+	items: ImmutableList<CompanySearchResultItem>,
+	onItemClick: (id: CompanySearchResultItem) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 
@@ -416,7 +422,7 @@ private fun SearchResultList(
 				itemContent = { companySearchResultItem ->
 					CompanySearchResultItemListItem(
 						item = companySearchResultItem,
-						onItemClicked = onItemClicked,
+						onItemClick = onItemClick,
 					)
 
 					HorizontalDivider()
@@ -433,7 +439,7 @@ private fun SearchResultList(
 @Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun EmptyRecentListPreview() {
+private fun EmptyRecentListPreview() {
 	CompaniesTheme {
 		EmptySearchList()
 	}
@@ -442,11 +448,11 @@ fun EmptyRecentListPreview() {
 @Preview(name = "Light", uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun ClearRecentsDialogPreview() {
+private fun ClearRecentsDialogPreview() {
 	CompaniesTheme {
 		ClearRecentsDialog(
-			isClearRecentsDialogVisible = remember { mutableStateOf(true) },
-			onClearRecentSearchesClicked = {}
+			onClearRecentSearchesClick = {},
+			onDismiss = {}
 		)
 	}
 }
@@ -455,10 +461,10 @@ fun ClearRecentsDialogPreview() {
 @Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL)
 @PreviewLightDark
 @Composable
-fun MainListPreview() {
+private fun MainListPreview() {
 	CompaniesTheme {
 		SearchResultList(
-			items = listOf(
+			items = persistentListOf(
 				CompanySearchResultItem(
 					title = "ALPHABET ACCOUNTANTS LTD",
 					description = "07620277 - Incorporated on  3 May 2011",
@@ -472,7 +478,7 @@ fun MainListPreview() {
 					companyStatus = "active"
 				)
 			),
-			onItemClicked = {},
+			onItemClick = {},
 			onLoadMore = {}
 		)
 	}

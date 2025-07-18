@@ -23,9 +23,14 @@ import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCase
 import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesComp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun InsolvenciesScreen(component: InsolvenciesComp) {
+fun InsolvenciesScreen(
+	component: InsolvenciesComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 
@@ -34,12 +39,12 @@ fun InsolvenciesScreen(component: InsolvenciesComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.insolvency),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize().padding(paddingValues)
+				modifier = modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
@@ -50,9 +55,9 @@ fun InsolvenciesScreen(component: InsolvenciesComp) {
 			)
 		} else {
 			InsolvenciesList(
-				items = model.insolvency.cases,
+				items = model.insolvency.cases.toImmutableList(),
 				paddingValues = paddingValues,
-				onItemClicked = component::onInsolvencyCaseClicked,
+				onItemClick = component::onInsolvencyCaseClicked,
 			)
 		}
 	}
@@ -61,9 +66,9 @@ fun InsolvenciesScreen(component: InsolvenciesComp) {
 
 @Composable
 private fun InsolvenciesList(
-	items: List<InsolvencyCase>,
+	items: ImmutableList<InsolvencyCase>,
 	paddingValues: PaddingValues,
-	onItemClicked: (id: InsolvencyCase) -> Unit,
+	onItemClick: (id: InsolvencyCase) -> Unit,
 ) {
 
 	Box(modifier = Modifier.padding(paddingValues)) {
@@ -80,7 +85,7 @@ private fun InsolvenciesList(
 			) { insolvencyCase ->
 				InsolvenciesListItem(
 					item = insolvencyCase,
-					onItemClicked = onItemClicked,
+					onItemClick = onItemClick,
 				)
 
 				HorizontalDivider()

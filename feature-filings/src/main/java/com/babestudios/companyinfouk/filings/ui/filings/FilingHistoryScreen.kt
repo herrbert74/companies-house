@@ -32,9 +32,14 @@ import com.babestudios.companyinfouk.filings.R
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryComp
 import kotlin.math.min
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun FilingHistoryScreen(component: FilingHistoryComp) {
+fun FilingHistoryScreen(
+	component: FilingHistoryComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 	val categories = stringArrayResource(R.array.filing_history_categories)
@@ -45,7 +50,7 @@ fun FilingHistoryScreen(component: FilingHistoryComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_filing_history,
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.filing_history),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 		actions = { progress ->
 			Text(
 				bodyContent.value,
@@ -59,23 +64,27 @@ fun FilingHistoryScreen(component: FilingHistoryComp) {
 					)
 				)
 			)
-			CategoryFilterDropdown(categories = categories.toList(), bodyContent = bodyContent, component, progress)
+			CategoryFilterDropdown(
+				categories = categories.toImmutableList(),
+				component,
+				progress
+			)
 		},
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize().padding(paddingValues)
+				modifier = modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
 		} else if (model.error != null) {
-			Box(Modifier.background(color = Color.Red).padding(paddingValues))
+			Box(modifier.background(color = Color.Red).padding(paddingValues))
 		} else {
 			FilingHistoryList(
-				items = model.filingHistory.items,
+				items = model.filingHistory.items.toImmutableList(),
 				paddingValues = paddingValues,
-				onItemClicked = component::onItemClicked,
+				onItemClick = component::onItemClicked,
 				onLoadMore = component::onLoadMore,
 			)
 		}
@@ -85,9 +94,9 @@ fun FilingHistoryScreen(component: FilingHistoryComp) {
 
 @Composable
 private fun FilingHistoryList(
-	items: List<FilingHistoryItem>,
+	items: ImmutableList<FilingHistoryItem>,
 	paddingValues: PaddingValues,
-	onItemClicked: (id: FilingHistoryItem) -> Unit,
+	onItemClick: (id: FilingHistoryItem) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 
@@ -105,7 +114,7 @@ private fun FilingHistoryList(
 			) { filingHistoryItem ->
 				FilingHistoryItemListItem(
 					item = filingHistoryItem,
-					onItemClicked = onItemClicked,
+					onItemClick = onItemClick,
 				)
 
 				HorizontalDivider()

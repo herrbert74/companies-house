@@ -63,7 +63,7 @@ internal fun TransactionListItem(
 
 @Preview
 @Composable
-fun TransactionListPreview() {
+private fun TransactionListPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			TransactionListItem(
@@ -78,7 +78,7 @@ fun TransactionListPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun TransactionListDarkPreview() {
+private fun TransactionListDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			TransactionListItem(

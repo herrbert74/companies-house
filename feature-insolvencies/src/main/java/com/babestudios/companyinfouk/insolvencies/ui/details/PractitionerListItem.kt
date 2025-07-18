@@ -1,7 +1,6 @@
 package com.babestudios.companyinfouk.insolvencies.ui.details
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -12,18 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.TitleMediumText
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
@@ -33,7 +28,7 @@ import com.babestudios.companyinfouk.insolvencies.R
 @Composable
 internal fun PractitionerListItem(
 	item: Practitioner,
-	onItemClicked: (practitioner: Practitioner) -> Unit,
+	onItemClick: (practitioner: Practitioner) -> Unit,
 ) {
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
@@ -41,7 +36,7 @@ internal fun PractitionerListItem(
 	Row(
 		modifier = Modifier
 			.fillMaxWidth(1f)
-			.clickable { onItemClicked(item) },
+			.clickable { onItemClick(item) },
 	) {
 
 		Spacer(modifier = Modifier.height(viewMarginNormal))
@@ -72,7 +67,7 @@ internal fun PractitionerListItem(
 
 @Preview
 @Composable
-fun PractitionerListItemPreview() {
+private fun PractitionerListItemPreview() {
 	CompaniesTheme {
 		Box(modifier = Modifier.background(Colors.background)) {
 			PractitionerListItem(
@@ -83,7 +78,7 @@ fun PractitionerListItemPreview() {
 					ceasedToActOn = "2017-02-26",
 					role = "practitioner"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}
@@ -91,7 +86,7 @@ fun PractitionerListItemPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PractitionerListItemDarkPreview() {
+private fun PractitionerListItemDarkPreview() {
 	CompaniesTheme {
 		Box(modifier = Modifier.background(Colors.background)) {
 			PractitionerListItem(
@@ -102,7 +97,7 @@ fun PractitionerListItemDarkPreview() {
 					ceasedToActOn = "2017-02-26",
 					role = "practitioner"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}

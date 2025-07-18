@@ -47,7 +47,10 @@ import com.babestudios.companyinfouk.shared.screen.company.CompanyComp
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
-fun CompanyScreen(component: CompanyComp) {
+fun CompanyScreen(
+	component: CompanyComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 
@@ -62,7 +65,7 @@ fun CompanyScreen(component: CompanyComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_company,
 		title = model.company.companyName,
-		onBackClicked = { component.onBackClicked(model.isFavourite) },
+		onBackClick = { component.onBackClicked(model.isFavourite) },
 	) { paddingValues ->
 		CompanyScreenBody(
 			model.company,
@@ -104,12 +107,12 @@ fun CompanyScreen(component: CompanyComp) {
 private fun CompanyScreenBody(
 	company: Company,
 	paddingValues: PaddingValues,
-	onMapClicked: (String) -> Unit,
-	onChargesClicked: (String) -> Unit,
-	onFilingsClicked: (String) -> Unit,
-	onInsolvenciesClicked: (String) -> Unit,
-	onOfficersClicked: (String) -> Unit,
-	onPersonsClicked: (String) -> Unit,
+	onMapClick: (String) -> Unit,
+	onChargesClick: (String) -> Unit,
+	onFilingsClick: (String) -> Unit,
+	onInsolvenciesClick: (String) -> Unit,
+	onOfficersClick: (String) -> Unit,
+	onPersonsClick: (String) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -127,8 +130,8 @@ private fun CompanyScreenBody(
 		company.registeredOfficeAddress.getAddressString()
 	}
 
-	val onShowMapLambda = remember(registeredOfficeAddressString, onMapClicked) {
-		{ onMapClicked(registeredOfficeAddressString) }
+	val onShowMapLambda = remember(registeredOfficeAddressString, onMapClick) {
+		{ onMapClick(registeredOfficeAddressString) }
 	}
 
 	val natureOfBusinessTitle = stringResource(R.string.company_nature_of_business)
@@ -142,20 +145,20 @@ private fun CompanyScreenBody(
 
 	// These lambdas ensure that if other parts of `company` change but `companyNumber` doesn't,
 	// the SingleLineCard doesn't recompose due to an unstable lambda.
-	val onFilingsClickedLambda = remember(company.companyNumber, onFilingsClicked) {
-		{ onFilingsClicked(company.companyNumber) }
+	val onFilingsClickedLambda = remember(company.companyNumber, onFilingsClick) {
+		{ onFilingsClick(company.companyNumber) }
 	}
-	val onInsolvenciesClickedLambda = remember(company.companyNumber, onInsolvenciesClicked) {
-		{ onInsolvenciesClicked(company.companyNumber) }
+	val onInsolvenciesClickedLambda = remember(company.companyNumber, onInsolvenciesClick) {
+		{ onInsolvenciesClick(company.companyNumber) }
 	}
-	val onChargesClickedLambda = remember(company.companyNumber, onChargesClicked) {
-		{ onChargesClicked(company.companyNumber) }
+	val onChargesClickedLambda = remember(company.companyNumber, onChargesClick) {
+		{ onChargesClick(company.companyNumber) }
 	}
-	val onOfficersClickedLambda = remember(company.companyNumber, onOfficersClicked) {
-		{ onOfficersClicked(company.companyNumber) }
+	val onOfficersClickedLambda = remember(company.companyNumber, onOfficersClick) {
+		{ onOfficersClick(company.companyNumber) }
 	}
-	val onPersonsClickedLambda = remember(company.companyNumber, onPersonsClicked) {
-		{ onPersonsClicked(company.companyNumber) }
+	val onPersonsClickedLambda = remember(company.companyNumber, onPersonsClick) {
+		{ onPersonsClick(company.companyNumber) }
 	}
 
 	Column(

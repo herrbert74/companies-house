@@ -38,7 +38,8 @@ import kotlin.math.min
 fun CollapsingToolbarScaffold(
 	@DrawableRes backgroundDrawable: Int,
 	title: String,
-	onBackClicked: () -> Unit,
+	onBackClick: () -> Unit,
+	modifier: Modifier = Modifier,
 	actions: @Composable RowScope.(Float) -> Unit = {},
 	body: @Composable ((PaddingValues) -> Unit),
 ) {
@@ -51,7 +52,7 @@ fun CollapsingToolbarScaffold(
 	val appBarCollapsedHeight = TopAppBarDefaults.MediumAppBarCollapsedHeight
 
 	Scaffold(
-		modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+		modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
 		topBar = {
 			Box {
 				Image(
@@ -85,7 +86,7 @@ fun CollapsingToolbarScaffold(
 
 					},
 					navigationIcon = {
-						IconButton(onClick = { onBackClicked() }) {
+						IconButton(onClick = { onBackClick() }) {
 							Icon(
 								imageVector = Icons.AutoMirrored.Filled.ArrowBack,
 								contentDescription = "Finish",

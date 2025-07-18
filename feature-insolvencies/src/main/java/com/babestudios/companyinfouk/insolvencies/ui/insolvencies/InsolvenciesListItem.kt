@@ -25,7 +25,7 @@ import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCa
 @Composable
 internal fun InsolvenciesListItem(
 	item: InsolvencyCase,
-	onItemClicked: (id: InsolvencyCase) -> Unit,
+	onItemClick: (id: InsolvencyCase) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -34,7 +34,7 @@ internal fun InsolvenciesListItem(
 	Column(
 		modifier = Modifier
 			.fillMaxWidth(1f)
-			.clickable { onItemClicked(item) }
+			.clickable { onItemClick(item) }
 	) {
 
 		Spacer(modifier = Modifier.height(viewMarginNormal))
@@ -63,7 +63,7 @@ internal fun InsolvenciesListItem(
 
 @Preview
 @Composable
-fun InsolvenciesItemPreview() {
+private fun InsolvenciesItemPreview() {
 	CompaniesTheme{
 		Box(modifier = Modifier.background(Colors.background)){
 			InsolvenciesListItem(
@@ -71,7 +71,7 @@ fun InsolvenciesItemPreview() {
 					dates = listOf(Date("2016-02-16", "Creditors voluntary liquidation")),
 					type = "Creditors voluntary liquidation"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}
@@ -79,7 +79,7 @@ fun InsolvenciesItemPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun InsolvenciesItemDarkPreview() {
+private fun InsolvenciesItemDarkPreview() {
 	CompaniesTheme{
 		Box(modifier = Modifier.background(Colors.background)){
 			InsolvenciesListItem(
@@ -87,7 +87,7 @@ fun InsolvenciesItemDarkPreview() {
 					dates = listOf(Date("2016-02-16", "Creditors voluntary liquidation")),
 					type = "Creditors voluntary liquidation"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}

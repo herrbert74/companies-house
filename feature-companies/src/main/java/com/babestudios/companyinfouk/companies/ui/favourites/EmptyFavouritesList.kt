@@ -20,12 +20,14 @@ import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 
 @Composable
-fun EmptyFavouritesList() {
+fun EmptyFavouritesList(
+	modifier: Modifier = Modifier,
+) {
 
 	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
-		Modifier
+		modifier
 			.fillMaxSize(1f)
 			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)), //Matches the empty icon
 		// background from
@@ -50,6 +52,6 @@ fun EmptyFavouritesList() {
 
 @Preview("Empty Favourites List Preview")
 @Composable
-fun EmptyFavouritesListPreview() {
+private fun EmptyFavouritesListPreview() {
 	EmptyFavouritesList()
 }

@@ -303,7 +303,7 @@ kotlinResult-result = { module = "com.michael-bull.kotlin-result:kotlin-result",
 #kotlinx-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-#kotlinx-collectionsImmutableJvm = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm", version.ref ="kotlinx-collections" }
+kotlinx-collectionsImmutableJvm = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm", version.ref ="kotlinx-collections" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serializationCore = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }

@@ -24,12 +24,12 @@ tasks.register<Detekt>("detektAll") {
 	}
 	config = files(
 		"$rootDir/team-props/detekt/default-detekt-config.yml",
-//		"$rootDir/team-props/detekt/compose-detekt-config.yml"
+		"$rootDir/team-props/detekt/compose-detekt-config.yml"
 	)
 	exclude("**/resources/**")
 	exclude("**/build/**")
 }
 
-//dependencies {
-	//detektPlugins(libs.detekt.compose)
-//}
+dependencies {
+	detektPlugins(libs.detekt.compose)
+}

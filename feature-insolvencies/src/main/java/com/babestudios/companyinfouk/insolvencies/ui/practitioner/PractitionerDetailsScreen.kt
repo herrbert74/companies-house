@@ -30,7 +30,10 @@ import kotlinx.coroutines.Dispatchers
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
-fun PractitionerDetailsScreen(component: PractitionerDetailsComp) {
+fun PractitionerDetailsScreen(
+	component: PractitionerDetailsComp,
+	modifier: Modifier = Modifier,
+) {
 
 	TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val selectedPractitionerDetails = component.selectedPractitioner
@@ -41,7 +44,7 @@ fun PractitionerDetailsScreen(component: PractitionerDetailsComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(R.string.practitioner_details),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 	) { paddingValues ->
 		Column(
 			verticalArrangement = Arrangement.Top,
@@ -74,7 +77,7 @@ fun PractitionerDetailsScreen(component: PractitionerDetailsComp) {
 
 @PreviewLightDark
 @Composable
-fun PractitionerDetailsScreenPreview() {
+private fun PractitionerDetailsScreenPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		PractitionerDetailsScreen(

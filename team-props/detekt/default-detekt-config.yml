@@ -12,7 +12,7 @@ config:
   warningsAsErrors: false
   checkExhaustiveness: false
   # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
-  excludes: "reach.*,reach>.*>.*"
+  excludes: "babe.*,babe>.*>.*"
 
 processors:
   active: true
@@ -136,6 +136,8 @@ complexity:
     ignoreDefaultParameters: false
     ignoreDataClasses: true
     ignoreAnnotatedParameter: []
+    ignoreAnnotated:
+      - 'Composable'
   MethodOverloading:
     active: false
     threshold: 6
@@ -683,7 +685,15 @@ style:
     active: true
   UnusedPrivateMember:
     active: true
-    allowedNames: ''
+    allowedNames: '(_ignored|expected|serialVersionUID)'
+    ignoreAnnotated:
+      - 'Preview'
+      - 'PreviewAll'
+      - 'PreviewLightDark'
+      - 'PreviewDarkLightMode'
+      - 'PreviewPhone'
+      - 'PreviewTablet'
+      - 'PreviewTheme'
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseArrayLiteralsInAnnotations:
@@ -723,7 +733,7 @@ style:
     excludeImports:
       - 'java.util.*'
 
-reach:
+babe:
   active: true
   NonExhaustiveWhen:
     active: false
