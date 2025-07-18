@@ -39,9 +39,15 @@ import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesComp
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesItem
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesStore.SideEffect.Initial
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun FavouritesScreen(component: FavouritesComp) {
+fun FavouritesScreen(
+	component: FavouritesComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 
@@ -52,12 +58,14 @@ fun FavouritesScreen(component: FavouritesComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_favourites,
 		title = stringResource(R.string.favourites),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize().padding(paddingValues)
+				modifier = modifier
+					.fillMaxSize()
+					.padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
@@ -69,11 +77,11 @@ fun FavouritesScreen(component: FavouritesComp) {
 			)
 		} else {
 			FavouritesList(
-				items = model.favourites,
+				items = model.favourites.toImmutableList(),
 				paddingValues = paddingValues,
-				onItemClicked = component::onItemClicked,
-				onDeleteClicked = component::onDeleteClicked,
-				onUndoClicked = component::onUndoDeleteClicked,
+				onItemClick = component::onItemClicked,
+				onDeleteClick = component::onDeleteClicked,
+				onUndoClick = component::onUndoDeleteClicked,
 			)
 		}
 		if (sideEffect == FavouritesStore.SideEffect.Back) {
@@ -86,11 +94,11 @@ fun FavouritesScreen(component: FavouritesComp) {
 
 @Composable
 private fun FavouritesList(
-	items: List<FavouritesItem>,
+	items: ImmutableList<FavouritesItem>,
 	paddingValues: PaddingValues,
-	onItemClicked: (favouritesItem: FavouritesItem) -> Unit,
-	onDeleteClicked: (favouritesItem: FavouritesItem) -> Unit,
-	onUndoClicked: (favouritesItem: FavouritesItem) -> Unit,
+	onItemClick: (favouritesItem: FavouritesItem) -> Unit,
+	onDeleteClick: (favouritesItem: FavouritesItem) -> Unit,
+	onUndoClick: (favouritesItem: FavouritesItem) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -118,7 +126,7 @@ private fun FavouritesList(
 						) {
 							TwoLineCard(
 								modifier = Modifier
-									.clickable { onItemClicked(favouritesItem) }
+									.clickable { onItemClick(favouritesItem) }
 									.weight(1f),
 								firstLineString = favouritesItem.searchHistoryItem.companyName,
 								secondLineString = favouritesItem.searchHistoryItem.companyNumber,
@@ -129,13 +137,13 @@ private fun FavouritesList(
 									text = "UNDO",
 									modifier = Modifier
 										.padding(end = viewMarginLarge)
-										.clickable { onUndoClicked(favouritesItem) }
+										.clickable { onUndoClick(favouritesItem) }
 								)
 							} else {
 								IconButton(
-									onClick = { onDeleteClicked(favouritesItem) }, modifier = Modifier.padding(
+									onClick = { onDeleteClick(favouritesItem) }, modifier = Modifier.padding(
 										end =
-										viewMarginLarge
+											viewMarginLarge
 									)
 								) {
 									Icon(
@@ -157,9 +165,9 @@ private fun FavouritesList(
 
 @Preview("favourites List Preview")
 @Composable
-fun FavouritesListPreview() {
+private fun FavouritesListPreview() {
 	FavouritesList(
-		items = listOf(
+		items = persistentListOf(
 			FavouritesItem(
 				SearchHistoryItem("Reach Plc", "0082548", 1),
 				false
@@ -170,8 +178,8 @@ fun FavouritesListPreview() {
 			)
 		),
 		paddingValues = PaddingValues(0.dp),
-		onItemClicked = {},
-		onDeleteClicked = {},
-		onUndoClicked = {},
+		onItemClick = {},
+		onDeleteClick = {},
+		onUndoClick = {},
 	)
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +19,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.BodyMediumText
 import com.babestudios.companyinfouk.design.component.TitleMediumText
@@ -31,7 +29,7 @@ import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHis
 internal fun FilingHistoryItemListItem(
 	item: FilingHistoryItem,
 	modifier: Modifier = Modifier,
-	onItemClicked: (id: FilingHistoryItem) -> Unit,
+	onItemClick: (id: FilingHistoryItem) -> Unit,
 ) {
 
 	val viewMarginNormal = Dimens.marginNormal
@@ -41,13 +39,13 @@ internal fun FilingHistoryItemListItem(
 		modifier = modifier
 			.fillMaxWidth(1f)
 			.wrapContentHeight(Alignment.CenterVertically)
-			.clickable { onItemClicked(item) },
+			.clickable { onItemClick(item) },
 	) {
 		val (date, category, description, type) = createRefs()
 
 		TitleMediumText(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, top = viewMarginNormal)
 				.constrainAs(date) {
 					width = Dimension.fillToConstraints
@@ -57,7 +55,7 @@ internal fun FilingHistoryItemListItem(
 			text = item.date,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(end = viewMarginLarge, top = viewMarginNormal)
 				.constrainAs(category) {
 					baseline.linkTo(date.baseline)
@@ -67,7 +65,7 @@ internal fun FilingHistoryItemListItem(
 			text = item.category.displayName,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(description) {
 					width = Dimension.fillToConstraints
 					top.linkTo(date.bottom, viewMarginNormal)
@@ -77,7 +75,7 @@ internal fun FilingHistoryItemListItem(
 			maxLines = 3,
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.wrapContentHeight(Alignment.CenterVertically)
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal, top = viewMarginNormal)
 				.constrainAs(type) {
@@ -92,7 +90,7 @@ internal fun FilingHistoryItemListItem(
 
 @Preview("FilingHistoryItem Preview")
 @Composable
-fun FilingHistoryItemPreview() {
+private fun FilingHistoryItemPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			FilingHistoryItemListItem(
@@ -104,7 +102,7 @@ fun FilingHistoryItemPreview() {
 						" on " +
 						"2020-04-02"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}
@@ -112,7 +110,7 @@ fun FilingHistoryItemPreview() {
 
 @Preview("FilingHistoryItem Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun FilingHistoryItemDarkPreview() {
+private fun FilingHistoryItemDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			FilingHistoryItemListItem(
@@ -124,7 +122,7 @@ fun FilingHistoryItemDarkPreview() {
 						" on " +
 						"2020-04-02"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}

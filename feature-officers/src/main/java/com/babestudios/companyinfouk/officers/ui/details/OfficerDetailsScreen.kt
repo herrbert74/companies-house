@@ -38,7 +38,10 @@ import kotlinx.datetime.YearMonth
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
-fun OfficerDetailsScreen(component: OfficerDetailsComp) {
+fun OfficerDetailsScreen(
+	component: OfficerDetailsComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -50,13 +53,13 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_officers,
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 		title = stringResource(R.string.officer_details)
 	) { paddingValues ->
 		Column(
 			verticalArrangement = Arrangement.Top,
 			horizontalAlignment = Alignment.CenterHorizontally,
-			modifier = Modifier
+			modifier = modifier
 				.verticalScroll(state)
 				.padding(paddingValues)
 		) {
@@ -129,7 +132,7 @@ fun OfficerDetailsScreen(component: OfficerDetailsComp) {
 
 @PreviewLightDark
 @Composable
-fun OfficerDetailsScreenPreview() {
+private fun OfficerDetailsScreenPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		OfficerDetailsScreen(
@@ -154,14 +157,15 @@ fun OfficerDetailsScreenPreview() {
 					appointmentsId = "6fsh143wgC_U_M4LV9DfpGKskM0",
 					fromToString = "From 2012-08-14"
 				)
-			) { }
+			) { },
+			Modifier
 		)
 	}
 }
 
 @Preview
 @Composable
-fun OfficerDetailsScreenUnknownBirthdayPreview() {
+private fun OfficerDetailsScreenUnknownBirthdayPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		OfficerDetailsScreen(
@@ -186,7 +190,8 @@ fun OfficerDetailsScreenUnknownBirthdayPreview() {
 					appointmentsId = "6fsh143wgC_U_M4LV9DfpGKskM0",
 					fromToString = "From 2012-08-14"
 				)
-			) { }
+			) { },
+			Modifier
 		)
 	}
 }

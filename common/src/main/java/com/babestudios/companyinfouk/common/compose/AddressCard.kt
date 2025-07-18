@@ -28,8 +28,8 @@ import com.babestudios.companyinfouk.shared.domain.model.common.Address
 
 @Composable
 fun AddressCard(
-	modifier: Modifier = Modifier,
 	address: Address,
+	modifier: Modifier = Modifier,
 	title: String = "Address",
 	onShowMap: () -> Unit,
 ) {
@@ -46,7 +46,7 @@ fun AddressCard(
 		Column(
 			verticalArrangement = Arrangement.Center,
 			horizontalAlignment = Alignment.Start,
-			modifier = modifier
+			modifier = Modifier
 				.fillMaxWidth(HALF)
 				.constrainAs(titleText) {
 					top.linkTo(parent.top)
@@ -106,7 +106,7 @@ fun AddressCard(
 
 		Button(
 			onClick = { onShowMap.invoke() },
-			modifier = modifier
+			modifier = Modifier
 				.padding(bottom = 8.dp, end = 8.dp)
 				.constrainAs(showMapButton) {
 					bottom.linkTo(parent.bottom)
@@ -120,7 +120,7 @@ fun AddressCard(
 
 @Preview("AddressCard Preview")
 @Composable
-fun AddressCardPreview() {
+private fun AddressCardPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			AddressCard(
@@ -139,7 +139,7 @@ fun AddressCardPreview() {
 
 @Preview("AddressCard Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun AddressCardDarkPreview() {
+private fun AddressCardDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			AddressCard(

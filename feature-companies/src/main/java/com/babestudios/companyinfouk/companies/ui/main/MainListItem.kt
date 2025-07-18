@@ -21,7 +21,7 @@ import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchRes
 internal fun CompanySearchResultItemListItem(
 	item: CompanySearchResultItem,
 	modifier: Modifier = Modifier,
-	onItemClicked: (id: CompanySearchResultItem) -> Unit,
+	onItemClick: (id: CompanySearchResultItem) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -30,13 +30,13 @@ internal fun CompanySearchResultItemListItem(
 	ConstraintLayout(
 		modifier = modifier
 			.fillMaxWidth(1f)
-			.clickable { onItemClicked(item) },
+			.clickable { onItemClick(item) },
 	) {
 		val (title, description, addressSnippet, companyStatus) = createRefs()
 
 		Text(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(title) {
 					width = Dimension.fillToConstraints
 					linkTo(parent.top, description.top, viewMarginNormal, 0.dp)
@@ -48,7 +48,7 @@ internal fun CompanySearchResultItemListItem(
 		)
 		Text(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(description) {
 					width = Dimension.fillToConstraints
 					linkTo(title.bottom, addressSnippet.top, viewMarginNormal, 0.dp)
@@ -60,7 +60,7 @@ internal fun CompanySearchResultItemListItem(
 		)
 		Text(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(addressSnippet) {
 					width = Dimension.fillToConstraints
 					linkTo(parent.start, companyStatus.start, viewMarginLarge, 0.dp)
@@ -71,7 +71,7 @@ internal fun CompanySearchResultItemListItem(
 			maxLines = 3,
 		)
 		Text(
-			modifier = modifier
+			modifier = Modifier
 				.wrapContentHeight(Alignment.CenterVertically)
 				.padding(start = viewMarginNormal)
 				.constrainAs(companyStatus) {
@@ -86,7 +86,7 @@ internal fun CompanySearchResultItemListItem(
 
 @Preview("Item Preview")
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
 	CompanySearchResultItemListItem(
 		modifier = Modifier,
 		item = CompanySearchResultItem(
@@ -95,13 +95,13 @@ fun DefaultPreview() {
 			addressSnippet = "16  Anchor Street, Chelmsford, CM2 0JY",
 			companyStatus = "active"
 		),
-		onItemClicked = {}
+		onItemClick = {}
 	)
 }
 
 @Preview("Small Preview", device = "id:Nexus S")
 @Composable
-fun SmallPreview() {
+private fun SmallPreview() {
 	CompanySearchResultItemListItem(
 		modifier = Modifier,
 		item = CompanySearchResultItem(
@@ -110,6 +110,6 @@ fun SmallPreview() {
 			addressSnippet = "16  Anchor Street, Chelmsford, CM2 0JY",
 			companyStatus = "active"
 		),
-		onItemClicked = {}
+		onItemClick = {}
 	)
 }

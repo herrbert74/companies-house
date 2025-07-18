@@ -24,7 +24,7 @@ import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 @Composable
 internal fun OfficerListItem(
 	item: Officer,
-	onItemClicked: (id: Officer) -> Unit,
+	onItemClick: (id: Officer) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -34,7 +34,7 @@ internal fun OfficerListItem(
 		modifier = Modifier
 			.fillMaxHeight()
 			.fillMaxWidth(1f)
-			.clickable { onItemClicked(item) }
+			.clickable { onItemClick(item) }
 	) {
 
 		Spacer(modifier = Modifier.height(viewMarginNormal))
@@ -79,7 +79,7 @@ internal fun OfficerListItem(
 
 @Preview("Item Preview")
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
 	OfficerListItem(
 		Officer(
 			name = "Savory, Fiona Anne, Lady",
@@ -88,6 +88,6 @@ fun DefaultPreview() {
 			fromToString = "2012-2-23",
 			officerRole = "Director"
 		),
-		onItemClicked = {}
+		onItemClick = {}
 	)
 }

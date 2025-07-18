@@ -24,9 +24,14 @@ import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.shared.screen.officers.OfficersComp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun OfficersScreen(component: OfficersComp) {
+fun OfficersScreen(
+	component: OfficersComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 
@@ -34,13 +39,13 @@ fun OfficersScreen(component: OfficersComp) {
 
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_officers,
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.officers)
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize().padding(paddingValues)
+				modifier = modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
@@ -52,9 +57,9 @@ fun OfficersScreen(component: OfficersComp) {
 			)
 		} else {
 			OfficersList(
-				items = model.officersResponse.items,
+				items = model.officersResponse.items.toImmutableList(),
 				paddingValues,
-				onItemClicked = component::onItemClicked,
+				onItemClick = component::onItemClicked,
 				onLoadMore = component::onLoadMore,
 			)
 		}
@@ -64,9 +69,9 @@ fun OfficersScreen(component: OfficersComp) {
 
 @Composable
 private fun OfficersList(
-	items: List<Officer>,
+	items: ImmutableList<Officer>,
 	paddingValues: PaddingValues,
-	onItemClicked: (id: Officer) -> Unit,
+	onItemClick: (id: Officer) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 
@@ -84,7 +89,7 @@ private fun OfficersList(
 			) { officer ->
 				OfficerListItem(
 					item = officer,
-					onItemClicked = onItemClicked,
+					onItemClick = onItemClick,
 				)
 
 				HorizontalDivider()

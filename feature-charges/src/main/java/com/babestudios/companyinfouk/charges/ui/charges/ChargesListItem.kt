@@ -34,7 +34,7 @@ import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 internal fun ChargesItemListItem(
 	item: ChargesItem,
 	modifier: Modifier = Modifier,
-	onItemClicked: (id: ChargesItem) -> Unit,
+	onItemClick: (id: ChargesItem) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -57,7 +57,7 @@ internal fun ChargesItemListItem(
 		modifier = modifier
 			.fillMaxWidth(1f)
 			.wrapContentHeight(Alignment.CenterVertically)
-			.clickable { onItemClicked(item) },
+			.clickable { onItemClick(item) },
 	) {
 
 		val (cpnCreatedOn, cpnSatisfiedOn, cpnChargeCode, cpnPersonsEntitled) = createRefs()
@@ -65,7 +65,7 @@ internal fun ChargesItemListItem(
 
 		Text(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnChargeCode) {
 					top.linkTo(parent.top, margin = viewMarginNormal)
 					bottom.linkTo(chargeCode.top)
@@ -92,7 +92,7 @@ internal fun ChargesItemListItem(
 
 		Text(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnCreatedOn) {
 					linkTo(parent.start, status.start, viewMarginLarge + viewMarginSmall, viewMarginNormal, bias = 0f)
 					top.linkTo(chargeCode.bottom, margin = viewMarginNormal)
@@ -118,7 +118,7 @@ internal fun ChargesItemListItem(
 		val satisfiedVisibility = if (item.status == "Satisfied") Visibility.Visible else Visibility.Gone
 		Text(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnSatisfiedOn) {
 					top.linkTo(createdOn.bottom, margin = viewMarginNormal)
 					bottom.linkTo(satisfiedOn.top)
@@ -147,7 +147,7 @@ internal fun ChargesItemListItem(
 
 		Text(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnPersonsEntitled) {
 					linkTo(parent.start, status.start, viewMarginLarge + viewMarginSmall, viewMarginNormal, bias = 0f)
 					top.linkTo(satisfiedOn.bottom, margin = viewMarginNormal, goneMargin = viewMarginNormal)
@@ -189,7 +189,7 @@ internal fun ChargesItemListItem(
 
 @Preview("Satisfied Charges Item Preview")
 @Composable
-fun SatisfiedItemPreview() {
+private fun SatisfiedItemPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			ChargesItemListItem(
@@ -200,7 +200,7 @@ fun SatisfiedItemPreview() {
 					personsEntitled = "John Doe",
 					status = "Satisfied"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}
@@ -208,7 +208,7 @@ fun SatisfiedItemPreview() {
 
 @Preview("Satisfied Charges Item Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun SatisfiedItemDarkPreview() {
+private fun SatisfiedItemDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			ChargesItemListItem(
@@ -219,7 +219,7 @@ fun SatisfiedItemDarkPreview() {
 					personsEntitled = "John Doe",
 					status = "Satisfied"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}
@@ -227,7 +227,7 @@ fun SatisfiedItemDarkPreview() {
 
 @Preview("Dissatisfied Charges Item Preview")
 @Composable
-fun DissatisfiedItemPreview() {
+private fun DissatisfiedItemPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			ChargesItemListItem(
@@ -237,7 +237,7 @@ fun DissatisfiedItemPreview() {
 					personsEntitled = "John Doe",
 					status = "Outstanding"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}
@@ -245,7 +245,7 @@ fun DissatisfiedItemPreview() {
 
 @Preview("Dissatisfied Charges Item Dark Preview", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun DissatisfiedItemDarkPreview() {
+private fun DissatisfiedItemDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			ChargesItemListItem(
@@ -255,7 +255,7 @@ fun DissatisfiedItemDarkPreview() {
 					personsEntitled = "John Doe",
 					status = "Outstanding"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}

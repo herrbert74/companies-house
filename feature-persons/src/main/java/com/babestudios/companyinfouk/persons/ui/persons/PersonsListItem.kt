@@ -22,7 +22,7 @@ import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 @Composable
 internal fun PersonsListItem(
 	item: Person,
-	onItemClicked: (id: Person) -> Unit,
+	onItemClick: (id: Person) -> Unit,
 ) {
 
 	val viewMarginNormal = Dimens.marginNormal
@@ -30,7 +30,7 @@ internal fun PersonsListItem(
 	Column(
 		modifier = Modifier
 			.fillMaxWidth(1f)
-			.clickable { onItemClicked(item) }
+			.clickable { onItemClick(item) }
 	) {
 
 		Spacer(modifier = Modifier.height(viewMarginNormal))
@@ -63,7 +63,7 @@ internal fun PersonsListItem(
 
 @Preview("Item Preview")
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
 	PersonsListItem(
 		Person(
 			name = "Robert Who",
@@ -72,6 +72,6 @@ fun DefaultPreview() {
 			kind = "Individual",
 			naturesOfControl = listOf("individual")
 		),
-		onItemClicked = {}
+		onItemClick = {}
 	)
 }

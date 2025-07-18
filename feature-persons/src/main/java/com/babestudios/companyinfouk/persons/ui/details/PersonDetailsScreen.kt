@@ -33,7 +33,10 @@ import kotlinx.datetime.YearMonth
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
-fun PersonDetailsScreen(component: PersonDetailsComp) {
+fun PersonDetailsScreen(
+	component: PersonDetailsComp,
+	modifier: Modifier = Modifier,
+) {
 
 	TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val selectedPerson = component.selectedPerson
@@ -43,13 +46,13 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_persons,
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 		title = stringResource(id = R.string.person_details)
 	) { paddingValues ->
 		Column(
 			verticalArrangement = Arrangement.Top,
 			horizontalAlignment = Alignment.CenterHorizontally,
-			modifier = Modifier
+			modifier = modifier
 				.verticalScroll(state)
 				.padding(paddingValues)
 		) {
@@ -146,7 +149,7 @@ fun PersonDetailsScreen(component: PersonDetailsComp) {
 
 @PreviewLightDark
 @Composable
-fun PersonDetailsScreenPreview() {
+private fun PersonDetailsScreenPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		PersonDetailsScreen(

@@ -22,12 +22,15 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.persons.R
 
 @Composable
-fun EmptyPersonsList(paddingValues: PaddingValues) {
+fun EmptyPersonsList(
+	paddingValues: PaddingValues,
+	modifier: Modifier = Modifier,
+) {
 
 	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
-		Modifier
+		modifier
 			.fillMaxSize(1f)
 			//Matches the empty icon background from BaBeStudiosBase
 			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1))
@@ -52,6 +55,6 @@ fun EmptyPersonsList(paddingValues: PaddingValues) {
 
 @Preview("Empty Favourites List Preview")
 @Composable
-fun EmptyFavouritesListPreview() {
+private fun EmptyFavouritesListPreview() {
 	EmptyPersonsList(PaddingValues())
 }

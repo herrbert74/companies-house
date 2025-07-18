@@ -4,11 +4,9 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +17,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.BodyMediumText
 import com.babestudios.companyinfouk.design.component.TitleMediumText
@@ -32,7 +29,7 @@ import com.babestudios.companyinfouk.officers.R
 internal fun AppointmentListItem(
 	item: Appointment,
 	modifier: Modifier = Modifier,
-	onItemClicked: (id: Appointment) -> Unit,
+	onItemClick: (id: Appointment) -> Unit,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -42,7 +39,7 @@ internal fun AppointmentListItem(
 		modifier = modifier
 			.fillMaxWidth(1f)
 			.wrapContentHeight(Alignment.CenterVertically)
-			.clickable { onItemClicked(item) },
+			.clickable { onItemClick(item) },
 	) {
 		val (cpnAppointedOn, cpnCompanyName, cpnCompanyStatus, cpnRole, cpnResignedOn) = createRefs()
 		val (appointedOn, companyName, companyStatus, role, resignedOn) = createRefs()
@@ -50,7 +47,7 @@ internal fun AppointmentListItem(
 
 		BodyMediumText(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal)
 				.constrainAs(cpnAppointedOn) {
 					top.linkTo(parent.top)
@@ -59,7 +56,7 @@ internal fun AppointmentListItem(
 			text = stringResource(R.string.officer_details_appointed_on),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal)
 				.constrainAs(appointedOn) {
 					baseline.linkTo(cpnAppointedOn.baseline)
@@ -68,7 +65,7 @@ internal fun AppointmentListItem(
 			text = item.appointedOn ?: "",
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(cpnCompanyName) {
 					top.linkTo(appointedOn.bottom)
@@ -77,7 +74,7 @@ internal fun AppointmentListItem(
 			text = "Company Name",
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.wrapContentHeight(Alignment.CenterVertically)
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal, end = viewMarginLarge)
 				.constrainAs(companyName) {
@@ -89,7 +86,7 @@ internal fun AppointmentListItem(
 			text = item.appointedTo.companyName,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(cpnCompanyStatus) {
 					top.linkTo(companyName.bottom)
@@ -98,7 +95,7 @@ internal fun AppointmentListItem(
 			text = "Company Status",
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(companyStatus) {
 					baseline.linkTo(cpnCompanyStatus.baseline)
@@ -107,7 +104,7 @@ internal fun AppointmentListItem(
 			text = item.appointedTo.companyStatus,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(cpnRole) {
 					top.linkTo(cpnCompanyStatus.bottom)
@@ -116,7 +113,7 @@ internal fun AppointmentListItem(
 			text = stringResource(R.string.officer_appointments_role),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 				.constrainAs(role) {
 					baseline.linkTo(cpnRole.baseline)
@@ -126,7 +123,7 @@ internal fun AppointmentListItem(
 		)
 		if (item.resignedOn != null) {
 			BodyMediumText(
-				modifier = modifier
+				modifier = Modifier
 					.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 					.constrainAs(cpnResignedOn) {
 						top.linkTo(cpnRole.bottom)
@@ -136,7 +133,7 @@ internal fun AppointmentListItem(
 				text = stringResource(R.string.officer_appointments_resigned_on),
 			)
 			TitleMediumText(
-				modifier = modifier
+				modifier = Modifier
 					.padding(start = viewMarginLarge, bottom = viewMarginNormal)
 					.constrainAs(resignedOn) {
 						baseline.linkTo(cpnResignedOn.baseline)
@@ -150,7 +147,7 @@ internal fun AppointmentListItem(
 
 @Preview
 @Composable
-fun AppointmentListItemPreview() {
+private fun AppointmentListItemPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			AppointmentListItem(
@@ -162,7 +159,7 @@ fun AppointmentListItemPreview() {
 					officerRole = "Director",
 					resignedOn = "2013-10-12"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}
@@ -170,7 +167,7 @@ fun AppointmentListItemPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun AppointmentListItemDarkPreview() {
+private fun AppointmentListItemDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			AppointmentListItem(
@@ -182,7 +179,7 @@ fun AppointmentListItemDarkPreview() {
 					officerRole = "Director",
 					resignedOn = "2013-10-12"
 				),
-				onItemClicked = {}
+				onItemClick = {}
 			)
 		}
 	}

@@ -61,7 +61,10 @@ private val log = logging()
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
-fun FilingDetailsScreen(component: FilingDetailsComp) {
+fun FilingDetailsScreen(
+	component: FilingDetailsComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val selectedFilingDetails = component.filingHistoryItem
 	val model by component.state.subscribeAsState()
@@ -101,7 +104,7 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_filing_history,
 		title = stringResource(R.string.filing_history_details),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 		actions = { progress ->
 			IconButton(onClick = {
 				wasCreateDocumentCalled.value = false
@@ -119,7 +122,6 @@ fun FilingDetailsScreen(component: FilingDetailsComp) {
 				)
 			}
 		},
-
 	) { paddingValues ->
 		if (model.downloadedPdfResponseBody != null && !wasCreateDocumentCalled.value) {
 			CheckPermissionAndWriteDocument(
@@ -224,7 +226,7 @@ fun Context.getActivity(): ComponentActivity? {
 
 @Preview
 @Composable
-fun FilingDetailsBodyPreview() {
+private fun FilingDetailsBodyPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			FilingDetailsBody(
@@ -246,7 +248,7 @@ fun FilingDetailsBodyPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun FilingDetailsBodyDarkPreview() {
+private fun FilingDetailsBodyDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			FilingDetailsBody(

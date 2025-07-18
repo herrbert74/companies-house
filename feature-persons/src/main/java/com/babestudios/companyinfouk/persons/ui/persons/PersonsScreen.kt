@@ -24,17 +24,23 @@ import com.babestudios.companyinfouk.common.compose.CollapsingToolbarScaffold
 import com.babestudios.companyinfouk.persons.R
 import com.babestudios.companyinfouk.shared.domain.model.persons.Person
 import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun PersonsScreen(component: PersonsComp) {
+fun PersonsScreen(
+	component: PersonsComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 
 	BackHandler(onBack = { component.onBackClicked() })
 
 	CollapsingToolbarScaffold(
+		modifier = modifier,
 		backgroundDrawable = R.drawable.bg_persons,
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.persons_with_significant_control)
 	) { paddingValues ->
 		if (model.isLoading) {
@@ -56,9 +62,9 @@ fun PersonsScreen(component: PersonsComp) {
 				EmptyPersonsList(paddingValues)
 			} else {
 				PersonsList(
-					items = items,
+					items = items.toImmutableList(),
 					paddingValues,
-					onItemClicked = component::onItemClicked,
+					onItemClick = component::onItemClicked,
 					onLoadMore = component::onLoadMore,
 				)
 			}
@@ -69,9 +75,9 @@ fun PersonsScreen(component: PersonsComp) {
 
 @Composable
 private fun PersonsList(
-	items: List<Person>,
+	items: ImmutableList<Person>,
 	paddingValues: PaddingValues,
-	onItemClicked: (id: Person) -> Unit,
+	onItemClick: (id: Person) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 
@@ -89,7 +95,7 @@ private fun PersonsList(
 			) { person ->
 				PersonsListItem(
 					item = person,
-					onItemClicked = onItemClicked,
+					onItemClick = onItemClick,
 				)
 
 				HorizontalDivider()

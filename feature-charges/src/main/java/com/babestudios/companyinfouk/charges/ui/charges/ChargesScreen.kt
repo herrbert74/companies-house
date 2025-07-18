@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.charges.ui.charges
 
-import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
@@ -30,18 +28,26 @@ import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
 import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.immutableListOf
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun ChargesScreen(component: ChargesComp) {
+fun ChargesScreen(
+	component: ChargesComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val model by component.state.subscribeAsState()
 
 	BackHandler(onBack = { component.onBackClicked() })
 
 	CollapsingToolbarScaffold(
+		modifier = modifier,
 		backgroundDrawable = R.drawable.bg_charges,
 		title = stringResource(com.babestudios.companyinfouk.common.R.string.charges),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
@@ -54,9 +60,9 @@ fun ChargesScreen(component: ChargesComp) {
 			Box(Modifier.background(color = Color.Red).padding(paddingValues))
 		} else {
 			ChargesList(
-				items = model.chargesResponse.items,
+				items = model.chargesResponse.items.toImmutableList(),
 				paddingValues = paddingValues,
-				onItemClicked = component::onItemClicked,
+				onItemClick = component::onItemClicked,
 				onLoadMore = component::onLoadMore,
 			)
 		}
@@ -65,9 +71,9 @@ fun ChargesScreen(component: ChargesComp) {
 
 @Composable
 private fun ChargesList(
-	items: List<ChargesItem>,
+	items: ImmutableList<ChargesItem>,
 	paddingValues: PaddingValues,
-	onItemClicked: (id: ChargesItem) -> Unit,
+	onItemClick: (id: ChargesItem) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 	Box(modifier = Modifier.padding(paddingValues)) {
@@ -83,7 +89,7 @@ private fun ChargesList(
 			) { _, chargesItem ->
 				ChargesItemListItem(
 					item = chargesItem,
-					onItemClicked = onItemClicked,
+					onItemClick = onItemClick,
 				)
 
 				HorizontalDivider()
@@ -100,11 +106,11 @@ private fun ChargesList(
 
 @PreviewLightDark
 @Composable
-fun ChargesListPreview() {
+private fun ChargesListPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.surface)) {
 			ChargesList(
-				items = listOf(
+				items = persistentListOf(
 					ChargesItem(
 						chargeCode = "03453457345734",
 						status = "Outstanding",
@@ -145,7 +151,7 @@ fun ChargesListPreview() {
 					)
 				),
 				paddingValues = PaddingValues(),
-				onItemClicked = {},
+				onItemClick = {},
 				onLoadMore = {}
 			)
 		}

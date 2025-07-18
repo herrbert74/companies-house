@@ -27,9 +27,14 @@ import com.babestudios.companyinfouk.design.component.TitleLargeBoldText
 import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
 import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsComp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun AppointmentsScreen(component: AppointmentsComp) {
+fun AppointmentsScreen(
+	component: AppointmentsComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
@@ -39,28 +44,28 @@ fun AppointmentsScreen(component: AppointmentsComp) {
 
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_officers,
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 		title = stringResource(R.string.officer_appointments_title)
 	) { paddingValues ->
 		if (model.isLoading) {
 			Box(
 				contentAlignment = Alignment.Center,
-				modifier = Modifier.fillMaxSize().padding(paddingValues)
+				modifier = modifier.fillMaxSize().padding(paddingValues)
 			) {
 				CircularProgressIndicator()
 			}
 		} else if (model.error != null) {
-			Box(Modifier.background(color = Color.Red).padding(paddingValues))
+			Box(modifier.background(color = Color.Red).padding(paddingValues))
 		} else {
-			Column(Modifier.padding(paddingValues)) {
+			Column(modifier.padding(paddingValues)) {
 				TitleLargeBoldText(
 					modifier = Modifier
 						.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
 					text = model.selectedOfficer.name,
 				)
 				AppointmentsList(
-					items = model.appointmentsResponse.items,
-					onItemClicked = component::onItemClicked,
+					items = model.appointmentsResponse.items.toImmutableList(),
+					onItemClick = component::onItemClicked,
 					onLoadMore = component::onLoadMore,
 				)
 			}
@@ -71,8 +76,8 @@ fun AppointmentsScreen(component: AppointmentsComp) {
 
 @Composable
 private fun AppointmentsList(
-	items: List<Appointment>,
-	onItemClicked: (id: Appointment) -> Unit,
+	items: ImmutableList<Appointment>,
+	onItemClick: (id: Appointment) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
 
@@ -93,7 +98,7 @@ private fun AppointmentsList(
 			) { appointment ->
 				AppointmentListItem(
 					item = appointment,
-					onItemClicked = onItemClicked,
+					onItemClick = onItemClick,
 				)
 
 				HorizontalDivider()

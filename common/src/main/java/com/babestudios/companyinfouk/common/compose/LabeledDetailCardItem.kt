@@ -72,7 +72,7 @@ fun LabeledDetailCardItem(
 
 @Preview
 @Composable
-fun NormalPreview() {
+private fun NormalPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			LabeledDetailCardItem(
@@ -85,7 +85,7 @@ fun NormalPreview() {
 
 @Preview
 @Composable
-fun LongLabelPreview() {
+private fun LongLabelPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			LabeledDetailCardItem(
@@ -98,7 +98,7 @@ fun LongLabelPreview() {
 
 @Preview
 @Composable
-fun LongDetailPreview() {
+private fun LongDetailPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			LabeledDetailCardItem(
@@ -111,7 +111,7 @@ fun LongDetailPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun NormalDarkPreview() {
+private fun NormalDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			LabeledDetailCardItem(
@@ -124,7 +124,7 @@ fun NormalDarkPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun LongLabelDarkPreview() {
+private fun LongLabelDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			LabeledDetailCardItem(
@@ -137,7 +137,7 @@ fun LongLabelDarkPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun LongDetailDarkPreview() {
+private fun LongDetailDarkPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			LabeledDetailCardItem(

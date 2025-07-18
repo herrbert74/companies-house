@@ -35,12 +35,12 @@ fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(R.string.insolvency_details),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 	) {paddingValues ->
 		InsolvencyDetailsList(
 			items = insolvencyCase,
 			paddingValues = paddingValues,
-			onItemClicked = component::onItemClicked
+			onItemClick = component::onItemClicked
 		)
 	}
 
@@ -50,7 +50,7 @@ fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
 private fun InsolvencyDetailsList(
 	items: InsolvencyCase,
 	paddingValues: PaddingValues,
-	onItemClicked: (id: Practitioner) -> Unit,
+	onItemClick: (id: Practitioner) -> Unit,
 ) {
 
 	Column(modifier = Modifier.padding(paddingValues)) {
@@ -97,7 +97,7 @@ private fun InsolvencyDetailsList(
 						style = CompaniesTypography.titleSmall
 					)
 				}
-				PractitionerListItem(item = practitioner, onItemClicked)
+				PractitionerListItem(item = practitioner, onItemClick)
 				HorizontalDivider()
 			}
 		}
@@ -108,7 +108,7 @@ private fun InsolvencyDetailsList(
 
 @Preview("InsolvencyDetailsList Preview")
 @Composable
-fun InsolvencyDetailsListPreview() {
+private fun InsolvencyDetailsListPreview() {
 	InsolvencyDetailsList(
 		items = InsolvencyCase(
 			dates = listOf(
@@ -132,7 +132,7 @@ fun InsolvencyDetailsListPreview() {
 			),
 		),
 		paddingValues = PaddingValues(),
-		onItemClicked = {}
+		onItemClick = {}
 	)
 }
 

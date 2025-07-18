@@ -53,7 +53,10 @@ private val defaultLatLng = LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
 
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
-fun MapScreen(component: MapComp) {
+fun MapScreen(
+	component: MapComp,
+	modifier: Modifier = Modifier,
+) {
 
 	var location by remember { mutableStateOf<LatLng?>(null) }
 
@@ -83,6 +86,7 @@ fun MapScreen(component: MapComp) {
 	BackHandler(onBack = { component.onBackClicked() })
 
 	Scaffold(
+		modifier = modifier,
 		topBar = {
 			TopAppBar(
 				colors = topAppBarColors,
@@ -143,7 +147,7 @@ private suspend fun getLocationFromAddress(strAddress: String, context: Context)
 
 @Preview("map Preview")
 @Composable
-fun MapScreenPreview() {
+private fun MapScreenPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		MapScreen(

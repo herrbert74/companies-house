@@ -42,7 +42,7 @@ fun ChargeDetailsListScreen(component: ChargeDetailsComp) {
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_charges,
 		title = stringResource(R.string.charge_details_title),
-		onBackClicked = { component.onBackClicked() },
+		onBackClick = { component.onBackClicked() },
 	) { paddingValues ->
 		ChargeDetailsList(
 			charge = selectedCharge,
@@ -54,8 +54,8 @@ fun ChargeDetailsListScreen(component: ChargeDetailsComp) {
 
 @Composable
 private fun ChargeHeader(
-	modifier: Modifier = Modifier,
 	charge: ChargesItem,
+	modifier: Modifier = Modifier,
 ) {
 
 	val viewMarginLarge = Dimens.marginLarge
@@ -79,7 +79,7 @@ private fun ChargeHeader(
 
 		BodyMediumText(
 			textAlign = TextAlign.Start,
-			modifier = modifier
+			modifier = Modifier
 				.padding(top = viewMarginLarge)
 				.constrainAs(cpnDeliveredOn) {
 					top.linkTo(parent.top)
@@ -90,7 +90,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_delivered_on),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(deliveredOn) {
 					baseline.linkTo(cpnDeliveredOn.baseline)
 					start.linkTo(guideline)
@@ -98,7 +98,7 @@ private fun ChargeHeader(
 			text = charge.deliveredOn,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnStatus) {
 					top.linkTo(deliveredOn.bottom, margin = viewMarginNormal)
 					start.linkTo(parent.start, margin = viewMarginLarge)
@@ -108,7 +108,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_status),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.wrapContentHeight(Alignment.CenterVertically)
 				.padding(top = viewMarginNormal, end = viewMarginLarge)
 				.constrainAs(status) {
@@ -121,7 +121,7 @@ private fun ChargeHeader(
 			maxLines = 3,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge)
 				.constrainAs(cpnContainsFloatingCharge) {
 					top.linkTo(status.bottom, margin = viewMarginNormal)
@@ -132,7 +132,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_contains_floating_charge),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.wrapContentHeight(Alignment.CenterVertically)
 				.constrainAs(containsFloatingCharge) {
 					baseline.linkTo(cpnContainsFloatingCharge.baseline)
@@ -144,7 +144,7 @@ private fun ChargeHeader(
 			maxLines = 3,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge)
 				.constrainAs(cpnFloatingChargeCoversAll) {
 					top.linkTo(containsFloatingCharge.bottom, margin = viewMarginNormal)
@@ -155,7 +155,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_floating_charge_covers_all),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(floatingChargeCoversAll) {
 					baseline.linkTo(cpnFloatingChargeCoversAll.baseline)
 					start.linkTo(guideline)
@@ -164,7 +164,7 @@ private fun ChargeHeader(
 			maxLines = 3,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(start = viewMarginLarge)
 				.constrainAs(cpnContainsNegativePledge) {
 					top.linkTo(cpnFloatingChargeCoversAll.bottom, margin = viewMarginNormal)
@@ -175,7 +175,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_contains_negative_pledge),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(containsNegativePledge) {
 					baseline.linkTo(cpnContainsNegativePledge.baseline)
 					start.linkTo(guideline)
@@ -183,7 +183,7 @@ private fun ChargeHeader(
 			text = if (charge.particulars.containsNegativePledge == true) "YES" else "NO",
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnContainsFixedCharge) {
 					top.linkTo(containsNegativePledge.bottom, margin = viewMarginNormal)
 					start.linkTo(parent.start, margin = viewMarginLarge)
@@ -193,7 +193,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_contains_fixed_charge),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(containsFixedCharge) {
 					baseline.linkTo(cpnContainsFixedCharge.baseline)
 					start.linkTo(guideline)
@@ -201,7 +201,7 @@ private fun ChargeHeader(
 			text = if (charge.particulars.containsFixedCharge == true) "YES" else "NO",
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnSatisfiedOn) {
 					top.linkTo(containsFixedCharge.bottom, margin = viewMarginNormal)
 					start.linkTo(parent.start, margin = viewMarginLarge)
@@ -211,7 +211,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_satisfied_on),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(satisfiedOn) {
 					baseline.linkTo(cpnSatisfiedOn.baseline)
 					start.linkTo(guideline)
@@ -219,7 +219,7 @@ private fun ChargeHeader(
 			text = charge.satisfiedOn,
 		)
 		BodyMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(cpnPersonsEntitled) {
 					top.linkTo(satisfiedOn.bottom, margin = viewMarginNormal)
 					start.linkTo(parent.start, margin = viewMarginLarge)
@@ -229,7 +229,7 @@ private fun ChargeHeader(
 			text = stringResource(R.string.charge_details_persons_entitled),
 		)
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.constrainAs(personsEntitled) {
 					baseline.linkTo(cpnPersonsEntitled.baseline)
 					start.linkTo(guideline)
@@ -239,13 +239,13 @@ private fun ChargeHeader(
 			text = charge.personsEntitled,
 			maxLines = 3,
 		)
-		HorizontalDivider(modifier = modifier
+		HorizontalDivider(modifier = Modifier
 			.constrainAs(divider) {
 				top.linkTo(personsEntitled.bottom, margin = viewMarginLarge)
 				width = Dimension.fillToConstraints
 			})
 		TitleMediumText(
-			modifier = modifier
+			modifier = Modifier
 				.padding(bottom = viewMarginLarge)
 				.constrainAs(transaction) {
 					start.linkTo(parent.start, margin = viewMarginLarge)
@@ -290,7 +290,7 @@ private fun ChargeDetailsList(
 
 @PreviewLightDark
 @Composable
-fun ChargeHeaderPreview() {
+private fun ChargeHeaderPreview() {
 	CompaniesTheme {
 		Box(Modifier.background(color = Colors.background)) {
 			ChargeHeader(

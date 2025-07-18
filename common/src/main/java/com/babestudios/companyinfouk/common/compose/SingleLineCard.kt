@@ -57,7 +57,7 @@ fun SingleLineCard(
 
 @Preview("Single Line Card Preview")
 @Composable
-fun SingleLineCardPreview() {
+private fun SingleLineCardPreview() {
 	CompaniesTheme {
 		Box(modifier = Modifier.background(Colors.background)) {
 			SingleLineCard(
@@ -70,7 +70,7 @@ fun SingleLineCardPreview() {
 
 @Preview("Single Line Card Preview Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun SingleLineCardDarkPreview() {
+private fun SingleLineCardDarkPreview() {
 	CompaniesTheme {
 		Box(modifier = Modifier.background(Colors.background)) {
 			SingleLineCard(

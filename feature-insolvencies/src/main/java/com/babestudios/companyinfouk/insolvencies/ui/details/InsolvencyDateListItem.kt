@@ -57,7 +57,7 @@ internal fun InsolvencyDateListItem(item: Date) {
 
 @Preview
 @Composable
-fun InsolvencyDateItemPreview() {
+private fun InsolvencyDateItemPreview() {
 	CompaniesTheme{
 		Box(modifier = Modifier.background(Colors.background)){
 			InsolvencyDateListItem(
@@ -72,7 +72,7 @@ fun InsolvencyDateItemPreview() {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun InsolvenciesDateItemDarkPreview() {
+private fun InsolvenciesDateItemDarkPreview() {
 	CompaniesTheme{
 		Box(modifier = Modifier.background(Colors.background)){
 			InsolvencyDateListItem(

@@ -32,7 +32,10 @@ import kotlinx.coroutines.Dispatchers
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 @Suppress("LongMethod", "ComplexMethod")
-fun PrivacyScreen(component: PrivacyComp) {
+fun PrivacyScreen(
+	component: PrivacyComp,
+	modifier: Modifier = Modifier,
+) {
 
 	val topAppBarColors = TopAppBarDefaults.topAppBarColors(
 		containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -41,6 +44,7 @@ fun PrivacyScreen(component: PrivacyComp) {
 	BackHandler(onBack = { component.onBackClicked() })
 
 	Scaffold(
+		modifier = modifier,
 		topBar = {
 			TopAppBar(
 				colors = topAppBarColors,
@@ -81,7 +85,7 @@ fun PrivacyScreen(component: PrivacyComp) {
 
 @Preview("privacy Preview")
 @Composable
-fun PrivacyScreenPreview() {
+private fun PrivacyScreenPreview() {
 	val componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
 	CompaniesTheme {
 		PrivacyScreen(

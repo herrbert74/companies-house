@@ -32,6 +32,7 @@ dependencies {
 	implementation(libs.androidx.composeUiToolingPreview)
 	implementation(libs.androidx.composeMaterial3)
 	api(libs.androidx.composeRuntime)
+	implementation(libs.kotlinx.collectionsImmutableJvm)
 
 	implementation(libs.baBeStudios.baseCompose)
 
