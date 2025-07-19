@@ -63,7 +63,7 @@ jobs:
           path: '**/build/reports/tests/'
 
   # Mac Silicon does not work
-  # https://github:com/ReactiveCircus/android-emulator-runner/issues/350
+  # https://github.com/ReactiveCircus/android-emulator-runner/issues/350
   # https://github.com/actions/runner-images/issues/9460
   android-test:
     name: UI tests
