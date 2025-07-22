@@ -43,7 +43,6 @@ fun CollapsingToolbarScaffold(
 	actions: @Composable RowScope.(Float) -> Unit = {},
 	body: @Composable ((PaddingValues) -> Unit),
 ) {
-
 	val appBarHeight = Dimens.appBarHeight
 	val statusBarHeight = with(LocalDensity.current) { WindowInsets.statusBars.getTop(this).toDp() }
 	val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()

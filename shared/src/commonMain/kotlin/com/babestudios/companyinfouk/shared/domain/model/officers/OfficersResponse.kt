@@ -22,7 +22,7 @@ data class Officer(
 	val nationality: String = "Unknown",
 	val resignedOn: String? = null,
 	val fromToString: String,
-	val appointmentsId: String, //Not present in the Dto, converted from a url
+	val appointmentsId: String, // Not present in the Dto, converted from a url
 )
 
 @Serializable

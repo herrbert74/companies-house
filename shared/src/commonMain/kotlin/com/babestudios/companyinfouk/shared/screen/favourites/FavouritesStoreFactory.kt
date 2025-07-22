@@ -13,8 +13,9 @@ class FavouritesStoreFactory(
 	private val favouritesExecutor: FavouritesExecutor,
 ) {
 
-	fun create(): FavouritesStore =
-		object : FavouritesStore, Store<Intent, State, SideEffect> by storeFactory.create(
+	fun create(): FavouritesStore = object :
+		FavouritesStore,
+		Store<Intent, State, SideEffect> by storeFactory.create(
 			name = "FavouritesStore",
 			initialState = State(),
 			bootstrapper = FavouritesBootstrapper(),

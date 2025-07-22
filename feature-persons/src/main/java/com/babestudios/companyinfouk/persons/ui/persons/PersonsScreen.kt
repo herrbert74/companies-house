@@ -32,7 +32,6 @@ fun PersonsScreen(
 	component: PersonsComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val model by component.state.subscribeAsState()
 
 	BackHandler(onBack = { component.onBackClicked() })
@@ -80,9 +79,7 @@ private fun PersonsList(
 	onItemClick: (id: Person) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
-
 	Box(Modifier.padding(paddingValues)) {
-
 		val listState = rememberLazyListState()
 
 		LazyColumn(

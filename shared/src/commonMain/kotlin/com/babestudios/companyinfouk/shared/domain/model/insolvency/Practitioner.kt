@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.shared.domain.model.insolvency
 
-
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import kotlinx.serialization.Serializable
 

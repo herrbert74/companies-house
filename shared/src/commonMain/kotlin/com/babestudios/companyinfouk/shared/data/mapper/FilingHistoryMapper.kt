@@ -70,22 +70,22 @@ private fun mapFilingHistoryCategoryDto(input: CategoryDto?): Category {
 		CategoryDto.CATEGORY_RESOLUTION -> Category.CATEGORY_RESOLUTION
 		CategoryDto.CATEGORY_MORTGAGE -> Category.CATEGORY_MORTGAGE
 		CategoryDto.CATEGORY_PERSONS -> Category.CATEGORY_PERSONS
-		CategoryDto.CATEGORY_MISCELLANEOUS -> Category.CATEGORY_MISCELLANEOUS //Winnow Solutions
-		CategoryDto.CATEGORY_DOCUMENT_REPLACEMENT -> Category.CATEGORY_DOCUMENT_REPLACEMENT //Winnow Solutions
-		CategoryDto.CATEGORY_RETURN -> Category.CATEGORY_RETURN //Legacy
+		CategoryDto.CATEGORY_MISCELLANEOUS -> Category.CATEGORY_MISCELLANEOUS // Winnow Solutions
+		CategoryDto.CATEGORY_DOCUMENT_REPLACEMENT -> Category.CATEGORY_DOCUMENT_REPLACEMENT // Winnow Solutions
+		CategoryDto.CATEGORY_RETURN -> Category.CATEGORY_RETURN // Legacy
 		null -> Category.CATEGORY_SHOW_ALL
 	}
 }
 
 fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: DescriptionValuesDto?): String {
-	val matchResult = "\\{.*?\\}".toRegex().findAll(description) //Search anything within braces
+	val matchResult = "\\{.*?\\}".toRegex().findAll(description) // Search anything within braces
 	var result = description
 	matchResult.iterator().forEach {
-		val key = it.groupValues[0].replace("""[{}]""".toRegex(), "") //Remove braces from key
-		//Replace from mapping, throw away objects like Capital, which is not used
+		val key = it.groupValues[0].replace("""[{}]""".toRegex(), "") // Remove braces from key
+		// Replace from mapping, throw away objects like Capital, which is not used
 		result = result.replace(it.groupValues[0], descriptionValues?.pairs?.get(key) ?: "")
 	}
-	//Simply replace "legacy" and "miscellaneous" descriptions with the descriptionValue.description
+	// Simply replace "legacy" and "miscellaneous" descriptions with the descriptionValue.description
 	@Suppress("SwallowedException")
 	result = try {
 		result.replace(
@@ -93,7 +93,7 @@ fun formatFilingHistoryDescriptionDto(description: String, descriptionValues: De
 			descriptionValues?.pairs?.get("description") ?: ""
 		)
 	} catch (e: IllegalArgumentException) {
-		//Above replace calls through to replaceAll, which uses regexes, but some legacy strings are invalid
+		// Above replace calls through to replaceAll, which uses regexes, but some legacy strings are invalid
 		descriptionValues?.pairs?.get("description") ?: ""
 	}
 	return result

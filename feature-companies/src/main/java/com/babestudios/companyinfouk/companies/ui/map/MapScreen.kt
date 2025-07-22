@@ -57,14 +57,12 @@ fun MapScreen(
 	component: MapComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	var location by remember { mutableStateOf<LatLng?>(null) }
 
 	val coroutineScope = rememberCoroutineScope()
 
 	val cameraPositionState = rememberCameraPositionState {
-		if (location != null)
-			position = CameraPosition.fromLatLngZoom(location!!, DEFAULT_ZOOM)
+		if (location != null) position = CameraPosition.fromLatLngZoom(location!!, DEFAULT_ZOOM)
 	}
 
 	val uiSettings by remember { mutableStateOf(MapUiSettings(zoomControlsEnabled = true)) }
@@ -76,7 +74,6 @@ fun MapScreen(
 	val context = LocalContext.current
 
 	LaunchedEffect(coroutineScope) {
-
 		coroutineScope.launch {
 			location = getLocationFromAddress(component.address, context)
 			cameraPositionState.position = CameraPosition.fromLatLngZoom(location!!, DEFAULT_ZOOM)

@@ -15,8 +15,9 @@ class OfficersStoreFactory(
 	private val officersExecutor: OfficersExecutor,
 ) {
 
-	fun create(companyId: String, autoInit :Boolean = true): OfficersStore =
-		object : OfficersStore, Store<Intent, State, Nothing> by storeFactory.create(
+	fun create(companyId: String, autoInit: Boolean = true): OfficersStore = object :
+		OfficersStore,
+		Store<Intent, State, Nothing> by storeFactory.create(
 			name = "OfficersStore",
 			autoInit = autoInit,
 			initialState = State(companyId),

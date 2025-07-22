@@ -1,7 +1,7 @@
 package com.babestudios.companyinfouk.shared.domain.model.enumerations
 
 @Suppress("ConstructorParameterNaming")
-data class Constants (
+data class Constants(
 	val identification_type: Map<String, String>,
 	val jurisdiction: Map<String, String>,
 	val company_summary: Map<String, String>,
@@ -24,5 +24,5 @@ data class Constants (
 	val cessation_label_for_status: Map<String, String>,
 	val register_locations: Map<String, String>,
 	val register_types: Map<String, String>,
-	val partial_data_available: Map<String, String>
+	val partial_data_available: Map<String, String>,
 )

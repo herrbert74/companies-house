@@ -14,8 +14,9 @@ class InsolvenciesStoreFactory(
 	private val insolvenciesExecutor: InsolvenciesExecutor,
 ) {
 
-	fun create(selectedCompanyId: String): InsolvenciesStore =
-		object : InsolvenciesStore, Store<Nothing, State, Nothing> by storeFactory.create(
+	fun create(selectedCompanyId: String): InsolvenciesStore = object :
+		InsolvenciesStore,
+		Store<Nothing, State, Nothing> by storeFactory.create(
 			name = "InsolvenciesStore",
 			initialState = State(selectedCompanyId),
 			bootstrapper = InsolvenciesBootstrapper(selectedCompanyId),

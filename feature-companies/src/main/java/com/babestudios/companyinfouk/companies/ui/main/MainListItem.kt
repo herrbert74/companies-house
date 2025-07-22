@@ -23,7 +23,6 @@ internal fun CompanySearchResultItemListItem(
 	modifier: Modifier = Modifier,
 	onItemClick: (id: CompanySearchResultItem) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 

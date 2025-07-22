@@ -22,7 +22,7 @@ import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.titleLargeBold
 
-//TODO Replace vectorImageResource with ImageVector
+// TODO Replace vectorImageResource with ImageVector
 @Composable
 fun SingleLineCard(
 	@DrawableRes vectorImageResource: Int,
@@ -30,7 +30,6 @@ fun SingleLineCard(
 	modifier: Modifier = Modifier,
 	textStyle: TextStyle = CompaniesTypography.titleLargeBold.merge(Colors.onBackground),
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 

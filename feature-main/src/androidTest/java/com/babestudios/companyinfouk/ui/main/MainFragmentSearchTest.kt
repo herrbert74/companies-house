@@ -11,10 +11,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import com.babestudios.companyinfouk.main.CompaniesRootContent
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -39,7 +39,6 @@ class MainFragmentSearchTest : KoinComponent {
 
 	@Before
 	fun setUp() {
-
 		CoroutineScope(mainContext).launch {
 			val companiesRootComponent = CompaniesRootComponent(
 				DefaultComponentContext(lifecycle = LifecycleRegistry()),
@@ -56,7 +55,6 @@ class MainFragmentSearchTest : KoinComponent {
 
 	@Test
 	fun whenSearchingForYou_thenSearchResultIsDisplayed() {
-
 		composeTestRule.onNodeWithContentDescription("Search icon").performClick()
 		composeTestRule.onNode(hasImeAction(ImeAction.Search)).performTextInput("you")
 		composeTestRule.onNodeWithText("YOU  LIMITED").assertIsDisplayed()
@@ -65,7 +63,6 @@ class MainFragmentSearchTest : KoinComponent {
 
 	@Test
 	fun whenSearchResultIsEmpty_thenSearchResultEmptyIsDisplayed() {
-
 		composeTestRule.onNodeWithContentDescription("Search icon").performClick()
 		composeTestRule.onNode(hasImeAction(ImeAction.Search)).performTextInput("xyzabc")
 
@@ -79,14 +76,14 @@ class MainFragmentSearchTest : KoinComponent {
 	 * We need to set a separate colour for SearchBar and its content to allow semi transparent content,
 	but it's not currently possible.
 	 */
-//	@Test
-//	fun whenSearchResultIsEmpty_andQueryIsCleared_thenTransparentBackgroundDisplayed() {
-//		composeTestRule.onNodeWithContentDescription("Search icon").performClick()
-//		composeTestRule.onNode(hasImeAction(ImeAction.Search)).performTextInput("xyzabc")
-//
-//		composeTestRule
-//			.onNodeWithText("Your search did not return any companies. Please try another one")
-//			.assertIsDisplayed()
-//	}
+	// @Test
+	// fun whenSearchResultIsEmpty_andQueryIsCleared_thenTransparentBackgroundDisplayed() {
+	// 	composeTestRule.onNodeWithContentDescription("Search icon").performClick()
+	// 	composeTestRule.onNode(hasImeAction(ImeAction.Search)).performTextInput("xyzabc")
+	//
+	// 	composeTestRule
+	// 		.onNodeWithText("Your search did not return any companies. Please try another one")
+	// 		.assertIsDisplayed()
+	// }
 
 }

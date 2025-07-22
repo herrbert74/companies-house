@@ -27,7 +27,6 @@ internal fun InsolvenciesListItem(
 	item: InsolvencyCase,
 	onItemClick: (id: InsolvencyCase) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -36,7 +35,6 @@ internal fun InsolvenciesListItem(
 			.fillMaxWidth(1f)
 			.clickable { onItemClick(item) }
 	) {
-
 		Spacer(modifier = Modifier.height(viewMarginNormal))
 
 		TitleMediumText(
@@ -64,8 +62,8 @@ internal fun InsolvenciesListItem(
 @Preview
 @Composable
 private fun InsolvenciesItemPreview() {
-	CompaniesTheme{
-		Box(modifier = Modifier.background(Colors.background)){
+	CompaniesTheme {
+		Box(modifier = Modifier.background(Colors.background)) {
 			InsolvenciesListItem(
 				InsolvencyCase(
 					dates = listOf(Date("2016-02-16", "Creditors voluntary liquidation")),
@@ -80,8 +78,8 @@ private fun InsolvenciesItemPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun InsolvenciesItemDarkPreview() {
-	CompaniesTheme{
-		Box(modifier = Modifier.background(Colors.background)){
+	CompaniesTheme {
+		Box(modifier = Modifier.background(Colors.background)) {
 			InsolvenciesListItem(
 				InsolvencyCase(
 					dates = listOf(Date("2016-02-16", "Creditors voluntary liquidation")),

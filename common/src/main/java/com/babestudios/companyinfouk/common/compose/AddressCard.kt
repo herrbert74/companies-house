@@ -18,11 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
-import com.babestudios.companyinfouk.design.CompaniesTypography
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.BodyMediumText
 import com.babestudios.companyinfouk.design.component.TitleLargeBoldText
-import com.babestudios.companyinfouk.design.titleLargeBold
 import com.babestudios.companyinfouk.shared.domain.HALF
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 
@@ -33,9 +31,6 @@ fun AddressCard(
 	title: String = "Address",
 	onShowMap: () -> Unit,
 ) {
-
-	//val viewMarginNormal = Dimens.marginNormal
-
 	ConstraintLayout(
 		modifier = modifier
 			.fillMaxWidth(1f)

@@ -36,7 +36,7 @@ class InsolvenciesTest {
 
 		everySuspend {
 			companiesHouseRepository.getInsolvency("123")
-		} calls  { Ok(Insolvency(cases = emptyList())) }
+		} calls { Ok(Insolvency(cases = emptyList())) }
 
 		insolvenciesExecutor = InsolvenciesExecutor(
 			companiesHouseRepository,

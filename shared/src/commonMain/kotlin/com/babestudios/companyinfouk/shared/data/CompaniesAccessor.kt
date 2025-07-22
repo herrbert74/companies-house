@@ -30,7 +30,7 @@ import com.github.michaelbull.result.mapError
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-//import org.lighthousegames.logging.logging
+// import org.lighthousegames.logging.logging
 
 internal const val COMPANIES_HOUSE_SEARCH_ITEMS_PER_PAGE = "50"
 
@@ -43,7 +43,7 @@ internal class CompaniesAccessor(
 ) : CompaniesRepository {
 
 	private val firebaseAnalytics = analyticsFactory.createAnalytics()
-	//private val log = logging()
+	// private val log = logging()
 
 	override suspend fun recentSearches(): List<SearchHistoryItem> {
 		return prefsAccessor.recentSearches
@@ -114,7 +114,6 @@ internal class CompaniesAccessor(
 	}
 
 	override suspend fun getOfficers(companyNumber: String, startItem: String): ApiResult<OfficersResponse> {
-
 		return apiRunCatching {
 			withContext(ioContext) {
 				val officersResponseDto = companiesHouseApi.getOfficers(

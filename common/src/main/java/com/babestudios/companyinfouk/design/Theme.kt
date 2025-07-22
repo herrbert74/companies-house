@@ -114,7 +114,6 @@ fun CompaniesTheme(
 	isDynamicColor: Boolean = false,
 	content: @Composable () -> Unit,
 ) {
-
 	val dynamicColor = isDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 	val colorScheme = when {

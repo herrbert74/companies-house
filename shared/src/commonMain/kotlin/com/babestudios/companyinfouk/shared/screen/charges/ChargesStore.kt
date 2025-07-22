@@ -7,22 +7,22 @@ import com.babestudios.companyinfouk.shared.screen.charges.ChargesStore.State
 
 interface ChargesStore : Store<Intent, State, Nothing> {
 
-    sealed class Intent {
-        data object LoadMoreCharges : Intent()
-    }
+	sealed class Intent {
+		data object LoadMoreCharges : Intent()
+	}
 
-    data class State (
+	data class State(
 
-        //initial data
-        val selectedCompanyId: String,
+		// initial data
+		val selectedCompanyId: String,
 
-        //result data
-        val chargesResponse: Charges = Charges(),
-        val error: Throwable? = null,
+		// result data
+		val chargesResponse: Charges = Charges(),
+		val error: Throwable? = null,
 
-        //state
-        val isLoading: Boolean = true
+		// state
+		val isLoading: Boolean = true,
 
-    )
+		)
 
 }

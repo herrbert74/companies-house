@@ -1,22 +1,22 @@
 package com.babestudios.companyinfouk.shared.root
 
-import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
 import com.babestudios.companyinfouk.shared.screen.chargedetails.ChargeDetailsComp
+import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
 import com.babestudios.companyinfouk.shared.screen.company.CompanyComp
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesComp
-import com.babestudios.companyinfouk.shared.screen.main.MainComp
-import com.babestudios.companyinfouk.shared.screen.map.MapComp
-import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComp
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsComp
 import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryComp
-import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
 import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesComp
-import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
+import com.babestudios.companyinfouk.shared.screen.main.MainComp
+import com.babestudios.companyinfouk.shared.screen.map.MapComp
 import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsComp
 import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComp
 import com.babestudios.companyinfouk.shared.screen.officers.OfficersComp
 import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsComp
 import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
+import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComp
 
 sealed class CompaniesChild {
 

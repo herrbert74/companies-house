@@ -9,7 +9,6 @@ import kotlinx.io.readByteArray
 import okhttp3.internal.platform.PlatformRegistry.applicationContext
 
 actual suspend fun ByteReadChannel.writeToFile(uri: Uri) {
-
 	val contentResolver = applicationContext?.contentResolver
 	contentResolver?.openFileDescriptor(uri.toAndroidUri(), "w")?.use {
 		FileOutputStream(it.fileDescriptor).use { fileOutputStream ->
@@ -18,5 +17,4 @@ actual suspend fun ByteReadChannel.writeToFile(uri: Uri) {
 			)
 		}
 	}
-
 }

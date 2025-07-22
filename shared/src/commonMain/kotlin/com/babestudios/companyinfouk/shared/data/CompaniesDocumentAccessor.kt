@@ -27,7 +27,6 @@ class CompaniesDocumentAccessor(
 	}
 
 	override suspend fun writeDocumentPdf(responseBody: HttpResponse, uri: Uri): Uri {
-
 		return withContext(Dispatchers.IO) {
 			val byteReadChannel = responseBody.bodyAsChannel()
 			try {

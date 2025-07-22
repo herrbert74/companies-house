@@ -31,7 +31,6 @@ fun InsolvenciesScreen(
 	component: InsolvenciesComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val model by component.state.subscribeAsState()
 
 	BackHandler(onBack = { component.onBackClicked() })
@@ -70,9 +69,7 @@ private fun InsolvenciesList(
 	paddingValues: PaddingValues,
 	onItemClick: (id: InsolvencyCase) -> Unit,
 ) {
-
 	Box(modifier = Modifier.padding(paddingValues)) {
-
 		val listState = rememberLazyListState()
 
 		LazyColumn(

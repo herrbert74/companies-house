@@ -31,7 +31,6 @@ internal fun FilingHistoryItemListItem(
 	modifier: Modifier = Modifier,
 	onItemClick: (id: FilingHistoryItem) -> Unit,
 ) {
-
 	val viewMarginNormal = Dimens.marginNormal
 	val viewMarginLarge = Dimens.marginLarge
 

@@ -36,7 +36,6 @@ fun PrivacyScreen(
 	component: PrivacyComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val topAppBarColors = TopAppBarDefaults.topAppBarColors(
 		containerColor = MaterialTheme.colorScheme.primaryContainer,
 	)

@@ -29,7 +29,6 @@ import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.shared.domain.model.charges.Particulars
 import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.immutableListOf
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
@@ -38,7 +37,6 @@ fun ChargesScreen(
 	component: ChargesComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val model by component.state.subscribeAsState()
 
 	BackHandler(onBack = { component.onBackClicked() })

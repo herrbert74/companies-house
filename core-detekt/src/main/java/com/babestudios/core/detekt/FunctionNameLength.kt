@@ -9,7 +9,6 @@ import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
 import org.jetbrains.kotlin.psi.KtNamedFunction
 
-
 private const val MAX_LENGTH = 10
 
 class FunctionNameLength(config: Config = Config.empty) : Rule(config) {

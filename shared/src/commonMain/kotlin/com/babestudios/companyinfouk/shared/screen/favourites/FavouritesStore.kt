@@ -16,12 +16,12 @@ interface FavouritesStore : Store<Intent, State, SideEffect> {
 
 	data class State(
 
-		//result data
+		// result data
 		val favourites: List<FavouritesItem> = listOf(),
 
 		val error: Throwable? = null,
 
-		//state
+		// state
 		val isLoading: Boolean = true,
 
 		)

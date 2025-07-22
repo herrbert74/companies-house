@@ -27,7 +27,6 @@ import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyD
 
 @Composable
 fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
-
 	val insolvencyCase = component.insolvencyCase
 
 	BackHandler(onBack = { component.onBackClicked() })
@@ -36,7 +35,7 @@ fun InsolvencyDetailsListScreen(component: InsolvencyDetailsComp) {
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(R.string.insolvency_details),
 		onBackClick = { component.onBackClicked() },
-	) {paddingValues ->
+	) { paddingValues ->
 		InsolvencyDetailsList(
 			items = insolvencyCase,
 			paddingValues = paddingValues,
@@ -52,9 +51,7 @@ private fun InsolvencyDetailsList(
 	paddingValues: PaddingValues,
 	onItemClick: (id: Practitioner) -> Unit,
 ) {
-
 	Column(modifier = Modifier.padding(paddingValues)) {
-
 		val listState = rememberLazyListState()
 		val viewMarginNormal = Dimens.marginNormal
 		val viewMarginLarge = Dimens.marginLarge
@@ -135,4 +132,3 @@ private fun InsolvencyDetailsListPreview() {
 		onItemClick = {}
 	)
 }
-

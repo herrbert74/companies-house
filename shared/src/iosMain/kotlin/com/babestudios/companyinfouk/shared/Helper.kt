@@ -4,7 +4,7 @@ import com.babestudios.companyinfouk.shared.di.coroutineContextModule
 import com.babestudios.companyinfouk.shared.di.dataModule
 import org.koin.core.context.startKoin
 
-fun initKoin(){
+fun initKoin() {
 	startKoin {
 		modules(dataModule, coroutineContextModule)
 	}

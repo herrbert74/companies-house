@@ -1,6 +1,5 @@
 package com.babestudios.companyinfouk.shared.domain.model.filinghistory
 
-
 data class FilingHistory(
 	var startIndex: Int = 0,
 	var itemsPerPage: Int = 0,

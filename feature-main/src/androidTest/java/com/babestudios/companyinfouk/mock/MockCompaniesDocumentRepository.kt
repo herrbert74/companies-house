@@ -4,7 +4,5 @@ import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentReposito
 import dev.mokkery.mock
 
 fun mockCompaniesDocumentRepository(): CompaniesDocumentRepository {
-
 	return mock()
-
 }

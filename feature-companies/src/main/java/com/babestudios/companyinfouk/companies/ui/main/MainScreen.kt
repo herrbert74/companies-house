@@ -37,7 +37,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -75,13 +74,12 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
-//TODO transparent search when there are no results
+// TODO transparent search when there are no results
 @Composable
 fun MainScreen(
 	component: MainComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val model by component.state.subscribeAsState()
 	var searchQuery by rememberSaveable { mutableStateOf("") }
 	var isSearchBarActive by rememberSaveable { mutableStateOf(false) }
@@ -101,9 +99,9 @@ fun MainScreen(
 	 * We need to set a separate colour for SearchBar and its content to allow semi transparent content,
 	but it's not currently possible.'
 	 */
-//	val searchBarColors = SearchBarDefaults.colors(
-//		containerColor = colorResource(R.color.semiTransparentBlack),
-//	)
+	// val searchBarColors = SearchBarDefaults.colors(
+	// 	containerColor = colorResource(R.color.semiTransparentBlack),
+	// )
 
 	fun closeSearchBar() {
 		focusManager.clearFocus()
@@ -120,8 +118,11 @@ fun MainScreen(
 					actions = {
 						IconButton(onClick = {
 							isSearchBarActive = !isSearchBarActive
-							if (isSearchBarActive) component.setSearchMenuItemExpanded()
-							else component.setSearchMenuItemCollapsed()
+							if (isSearchBarActive) {
+								component.setSearchMenuItemExpanded()
+							} else {
+								component.setSearchMenuItemCollapsed()
+							}
 						}) {
 							Icon(
 								painter = painterResource(R.drawable.ic_search),
@@ -191,7 +192,7 @@ fun MainScreen(
 							if (!isSearchBarActive) focusManager.clearFocus()
 						},
 						expanded = isSearchBarActive,
-						//colors = searchBarColors,
+						// colors = searchBarColors,
 						placeholder = { Text(stringResource(R.string.search_prompt)) },
 						leadingIcon = {
 							Icon(
@@ -253,7 +254,6 @@ fun MainScreen(
 
 @Composable
 private fun MainHeader() {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -272,13 +272,12 @@ private fun MainHeader() {
 private fun EmptySearchList(
 	message: String = stringResource(R.string.no_search_result),
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
 		Modifier
 			.fillMaxSize(1f)
-			//Matches the empty icon background from BaBeStudiosBase
+			// Matches the empty icon background from BaBeStudiosBase
 			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
@@ -305,7 +304,6 @@ private fun RecentSearchesList(
 	onShowClearRecentsDialog: () -> Unit,
 	onItemClick: (id: SearchHistoryItem) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 
 	Box(Modifier.fillMaxSize(1f)) {
@@ -375,7 +373,8 @@ fun ClearRecentsDialog(
 				onClick = {
 					onClearRecentSearchesClick()
 					onDismiss()
-				}) {
+				}
+			) {
 				Text(stringResource(android.R.string.ok))
 			}
 		},
@@ -383,7 +382,8 @@ fun ClearRecentsDialog(
 			Button(
 				onClick = {
 					onDismiss()
-				}) {
+				}
+			) {
 				Text(stringResource(android.R.string.cancel))
 			}
 		}
@@ -397,17 +397,18 @@ private fun SearchResultList(
 	onItemClick: (id: CompanySearchResultItem) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
-
 	val backgroundColor =
-		if (items.isEmpty()) colorResource(android.R.color.transparent)//MaterialTheme.colorScheme.background
-		else colorResource(android.R.color.transparent)
+		if (items.isEmpty()) {
+			colorResource(android.R.color.transparent) // MaterialTheme.colorScheme.background
+		} else {
+			colorResource(android.R.color.transparent)
+		}
 
 	Box(
 		Modifier
 			.fillMaxSize(1f)
 			.background(backgroundColor)
 	) {
-
 		val listState = rememberLazyListState()
 
 		LazyColumn(
@@ -426,7 +427,8 @@ private fun SearchResultList(
 					)
 
 					HorizontalDivider()
-				})
+				}
+			)
 		}
 
 		InfiniteListHandler(listState = listState) {

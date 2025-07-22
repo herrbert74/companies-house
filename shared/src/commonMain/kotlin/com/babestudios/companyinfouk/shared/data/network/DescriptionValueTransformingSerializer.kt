@@ -20,7 +20,7 @@ object DescriptionValueTransformingSerializer : JsonTransformingSerializer<Descr
 	}
 
 	private fun simplify(it: Map.Entry<String, JsonElement>): JsonElement {
-		return  if (it.value is JsonPrimitive) it.value else return JsonPrimitive("")
+		return if (it.value is JsonPrimitive) it.value else return JsonPrimitive("")
 	}
 
 }

@@ -36,9 +36,7 @@ class MappersTest {
 
 	@BeforeTest
 	fun setup() {
-
 		officersResponseYouLimited = officersResponseDto.toOfficersResponse()
-
 	}
 
 	//region Appointments mapping
@@ -113,7 +111,7 @@ class MappersTest {
 		val filingHistoryPfbHire = filingHistoryDto.toFilingHistory()
 		filingHistoryPfbHire.totalCount shouldBe 47
 
-		//This one should (for now) unused 'capital' field removed
+		// This one should (for now) unused 'capital' field removed
 		filingHistoryPfbHire.items[19].description shouldBe
 			"**Statement of capital following an allotment of shares** on 2014-07-31"
 
@@ -127,7 +125,7 @@ class MappersTest {
 		val filingHistoryWithNameChange = filingHistoryDto.toFilingHistory()
 		filingHistoryWithNameChange.totalCount shouldBe 3
 
-		//This one should (for now) unused 'capital' field removed
+		// This one should (for now) unused 'capital' field removed
 		filingHistoryWithNameChange.items[0].description shouldBe
 			"**Certificate of change of name**"
 

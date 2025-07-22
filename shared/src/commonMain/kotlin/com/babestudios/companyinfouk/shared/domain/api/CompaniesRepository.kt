@@ -17,7 +17,7 @@ import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryIte
 @Suppress("TooManyFunctions")
 interface CompaniesRepository : AnalyticsContract {
 
-	//Companies House API
+	// Companies House API
 	suspend fun searchCompanies(queryText: CharSequence, startItem: String): CompanySearchResult
 	suspend fun getCompany(companyNumber: String): Company
 	suspend fun getFilingHistory(companyNumber: String, category: Category, startItem: String): ApiResult<FilingHistory>
@@ -29,12 +29,12 @@ interface CompaniesRepository : AnalyticsContract {
 	suspend fun getCorporatePerson(companyNumber: String, pscId: String): Person
 	suspend fun getLegalPerson(companyNumber: String, pscId: String): Person
 
-	//Preferences - Search
+	// Preferences - Search
 	suspend fun recentSearches(): List<SearchHistoryItem>
 	fun addRecentSearchItem(searchHistoryItem: SearchHistoryItem): ArrayList<SearchHistoryItem>
 	fun clearAllRecentSearches()
 
-	//Preferences - Favourites
+	// Preferences - Favourites
 	suspend fun favourites(): List<SearchHistoryItem>
 	fun addFavourite(searchHistoryItem: SearchHistoryItem): Boolean
 	fun isFavourite(searchHistoryItem: SearchHistoryItem): Boolean

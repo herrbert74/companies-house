@@ -2,7 +2,6 @@ package com.babestudios.companyinfouk.shared.data.model.filinghistory
 
 import com.babestudios.companyinfouk.shared.data.network.DescriptionValueTransformingSerializer
 import kotlinx.serialization.SerialName
-
 import kotlinx.serialization.Serializable
 
 @Suppress("LongParameterList")

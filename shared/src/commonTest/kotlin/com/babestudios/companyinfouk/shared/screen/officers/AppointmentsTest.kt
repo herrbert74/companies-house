@@ -72,5 +72,4 @@ class AppointmentsTest {
 		verifySuspend(exactly(1)) { companiesHouseRepository.getOfficerAppointments("1", "0") }
 	}
 
-
 }

@@ -1,10 +1,10 @@
 package com.babestudios.companyinfouk.shared.screen.company
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import com.babestudios.companyinfouk.shared.screen.company.CompanyStore.Intent
-import com.babestudios.companyinfouk.shared.screen.company.CompanyStore.State
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
+import com.babestudios.companyinfouk.shared.screen.company.CompanyStore.Intent
+import com.babestudios.companyinfouk.shared.screen.company.CompanyStore.State
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

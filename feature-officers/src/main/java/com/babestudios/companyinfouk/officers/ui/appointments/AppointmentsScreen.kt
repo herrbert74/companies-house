@@ -35,7 +35,6 @@ fun AppointmentsScreen(
 	component: AppointmentsComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -80,11 +79,9 @@ private fun AppointmentsList(
 	onItemClick: (id: Appointment) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
-
 	val viewMarginNormal = Dimens.marginNormal
 
 	Box {
-
 		val listState = rememberLazyListState()
 
 		LazyColumn(

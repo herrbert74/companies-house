@@ -43,7 +43,6 @@ class SearchTest {
 
 	@BeforeTest
 	fun setUp() {
-
 		every { companiesHouseRepository.logScreenView(any()) } calls { }
 		every { companiesHouseRepository.logSearch("alma") } calls { }
 		everySuspend { companiesHouseRepository.recentSearches() } calls { listOf(searchHistoryItem) }
