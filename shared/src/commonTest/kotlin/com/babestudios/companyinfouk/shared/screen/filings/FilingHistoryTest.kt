@@ -33,7 +33,7 @@ class FilingHistoryTest {
 	fun setUp() {
 		everySuspend {
 			companiesHouseRepository.getFilingHistory("123", any(), any())
-		} calls  { Ok(FilingHistory()) }
+		} calls { Ok(FilingHistory()) }
 
 		every {
 			companiesHouseRepository.logScreenView(any())
@@ -52,8 +52,7 @@ class FilingHistoryTest {
 	}
 
 	@Test
-	fun `when get filings then repo get filings is called`() = runTest{
-
+	fun `when get filings then repo get filings is called`() = runTest {
 		val states = filingHistoryStore.states.test()
 		states.first().isLoading shouldBe true
 		filingHistoryStore.init()
@@ -64,15 +63,12 @@ class FilingHistoryTest {
 
 	@Test
 	fun `when load more filings then repo load more filings is called`() {
-
 		val states = filingHistoryStore.states.test()
 		filingHistoryStore.init()
 		filingHistoryStore.accept(FilingHistoryStore.Intent.LoadMoreFilingHistory)
 		states.last().filingHistory shouldBe FilingHistory()
 		verifySuspend(exactly(1)) {
-			companiesHouseRepository.getFilingHistory(
-				"123", any(), "0"
-			)
+			companiesHouseRepository.getFilingHistory("123", any(), "0")
 		}
 
 	}

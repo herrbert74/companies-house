@@ -24,7 +24,6 @@ internal fun PersonsListItem(
 	item: Person,
 	onItemClick: (id: Person) -> Unit,
 ) {
-
 	val viewMarginNormal = Dimens.marginNormal
 
 	Column(
@@ -32,7 +31,6 @@ internal fun PersonsListItem(
 			.fillMaxWidth(1f)
 			.clickable { onItemClick(item) }
 	) {
-
 		Spacer(modifier = Modifier.height(viewMarginNormal))
 
 		Text(

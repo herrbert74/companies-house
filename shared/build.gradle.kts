@@ -15,7 +15,7 @@ plugins {
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
 	alias(libs.plugins.mokkery)
-	//alias(libs.plugins.touchlab.skie)
+	// alias(libs.plugins.touchlab.skie)
 	alias(libs.plugins.buildKonfig)
 }
 
@@ -29,9 +29,9 @@ buildkonfig {
 	}
 }
 
-//TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements
+// TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements
 kotlin {
-	//applyDefaultHierarchyTemplate()
+	// applyDefaultHierarchyTemplate()
 	jvmToolchain {
 		languageVersion.set(JavaLanguageVersion.of(libs.versions.jdk.get()))
 	}
@@ -58,7 +58,7 @@ kotlin {
 
 	compilerOptions {
 
-		//https://youtrack.jetbrains.com/issue/KT-61573
+		// https://youtrack.jetbrains.com/issue/KT-61573
 		freeCompilerArgs.add("-Xexpect-actual-classes")
 
 		freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
@@ -79,15 +79,15 @@ kotlin {
 			implementation(libs.koin.core)
 			implementation(libs.kotlinx.coroutinesCore)
 			implementation(libs.kotlinx.datetime)
-			implementation(libs.kotlinx.serializationCore) //Transitive
+			implementation(libs.kotlinx.serializationCore) // Transitive
 			implementation(libs.kotlinResult.result)
 			implementation(libs.ktor.clientCore)
 			implementation(libs.ktor.clientContentNegotiation)
 			implementation(libs.ktor.clientLogging)
-			implementation(libs.ktor.io) //Transitive
-			implementation(libs.ktor.http) //Transitive
-			implementation(libs.ktor.serialization) //Transitive
-			implementation(libs.ktor.utils) //Transitive
+			implementation(libs.ktor.io) // Transitive
+			implementation(libs.ktor.http) // Transitive
+			implementation(libs.ktor.serialization) // Transitive
+			implementation(libs.ktor.utils) // Transitive
 			implementation(libs.ktor.serializationKotlinxJson)
 			implementation(libs.ktorfit.annotations)
 			implementation(libs.ktorfit.libLight)

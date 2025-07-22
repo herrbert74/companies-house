@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class LastAccountsDto(
+
 	@SerialName("made_up_to")
 	var madeUpTo: String? = null,
 
@@ -17,4 +18,3 @@ class LastAccountsDto(
 	@SerialName("period_end_on")
 	var periodEndOn: String? = null,
 )
-

@@ -42,7 +42,7 @@ val dataModule = module {
 		CompaniesAccessor(
 			get(named("CompaniesHouseApi")),
 			get(),
-			AnalyticsFactory() ,
+			AnalyticsFactory(),
 			get(named("IoDispatcher")),
 		)
 	}.withOptions { bind<CompaniesRepository>() }

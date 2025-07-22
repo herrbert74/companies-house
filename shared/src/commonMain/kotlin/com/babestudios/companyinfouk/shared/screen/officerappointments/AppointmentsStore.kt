@@ -8,22 +8,22 @@ import com.babestudios.companyinfouk.shared.screen.officerappointments.Appointme
 
 interface AppointmentsStore : Store<Intent, State, Nothing> {
 
-    sealed class Intent {
-        object LoadMoreAppointments : Intent()
-    }
+	sealed class Intent {
+		object LoadMoreAppointments : Intent()
+	}
 
-    data class State (
+	data class State(
 
-        //initial data
-        val selectedOfficer: Officer,
+		// initial data
+		val selectedOfficer: Officer,
 
-        //result data
-        val appointmentsResponse: AppointmentsResponse = AppointmentsResponse(),
-        val error: Throwable? = null,
+		// result data
+		val appointmentsResponse: AppointmentsResponse = AppointmentsResponse(),
+		val error: Throwable? = null,
 
-        //state
-        val isLoading: Boolean = true
+		// state
+		val isLoading: Boolean = true,
 
-    )
+		)
 
 }

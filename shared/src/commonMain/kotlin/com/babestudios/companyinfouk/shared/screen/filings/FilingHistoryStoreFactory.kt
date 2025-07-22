@@ -16,8 +16,9 @@ class FilingHistoryStoreFactory(
 	private val filingHistoryExecutor: FilingHistoryExecutor,
 ) {
 
-	fun create(selectedCompanyId: String, autoInit :Boolean = true): FilingHistoryStore =
-		object : FilingHistoryStore, Store<Intent, State, Nothing> by storeFactory.create(
+	fun create(selectedCompanyId: String, autoInit: Boolean = true): FilingHistoryStore = object :
+		FilingHistoryStore,
+		Store<Intent, State, Nothing> by storeFactory.create(
 			name = "FilingHistoryStore",
 			autoInit = autoInit,
 			initialState = State(selectedCompanyId),

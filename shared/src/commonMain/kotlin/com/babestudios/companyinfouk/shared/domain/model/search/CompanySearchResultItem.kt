@@ -48,8 +48,10 @@ fun List<CompanySearchResultItem>.filterSearchResults(filterState: FilterState?)
 	return this
 		.filter { searchItem ->
 			filterState == FilterState.FILTER_SHOW_ALL ||
-				(searchItem.companyStatus != null
-					&& searchItem.companyStatus.equals(filterState.toString(), ignoreCase = true))
+				(
+					searchItem.companyStatus != null &&
+						searchItem.companyStatus.equals(filterState.toString(), ignoreCase = true)
+					)
 		}
 		.toList()
 }

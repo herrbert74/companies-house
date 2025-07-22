@@ -12,11 +12,12 @@ import com.github.michaelbull.result.fold
 
 class PersonsStoreFactory(
 	private val storeFactory: StoreFactory,
-	private val personsExecutor: PersonsExecutor
+	private val personsExecutor: PersonsExecutor,
 ) {
 
-	fun create(companyId: String): PersonsStore =
-		object : PersonsStore, Store<Intent, State, Nothing> by storeFactory.create(
+	fun create(companyId: String): PersonsStore = object :
+		PersonsStore,
+		Store<Intent, State, Nothing> by storeFactory.create(
 			name = "PersonsStore",
 			initialState = State(companyId),
 			bootstrapper = PersonsBootstrapper(companyId),
@@ -37,6 +38,7 @@ class PersonsStoreFactory(
 					success = { copy(isLoading = false, personsResponse = it) },
 					failure = { copy(isLoading = false, error = it) }
 				)
+
 				is Message.LoadMorePersonsMessage -> msg.personsResult.fold(
 					success = {
 						copy(
@@ -58,7 +60,7 @@ sealed class Message {
 	data class PersonsMessage(val personsResult: ApiResult<PersonsResponse>, val companyId: String) : Message()
 	data class LoadMorePersonsMessage(
 		val personsResult: ApiResult<PersonsResponse>,
-		val companyNumber: String
+		val companyNumber: String,
 	) : Message()
 }
 

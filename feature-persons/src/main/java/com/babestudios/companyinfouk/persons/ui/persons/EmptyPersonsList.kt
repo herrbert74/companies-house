@@ -26,13 +26,12 @@ fun EmptyPersonsList(
 	paddingValues: PaddingValues,
 	modifier: Modifier = Modifier,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
 		modifier
 			.fillMaxSize(1f)
-			//Matches the empty icon background from BaBeStudiosBase
+			// Matches the empty icon background from BaBeStudiosBase
 			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1))
 			.padding(paddingValues),
 		verticalArrangement = Arrangement.Center,

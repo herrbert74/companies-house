@@ -46,12 +46,11 @@ import com.babestudios.companyinfouk.shared.domain.model.company.Company
 import com.babestudios.companyinfouk.shared.screen.company.CompanyComp
 
 @Composable
-@Suppress("LongMethod", "ComplexMethod")
+@Suppress("LongMethod", "ComplexMethod", "Wrapping")
 fun CompanyScreen(
 	component: CompanyComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val model by component.state.subscribeAsState()
 
 	val onBackLambda = remember(model.isFavourite) {
@@ -93,8 +92,7 @@ fun CompanyScreen(
 			) {
 				Icon(
 					painter = painterResource(
-						if (model.isFavourite) R.drawable.ic_favorite_clear else R.drawable
-							.ic_favorite
+						if (model.isFavourite) R.drawable.ic_favorite_clear else R.drawable.ic_favorite
 					),
 					contentDescription = "Add favourites",
 				)
@@ -103,6 +101,7 @@ fun CompanyScreen(
 	}
 }
 
+@Suppress("Wrapping")
 @Composable
 private fun CompanyScreenBody(
 	company: Company,
@@ -114,7 +113,6 @@ private fun CompanyScreenBody(
 	onOfficersClick: (String) -> Unit,
 	onPersonsClick: (String) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -169,7 +167,6 @@ private fun CompanyScreenBody(
 			.padding(paddingValues)
 			.testTag("Company Screen Column")
 	) {
-
 		TitleLargeBoldText(
 			text = company.companyNumber,
 			modifier = Modifier
@@ -271,7 +268,7 @@ private class CompanyProvider : PreviewParameterProvider<Company> {
 				region = "West Yorkshire"
 			),
 			natureOfBusiness = "64209 Activities of other holding companies not elsewhere classified",
-			lastAccountsMadeUpTo = "Last Full account"// made up to 31 July 2022"
+			lastAccountsMadeUpTo = "Last Full account" // made up to 31 July 2022"
 		)
 	)
 }

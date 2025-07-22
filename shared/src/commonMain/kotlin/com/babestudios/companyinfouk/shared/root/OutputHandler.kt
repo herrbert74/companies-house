@@ -7,23 +7,23 @@ import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
-import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
 import com.babestudios.companyinfouk.shared.screen.chargedetails.ChargeDetailsComp
+import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
 import com.babestudios.companyinfouk.shared.screen.company.CompanyComp
 import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesComp
-import com.babestudios.companyinfouk.shared.screen.main.MainComp
-import com.babestudios.companyinfouk.shared.screen.map.MapComp
-import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComp
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsComp
 import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryComp
-import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
 import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesComp
-import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
+import com.babestudios.companyinfouk.shared.screen.main.MainComp
+import com.babestudios.companyinfouk.shared.screen.map.MapComp
 import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsComp
 import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComp
 import com.babestudios.companyinfouk.shared.screen.officers.OfficersComp
 import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsComp
 import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
+import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComp
 import kotlin.random.Random
 
 val navigation = StackNavigation<Configuration>()
@@ -69,7 +69,7 @@ internal fun onCompanyOutput(output: CompanyComp.Output) = when (output) {
 		navigation.pop {
 			if (goingToFavouritesAndRemovedFavourite(output.isComingFromFavourites, output.isFavourite)) {
 				navigation.pop()
-				navigation.push(Configuration.Favourites) //replaceCurrent does not work here!
+				navigation.push(Configuration.Favourites) // replaceCurrent does not work here!
 			}
 		}
 	}
@@ -198,7 +198,7 @@ internal fun onAppointmentsOutput(output: AppointmentsComp.Output): Unit =
 			Configuration.Company(
 				output.appointment.appointedTo.companyNumber,
 				output.appointment.appointedTo.companyName,
-				Configuration.Main, //Only Favourites matter
+				Configuration.Main, // Only Favourites matter
 				Random.nextLong()
 			)
 		)

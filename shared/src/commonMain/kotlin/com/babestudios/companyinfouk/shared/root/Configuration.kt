@@ -21,7 +21,7 @@ sealed class Configuration {
 		val companyId: String,
 		val companyName: String,
 		val previousConfig: Configuration,
-		val salt: Long, //This needs to be added to keep the Configuration unique, which is a Decompose requirement
+		val salt: Long, // This needs to be added to keep the Configuration unique, which is a Decompose requirement
 	) : Configuration()
 
 	@Serializable

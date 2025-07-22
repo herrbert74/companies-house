@@ -61,8 +61,8 @@ enum class CategoryDto {
 	@SerialName("document-replacement")
 	CATEGORY_DOCUMENT_REPLACEMENT,
 
-	//Legacy
+	// Legacy
 	@SerialName("return")
-	CATEGORY_RETURN;
+	CATEGORY_RETURN
 
 }

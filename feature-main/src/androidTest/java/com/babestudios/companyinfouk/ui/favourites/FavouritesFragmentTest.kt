@@ -11,14 +11,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import com.babestudios.companyinfouk.main.CompaniesRootContent
-import com.babestudios.companyinfouk.shared.root.Configuration
-import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.mock.mockWithEmptyFavourites
 import com.babestudios.companyinfouk.mock.mockWithFavourites
-import com.babestudios.companyinfouk.shared.root.navigation
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
+import com.babestudios.companyinfouk.shared.root.Configuration
+import com.babestudios.companyinfouk.shared.root.navigation
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
 import kotlinx.coroutines.CoroutineDispatcher
@@ -45,7 +45,6 @@ class FavouritesFragmentTest : KoinComponent {
 
 	@Before
 	fun setUp() {
-
 		CoroutineScope(mainContext).launch {
 			val companiesRootComponent = CompaniesRootComponent(
 				DefaultComponentContext(lifecycle = LifecycleRegistry()),
@@ -63,8 +62,7 @@ class FavouritesFragmentTest : KoinComponent {
 
 	@Test
 	fun whenComingFromMain_thenShowsData() {
-
-		//Reset
+		// Reset
 		companiesRepository.mockWithFavourites()
 		CoroutineScope(mainContext).launch {
 			navigation.popWhile { topOfStack: Configuration -> topOfStack !is Configuration.Main }
@@ -77,8 +75,7 @@ class FavouritesFragmentTest : KoinComponent {
 
 	@Test
 	fun whenComingFromMain_andFavouritesIsEmpty_thenDisplaysEmptyView() {
-
-		//Reset
+		// Reset
 		CoroutineScope(mainContext).launch {
 			navigation.popWhile { topOfStack: Configuration -> topOfStack !is Configuration.Main }
 		}
@@ -92,8 +89,7 @@ class FavouritesFragmentTest : KoinComponent {
 
 	@Test
 	fun whenComingFromCompany_andFavouriteIsDeleted_thenDisplaysEmptyView() {
-
-		//Reset
+		// Reset
 		companiesRepository.mockWithFavourites()
 		CoroutineScope(mainContext).launch {
 			navigation.popWhile { topOfStack: Configuration -> topOfStack !is Configuration.Main }

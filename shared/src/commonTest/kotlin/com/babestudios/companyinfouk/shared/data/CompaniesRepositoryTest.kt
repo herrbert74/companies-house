@@ -29,7 +29,6 @@ class CompaniesRepositoryTest {
 
 	@BeforeTest
 	fun setUp() {
-
 		companiesRepository = CompaniesAccessor(
 			mockCompaniesHouseApi,
 			mockPrefsAccessor,
@@ -41,7 +40,6 @@ class CompaniesRepositoryTest {
 
 	@Test
 	fun `when searchCompanies then calls service and returns result`() = runTest {
-
 		everySuspend {
 			mockCompaniesHouseApi.searchCompanies("Games", "50", "0")
 		} returns companySearchResult

@@ -28,10 +28,11 @@ class MainExecutor(
 		when (action) {
 			is BootstrapIntent.ShowRecentSearches -> {
 				companiesRepository.logScreenView("Main")
-				if (state().searchQuery == null)
+				if (state().searchQuery == null) {
 					showRecentSearches()
-				else
+				} else {
 					state().searchQuery?.let { onSearchQueryChanged(it, state()) }
+				}
 			}
 		}
 	}
@@ -135,7 +136,6 @@ class MainExecutor(
 	}
 
 	private fun searchItemClicked(name: String, number: String) {
-
 		val newSearchHistoryItem = SearchHistoryItem(
 			name,
 			number,

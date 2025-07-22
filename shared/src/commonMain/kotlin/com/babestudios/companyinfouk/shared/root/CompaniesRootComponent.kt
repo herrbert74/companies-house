@@ -4,14 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
-import com.babestudios.companyinfouk.shared.screen.chargedetails.ChargeDetailsComp
-import com.babestudios.companyinfouk.shared.screen.company.CompanyComp
-import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesComp
-import com.babestudios.companyinfouk.shared.screen.main.MainComp
-import com.babestudios.companyinfouk.shared.screen.main.MainExecutor
-import com.babestudios.companyinfouk.shared.screen.map.MapComp
-import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComp
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.domain.model.charges.ChargesItem
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
@@ -19,22 +12,29 @@ import com.babestudios.companyinfouk.shared.domain.model.insolvency.InsolvencyCa
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
 import com.babestudios.companyinfouk.shared.domain.model.officers.Officer
 import com.babestudios.companyinfouk.shared.domain.model.persons.Person
+import com.babestudios.companyinfouk.shared.screen.chargedetails.ChargeDetailsComp
+import com.babestudios.companyinfouk.shared.screen.charges.ChargesComp
+import com.babestudios.companyinfouk.shared.screen.company.CompanyComp
+import com.babestudios.companyinfouk.shared.screen.favourites.FavouritesComp
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsComp
 import com.babestudios.companyinfouk.shared.screen.filings.FilingHistoryComp
-import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
 import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesComp
-import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.insolvencydetails.InsolvencyDetailsComp
+import com.babestudios.companyinfouk.shared.screen.main.MainComp
+import com.babestudios.companyinfouk.shared.screen.main.MainExecutor
+import com.babestudios.companyinfouk.shared.screen.map.MapComp
 import com.babestudios.companyinfouk.shared.screen.officerappointments.AppointmentsComp
 import com.babestudios.companyinfouk.shared.screen.officerdetails.OfficerDetailsComp
 import com.babestudios.companyinfouk.shared.screen.officers.OfficersComp
 import com.babestudios.companyinfouk.shared.screen.persondetails.PersonDetailsComp
 import com.babestudios.companyinfouk.shared.screen.persons.PersonsComp
-import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
+import com.babestudios.companyinfouk.shared.screen.practitionerdetails.PractitionerDetailsComp
+import com.babestudios.companyinfouk.shared.screen.privacy.PrivacyComp
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.FlowCollector
 
-typealias CreateCompanyComp
-	= (ComponentContext, String, String, Boolean, FlowCollector<CompanyComp.Output>) -> CompanyComp
+typealias CreateCompanyComp =
+		(ComponentContext, String, String, Boolean, FlowCollector<CompanyComp.Output>) -> CompanyComp
 
 typealias CreateMainComp = (ComponentContext, () -> Unit, FlowCollector<MainComp.Output>) -> MainComp
 typealias CreateFavouritesComp = (ComponentContext, FlowCollector<FavouritesComp.Output>) -> FavouritesComp
@@ -42,38 +42,36 @@ typealias CreateFavouritesComp = (ComponentContext, FlowCollector<FavouritesComp
 typealias CreateMapComp = (ComponentContext, String, String, FlowCollector<MapComp.Output>) -> MapComp
 typealias CreatePrivacyComp = (ComponentContext, FlowCollector<PrivacyComp.Output>) -> PrivacyComp
 typealias CreateChargesComp = (ComponentContext, String, FlowCollector<ChargesComp.Output>) -> ChargesComp
-typealias CreateChargeDetailsComp
-	= (ComponentContext, ChargesItem, FlowCollector<ChargeDetailsComp.Output>) -> ChargeDetailsComp
+typealias CreateChargeDetailsComp =
+		(ComponentContext, ChargesItem, FlowCollector<ChargeDetailsComp.Output>) -> ChargeDetailsComp
 
-typealias CreateFilingHistoryComp
-	= (ComponentContext, String, FlowCollector<FilingHistoryComp.Output>) -> FilingHistoryComp
+typealias CreateFilingHistoryComp =
+		(ComponentContext, String, FlowCollector<FilingHistoryComp.Output>) -> FilingHistoryComp
 
-typealias CreateFilingDetailsComp
-	= (ComponentContext, FilingHistoryItem, FlowCollector<FilingDetailsComp.Output>) -> FilingDetailsComp
+typealias CreateFilingDetailsComp =
+		(ComponentContext, FilingHistoryItem, FlowCollector<FilingDetailsComp.Output>) -> FilingDetailsComp
 
-typealias CreateInsolvenciesComp
-	= (ComponentContext, String, FlowCollector<InsolvenciesComp.Output>) -> InsolvenciesComp
+typealias CreateInsolvenciesComp =
+		(ComponentContext, String, FlowCollector<InsolvenciesComp.Output>) -> InsolvenciesComp
 
-typealias CreateInsolvencyDetailsComp
-	= (ComponentContext, String, InsolvencyCase, FlowCollector<InsolvencyDetailsComp.Output>) -> InsolvencyDetailsComp
+typealias CreateInsolvencyDetailsComp =
+		(ComponentContext, String, InsolvencyCase, FlowCollector<InsolvencyDetailsComp.Output>) -> InsolvencyDetailsComp
 
-typealias CreatePractitionerDetailsComp
-	= (ComponentContext, Practitioner, FlowCollector<PractitionerDetailsComp.Output>) -> PractitionerDetailsComp
+typealias CreatePractitionerDetailsComp =
+		(ComponentContext, Practitioner, FlowCollector<PractitionerDetailsComp.Output>) -> PractitionerDetailsComp
 
-typealias CreateOfficersComp
-	= (ComponentContext, String, FlowCollector<OfficersComp.Output>) -> OfficersComp
+typealias CreateOfficersComp = (ComponentContext, String, FlowCollector<OfficersComp.Output>) -> OfficersComp
 
-typealias CreateOfficerDetailsComp
-	= (ComponentContext, Officer, FlowCollector<OfficerDetailsComp.Output>) -> OfficerDetailsComp
+typealias CreateOfficerDetailsComp =
+		(ComponentContext, Officer, FlowCollector<OfficerDetailsComp.Output>) -> OfficerDetailsComp
 
-typealias CreateAppointmentsComp
-	= (ComponentContext, Officer, FlowCollector<AppointmentsComp.Output>) -> AppointmentsComp
+typealias CreateAppointmentsComp =
+		(ComponentContext, Officer, FlowCollector<AppointmentsComp.Output>) -> AppointmentsComp
 
-typealias CreatePersonsComp
-	= (ComponentContext, String, FlowCollector<PersonsComp.Output>) -> PersonsComp
+typealias CreatePersonsComp = (ComponentContext, String, FlowCollector<PersonsComp.Output>) -> PersonsComp
 
-typealias CreatePersonDetailsComp
-	= (ComponentContext, Person, FlowCollector<PersonDetailsComp.Output>) -> PersonDetailsComp
+typealias CreatePersonDetailsComp =
+		(ComponentContext, Person, FlowCollector<PersonDetailsComp.Output>) -> PersonDetailsComp
 
 interface CompaniesRootComp {
 	val childStackValue: Value<ChildStack<Configuration, CompaniesChild>>
@@ -261,7 +259,9 @@ class CompaniesRootComponent internal constructor(
 		configuration: Configuration.Practitioners,
 	) = CompaniesChild.Practitioners(
 		createPractitionerDetailsComp(
-			componentContext, configuration.selectedPractitioner, FlowCollector(::onPractitionerDetailsOutput)
+			componentContext,
+			configuration.selectedPractitioner,
+			FlowCollector(::onPractitionerDetailsOutput)
 		)
 	)
 

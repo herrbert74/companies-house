@@ -21,9 +21,9 @@ import com.babestudios.companyinfouk.design.Colors
 import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.TitleMediumText
+import com.babestudios.companyinfouk.insolvencies.R
 import com.babestudios.companyinfouk.shared.domain.model.common.Address
 import com.babestudios.companyinfouk.shared.domain.model.insolvency.Practitioner
-import com.babestudios.companyinfouk.insolvencies.R
 
 @Composable
 internal fun PractitionerListItem(
@@ -38,7 +38,6 @@ internal fun PractitionerListItem(
 			.fillMaxWidth(1f)
 			.clickable { onItemClick(item) },
 	) {
-
 		Spacer(modifier = Modifier.height(viewMarginNormal))
 
 		Icon(

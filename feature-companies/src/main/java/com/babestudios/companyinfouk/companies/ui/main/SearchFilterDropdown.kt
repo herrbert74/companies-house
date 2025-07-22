@@ -26,7 +26,6 @@ fun SearchFilterDropdown(
 	setFilterState: (FilterState) -> Unit,
 	modifier: Modifier = Modifier,
 ) {
-
 	val expanded = remember { mutableStateOf(false) }
 
 	Column(modifier = modifier) {

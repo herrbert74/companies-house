@@ -5,13 +5,13 @@ import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.babestudios.companyinfouk.shared.domain.model.common.ApiResult
-import com.babestudios.companyinfouk.shared.screen.main.MainStore.Intent
-import com.babestudios.companyinfouk.shared.screen.main.MainStore.SideEffect
-import com.babestudios.companyinfouk.shared.screen.main.MainStore.State
 import com.babestudios.companyinfouk.shared.domain.model.search.CompanySearchResult
 import com.babestudios.companyinfouk.shared.domain.model.search.FilterState
 import com.babestudios.companyinfouk.shared.domain.model.search.SearchHistoryItem
 import com.babestudios.companyinfouk.shared.domain.model.search.filterSearchResults
+import com.babestudios.companyinfouk.shared.screen.main.MainStore.Intent
+import com.babestudios.companyinfouk.shared.screen.main.MainStore.SideEffect
+import com.babestudios.companyinfouk.shared.screen.main.MainStore.State
 import com.github.michaelbull.result.fold
 
 class MainStoreFactory(
@@ -19,8 +19,9 @@ class MainStoreFactory(
 	private val mainExecutor: MainExecutor,
 ) {
 
-	fun create(): MainStore =
-		object : MainStore, Store<Intent, State, SideEffect> by storeFactory.create(
+	fun create(): MainStore = object :
+		MainStore,
+		Store<Intent, State, SideEffect> by storeFactory.create(
 			name = "MainStore",
 			initialState = State(),
 			bootstrapper = MainBootstrapper(),
@@ -45,13 +46,16 @@ class MainStoreFactory(
 					filteredSearchResultItems = emptyList(),
 					filterState = FilterState.FILTER_SHOW_ALL,
 				)
+
 				is Message.SearchResult -> msg.searchResult.fold(
-					success = { copy(
-						isLoading = false,
-						searchResults = it.items,
-						totalResults = it.totalResults,
-						filteredSearchResultItems = it.items.filterSearchResults(filterState)
-					) },
+					success = {
+						copy(
+							isLoading = false,
+							searchResults = it.items,
+							totalResults = it.totalResults,
+							filteredSearchResultItems = it.items.filterSearchResults(filterState)
+						)
+					},
 					failure = { copy(isLoading = false, error = it) }
 				)
 
@@ -65,6 +69,7 @@ class MainStoreFactory(
 					},
 					failure = { copy(isLoading = false, error = it) }
 				)
+
 				is Message.SetFilterState -> {
 					val result = if (msg.filterState.ordinal > FilterState.FILTER_SHOW_ALL.ordinal) {
 						this.searchResults.filterSearchResults(msg.filterState)
@@ -76,6 +81,7 @@ class MainStoreFactory(
 						filterState = msg.filterState
 					)
 				}
+
 				is Message.SearchItemClicked -> copy(searchHistoryItems = msg.searchHistoryItems)
 				is Message.SetSearchMenuItemExpanded -> copy(searchQuery = "")
 				is Message.SetSearchMenuItemCollapsed -> {

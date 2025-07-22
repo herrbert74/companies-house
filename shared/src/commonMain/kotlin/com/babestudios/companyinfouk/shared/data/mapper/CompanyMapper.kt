@@ -3,12 +3,12 @@ package com.babestudios.companyinfouk.shared.data.mapper
 import com.babestudios.base.kotlin.ext.parseDate
 import com.babestudios.base.kotlin.ext.toDateString
 import com.babestudios.companyinfouk.shared.data.local.apilookup.ConstantsHelper
-import com.babestudios.companyinfouk.shared.data.util.StringResourceHelper
-import com.babestudios.companyinfouk.shared.domain.model.common.Address
-import com.babestudios.companyinfouk.shared.domain.model.company.Company
 import com.babestudios.companyinfouk.shared.data.model.common.AddressDto
 import com.babestudios.companyinfouk.shared.data.model.company.AccountsDto
 import com.babestudios.companyinfouk.shared.data.model.company.CompanyDto
+import com.babestudios.companyinfouk.shared.data.util.StringResourceHelper
+import com.babestudios.companyinfouk.shared.domain.model.common.Address
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
 
 fun CompanyDto.toCompany() = Company(
 	companyName ?: "",
@@ -24,13 +24,13 @@ fun CompanyDto.toCompany() = Company(
 private fun AccountsDto?.toAccountsString(): String {
 	return this?.lastAccounts?.madeUpTo?.let {
 		val madeUpToDate = it.parseDate()?.toDateString()
-		//madeUpToDate.let { date ->
-			//val formattedDate = date.time.formatShortDateFromTimeStampMillis()
+		// madeUpToDate.let { date ->
+			// val formattedDate = date.time.formatShortDateFromTimeStampMillis()
 			StringResourceHelper.getLastAccountMadeUpToString(
 				ConstantsHelper.accountTypeLookUp(lastAccounts?.type ?: ""),
 				madeUpToDate.toString()
 			)
-		//} ?: StringResourceHelper.getCompanyAccountsNotFoundString()
+		// } ?: StringResourceHelper.getCompanyAccountsNotFoundString()
 	} ?: StringResourceHelper.getCompanyAccountsNotFoundString()
 }
 

@@ -6,18 +6,18 @@ import com.babestudios.companyinfouk.shared.screen.insolvencies.InsolvenciesStor
 
 interface InsolvenciesStore : Store<Nothing, State, Nothing> {
 
-    data class State (
+	data class State(
 
-        //initial data
-        val selectedCompanyId: String,
+		// initial data
+		val selectedCompanyId: String,
 
-        //result data
-        val insolvency: Insolvency = Insolvency(),
-        val error: Throwable? = null,
+		// result data
+		val insolvency: Insolvency = Insolvency(),
+		val error: Throwable? = null,
 
-        //state
-        val isLoading: Boolean = true
+		// state
+		val isLoading: Boolean = true,
 
-    )
+		)
 
 }

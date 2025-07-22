@@ -40,7 +40,6 @@ fun FilingHistoryScreen(
 	component: FilingHistoryComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val model by component.state.subscribeAsState()
 	val categories = stringArrayResource(R.array.filing_history_categories)
 	val bodyContent = rememberSaveable { mutableStateOf(categories.first()) }
@@ -99,9 +98,7 @@ private fun FilingHistoryList(
 	onItemClick: (id: FilingHistoryItem) -> Unit,
 	onLoadMore: () -> Unit,
 ) {
-
 	Box(modifier = Modifier.padding(paddingValues)) {
-
 		val listState = rememberLazyListState()
 
 		LazyColumn(

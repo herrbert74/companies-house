@@ -34,7 +34,6 @@ import com.babestudios.companyinfouk.shared.screen.chargedetails.ChargeDetailsCo
 
 @Composable
 fun ChargeDetailsListScreen(component: ChargeDetailsComp) {
-
 	val selectedCharge = component.selectedCharges
 
 	BackHandler(onBack = { component.onBackClicked() })
@@ -57,7 +56,6 @@ private fun ChargeHeader(
 	charge: ChargesItem,
 	modifier: Modifier = Modifier,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -239,11 +237,13 @@ private fun ChargeHeader(
 			text = charge.personsEntitled,
 			maxLines = 3,
 		)
-		HorizontalDivider(modifier = Modifier
-			.constrainAs(divider) {
-				top.linkTo(personsEntitled.bottom, margin = viewMarginLarge)
-				width = Dimension.fillToConstraints
-			})
+		HorizontalDivider(
+			modifier = Modifier
+				.constrainAs(divider) {
+					top.linkTo(personsEntitled.bottom, margin = viewMarginLarge)
+					width = Dimension.fillToConstraints
+				}
+		)
 		TitleMediumText(
 			modifier = Modifier
 				.padding(bottom = viewMarginLarge)

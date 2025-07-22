@@ -36,7 +36,6 @@ internal fun ChargesItemListItem(
 	modifier: Modifier = Modifier,
 	onItemClick: (id: ChargesItem) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 	val viewMarginSmall = Dimens.marginSmall
@@ -59,7 +58,6 @@ internal fun ChargesItemListItem(
 			.wrapContentHeight(Alignment.CenterVertically)
 			.clickable { onItemClick(item) },
 	) {
-
 		val (cpnCreatedOn, cpnSatisfiedOn, cpnChargeCode, cpnPersonsEntitled) = createRefs()
 		val (createdOn, satisfiedOn, chargeCode, personsEntitled, status) = createRefs()
 
@@ -70,7 +68,11 @@ internal fun ChargesItemListItem(
 					top.linkTo(parent.top, margin = viewMarginNormal)
 					bottom.linkTo(chargeCode.top)
 					linkTo(
-						parent.start, status.start, viewMarginLarge + viewMarginSmall, viewMarginNormal, bias = 0f
+						parent.start,
+						status.start,
+						viewMarginLarge + viewMarginSmall,
+						viewMarginNormal,
+						bias = 0f
 					)
 				},
 			text = stringResource(R.string.charge_details_charge_code),
@@ -123,7 +125,11 @@ internal fun ChargesItemListItem(
 					top.linkTo(createdOn.bottom, margin = viewMarginNormal)
 					bottom.linkTo(satisfiedOn.top)
 					linkTo(
-						parent.start, status.start, viewMarginLarge + viewMarginSmall, viewMarginNormal, bias = 0f
+						parent.start,
+						status.start,
+						viewMarginLarge + viewMarginSmall,
+						viewMarginNormal,
+						bias = 0f
 					)
 					visibility = satisfiedVisibility
 				},

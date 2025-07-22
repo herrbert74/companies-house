@@ -29,7 +29,6 @@ fun LabeledDetailCardItem(
 	detailStyle: TextStyle = CompaniesTypography.titleLargeBold.merge(Colors.onBackground),
 	labelWeight: Float = FORTY_PERCENT,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -68,7 +67,7 @@ fun LabeledDetailCardItem(
 	}
 }
 
-//Annotated preview in FilingDetailsScreen
+// Annotated preview in FilingDetailsScreen
 
 @Preview
 @Composable

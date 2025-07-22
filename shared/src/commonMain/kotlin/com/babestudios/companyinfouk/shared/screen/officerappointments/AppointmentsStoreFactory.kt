@@ -16,8 +16,9 @@ class AppointmentsStoreFactory(
 	private val appointmentsExecutor: AppointmentsExecutor,
 ) {
 
-	fun create(selectedOfficer: Officer): AppointmentsStore =
-		object : AppointmentsStore, Store<Intent, State, Nothing> by storeFactory.create(
+	fun create(selectedOfficer: Officer): AppointmentsStore = object :
+		AppointmentsStore,
+		Store<Intent, State, Nothing> by storeFactory.create(
 			name = "AppointmentsStore",
 			initialState = State(selectedOfficer),
 			bootstrapper = AppointmentsBootstrapper(selectedOfficer.appointmentsId),

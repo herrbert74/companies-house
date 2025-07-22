@@ -49,7 +49,6 @@ class FilingHistoryExecutor(
 		}
 	}
 
-
 	private fun loadMoreFilingHistory(state: State) {
 		if (state.filingHistory.items.size < state.filingHistory.totalCount) {
 			scope.launch {

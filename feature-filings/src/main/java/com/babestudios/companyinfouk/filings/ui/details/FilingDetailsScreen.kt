@@ -65,7 +65,6 @@ fun FilingDetailsScreen(
 	component: FilingDetailsComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val selectedFilingDetails = component.filingHistoryItem
 	val model by component.state.subscribeAsState()
 
@@ -105,6 +104,7 @@ fun FilingDetailsScreen(
 		backgroundDrawable = R.drawable.bg_filing_history,
 		title = stringResource(R.string.filing_history_details),
 		onBackClick = { component.onBackClicked() },
+		modifier = modifier,
 		actions = { progress ->
 			IconButton(onClick = {
 				wasCreateDocumentCalled.value = false
@@ -125,7 +125,10 @@ fun FilingDetailsScreen(
 	) { paddingValues ->
 		if (model.downloadedPdfResponseBody != null && !wasCreateDocumentCalled.value) {
 			CheckPermissionAndWriteDocument(
-				context, permissionLauncher, model.documentId, createDocumentLauncher
+				context,
+				permissionLauncher,
+				model.documentId,
+				createDocumentLauncher
 			)
 			wasCreateDocumentCalled.value = true
 		}
@@ -188,7 +191,7 @@ fun CheckPermissionAndWriteDocument(
 ) {
 	when (PackageManager.PERMISSION_GRANTED) {
 		ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
-			createDocumentLauncher.launch("${documentId}.pdf")
+			createDocumentLauncher.launch("$documentId.pdf")
 		}
 
 		else -> permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)

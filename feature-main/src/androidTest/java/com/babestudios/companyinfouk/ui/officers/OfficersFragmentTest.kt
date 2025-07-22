@@ -12,10 +12,10 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import com.babestudios.companyinfouk.main.CompaniesRootContent
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
+import com.babestudios.companyinfouk.shared.root.CompaniesRootComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -40,7 +40,6 @@ class OfficersFragmentTest : KoinComponent {
 
 	@Before
 	fun setUp() {
-
 		CoroutineScope(mainContext).launch {
 			val companiesRootComponent = CompaniesRootComponent(
 				DefaultComponentContext(lifecycle = LifecycleRegistry()),
@@ -57,7 +56,6 @@ class OfficersFragmentTest : KoinComponent {
 
 	@Test
 	fun whenDisplayingOfficers_andCompanyClicked_thenShowCompany() {
-
 		composeTestRule.onNodeWithText("Acme Painting").onParent().performClick()
 		composeTestRule.onNodeWithText("Officers").performClick()
 		composeTestRule.onAllNodes(hasClickAction()).onFirst().performClick()

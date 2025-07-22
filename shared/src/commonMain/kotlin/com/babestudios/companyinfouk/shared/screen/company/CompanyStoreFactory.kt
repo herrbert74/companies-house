@@ -4,17 +4,18 @@ import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
+import com.babestudios.companyinfouk.shared.domain.model.company.Company
 import com.babestudios.companyinfouk.shared.screen.company.CompanyStore.Intent
 import com.babestudios.companyinfouk.shared.screen.company.CompanyStore.State
-import com.babestudios.companyinfouk.shared.domain.model.company.Company
 
 class CompanyStoreFactory(
 	private val storeFactory: StoreFactory,
 	private val companyExecutor: CompanyExecutor,
 ) {
 
-	fun create(companyId: String): CompanyStore =
-		object : CompanyStore, Store<Intent, State, Nothing> by storeFactory.create(
+	fun create(companyId: String): CompanyStore = object :
+		CompanyStore,
+		Store<Intent, State, Nothing> by storeFactory.create(
 			name = "CompanyStore",
 			initialState = State(companyId),
 			bootstrapper = CompanyBootstrapper(companyId),
@@ -36,6 +37,7 @@ class CompanyStoreFactory(
 					company = msg.company,
 					isFavourite = msg.isFavourite
 				)
+
 				is Message.FlipFavourite -> this.copy(isFavourite = msg.isFavourite)
 			}
 	}

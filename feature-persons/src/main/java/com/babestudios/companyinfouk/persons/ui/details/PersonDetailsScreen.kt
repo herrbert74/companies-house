@@ -37,7 +37,6 @@ fun PersonDetailsScreen(
 	component: PersonDetailsComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val selectedPerson = component.selectedPerson
 
@@ -99,8 +98,8 @@ fun PersonDetailsScreen(
 				Modifier.fillMaxWidth(1f)
 			)
 			HorizontalDivider(thickness = 1.dp)
-			if ((selectedPerson.countryOfResidence?.isBlank() == false
-					&& selectedPerson.countryOfResidence != selectedPerson.address.country)
+			if (selectedPerson.countryOfResidence?.isBlank() == false &&
+				selectedPerson.countryOfResidence != selectedPerson.address.country
 			) {
 				TwoLineCard(
 					firstLineString = "Country of residence",
@@ -173,7 +172,8 @@ private fun PersonDetailsScreenPreview() {
 						listOf("Ownership of shares - 75% or more", "Ownership of voting rights - 75% or more"),
 					identification = Identification(
 						placeRegistered = "England",
-						legalAuthority = "Limited Company, England And Wales", legalForm = "Limited Company"
+						legalAuthority = "Limited Company, England And Wales",
+						legalForm = "Limited Company"
 					)
 				)
 			) { }

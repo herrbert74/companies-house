@@ -16,8 +16,6 @@ interface OfficerDetailsComp {
 		data class OnAppointmentsClicked(val selectedOfficer: Officer) : Output()
 	}
 
-	//val selectedCompanyId: String
-
 	val selectedOfficer: Officer
 
 	fun onBackClicked()

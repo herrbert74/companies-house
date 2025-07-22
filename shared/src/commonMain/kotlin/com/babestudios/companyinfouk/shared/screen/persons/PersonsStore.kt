@@ -13,14 +13,14 @@ interface PersonsStore : Store<Intent, State, Nothing> {
 
 	data class State(
 
-		//initial data
+		// initial data
 		val companyId: String,
 
-		//result data
+		// result data
 		val personsResponse: PersonsResponse = PersonsResponse(),
 		val error: Throwable? = null,
 
-		//state
+		// state
 		val isLoading: Boolean = true,
 
 		)

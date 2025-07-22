@@ -14,4 +14,3 @@ class BranchCompanyDetailsDto(
 	@SerialName("parent_company_number")
 	var parentCompanyNumber: String? = null,
 )
-

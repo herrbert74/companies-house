@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-plugins{
+plugins {
 	kotlin("jvm")
 }
 
@@ -16,7 +16,7 @@ kotlin {
 
 dependencies {
 	api(libs.detekt.api)
-	api(libs.kotlin.compilerEmbeddable) //Transitive
+	api(libs.kotlin.compilerEmbeddable) // Transitive
 	testImplementation(libs.detekt.test)
 	testImplementation(libs.jUnit5.jupiterApi)
 	testImplementation(libs.kotest.assertionsShared)

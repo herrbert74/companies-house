@@ -31,8 +31,11 @@ private fun OfficerDto?.toOfficer(): Officer {
 		this?.countryOfResidence ?: "Unknown",
 		this?.nationality ?: "Unknown",
 		resignedOn,
-		if (resignedOn.isNullOrEmpty()) StringResourceHelper.getAppointedFromString(appointedOn) else
-			StringResourceHelper.getAppointedFromToString(appointedOn, resignedOn),
+		if (resignedOn.isNullOrEmpty()) {
+			StringResourceHelper.getAppointedFromString(appointedOn)
+		} else {
+			StringResourceHelper.getAppointedFromToString(appointedOn, resignedOn)
+		},
 		extractOfficerAppointmentsId(this?.links?.officer?.appointments ?: "")
 	)
 }
@@ -41,7 +44,7 @@ private fun extractOfficerAppointmentsId(appointmentsUrl: String): String {
 	val pattern = Regex("officers/(\\w+)/appointments")
 	var officerId = ""
 	val matcherResult = pattern.find(appointmentsUrl)
-	if(matcherResult != null){
+	if (matcherResult != null) {
 		officerId = matcherResult.groupValues[1]
 	}
 	return officerId

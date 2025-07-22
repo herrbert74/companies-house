@@ -20,10 +20,10 @@ import com.babestudios.companyinfouk.design.CompaniesTheme
 import com.babestudios.companyinfouk.design.Dimens
 import com.babestudios.companyinfouk.design.component.BodyMediumText
 import com.babestudios.companyinfouk.design.component.TitleMediumText
+import com.babestudios.companyinfouk.officers.R
 import com.babestudios.companyinfouk.shared.domain.FORTY_PERCENT
 import com.babestudios.companyinfouk.shared.domain.model.officers.AppointedTo
 import com.babestudios.companyinfouk.shared.domain.model.officers.Appointment
-import com.babestudios.companyinfouk.officers.R
 
 @Composable
 internal fun AppointmentListItem(
@@ -31,7 +31,6 @@ internal fun AppointmentListItem(
 	modifier: Modifier = Modifier,
 	onItemClick: (id: Appointment) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -154,7 +153,8 @@ private fun AppointmentListItemPreview() {
 				Appointment(
 					appointedOn = "2012-8-12",
 					appointedTo = AppointedTo(
-						companyName = "Heart Foundation Multiple Lines Too Long", companyStatus = "active"
+						companyName = "Heart Foundation Multiple Lines Too Long",
+						companyStatus = "active"
 					),
 					officerRole = "Director",
 					resignedOn = "2013-10-12"
@@ -174,7 +174,8 @@ private fun AppointmentListItemDarkPreview() {
 				Appointment(
 					appointedOn = "2012-8-12",
 					appointedTo = AppointedTo(
-						companyName = "Heart Foundation Multiple Lines Too Long", companyStatus = "active"
+						companyName = "Heart Foundation Multiple Lines Too Long",
+						companyStatus = "active"
 					),
 					officerRole = "Director",
 					resignedOn = "2013-10-12"

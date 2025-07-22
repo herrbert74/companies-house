@@ -32,9 +32,9 @@ internal class CompaniesHouseExceptionHandler constructor(
 	@Suppress("TooGenericExceptionThrown")
 	override val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
 		when (throwable) {
-//			is HttpException -> throwable.response()?.errorBody()?.let { body ->
-//				throw Exception(errorMessageFromResponseBody(body))
-//			}
+			// is HttpException -> throwable.response()?.errorBody()?.let { body ->
+			// 	throw Exception(errorMessageFromResponseBody(body))
+			// }
 			else -> throw Exception("An error happened")
 		}
 	}

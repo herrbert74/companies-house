@@ -30,7 +30,6 @@ fun CategoryFilterDropdown(
 	progress: Float,
 	modifier: Modifier = Modifier,
 ) {
-
 	val expanded = remember { mutableStateOf(false) }
 
 	Column(modifier = modifier) {

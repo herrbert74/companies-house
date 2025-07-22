@@ -16,15 +16,15 @@ interface FilingDetailsStore : Store<Intent, State, Nothing> {
 
 	data class State(
 
-		//initial data
+		// initial data
 		val selectedFilingHistoryItem: FilingHistoryItem,
 		val documentId: String = selectedFilingHistoryItem.links.documentMetadata.substringAfterLast("/"),
 
-		//result data
+		// result data
 		val downloadedPdfResponseBody: HttpResponse? = null,
 		val savedPdfUri: Uri? = null,
 
-		//state
+		// state
 		val error: Throwable? = null,
 
 		)

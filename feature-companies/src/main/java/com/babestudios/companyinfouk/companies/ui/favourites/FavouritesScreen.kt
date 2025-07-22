@@ -48,7 +48,6 @@ fun FavouritesScreen(
 	component: FavouritesComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val model by component.state.subscribeAsState()
 
 	val sideEffect by component.sideEffects.collectAsState(Initial)
@@ -100,7 +99,6 @@ private fun FavouritesList(
 	onDeleteClick: (favouritesItem: FavouritesItem) -> Unit,
 	onUndoClick: (favouritesItem: FavouritesItem) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 
 	Box(
@@ -141,9 +139,9 @@ private fun FavouritesList(
 								)
 							} else {
 								IconButton(
-									onClick = { onDeleteClick(favouritesItem) }, modifier = Modifier.padding(
-										end =
-											viewMarginLarge
+									onClick = { onDeleteClick(favouritesItem) },
+									modifier = Modifier.padding(
+										end = viewMarginLarge
 									)
 								) {
 									Icon(

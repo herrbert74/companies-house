@@ -22,7 +22,6 @@ import com.babestudios.companyinfouk.shared.domain.model.insolvency.Date
 
 @Composable
 internal fun InsolvencyDateListItem(item: Date) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -30,7 +29,6 @@ internal fun InsolvencyDateListItem(item: Date) {
 		modifier = Modifier
 			.fillMaxWidth(1f)
 	) {
-
 		Spacer(modifier = Modifier.height(viewMarginNormal))
 
 		TitleMediumText(
@@ -58,8 +56,8 @@ internal fun InsolvencyDateListItem(item: Date) {
 @Preview
 @Composable
 private fun InsolvencyDateItemPreview() {
-	CompaniesTheme{
-		Box(modifier = Modifier.background(Colors.background)){
+	CompaniesTheme {
+		Box(modifier = Modifier.background(Colors.background)) {
 			InsolvencyDateListItem(
 				Date(
 					"2016-05-26",
@@ -73,8 +71,8 @@ private fun InsolvencyDateItemPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun InsolvenciesDateItemDarkPreview() {
-	CompaniesTheme{
-		Box(modifier = Modifier.background(Colors.background)){
+	CompaniesTheme {
+		Box(modifier = Modifier.background(Colors.background)) {
 			InsolvencyDateListItem(
 				Date(
 					"2016-05-26",

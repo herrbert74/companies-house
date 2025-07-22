@@ -16,7 +16,7 @@ fun TitleLargeBoldText(
 	modifier: Modifier = Modifier,
 	maxLines: Int = 3,
 	textAlign: TextAlign = TextAlign.Start,
-	overflow: TextOverflow  = TextOverflow.Ellipsis
+	overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
 	Text(
 		modifier = modifier,
@@ -34,7 +34,7 @@ fun TitleMediumText(
 	modifier: Modifier = Modifier,
 	maxLines: Int = 3,
 	textAlign: TextAlign = TextAlign.Start,
-	overflow: TextOverflow  = TextOverflow.Ellipsis
+	overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
 	Text(
 		modifier = modifier,
@@ -45,7 +45,6 @@ fun TitleMediumText(
 		overflow = overflow
 	)
 }
-
 
 @Composable
 fun TitleMediumText(
@@ -53,7 +52,7 @@ fun TitleMediumText(
 	modifier: Modifier = Modifier,
 	maxLines: Int = 3,
 	textAlign: TextAlign = TextAlign.Start,
-	overflow: TextOverflow  = TextOverflow.Ellipsis
+	overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
 	Text(
 		modifier = modifier,
@@ -65,14 +64,13 @@ fun TitleMediumText(
 	)
 }
 
-
 @Composable
 fun TitleSmallText(
 	text: AnnotatedString,
 	modifier: Modifier = Modifier,
 	maxLines: Int = 3,
 	textAlign: TextAlign = TextAlign.Start,
-	overflow: TextOverflow  = TextOverflow.Ellipsis
+	overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
 	Text(
 		modifier = modifier,
@@ -84,14 +82,13 @@ fun TitleSmallText(
 	)
 }
 
-
 @Composable
 fun TitleSmallText(
 	text: String,
 	modifier: Modifier = Modifier,
 	maxLines: Int = 3,
 	textAlign: TextAlign = TextAlign.Start,
-	overflow: TextOverflow  = TextOverflow.Ellipsis
+	overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
 	Text(
 		modifier = modifier,
@@ -109,7 +106,7 @@ fun BodyMediumText(
 	modifier: Modifier = Modifier,
 	maxLines: Int = 3,
 	textAlign: TextAlign = TextAlign.Start,
-	overflow: TextOverflow  = TextOverflow.Ellipsis
+	overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
 	Text(
 		modifier = modifier,
@@ -127,7 +124,7 @@ fun BodyMediumText(
 	modifier: Modifier = Modifier,
 	maxLines: Int = 3,
 	textAlign: TextAlign = TextAlign.Start,
-	overflow: TextOverflow  = TextOverflow.Ellipsis
+	overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
 	Text(
 		modifier = modifier,

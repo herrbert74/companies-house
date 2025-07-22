@@ -42,7 +42,6 @@ fun OfficerDetailsScreen(
 	component: OfficerDetailsComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	val viewMarginNormal = Dimens.marginNormal
 
 	TopAppBarDefaults.exitUntilCollapsedScrollBehavior()

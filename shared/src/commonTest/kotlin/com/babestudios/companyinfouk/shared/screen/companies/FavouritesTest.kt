@@ -59,7 +59,6 @@ class FavouritesTest {
 
 	@Test
 	fun `when remove favourite the repo removes favourite after delay`() = runTest(testCoroutineDispatcher) {
-
 		favouritesStore = FavouritesStoreFactory(DefaultStoreFactory(), favouritesExecutor).create()
 		val states = favouritesStore.states.test()
 		advanceUntilIdle()
@@ -74,7 +73,6 @@ class FavouritesTest {
 	@Test
 	fun `when remove multiple favourites the repo removes all of them after delay`() =
 		runTest(testCoroutineDispatcher) {
-
 			everySuspend { companiesHouseRepository.favourites() } returns searchHistoryItems
 			favouritesStore = FavouritesStoreFactory(DefaultStoreFactory(), favouritesExecutor).create()
 			val states = favouritesStore.states.test()
@@ -108,7 +106,6 @@ class FavouritesTest {
 
 	@Test
 	fun `when remove favourite and leaving the screen the repo removes favourite`() = runTest(testCoroutineDispatcher) {
-
 		everySuspend { companiesHouseRepository.favourites() } returns searchHistoryItems
 		favouritesStore = FavouritesStoreFactory(DefaultStoreFactory(), favouritesExecutor).create()
 		val labels = favouritesStore.labels.test()

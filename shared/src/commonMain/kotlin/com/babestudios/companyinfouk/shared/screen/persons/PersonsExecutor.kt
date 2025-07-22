@@ -40,7 +40,6 @@ class PersonsExecutor(
 		}
 	}
 
-
 	private fun loadMorePersons(state: State) {
 		if (state.personsResponse.items.size < state.personsResponse.totalResults) {
 			scope.launch {

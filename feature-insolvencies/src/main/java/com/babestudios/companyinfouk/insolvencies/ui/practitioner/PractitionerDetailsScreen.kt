@@ -34,7 +34,6 @@ fun PractitionerDetailsScreen(
 	component: PractitionerDetailsComp,
 	modifier: Modifier = Modifier,
 ) {
-
 	TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 	val selectedPractitionerDetails = component.selectedPractitioner
 
@@ -45,6 +44,7 @@ fun PractitionerDetailsScreen(
 		backgroundDrawable = R.drawable.bg_insolvency,
 		title = stringResource(R.string.practitioner_details),
 		onBackClick = { component.onBackClicked() },
+		modifier = modifier,
 	) { paddingValues ->
 		Column(
 			verticalArrangement = Arrangement.Top,

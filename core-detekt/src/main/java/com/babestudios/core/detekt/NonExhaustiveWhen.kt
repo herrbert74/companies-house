@@ -29,7 +29,9 @@ class NonExhaustiveWhen(config: Config = Config.empty) : Rule(config) {
 		if (whenExpressions.isNotEmpty()) {
 			report(
 				CodeSmell(
-					issue, Entity.from(function), MESSAGE
+					issue,
+					Entity.from(function),
+					MESSAGE
 				)
 			)
 		}

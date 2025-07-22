@@ -39,11 +39,13 @@ class KtorTest {
 		}
 		client = HttpClient(mockEngine) {
 			install(ContentNegotiation) {
-				json(Json {
-					prettyPrint = true
-					isLenient = true
-					ignoreUnknownKeys = true
-				})
+				json(
+					Json {
+						prettyPrint = true
+						isLenient = true
+						ignoreUnknownKeys = true
+					}
+				)
 			}
 		}
 	}
@@ -51,7 +53,6 @@ class KtorTest {
 	@Test
 	@Throws(Exception::class)
 	fun testSearchCompanies() = runTest {
-
 		val ktorfit = Ktorfit.Builder().httpClient(client).build()
 		val companiesHouseService = ktorfit.createCompaniesHouseApi()
 

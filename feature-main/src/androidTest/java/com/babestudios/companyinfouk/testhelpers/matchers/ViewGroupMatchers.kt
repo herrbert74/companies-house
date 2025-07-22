@@ -8,9 +8,7 @@ import org.hamcrest.TypeSafeMatcher
 
 object ViewGroupMatchers {
 
-	fun childAtPosition(
-		parentMatcher: Matcher<View>, position: Int): Matcher<View> {
-
+	fun childAtPosition(parentMatcher: Matcher<View>, position: Int): Matcher<View> {
 		return object : TypeSafeMatcher<View>() {
 			override fun describeTo(description: Description) {
 				description.appendText("Child at position $position in parent ")
@@ -19,8 +17,8 @@ object ViewGroupMatchers {
 
 			public override fun matchesSafely(view: View): Boolean {
 				val parent = view.parent
-				return (parent is ViewGroup && parentMatcher.matches(parent)
-					&& view == parent.getChildAt(position))
+				return parent is ViewGroup && parentMatcher.matches(parent) &&
+					view == parent.getChildAt(position)
 			}
 		}
 	}

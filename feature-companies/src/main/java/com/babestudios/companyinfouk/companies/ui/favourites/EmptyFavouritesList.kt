@@ -23,15 +23,13 @@ import com.babestudios.companyinfouk.design.titleLargeBold
 fun EmptyFavouritesList(
 	modifier: Modifier = Modifier,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 
 	Column(
 		modifier
 			.fillMaxSize(1f)
-			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)), //Matches the empty icon
-		// background from
-		// BaBeStudiosBase
+			// Matches the empty icon background from BaBeStudiosBase
+			.background(colorResource(com.babestudios.companyinfouk.common.R.color.grey_1)),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {

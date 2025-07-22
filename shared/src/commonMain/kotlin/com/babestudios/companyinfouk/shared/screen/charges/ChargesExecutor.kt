@@ -1,9 +1,9 @@
 package com.babestudios.companyinfouk.shared.screen.charges
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import com.babestudios.companyinfouk.shared.screen.charges.ChargesStore.Intent
 import com.babestudios.companyinfouk.shared.screen.charges.ChargesStore.State
-import com.babestudios.companyinfouk.shared.domain.api.CompaniesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

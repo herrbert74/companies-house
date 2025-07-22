@@ -13,11 +13,5 @@ data class Address(
 )
 
 fun Address.getAddressString(): String {
-	return this.addressLine2 ?: run {
-		(this.addressLine1
-			+ ", "
-			+ this.locality
-			+ ", "
-			+ this.postalCode)
-	}
+	return this.addressLine2 ?: run { "${this.addressLine1}, ${this.locality}, ${this.postalCode}" }
 }

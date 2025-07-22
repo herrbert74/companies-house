@@ -35,7 +35,6 @@ fun TwoLineCard(
 	 */
 	flipLineStyles: Boolean = false,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -44,20 +43,17 @@ fun TwoLineCard(
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.Start
 	) {
-
 		val startMarginFirst = if (flipLineStyles) viewMarginLarge else viewMarginLarge + viewMarginNormal
 
 		Text(
 			modifier = Modifier
 				.padding(start = startMarginFirst, top = viewMarginNormal),
-				//.fillMaxWidth(1f),
 			text = firstLineString,
 			style = if (flipLineStyles) secondLineStyle else firstLineStyle,
 		)
 		Text(
 			modifier = Modifier
 				.padding(horizontal = viewMarginLarge, vertical = viewMarginNormal),
-				//.fillMaxWidth(1f),
 			text = secondLineString,
 			style = if (flipLineStyles) firstLineStyle else secondLineStyle,
 		)

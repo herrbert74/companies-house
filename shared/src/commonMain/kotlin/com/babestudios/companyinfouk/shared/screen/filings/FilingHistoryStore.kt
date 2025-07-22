@@ -15,14 +15,14 @@ interface FilingHistoryStore : Store<Intent, State, Nothing> {
 
 	data class State(
 
-		//initial data
+		// initial data
 		val selectedCompanyId: String,
 
-		//result data
+		// result data
 		val filingHistory: FilingHistory = FilingHistory(),
 		val error: Throwable? = null,
 
-		//state
+		// state
 		val isLoading: Boolean = true,
 		val filingCategoryFilter: Category = Category.CATEGORY_SHOW_ALL,
 

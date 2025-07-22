@@ -7,22 +7,22 @@ import com.babestudios.companyinfouk.shared.screen.officers.OfficersStore.State
 
 interface OfficersStore : Store<Intent, State, Nothing> {
 
-    sealed class Intent {
-        object LoadMoreOfficers : Intent()
-    }
+	sealed class Intent {
+		object LoadMoreOfficers : Intent()
+	}
 
-    data class State (
+	data class State(
 
-        //initial data
-        val companyId: String,
+		// initial data
+		val companyId: String,
 
-        //result data
-        val officersResponse: OfficersResponse = OfficersResponse(),
-        val error: Throwable? = null,
+		// result data
+		val officersResponse: OfficersResponse = OfficersResponse(),
+		val error: Throwable? = null,
 
-        //state
-        val isLoading: Boolean = true
+		// state
+		val isLoading: Boolean = true,
 
-    )
+		)
 
 }

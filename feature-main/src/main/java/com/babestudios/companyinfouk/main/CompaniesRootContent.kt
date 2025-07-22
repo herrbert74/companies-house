@@ -27,7 +27,6 @@ import com.babestudios.companyinfouk.shared.root.CompaniesRootComp
 
 @Composable
 internal fun CompaniesRootContent(component: CompaniesRootComp) {
-
 	val stack = component.childStackValue
 
 	CompaniesTheme {

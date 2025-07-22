@@ -1,19 +1,18 @@
 package com.babestudios.companyinfouk.shared.screen.filings
 
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryItem
 import com.babestudios.companyinfouk.shared.domain.model.filinghistory.FilingHistoryLinks
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsExecutor
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingDetailsStore
 import com.babestudios.companyinfouk.shared.screen.filingdetails.FilingHistoryDetailsStoreFactory
-import com.babestudios.companyinfouk.shared.domain.api.CompaniesDocumentRepository
 import dev.mokkery.answering.calls
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import kotlin.test.BeforeTest
 import kotlinx.coroutines.Dispatchers
-
 
 class FilingHistoryDetailsTest {
 
@@ -25,15 +24,14 @@ class FilingHistoryDetailsTest {
 
 	private val testCoroutineDispatcher = Dispatchers.Unconfined
 
-//	private val documentResponseBody = "test".toResponseBody("text/plain".toMediaType())
+// private val documentResponseBody = "test".toResponseBody("text/plain".toMediaType())
 
 	@BeforeTest
 	fun setUp() {
-
 		everySuspend {
 			companiesHouseRepository.getDocument(any())
 		} calls {
-			mock()//.documentResponseBody
+			mock() // .documentResponseBody
 		}
 
 		filingDetailsExecutor = FilingDetailsExecutor(
@@ -52,16 +50,20 @@ class FilingHistoryDetailsTest {
 
 	}
 
-//	@Test
-//	fun `when fetch document then document is downloaded`() {
-//
-//		val states = filingDetailsStore.states.test()
-//
-//		filingDetailsStore.accept(FilingDetailsStore.Intent.FetchDocument)
-//
-//		states.last().downloadedPdfResponseBody shouldBe documentResponseBody
-//
-//	}
+	/**
+
+		@Test
+		fun `when fetch document then document is downloaded`() {
+
+			val states = filingDetailsStore.states.test()
+
+			filingDetailsStore.accept(FilingDetailsStore.Intent.FetchDocument)
+
+			states.last().downloadedPdfResponseBody shouldBe documentResponseBody
+
+		}
+
+	*/
 
 	/**
 	 * TODO This goes through the Activity due to permission requests. Rewrite as an Espresso test?

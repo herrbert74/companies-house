@@ -26,7 +26,6 @@ internal fun OfficerListItem(
 	item: Officer,
 	onItemClick: (id: Officer) -> Unit,
 ) {
-
 	val viewMarginLarge = Dimens.marginLarge
 	val viewMarginNormal = Dimens.marginNormal
 
@@ -36,7 +35,6 @@ internal fun OfficerListItem(
 			.fillMaxWidth(1f)
 			.clickable { onItemClick(item) }
 	) {
-
 		Spacer(modifier = Modifier.height(viewMarginNormal))
 
 		Text(
