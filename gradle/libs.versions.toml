@@ -243,10 +243,10 @@ googlePlay-servicesMapsCompose = "com.google.maps.android:maps-compose:6.7.0"
 
 firebaseBom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 
-firebaseAnalytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebaseCrashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
-#firebaseDatabase = { module = "com.google.firebase:firebase-database-ktx" }
-#firebaseConfig = { module = "com.google.firebase:firebase-config-ktx" }
+firebaseAnalytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebaseCrashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+#firebaseDatabase = { module = "com.google.firebase:firebase-database" }
+#firebaseConfig = { module = "com.google.firebase:firebase-config" }
 
 #graphql-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "graphql" }
 
