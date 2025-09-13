@@ -227,7 +227,7 @@ essenty-backHandler = { module = "com.arkivanov.essenty:back-handler", version.r
 essenty-instanceKeeper = { module = "com.arkivanov.essenty:instance-keeper", version.ref = "essenty" }
 essenty-stateKeeper = { module = "com.arkivanov.essenty:state-keeper", version.ref = "essenty" }
 
-gson = "com.google.code.gson:gson:2.13.1"
+gson = "com.google.code.gson:gson:2.13.2"
 
 #googlePlay-appUpdateKtx = "com.google.android.play:app-update-ktx:2.1.0"
 #googlePlay-servicesAnalytics = "com.google.android.gms:play-services-analytics:18.1.1"
