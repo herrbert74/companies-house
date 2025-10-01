@@ -74,7 +74,7 @@ okhttp = "5.1.0"
 #retrofit = "2.11.0"
 #robolectric = "4.15.1"
 #skie = "0.10.4"
-uri-kmp = "0.0.20"
+uri-kmp = "0.0.21"
 
 [libraries]
 
