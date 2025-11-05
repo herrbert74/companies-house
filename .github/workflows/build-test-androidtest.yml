@@ -125,7 +125,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: ./gradlew app:connectedAndroidTest "-PcompaniesHouseApiKey=\"$companiesHouseApiKey\""
+          script: ./gradlew :feature-main:connectedAndroidTest "-PcompaniesHouseApiKey=\"$companiesHouseApiKey\""
 
       - name: Upload Test Reports
         if: always()
