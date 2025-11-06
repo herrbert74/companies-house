@@ -2,13 +2,14 @@ package com.babestudios.companyinfouk.ui.officers
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onLast
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
@@ -57,9 +58,11 @@ class OfficersFragmentTest : KoinComponent {
 	@Test
 	fun whenDisplayingOfficers_andCompanyClicked_thenShowCompany() {
 		composeTestRule.onNodeWithText("Acme Painting").onParent().performClick()
+		composeTestRule.onNodeWithTag("Company Screen Column").performScrollToNode(hasText("Officers"))
 		composeTestRule.onNodeWithText("Officers").performClick()
 		composeTestRule.onAllNodes(hasClickAction()).onFirst().performClick()
-		composeTestRule.onNodeWithText("Appointed on").onParent().onChildren().onLast().performClick()
+		composeTestRule.onNodeWithTag("OfficerDetailsColumn").performScrollToNode(hasText("Appointments", ignoreCase = true))
+		composeTestRule.onNodeWithText("Appointments", ignoreCase = true).performClick()
 		composeTestRule.onAllNodes(hasClickAction()).onFirst().performClick()
 		composeTestRule.onNodeWithText("04475590").assertIsDisplayed()
 

@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.babestudios.base.compose.InfiniteListHandler
@@ -77,7 +78,9 @@ private fun OfficersList(
 		val listState = rememberLazyListState()
 
 		LazyColumn(
-			Modifier.simpleVerticalScrollbar(listState),
+			Modifier
+				.simpleVerticalScrollbar(listState)
+				.testTag(""),
 			state = listState
 		) {
 			items(

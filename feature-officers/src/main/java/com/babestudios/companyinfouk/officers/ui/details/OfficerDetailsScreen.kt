@@ -2,11 +2,9 @@ package com.babestudios.companyinfouk.officers.ui.details
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -14,6 +12,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -48,81 +47,97 @@ fun OfficerDetailsScreen(
 	val selectedOfficer = component.selectedOfficer
 
 	BackHandler(onBack = { component.onBackClicked() })
-	val state = rememberScrollState()
 
 	CollapsingToolbarScaffold(
 		backgroundDrawable = R.drawable.bg_officers,
 		onBackClick = { component.onBackClicked() },
 		title = stringResource(R.string.officer_details)
 	) { paddingValues ->
-		Column(
+		LazyColumn(
 			verticalArrangement = Arrangement.Top,
 			horizontalAlignment = Alignment.CenterHorizontally,
 			modifier = modifier
-				.verticalScroll(state)
 				.padding(paddingValues)
+				.testTag("OfficerDetailsColumn")
 		) {
-			TwoLineCard(
-				firstLineString = "Name",
-				secondLineString = selectedOfficer.name,
-				Modifier.fillMaxWidth(1f)
-			)
-			HorizontalDivider(thickness = 1.dp)
-			TwoLineCard(
-				firstLineString = stringResource(R.string.officer_details_appointed_on),
-				secondLineString = selectedOfficer.appointedOn ?: "Unknown",
-				Modifier.fillMaxWidth(1f)
-			)
-			HorizontalDivider(thickness = 1.dp)
-			selectedOfficer.resignedOn?.let {
+			item {
 				TwoLineCard(
-					firstLineString = stringResource(R.string.officer_appointments_resigned_on),
-					secondLineString = it,
+					firstLineString = "Name",
+					secondLineString = selectedOfficer.name,
 					Modifier.fillMaxWidth(1f)
 				)
 				HorizontalDivider(thickness = 1.dp)
 			}
-			TwoLineCard(
-				firstLineString = "Nationality",
-				secondLineString = selectedOfficer.nationality,
-				Modifier.fillMaxWidth(1f)
-			)
-			HorizontalDivider(thickness = 1.dp)
-			TwoLineCard(
-				firstLineString = stringResource(R.string.officer_details_occupation),
-				secondLineString = selectedOfficer.occupation,
-				Modifier.fillMaxWidth(1f)
-			)
-			HorizontalDivider(thickness = 1.dp)
-			val (month, year) = selectedOfficer.dateOfBirth.month to selectedOfficer.dateOfBirth.year
-			TwoLineCard(
-				firstLineString = "Date of birth",
-				secondLineString = if (year == 0 && month == Month(1)) {
-					"Unknown"
-				} else {
-					"$month / $year"
-				},
-				Modifier.fillMaxWidth(1f)
-			)
-			HorizontalDivider(thickness = 1.dp)
-			TwoLineCard(
-				firstLineString = "Country of residence",
-				secondLineString = selectedOfficer.countryOfResidence,
-				Modifier.fillMaxWidth(1f)
-			)
-			HorizontalDivider(thickness = 1.dp)
-			AddressCard(address = selectedOfficer.address) { component.onShowMapClicked() }
-			HorizontalDivider(thickness = 1.dp)
-			Button(
-				onClick = { component.onAppointmentsClicked() },
-				modifier = Modifier
-					.padding(
-						top = viewMarginNormal,
-						bottom = viewMarginNormal,
-						end = viewMarginNormal,
-					),
-			) {
-				Text(text = stringResource(R.string.officer_details_appointments).uppercase())
+			item {
+				TwoLineCard(
+					firstLineString = stringResource(R.string.officer_details_appointed_on),
+					secondLineString = selectedOfficer.appointedOn ?: "Unknown",
+					Modifier.fillMaxWidth(1f)
+				)
+				HorizontalDivider(thickness = 1.dp)
+			}
+			selectedOfficer.resignedOn?.let {
+				item {
+					TwoLineCard(
+						firstLineString = stringResource(R.string.officer_appointments_resigned_on),
+						secondLineString = it,
+						Modifier.fillMaxWidth(1f)
+					)
+					HorizontalDivider(thickness = 1.dp)
+				}
+			}
+			item {
+				TwoLineCard(
+					firstLineString = "Nationality",
+					secondLineString = selectedOfficer.nationality,
+					Modifier.fillMaxWidth(1f)
+				)
+				HorizontalDivider(thickness = 1.dp)
+			}
+			item {
+				TwoLineCard(
+					firstLineString = stringResource(R.string.officer_details_occupation),
+					secondLineString = selectedOfficer.occupation,
+					Modifier.fillMaxWidth(1f)
+				)
+				HorizontalDivider(thickness = 1.dp)
+			}
+			item {
+				val (month, year) = selectedOfficer.dateOfBirth.month to selectedOfficer.dateOfBirth.year
+				TwoLineCard(
+					firstLineString = "Date of birth",
+					secondLineString = if (year == 0 && month == Month(1)) {
+						"Unknown"
+					} else {
+						"$month / $year"
+					},
+					Modifier.fillMaxWidth(1f)
+				)
+				HorizontalDivider(thickness = 1.dp)
+			}
+			item {
+				TwoLineCard(
+					firstLineString = "Country of residence",
+					secondLineString = selectedOfficer.countryOfResidence,
+					Modifier.fillMaxWidth(1f)
+				)
+				HorizontalDivider(thickness = 1.dp)
+			}
+			item {
+				AddressCard(address = selectedOfficer.address) { component.onShowMapClicked() }
+				HorizontalDivider(thickness = 1.dp)
+			}
+			item {
+				Button(
+					onClick = { component.onAppointmentsClicked() },
+					modifier = Modifier
+						.padding(
+							top = viewMarginNormal,
+							bottom = viewMarginNormal,
+						),
+				) {
+					Text(text = stringResource(R.string.officer_details_appointments).uppercase())
+				}
 			}
 		}
 	}

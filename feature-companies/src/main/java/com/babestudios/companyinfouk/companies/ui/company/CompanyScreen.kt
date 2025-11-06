@@ -5,15 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
@@ -62,6 +60,7 @@ fun CompanyScreen(
 	val viewMarginLarge = Dimens.marginLarge
 
 	CollapsingToolbarScaffold(
+		modifier = modifier,
 		backgroundDrawable = R.drawable.bg_company,
 		title = model.company.companyName,
 		onBackClick = { component.onBackClicked(model.isFavourite) },
@@ -101,7 +100,7 @@ fun CompanyScreen(
 	}
 }
 
-@Suppress("Wrapping")
+@Suppress("Wrapping", "LongMethod")
 @Composable
 private fun CompanyScreenBody(
 	company: Company,
@@ -159,86 +158,85 @@ private fun CompanyScreenBody(
 		{ onPersonsClick(company.companyNumber) }
 	}
 
-	Column(
+	LazyColumn(
 		verticalArrangement = Arrangement.Top,
-		horizontalAlignment = Alignment.CenterHorizontally,
 		modifier = Modifier
-			.verticalScroll(rememberScrollState())
 			.padding(paddingValues)
 			.testTag("Company Screen Column")
 	) {
-		TitleLargeBoldText(
-			text = company.companyNumber,
-			modifier = Modifier
-				.align(Alignment.Start)
-				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
-		)
-		HorizontalDivider(thickness = 1.dp)
-		BodyMediumText(
-			text = formattedIncorporatedOnText,
-			modifier = Modifier
-				.align(Alignment.Start)
-				.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
-		)
-		HorizontalDivider(thickness = 1.dp)
-		AddressCard(
-			title = officeAddressTitle,
-			address = company.registeredOfficeAddress,
-			onShowMap = onShowMapLambda,
-		)
-		HorizontalDivider(thickness = 1.dp)
-		TwoLineCard(
-			natureOfBusinessTitle,
-			company.natureOfBusiness,
-			Modifier.fillMaxWidth(1f)
-		)
-		HorizontalDivider(thickness = 1.dp)
-		TwoLineCard(
-			accountsTitle,
-			company.lastAccountsMadeUpTo,
-			Modifier.fillMaxWidth(1f)
-		)
-		HorizontalDivider(thickness = 1.dp)
-		SingleLineCard(
-			modifier = Modifier
-				.padding(vertical = viewMarginNormal)
-				.clickable(onClick = onFilingsClickedLambda),
-			vectorImageResource = R.drawable.ic_company_filing_history,
-			text = filingHistoryText
-		)
-		if (company.hasInsolvencyHistory) {
+		item {
+			TitleLargeBoldText(
+				text = company.companyNumber,
+				modifier = Modifier
+					.fillParentMaxWidth()
+					.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
+			)
+			HorizontalDivider(thickness = 1.dp)
+			BodyMediumText(
+				text = formattedIncorporatedOnText,
+				modifier = Modifier
+					.padding(start = viewMarginLarge, top = viewMarginNormal, bottom = viewMarginNormal),
+			)
+			HorizontalDivider(thickness = 1.dp)
+			AddressCard(
+				title = officeAddressTitle,
+				address = company.registeredOfficeAddress,
+				onShowMap = onShowMapLambda,
+			)
+			HorizontalDivider(thickness = 1.dp)
+			TwoLineCard(
+				natureOfBusinessTitle,
+				company.natureOfBusiness,
+				Modifier.fillMaxWidth(1f)
+			)
+			HorizontalDivider(thickness = 1.dp)
+			TwoLineCard(
+				accountsTitle,
+				company.lastAccountsMadeUpTo,
+				Modifier.fillMaxWidth(1f)
+			)
+			HorizontalDivider(thickness = 1.dp)
 			SingleLineCard(
 				modifier = Modifier
 					.padding(vertical = viewMarginNormal)
-					.clickable(onClick = onInsolvenciesClickedLambda),
-				vectorImageResource = R.drawable.ic_company_insolvency,
-				text = insolvencyText
+					.clickable(onClick = onFilingsClickedLambda),
+				vectorImageResource = R.drawable.ic_company_filing_history,
+				text = filingHistoryText
 			)
-		}
-		if (company.hasCharges) {
+			if (company.hasInsolvencyHistory) {
+				SingleLineCard(
+					modifier = Modifier
+						.padding(vertical = viewMarginNormal)
+						.clickable(onClick = onInsolvenciesClickedLambda),
+					vectorImageResource = R.drawable.ic_company_insolvency,
+					text = insolvencyText
+				)
+			}
+			if (company.hasCharges) {
+				SingleLineCard(
+					modifier = Modifier
+						.padding(vertical = viewMarginNormal)
+						.clickable(onClick = onChargesClickedLambda),
+					vectorImageResource = R.drawable.ic_company_charges,
+					text = chargesText
+				)
+			}
 			SingleLineCard(
 				modifier = Modifier
 					.padding(vertical = viewMarginNormal)
-					.clickable(onClick = onChargesClickedLambda),
-				vectorImageResource = R.drawable.ic_company_charges,
-				text = chargesText
+					.clickable(onClick = onOfficersClickedLambda),
+				vectorImageResource = R.drawable.ic_company_officers,
+				text = officersText
 			)
+			SingleLineCard(
+				modifier = Modifier
+					.padding(vertical = viewMarginNormal)
+					.clickable(onClick = onPersonsClickedLambda),
+				vectorImageResource = R.drawable.ic_company_persons_with_control,
+				text = personsWithControlText
+			)
+			Spacer(modifier = Modifier.height(viewMarginLarge))
 		}
-		SingleLineCard(
-			modifier = Modifier
-				.padding(vertical = viewMarginNormal)
-				.clickable(onClick = onOfficersClickedLambda),
-			vectorImageResource = R.drawable.ic_company_officers,
-			text = officersText
-		)
-		SingleLineCard(
-			modifier = Modifier
-				.padding(vertical = viewMarginNormal)
-				.clickable(onClick = onPersonsClickedLambda),
-			vectorImageResource = R.drawable.ic_company_persons_with_control,
-			text = personsWithControlText
-		)
-		Spacer(modifier = Modifier.height(viewMarginLarge))
 	}
 
 }
