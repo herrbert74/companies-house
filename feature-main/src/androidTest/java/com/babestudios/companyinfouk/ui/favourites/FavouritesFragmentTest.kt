@@ -1,6 +1,7 @@
 package com.babestudios.companyinfouk.ui.favourites
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
@@ -105,7 +106,9 @@ class FavouritesFragmentTest : KoinComponent {
 
 		Espresso.pressBack()
 
-		composeTestRule.waitForIdle()
+		composeTestRule.waitUntil(5000L) {
+			composeTestRule.onAllNodes(hasText("This list is empty"), true).fetchSemanticsNodes().isNotEmpty()
+		}
 
 		composeTestRule.onNodeWithText("This list is empty").assertIsDisplayed()
 
