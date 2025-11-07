@@ -105,6 +105,8 @@ class FavouritesFragmentTest : KoinComponent {
 
 		Espresso.pressBack()
 
+		composeTestRule.waitForIdle()
+
 		composeTestRule.onNodeWithText("This list is empty").assertIsDisplayed()
 
 	}
