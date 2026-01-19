@@ -138,6 +138,14 @@ kotlin {
 	}
 }
 
+/**
+ * Temporary fix for Ktorfit KSP issue, which is still not resolved in Ktorfit 2.7.2
+ * https://github.com/Foso/Ktorfit/issues/1010
+ */
+ktorfit {
+	compilerPluginVersion.set("2.3.3")
+}
+
 android {
 
 	namespace = "com.babestudios.companyinfouk.shared"
