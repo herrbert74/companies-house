@@ -1,21 +1,22 @@
+import com.babestudios.companyinfouk.androidLibrary
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+
 plugins {
-	alias(libs.plugins.androidLibrary)
+	alias(libs.plugins.kotlin.multiplatform)
+	alias(libs.plugins.androidKotlinMultiPlatformLibrary)
 	alias(libs.plugins.dependencyAnalysis)
-	alias(libs.plugins.kotlin.android)
 }
 
-android {
-	compileSdk = libs.versions.compileSdkVersion.get().toInt()
-	defaultConfig {
+extensions.configure<KotlinMultiplatformExtension> {
+	androidLibrary {
+		compileSdk = libs.versions.compileSdkVersion.get().toInt()
 		minSdk = libs.versions.minSdkVersion.get().toInt()
-		consumerProguardFiles("consumer-rules.pro")
+		androidResources.enable = true
 	}
-}
 
-kotlin {
 	jvmToolchain(libs.versions.jdk.get().toInt())
-}
 
-dependencies {
-	implementation(libs.diamondedge.logging)
+	sourceSets.getByName("commonMain").dependencies {
+		implementation(libs.diamondedge.logging)
+	}
 }
