@@ -1,5 +1,5 @@
+import com.babestudios.companyinfouk.androidLibrary
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
@@ -9,8 +9,7 @@ buildscript {
 }
 
 plugins {
-	alias(libs.plugins.kotlin.multiplatform)
-	alias(libs.plugins.androidLibrary)
+	id("android-library-convention")
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.ktorfit)
@@ -29,16 +28,9 @@ buildkonfig {
 	}
 }
 
-// TODO https://touchlab.co/kotlin-1-9-20-source-set-enhancements
 kotlin {
-	// applyDefaultHierarchyTemplate()
-	jvmToolchain {
-		languageVersion.set(JavaLanguageVersion.of(libs.versions.jdk.get()))
-	}
-	androidTarget {
-		compilerOptions {
-			jvmTarget = JvmTarget.fromTarget(libs.versions.jdk.get())
-		}
+	androidLibrary {
+		namespace = "com.babestudios.companyinfouk.shared"
 	}
 
 	listOf(
@@ -120,6 +112,7 @@ kotlin {
 			implementation(libs.firebaseAnalytics)
 			implementation(libs.ktor.clientOkhttp)
 			implementation(libs.jUnit)
+			implementation(libs.chucker.noop)
 		}
 
 		androidUnitTest.dependencies {
@@ -144,23 +137,6 @@ kotlin {
  */
 ktorfit {
 	compilerPluginVersion.set("2.3.3")
-}
-
-android {
-
-	namespace = "com.babestudios.companyinfouk.shared"
-	compileSdk = libs.versions.compileSdkVersion.get().toInt()
-
-	defaultConfig {
-		minSdk = libs.versions.minSdkVersion.get().toInt()
-	}
-
-	buildFeatures.buildConfig = true
-
-	dependencies {
-		debugImplementation(libs.chucker.library)
-		releaseImplementation(libs.chucker.noop)
-	}
 }
 
 // region KSP commonMain configuration

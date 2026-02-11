@@ -1,6 +1,5 @@
 plugins {
 	alias(libs.plugins.androidApplication)
-	id("org.jetbrains.kotlin.android")
 	alias(libs.plugins.crashlytics)
 	id("kotlin-parcelize")
 }
@@ -36,7 +35,7 @@ android {
 			isDebuggable = false
 			isMinifyEnabled = true
 			signingConfig = signingConfigs.getByName("release")
-			proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 		}
 		getByName("debug") {
 			isMinifyEnabled = false
@@ -60,7 +59,7 @@ dependencies {
 
 	implementation(project(":shared"))
 
-	runtimeOnly(project(":feature-main"))
+	implementation(project(":feature-main"))
 
 	implementation(platform(libs.firebaseBom))
 	implementation(libs.firebaseCrashlytics)
