@@ -1,12 +1,5 @@
 plugins {
-	alias(libs.plugins.androidLibrary)
-	alias(libs.plugins.kotlin.android)
-}
-
-android {
-	buildFeatures {
-		compose = true
-	}
+	id("android-library-convention")
 }
 
 kotlin {
@@ -14,29 +7,31 @@ kotlin {
 		freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
 		freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
 	}
-}
 
-dependencies {
-	api(project(":shared"))
-	implementation(project(":common"))
+	sourceSets.getByName("commonMain").dependencies {
+		api(project(":shared"))
+		implementation(project(":common"))
 
-	implementation(platform(libs.androidx.composeBom))
+		implementation(project.dependencies.platform(libs.androidx.composeBom))
 
-	implementation(libs.androidx.composeFoundation)
-	implementation(libs.androidx.composeFoundationLayout)
-	implementation(libs.androidx.composeUi)
-	implementation(libs.androidx.composeUiGraphics)
-	implementation(libs.androidx.composeUiText)
-	implementation(libs.androidx.composeUiUnit)
-	implementation(libs.androidx.composeUiTooling)
-	implementation(libs.androidx.composeUiToolingPreview)
-	implementation(libs.androidx.composeMaterial3)
-	api(libs.androidx.composeRuntime)
-	implementation(libs.kotlinx.collectionsImmutableJvm)
+		implementation(libs.androidx.composeFoundation)
+		implementation(libs.androidx.composeFoundationLayout)
+		implementation(libs.androidx.composeUi)
+		implementation(libs.androidx.composeUiGraphics)
+		implementation(libs.androidx.composeUiText)
+		implementation(libs.androidx.composeUiUnit)
+		implementation(libs.androidx.composeUiTooling)
+		implementation(libs.androidx.composeUiToolingPreview)
+		implementation(libs.androidx.composeMaterial3)
+		api(libs.androidx.composeRuntime)
+		implementation(libs.kotlinx.collectionsImmutableJvm)
 
-	implementation(libs.baBeStudios.baseCompose)
+		implementation(libs.baBeStudios.baseCompose)
 
-	api(libs.kotlinx.coroutinesCore)
+		api(libs.kotlinx.coroutinesCore)
+	}
 
-	testImplementation(libs.kotlinx.coroutinesTest)
+	// sourceSets.getByName("commonTest").dependencies {
+	// 	implementation(libs.kotlinx.coroutinesTest)
+	// }
 }
