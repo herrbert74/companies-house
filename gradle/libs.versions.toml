@@ -302,7 +302,7 @@ kotlinx-serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 ktor-clientCore = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-clientLogging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-clientOkhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-#ktor-clientDarwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
+ktor-clientDarwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-clientMock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 ktor-clientContentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-http = { group = "io.ktor", name = "ktor-http", version.ref = "ktor" }
@@ -365,7 +365,6 @@ uriKmp = { module = "com.eygraber:uri-kmp", version.ref = "uri-kmp" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidKotlinMultiPlatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
-androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 #compose-screenshotTesting = { id = "com.android.compose.screenshot", version.ref = "compose-screenshotTesting" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsPlugin" }

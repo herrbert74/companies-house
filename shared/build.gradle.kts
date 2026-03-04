@@ -122,6 +122,7 @@ kotlin {
 			api(libs.decompose.core)
 			api(libs.mvikotlin.core)
 			api(libs.essenty.lifecycle)
+			api(libs.ktor.clientDarwin)
 		}
 
 		all {
