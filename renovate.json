@@ -5,9 +5,7 @@
   ],
   "ignoreDeps": [
     "org.hamcrest:hamcrest",
-    "org.hamcrest:hamcrest-core",
-    "com.michael-bull.kotlin-result:kotlin-result",
-    "com.michael-bull.kotlin-result:kotlin-result-coroutines"
+    "org.hamcrest:hamcrest-core"
   ],
   "packageRules": [
     {
@@ -16,6 +14,10 @@
         "/^org\\.jetbrains\\.kotlin($|[.:])/"
       ],
       "groupName": "kotlin monorepo"
+    },
+    {
+      "matchPackageNames": ["org.jetbrains.kotlinx:kotlinx-datetime"],
+      "allowedVersions": "!/\\.x-compat$/"
     },
     {
       "description": "Java is pinned to JDK 25 LTS; bump manually on the next LTS",
