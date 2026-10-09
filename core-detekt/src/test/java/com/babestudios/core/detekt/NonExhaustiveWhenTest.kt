@@ -1,6 +1,6 @@
 package com.babestudios.core.detekt
 
-import io.gitlab.arturbosch.detekt.test.lint
+import dev.detekt.test.lint
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

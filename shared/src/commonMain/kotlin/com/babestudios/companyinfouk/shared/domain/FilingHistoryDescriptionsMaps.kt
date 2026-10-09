@@ -6,7 +6,7 @@ package com.babestudios.companyinfouk.shared.domain
  * This was done to simplify KMP resource handling, as moko-resources does not work with configuration cache:
  * https://github.com/icerockdev/moko-resources/issues/311
  */
-@Suppress("MaxLineLength", "LargeClass")
+@Suppress("MaxLineLength", "MaximumLineLength", "LargeClass")
 object FilingHistoryDescriptionsMaps {
 
 	val description = mapOf(

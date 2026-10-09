@@ -1,17 +1,17 @@
 package com.babestudios.core.detekt
 
-import io.gitlab.arturbosch.detekt.api.Config
-import io.gitlab.arturbosch.detekt.api.RuleSet
-import io.gitlab.arturbosch.detekt.api.RuleSetProvider
+import dev.detekt.api.RuleSet
+import dev.detekt.api.RuleSetId
+import dev.detekt.api.RuleSetProvider
 
 class BaBeStudiosRuleSetProvider : RuleSetProvider {
-    override val ruleSetId: String = "babe"
+    override val ruleSetId: RuleSetId = RuleSetId("babe")
 
-    override fun instance(config: Config): RuleSet = RuleSet(
+    override fun instance(): RuleSet = RuleSet(
             ruleSetId,
             listOf(
-                    NonExhaustiveWhen(config),
-                    FunctionNameLength(config)
+                    { config -> NonExhaustiveWhen(config) },
+                    { config -> FunctionNameLength(config) },
             )
     )
 }

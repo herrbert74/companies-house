@@ -43,7 +43,8 @@ class ChargesTest {
 		)
 
 		chargesStore = ChargesStoreFactory(DefaultStoreFactory(), chargesExecutor).create(
-			selectedCompanyId = "123", false
+			selectedCompanyId = "123",
+			false
 		)
 	}
 
