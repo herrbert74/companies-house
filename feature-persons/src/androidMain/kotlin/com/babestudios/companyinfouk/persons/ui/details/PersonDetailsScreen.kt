@@ -108,42 +108,49 @@ fun PersonDetailsScreen(
 				)
 				HorizontalDivider(thickness = 1.dp)
 			}
-			if (selectedPerson.identification?.placeRegistered?.isBlank() == false) {
-				TwoLineCard(
-					firstLineString = "Place registered",
-					secondLineString = selectedPerson.identification?.placeRegistered ?: "",
-					Modifier.fillMaxWidth(1f)
-				)
-				HorizontalDivider(thickness = 1.dp)
-			}
-			if (selectedPerson.identification?.registrationNumber?.isBlank() == false) {
-				TwoLineCard(
-					firstLineString = "Registration number",
-					secondLineString = selectedPerson.identification?.registrationNumber ?: "",
-					Modifier.fillMaxWidth(1f)
-				)
-				HorizontalDivider(thickness = 1.dp)
-			}
-			if (selectedPerson.identification?.legalAuthority?.isBlank() == false) {
-				TwoLineCard(
-					firstLineString = "Legal authority",
-					secondLineString = selectedPerson.identification?.legalAuthority ?: "",
-					Modifier.fillMaxWidth(1f)
-				)
-				HorizontalDivider(thickness = 1.dp)
-			}
-			if (selectedPerson.identification?.legalForm?.isBlank() == false) {
-				TwoLineCard(
-					firstLineString = "Legal form",
-					secondLineString = selectedPerson.identification?.legalForm ?: "",
-					Modifier.fillMaxWidth(1f)
-				)
-				HorizontalDivider(thickness = 1.dp)
-			}
+			PersonIdentificationSection(selectedPerson.identification)
 			AddressCard(address = selectedPerson.address) { component.onShowMapClicked() }
 		}
 	}
 
+}
+
+@Composable
+private fun PersonIdentificationSection(identification: Identification?) {
+	Column {
+		if (identification?.placeRegistered?.isBlank() == false) {
+			TwoLineCard(
+				firstLineString = "Place registered",
+				secondLineString = identification.placeRegistered ?: "",
+				Modifier.fillMaxWidth(1f)
+			)
+			HorizontalDivider(thickness = 1.dp)
+		}
+		if (identification?.registrationNumber?.isBlank() == false) {
+			TwoLineCard(
+				firstLineString = "Registration number",
+				secondLineString = identification.registrationNumber ?: "",
+				Modifier.fillMaxWidth(1f)
+			)
+			HorizontalDivider(thickness = 1.dp)
+		}
+		if (identification?.legalAuthority?.isBlank() == false) {
+			TwoLineCard(
+				firstLineString = "Legal authority",
+				secondLineString = identification.legalAuthority ?: "",
+				Modifier.fillMaxWidth(1f)
+			)
+			HorizontalDivider(thickness = 1.dp)
+		}
+		if (identification?.legalForm?.isBlank() == false) {
+			TwoLineCard(
+				firstLineString = "Legal form",
+				secondLineString = identification.legalForm ?: "",
+				Modifier.fillMaxWidth(1f)
+			)
+			HorizontalDivider(thickness = 1.dp)
+		}
+	}
 }
 
 @PreviewLightDark

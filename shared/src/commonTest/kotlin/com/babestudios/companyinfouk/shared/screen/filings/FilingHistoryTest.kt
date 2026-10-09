@@ -46,8 +46,9 @@ class FilingHistoryTest {
 		)
 
 		filingHistoryStore = FilingHistoryStoreFactory(DefaultStoreFactory(), filingHistoryExecutor).create(
-				selectedCompanyId = "123", autoInit = false
-			)
+			selectedCompanyId = "123",
+			autoInit = false
+		)
 
 	}
 

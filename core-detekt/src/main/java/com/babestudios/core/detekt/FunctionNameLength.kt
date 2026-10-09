@@ -1,31 +1,23 @@
 package com.babestudios.core.detekt
 
-import io.gitlab.arturbosch.detekt.api.CodeSmell
-import io.gitlab.arturbosch.detekt.api.Config
-import io.gitlab.arturbosch.detekt.api.Debt
-import io.gitlab.arturbosch.detekt.api.Entity
-import io.gitlab.arturbosch.detekt.api.Issue
-import io.gitlab.arturbosch.detekt.api.Rule
-import io.gitlab.arturbosch.detekt.api.Severity
+import dev.detekt.api.Config
+import dev.detekt.api.Entity
+import dev.detekt.api.Finding
+import dev.detekt.api.Rule
 import org.jetbrains.kotlin.psi.KtNamedFunction
 
 private const val MAX_LENGTH = 10
 
-class FunctionNameLength(config: Config = Config.empty) : Rule(config) {
-
-	override val issue = Issue(
-		javaClass.simpleName,
-		Severity.CodeSmell,
-		"Code smell",
-		Debt.FIVE_MINS
-	)
+class FunctionNameLength(config: Config = Config.empty) : Rule(
+	config,
+	"Function names should not be longer than the allowed maximum."
+) {
 
 	override fun visitNamedFunction(function: KtNamedFunction) {
 		function.name?.let {
 			if (it.length > MAX_LENGTH) {
 				report(
-					CodeSmell(
-						issue,
+					Finding(
 						Entity.from(function),
 						"Function name ${function.name} is longer than allowed $MAX_LENGTH"
 					)

@@ -14,10 +14,15 @@ kotlin {
 	}
 }
 
+tasks.test {
+	useJUnitPlatform()
+}
+
 dependencies {
 	api(libs.detekt.api)
-	api(libs.kotlin.compilerEmbeddable) // Transitive
 	testImplementation(libs.detekt.test)
 	testImplementation(libs.jUnit5.jupiterApi)
-	testImplementation(libs.kotest.assertionsShared)
+	testRuntimeOnly(libs.jUnit5.jupiterEngine)
+	testRuntimeOnly(libs.jUnit5.platformLauncher)
+	testImplementation(libs.kotest.assertionsCore)
 }
